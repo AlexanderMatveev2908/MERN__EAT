@@ -28,6 +28,14 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   z-index: 1000;
 }
 
+.hero__i_arrow {
+  z-index: 200;
+}
+
+.hero__i_img {
+  z-index: 100;
+}
+
 /* BASE */
 
 .pad_page {
@@ -51,6 +59,10 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 .txt__04 {
+  @apply text-2xl sm:text-3xl lg:text-4xl font-bold;
+}
+
+.txt__05 {
   @apply text-3xl sm:text-4xl lg:text-5xl font-bold;
 }
 
@@ -68,4 +80,8 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 
 .el_with_after:hover::after {
   @apply w-full;
+}
+
+.hide_scrollbar::-webkit-scrollbar {
+  display: none;
 }
