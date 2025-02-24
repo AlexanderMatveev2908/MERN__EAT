@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "tailwindcss";
+
+* {
+  font-family: "Sour Gummy";
+}
+
+body {
+  @apply bg-[#111] text-[whitesmoke];
+}
+
+/* 
+IMPORTANT: for some practical reasons i chose using snake case instead of kebab case in css naming, but only because i am working just myself on this project, if i would have been in a team i would been followed conventions of css of those one established by team  
+*/
+
+/* INDEXES */
+
+.sidebar__i_bg {
+  z-index: 500;
+}
+
+.sidebar__i_content {
+  z-index: 750;
+}
+
+.header__i {
+  z-index: 1000;
+}
+
+/* BASE */
+
+.pad_page {
+  @apply px-[5%] sm:px-10;
+}
+
+.txt__00 {
+  @apply text-sm sm:text-base lg:text-lg;
+}
+
+.txt__01 {
+  @apply sm:text-lg lg:text-xl font-semibold;
+}
+
+.txt__02 {
+  @apply text-lg sm:text-xl lg:text-2xl font-semibold;
+}
+
+.txt__03 {
+  @apply text-xl sm:text-2xl lg:text-3xl font-bold;
+}
+
+.txt__04 {
+  @apply text-3xl sm:text-4xl lg:text-5xl font-bold;
+}
+
+.btn__pseudo {
+  @apply transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-wait;
+}
+
+.el_with_after {
+  @apply relative max-w-fit;
+}
+
+.el_with_after::after {
+  @apply absolute content-[""] -bottom-2 left-1/2 w-0 h-[3px] bg-orange-500 transition-all duration-300 -translate-x-1/2;
+}
+
+.el_with_after:hover::after {
+  @apply w-full;
+}
