@@ -8,7 +8,6 @@
 
 body {
   @apply bg-[#111] text-[whitesmoke];
-  overflow-x: hidden;
 }
 
 /* 
@@ -18,11 +17,11 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 /* ANIMATIONS */
 
 .active_in {
-  animation: toast_in 0.5s ease-out;
+  animation: toast_in 0.4s ease-out;
 }
 
 .active_out {
-  animation: toast_out 0.5s ease-in;
+  animation: toast_out 0.3s ease-in forwards;
 }
 
 @keyframes toast_in {
@@ -49,9 +48,6 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   }
   20% {
     transform: translateX(-40%);
-  }
-  60% {
-    opacity: 0.5;
   }
   100% {
     transform: translateX(120%);

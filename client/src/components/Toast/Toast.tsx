@@ -3,7 +3,8 @@ import { CircleCheck, CircleX, X } from "lucide-react";
 import { useToastComponent } from "./useToastComponent";
 
 const Toast: FC = () => {
-  const { isToast, msg, type, closeToast } = useToastComponent();
+  const { isToast, msg, type, closeToast, closeClicked, setCloseClicked } =
+    useToastComponent();
 
   return (
     <div
@@ -11,7 +12,13 @@ const Toast: FC = () => {
       className={`top-5 right-5 fixed toast__i bg-[#111] rounded-xl text-[whitesmoke] min-w-3/4 sm:min-w-1/2 max-w-3/4 h-fit min-h-[75px] flex border-t-2 border-r-2 transition-all duration-300  ${
         type === "SUCCESS" ? "border-green-600" : "border-red-600"
       } 
-      ${isToast ? "active_in" : "translate-x-[120%] opacity-0"}
+      ${
+        isToast
+          ? "active_in"
+          : !isToast && closeClicked
+          ? "active_out"
+          : "translate-x-[120%] opacity-0"
+      }
       `}
     >
       <div
@@ -42,7 +49,13 @@ const Toast: FC = () => {
           {type}
         </div>
 
-        <div onClick={closeToast} className="absolute right-5 top-3 ">
+        <div
+          onClick={() => {
+            setCloseClicked(true);
+            closeToast();
+          }}
+          className="absolute right-5 top-3 "
+        >
           <X className="h-[30px] w-[30px] sm:w-[32px] sm:h-[32px] text-red-600 hover:scale-110 btn__pseudo" />
         </div>
 

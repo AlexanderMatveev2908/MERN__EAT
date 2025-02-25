@@ -1,18 +1,16 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useToast } from "../../hooks/useGlobal";
 
 export const useToastComponent = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [closeClicked, setCloseClicked] = useState<boolean>(false);
 
-  const { isToast, msg, type, showToastMsg, closeToast } = useToast();
-
-  useEffect(() => {
-    showToastMsg("This is a success message", "SUCCESS");
-  }, [showToastMsg]);
+  const { isToast, msg, type, closeToast } = useToast();
 
   useEffect(() => {
     let timer;
     if (isToast) {
+      setCloseClicked(false);
       timer = setTimeout(() => {
         closeToast();
       }, 5000);
@@ -30,5 +28,7 @@ export const useToastComponent = () => {
     msg,
     type,
     closeToast,
+    closeClicked,
+    setCloseClicked,
   };
 };
