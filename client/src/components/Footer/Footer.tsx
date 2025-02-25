@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { footerFieldsArr, socialFieldsArr } from "./footerFieldsArr";
-import { Beef, Cookie, Fish, Ham, IceCreamCone, Pizza } from "lucide-react";
+import Button from "../Button/Button";
 
 const Footer: FC = () => {
   return (
@@ -40,25 +40,7 @@ const Footer: FC = () => {
       </ul>
 
       <div className="w-full flex justify-center pt-10">
-        <div className="btn_container">
-          <div className="btn_container__content">
-            <button className="content__btn">
-              <span className="btn__txt">button</span>
-            </button>
-
-            <span className="btn__ref_1"></span>
-            <span className="btn__ref_2"></span>
-          </div>
-
-          <span className="btn_container__shadow"></span>
-
-          <Pizza className="btn_container__svg_1" />
-          <Ham className="btn_container__svg_2" />
-          <Beef className="btn_container__svg_3" />
-          <Fish className="btn_container__svg_4" />
-          <Cookie className="btn_container__svg_5" />
-          <IceCreamCone className="btn_container__svg_6" />
-        </div>
+        <Button />
       </div>
 
       <div className="w-full flex justify-center pt-5 sm:pt-10">

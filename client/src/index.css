@@ -68,6 +68,23 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   }
 }
 
+.loader__el::after {
+  animation: spinner 2s linear infinite;
+  animation-delay: calc(0.1s * var(--i));
+}
+
+@keyframes spinner {
+  0% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
 /* INDEXES */
 
 .hero__i_arrow {
@@ -156,10 +173,18 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   background: var(--toast-color);
 }
 
+/* SPINNER */
+
+.loader__el::after {
+  @apply content-[""] absolute top-0 left-0 w-[20px] h-[20px] bg-[#f97316] rounded-full;
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316, 0 0 40px #f97316,
+    0 0 60px #f97316, 0 0 80px #f97316, 0 0 100px #f97316;
+}
+
 /* ANIMATED BTN */
 
 .btn_container {
-  @apply max-w-fit max-h-fit transition-all duration-500;
+  @apply max-w-fit max-h-fit transition-all duration-500 relative;
 }
 
 .btn_container__content {
@@ -209,6 +234,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   @apply absolute min-w-full min-h-full top-0 left-0 -z-10 transition-all duration-300;
 }
 
+/* svg */
 .btn_container__svg_1,
 .btn_container__svg_2,
 .btn_container__svg_3,
@@ -217,7 +243,6 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 .btn_container__svg_6 {
   @apply absolute pointer-events-none transition-all duration-300 text-orange-500 z-40 scale-0 opacity-50;
 }
-
 .btn_container__svg_1 {
   @apply w-[20px] h-[20px] -top-[50%] -left-[10%];
 }
@@ -237,6 +262,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   @apply w-[35px] h-[35px] -bottom-[50%] right-[50%];
 }
 
+/* hover  */
 .btn_container:hover .btn_container__shadow {
   @apply -translate-x-[3%] translate-y-[15%];
 }
@@ -246,7 +272,6 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 .btn_container:hover .btn__ref_2 {
   @apply translate-x-[2000%];
 }
-
 .btn_container:hover {
   @apply -rotate-[5deg] scale-110;
 }
