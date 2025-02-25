@@ -54,5 +54,3 @@ const Hero: FC = () => {
   );
 };
 export default Hero;
-
-// 1 19
