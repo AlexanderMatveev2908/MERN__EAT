@@ -1,38 +1,30 @@
-import { FC, useEffect } from "react";
-import { useToast } from "../../hooks/useGlobal";
+import { FC } from "react";
 import { CircleCheck, CircleX, X } from "lucide-react";
+import { useToastComponent } from "./useToastComponent";
 
 const Toast: FC = () => {
-  const { isToast, msg, type, showToastMsg, closeToast } = useToast();
-
-  useEffect(() => {
-    showToastMsg("This is a success message", "SUCCESS");
-  }, [showToastMsg]);
-
-  useEffect(() => {
-    let timer;
-    if (isToast)
-      timer = setTimeout(() => {
-        closeToast();
-      }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [closeToast, isToast]);
-
-  console.log([isToast, msg, type]);
+  const { isToast, msg, type, closeToast } = useToastComponent();
 
   return (
     <div
-      className={`fixed top-5 right-5 toast__i bg-[#111] rounded-xl text-[whitesmoke] min-w-3/4 sm:min-w-1/2 max-w-3/4 h-fit min-h-[75px] flex border-t-2 border-r-2 transition-all duration-500  ${
+      id="toast"
+      className={`top-5 right-5 fixed toast__i bg-[#111] rounded-xl text-[whitesmoke] min-w-3/4 sm:min-w-1/2 max-w-3/4 h-fit min-h-[75px] flex border-t-2 border-r-2 transition-all duration-300  ${
         type === "SUCCESS" ? "border-green-600" : "border-red-600"
       } 
-      ${isToast ? "active_in" : "active_out translate-x-[120%]"}
+      ${isToast ? "active_in" : "translate-x-[120%] opacity-0"}
       `}
     >
       <div
-        className={`w-full grid grid-cols-[75px_1fr] relative min-h-full rounded-xl border-l-[8px] ${
-          type === "SUCCESS" ? "border-green-600" : "border-red-600"
+        className={`w-full grid grid-cols-[75px_1fr] relative min-h-full rounded-xl border-l-[8px]  ${
+          type === "SUCCESS"
+            ? "border-green-600 toast__container_after"
+            : "border-red-600"
         }`}
+        style={
+          {
+            "--toast-color": type === "SUCCESS" ? "#16a34a" : "#dc2626",
+          } as React.CSSProperties
+        }
       >
         <div className="w-full flex flex-col items-center justify-center">
           {type === "SUCCESS" ? (
