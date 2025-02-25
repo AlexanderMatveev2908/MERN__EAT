@@ -25,7 +25,7 @@ const Hero: FC = () => {
               <img
                 src={el.img}
                 alt="burger_hero"
-                className="w-full object-cover h-fit min-w-[300px] sm:min-w-[450px] snap-center rounded-xl transition-all duration-500"
+                className="w-full object-cover h-fit min-w-[250px] sm:min-w-[450px] snap-center rounded-xl transition-all duration-500"
                 style={{
                   transform: `translateX(-${activeIndx * 100}%)`,
                 }}

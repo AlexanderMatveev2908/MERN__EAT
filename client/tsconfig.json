@@ -1,4 +1,9 @@
 {
+  "compilerOptions": {
+    "noImplicitAny": false, // Allow `any` without errors
+    // "strictNullChecks": false, // Ignore `null` and `undefined` type errors
+    "strictFunctionTypes": false
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
