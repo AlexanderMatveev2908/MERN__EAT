@@ -8,6 +8,7 @@
 
 body {
   @apply bg-[#111] text-[whitesmoke];
+  overflow-x: hidden;
 }
 
 /* 
@@ -30,11 +31,11 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
     opacity: 0;
   }
   60% {
-    transform: translateX(-20%);
+    transform: translateX(-30%);
     opacity: 1;
   }
   80% {
-    transform: translateX(20%);
+    transform: translateX(30%);
   }
   100% {
     transform: translateX(0);
@@ -55,6 +56,19 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   100% {
     transform: translateX(120%);
     opacity: 0;
+  }
+}
+
+.toast__container_after::after {
+  animation: toast_progress 5s linear forwards;
+}
+
+@keyframes toast_progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
   }
 }
 
@@ -128,4 +142,15 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 
 .hide_scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* TOAST */
+
+.toast__container_after {
+  @apply relative overflow-hidden;
+}
+
+.toast__container_after::after {
+  @apply absolute h-[4px] w-full bottom-0 left-0 content-[""];
+  background: var(--toast-color);
 }
