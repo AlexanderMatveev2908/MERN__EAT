@@ -14,7 +14,55 @@ body {
 IMPORTANT: for some practical reasons i chose using snake case instead of kebab case in css naming, but only because i am working just myself on this project, if i would have been in a team i would been followed conventions of css of those one established by team  
 */
 
+/* ANIMATIONS */
+
+.active_in {
+  animation: toast_in 0.5s ease-out;
+}
+
+.active_out {
+  animation: toast_out 0.5s ease-in;
+}
+
+@keyframes toast_in {
+  0% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-20%);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(20%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast_out {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  20% {
+    transform: translateX(-40%);
+  }
+  60% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
 /* INDEXES */
+
+.hero__i_arrow {
+  z-index: 200;
+}
 
 .sidebar__i_bg {
   z-index: 500;
@@ -28,12 +76,8 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   z-index: 1000;
 }
 
-.hero__i_arrow {
-  z-index: 200;
-}
-
-.hero__i_img {
-  z-index: 100;
+.toast__i {
+  z-index: 1500;
 }
 
 /* BASE */
