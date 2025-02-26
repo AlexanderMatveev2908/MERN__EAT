@@ -1,4 +1,5 @@
 import { FC } from "react";
+import RangeInput from "../../components/RangeInput/RangeInput";
 
 const Home: FC = () => {
   return (
@@ -10,6 +11,10 @@ const Home: FC = () => {
         <span className="txt__04 text-orange-500">
           Or Manage Your Business From Anywhere
         </span>
+      </div>
+
+      <div className="w-full flex">
+        <RangeInput />
       </div>
     </div>
   );
