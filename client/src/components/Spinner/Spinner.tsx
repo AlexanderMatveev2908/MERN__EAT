@@ -1,18 +1,22 @@
 import { FC } from "react";
+import { useSpinner } from "./useSpinner";
 
 const Spinner: FC = () => {
+  const { numEls, deg } = useSpinner();
+
   return (
-    <div className="min-w-full min-h-full relative loader">
-      {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
+    <div className="w-full h-full relative spinner">
+      {Array.from({ length: numEls }).map((_, i) => (
         <span
-          className="absolute top-0 left-0 w-full h-full loader__el"
+          className="absolute top-0 left-0 w-full h-full spinner__el"
           style={
             {
-              "--i": num,
-              transform: `rotate(${20 * num}deg)`,
+              "--i": i,
+              "--numEls": numEls,
+              transform: `rotate(${deg * i}deg)`,
             } as React.CSSProperties
           }
-          key={num}
+          key={i}
         ></span>
       ))}
     </div>
