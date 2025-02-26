@@ -191,6 +191,14 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   @apply w-full;
 }
 
+/* focus_el */
+
+.el_focus:focus,
+.el_focus:active {
+  @apply ring-2 ring-orange-400;
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
+}
+
 /* general */
 .hide_scrollbar::-webkit-scrollbar {
   display: none;
@@ -223,15 +231,6 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 /* RANGE */
-
-.input_range_container:focus {
-  @apply ring-2 ring-orange-400;
-  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
-}
-.input_range_container:active {
-  @apply ring-2 ring-orange-400;
-  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
-}
 
 .range__tooltip::after {
   @apply absolute content-[''] -z-10 w-full h-full bg-[#111] rotate-45 border-orange-500 border-2 rounded-tl-4xl rounded-tr-4xl rounded-bl-4xl;
