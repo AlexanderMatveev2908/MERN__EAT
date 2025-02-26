@@ -19,6 +19,7 @@ export const useToastComponent = () => {
 
     return () => {
       clearTimeout(timer);
+      setCloseClicked(true);
       if (timerRef.current) timerRef.current = null;
     };
   }, [closeToast, isToast]);
