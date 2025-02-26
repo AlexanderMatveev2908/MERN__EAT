@@ -68,9 +68,9 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   }
 }
 
-.loader__el::after {
+.spinner__el::after {
   animation: spinner 2s linear infinite;
-  animation-delay: calc(0.1s * var(--i));
+  animation-delay: calc((2s / var(--numEls)) * var(--i));
 }
 
 @keyframes spinner {
@@ -175,7 +175,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 
 /* SPINNER */
 
-.loader__el::after {
+.spinner__el::after {
   @apply content-[""] absolute top-0 left-0 w-[20px] h-[20px] bg-[#f97316] rounded-full;
   box-shadow: 0 0 10px #f97316, 0 0 20px #f97316, 0 0 40px #f97316,
     0 0 60px #f97316, 0 0 80px #f97316, 0 0 100px #f97316;
