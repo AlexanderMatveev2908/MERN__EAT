@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Button from "../../Button/Button";
+import ButtonAnimated from "../../ButtonAnimated/ButtonAnimated";
 
 const Newsletter: FC = () => {
   return (
@@ -17,7 +17,7 @@ const Newsletter: FC = () => {
         </div>
 
         <div className="w-full flex justify-start">
-          <Button {...{ label: "Subscribe" }} />
+          <ButtonAnimated {...{ label: "Subscribe" }} />
         </div>
       </form>
       <div className="w-full flex lg:col-span-2">

@@ -108,7 +108,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 /* INDEXES */
 
 .hero__i_arrow {
-  z-index: 200;
+  z-index: 100;
 }
 
 .sidebar__i_bg {
@@ -116,15 +116,19 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 .sidebar__i_content {
-  z-index: 750;
-}
-
-.header__i {
   z-index: 1000;
 }
 
-.toast__i {
+.header__i {
   z-index: 1500;
+}
+
+.popup__i {
+  z-index: 2000;
+}
+
+.toast__i {
+  z-index: 2500;
 }
 
 /* BASE */
@@ -218,6 +222,33 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   box-shadow: 0 0 10px #f97316, 0 0 15px #f97316;
 }
 
+/* BASIC BTN */
+.btn__with_shadow,
+.btn__with_shadow__shadow,
+.content__txt {
+  @apply transition-all duration-300;
+}
+.btn__with_shadow {
+  @apply relative w-fit min-w-[150px] sm:min-w-[200px] h-fit cursor-pointer disabled:opacity-50 disabled:cursor-wait;
+}
+.btn__with_shadow__content,
+.btn__with_shadow__shadow {
+  @apply min-w-full min-h-full border-2 rounded-xl;
+}
+.btn__with_shadow__content {
+  @apply z-10 flex justify-center items-center bg-[#111]  px-5 sm:px-10 py-1 sm:py-2;
+}
+.btn__with_shadow__shadow {
+  @apply -z-10 bg-[#111] absolute top-0 left-0;
+}
+
+.btn__with_shadow:not(:disabled):hover {
+  @apply -rotate-[5deg] scale-110;
+}
+.btn__with_shadow:not(:disabled):hover .btn__with_shadow__shadow {
+  @apply -translate-x-[3.5%] translate-y-[16.5%];
+}
+
 /* ANIMATED BTN */
 
 .btn_container {
@@ -247,7 +278,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 .btn__ref_1,
 .btn__ref_2 {
   @apply min-h-[500%] absolute rotate-[30deg] 
-  -top-1/2 transition-all duration-300 bg-white z-10;
+  -top-1/2 transition-all duration-300 bg-white;
 }
 .btn__ref_1 {
   @apply -left-full w-[10%];
@@ -278,7 +309,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 .btn_container__svg_4,
 .btn_container__svg_5,
 .btn_container__svg_6 {
-  @apply absolute pointer-events-none transition-all duration-300 text-orange-500 z-40 scale-0 opacity-50;
+  @apply absolute pointer-events-none transition-all duration-300 text-orange-500 z-50 scale-0 opacity-50;
 }
 .btn_container__svg_1 {
   @apply w-[20px] h-[20px] -top-[50%] -left-[10%];

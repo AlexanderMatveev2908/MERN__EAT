@@ -10,7 +10,7 @@ type PropsType = {
   handleClick?: (...params: any) => void;
 };
 
-const Button: FC<PropsType> = ({
+const ButtonAnimated: FC<PropsType> = ({
   isLoading,
   isDisabled,
   label,
@@ -18,7 +18,12 @@ const Button: FC<PropsType> = ({
   handleClick,
 }) => {
   return (
-    <button type={type} disabled={isDisabled} className="btn_container">
+    <button
+      onClick={handleClick}
+      type={type}
+      disabled={isDisabled || isLoading}
+      className="btn_container"
+    >
       <div className="btn_container__content">
         <div className="content__btn">
           <span className="btn__txt">{label ?? "BUTTON"}</span>
@@ -39,4 +44,4 @@ const Button: FC<PropsType> = ({
     </button>
   );
 };
-export default Button;
+export default ButtonAnimated;
