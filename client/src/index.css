@@ -203,7 +203,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 .toast__container_after::after {
-  @apply absolute h-[4px] w-full bottom-0 left-0 content-[""];
+  @apply absolute h-[6px] w-full bottom-0 left-0 content-[""];
   background: var(--toast-color);
 }
 
