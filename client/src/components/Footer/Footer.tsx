@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { footerFieldsArr, socialFieldsArr } from "./footerFieldsArr";
+import Newsletter from "./Newsletter/NewsLetter";
 
 const Footer: FC = () => {
   return (
@@ -24,7 +25,7 @@ const Footer: FC = () => {
         </div>
       </div>
 
-      <ul className="w-full grid sm:grid-cols-2 justify-items-start gap-y-5">
+      <ul className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] lg:grid-cols-[200px_1fr] justify-items-start gap-y-5">
         {socialFieldsArr.map((field) => (
           <li key={field.id}>
             <a
@@ -38,7 +39,9 @@ const Footer: FC = () => {
         ))}
       </ul>
 
-      <div className="w-full flex justify-center pt-5 sm:pt-10">
+      <Newsletter />
+
+      <div className="w-full flex justify-center py-5">
         <span className="txt__01">
           &copy;&nbsp;{new Date().getFullYear()}&nbsp;MERN__EAT. No rights
           reserved just making it for fun ✌🏼
