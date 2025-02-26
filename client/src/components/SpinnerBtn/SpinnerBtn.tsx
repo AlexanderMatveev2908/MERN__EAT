@@ -2,9 +2,13 @@ import { FC } from "react";
 
 const SpinnerBtn: FC = () => {
   return (
-    <div className="spinner_btn">
-      {Array.from({ length: 4 }, (_, i) => i + 1).map((num) => (
-        <span className="spinner_tbn__el">{num}</span>
+    <div className="w-full spinner_btn flex gap-4">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <span
+          key={i}
+          className="spinner_tbn__el"
+          style={{ "--i": i + 1 } as React.CSSProperties}
+        ></span>
       ))}
     </div>
   );
