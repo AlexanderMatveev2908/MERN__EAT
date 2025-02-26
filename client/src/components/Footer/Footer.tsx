@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { footerFieldsArr, socialFieldsArr } from "./footerFieldsArr";
-import Button from "../Button/Button";
 
 const Footer: FC = () => {
   return (
@@ -38,10 +37,6 @@ const Footer: FC = () => {
           </li>
         ))}
       </ul>
-
-      <div className="w-full flex justify-center pt-10">
-        <Button />
-      </div>
 
       <div className="w-full flex justify-center pt-5 sm:pt-10">
         <span className="txt__01">

@@ -85,6 +85,26 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   }
 }
 
+.spinner_tbn__el {
+  animation: 1s spinner_btn ease-in-out infinite;
+  animation-delay: calc(0.25s * var(--i));
+}
+
+@keyframes spinner_btn {
+  0% {
+    transform: scale(1) translateY(0%);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5) translateY(-60%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0.5s) translateY(0%);
+    opacity: 1;
+  }
+}
+
 /* INDEXES */
 
 .hero__i_arrow {
@@ -181,10 +201,17 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
     0 0 60px #f97316, 0 0 80px #f97316, 0 0 100px #f97316;
 }
 
+/* SPINNER BTN */
+
+.spinner_tbn__el {
+  @apply h-[30px] w-[30px] rounded-full bg-[#f97316];
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
+}
+
 /* ANIMATED BTN */
 
 .btn_container {
-  @apply max-w-fit max-h-fit transition-all duration-500 relative;
+  @apply max-w-fit max-h-fit transition-all duration-500 relative cursor-pointer disabled:cursor-wait;
 }
 
 .btn_container__content {
@@ -193,7 +220,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 
 .content__btn,
 .btn_container__shadow {
-  @apply px-16 py-2 rounded-full cursor-pointer transition-all duration-300 
+  @apply px-16 py-2 rounded-full transition-all duration-300 
   bg-neutral-950 relative overflow-hidden;
 }
 .content__btn::after {
@@ -263,41 +290,41 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 /* hover  */
-.btn_container:hover .btn_container__shadow {
+.btn_container:not(:disabled):hover .btn_container__shadow {
   @apply -translate-x-[3%] translate-y-[15%];
 }
-.btn_container:hover .btn__ref_1 {
+.btn_container:not(:disabled):hover .btn__ref_1 {
   @apply translate-x-[1000%];
 }
-.btn_container:hover .btn__ref_2 {
+.btn_container:not(:disabled):hover .btn__ref_2 {
   @apply translate-x-[2000%];
 }
-.btn_container:hover {
+.btn_container:not(:disabled):hover {
   @apply -rotate-[5deg] scale-110;
 }
-.btn_container:hover .btn_container__svg_1,
-.btn_container:hover .btn_container__svg_2,
-.btn_container:hover .btn_container__svg_3,
-.btn_container:hover .btn_container__svg_4,
-.btn_container:hover .btn_container__svg_5,
-.btn_container:hover .btn_container__svg_6 {
+.btn_container:not(:disabled):hover .btn_container__svg_1,
+.btn_container:not(:disabled):hover .btn_container__svg_2,
+.btn_container:not(:disabled):hover .btn_container__svg_3,
+.btn_container:not(:disabled):hover .btn_container__svg_4,
+.btn_container:not(:disabled):hover .btn_container__svg_5,
+.btn_container:not(:disabled):hover .btn_container__svg_6 {
   @apply opacity-100;
 }
-.btn_container:hover .btn_container__svg_1 {
+.btn_container:not(:disabled):hover .btn_container__svg_1 {
   @apply scale-110 delay-100;
 }
-.btn_container:hover .btn_container__svg_2 {
+.btn_container:not(:disabled):hover .btn_container__svg_2 {
   @apply scale-110;
 }
-.btn_container:hover .btn_container__svg_3 {
+.btn_container:not(:disabled):hover .btn_container__svg_3 {
   @apply scale-110 -translate-y-[200%] delay-100;
 }
-.btn_container:hover .btn_container__svg_4 {
+.btn_container:not(:disabled):hover .btn_container__svg_4 {
   @apply scale-110 -translate-y-[30%] -rotate-45;
 }
-.btn_container:hover .btn_container__svg_5 {
+.btn_container:not(:disabled):hover .btn_container__svg_5 {
   @apply scale-110  delay-100 -translate-y-[100%];
 }
-.btn_container:hover .btn_container__svg_6 {
+.btn_container:not(:disabled):hover .btn_container__svg_6 {
   @apply scale-110  delay-100 -rotate-45;
 }

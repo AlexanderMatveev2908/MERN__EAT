@@ -16,11 +16,11 @@ const Button: FC<PropsType> = ({
   handleClick,
 }) => {
   return (
-    <div className="btn_container">
+    <button disabled={isDisabled} className="btn_container">
       <div className="btn_container__content">
-        <button disabled={isDisabled} className="content__btn">
+        <div className="content__btn">
           <span className="btn__txt">{label ?? "BUTTON"}</span>
-        </button>
+        </div>
 
         <span className="btn__ref_1"></span>
         <span className="btn__ref_2"></span>
@@ -34,7 +34,7 @@ const Button: FC<PropsType> = ({
       <Fish className="btn_container__svg_4" />
       <Cookie className="btn_container__svg_5" />
       <IceCreamCone className="btn_container__svg_6" />
-    </div>
+    </button>
   );
 };
 export default Button;
