@@ -1,16 +1,16 @@
 import { ChevronDown } from "lucide-react";
 import { FC, useRef, useState } from "react";
-import { useDropDownMenu } from "./useDropDownMenu";
+import { useDropDown } from "./useDropDown";
 
 type PropsType = {
   isAbsolute?: boolean;
 };
 
-const DropDownMenu: FC<PropsType> = ({ isAbsolute = true }) => {
+const DropDown: FC<PropsType> = ({ isAbsolute = true }) => {
   const dropRef = useRef<HTMLDivElement | null>(null);
   const [isDropOpen, setIsDropOpen] = useState<boolean>(false);
 
-  useDropDownMenu({ dropRef, setIsDropOpen });
+  useDropDown({ dropRef, setIsDropOpen });
 
   return (
     <div
@@ -64,4 +64,4 @@ const DropDownMenu: FC<PropsType> = ({ isAbsolute = true }) => {
     </div>
   );
 };
-export default DropDownMenu;
+export default DropDown;
