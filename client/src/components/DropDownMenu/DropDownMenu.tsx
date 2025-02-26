@@ -1,15 +1,29 @@
 import { ChevronDown } from "lucide-react";
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
+import { useDropDownMenu } from "./useDropDownMenu";
 
-type PropsType = {};
+type PropsType = {
+  isAbsolute?: boolean;
+};
 
-const DropDownMenu: FC = () => {
+const DropDownMenu: FC<PropsType> = ({ isAbsolute = true }) => {
+  const dropRef = useRef<HTMLDivElement | null>(null);
   const [isDropOpen, setIsDropOpen] = useState<boolean>(false);
 
+  useDropDownMenu({ dropRef, setIsDropOpen });
+
   return (
-    <div className=" w-full flex h-fit flex-col">
-      <div className="w-full flex flex-col border-2 border-orange-500 rounded-xl">
+    <div
+      className={` w-full flex h-fit flex-col ${isAbsolute ? "relative" : ""}`}
+    >
+      <div
+        tabIndex={1}
+        className={`w-full flex flex-col border-2 border-orange-500 bg-[#111] rounded-xl transition-all duration-300 ${
+          isAbsolute ? "absolute" : ""
+        } ${isDropOpen ? "el_focus" : ""}`}
+      >
         <div
+          ref={dropRef}
           onClick={() => setIsDropOpen(!isDropOpen)}
           className={`w-full flex justify-between items-center px-6 py-2 group cursor-pointer ${
             isDropOpen ? "border-b-2 border-orange-500" : ""
