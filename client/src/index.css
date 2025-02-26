@@ -168,6 +168,16 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   @apply transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-wait;
 }
 
+.btn__brand {
+  @apply transition-all duration-300  cursor-pointer disabled:opacity-50;
+}
+.btn__brand:not(:disabled):hover {
+  @apply hover:scale-120 hover:text-orange-500;
+}
+.btn__brand:not(:disabled):active {
+  @apply active:scale-120 active:text-orange-500;
+}
+
 /* input */
 
 .input_base {
