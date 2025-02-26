@@ -25,13 +25,13 @@ const ButtonBasic: FC<PropsType> = ({
       disabled={isDisabled || isLoading}
       onClick={handleClick}
       type={type}
-      className="btn__with_shadow group "
+      className="btn__with_shadow_container group "
     >
-      <div className={`${styleBtn} btn__with_shadow__content`}>
+      <div className={`${styleBtn} btn__with_shadow_container__content`}>
         <span className={`${styleTxt} content__txt`}>{label}</span>
       </div>
 
-      <span className={`${styleBtn} btn__with_shadow__shadow`}></span>
+      <span className={`${styleBtn} btn__with_shadow_container__shadow`}></span>
     </button>
   );
 };
