@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const useDropDownMenu = ({
+export const useDropDown = ({
   dropRef,
   setIsDropOpen,
 }: {
