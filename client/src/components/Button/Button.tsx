@@ -6,6 +6,7 @@ type PropsType = {
   isLoading?: boolean;
   isDisabled?: boolean;
   label?: string;
+  type?: "button" | "submit" | "reset";
   handleClick?: (...params: any) => void;
 };
 
@@ -13,10 +14,11 @@ const Button: FC<PropsType> = ({
   isLoading,
   isDisabled,
   label,
+  type = "button",
   handleClick,
 }) => {
   return (
-    <button disabled={isDisabled} className="btn_container">
+    <button type={type} disabled={isDisabled} className="btn_container">
       <div className="btn_container__content">
         <div className="content__btn">
           <span className="btn__txt">{label ?? "BUTTON"}</span>
