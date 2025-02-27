@@ -1,5 +1,4 @@
 import { FC } from "react";
-import BlockPages from "../../components/BlockPages/BlockPages";
 
 const Home: FC = () => {
   return (
@@ -11,10 +10,6 @@ const Home: FC = () => {
         <span className="txt__04 text-[whitesmoke]">
           Or Manage Your Business From Anywhere
         </span>
-      </div>
-
-      <div className="w-full flex">
-        <BlockPages />
       </div>
     </div>
   );

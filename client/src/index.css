@@ -105,6 +105,66 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   }
 }
 
+/* .skeleton__el {
+  background-color: #333;
+  transform-origin: center;
+  animation: scale_bounce 1.5s infinite ease-in-out;
+}
+
+@keyframes scale_bounce {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+} */
+
+.skeleton__el {
+  background: linear-gradient(90deg, #222 25%, #333 50%, #222 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* .skeleton__el {
+  background-color: #333;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.5;
+  }
+} */
+
+/* 
+.skeleton__el {
+  background-color: #333;
+  animation: pulse 1.5s infinite ease-in-out;
+} */
+
+/* @keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+} */
+
 /* INDEXES */
 
 .hero__i_arrow {
