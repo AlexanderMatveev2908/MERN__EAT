@@ -9,7 +9,7 @@ export type PropsType = {
 };
 
 const BlockPages: FC<PropsType> = ({
-  totPages = 100,
+  totPages = 200,
   // currPage,
   // setCurrPage,
 }) => {
@@ -18,10 +18,12 @@ const BlockPages: FC<PropsType> = ({
   const {
     handleNext,
     handlePrev,
-    blockSize,
     arrToMakeBtns,
     isPrevDisabled,
     isNextDisabled,
+    handlePrevInterval,
+    handleNextInterval,
+    clearIntervalHandler,
   } = useBlockPages({
     totPages,
   });
@@ -32,6 +34,8 @@ const BlockPages: FC<PropsType> = ({
         <button
           disabled={isPrevDisabled}
           onClick={handlePrev}
+          onMouseDown={handlePrevInterval}
+          onMouseUp={clearIntervalHandler}
           className="w-full flex items-center justify-center btn__brand"
         >
           <ArrowBigLeft className="h-[50px] w-[50px] " />
@@ -54,6 +58,8 @@ const BlockPages: FC<PropsType> = ({
         <button
           disabled={isNextDisabled}
           onClick={handleNext}
+          onMouseDown={handleNextInterval}
+          onMouseUp={clearIntervalHandler}
           className="w-full flex items-center justify-center btn__brand"
         >
           <ArrowBigRight className="h-[50px] w-[50px] " />
