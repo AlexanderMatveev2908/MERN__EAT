@@ -368,7 +368,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .content__btn,
 .btn_container__shadow {
-  @apply px-16 py-2 rounded-full transition-all duration-300 
+  @apply px-14 py-2 rounded-full transition-all duration-300 
   bg-neutral-950 relative overflow-hidden;
 }
 .content__btn::after {
@@ -379,7 +379,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .btn__txt {
-  @apply text-lg sm:text-xl lg:text-2xl font-bold relative z-40 text-[whitesmoke];
+  @apply sm:text-lg lg:text-xl font-bold relative z-40 text-[whitesmoke];
 }
 
 .btn__ref_1,
