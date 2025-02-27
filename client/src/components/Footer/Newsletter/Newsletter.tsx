@@ -7,7 +7,7 @@ const Newsletter: FC = () => {
       <div className="w-full flex flex-col">
         <span className="txt__02">Newsletter</span>
       </div>
-      <form className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5 items-end">
+      <form className="grid grid-cols-[repeat(auto-fit,minmax(225px,1fr))] gap-y-5 gap-x-10 items-end">
         <div className="w-full ">
           <input
             type="email"

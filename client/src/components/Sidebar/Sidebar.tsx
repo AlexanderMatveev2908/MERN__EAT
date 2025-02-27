@@ -1,6 +1,6 @@
 import { FC, useRef } from "react";
-import { Link } from "react-router-dom";
 import { useSidebar } from "./useSidebar";
+import { useAuth0 } from "@auth0/auth0-react";
 
 type PropsType = {
   sideOpen: boolean;
@@ -11,6 +11,8 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
   const sideRef = useRef<HTMLDivElement | null>(null);
 
   useSidebar({ sideRef, setSideOpen });
+
+  const { loginWithRedirect, logout, isAuthotenticated, user } = useAuth0();
 
   return (
     <>
@@ -29,12 +31,19 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
         <div className="w-full grid grid-cols-1 justify-items-start gap-5 p-5">
           <span className="txt__02">Welcome to MERN__EAT</span>
 
-          <Link
-            to=""
+          <button
+            onClick={async () => await loginWithRedirect()}
             className="txt__03 btn__pseudo el_with_after hover:text-orange-500"
           >
             Login
-          </Link>
+          </button>
+
+          <button
+            onClick={async () => await logout()}
+            className="txt__03 btn__pseudo el_with_after hover:text-orange-500"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </>
