@@ -1,27 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useAuth0 } from "@auth0/auth0-react";
 import { sendCodeAuthAPI } from "../../api/auth/authAPI";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const useCallbackAuth = () => {
-  const { handleRedirectCallback } = useAuth0();
-  const hasRan = useRef<boolean>(false);
+  const navigate = useNavigate();
 
-  const sendCode = useCallback(async () => {
+  const sendCodeBackend = useCallback(async () => {
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get("code");
-
-    console.log(code);
 
     try {
       if (!code) throw new Error("Code not found");
 
-      if (hasRan.current) return;
+      const codeVerifier = sessionStorage.getItem("codeVerifier");
 
-      hasRan.current = true;
+      if (!codeVerifier) throw new Error("Code verifier not found");
 
-      await handleRedirectCallback();
-      await sendCodeAuthAPI(code);
+      const data = await sendCodeAuthAPI(code, codeVerifier);
+
+      sessionStorage.removeItem("codeVerifier");
+      sessionStorage.setItem("accessToken", data.accessToken);
+
+      navigate("/user-profile");
+
+      console.log(data);
     } catch (err: any) {
       console.log(err);
     }
@@ -29,7 +32,7 @@ export const useCallbackAuth = () => {
   }, []);
 
   useEffect(() => {
-    sendCode();
+    sendCodeBackend();
     // eslint-disable-next-line
   }, []);
 };

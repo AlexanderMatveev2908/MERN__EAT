@@ -1,6 +1,5 @@
 import { FC, useRef } from "react";
 import { useSidebar } from "./useSidebar";
-import { useAuth0 } from "@auth0/auth0-react";
 
 type PropsType = {
   sideOpen: boolean;
@@ -12,7 +11,7 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
 
   useSidebar({ sideRef, setSideOpen });
 
-  const { loginWithRedirect, logout, isAuthotenticated, user } = useAuth0();
+  const { handleLogin } = useSidebar({ sideRef, setSideOpen });
 
   return (
     <>
@@ -32,16 +31,13 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
           <span className="txt__02">Welcome to MERN__EAT</span>
 
           <button
-            onClick={async () => await loginWithRedirect()}
+            onClick={handleLogin}
             className="txt__03 btn__pseudo el_with_after hover:text-orange-500"
           >
             Login
           </button>
 
-          <button
-            onClick={async () => await logout()}
-            className="txt__03 btn__pseudo el_with_after hover:text-orange-500"
-          >
+          <button className="txt__03 btn__pseudo el_with_after hover:text-orange-500">
             Logout
           </button>
         </div>

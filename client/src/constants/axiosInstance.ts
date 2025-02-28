@@ -5,6 +5,7 @@ export const foodAppInstance = axios.create({
     import.meta.env.VITE_NODE_ENV === "development"
       ? import.meta.env.VITE_BACK_URL_DEV
       : import.meta.env.VITE_BACK_URL,
+  withCredentials: true,
 });
 
 foodAppInstance.interceptors.request.use((config) => {

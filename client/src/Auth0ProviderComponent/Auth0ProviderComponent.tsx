@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { AppState, Auth0Provider, User } from "@auth0/auth0-react";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 type PropsType = {
   children: React.ReactNode;
@@ -20,22 +20,16 @@ const Auth0ProviderComponent: FC<PropsType> = ({ children }) => {
   if ([domain, clientID, redirectURL, audience].some((el) => !el))
     throw new Error("Unable to start auth");
 
-  const handleRedirectCb = (appState?: AppState, user?: User) => {
-    console.log(appState);
-    console.log(user);
-  };
-
   return (
     <Auth0Provider
       domain={domain}
       clientId={clientID}
       authorizationParams={{
         redirect_uri: redirectURL,
-        audience,
         scope:
           "openid profile email create:users read:users update:users delete:users",
+        response_type: "code",
       }}
-      onRedirectCallback={handleRedirectCb}
     >
       {children}
     </Auth0Provider>
