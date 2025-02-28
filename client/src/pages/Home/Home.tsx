@@ -1,6 +1,9 @@
 import { FC } from "react";
+import { useScrollTop } from "../../hooks/useScrollTop";
 
 const Home: FC = () => {
+  useScrollTop();
+
   return (
     <div className="w-full flex flex-col items-center gap-y-5">
       <div className="w-full flex flex-col items-start gap-y-3">

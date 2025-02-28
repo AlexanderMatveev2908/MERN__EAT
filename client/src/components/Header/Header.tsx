@@ -16,7 +16,7 @@ const Header: FC<PropsType> = ({ setSideOpen, sideOpen }) => {
         </Link>
 
         <div className="flex w-full gap-5 items-center justify-end">
-          <Link to="/authentication" className="group flex items-center">
+          <Link to="/login" className="group flex items-center">
             <User className="icon " />
           </Link>
           {sideOpen ? (

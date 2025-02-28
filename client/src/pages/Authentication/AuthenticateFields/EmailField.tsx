@@ -1,12 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { REG_EMAIL } from "../../../constants/regex";
 import { Mail } from "lucide-react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { LoginFormType } from "../Login/useLoginCustom";
 
 type PropsType = {
   errors: FieldErrors;
-  register: UseFormRegister<LoginFormType>;
+  register: UseFormRegister<any>;
 };
 
 const EmailField: FC<PropsType> = ({ errors, register }) => {
@@ -17,14 +17,14 @@ const EmailField: FC<PropsType> = ({ errors, register }) => {
         <input
           type="email"
           className="input_with_icon "
-          placeholder="Your Email"
-          {...register("email", {
+          placeholder="Your email..."
+          {...(register("email", {
             required: "Email is required",
             pattern: {
               value: REG_EMAIL,
               message: "Invalid email address",
             },
-          })}
+          }) as any)}
         />
         <Mail className="icon_input" />
       </div>

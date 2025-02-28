@@ -263,6 +263,10 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   @apply w-[25px] h-[25px] transition-all duration-300 hover:text-orange-500 hover:scale-120 cursor-pointer absolute top-[25%] right-5;
 }
 
+.icon_switch_form {
+  @apply w-[25px] h-[25px] transition-all duration-300 group-hover:text-orange-500;
+}
+
 /* el after */
 .el_with_after {
   @apply relative max-w-fit;
@@ -374,16 +378,16 @@ input[type="range"]::-webkit-slider-thumb {
 /* ANIMATED BTN */
 
 .btn_container {
-  @apply max-w-fit max-h-fit transition-all duration-500 relative cursor-pointer disabled:cursor-wait;
+  @apply w-full max-h-fit transition-all duration-500 relative cursor-pointer disabled:cursor-wait;
 }
 
 .btn_container__content {
-  @apply relative max-w-fit max-h-fit overflow-hidden rounded-full;
+  @apply relative w-full max-h-fit overflow-hidden rounded-full;
 }
 
 .content__btn,
 .btn_container__shadow {
-  @apply px-14 py-2 rounded-full transition-all duration-300 
+  @apply px-16 py-2 rounded-full transition-all duration-300 
   bg-neutral-950 relative overflow-hidden;
 }
 .content__btn::after {

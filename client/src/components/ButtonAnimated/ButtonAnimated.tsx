@@ -7,6 +7,7 @@ type PropsType = {
   isDisabled?: boolean;
   label?: string;
   type?: "button" | "submit" | "reset";
+  styleTxt?: string;
   handleClick?: (...params: any) => void;
 };
 
@@ -16,6 +17,7 @@ const ButtonAnimated: FC<PropsType> = ({
   label,
   type = "button",
   handleClick,
+  styleTxt,
 }) => {
   return (
     <button
@@ -26,7 +28,9 @@ const ButtonAnimated: FC<PropsType> = ({
     >
       <div className="btn_container__content">
         <div className="content__btn">
-          <span className="btn__txt">{label ?? "BUTTON"}</span>
+          <span className={`${styleTxt ?? "btn__txt"}`}>
+            {label ?? "BUTTON"}
+          </span>
         </div>
 
         <span className="btn__ref_1"></span>

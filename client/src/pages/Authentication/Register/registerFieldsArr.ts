@@ -5,32 +5,28 @@ export const REG_LOWERCASE = /[a-z]+/;
 export const REG_NUMBER = /(?=.*\d)/;
 export const REG_SYMBOL = /(?=.*[\W_])/;
 
-export const loginRegArr = [
+export const registerRegArr = [
   {
     id: genID(),
-    msgErr: "Password must include an uppercase letter",
-    msgGood: "Password includes an uppercase letter",
+    msg: "Uppercase letters",
     reg: REG_UPPERCASE,
     label: "ABC...",
   },
   {
     id: genID(),
-    msgErr: "Password must include a lowercase letter",
-    msgGood: "Password includes a lowercase letter",
+    msg: "Lowercase letters",
     reg: REG_LOWERCASE,
     label: "abc...",
   },
   {
     id: genID(),
-    msgErr: "Password must include a number",
-    msgGood: "Password includes a number",
+    msg: "Numbers",
     reg: REG_NUMBER,
     label: "123...",
   },
   {
     id: genID(),
-    msgErr: "Password must include a symbol",
-    msgGood: "Password includes a symbol",
+    msg: "Symbols",
     reg: REG_SYMBOL,
     label: "!@#$...",
   },
@@ -38,3 +34,16 @@ export const loginRegArr = [
 
 export const isValidPiecePwd = (pwd: string, reg: RegExp) =>
   pwd && reg.test(pwd);
+
+export const loginNameFieldsArr = [
+  {
+    id: genID(),
+    label: "First Name",
+    field: "firstName",
+  },
+  {
+    id: genID(),
+    label: "Last Name",
+    field: "lastName",
+  },
+];
