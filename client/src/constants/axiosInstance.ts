@@ -20,34 +20,35 @@ foodAppInstance.interceptors.request.use(
   (err) => Promise.reject(err)
 );
 
-foodAppInstance.interceptors.response.use(
-  (res) => res,
-  async (err) => {
-    const originalReq = err.config;
-    const isRefreshing = originalReq.url === "/auth/refresh-token";
+// foodAppInstance.interceptors.response.use(
+//   (res) => res,
+//   async (err) => {
+//     const originalReq = err.config;
+//     const isRefreshing = originalReq.url === "/auth/refresh-token";
 
-    if (
-      err?.response?.status === 401 &&
-      err?.response?.data?.message === "Token Expired" &&
-      !isRefreshing &&
-      !originalReq.retry
-    ) {
-      try {
-        originalReq.retry = true;
+//     if (
+//       err?.response?.status === 401 &&
+//       err?.response?.data?.message === "Token Expired" &&
+//       !isRefreshing &&
+//       !originalReq.retry
+//     ) {
+//       try {
+//         originalReq.retry = true;
 
-        const { data } = await foodAppInstance.get("/auth/refresh-token");
+//         const { data } = await foodAppInstance.get("/auth/refresh-token");
 
-        sessionStorage.setItem("accessToken", data.accessToken);
-        originalReq.headers["Authorization"] = `Bearer ${data.accessToken}`;
+//         sessionStorage.setItem("accessToken", data.accessToken);
+//         originalReq.headers["Authorization"] = `Bearer ${data.accessToken}`;
 
-        return foodAppInstance(originalReq);
-      } catch (err: any) {
-        localStorage.removeItem("accessToken");
+//         return foodAppInstance(originalReq);
+//       } catch (err: any) {
+//         console.log(err);
+//         localStorage.removeItem("accessToken");
 
-        return Promise.reject(err);
-      }
-    }
+//         return Promise.reject(err);
+//       }
+//     }
 
-    return Promise.reject(err);
-  }
-);
+//     return Promise.reject(err);
+//   }
+// );

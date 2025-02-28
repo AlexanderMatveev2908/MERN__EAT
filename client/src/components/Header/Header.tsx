@@ -1,4 +1,4 @@
-import { Menu, X } from "lucide-react";
+import { Menu, User, X } from "lucide-react";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
@@ -15,21 +15,26 @@ const Header: FC<PropsType> = ({ setSideOpen, sideOpen }) => {
           MERN__EAT
         </Link>
 
-        {sideOpen ? (
-          <div
-            onClick={() => setSideOpen(false)}
-            className="max-w-fit justify-self-end group flex items-center"
-          >
-            <X className="text-orange-500 h-[40px] w-[40px] group-hover:scale-110 btn__pseudo " />
-          </div>
-        ) : (
-          <div
-            onClick={() => setSideOpen(true)}
-            className="max-w-fit justify-self-end group flex items-center"
-          >
-            <Menu className="text-orange-500 h-[40px] w-[40px] group-hover:scale-110 btn__pseudo " />
-          </div>
-        )}
+        <div className="flex w-full gap-5 items-center justify-end">
+          <Link to="/authentication" className="group flex items-center">
+            <User className="icon " />
+          </Link>
+          {sideOpen ? (
+            <div
+              onClick={() => setSideOpen(false)}
+              className="max-w-fit justify-self-end group flex items-center"
+            >
+              <X className="icon" />
+            </div>
+          ) : (
+            <div
+              onClick={() => setSideOpen(true)}
+              className="max-w-fit justify-self-end group flex items-center"
+            >
+              <Menu className="icon" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
