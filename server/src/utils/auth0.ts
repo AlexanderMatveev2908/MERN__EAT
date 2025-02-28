@@ -32,4 +32,18 @@ export const makeOptAuth0Logout = (refreshToken: string) =>
         ? process.env.AUTH0_CLIENT_SECRET_DEV!
         : process.env.AUTH0_CLIENT_SECRET!,
     token: refreshToken,
+  }).toString();
+
+export const makeOptAuth0Refresh = (refreshToken: string) =>
+  new URLSearchParams({
+    client_id:
+      process.env.NODE_ENV === "development"
+        ? process.env.AUTH0_CLIENT_ID_DEV!
+        : process.env.AUTH0_CLIENT_ID!,
+    client_secret:
+      process.env.NODE_ENV === "development"
+        ? process.env.AUTH0_CLIENT_SECRET_DEV!
+        : process.env.AUTH0_CLIENT_SECRET!,
+    refresh_token: refreshToken,
+    grant_type: "refresh_token",
   });

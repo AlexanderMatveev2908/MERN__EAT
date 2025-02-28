@@ -1,6 +1,16 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { foodAppInstance } from "../../constants/axiosInstance";
 
 const Home: FC = () => {
+  useEffect(() => {
+    const testProtected = async () => {
+      const { data } = await foodAppInstance.get("/protected");
+      console.log(data);
+    };
+
+    testProtected();
+  }, []);
+
   return (
     <div className="w-full flex flex-col items-center gap-y-5">
       <div className="w-full flex flex-col items-start gap-y-3">

@@ -40,4 +40,16 @@ export const makeParamsAuth0Login = (codeChallenge: string) =>
         ? import.meta.env.VITE_AUTH0_AUDIENCE_DEV!
         : import.meta.env.VITE_AUTH0_AUDIENCE!,
     scope: "openid profile email offline_access ",
-  });
+  }).toString();
+
+export const makeParamsAuth0Logout = () =>
+  new URLSearchParams({
+    client_id:
+      import.meta.env.VITE_NODE_ENV === "development"
+        ? import.meta.env.VITE_AUTH0_CLIENT_ID_DEV!
+        : import.meta.env.VITE_AUTH0_CLIENT_ID!,
+    returnTo:
+      import.meta.env.VITE_NODE_ENV === "development"
+        ? import.meta.env.VITE_AUTH0_LOGOUT_REDIRECT_DEV!
+        : import.meta.env.VITE_AUTH0_LOGOUT_REDIRECT!,
+  }).toString();
