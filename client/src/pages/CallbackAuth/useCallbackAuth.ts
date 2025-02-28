@@ -1,23 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { sendCodeAuthAPI } from "../../api/auth/authAPI";
+import { tokenExchangeAPI } from "../../api/auth/authAPI";
 import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const useCallbackAuth = () => {
   const navigate = useNavigate();
 
-  const sendCodeBackend = useCallback(async () => {
+  const sendDataTokenExchange = useCallback(async () => {
     const searchParams = new URLSearchParams(window.location.search);
+
     const code = searchParams.get("code");
+    const codeVerifier = sessionStorage.getItem("codeVerifier");
 
     try {
-      if (!code) throw new Error("Code not found");
+      if (!code || !codeVerifier)
+        throw new Error("Code or codeVerifier not found");
 
-      const codeVerifier = sessionStorage.getItem("codeVerifier");
-
-      if (!codeVerifier) throw new Error("Code verifier not found");
-
-      const data = await sendCodeAuthAPI(code, codeVerifier);
+      const data = await tokenExchangeAPI(code, codeVerifier);
 
       sessionStorage.removeItem("codeVerifier");
       sessionStorage.setItem("accessToken", data.accessToken);
@@ -28,11 +27,9 @@ export const useCallbackAuth = () => {
     } catch (err: any) {
       console.log(err);
     }
-    // eslint-disable-next-line
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
-    sendCodeBackend();
-    // eslint-disable-next-line
-  }, []);
+    sendDataTokenExchange();
+  }, [sendDataTokenExchange]);
 };

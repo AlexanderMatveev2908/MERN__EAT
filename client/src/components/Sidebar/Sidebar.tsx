@@ -9,9 +9,7 @@ type PropsType = {
 const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
   const sideRef = useRef<HTMLDivElement | null>(null);
 
-  useSidebar({ sideRef, setSideOpen });
-
-  const { handleLogin } = useSidebar({ sideRef, setSideOpen });
+  const { handleLogin, handleLogout } = useSidebar({ sideRef, setSideOpen });
 
   return (
     <>
@@ -37,7 +35,10 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
             Login
           </button>
 
-          <button className="txt__03 btn__pseudo el_with_after hover:text-orange-500">
+          <button
+            onClick={handleLogout}
+            className="txt__03 btn__pseudo el_with_after hover:text-orange-500"
+          >
             Logout
           </button>
         </div>
