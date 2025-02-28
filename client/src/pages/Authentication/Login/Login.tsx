@@ -14,7 +14,7 @@ const Login: FC = () => {
         <EmailField {...{ register, errors }} />
 
         <PasswordField {...{ register }}>
-          <div className="w-full grid grid-cols-1">
+          <div className="w-full grid grid-cols-1 gap-y-3">
             <PasswordChecker {...{ loginRegArr, watch }} />
 
             {/* <div className="w-full grid grid-cols-1">

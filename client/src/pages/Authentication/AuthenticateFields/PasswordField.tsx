@@ -15,7 +15,7 @@ const PasswordField: FC<PropsType> = ({ children, register }) => {
   return (
     <label className="grid grid-cols-1 gap-y-3 relative">
       <span className="txt__02">Password</span>
-      <div className="w-full relative">
+      <div className="w-full relative mb-5">
         <input
           type={isPwdVisible ? "text" : "password"}
           className="input_with_icon "
