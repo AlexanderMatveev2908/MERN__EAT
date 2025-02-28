@@ -1,29 +1,60 @@
 import mongoose, { Schema } from "mongoose";
 
-const UserSchema = new mongoose.Schema({
-  auth0UserId: {
-    type: String,
-    required: true,
-    unique: true,
+const UserSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    acceptedTerms: {
+      type: Boolean,
+      required: true,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      default: null,
+    },
+    expiryVerificationToken: {
+      type: Date,
+      default: null,
+    },
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
+    expiryResetPasswordToken: {
+      type: Date,
+      default: null,
+    },
+    hasSubscribedToNewsletter: {
+      type: Boolean,
+      default: false,
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  given_name: {
-    type: String,
-    required: true,
-  },
-  family_name: {
-    type: String,
-    required: true,
-  },
-  nickname: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 

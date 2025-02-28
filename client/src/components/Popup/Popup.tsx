@@ -33,7 +33,7 @@ const Popup: FC<PropsType> = ({
           onClick={() => setIsPopup?.(false)}
           className="w-fit h-fit justify-self-end flex justify-end -mt-3 -mr-2"
         >
-          <X className="w-[35px] h-[35px] sm:h-[40px] sm:w-[40px] text-red-600 btn__pseudo hover:scale-110" />
+          <X className="w-[35px] h-[35px] sm:h-[40px] sm:w-[40px] text-red-600 btn__pseudo hover:scale-120" />
         </div>
 
         <div className="w-full h-fit flex justify-center self-start mt-[5%]">
