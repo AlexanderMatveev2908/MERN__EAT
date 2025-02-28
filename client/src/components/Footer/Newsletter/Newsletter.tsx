@@ -16,7 +16,7 @@ const Newsletter: FC = () => {
           />
         </div>
 
-        <div className="w-full flex justify-start">
+        <div className="w-full max-w-[200px] md:max-w-[225px] flex justify-start">
           <ButtonAnimated {...{ label: "Subscribe" }} />
         </div>
       </form>
