@@ -15,8 +15,6 @@ const RangeInput: FC<PropsType> = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setVal(+e.target.value);
 
-  console.log(val);
-
   useRangeInput({ rangeRef });
 
   return (

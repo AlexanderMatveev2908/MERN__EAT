@@ -22,8 +22,6 @@ export const useCallbackAuth = () => {
       sessionStorage.setItem("accessToken", data.accessToken);
 
       navigate("/user-profile");
-
-      console.log(data);
     } catch (err: any) {
       console.log(err);
     }
