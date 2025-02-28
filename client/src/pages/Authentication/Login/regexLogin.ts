@@ -8,25 +8,29 @@ export const REG_SYMBOL = /(?=.*[\W_])/;
 export const loginRegArr = [
   {
     id: genID(),
-    msg: "Password must include an uppercase letter",
+    msgErr: "Password must include an uppercase letter",
+    msgGood: "Password includes an uppercase letter",
     reg: REG_UPPERCASE,
     label: "ABC...",
   },
   {
     id: genID(),
-    msg: "Password must include a lowercase letter",
+    msgErr: "Password must include a lowercase letter",
+    msgGood: "Password includes a lowercase letter",
     reg: REG_LOWERCASE,
     label: "abc...",
   },
   {
     id: genID(),
-    msg: "Password must include a number",
+    msgErr: "Password must include a number",
+    msgGood: "Password includes a number",
     reg: REG_NUMBER,
     label: "123...",
   },
   {
     id: genID(),
-    msg: "Password must include a symbol",
+    msgErr: "Password must include a symbol",
+    msgGood: "Password includes a symbol",
     reg: REG_SYMBOL,
     label: "!@#$...",
   },
