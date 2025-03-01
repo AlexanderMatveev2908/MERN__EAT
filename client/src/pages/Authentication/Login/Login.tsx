@@ -21,7 +21,12 @@ const Login: FC = () => {
             <EmailField {...{ register, errors }} />
 
             <PasswordField
-              {...{ register, errors, isPwdVisible, setIsPwdVisible }}
+              {...{
+                register,
+                errors,
+                isPwdVisible,
+                handleChangePwdVisibility: () => setIsPwdVisible(!isPwdVisible),
+              }}
             />
 
             <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">

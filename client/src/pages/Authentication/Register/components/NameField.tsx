@@ -3,10 +3,11 @@ import { FC } from "react";
 import { REG_NAME } from "../../../../constants/regex";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { CircleUser } from "lucide-react";
+import { RegisterFormType } from "../useRegisterCustom";
 
 type PropsType = {
   errors: FieldErrors;
-  register: UseFormRegister<any>;
+  register: UseFormRegister<RegisterFormType>;
   field: {
     id: string;
     label: string;
@@ -23,7 +24,7 @@ const NameField: FC<PropsType> = ({ register, errors, field }) => {
           type="email"
           className="input_with_icon "
           placeholder={`Your ${field.label}...`}
-          {...(register(field.field, {
+          {...(register(field.field as keyof RegisterFormType, {
             required: `${field.label} is required`,
             validate: (val: string) => {
               console.log(val);

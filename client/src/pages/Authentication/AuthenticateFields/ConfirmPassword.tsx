@@ -28,6 +28,7 @@ const ConfirmPassword: FC<PropsType> = ({
           className="input_with_icon "
           placeholder={`Your password...`}
           {...register("confirmPassword", {
+            required: "You need to confirm password",
             validate: (val: string) => {
               if (watch("password") !== val) return "Passwords do not match";
               return true;

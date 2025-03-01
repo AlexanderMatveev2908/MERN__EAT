@@ -1,11 +1,11 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useRegisterCustom } from "./useRegisterCustom";
 import EmailField from "../AuthenticateFields/EmailField";
 import ButtonAnimated from "../../../components/ButtonAnimated/ButtonAnimated";
 import PasswordField from "../AuthenticateFields/PasswordField";
 import SwitchForm from "../AuthenticateFields/SwitchForm";
-import PasswordChecker from "./components/PasswordChecker";
-import PasswordLength from "./components/PasswordLength";
+import PasswordChecker from "../AuthenticateFields/PasswordChecker";
+import PasswordLength from "../AuthenticateFields/PasswordLength";
 import ConfirmPassword from "../AuthenticateFields/ConfirmPassword";
 import {
   isValidPiecePwd,
@@ -14,6 +14,7 @@ import {
 } from "./registerFieldsArr";
 import NameField from "./components/NameField";
 import GeneratePwd from "../AuthenticateFields/GeneratePwd/GeneratePwd";
+import AcceptTerms from "./components/AcceptTerms";
 
 const Register: FC = () => {
   const {
@@ -77,6 +78,10 @@ const Register: FC = () => {
             />
 
             <GeneratePwd />
+
+            <AcceptTerms
+              {...{ register, errors, valTerms: watch("acceptedTerms") }}
+            />
 
             <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
               <ButtonAnimated
