@@ -4,6 +4,7 @@ import { useToast } from "../../hooks/useGlobal";
 export const useToastComponent = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [closeClicked, setCloseClicked] = useState<boolean>(false);
+  const toastRef = useRef<HTMLDivElement | null>(null);
 
   const { isToast, msg, type, closeToast } = useToast();
 
@@ -24,8 +25,19 @@ export const useToastComponent = () => {
     };
   }, [closeToast, isToast]);
 
+  useEffect(() => {
+    if (toastRef.current) {
+      toastRef.current.classList.remove("toast__container_after");
+
+      requestAnimationFrame(() =>
+        toastRef.current?.classList.add("toast__container_after")
+      );
+    }
+  }, [isToast]);
+
   return {
     isToast,
+    toastRef,
     msg,
     type,
     closeToast,

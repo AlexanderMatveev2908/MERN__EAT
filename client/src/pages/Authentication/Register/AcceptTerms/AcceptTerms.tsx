@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { RegisterFormType } from "../useRegisterCustom";
 
@@ -10,26 +10,39 @@ type PropsTYpe = {
 
 const AcceptTerms: FC<PropsTYpe> = ({ register, errors, valTerms }) => {
   const isInvalid = !!errors?.acceptedTerms?.message;
-  const checkRef = useRef<HTMLSpanElement | null>(null);
+  const checkRef = useRef<HTMLLabelElement | null>(null);
+  const [hasBeenClicked, setHasBeenClicked] = useState(false);
 
   useEffect(() => {
-    const handleCheck = () => {
-      if (!checkRef.current) return;
-      if (valTerms === undefined) return;
+    const handleCheck = (e: MouseEvent) => {
+      if (!checkRef.current || valTerms === undefined) return;
 
-      checkRef.current.classList.remove("register__checkbox");
+      if (checkRef.current?.contains(e.target as Node)) {
+        const squareCheck = document.getElementById("squareCheck");
 
-      requestAnimationFrame(() => {
-        checkRef.current?.classList.add("register__checkbox");
-      });
+        squareCheck?.classList.remove("register__checkbox");
+
+        requestAnimationFrame(() => {
+          squareCheck?.classList.add("register__checkbox");
+        });
+      }
     };
 
-    handleCheck();
-  }, [valTerms]);
+    document.addEventListener("click", handleCheck);
+
+    return () => {
+      document.removeEventListener("click", handleCheck);
+    };
+  }, [valTerms, hasBeenClicked]);
+
+  console.log(valTerms);
 
   return (
     <div className="w-full grid grid-cols-1 gap-2 ">
-      <label className="w-full flex gap-10 max-w-fit justify-start relative py-2 cursor-pointer items-center">
+      <label
+        ref={checkRef}
+        className="w-full flex gap-10 max-w-fit justify-start relative py-2 cursor-pointer items-center"
+      >
         <input
           type="checkbox"
           className="opacity-0"
@@ -38,10 +51,11 @@ const AcceptTerms: FC<PropsTYpe> = ({ register, errors, valTerms }) => {
           })}
         />
         <span
-          ref={checkRef}
+          id="squareCheck"
+          onClick={() => setHasBeenClicked(true)}
           className={`absolute top-1 left-0 border-[3px] rounded-xl w-[30px] sm:w-[35px] h-[30px] sm:h-[35px] cursor-pointer ${
             !valTerms
-              ? valTerms === undefined
+              ? valTerms === undefined || !hasBeenClicked
                 ? "border-white"
                 : "border-red-600"
               : "border-green-600"

@@ -23,7 +23,6 @@
 
 //       navigate("/user-profile");
 //     } catch (err: any) {
-//       console.log(err);
 //     }
 //   }, [navigate]);
 

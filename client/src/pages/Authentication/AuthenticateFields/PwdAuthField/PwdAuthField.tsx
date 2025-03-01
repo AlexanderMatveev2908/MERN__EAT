@@ -30,13 +30,12 @@ const PwdAuthField: FC<PropsType> = ({
     required: "Password is required",
     pattern: {
       value: REG_PWD,
-      message:
-        "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+      message: `Password must follow this pattern: ${/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/} 🧐`,
     },
     validate: (val: string) => {
       if (watch) {
         if (watch("email") === val)
-          return "Password and email can't be the same";
+          return "Password and email can't be the same 🥸";
       }
       return true;
     },
@@ -46,7 +45,7 @@ const PwdAuthField: FC<PropsType> = ({
     required: "You need to confirm password",
     validate: (val: string) => {
       if (watch) {
-        if (watch("password") !== val) return "Passwords do not match";
+        if (watch("password") !== val) return "Passwords do not match 🤔";
       }
       return true;
     },

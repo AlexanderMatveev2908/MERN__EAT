@@ -1,10 +1,5 @@
-import { FC, useEffect } from "react";
-import {
-  Navigate,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { FC } from "react";
+import { Navigate, useLocation, useSearchParams } from "react-router-dom";
 import { emailField } from "../AuthenticateFields/BasicAuthField/basicAuthFieldsArr";
 import { useSendEmail } from "./useSendEmail";
 import BasicAuthField from "../AuthenticateFields/BasicAuthField/BasicAuthField";
@@ -16,7 +11,6 @@ import {
 
 const SendEmail: FC = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const from = location?.state?.from;

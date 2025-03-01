@@ -7,6 +7,8 @@ import Register from "./pages/Authentication/Register/Register";
 import SendEmail from "./pages/Authentication/SendEmail/SendEmail";
 import Verify from "./pages/Authentication/Verify/Verify";
 import RecoverPwd from "./pages/Authentication/RecoverPwd/RecoverPwd";
+import LayoutNonLoggedUserRoute from "./layouts/layoutNonLoggedUser/LayoutNonLoggedUserRoute";
+import NoticeEmail from "./pages/NoticeEmail/NoticeEmail";
 // import CallbackAuth from "./pages/CallbackAuth/CallbackAuth";
 
 const App: FC = () => {
@@ -17,13 +19,17 @@ const App: FC = () => {
 
         {/* <Route path="callback" element={<CallbackAuth />} /> */}
 
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
+        <Route path="auth" element={<LayoutNonLoggedUserRoute />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
 
-        <Route path="send-email" element={<SendEmail />} />
-        <Route path="verify" element={<Verify />} />
+          <Route path="send-email" element={<SendEmail />} />
+          <Route path="verify" element={<Verify />} />
 
-        <Route path="recover-pwd" element={<RecoverPwd />} />
+          <Route path="recover-pwd" element={<RecoverPwd />} />
+        </Route>
+
+        <Route path="notice-email" element={<NoticeEmail />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

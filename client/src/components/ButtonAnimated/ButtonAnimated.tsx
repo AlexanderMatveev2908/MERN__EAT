@@ -3,7 +3,6 @@ import { FC } from "react";
 import { Beef, Cookie, Fish, Ham, IceCreamCone, Pizza } from "lucide-react";
 
 type PropsType = {
-  isLoading?: boolean;
   isDisabled?: boolean;
   label?: string;
   type?: "button" | "submit" | "reset";
@@ -12,7 +11,6 @@ type PropsType = {
 };
 
 const ButtonAnimated: FC<PropsType> = ({
-  isLoading,
   isDisabled,
   label,
   type = "button",
@@ -23,7 +21,7 @@ const ButtonAnimated: FC<PropsType> = ({
     <button
       onClick={handleClick}
       type={type}
-      disabled={isDisabled || isLoading}
+      disabled={isDisabled}
       className="btn_container"
     >
       <div className="btn_container__content">

@@ -16,7 +16,7 @@ const SwitchForm: FC<PropsType> = ({ type }) => {
         type="button"
         onClick={() =>
           navigate(
-            `/send-email?type=${
+            `/auth/send-email?type=${
               type === "login" ? "recover-pwd" : "verify-account"
             }`,
             { state: { from: location.pathname } }
@@ -38,7 +38,7 @@ const SwitchForm: FC<PropsType> = ({ type }) => {
       </button>
 
       <Link
-        to={type === "login" ? "/register" : "/login"}
+        to={type === "login" ? "/auth/register" : "/auth/login"}
         className="w-full flex items-center gap-3 group el_with_after sm:justify-self-end"
       >
         {switchFormRightArr.map(

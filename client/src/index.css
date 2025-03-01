@@ -348,7 +348,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 .toast__container_after::after {
-  @apply absolute h-[6px] w-full bottom-0 left-0 content-[""];
+  @apply absolute h-[7px] w-full bottom-0 left-0 content-[""];
   background: var(--toast-color);
 }
 
@@ -363,7 +363,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 /* SPINNER BTN */
 
 .spinner_tbn__el {
-  @apply h-[30px] w-[30px] rounded-full bg-[#f97316];
+  @apply h-[20px] sm:h-[25px] w-[25px] sm:w-[30px] lg:w-[35px] lg:h-[35px] rounded-full bg-[#f97316];
   box-shadow: 0 0 10px #f97316, 0 0 15px #f97316;
 }
 
