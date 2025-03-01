@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { useChangeVisibilityPwd } from "../AuthenticateFields/authHooks/useChangeVisibilityPwd";
+import { useChangeVisibilityPwd } from "../../../hooks/useChangeVisibilityPwd";
 import { useScrollTop } from "../../../hooks/useScrollTop";
 
 type ChangePwdFormType = {

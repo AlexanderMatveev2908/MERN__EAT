@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { useScrollTop } from "../../../hooks/useScrollTop";
 import { useEffect, useState } from "react";
-import { useChangeVisibilityPwd } from "./../AuthenticateFields/authHooks/useChangeVisibilityPwd";
+import { useChangeVisibilityPwd } from "../../../hooks/useChangeVisibilityPwd";
 import { useMutation } from "@tanstack/react-query";
 import { registerUserAPI } from "../../../api/auth/authAPI";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -68,7 +68,7 @@ export const useRegisterCustom = () => {
       });
     },
     onError: (err: any) => {
-      showToastMsg(err.response.data.msg || err.message, "ERROR");
+      showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
     },
   });
 

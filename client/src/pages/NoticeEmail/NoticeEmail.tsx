@@ -1,25 +1,12 @@
 import { CircleCheckBig } from "lucide-react";
 import { FC } from "react";
-import { Navigate, useLocation, useSearchParams } from "react-router-dom";
-import {
-  noticeEmailAllowedFrom,
-  noticeEmailAllowedType,
-} from "./noticeEmailFieldsArr";
-import { useScrollTop } from "../../hooks/useScrollTop";
+import { Navigate } from "react-router-dom";
+import { useNoticeEmail } from "./useNoticeEmail";
 
 const NoticeEmail: FC = () => {
-  const [searchParams] = useSearchParams();
-  const location = useLocation();
+  const { canStay } = useNoticeEmail();
 
-  const type = searchParams.get("type");
-  const from = location?.state?.from;
-  const hasBeenSentEmail = sessionStorage.getItem("sentEmail");
-
-  useScrollTop();
-
-  return !noticeEmailAllowedType.includes(type ?? "") ||
-    !noticeEmailAllowedFrom.includes(from) ||
-    !hasBeenSentEmail ? (
+  return !canStay ? (
     <Navigate to="/" replace />
   ) : (
     <div className="w-full flex flex-col items-center gap-y-14">
