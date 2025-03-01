@@ -6,19 +6,25 @@ import PasswordField from "../AuthenticateFields/PasswordField";
 import SwitchForm from "../AuthenticateFields/SwitchForm";
 import PasswordChecker from "./components/PasswordChecker";
 import PasswordLength from "./components/PasswordLength";
-import ConfirmPassword from "./components/ConfirmPassword";
+import ConfirmPassword from "../AuthenticateFields/ConfirmPassword";
 import {
   isValidPiecePwd,
   loginNameFieldsArr,
   registerRegArr,
 } from "./registerFieldsArr";
 import NameField from "./components/NameField";
+import GeneratePwd from "../AuthenticateFields/GeneratePwd/GeneratePwd";
 
 const Register: FC = () => {
-  const { register, errors, watch } = useRegisterCustom();
-
-  const [isPwdVisible, setIsPwdVisible] = useState(false);
-  const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
+  const {
+    register,
+    errors,
+    watch,
+    isPwdVisible,
+    isConfirmPwdVisible,
+    handleChangePwdVisibility,
+    handleChangeConfirmPwdVisibility,
+  } = useRegisterCustom();
 
   return (
     <div className="w-full grid grid-cols-1 gap-y-10 items-center">
@@ -41,12 +47,11 @@ const Register: FC = () => {
                 errors,
                 watch,
                 isPwdVisible,
-                setIsPwdVisible,
-                isConfirmPwdVisible,
+                handleChangePwdVisibility,
               }}
             />
 
-            {!!Object.keys(errors ?? {})?.length && (
+            {!!Object.keys(errors?.password ?? {})?.length && (
               <div className="w-full grid grid-cols-2 gap-5 sm:grid-cols-4">
                 {registerRegArr.map((field) => (
                   <PasswordChecker
@@ -67,11 +72,11 @@ const Register: FC = () => {
                 watch,
                 register,
                 isConfirmPwdVisible,
-                setIsConfirmPwdVisible,
-                setIsPwdVisible,
-                isPwdVisible,
+                handleChangeConfirmPwdVisibility,
               }}
             />
+
+            <GeneratePwd />
 
             <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
               <ButtonAnimated

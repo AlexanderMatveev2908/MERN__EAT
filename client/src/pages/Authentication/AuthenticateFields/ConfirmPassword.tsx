@@ -2,16 +2,14 @@ import { FC } from "react";
 import { Eye } from "lucide-react";
 import { EyeOff } from "lucide-react";
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
-import { RegisterFormType } from "../useRegisterCustom";
+import { RegisterFormType } from "../Register/useRegisterCustom";
 
 type PropsType = {
   register: UseFormRegister<RegisterFormType>;
   errors: FieldErrors;
   watch: UseFormWatch<RegisterFormType>;
   isConfirmPwdVisible: boolean;
-  setIsConfirmPwdVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsPwdVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  isPwdVisible: boolean;
+  handleChangeConfirmPwdVisibility: () => void;
 };
 
 const ConfirmPassword: FC<PropsType> = ({
@@ -19,9 +17,7 @@ const ConfirmPassword: FC<PropsType> = ({
   errors,
   watch,
   isConfirmPwdVisible,
-  setIsConfirmPwdVisible,
-  setIsPwdVisible,
-  isPwdVisible,
+  handleChangeConfirmPwdVisibility,
 }) => {
   return (
     <label className="grid grid-cols-1 gap-y-3 relative">
@@ -32,18 +28,14 @@ const ConfirmPassword: FC<PropsType> = ({
           className="input_with_icon "
           placeholder={`Your password...`}
           {...register("confirmPassword", {
-            required: "You need to confirm password fo security",
             validate: (val: string) => {
-              console.log(val);
               if (watch("password") !== val) return "Passwords do not match";
+              return true;
             },
           })}
         />
         <span
-          onClick={() => {
-            setIsPwdVisible(false);
-            setIsConfirmPwdVisible(!isConfirmPwdVisible);
-          }}
+          onClick={() => handleChangeConfirmPwdVisibility()}
           className="w-fit flex justify-center items-center"
         >
           {isConfirmPwdVisible ? (

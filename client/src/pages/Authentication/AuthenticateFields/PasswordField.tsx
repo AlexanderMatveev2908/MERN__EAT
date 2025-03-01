@@ -9,9 +9,8 @@ type PropsType = {
   register: any;
   watch?: UseFormWatch<any>;
   isPwdVisible?: boolean;
-  setIsPwdVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsConfirmPwdVisible?: React.Dispatch<React.SetStateAction<boolean>>;
-  isConfirmPwdVisible?: boolean;
+  setIsPwdVisible?: React.Dispatch<React.SetStateAction<boolean>>;
+  handleChangePwdVisibility?: () => void;
 };
 
 const PasswordField: FC<PropsType> = ({
@@ -20,11 +19,8 @@ const PasswordField: FC<PropsType> = ({
   watch,
   isPwdVisible,
   setIsPwdVisible,
-  setIsConfirmPwdVisible,
-  isConfirmPwdVisible,
+  handleChangePwdVisibility,
 }) => {
-  console.log(isPwdVisible);
-  console.log(isConfirmPwdVisible);
   return (
     <label className="grid grid-cols-1 gap-y-3 relative">
       <span className="txt__02">Password</span>
@@ -45,14 +41,16 @@ const PasswordField: FC<PropsType> = ({
                 if (watch("email") === val)
                   return "Password and email can't be the same";
               }
+              return true;
             },
           })}
         />
         <span
-          onClick={() => {
-            setIsConfirmPwdVisible?.(false);
-            setIsPwdVisible(!isPwdVisible);
-          }}
+          onClick={() =>
+            handleChangePwdVisibility
+              ? handleChangePwdVisibility()
+              : setIsPwdVisible?.(!isPwdVisible)
+          }
           className="w-fit flex justify-center items-center"
         >
           {isPwdVisible ? (
