@@ -1,7 +1,7 @@
 import { FC } from "react";
-import ButtonAnimated from "../../../components/ButtonAnimated/ButtonAnimated";
+import { useRecoverPwd } from "./useRecoverPwd";
+import ButtonAnimated from "./../../../components/ButtonAnimated/ButtonAnimated";
 import PwdAuthField from "../AuthenticateFields/PwdAuthField/PwdAuthField";
-import { useChangePwd } from "./useChangePwd";
 import {
   confirmPwdField,
   pwdField,
@@ -10,7 +10,7 @@ import PasswordChecker from "../AuthenticateFields/PasswordChecker/PasswordCheck
 import PasswordLength from "../AuthenticateFields/PasswordLength";
 import GeneratePwd from "../AuthenticateFields/GeneratePwd/GeneratePwd";
 
-const ChangePwd: FC = () => {
+const RecoverPwd: FC = () => {
   const {
     register,
     errors,
@@ -19,12 +19,12 @@ const ChangePwd: FC = () => {
     isConfirmPwdVisible,
     handleChangePwdVisibility,
     handleChangeConfirmPwdVisibility,
-  } = useChangePwd();
+  } = useRecoverPwd();
 
   return (
     <div className="w-full grid grid-cols-1 gap-y-10 items-center">
       <div className="w-full flex justify-center">
-        <span className="txt__04">Change Password</span>
+        <span className="txt__04">Recover Password</span>
       </div>
 
       <div className="w-full justify-self-center max-w-[600px] grid grid-cols-1 border-2 border-orange-500 rounded-xl p-10">
@@ -73,4 +73,4 @@ const ChangePwd: FC = () => {
     </div>
   );
 };
-export default ChangePwd;
+export default RecoverPwd;
