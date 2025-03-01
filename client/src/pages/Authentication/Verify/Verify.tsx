@@ -1,6 +1,6 @@
-import { FC, useEffect } from "react";
-import Spinner from "../../../components/Spinner/Spinner";
+import { FC } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Spinner from "../../../components/Spinner/Spinner";
 
 const Verify: FC = () => {
   const navigate = useNavigate();

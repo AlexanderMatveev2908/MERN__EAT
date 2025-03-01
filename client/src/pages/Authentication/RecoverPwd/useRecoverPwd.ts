@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
-import { useScrollTop } from "../../../hooks/useScrollTop";
 import { useEffect, useState } from "react";
 import { useChangeVisibilityPwd } from "../AuthenticateFields/authHooks/useChangeVisibilityPwd";
+import { useScrollTop } from "../../../hooks/useScrollTop";
 
 type ChangePwdFormType = {
   password: string;
   confirmPassword: string;
 };
 
-export const useChangePwd = () => {
+export const useRecoverPwd = () => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
 
