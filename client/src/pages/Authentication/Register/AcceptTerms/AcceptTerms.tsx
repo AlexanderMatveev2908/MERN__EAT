@@ -15,6 +15,7 @@ const AcceptTerms: FC<PropsTYpe> = ({ register, errors, valTerms }) => {
   useEffect(() => {
     const handleCheck = () => {
       if (!checkRef.current) return;
+      if (valTerms === undefined) return;
 
       checkRef.current.classList.remove("register__checkbox");
 
