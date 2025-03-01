@@ -143,19 +143,38 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 @keyframes explode_btn {
   0% {
     opacity: 0;
-    transform: translateY(-150%) scale(0);
+    transform: scale(0);
   }
   40% {
     opacity: 1;
-    transform: translateY(-150%) scale(1.5);
+    transform: scale(1.5);
   }
   80% {
     opacity: 1;
-    transform: translateY(-150%) scale(1);
+    transform: scale(1);
   }
   100% {
     opacity: 1;
-    transform: translateY(-150%) scale(1);
+    transform: scale(1);
+  }
+}
+
+.checkbox_animate {
+  animation: checky 0.5s ease;
+}
+
+@keyframes checky {
+  0% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.5, 0.75);
+  }
+  60% {
+    transform: scale(0.75, 1.5);
+  }
+  100% {
+    transform: scale(1, 1);
   }
 }
 
@@ -291,7 +310,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 .tooltip {
-  @apply absolute text-sm lg:text-base px-4 py-1 top-3/4 left-1/2 border-2 border-orange-500 rounded-xl w-full whitespace-nowrap bg-[#111] md:group-hover:-translate-y-[150%] md:group-hover:opacity-100 pointer-events-none md:opacity-0 z-10;
+  @apply absolute text-sm lg:text-base px-4 py-1 -top-1/2 left-1/2 border-2 border-orange-500 rounded-xl w-full whitespace-nowrap bg-[#111] pointer-events-none z-10;
 }
 
 /* el after */

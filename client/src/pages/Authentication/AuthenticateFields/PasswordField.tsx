@@ -9,7 +9,6 @@ type PropsType = {
   register: any;
   watch?: UseFormWatch<any>;
   isPwdVisible?: boolean;
-  setIsPwdVisible?: React.Dispatch<React.SetStateAction<boolean>>;
   handleChangePwdVisibility?: () => void;
 };
 
@@ -18,7 +17,6 @@ const PasswordField: FC<PropsType> = ({
   errors,
   watch,
   isPwdVisible,
-  setIsPwdVisible,
   handleChangePwdVisibility,
 }) => {
   return (
@@ -46,11 +44,7 @@ const PasswordField: FC<PropsType> = ({
           })}
         />
         <span
-          onClick={() =>
-            handleChangePwdVisibility
-              ? handleChangePwdVisibility()
-              : setIsPwdVisible?.(!isPwdVisible)
-          }
+          onClick={handleChangePwdVisibility}
           className="w-fit flex justify-center items-center"
         >
           {isPwdVisible ? (

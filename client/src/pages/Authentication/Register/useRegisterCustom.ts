@@ -8,6 +8,7 @@ export type RegisterFormType = {
   email: string;
   password: string;
   confirmPassword: string;
+  acceptedTerms: boolean;
 };
 
 export const useRegisterCustom = () => {
