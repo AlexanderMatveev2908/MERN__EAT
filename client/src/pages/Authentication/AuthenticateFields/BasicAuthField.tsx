@@ -1,39 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { REG_NAME } from "../../../../constants/regex";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { CircleUser } from "lucide-react";
-import { RegisterFormType } from "../useRegisterCustom";
 
 type PropsType = {
+  register: UseFormRegister<any>;
   errors: FieldErrors;
-  register: UseFormRegister<RegisterFormType>;
   field: {
-    id: string;
     label: string;
     field: string;
+    msg: string;
+    reg: RegExp;
+    svg: any;
+    type: string;
   };
 };
 
-const NameField: FC<PropsType> = ({ register, errors, field }) => {
+const BasicAuthField: FC<PropsType> = ({ register, errors, field }) => {
   return (
     <label className="grid grid-cols-1 gap-y-3">
       <span className="txt__02">{field.label}</span>
       <div className="w-full relative">
         <input
-          type="email"
+          type={field.type}
           className="input_with_icon "
           placeholder={`Your ${field.label}...`}
-          {...(register(field.field as keyof RegisterFormType, {
+          {...(register(field.field, {
             required: `${field.label} is required`,
             validate: (val: string) => {
-              console.log(val);
-              if (!val || !REG_NAME.test(val))
-                return `${field.label} can contain only letters and must start with uppercase char`;
+              if (!val || !field.reg.test(val)) return field.msg;
             },
           }) as any)}
         />
-        <CircleUser className="icon_input" />
+        <field.svg className="icon_input" />
       </div>
       {errors?.[field.field]?.message && (
         <span className="txt__00 text-red-600">
@@ -43,4 +41,4 @@ const NameField: FC<PropsType> = ({ register, errors, field }) => {
     </label>
   );
 };
-export default NameField;
+export default BasicAuthField;

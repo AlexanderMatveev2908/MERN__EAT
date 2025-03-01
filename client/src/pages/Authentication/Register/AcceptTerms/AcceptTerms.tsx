@@ -16,10 +16,10 @@ const AcceptTerms: FC<PropsTYpe> = ({ register, errors, valTerms }) => {
     const handleCheck = () => {
       if (!checkRef.current) return;
 
-      checkRef.current.classList.remove("checkbox_animate");
+      checkRef.current.classList.remove("register__checkbox");
 
       requestAnimationFrame(() => {
-        checkRef.current?.classList.add("checkbox_animate");
+        checkRef.current?.classList.add("register__checkbox");
       });
     };
 

@@ -1,9 +1,11 @@
 import { FC, useState } from "react";
 import { useLoginCustom } from "./useLoginCustom";
-import EmailField from "../AuthenticateFields/EmailField";
-import PasswordField from "../AuthenticateFields/PasswordField";
 import ButtonAnimated from "../../../components/ButtonAnimated/ButtonAnimated";
 import SwitchForm from "../AuthenticateFields/SwitchForm";
+import BasicAuthField from "../AuthenticateFields/BasicAuthField";
+import { loginEmail } from "./loginFields";
+import PwdAuthField from "../AuthenticateFields/PwdAuthField/PwdAuthField";
+import { pwdField } from "../AuthenticateFields/PwdAuthField/pwdAuthFieldsArr";
 
 const Login: FC = () => {
   const { register, errors } = useLoginCustom();
@@ -18,14 +20,16 @@ const Login: FC = () => {
       <div className="w-full justify-self-center max-w-[600px] grid grid-cols-1 border-2 border-orange-500 rounded-xl p-10">
         <div className="w-full grid grid-cols-1">
           <form className="grid grid-cols-1 w-full gap-y-8">
-            <EmailField {...{ register, errors }} />
+            {/* <EmailField {...{ register, errors }} /> */}
+            <BasicAuthField {...{ register, errors, field: loginEmail }} />
 
-            <PasswordField
+            <PwdAuthField
               {...{
                 register,
                 errors,
-                isPwdVisible,
-                handleChangePwdVisibility: () => setIsPwdVisible(!isPwdVisible),
+                isVisible: isPwdVisible,
+                handleChangeVisibility: () => setIsPwdVisible(!isPwdVisible),
+                field: pwdField,
               }}
             />
 
