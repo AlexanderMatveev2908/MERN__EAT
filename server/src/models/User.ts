@@ -1,5 +1,22 @@
 import mongoose, { Schema } from "mongoose";
 
+export type UserType = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  acceptedTerms: boolean;
+  isVerified: boolean;
+  verifyAccountToken: string | null;
+  expiryVerifyAccountToken: Date | null;
+  recoverPasswordToken: string | null;
+  expiryRecoverPasswordToken: Date | null;
+  hasSubscribedToNewsletter: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 const UserSchema = new mongoose.Schema(
   {
     firstName: {
@@ -27,19 +44,19 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    verificationToken: {
+    verifyAccountToken: {
       type: String,
       default: null,
     },
-    expiryVerificationToken: {
+    expiryVerifyAccountToken: {
       type: Date,
       default: null,
     },
-    resetPasswordToken: {
+    recoverPasswordToken: {
       type: String,
       default: null,
     },
-    expiryResetPasswordToken: {
+    expiryRecoverPasswordToken: {
       type: Date,
       default: null,
     },

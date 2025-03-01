@@ -7,15 +7,26 @@ type PropsType = {
   children: ReactNode | ReactNode[];
 };
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+    mutations: {
+      retry: false,
+    },
+  },
+});
 
 const GlobalProvider: FC<PropsType> = ({ children }): ReactElement => {
+  const {
+    toastState: { showToastMsg, ...restVals },
+  } = useRootVals();
+
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalContext.Provider
-        value={{
-          ...useRootVals(),
-        }}
+        value={{ toastState: { ...restVals, showToastMsg } }}
       >
         {children}
       </GlobalContext.Provider>

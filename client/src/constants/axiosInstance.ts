@@ -42,7 +42,6 @@ foodAppInstance.interceptors.request.use(
 
 //         return foodAppInstance(originalReq);
 //       } catch (err: any) {
-//         console.log(err);
 //         localStorage.removeItem("accessToken");
 
 //         return Promise.reject(err);

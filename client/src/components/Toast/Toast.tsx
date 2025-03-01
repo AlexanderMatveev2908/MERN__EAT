@@ -3,8 +3,15 @@ import { CircleCheck, CircleX, X } from "lucide-react";
 import { useToastComponent } from "./useToastComponent";
 
 const Toast: FC = () => {
-  const { isToast, msg, type, closeToast, closeClicked, setCloseClicked } =
-    useToastComponent();
+  const {
+    isToast,
+    msg,
+    type,
+    closeToast,
+    closeClicked,
+    setCloseClicked,
+    toastRef,
+  } = useToastComponent();
 
   return (
     <div
@@ -22,10 +29,9 @@ const Toast: FC = () => {
       `}
     >
       <div
+        ref={toastRef}
         className={`w-full grid grid-cols-[75px_1fr] relative min-h-full rounded-xl border-l-[8px]  ${
-          type === "SUCCESS"
-            ? "border-green-600 toast__container_after"
-            : "border-red-600"
+          type === "SUCCESS" ? "border-green-600" : "border-red-600"
         }`}
         style={
           {

@@ -2,7 +2,7 @@ import { FC } from "react";
 
 const SpinnerBtn: FC = () => {
   return (
-    <div className="w-full spinner_btn flex gap-4">
+    <div className="w-full spinner_btn flex justify-center gap-4">
       {Array.from({ length: 4 }).map((_, i) => (
         <span
           key={i}

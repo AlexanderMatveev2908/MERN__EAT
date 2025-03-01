@@ -10,7 +10,7 @@ export const errMiddleware = (
 
   return res.status(err.status || 500).json({
     success: false,
-    message: err.message || "Internal Server Error",
+    msg: "Oops! Our server decided to take a coffee break ☕. Try again later!",
   });
 };
 

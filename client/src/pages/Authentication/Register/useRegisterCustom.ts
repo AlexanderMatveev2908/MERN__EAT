@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { useScrollTop } from "../../../hooks/useScrollTop";
 import { useEffect, useState } from "react";
 import { useChangeVisibilityPwd } from "./../AuthenticateFields/authHooks/useChangeVisibilityPwd";
+import { useMutation } from "@tanstack/react-query";
+import { registerUserAPI } from "../../../api/auth/authAPI";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useToast } from "../../../hooks/useGlobal";
 
 export type RegisterFormType = {
   firstName: string;
@@ -16,6 +21,9 @@ export const useRegisterCustom = () => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { handleChangePwdVisibility, handleChangeConfirmPwdVisibility } =
     useChangeVisibilityPwd({
       isPwdVisible,
@@ -23,6 +31,8 @@ export const useRegisterCustom = () => {
       isConfirmPwdVisible,
       setIsConfirmPwdVisible,
     });
+
+  const { showToastMsg } = useToast();
 
   useScrollTop();
 
@@ -46,6 +56,28 @@ export const useRegisterCustom = () => {
     if (pwd) trigger("confirmPassword");
   }, [pwd, trigger]);
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (registerVals: Omit<RegisterFormType, "confirmPassword">) =>
+      registerUserAPI(registerVals),
+    onSuccess: () => {
+      reset();
+      sessionStorage.setItem("sentEmail", "true");
+      showToastMsg("Account created successfully", "SUCCESS");
+      navigate("/notice-email?type=verify-account", {
+        state: { from: location.pathname },
+      });
+    },
+    onError: (err: any) => {
+      showToastMsg(err.response.data.msg || err.message, "ERROR");
+    },
+  });
+
+  const handleRegister = handleSubmit((formData: RegisterFormType) => {
+    // eslint-disable-next-line
+    const { confirmPassword, ...registerVals } = formData;
+    mutate(registerVals);
+  });
+
   return {
     register,
     errors,
@@ -55,5 +87,7 @@ export const useRegisterCustom = () => {
     isConfirmPwdVisible,
     handleChangePwdVisibility,
     handleChangeConfirmPwdVisibility,
+    isPending,
+    handleRegister,
   };
 };

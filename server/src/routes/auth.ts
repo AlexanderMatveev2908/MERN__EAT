@@ -1,17 +1,20 @@
-// import express from "express";
-// import { asyncWrapper } from "../middleware/general/asyncWrapper";
-// import {
-//   exchangeToken,
-//   getRefreshToken,
-//   logoutUser,
-// } from "../controllers/authControllers";
+import express from "express";
+import { validatorRegister } from "../middleware/auth/validateRegister";
+import { asyncWrapper } from "../middleware/general/asyncWrapper";
+import { registerUser } from "../controllers/authControllers";
 
-// const router = express();
+const router = express();
 
-// router.post("/exchange-token", asyncWrapper(exchangeToken));
+router.post("/register", validatorRegister, asyncWrapper(registerUser));
+router.post("/login");
+router.post("/logout");
 
-// router.post("/logout", asyncWrapper(logoutUser));
+router.post("/verify");
 
-// router.get("/refresh-token", asyncWrapper(getRefreshToken));
+router.post("/recover-pwd");
 
-// export default router;
+router.post("/refresh");
+
+router.get("/user");
+
+export default router;

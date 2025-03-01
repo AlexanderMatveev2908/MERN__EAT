@@ -53,7 +53,6 @@ export const useSidebar = ({
 //     );
 //   },
 //   onError: (error) => {
-//     console.log(error);
 //   },
 // });
 

@@ -16,6 +16,7 @@ import {
   emailField,
   nameFieldsArr,
 } from "../AuthenticateFields/BasicAuthField/basicAuthFieldsArr";
+import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
 
 const Register: FC = () => {
   const {
@@ -26,6 +27,8 @@ const Register: FC = () => {
     isConfirmPwdVisible,
     handleChangePwdVisibility,
     handleChangeConfirmPwdVisibility,
+    isPending,
+    handleRegister,
   } = useRegisterCustom();
 
   return (
@@ -36,7 +39,10 @@ const Register: FC = () => {
 
       <div className="w-full justify-self-center max-w-[600px] grid grid-cols-1 border-2 border-orange-500 rounded-xl p-10">
         <div className="w-full grid grid-cols-1">
-          <form className="grid grid-cols-1 w-full gap-y-8">
+          <form
+            onSubmit={handleRegister}
+            className="grid grid-cols-1 w-full gap-y-8"
+          >
             {[...nameFieldsArr, emailField].map((field) => (
               <BasicAuthField key={field.id} {...{ register, errors, field }} />
             ))}
@@ -76,11 +82,21 @@ const Register: FC = () => {
               {...{ register, errors, valTerms: watch("acceptedTerms") }}
             />
 
-            <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
-              <ButtonAnimated
-                {...{ styleTxt: "txt__02 z-40 relative", label: "Register" }}
-              />
-            </div>
+            {isPending ? (
+              <div className="w-full flex justify-center">
+                <SpinnerBtn />
+              </div>
+            ) : (
+              <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
+                <ButtonAnimated
+                  {...{
+                    styleTxt: "txt__02 z-40 relative",
+                    label: "Register",
+                    type: "submit",
+                  }}
+                />
+              </div>
+            )}
 
             <div className="w-full">
               <SwitchForm {...{ type: "register" }} />

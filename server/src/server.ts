@@ -4,16 +4,28 @@ import { connectDB } from "./config/db";
 import { corsMiddleware } from "./middleware/general/corsMiddleware";
 import cookieParser from "cookie-parser";
 import { errMiddleware } from "./middleware/general/errMiddleware";
+// @ts-ignore
+import xss from "xss-clean";
+import mongoSanitize from "express-mongo-sanitize";
+import helmet from "helmet";
+import authRouter from "./routes/auth";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
 
-app.use(corsMiddleware);
 app.set("trust proxy", 1);
 
+app.use(helmet());
+app.use(xss());
+app.use(mongoSanitize());
+
+app.use(corsMiddleware);
+
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.json());
+
+app.use("/api/v1/auth", authRouter);
 
 // app.use("/api/v1/auth", authRouter);
 
