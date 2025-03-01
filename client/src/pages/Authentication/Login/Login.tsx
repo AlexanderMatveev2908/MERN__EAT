@@ -2,10 +2,10 @@ import { FC, useState } from "react";
 import { useLoginCustom } from "./useLoginCustom";
 import ButtonAnimated from "../../../components/ButtonAnimated/ButtonAnimated";
 import SwitchForm from "../AuthenticateFields/SwitchForm";
-import BasicAuthField from "../AuthenticateFields/BasicAuthField";
-import { loginEmail } from "./loginFields";
+import BasicAuthField from "../AuthenticateFields/BasicAuthField/BasicAuthField";
 import PwdAuthField from "../AuthenticateFields/PwdAuthField/PwdAuthField";
 import { pwdField } from "../AuthenticateFields/PwdAuthField/pwdAuthFieldsArr";
+import { emailField } from "../AuthenticateFields/BasicAuthField/basicAuthFieldsArr";
 
 const Login: FC = () => {
   const { register, errors } = useLoginCustom();
@@ -21,7 +21,7 @@ const Login: FC = () => {
         <div className="w-full grid grid-cols-1">
           <form className="grid grid-cols-1 w-full gap-y-8">
             {/* <EmailField {...{ register, errors }} /> */}
-            <BasicAuthField {...{ register, errors, field: loginEmail }} />
+            <BasicAuthField {...{ register, errors, field: emailField }} />
 
             <PwdAuthField
               {...{
