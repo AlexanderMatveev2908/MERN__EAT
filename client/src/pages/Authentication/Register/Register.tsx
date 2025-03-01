@@ -4,10 +4,9 @@ import ButtonAnimated from "../../../components/ButtonAnimated/ButtonAnimated";
 import SwitchForm from "../AuthenticateFields/SwitchForm";
 import PasswordChecker from "../AuthenticateFields/PasswordChecker/PasswordChecker";
 import PasswordLength from "../AuthenticateFields/PasswordLength";
-import { registerFieldsArr } from "./registerFieldsArr";
 import GeneratePwd from "../AuthenticateFields/GeneratePwd/GeneratePwd";
 import AcceptTerms from "./AcceptTerms/AcceptTerms";
-import BasicAuthField from "../AuthenticateFields/BasicAuthField";
+import BasicAuthField from "../AuthenticateFields/BasicAuthField/BasicAuthField";
 import {
   isValidPiecePwd,
   passwordCheckerFieldsArr,
@@ -17,6 +16,10 @@ import {
   confirmPwdField,
   pwdField,
 } from "../AuthenticateFields/PwdAuthField/pwdAuthFieldsArr";
+import {
+  emailField,
+  nameFieldsArr,
+} from "../AuthenticateFields/BasicAuthField/basicAuthFieldsArr";
 
 const Register: FC = () => {
   const {
@@ -38,7 +41,7 @@ const Register: FC = () => {
       <div className="w-full justify-self-center max-w-[600px] grid grid-cols-1 border-2 border-orange-500 rounded-xl p-10">
         <div className="w-full grid grid-cols-1">
           <form className="grid grid-cols-1 w-full gap-y-8">
-            {registerFieldsArr.map((field) => (
+            {[...nameFieldsArr, emailField].map((field) => (
               <BasicAuthField key={field.id} {...{ register, errors, field }} />
             ))}
 

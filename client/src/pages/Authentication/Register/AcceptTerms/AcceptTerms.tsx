@@ -47,7 +47,7 @@ const AcceptTerms: FC<PropsTYpe> = ({ register, errors, valTerms }) => {
           }`}
         ></span>
         <span
-          className={`absolute content-[""] -top-2 sm:-top-3 left-4 w-3 sm:w-4 h-8 sm:h-10 border-r-4 border-b-4 rotate-45 border-green-600 transition-all duration-300 cursor-pointer ${
+          className={`absolute delay-75 -top-2 sm:-top-3 left-4 w-3 sm:w-4 h-8 sm:h-10 border-r-4 border-b-4 rotate-45 border-green-600 transition-all duration-300 cursor-pointer ${
             !valTerms ? "scale-0" : "scale-100"
           }`}
         ></span>
