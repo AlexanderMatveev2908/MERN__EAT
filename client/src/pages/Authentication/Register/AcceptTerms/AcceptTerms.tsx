@@ -35,8 +35,6 @@ const AcceptTerms: FC<PropsTYpe> = ({ register, errors, valTerms }) => {
     };
   }, [valTerms, hasBeenClicked]);
 
-  console.log(valTerms);
-
   return (
     <div className="w-full grid grid-cols-1 gap-2 ">
       <label

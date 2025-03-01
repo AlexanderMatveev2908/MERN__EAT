@@ -6,18 +6,27 @@ const basePath =
     ? process.env.FRONT_URL
     : process.env.FRONT_URL_DEV;
 
-export const sendVerifyAccountEmail = async (
-  user: Partial<UserType> | null,
-  token: string
-) => {
+export const sendUserEmail = async ({
+  user,
+  token,
+  type,
+}: {
+  user: Partial<UserType> | null;
+  token: string;
+  type: string;
+}) => {
   if (!user || !token) return;
 
-  const verificationURL = `${basePath}/auth/verify?token=${token}&userId=${user._id}&type=verify-account`;
+  const verificationURL = `${basePath}/auth/verify?token=${token}&userId=${user._id}&type=${type}`;
 
   await transporterMail.sendMail({
     from: process.env.MAIL_USER,
     to: user.email,
-    subject: "VERIFY ACCOUNT",
-    text: `Click the link to be redirected to our app and verify your account ✌🏼: ${verificationURL}`,
+    subject: type === "verify-account" ? "VERIFY ACCOUNT" : "RECOVER PASSWORD",
+    text: `Click the link to be redirected to our app and ${
+      type === "verify-account"
+        ? "verify your account"
+        : "recover your password"
+    } ✌🏼: ${verificationURL}`,
   });
 };

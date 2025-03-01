@@ -10,8 +10,8 @@ export type UserType = {
   isVerified: boolean;
   verifyAccountToken: string | null;
   expiryVerifyAccountToken: Date | null;
-  recoverPasswordToken: string | null;
-  expiryRecoverPasswordToken: Date | null;
+  recoverPWdToken: string | null;
+  expiryRecoverPwdToken: Date | null;
   hasSubscribedToNewsletter: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -52,11 +52,11 @@ const UserSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-    recoverPasswordToken: {
+    recoverPwdToken: {
       type: String,
       default: null,
     },
-    expiryRecoverPasswordToken: {
+    expiryRecoverPwdToken: {
       type: Date,
       default: null,
     },
