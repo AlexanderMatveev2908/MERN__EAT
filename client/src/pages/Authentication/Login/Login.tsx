@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { useLoginCustom } from "./useLoginCustom";
 import ButtonAnimated from "../../../components/ButtonAnimated/ButtonAnimated";
-import SwitchForm from "../AuthenticateFields/SwitchForm";
+import SwitchForm from "../AuthenticateFields/SwitchForm/SwitchForm";
 import BasicAuthField from "../AuthenticateFields/BasicAuthField/BasicAuthField";
 import PwdAuthField from "../AuthenticateFields/PwdAuthField/PwdAuthField";
 import { pwdField } from "../AuthenticateFields/PwdAuthField/pwdAuthFieldsArr";

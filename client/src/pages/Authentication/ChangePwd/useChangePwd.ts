@@ -1,18 +1,14 @@
 import { useForm } from "react-hook-form";
 import { useScrollTop } from "../../../hooks/useScrollTop";
 import { useEffect, useState } from "react";
-import { useChangeVisibilityPwd } from "./../AuthenticateFields/authHooks/useChangeVisibilityPwd";
+import { useChangeVisibilityPwd } from "../AuthenticateFields/authHooks/useChangeVisibilityPwd";
 
-export type RegisterFormType = {
-  firstName: string;
-  lastName: string;
-  email: string;
+type ChangePwdFormType = {
   password: string;
   confirmPassword: string;
-  acceptedTerms: boolean;
 };
 
-export const useRegisterCustom = () => {
+export const useChangePwd = () => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
 
@@ -28,19 +24,18 @@ export const useRegisterCustom = () => {
 
   const {
     register,
+    setFocus,
+    formState: { errors },
     handleSubmit,
-    reset,
     watch,
     trigger,
-    formState: { errors },
-    setFocus,
-  } = useForm<RegisterFormType>({ mode: "onChange" });
-
-  useEffect(() => {
-    setFocus("firstName");
-  }, [setFocus]);
+  } = useForm<ChangePwdFormType>({ mode: "onChange" });
 
   const pwd = watch("password");
+
+  useEffect(() => {
+    setFocus("password");
+  }, [setFocus]);
 
   useEffect(() => {
     if (pwd) trigger("confirmPassword");
@@ -50,7 +45,6 @@ export const useRegisterCustom = () => {
     register,
     errors,
     watch,
-    trigger,
     isPwdVisible,
     isConfirmPwdVisible,
     handleChangePwdVisibility,

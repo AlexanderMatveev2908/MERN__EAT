@@ -3,7 +3,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Hero from "../../components/Hero/Hero";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import Toast from "../../components/Toast/Toast";
 
 type PropsType = {
@@ -14,7 +14,11 @@ const MainLayoutUI: FC<PropsType> = ({ children }) => {
   const [sideOpen, setSideOpen] = useState<boolean>(false);
   const location = useLocation();
 
-  return (
+  const emailSent = sessionStorage.getItem("emailSent");
+
+  return emailSent ? (
+    <Navigate to="/notice-email-sent" replace />
+  ) : (
     <div className="w-full min-h-screen flex flex-col items-center">
       <Header {...{ setSideOpen, sideOpen }} />
       <Sidebar {...{ sideOpen, setSideOpen }} />
