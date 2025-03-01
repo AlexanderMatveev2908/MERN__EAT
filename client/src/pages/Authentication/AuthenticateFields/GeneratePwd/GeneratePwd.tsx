@@ -31,7 +31,7 @@ const GeneratePwd: FC = () => {
           </button>
           <span
             className={`tooltip txt__00 max-w-fit px-6 min-w-[150px] ${
-              isCopyingTooltip ? "copy_tooltip" : "opacity-0"
+              isCopyingTooltip ? "generate_password__tooltip" : "opacity-0"
             }`}
           >
             Password Copied

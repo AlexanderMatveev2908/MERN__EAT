@@ -1,20 +1,22 @@
 import { FC } from "react";
 import { useRegisterCustom } from "./useRegisterCustom";
-import EmailField from "../AuthenticateFields/EmailField";
 import ButtonAnimated from "../../../components/ButtonAnimated/ButtonAnimated";
-import PasswordField from "../AuthenticateFields/PasswordField";
 import SwitchForm from "../AuthenticateFields/SwitchForm";
-import PasswordChecker from "../AuthenticateFields/PasswordChecker";
+import PasswordChecker from "../AuthenticateFields/PasswordChecker/PasswordChecker";
 import PasswordLength from "../AuthenticateFields/PasswordLength";
-import ConfirmPassword from "../AuthenticateFields/ConfirmPassword";
+import { registerFieldsArr } from "./registerFieldsArr";
+import GeneratePwd from "../AuthenticateFields/GeneratePwd/GeneratePwd";
+import AcceptTerms from "./AcceptTerms/AcceptTerms";
+import BasicAuthField from "../AuthenticateFields/BasicAuthField";
 import {
   isValidPiecePwd,
-  loginNameFieldsArr,
-  registerRegArr,
-} from "./registerFieldsArr";
-import NameField from "./components/NameField";
-import GeneratePwd from "../AuthenticateFields/GeneratePwd/GeneratePwd";
-import AcceptTerms from "./components/AcceptTerms";
+  passwordCheckerFieldsArr,
+} from "../AuthenticateFields/PasswordChecker/passwordCheckerFieldsArr";
+import PwdAuthField from "../AuthenticateFields/PwdAuthField/PwdAuthField";
+import {
+  confirmPwdField,
+  pwdField,
+} from "../AuthenticateFields/PwdAuthField/pwdAuthFieldsArr";
 
 const Register: FC = () => {
   const {
@@ -36,25 +38,24 @@ const Register: FC = () => {
       <div className="w-full justify-self-center max-w-[600px] grid grid-cols-1 border-2 border-orange-500 rounded-xl p-10">
         <div className="w-full grid grid-cols-1">
           <form className="grid grid-cols-1 w-full gap-y-8">
-            {loginNameFieldsArr.map((field) => (
-              <NameField key={field.id} {...{ register, errors, field }} />
+            {registerFieldsArr.map((field) => (
+              <BasicAuthField key={field.id} {...{ register, errors, field }} />
             ))}
 
-            <EmailField {...{ register, errors }} />
-
-            <PasswordField
+            <PwdAuthField
               {...{
                 register,
                 errors,
                 watch,
-                isPwdVisible,
-                handleChangePwdVisibility,
+                isVisible: isPwdVisible,
+                handleChangeVisibility: handleChangePwdVisibility,
+                field: pwdField,
               }}
             />
 
             {!!Object.keys(errors?.password ?? {})?.length && (
               <div className="w-full grid grid-cols-2 gap-5 sm:grid-cols-4">
-                {registerRegArr.map((field) => (
+                {passwordCheckerFieldsArr.map((field) => (
                   <PasswordChecker
                     key={field.id}
                     {...{
@@ -67,13 +68,14 @@ const Register: FC = () => {
               </div>
             )}
 
-            <ConfirmPassword
+            <PwdAuthField
               {...{
+                register,
                 errors,
                 watch,
-                register,
-                isConfirmPwdVisible,
-                handleChangeConfirmPwdVisibility,
+                isVisible: isConfirmPwdVisible,
+                handleChangeVisibility: handleChangeConfirmPwdVisibility,
+                field: confirmPwdField,
               }}
             />
 
@@ -85,7 +87,7 @@ const Register: FC = () => {
 
             <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
               <ButtonAnimated
-                {...{ styleTxt: "txt__02 z-40 relative", label: "Login" }}
+                {...{ styleTxt: "txt__02 z-40 relative", label: "Register" }}
               />
             </div>
 

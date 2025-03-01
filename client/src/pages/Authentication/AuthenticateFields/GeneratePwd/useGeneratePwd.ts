@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { REG_PWD } from "../../../../constants/regex";
 
@@ -24,8 +25,14 @@ export const useGeneratePwd = () => {
     setStrongPwd(pwd);
   };
 
-  const handleCopyPwd = () => {
-    if (strongPwd) navigator.clipboard.writeText(strongPwd);
+  const handleCopyPwd = async () => {
+    if (strongPwd) {
+      try {
+        await navigator.clipboard.writeText(strongPwd);
+      } catch (err: any) {
+        console.log(err);
+      }
+    }
   };
 
   const handlePwdBtn = () => {
@@ -41,7 +48,7 @@ export const useGeneratePwd = () => {
       setIsCopyingTooltip(true);
       setTimeout(() => {
         setIsCopyingTooltip(false);
-      }, 500);
+      }, 600);
     }, 0);
   };
 

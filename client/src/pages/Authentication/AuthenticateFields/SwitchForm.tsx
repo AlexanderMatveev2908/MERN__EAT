@@ -45,7 +45,7 @@ const SwitchForm: FC<PropsType> = ({ type }) => {
           <>
             <LogIn className="icon_switch_form" />
             <span className="transition-all duration-300 group-hover:text-orange-500 txt__00">
-              Create account
+              Login in your account
             </span>
           </>
         )}

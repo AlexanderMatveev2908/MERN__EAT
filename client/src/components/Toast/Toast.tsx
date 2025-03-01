@@ -14,9 +14,9 @@ const Toast: FC = () => {
       } 
       ${
         isToast
-          ? "active_in"
+          ? "toast__active_in"
           : !isToast && closeClicked
-          ? "active_out"
+          ? "toast__active_out"
           : "translate-x-[120%] opacity-0"
       }
       `}
