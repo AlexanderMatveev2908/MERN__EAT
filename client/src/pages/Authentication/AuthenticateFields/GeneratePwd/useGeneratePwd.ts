@@ -1,10 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { REG_PWD } from "../../../../constants/regex";
 
 export const useGeneratePwd = () => {
   const [strongPwd, setStrongPwd] = useState<string>("");
-  const [isCopyingTooltip, setIsCopyingTooltip] = useState(false);
+  const tooltipRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    const animateTooltip = (e: MouseEvent) => {
+      if (tooltipRef.current) {
+        if (tooltipRef.current?.contains(e.target as Node)) {
+          const tooltip = document.getElementById("tooltip");
+          tooltip?.classList.remove("generate_password__tooltip");
+
+          requestAnimationFrame(() =>
+            tooltip?.classList.add("generate_password__tooltip")
+          );
+        }
+      }
+    };
+
+    document.addEventListener("click", animateTooltip);
+
+    return () => document.removeEventListener("click", animateTooltip);
+  }, []);
 
   const getRandomVals = () => {
     const charSet =
@@ -35,27 +54,10 @@ export const useGeneratePwd = () => {
     }
   };
 
-  const handlePwdBtn = () => {
-    generatePwd();
-  };
-
-  const handleCopyBnt = () => {
-    handleCopyPwd();
-
-    setIsCopyingTooltip(false);
-
-    setTimeout(() => {
-      setIsCopyingTooltip(true);
-      setTimeout(() => {
-        setIsCopyingTooltip(false);
-      }, 600);
-    }, 0);
-  };
-
   return {
-    handlePwdBtn,
-    handleCopyBnt,
-    isCopyingTooltip,
+    generatePwd,
+    handleCopyPwd,
     strongPwd,
+    tooltipRef,
   };
 };
