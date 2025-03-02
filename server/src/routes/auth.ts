@@ -1,6 +1,8 @@
 import express from "express";
 import { asyncWrapper } from "../middleware/general/asyncWrapper";
 import {
+  loginUser,
+  logoutUser,
   recoverPwd,
   registerUser,
   sendEmailUser,
@@ -10,12 +12,18 @@ import { validatorRegister } from "../middleware/auth/validators/validateRegiste
 import { makeLimiter } from "../utils/makeLimiter";
 import { validatorVerify } from "../middleware/auth/validators/validatorVerify";
 import { validatorRecoverPwd } from "../middleware/auth/validators/validatorRecoverPwd";
+import { validatorLogin } from "../middleware/auth/validators/validateLogin";
 
 const router = express();
 
 router.post("/register", validatorRegister, asyncWrapper(registerUser));
-router.post("/login");
-router.post("/logout");
+router.post(
+  "/login",
+  makeLimiter({ max: 5 }),
+  validatorLogin,
+  asyncWrapper(loginUser)
+);
+router.post("/logout", asyncWrapper(logoutUser));
 
 router.post(
   "/send-email",

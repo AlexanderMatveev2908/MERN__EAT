@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
+import { useToast, useUser } from "../../hooks/useGlobal";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { logoutUserAPI } from "../../api/auth/authAPI";
 
 export const useSidebar = ({
   sideRef,
@@ -8,6 +12,10 @@ export const useSidebar = ({
   sideRef: React.MutableRefObject<HTMLDivElement | null>;
   setSideOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { showToastMsg } = useToast();
+  const navigate = useNavigate();
+  const { setCurrUser } = useUser();
+
   useEffect(() => {
     const closeSide = (e: MouseEvent) => {
       if (!sideRef.current?.contains(e.target as Node)) {
@@ -22,7 +30,26 @@ export const useSidebar = ({
     };
   }, [setSideOpen, sideRef]);
 
-  return {};
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => logoutUserAPI(),
+    onSuccess: () => {
+      showToastMsg("Logout successful", "SUCCESS");
+    },
+    onError: (err: any) => {
+      showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+    },
+    onSettled: () => {
+      setCurrUser();
+      navigate("/", { replace: true });
+    },
+  });
+
+  const handleLogout = () => mutate();
+
+  return {
+    isPending,
+    handleLogout,
+  };
 };
 
 // const handleLogin = async () => {

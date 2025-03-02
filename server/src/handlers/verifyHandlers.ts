@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { UserType } from "../models/User";
 import { HydratedDocument } from "mongoose";
-import { checkTokenSHA, genAccessJWT, genRefreshArg } from "./token";
+import { checkTokenSHA, genAccessJWT, genTokenSHA } from "../utils/token";
 
 export const handleVerifyAccount = async (
   user: HydratedDocument<UserType>,
@@ -22,7 +22,7 @@ export const handleVerifyAccount = async (
     return res.status(401).json({ msg: "Token expired" });
   }
 
-  const isMatch = checkTokenSHA(token, user?.verifyAccountToken ?? "");
+  const isMatch = checkTokenSHA(token, user?.verifyAccountToken ?? "", "auth");
   if (!isMatch) return res.status(401).json({ msg: "Invalid token" });
 
   user.isVerified = true;
@@ -34,7 +34,7 @@ export const handleVerifyAccount = async (
     token: refreshToken,
     hashedToken,
     expiryVerification,
-  } = await genRefreshArg();
+  } = genTokenSHA("refresh");
 
   user.refreshToken = hashedToken;
   user.expiryRefreshToken = expiryVerification;
@@ -61,7 +61,6 @@ export const handleVerifyRecoverPwd = async (
 
   if (!user.isVerified)
     return res.status(400).json({ msg: "User not verified", success: false });
-
   if (!user?.recoverPwdToken)
     return res.status(401).json({ msg: "Unauthorized", success: false });
   if (new Date(user.expiryRecoverPwdToken ?? 0)?.getTime() < Date.now()) {
@@ -73,7 +72,7 @@ export const handleVerifyRecoverPwd = async (
     return res.status(401).json({ msg: "Token expired", success: false });
   }
 
-  const isMatch = checkTokenSHA(token, user?.recoverPwdToken ?? "");
+  const isMatch = checkTokenSHA(token, user?.recoverPwdToken ?? "", "auth");
   if (!isMatch)
     return res.status(401).json({ success: false, msg: "token expired" });
 
