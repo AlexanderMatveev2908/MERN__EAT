@@ -1,8 +1,24 @@
-import { FC } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FC, useEffect } from "react";
 import { useScrollTop } from "../../hooks/useScrollTop";
+import { foodAppInstance } from "../../constants/axiosInstance";
 
 const Home: FC = () => {
   useScrollTop();
+
+  useEffect(() => {
+    const getInfo = async () => {
+      try {
+        const { data } = await foodAppInstance.get("/auth/user");
+
+        console.log(data);
+      } catch (err: any) {
+        console.log(err);
+      }
+    };
+
+    getInfo();
+  }, []);
 
   return (
     <div className="w-full flex flex-col items-center gap-y-5">
