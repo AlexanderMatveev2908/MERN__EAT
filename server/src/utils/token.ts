@@ -1,11 +1,9 @@
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
-import argon2 from "argon2";
-import { JWTPayload } from "express-oauth2-jwt-bearer";
 
 const EXPIRY_AUTH = Date.now() + 1000 * 60 * 5;
-const EXPIRY_ACCESS = "5m";
-const EXPIRY_REFRESH = Date.now() + 1000 * 60 * 15;
+const EXPIRY_ACCESS = "10s";
+const EXPIRY_REFRESH = Date.now() + 1000 * 60;
 
 type ReturnToken = {
   token: string;
@@ -58,14 +56,8 @@ export const genAccessJWT = (userId: string): string =>
     expiresIn: EXPIRY_ACCESS,
   });
 
-export const verifyAccessJWT = (token: string): JWTPayload | string => {
-  try {
-    return jwt.verify(token, process.env.JWT_ACCESS_SIGN!);
-  } catch (err: any) {
-    if (err.name === "TokenExpiredError") return "Access Token Expired";
-    return "Invalid Access Token";
-  }
-};
+export const verifyAccessJWT = (token: string): any =>
+  jwt.verify(token ?? "", process.env.JWT_ACCESS_SIGN!);
 
 // first time i use argon, i decided to use it cause i was reading about different algorithm for interest, ARGON2d if i get it is like more resistant against GPU attacks that have a lots of cores, and args2 handle the brute force attacks cause it use a lot of memory slowing attacks down, ARGON2i is thought for side channel attacks cause it use fixed memory cost for each password length so is harder to understand timing of algorithm for different passwords, ARGON2id is a between version
 // export const genRefreshArg = async (): Promise<ReturnToken> => {

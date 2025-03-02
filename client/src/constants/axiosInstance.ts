@@ -20,6 +20,38 @@ foodAppInstance.interceptors.request.use(
   (err) => Promise.reject(err)
 );
 
+foodAppInstance.interceptors.response.use(
+  (res) => res,
+  async (err) => {
+    const originalReq = err.config;
+    const isRefreshing = originalReq.url === "/auth/refresh";
+
+    if (
+      err?.response?.status === 401 &&
+      err?.response?.data?.msg === "ACCESS TOKEN EXPIRED" &&
+      !isRefreshing &&
+      !originalReq.retry
+    ) {
+      try {
+        originalReq.retry = true;
+
+        const { data } = await foodAppInstance.get("/auth/refresh");
+
+        sessionStorage.setItem("accessToken", data.accessToken);
+        originalReq.headers["Authorization"] = `Bearer ${data.accessToken}`;
+
+        return foodAppInstance(originalReq);
+      } catch {
+        sessionStorage.removeItem("accessToken");
+
+        return Promise.reject("SESSION EXPIRED");
+      }
+    }
+
+    return Promise.reject(err);
+  }
+);
+
 // foodAppInstance.interceptors.response.use(
 //   (res) => res,
 //   async (err) => {

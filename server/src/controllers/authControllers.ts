@@ -76,12 +76,12 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
   const { refreshToken } = req.cookies;
 
   if (!refreshToken)
-    return res.status(400).json({
-      msg: "You ca not logout from a session in which you are not",
-      success: false,
+    return res.status(200).json({
+      msg: "Persistent cookie auto deletes themselves when expired so could be ok",
+      success: true,
     });
 
-  const hashedInput = genHashedInput(refreshToken);
+  const hashedInput: string = genHashedInput(refreshToken);
 
   const user = await User.findOne({ refreshToken: hashedInput });
   if (!user)
@@ -209,4 +209,49 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   return res
     .status(200)
     .json({ accessToken, success: true, userEmail: user.email });
+};
+
+export const refreshToken = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { refreshToken } = req.cookies;
+
+  if (!refreshToken)
+    return res.status(401).json({ msg: "Unauthorized", success: false });
+
+  const hashedInput = genHashedInput(refreshToken);
+
+  const user = await User.findOne({ refreshToken: hashedInput });
+  if (!user)
+    return res.status(401).json({ msg: "Unauthorized", success: false });
+
+  if (new Date(user?.expiryRefreshToken ?? 0)?.getTime() < Date.now()) {
+    user.refreshToken = null;
+    user.expiryRefreshToken = null;
+    await user.save();
+
+    return res
+      .status(401)
+      .json({ msg: "REFRESH TOKEN EXPIRED", success: false });
+  }
+
+  const accessToken = genAccessJWT(user._id);
+
+  return res.status(200).json({ accessToken, success: true });
+};
+
+export const getUserInfo = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { userId } = req as any;
+
+  const user = await User.findById(userId)
+    .select("email firstName lastName")
+    .lean();
+  if (!user)
+    return res.status(400).json({ msg: "user not found", success: false });
+
+  return res.status(200).json({ success: true, user });
 };

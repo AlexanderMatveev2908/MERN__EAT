@@ -1,9 +1,11 @@
 import express from "express";
 import { asyncWrapper } from "../middleware/general/asyncWrapper";
 import {
+  getUserInfo,
   loginUser,
   logoutUser,
   recoverPwd,
+  refreshToken,
   registerUser,
   sendEmailUser,
   verifyController,
@@ -13,6 +15,7 @@ import { makeLimiter } from "../utils/makeLimiter";
 import { validatorVerify } from "../middleware/auth/validators/validatorVerify";
 import { validatorRecoverPwd } from "../middleware/auth/validators/validatorRecoverPwd";
 import { validatorLogin } from "../middleware/auth/validators/validateLogin";
+import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
 
 const router = express();
 
@@ -39,8 +42,8 @@ router.post(
 
 router.post("/recover-pwd", validatorRecoverPwd, asyncWrapper(recoverPwd));
 
-router.post("/refresh");
+router.get("/refresh", asyncWrapper(refreshToken));
 
-router.get("/user");
+router.get("/user", verifyAccessToken, asyncWrapper(getUserInfo));
 
 export default router;
