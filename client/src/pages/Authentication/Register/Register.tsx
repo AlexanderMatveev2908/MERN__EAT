@@ -16,8 +16,8 @@ import {
   emailField,
   nameFieldsArr,
 } from "../AuthenticateFields/BasicAuthField/basicAuthFieldsArr";
+import { PulseLoader } from "react-spinners";
 // import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
-import { PacmanLoader } from "react-spinners";
 
 const Register: FC = () => {
   const {
@@ -86,7 +86,7 @@ const Register: FC = () => {
             {isPending ? (
               <div className="w-full flex justify-center">
                 {/* <SpinnerBtn /> */}
-                <PacmanLoader color="#f97316" size={40} />
+                <PulseLoader color="#f97316" size={40} />
               </div>
             ) : (
               <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">

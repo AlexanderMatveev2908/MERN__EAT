@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import User, { UserType } from "../models/User";
-import { genAccessJWT, genRefreshArg, genTokenSHA } from "../utils/token";
+import { genAccessJWT, genHashedInput, genTokenSHA } from "../utils/token";
 import { sendUserEmail } from "../utils/mail";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../utils/hashPwd";
 import {
   handleVerifyAccount,
   handleVerifyRecoverPwd,
-} from "../utils/verifyHandlers";
+} from "../handlers/verifyHandlers";
 
 export const registerUser = async (
   req: Request,
@@ -16,7 +16,7 @@ export const registerUser = async (
   if (existingUser)
     return res.status(400).json({ message: "User already exists" });
 
-  const { token, hashedToken, expiryVerification } = genTokenSHA();
+  const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 
   req.body.password = await hashPwdBcrypt(req.body.password);
 
@@ -38,6 +38,65 @@ export const registerUser = async (
     .json({ msg: "User created successfully", success: true });
 };
 
+export const loginUser = async (req: Request, res: Response): Promise<any> => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user)
+    return res.status(400).json({ msg: "User not found", success: false });
+  if (!user.isVerified)
+    return res.status(400).json({ msg: "User not verified", success: false });
+
+  const isSamePwd = await checkPwdBcrypt(password, user.password);
+  if (!isSamePwd)
+    return res.status(400).json({ msg: "Invalid credentials", success: false });
+
+  const accessToken = genAccessJWT(user._id);
+  const { token, hashedToken, expiryVerification } = genTokenSHA("refresh");
+
+  user.expiryRefreshToken = expiryVerification;
+  user.refreshToken = hashedToken;
+
+  await user.save();
+  res.cookie("refreshToken", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    expires: expiryVerification,
+  });
+
+  return res.status(200).json({
+    msg: "User logged in successfully",
+    success: true,
+    accessToken,
+    userEmail: user.email,
+  });
+};
+
+export const logoutUser = async (req: Request, res: Response): Promise<any> => {
+  const { refreshToken } = req.cookies;
+
+  if (!refreshToken)
+    return res.status(400).json({
+      msg: "You ca not logout from a session in which you are not",
+      success: false,
+    });
+
+  const hashedInput = genHashedInput(refreshToken);
+
+  const user = await User.findOne({ refreshToken: hashedInput });
+  if (!user)
+    return res.status(400).json({ msg: "User not found", success: false });
+
+  user.refreshToken = null;
+  user.expiryRefreshToken = null;
+
+  await user.save();
+
+  res.cookie("refreshToken", "", { expires: new Date(0) });
+
+  return res.status(200).json({ msg: "User logged out successfully" });
+};
+
 export const sendEmailUser = async (
   req: Request,
   res: Response
@@ -52,7 +111,7 @@ export const sendEmailUser = async (
   if (!user.isVerified && type === "recover-pwd")
     return res.status(400).json({ msg: "User not verified" });
 
-  const { token, hashedToken, expiryVerification } = genTokenSHA();
+  const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 
   if (type === "verify-account") {
     user.verifyAccountToken = hashedToken;
@@ -134,7 +193,7 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
     token: refreshToken,
     hashedToken,
     expiryVerification,
-  } = await genRefreshArg();
+  } = genTokenSHA("refresh");
 
   user.refreshToken = hashedToken;
   user.expiryRefreshToken = expiryVerification;

@@ -57,3 +57,24 @@ export const changeRecoverPwdAPI = async ({
 
   return data;
 };
+
+export const loginUserAPI = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}): Promise<AccessResAPIType> => {
+  const { data } = await foodAppInstance.post("/auth/login", {
+    email,
+    password,
+  });
+
+  return data;
+};
+
+export const logoutUserAPI = async (): Promise<BaseResAPIType> => {
+  const { data } = await foodAppInstance.post("/auth/logout");
+
+  return data;
+};

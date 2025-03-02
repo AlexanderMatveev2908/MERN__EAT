@@ -10,7 +10,7 @@ import PasswordChecker from "../AuthenticateFields/PasswordChecker/PasswordCheck
 import PasswordLength from "../AuthenticateFields/PasswordLength";
 import GeneratePwd from "../AuthenticateFields/GeneratePwd/GeneratePwd";
 import { Navigate } from "react-router-dom";
-import { PacmanLoader } from "react-spinners";
+import { PulseLoader } from "react-spinners";
 
 const RecoverPwd: FC = () => {
   const {
@@ -72,7 +72,7 @@ const RecoverPwd: FC = () => {
             {isPending ? (
               <div className="w-full flex justify-center">
                 {/* <SpinnerBtn /> */}
-                <PacmanLoader color="#f97316" size={40} />
+                <PulseLoader color="#f97316" size={40} />
               </div>
             ) : (
               <div className="w-full mt-2 max-w-[250px] md:max-w-[300px] justify-self-center flex justify-center">

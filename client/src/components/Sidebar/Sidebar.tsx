@@ -2,6 +2,7 @@ import { FC, useRef } from "react";
 import { useSidebar } from "./useSidebar";
 import { useUser } from "../../hooks/useGlobal";
 import { LogOut } from "lucide-react";
+import { PulseLoader } from "react-spinners";
 
 type PropsType = {
   sideOpen: boolean;
@@ -11,7 +12,7 @@ type PropsType = {
 const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
   const sideRef = useRef<HTMLDivElement | null>(null);
 
-  useSidebar({ sideRef, setSideOpen });
+  const { isPending, handleLogout } = useSidebar({ sideRef, setSideOpen });
 
   const { currUser, isLogged } = useUser();
 
@@ -33,14 +34,23 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
           {isLogged && (
             <>
               <span className="txt__03 max-w-full truncate">{currUser}</span>
+              {isPending ? (
+                <div className="w-full flex justify-center">
+                  {/* <SpinnerBtn /> */}
+                  <PulseLoader color="#f97316" size={40} />
+                </div>
+              ) : (
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex gap-3 group max-w-fit items-center el_with_after"
+                >
+                  <LogOut className="icon__with_el" />
 
-              <button className="w-full flex gap-3 group max-w-fit items-center el_with_after">
-                <LogOut className="icon__with_el" />
-
-                <span className="cursor-pointer txt__02 group-hover:text-orange-500 transition-all duration-300">
-                  Logout
-                </span>
-              </button>
+                  <span className="cursor-pointer txt__02 group-hover:text-orange-500 transition-all duration-300">
+                    Logout
+                  </span>
+                </button>
+              )}
             </>
           )}
         </div>
