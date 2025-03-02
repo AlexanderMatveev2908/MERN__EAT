@@ -1,6 +1,6 @@
-import { body, validationResult } from "express-validator";
-import { NextFunction, Request, Response } from "express";
+import { body } from "express-validator";
 import { REG_EMAIL, REG_PWD } from "../../../constants/regex";
+import { handleValidator } from "../../../utils/handleValidator";
 
 export const validatorLogin = [
   body("email")
@@ -11,12 +11,5 @@ export const validatorLogin = [
 
   body("password").matches(REG_PWD).withMessage("Invalid password"),
 
-  (req: Request, res: Response, next: NextFunction): any => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty())
-      return res.status(400).json({ errors: errors.array() });
-
-    next();
-  },
+  handleValidator,
 ];

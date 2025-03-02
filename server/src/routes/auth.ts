@@ -1,8 +1,15 @@
 import express from "express";
 import { asyncWrapper } from "../middleware/general/asyncWrapper";
-import { registerUser, sendEmailUser } from "../controllers/authControllers";
+import {
+  recoverPwd,
+  registerUser,
+  sendEmailUser,
+  verifyController,
+} from "../controllers/authControllers";
 import { validatorRegister } from "../middleware/auth/validators/validateRegister";
 import { makeLimiter } from "../utils/makeLimiter";
+import { validatorVerify } from "../middleware/auth/validators/validatorVerify";
+import { validatorRecoverPwd } from "../middleware/auth/validators/validatorRecoverPwd";
 
 const router = express();
 
@@ -15,9 +22,14 @@ router.post(
   makeLimiter({ max: 3 }),
   asyncWrapper(sendEmailUser)
 );
-router.post("/verify");
+router.post(
+  "/verify",
+  makeLimiter({ max: 3 }),
+  validatorVerify,
+  asyncWrapper(verifyController)
+);
 
-router.post("/recover-pwd");
+router.post("/recover-pwd", validatorRecoverPwd, asyncWrapper(recoverPwd));
 
 router.post("/refresh");
 
