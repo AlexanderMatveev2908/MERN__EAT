@@ -13,7 +13,7 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
 
   useSidebar({ sideRef, setSideOpen });
 
-  const { currUser } = useUser();
+  const { currUser, isLogged } = useUser();
 
   return (
     <>
@@ -30,7 +30,7 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
         } fixed top-[75px] right-0 h-[calc(100vh-75px)] w-3/4 sm:w-1/2 border-l-2 border-orange-500 flex flex-col items-center bg-[#111] sidebar__i_content transition-all duration-500`}
       >
         <div className="w-full grid grid-cols-1 justify-items-start gap-3 p-5">
-          {currUser && (
+          {isLogged && (
             <>
               <span className="txt__03 max-w-full truncate">{currUser}</span>
 

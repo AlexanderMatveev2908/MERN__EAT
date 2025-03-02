@@ -1,8 +1,12 @@
 import { Request, Response } from "express";
 import User, { UserType } from "../models/User";
-import { genTokenSHA } from "../utils/token";
+import { genAccessJWT, genRefreshArg, genTokenSHA } from "../utils/token";
 import { sendUserEmail } from "../utils/mail";
-import { hashPwdBcrypt } from "../utils/hash";
+import { checkPwdBcrypt, hashPwdBcrypt } from "../utils/hashPwd";
+import {
+  handleVerifyAccount,
+  handleVerifyRecoverPwd,
+} from "../utils/verifyHandlers";
 
 export const registerUser = async (
   req: Request,
@@ -53,8 +57,8 @@ export const sendEmailUser = async (
   if (type === "verify-account") {
     user.verifyAccountToken = hashedToken;
     user.expiryVerifyAccountToken = expiryVerification;
-  } else {
-    user.recoverPWdToken = hashedToken;
+  } else if (type === "recover-pwd") {
+    user.recoverPwdToken = hashedToken;
     user.expiryRecoverPwdToken = expiryVerification;
   }
 
@@ -72,4 +76,78 @@ export const sendEmailUser = async (
   });
 
   return res.status(200).json({ msg: "Email sent successfully" });
+};
+
+export const verifyController = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { type, userId } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) return res.status(400).json({ msg: "User not found" });
+
+  if (type === "verify-account") await handleVerifyAccount(user, req, res);
+  else if (type === "recover-pwd") await handleVerifyRecoverPwd(user, req, res);
+};
+
+export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
+  const { userId, password, token } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) return res.status(400).json({ msg: "User not found" });
+  if (!user.isVerified)
+    return res
+      .status(400)
+      .json({ success: false, msg: "I don't even know how u get so far 🤔" });
+  if (!user?.recoverPwdToken)
+    return res.status(401).json({ success: false, msg: "Unauthorized" });
+
+  if (new Date(user?.expiryRecoverPwdToken ?? 0)?.getTime() < Date.now()) {
+    user.recoverPwdToken = null;
+    user.expiryRecoverPwdToken = null;
+    await user.save();
+
+    return res.status(401).json({ success: false, msg: "Token expired" });
+  }
+
+  if (password === user.email)
+    return res
+      .status(400)
+      .json({ success: false, msg: "Password cannot be the same as email" });
+
+  const isSamePwd = await checkPwdBcrypt(password, user.password);
+  if (isSamePwd)
+    return res.status(400).json({
+      success: false,
+      msg: "new password must be different from old one",
+    });
+
+  const hashedPwd = await hashPwdBcrypt(password);
+
+  user.password = hashedPwd;
+  user.recoverPwdToken = null;
+  user.expiryRecoverPwdToken = null;
+
+  const accessToken = genAccessJWT(user._id);
+  const {
+    token: refreshToken,
+    hashedToken,
+    expiryVerification,
+  } = await genRefreshArg();
+
+  user.refreshToken = hashedToken;
+  user.expiryRefreshToken = expiryVerification;
+
+  await user.save();
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    expires: expiryVerification,
+  });
+
+  return res
+    .status(200)
+    .json({ accessToken, success: true, userEmail: user.email });
 };

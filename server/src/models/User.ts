@@ -8,9 +8,11 @@ export type UserType = {
   password: string;
   acceptedTerms: boolean;
   isVerified: boolean;
+  refreshToken: string | null;
+  expiryRefreshToken: Date | null;
   verifyAccountToken: string | null;
   expiryVerifyAccountToken: Date | null;
-  recoverPWdToken: string | null;
+  recoverPwdToken: string | null;
   expiryRecoverPwdToken: Date | null;
   hasSubscribedToNewsletter: boolean;
   createdAt: Date;
@@ -43,6 +45,14 @@ const UserSchema = new mongoose.Schema(
     isVerified: {
       type: Boolean,
       default: false,
+    },
+    refreshToken: {
+      type: String,
+      default: null,
+    },
+    expiryRefreshToken: {
+      type: Date,
+      default: null,
     },
     verifyAccountToken: {
       type: String,
