@@ -45,18 +45,20 @@ export const sendEmailUser = async (
 
   const user = await User.findOne({ email });
   if (!user) return res.status(400).json({ msg: "User not found" });
+  if (!user.isVerified && type === "recover-pwd")
+    return res.status(400).json({ msg: "User not verified" });
 
   const { token, hashedToken, expiryVerification } = genTokenSHA();
 
   if (type === "verify-account") {
     user.verifyAccountToken = hashedToken;
     user.expiryVerifyAccountToken = expiryVerification;
-    await user.save();
   } else {
     user.recoverPWdToken = hashedToken;
     user.expiryRecoverPwdToken = expiryVerification;
-    await user.save();
   }
+
+  await user.save();
 
   const filteredUser = {
     _id: user._id,
@@ -66,7 +68,7 @@ export const sendEmailUser = async (
   await sendUserEmail({
     user: filteredUser,
     token,
-    type: type === "verify-account" ? "verify-account" : "recover-pwd",
+    type: type as string,
   });
 
   return res.status(200).json({ msg: "Email sent successfully" });

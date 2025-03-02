@@ -33,7 +33,7 @@ export const useToastComponent = () => {
         toastRef.current?.classList.add("toast__container_after")
       );
     }
-  }, [isToast]);
+  }, [isToast, closeToast]);
 
   return {
     isToast,

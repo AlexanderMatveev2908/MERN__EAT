@@ -69,19 +69,21 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 .spinner__el::after {
-  animation: spinner 2s linear infinite;
-  animation-delay: calc((2s / var(--numEls)) * var(--i));
+  animation: spinner var(--duration) linear infinite;
+}
+
+.spinner__el.active::after {
+  animation-delay: calc((1.5s / var(--numEls)) * var(--i));
 }
 
 @keyframes spinner {
   0% {
     transform: scale(1);
-  }
-  80% {
-    transform: scale(0);
+    opacity: 1;
   }
   100% {
     transform: scale(0);
+    opacity: 0;
   }
 }
 
