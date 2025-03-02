@@ -9,9 +9,9 @@ export const useUpdateSizeLoader = () => {
       const currWidth = window.innerWidth;
 
       return currWidth > tailwindBreak.md
-        ? setSize(150)
-        : currWidth > tailwindBreak.sm
         ? setSize(100)
+        : currWidth > tailwindBreak.sm
+        ? setSize(75)
         : setSize(50);
     };
 

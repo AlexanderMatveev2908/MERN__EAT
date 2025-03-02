@@ -1,14 +1,14 @@
 import { foodAppInstance } from "../../constants/axiosInstance";
 import { RegisterFormType } from "../../pages/Authentication/Register/useRegisterCustom";
-
-export type BaseRes = Promise<{
-  msg: string;
-  success: boolean;
-}>;
+import {
+  AccessResAPIType,
+  BaseResAPIType,
+  VerifyAPI,
+} from "../../types/authTypes";
 
 export const registerUserAPI = async (
   registerVals: Omit<RegisterFormType, "confirmPassword">
-): Promise<BaseRes> => {
+): Promise<BaseResAPIType> => {
   const { data } = await foodAppInstance.post("/auth/register", {
     ...registerVals,
   });
@@ -22,7 +22,7 @@ export const sendUserEmailAPI = async ({
 }: {
   email: string;
   type: string;
-}): Promise<BaseRes> => {
+}): Promise<BaseResAPIType> => {
   const { data } = await foodAppInstance.post(`/auth/send-email?type=${type}`, {
     email,
   });
@@ -30,14 +30,9 @@ export const sendUserEmailAPI = async ({
   return data;
 };
 
-export type VerifyAPI = {
-  token: string;
-  userId: string;
-  type: "verify-account" | "recover-pwd";
-};
 export const verifyAccountAPI = async ({
   ...params
-}: VerifyAPI): Promise<BaseRes & { accessToken: string }> => {
+}: VerifyAPI): Promise<AccessResAPIType> => {
   const { data } = await foodAppInstance.post(`/auth/verify`, params);
 
   return data;
@@ -45,8 +40,20 @@ export const verifyAccountAPI = async ({
 
 export const recoverPwdAPI = async ({
   ...params
-}: VerifyAPI): Promise<BaseRes> => {
+}: VerifyAPI): Promise<BaseResAPIType> => {
   const { data } = await foodAppInstance.post(`/auth/verify`, params);
+
+  return data;
+};
+
+export const changeRecoverPwdAPI = async ({
+  ...params
+}: {
+  password: string;
+  userId: string;
+  token: string;
+}): Promise<AccessResAPIType> => {
+  const { data } = await foodAppInstance.post("/auth/recover-pwd", params);
 
   return data;
 };

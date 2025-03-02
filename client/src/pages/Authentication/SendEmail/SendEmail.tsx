@@ -5,7 +5,7 @@ import { useSendEmail } from "./hooks/useSendEmail";
 import BasicAuthField from "../AuthenticateFields/BasicAuthField/BasicAuthField";
 import ButtonAnimated from "../../../components/ButtonAnimated/ButtonAnimated";
 // import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
-import { SyncLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 
 const SendEmail: FC = () => {
   const { register, errors, canStay, type, isPending, handleSubmitEmail } =
@@ -31,7 +31,7 @@ const SendEmail: FC = () => {
 
             {isPending ? (
               <div className="w-full flex justify-center mt-2">
-                <SyncLoader color="#f97316" size={40} />
+                <PacmanLoader color="#f97316" size={40} />
                 {/* <SpinnerBtn /> */}
               </div>
             ) : (

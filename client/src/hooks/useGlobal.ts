@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { GlobalContext } from "../context/global/GlobalContext";
 import { RootValsType } from "../context/root/rootTypes";
 import { ToastValsType } from "../types/toastTypes";
+import { UserValsType } from "../types/userTypes";
 
 const useGlobal = (): RootValsType => {
   const context = useContext(GlobalContext);
@@ -13,3 +14,5 @@ const useGlobal = (): RootValsType => {
 };
 
 export const useToast = (): ToastValsType => useGlobal().toastState;
+
+export const useUser = (): UserValsType => useGlobal().userState;

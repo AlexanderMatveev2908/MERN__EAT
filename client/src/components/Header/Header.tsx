@@ -1,6 +1,7 @@
 import { Menu, User, X } from "lucide-react";
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useUser } from "../../hooks/useGlobal";
 
 type PropsType = {
   setSideOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,6 +9,8 @@ type PropsType = {
 };
 
 const Header: FC<PropsType> = ({ setSideOpen, sideOpen }) => {
+  const { isLogged } = useUser();
+
   const location = useLocation();
   const needSideBar = location.pathname !== "/notice-email-sent";
 
@@ -20,9 +23,11 @@ const Header: FC<PropsType> = ({ setSideOpen, sideOpen }) => {
 
         {needSideBar && (
           <div className="flex w-full gap-5 items-center justify-end">
-            <Link to="/auth/login" className="group flex items-center">
-              <User className="icon " />
-            </Link>
+            {!isLogged && (
+              <Link to="/auth/login" className="group flex items-center">
+                <User className="icon " />
+              </Link>
+            )}
             {sideOpen ? (
               <div
                 onClick={() => setSideOpen?.(false)}

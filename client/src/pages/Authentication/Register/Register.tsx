@@ -17,7 +17,7 @@ import {
   nameFieldsArr,
 } from "../AuthenticateFields/BasicAuthField/basicAuthFieldsArr";
 // import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
-import { SyncLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 
 const Register: FC = () => {
   const {
@@ -86,7 +86,7 @@ const Register: FC = () => {
             {isPending ? (
               <div className="w-full flex justify-center">
                 {/* <SpinnerBtn /> */}
-                <SyncLoader color="#f97316" size={40} />
+                <PacmanLoader color="#f97316" size={40} />
               </div>
             ) : (
               <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">

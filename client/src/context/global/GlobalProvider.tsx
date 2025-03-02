@@ -19,15 +19,9 @@ const queryClient = new QueryClient({
 });
 
 const GlobalProvider: FC<PropsType> = ({ children }): ReactElement => {
-  const {
-    toastState: { showToastMsg, ...restVals },
-  } = useRootVals();
-
   return (
     <QueryClientProvider client={queryClient}>
-      <GlobalContext.Provider
-        value={{ toastState: { ...restVals, showToastMsg } }}
-      >
+      <GlobalContext.Provider value={{ ...useRootVals() }}>
         {children}
       </GlobalContext.Provider>
     </QueryClientProvider>
