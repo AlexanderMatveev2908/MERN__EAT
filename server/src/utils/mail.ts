@@ -15,13 +15,13 @@ export const sendUserEmail = async ({
   token: string;
   type: string;
 }) => {
-  if (!user || !token) return;
+  if ([user, token, type].some((el) => !el)) return;
 
-  const verificationURL = `${basePath}/auth/verify?token=${token}&userId=${user._id}&type=${type}`;
+  const verificationURL = `${basePath}/auth/verify?token=${token}&userId=${user?._id}&type=${type}`;
 
   await transporterMail.sendMail({
     from: process.env.MAIL_USER,
-    to: user.email,
+    to: user?.email as string,
     subject: type === "verify-account" ? "VERIFY ACCOUNT" : "RECOVER PASSWORD",
     text: `Click the link to be redirected to our app and ${
       type === "verify-account"

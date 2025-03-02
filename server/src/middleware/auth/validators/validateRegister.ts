@@ -1,5 +1,5 @@
 import { body, validationResult } from "express-validator";
-import { REG_EMAIL, REG_NAME, REG_PWD } from "../../constants/regex";
+import { REG_EMAIL, REG_NAME, REG_PWD } from "../../../constants/regex";
 import { NextFunction, Request, Response } from "express";
 
 export const validatorRegister = [
