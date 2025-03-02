@@ -5,4 +5,4 @@ export const REG_EMAIL =
   /^(?![.-])(?!.*[.-]$)(?!.*\.\.)(?!.*@.*@)[A-Za-z0-9._%+-]+@[A-Za-z0-9]+\.[A-Za-z]{2,}$/;
 
 export const REG_MONGO = /^[a-f0-9]{24}$/;
-export const REG_TOKEN = /^[a-f0-9]{64}$/;
+export const REG_TOKEN = /^[a-f0-9]{128}$/;
