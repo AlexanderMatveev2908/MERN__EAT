@@ -25,13 +25,32 @@ export const useGeneratePwd = () => {
     return () => document.removeEventListener("click", animateTooltip);
   }, []);
 
+  const charSet = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]<>-+~/$\\|`;
+
+  const fisherYatesShuffle = () => {
+    const arrStr: string[] = charSet.split("");
+
+    for (let i = arrStr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      //  we create a var that needs to be added 1 cause Math.random go from 0 to 0.99 and we need to include all possibilities, if number is too high will rounded
+
+      [arrStr[i], arrStr[j]] = [arrStr[j], arrStr[i]];
+      // inversion of vals where curr val become random val and random val become curr
+    }
+
+    return arrStr.join("");
+  };
+
   const getRandomVals = () => {
-    const charSet =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]";
     const arrBytes = new Uint8Array(24);
     window.crypto.getRandomValues(arrBytes);
 
-    return Array.from(arrBytes, (el) => charSet[el % charSet.length]).join("");
+    const charSetRandom = fisherYatesShuffle();
+
+    return Array.from(
+      arrBytes,
+      (el) => charSetRandom[el % charSetRandom.length]
+    ).join("");
   };
 
   const generatePwd = async () => {

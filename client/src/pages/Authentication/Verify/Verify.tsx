@@ -3,12 +3,15 @@ import { FC } from "react";
 import { useVerify } from "./hooks/useVerify";
 import { GridLoader } from "react-spinners";
 import { useUpdateSizeLoader } from "./hooks/useUpdateSizeLoader";
+import { Navigate } from "react-router-dom";
 
 const Verify: FC = () => {
-  useVerify();
+  const { canStay } = useVerify();
 
   const { size } = useUpdateSizeLoader();
-  return (
+  return !canStay ? (
+    <Navigate to="/" replace />
+  ) : (
     <div className="w-full h-[50vh] sm:h-[75vh] flex justify-center items-center">
       <GridLoader color="#f97316" size={size} />
       {/* <Spinner /> */}

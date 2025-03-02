@@ -9,6 +9,8 @@ import {
 import PasswordChecker from "../AuthenticateFields/PasswordChecker/PasswordChecker";
 import PasswordLength from "../AuthenticateFields/PasswordLength";
 import GeneratePwd from "../AuthenticateFields/GeneratePwd/GeneratePwd";
+import { Navigate } from "react-router-dom";
+import { PacmanLoader } from "react-spinners";
 
 const RecoverPwd: FC = () => {
   const {
@@ -19,9 +21,14 @@ const RecoverPwd: FC = () => {
     isConfirmPwdVisible,
     handleChangePwdVisibility,
     handleChangeConfirmPwdVisibility,
+    canStay,
+    isPending,
+    handleSubmitRecoverPwd,
   } = useRecoverPwd();
 
-  return (
+  return !canStay ? (
+    <Navigate to="/" replace />
+  ) : (
     <div className="w-full grid grid-cols-1 gap-y-10 items-center">
       <div className="w-full flex justify-center">
         <span className="txt__04">Recover Password</span>
@@ -29,7 +36,10 @@ const RecoverPwd: FC = () => {
 
       <div className="w-full justify-self-center max-w-[600px] grid grid-cols-1 border-2 border-orange-500 rounded-xl p-10">
         <div className="w-full grid grid-cols-1">
-          <form className="grid grid-cols-1 w-full gap-y-8">
+          <form
+            onSubmit={handleSubmitRecoverPwd}
+            className="grid grid-cols-1 w-full gap-y-8"
+          >
             <PwdAuthField
               {...{
                 register,
@@ -59,14 +69,22 @@ const RecoverPwd: FC = () => {
               }}
             />
 
-            <div className="w-full mt-2 max-w-[250px] md:max-w-[300px] justify-self-center flex justify-center">
-              <ButtonAnimated
-                {...{
-                  styleTxt: "txt__02 z-40 relative",
-                  label: "Change Password",
-                }}
-              />
-            </div>
+            {isPending ? (
+              <div className="w-full flex justify-center">
+                {/* <SpinnerBtn /> */}
+                <PacmanLoader color="#f97316" size={40} />
+              </div>
+            ) : (
+              <div className="w-full mt-2 max-w-[250px] md:max-w-[300px] justify-self-center flex justify-center">
+                <ButtonAnimated
+                  {...{
+                    styleTxt: "txt__02 z-40 relative",
+                    label: "Change Password",
+                    type: "submit",
+                  }}
+                />
+              </div>
+            )}
           </form>
         </div>
       </div>
