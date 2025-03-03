@@ -33,7 +33,7 @@ export const sendUserEmailAPI = async ({
 export const verifyAccountAPI = async ({
   ...params
 }: VerifyAPI): Promise<AccessResAPIType> => {
-  const { data } = await foodAppInstance.post(`/auth/verify`, params);
+  const { data } = await foodAppInstance.post(`/auth/verify-account`, params);
 
   return data;
 };
@@ -41,7 +41,10 @@ export const verifyAccountAPI = async ({
 export const recoverPwdAPI = async ({
   ...params
 }: VerifyAPI): Promise<BaseResAPIType> => {
-  const { data } = await foodAppInstance.post(`/auth/verify`, params);
+  const { data } = await foodAppInstance.post(
+    `/auth/verify-recover-pwd`,
+    params
+  );
 
   return data;
 };

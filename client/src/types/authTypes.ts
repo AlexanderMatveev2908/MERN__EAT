@@ -11,5 +11,4 @@ export type AccessResAPIType = BaseResAPIType & {
 export type VerifyAPI = {
   token: string;
   userId: string;
-  type: "verify-account" | "recover-pwd";
 };

@@ -8,7 +8,8 @@ import {
   refreshToken,
   registerUser,
   sendEmailUser,
-  verifyController,
+  verifyAccount,
+  verifyRecoverPwd,
 } from "../controllers/authControllers";
 import { validatorRegister } from "../middleware/auth/validators/validateRegister";
 import { makeLimiter } from "../utils/makeLimiter";
@@ -33,11 +34,18 @@ router.post(
   makeLimiter({ max: 3 }),
   asyncWrapper(sendEmailUser)
 );
+
 router.post(
-  "/verify",
+  "/verify-account",
   makeLimiter({ max: 3 }),
   validatorVerify,
-  asyncWrapper(verifyController)
+  asyncWrapper(verifyAccount)
+);
+router.post(
+  "/verify-recover-pwd",
+  makeLimiter({ max: 3 }),
+  validatorVerify,
+  asyncWrapper(verifyRecoverPwd)
 );
 
 router.post("/recover-pwd", validatorRecoverPwd, asyncWrapper(recoverPwd));
