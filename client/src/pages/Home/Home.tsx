@@ -12,7 +12,7 @@ const Home: FC = () => {
   useEffect(() => {
     const getInfo = async () => {
       try {
-        const { data } = await foodAppInstance.get("/auth/user");
+        const { data } = await foodAppInstance.get("/user/info");
 
         console.log(data);
       } catch (err: any) {
