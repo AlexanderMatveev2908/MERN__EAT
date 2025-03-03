@@ -1,27 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useScrollTop } from "../../hooks/useScrollTop";
-import { foodAppInstance } from "../../constants/axiosInstance";
-import { useHandleErr } from "../../hooks/useHandleErr";
 
 const Home: FC = () => {
   useScrollTop();
-
-  const { handleErrAPI } = useHandleErr();
-
-  useEffect(() => {
-    const getInfo = async () => {
-      try {
-        const { data } = await foodAppInstance.get("/user/info");
-
-        console.log(data);
-      } catch (err: any) {
-        handleErrAPI({ err });
-      }
-    };
-
-    // getInfo();
-  }, []);
 
   return (
     <div className="w-full flex flex-col items-center gap-y-5">

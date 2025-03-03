@@ -1,14 +1,13 @@
 import express from "express";
-import { recoverPwd } from "../controllers/user";
+import { getUserInfo, recoverPwd } from "../controllers/userControllers";
 import { asyncWrapper } from "../middleware/general/asyncWrapper";
-import { validatorRecoverPwd } from "../middleware/auth/validators/validatorRecoverPwd";
-import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
-import { getUserInfo } from "../controllers/authControllers";
+import { validatorRecoverPwd } from "../middleware/user/validatorRecoverPwd";
+import { getUserId } from "../middleware/general/getUserId";
 
 const router = express();
 
 router.post("/recover-pwd", validatorRecoverPwd, asyncWrapper(recoverPwd));
 
-router.get("/info", verifyAccessToken, asyncWrapper(getUserInfo));
+router.get("/info", getUserId, asyncWrapper(getUserInfo));
 
 export default router;

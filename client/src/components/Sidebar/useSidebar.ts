@@ -14,7 +14,7 @@ export const useSidebar = ({
 }) => {
   const { showToastMsg } = useToast();
   const navigate = useNavigate();
-  const { setCurrUser } = useUser();
+  const { setUserLogged } = useUser();
 
   useEffect(() => {
     const closeSide = (e: MouseEvent) => {
@@ -39,7 +39,7 @@ export const useSidebar = ({
       showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
     },
     onSettled: () => {
-      setCurrUser();
+      setUserLogged();
       navigate("/", { replace: true });
     },
   });

@@ -1,16 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { verifyAccessJWT } from "../../utils/token";
-import { JWTPayload } from "express-oauth2-jwt-bearer";
+import { RequestWithUserId } from "./verifyAccessToken";
 
-export interface RequestWithUserId extends Request {
-  userId?: string;
-}
-
-export interface JWTUserId extends JWTPayload {
-  userId?: string;
-}
-
-export const verifyAccessToken = (
+export const getUserId = (
   req: RequestWithUserId,
   res: Response,
   next: NextFunction
@@ -18,10 +10,10 @@ export const verifyAccessToken = (
   const auth = req.headers?.authorization || req.headers?.Authorization;
   const token = (auth as string | undefined)?.split(" ")[1];
 
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
+  if (!token) return next();
 
   try {
-    const decoded = verifyAccessJWT(token);
+    const decoded = verifyAccessJWT(token ?? "");
     req.userId = decoded.userId as string;
 
     return next();

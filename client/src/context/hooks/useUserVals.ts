@@ -1,19 +1,24 @@
-import { UserActionTypes, UserStateType } from "../../types/userTypes";
+import {
+  CurrUserType,
+  UserActionTypes,
+  UserStateType,
+} from "../../types/userTypes";
 import { SET_CURR_USER, SET_IS_LOGGED } from "../actions/userActions";
 
 export const useUserVals = (
   userState: UserStateType,
   dispatch: React.Dispatch<UserActionTypes>
 ) => {
-  const setCurrUser = (email?: string, token?: string) => {
-    const params = !!(email && token);
+  const setUserLogged = (token?: string | boolean) => {
+    if (!token) sessionStorage.removeItem("accessToken");
+    else sessionStorage.setItem("accessToken", token as string);
 
-    if (params) sessionStorage.setItem("accessToken", token as string);
-    else sessionStorage.removeItem("accessToken");
-
-    dispatch({ type: SET_IS_LOGGED, payload: params });
-    dispatch({ type: SET_CURR_USER, payload: params ? email : null });
+    dispatch({ type: SET_IS_LOGGED, payload: !!token });
   };
 
-  return { ...userState, setCurrUser };
+  const setCurrUser = (val: CurrUserType | null) => {
+    dispatch({ type: SET_CURR_USER, payload: val });
+  };
+
+  return { ...userState, setCurrUser, setUserLogged };
 };

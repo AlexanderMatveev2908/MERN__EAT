@@ -15,7 +15,7 @@ export type LoginFormType = {
 };
 
 export const useLoginCustom = () => {
-  const { setCurrUser } = useUser();
+  const { setUserLogged } = useUser();
   const { showToastMsg } = useToast();
   const { handleErrAPI } = useHandleErr();
 
@@ -39,7 +39,7 @@ export const useLoginCustom = () => {
     mutationFn: (data: LoginFormType) => loginUserAPI(data),
     onSuccess: (data: AccessResAPIType) => {
       reset();
-      setCurrUser(data.userEmail, data.accessToken);
+      setUserLogged(data.accessToken);
       showToastMsg("User logged in successfully", "SUCCESS");
       navigate("/");
     },

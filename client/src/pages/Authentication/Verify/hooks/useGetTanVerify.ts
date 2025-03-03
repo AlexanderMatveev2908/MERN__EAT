@@ -1,12 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useToast, useUser } from "../../../../hooks/useGlobal";
 import { useCreateTanVerify } from "./useCreateTanVerify";
-import { recoverPwdAPI, verifyAccountAPI } from "../../../../api/auth/authAPI";
 import { AccessResAPIType, VerifyAPI } from "../../../../types/authTypes";
+import { recoverPwdAPI, verifyAccountAPI } from "../../../../api/verify";
 
 export const useGetTansCreated = (userId: string, token: string) => {
   const { showToastMsg } = useToast();
-  const { setCurrUser } = useUser();
+  const { setUserLogged } = useUser();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -14,7 +14,7 @@ export const useGetTansCreated = (userId: string, token: string) => {
   const handleSuccessVerifyAccount = (data) => {
     sessionStorage.removeItem("sentEmail");
 
-    setCurrUser(data.userEmail, data.accessToken);
+    setUserLogged(data.accessToken);
 
     showToastMsg("Account Verified Successfully", "SUCCESS");
     navigate("/", { replace: true });
