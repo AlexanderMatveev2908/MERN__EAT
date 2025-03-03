@@ -2,9 +2,7 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { JWTUserId } from "../middleware/general/verifyAccessToken";
 
-const EXPIRY_AUTH = Date.now() + 1000 * 60 * 5;
-const EXPIRY_ACCESS = "5s";
-const EXPIRY_REFRESH = Date.now() + 1000 * 10;
+const EXPIRY_ACCESS = "15m";
 
 type ReturnToken = {
   token: string;
@@ -24,7 +22,9 @@ export const genTokenSHA = (type: "auth" | "refresh"): ReturnToken => {
     .digest("hex");
 
   const expiryVerification =
-    type === "auth" ? new Date(EXPIRY_AUTH) : new Date(EXPIRY_REFRESH);
+    type === "auth"
+      ? new Date(Date.now() + 1000 * 60 * 5)
+      : new Date(Date.now() + 1000 * 60 * 60);
 
   return { token, hashedToken, expiryVerification };
 };
