@@ -62,7 +62,7 @@ const Toast: FC = () => {
           }}
           className="absolute right-5 top-3 "
         >
-          <X className="h-[30px] w-[30px] sm:w-[32px] sm:h-[32px] text-red-600 hover:scale-110 btn__pseudo" />
+          <X className="h-[30px] w-[30px] sm:w-[32px] sm:h-[32px] text-red-600 hover:scale-120 btn__pseudo" />
         </div>
 
         <div className="w-full flex justify-start pr-6 pb-6 pt-12">

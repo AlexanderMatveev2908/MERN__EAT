@@ -5,8 +5,14 @@ import { useDropLogged } from "./useDropLogged";
 import { PulseLoader } from "react-spinners";
 
 const DropLogged: FC = () => {
-  const { dropOpen, dropRef, toggleDrop, isPending, handleDropLogout } =
-    useDropLogged();
+  const {
+    dropOpen,
+    dropRef,
+    setDropOpen,
+    toggleDrop,
+    isPending,
+    handleDropLogout,
+  } = useDropLogged();
 
   return (
     <div
@@ -15,7 +21,7 @@ const DropLogged: FC = () => {
     >
       <div
         onClick={toggleDrop}
-        className="txt__01 transition-all duration-300 hover:text-orange-500 hover:scale-110 border-2 py-1 px-2 rounded-xl"
+        className="txt__01 transition-all duration-300 hover:text-orange-500 hover:scale-120 border-2 py-1 px-2 rounded-xl"
       >
         {sessionStorage.getItem("initName") ?? ""}
       </div>
@@ -29,6 +35,7 @@ const DropLogged: FC = () => {
       >
         <div className="w-full flex flex-col items-start">
           <Link
+            onClick={() => setDropOpen(false)}
             to="/user/profile"
             className="w-full flex gap-3 border-b-orange-500 border-b-2 pl-3 pr-10 py-3 justify-start group"
           >
@@ -40,7 +47,7 @@ const DropLogged: FC = () => {
 
           {isPending ? (
             <div className="w-full h-[50px]  items-center flex justify-start">
-              <PulseLoader color="#f97316" size={30} className="pl-3" />
+              <PulseLoader color="#f97316" size={25} className="pl-3" />
             </div>
           ) : (
             <button

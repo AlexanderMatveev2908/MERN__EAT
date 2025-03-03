@@ -47,7 +47,7 @@ const BlockPages: FC<PropsType> = ({
               key={num}
               className={`${
                 currPage === num
-                  ? "text-orange-500 border-orange-500 scale-95"
+                  ? "text-orange-500 border-orange-500 scale-120"
                   : "text-white"
               } btn__brand txt__02 border-2 rounded-xl px-4 py-1`}
             >

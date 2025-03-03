@@ -328,7 +328,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 .icon__sidebar {
-  @apply w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer disabled:opacity-50 disabled:cursor-wait;
+  @apply w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer;
 }
 
 /* tooltip */

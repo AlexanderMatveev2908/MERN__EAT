@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { useLogout } from "../../../hooks/useLogout";
+import { useNavigate } from "react-router-dom";
 
-export const useDropLogged = () => {
+export const useDropNonLogged = () => {
   const [dropOpen, setDropOpen] = useState<boolean>(false);
   const dropRef = useRef<HTMLDivElement | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleOutClick = (e: MouseEvent) => {
@@ -19,20 +21,17 @@ export const useDropLogged = () => {
     };
   }, []);
 
-  const { mutate, isPending } = useLogout();
-
   const toggleDrop = () => setDropOpen((prev) => !prev);
 
-  const handleDropLogout = () => {
-    mutate();
+  const handleSideClick = (path: string, from?: string) => {
+    navigate(path, from ? { state: { from } } : undefined);
+    setDropOpen(false);
   };
 
   return {
+    toggleDrop,
     dropOpen,
     dropRef,
-    toggleDrop,
-    isPending,
-    handleDropLogout,
-    setDropOpen,
+    handleSideClick,
   };
 };
