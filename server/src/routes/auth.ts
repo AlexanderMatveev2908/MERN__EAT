@@ -5,9 +5,9 @@ import {
   logoutUser,
   registerUser,
 } from "../controllers/authControllers";
-import { validatorRegister } from "../middleware/auth/validators/validateRegister";
 import { makeLimiter } from "../utils/makeLimiter";
-import { validatorLogin } from "../middleware/auth/validators/validateLogin";
+import { validatorRegister } from "../middleware/auth/validateRegister";
+import { validatorLogin } from "../middleware/auth/validateLogin";
 
 const router = express();
 

@@ -6,6 +6,6 @@ export const asyncWrapper =
     try {
       await cb(req, res, next);
     } catch (err: any) {
-      next(err);
+      return next(err);
     }
   };

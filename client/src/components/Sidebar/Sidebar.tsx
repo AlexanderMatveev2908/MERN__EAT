@@ -33,7 +33,9 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
         <div className="w-full grid grid-cols-1 justify-items-start gap-3 p-5">
           {isLogged && (
             <>
-              <span className="txt__03 max-w-full truncate">{currUser}</span>
+              <span className="txt__03 max-w-full truncate">
+                {currUser?.email}
+              </span>
               {isPending ? (
                 <div className="w-full flex justify-center">
                   {/* <SpinnerBtn /> */}

@@ -8,8 +8,8 @@ import {
   sendEmailAllowedTypes,
 } from "../sendEmailFieldsArr";
 import { validateUserLocation } from "../../../../utils/locations";
-import { sendUserEmailAPI } from "../../../../api/auth/authAPI";
 import { useCreateTanStackSendEmail } from "./useCreateTanStackSendEmail";
+import { sendUserEmailAPI } from "../../../../api/verify";
 
 export type SendEmailFormType = {
   email: string;

@@ -1,6 +1,6 @@
 import express from "express";
 import { makeLimiter } from "../utils/makeLimiter";
-import { validatorVerify } from "../middleware/auth/validators/validatorVerify";
+import { validatorVerify } from "../middleware/verify/validatorVerify";
 import { asyncWrapper } from "../middleware/general/asyncWrapper";
 import {
   sendEmailUser,

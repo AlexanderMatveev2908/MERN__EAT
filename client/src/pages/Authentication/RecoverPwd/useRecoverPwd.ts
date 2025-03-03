@@ -5,11 +5,11 @@ import { useChangeVisibilityPwd } from "../../../hooks/useChangeVisibilityPwd";
 import { useScrollTop } from "../../../hooks/useScrollTop";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { changeRecoverPwdAPI } from "../../../api/auth/authAPI";
 import { useToast, useUser } from "../../../hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../constants/regex";
 import { AccessResAPIType } from "../../../types/authTypes";
 import { useHandleErr } from "../../../hooks/useHandleErr";
+import { changeRecoverPwdAPI } from "../../../api/user";
 
 type ChangePwdFormType = {
   password: string;
@@ -22,7 +22,7 @@ export const useRecoverPwd = () => {
 
   const { handleErrAPI } = useHandleErr();
   const { showToastMsg } = useToast();
-  const { setCurrUser, isLogged } = useUser();
+  const { setUserLogged, isLogged } = useUser();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -72,7 +72,7 @@ export const useRecoverPwd = () => {
     }) => changeRecoverPwdAPI({ password: password, token, userId }),
     onSuccess: (data: AccessResAPIType) => {
       reset();
-      setCurrUser(data.userEmail, data.accessToken);
+      setUserLogged(data.accessToken);
       showToastMsg("Password changed successfully", "SUCCESS");
       navigate("/", { replace: true });
     },

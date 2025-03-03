@@ -1,11 +1,6 @@
 import { Request, Response } from "express";
 import User, { UserType } from "../models/User";
-import {
-  checkTokenSHA,
-  genAccessJWT,
-  genHashedInput,
-  genTokenSHA,
-} from "../utils/token";
+import { genAccessJWT, genHashedInput, genTokenSHA } from "../utils/token";
 import { sendUserEmail } from "../utils/mail";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../utils/hashPwd";
 
@@ -44,13 +39,13 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
 
   const user = await User.findOne({ email });
   if (!user)
-    return res.status(400).json({ msg: "User not found", success: false });
+    return res.status(404).json({ msg: "User not found", success: false });
   if (!user.isVerified)
-    return res.status(400).json({ msg: "User not verified", success: false });
+    return res.status(403).json({ msg: "User not verified", success: false });
 
   const isSamePwd = await checkPwdBcrypt(password, user.password);
   if (!isSamePwd)
-    return res.status(400).json({ msg: "Invalid credentials", success: false });
+    return res.status(401).json({ msg: "Invalid credentials", success: false });
 
   const accessToken = genAccessJWT(user._id);
   const { token, hashedToken, expiryVerification } = genTokenSHA("refresh");
@@ -78,7 +73,7 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
 
   if (!refreshToken)
     return res.status(200).json({
-      msg: "I guess is ok anyway",
+      msg: "🤔",
       success: true,
     });
 
@@ -86,7 +81,7 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
 
   const user = await User.findOne({ refreshToken: hashedInput });
   if (!user)
-    return res.status(400).json({ msg: "User not found", success: false });
+    return res.status(404).json({ msg: "User not found", success: false });
 
   user.refreshToken = null;
   user.expiryRefreshToken = null;
@@ -98,19 +93,4 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
   return res
     .status(200)
     .json({ msg: "User logged out successfully", success: true });
-};
-
-export const getUserInfo = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
-  const { userId } = req as any;
-
-  const user = await User.findById(userId)
-    .select("email firstName lastName")
-    .lean();
-  if (!user)
-    return res.status(400).json({ msg: "user not found", success: false });
-
-  return res.status(200).json({ success: true, user });
 };

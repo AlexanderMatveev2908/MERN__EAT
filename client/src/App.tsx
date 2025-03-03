@@ -9,9 +9,12 @@ import Verify from "./pages/Authentication/Verify/Verify";
 import RecoverPwd from "./pages/Authentication/RecoverPwd/RecoverPwd";
 import LayoutNonLoggedUserRoute from "./layouts/layoutNonLoggedUser/LayoutNonLoggedUserRoute";
 import NoticeEmail from "./pages/NoticeEmail/NoticeEmail";
+import { useApp } from "./hooks/useApp";
 // import CallbackAuth from "./pages/CallbackAuth/CallbackAuth";
 
 const App: FC = () => {
+  useApp();
+
   return (
     <Routes>
       <Route path="/" element={<MainLayoutRoute />}>

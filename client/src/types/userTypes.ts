@@ -1,7 +1,13 @@
 import { SET_CURR_USER, SET_IS_LOGGED } from "../context/actions/userActions";
 
+export type CurrUserType = {
+  email: string;
+  firstName: string;
+  lastName: string;
+};
+
 export type UserStateType = {
-  currUser: null | string;
+  currUser: null | CurrUserType;
   isLogged: boolean;
 };
 
@@ -12,9 +18,10 @@ export type UserActionTypes =
     }
   | {
       type: typeof SET_CURR_USER;
-      payload: string | null;
+      payload: CurrUserType | null;
     };
 
 export type UserValsType = UserStateType & {
-  setCurrUser: (email?: string, token?: string) => void;
+  setCurrUser: (val?: CurrUserType | null) => void;
+  setUserLogged: (token?: string | boolean) => void;
 };

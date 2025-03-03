@@ -15,7 +15,7 @@ export const refreshToken = async (
 
   const user = await User.findOne({ refreshToken: hashedInput });
   if (!user)
-    return res.status(401).json({ msg: "User not found", success: false });
+    return res.status(404).json({ msg: "User not found", success: false });
 
   if (new Date(user?.expiryRefreshToken ?? 0)?.getTime() < Date.now()) {
     user.refreshToken = null;

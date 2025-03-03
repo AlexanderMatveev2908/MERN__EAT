@@ -13,9 +13,11 @@ export const sendEmailUser = async (
   if (!email || !type) return res.status(400).json({ msg: "invalid req" });
 
   const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ msg: "User not found" });
+  if (!user) return res.status(404).json({ msg: "User not found" });
   if (!user.isVerified && type === "recover-pwd")
-    return res.status(400).json({ msg: "User not verified" });
+    return res.status(403).json({ msg: "User not verified" });
+  if (user.isVerified && type === "verify-account")
+    return res.status(403).json({ msg: "User already verified" });
 
   const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 
@@ -50,10 +52,10 @@ export const verifyAccount = async (
   const { userId, token } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) return res.status(400).json({ msg: "User not found" });
+  if (!user) return res.status(404).json({ msg: "User not found" });
 
   if (user.isVerified)
-    return res.status(401).json({ msg: "User already verified" });
+    return res.status(403).json({ msg: "User already verified" });
   if (!user?.verifyAccountToken)
     return res.status(401).json({ msg: "Unauthorized", success: false });
   if (new Date(user?.expiryVerifyAccountToken ?? 0)?.getTime() < Date.now()) {
@@ -103,10 +105,10 @@ export const verifyRecoverPwd = async (
   const { userId, token } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) return res.status(400).json({ msg: "User not found" });
+  if (!user) return res.status(404).json({ msg: "User not found" });
 
   if (!user.isVerified)
-    return res.status(401).json({ msg: "User not verified", success: false });
+    return res.status(403).json({ msg: "User not verified", success: false });
   if (!user?.recoverPwdToken)
     return res.status(401).json({ msg: "Unauthorized", success: false });
   if (new Date(user.expiryRecoverPwdToken ?? 0)?.getTime() < Date.now()) {

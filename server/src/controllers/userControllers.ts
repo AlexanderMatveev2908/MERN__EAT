@@ -7,10 +7,10 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const { userId, password, token } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) return res.status(401).json({ msg: "User not found" });
+  if (!user) return res.status(404).json({ msg: "User not found" });
   if (!user.isVerified)
     return res
-      .status(401)
+      .status(403)
       .json({ success: false, msg: "I don't even know how u get so far 🤔" });
   if (!user?.recoverPwdToken)
     return res.status(401).json({ success: false, msg: "Unauthorized" });
@@ -68,4 +68,22 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   return res
     .status(200)
     .json({ accessToken, success: true, userEmail: user.email });
+};
+
+export const getUserInfo = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { userId } = req as any;
+
+  if (!userId)
+    return res.status(401).json({ msg: "Unauthorized", success: false });
+
+  const user = await User.findById(userId)
+    .select("email firstName lastName")
+    .lean();
+  if (!user)
+    return res.status(400).json({ msg: "user not found", success: false });
+
+  return res.status(200).json({ success: true, user });
 };
