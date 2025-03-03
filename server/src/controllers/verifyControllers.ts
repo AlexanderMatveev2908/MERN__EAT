@@ -93,9 +93,7 @@ export const verifyAccount = async (
     expires: expiryVerification,
   });
 
-  return res
-    .status(200)
-    .json({ accessToken, success: true, userEmail: user.email });
+  return res.status(200).json({ accessToken, success: true });
 };
 
 export const verifyRecoverPwd = async (

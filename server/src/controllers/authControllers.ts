@@ -64,7 +64,6 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
     msg: "User logged in successfully",
     success: true,
     accessToken,
-    userEmail: user.email,
   });
 };
 
