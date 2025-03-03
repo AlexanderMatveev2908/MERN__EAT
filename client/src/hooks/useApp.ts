@@ -3,6 +3,7 @@ import { useUser } from "./useGlobal";
 import { useCallback, useEffect } from "react";
 import { useHandleErr } from "./useHandleErr";
 import { getUserInfoAPI } from "../api/user";
+import { getInitialsName } from "../utils/getInitialsName";
 
 export const useApp = () => {
   const { setCurrUser, isLogged } = useUser();
@@ -13,7 +14,7 @@ export const useApp = () => {
   const { data, isSuccess, isError, error } = useQuery({
     queryKey: ["user", isLogged],
     queryFn: memoGetInfoAPI,
-    enabled: isLogged,
+    enabled: isLogged && !sessionStorage.getItem("initName"),
     retry: false,
     refetchOnWindowFocus: false,
   });
@@ -26,6 +27,7 @@ export const useApp = () => {
       } else if (isSuccess) {
         console.log(data);
         setCurrUser(data.user);
+        sessionStorage.setItem("initName", getInitialsName(data.user));
       }
     };
 
@@ -36,6 +38,7 @@ export const useApp = () => {
   useEffect(() => {
     if (!isLogged) {
       setCurrUser(null);
+      sessionStorage.removeItem("initName");
     }
     // eslint-disable-next-line
   }, [isLogged]);

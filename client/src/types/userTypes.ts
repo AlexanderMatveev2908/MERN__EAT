@@ -1,7 +1,6 @@
 import { SET_CURR_USER, SET_IS_LOGGED } from "../context/actions/userActions";
 
 export type CurrUserType = {
-  email: string;
   firstName: string;
   lastName: string;
 };

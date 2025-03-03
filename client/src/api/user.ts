@@ -14,7 +14,7 @@ export const changeRecoverPwdAPI = async ({
 };
 
 export const getUserInfoAPI = async () => {
-  const { data } = await foodAppInstance.get("/user/info");
+  const { data } = await foodAppInstance.get("/user/name");
 
   return data;
 };

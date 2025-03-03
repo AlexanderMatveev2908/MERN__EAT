@@ -20,7 +20,7 @@ const DropDown: FC<PropsType> = ({ isAbsolute = true }) => {
         tabIndex={1}
         className={`w-full flex flex-col border-2 border-orange-500 bg-[#111] rounded-xl transition-all duration-300 ${
           isAbsolute ? "absolute" : ""
-        } ${isDropOpen ? "el_focus" : ""}`}
+        } ${isDropOpen ? "focus__base" : ""}`}
       >
         <div
           ref={dropRef}

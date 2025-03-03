@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { footerFieldsArr, socialFieldsArr } from "./footerFieldsArr";
-import Newsletter from "./Newsletter/NewsLetter";
+import Newsletter from "./Newsletter/Newsletter";
 
 const Footer: FC = () => {
   return (
-    <div className="pad_page py-5 border-t-2 border-orange-500 w-full flex flex-col items-center gap-y-5">
+    <div className="pad__page py-5 border-t-2 border-orange-500 w-full flex flex-col items-center gap-y-5">
       <div className="grid w-full gap-y-5 ">
         <Link to="/" className="txt__05 text-orange-500">
           LOGO
@@ -16,7 +16,7 @@ const Footer: FC = () => {
             <div key={field.id} className="w-full flex flex-col items-start">
               <Link
                 to={field.path}
-                className="el_with_after txt__02 transition-all duration-300 hover:text-orange-500"
+                className="el__after_below txt__02 transition-all duration-300 hover:text-orange-500"
               >
                 {field.label}
               </Link>
@@ -30,7 +30,7 @@ const Footer: FC = () => {
           <li key={field.id}>
             <a
               href={field.url}
-              className="grid max-w-fit grid-cols-[40px_1fr] items-end transition-all duration-300 el_with_after hover:text-orange-500"
+              className="grid max-w-fit grid-cols-[40px_1fr] items-end transition-all duration-300 el__after_below hover:text-orange-500"
             >
               <field.svg className="w-[30px] h-[30px] " />
               <span className="txt__01">{field.label}</span>

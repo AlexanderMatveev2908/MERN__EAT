@@ -22,13 +22,13 @@ const SwitchForm: FC<PropsType> = ({ type }) => {
             { state: { from: location.pathname } }
           )
         }
-        className="w-full flex items-center gap-3 group el_with_after cursor-pointer"
+        className="w-full flex items-center gap-3 group el__after_below cursor-pointer"
       >
         {switchFormLeftArr.map(
           (field) =>
             field.type === type && (
               <Fragment key={field.id}>
-                <field.svg className="icon_switch_form" />{" "}
+                <field.svg className="icon__switch_form" />{" "}
                 <span className="transition-all duration-300 group-hover:text-orange-500 txt__00">
                   {field.label}
                 </span>
@@ -39,13 +39,13 @@ const SwitchForm: FC<PropsType> = ({ type }) => {
 
       <Link
         to={type === "login" ? "/auth/register" : "/auth/login"}
-        className="w-full flex items-center gap-3 group el_with_after sm:justify-self-end"
+        className="w-full flex items-center gap-3 group el__after_below sm:justify-self-end"
       >
         {switchFormRightArr.map(
           (field) =>
             field.type === type && (
               <Fragment key={field.id}>
-                <field.svg className="icon_switch_form" />
+                <field.svg className="icon__switch_form" />
                 <span className="transition-all duration-300 group-hover:text-orange-500 txt__00">
                   {field.label}
                 </span>

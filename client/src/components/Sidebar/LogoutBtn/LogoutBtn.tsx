@@ -16,9 +16,9 @@ const LogoutBtn: FC<PropsType> = ({ handleLogout, isPending }) => {
   ) : (
     <button
       onClick={handleLogout}
-      className="w-full flex gap-3 group max-w-fit items-center el_with_after"
+      className="w-full flex gap-3 group max-w-fit items-center el__after_below"
     >
-      <LogOut className="icon__with_el" />
+      <LogOut className="icon__sidebar" />
 
       <span className="cursor-pointer txt__02 group-hover:text-orange-500 transition-all duration-300">
         Logout

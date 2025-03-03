@@ -4,8 +4,8 @@ import {
   KeyRound,
   LogIn,
   ShieldCheck,
+  User,
   UserPen,
-  UserRound,
 } from "lucide-react";
 import { genID } from "../../utils/genID";
 
@@ -25,7 +25,7 @@ export const sidebarFieldsArrLoggedUser = [
     id: genID(),
     path: "/user/profile",
     label: "Profile",
-    svg: UserRound,
+    svg: User,
   },
 ];
 
