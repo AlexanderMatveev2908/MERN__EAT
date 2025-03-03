@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
-import { useToast, useUser } from "../../hooks/useGlobal";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { logoutUserAPI } from "../../api/auth/authAPI";
+import { useLogout } from "../../hooks/useLogout";
 
 export const useSidebar = ({
   sideRef,
@@ -12,9 +10,6 @@ export const useSidebar = ({
   sideRef: React.MutableRefObject<HTMLDivElement | null>;
   setSideOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { showToastMsg } = useToast();
-  const { setUserLogged } = useUser();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,19 +26,7 @@ export const useSidebar = ({
     };
   }, [setSideOpen, sideRef]);
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: () => logoutUserAPI(),
-    onSuccess: () => {
-      showToastMsg("Logout successful", "SUCCESS");
-    },
-    onError: (err: any) => {
-      showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
-    },
-    onSettled: () => {
-      setUserLogged();
-      navigate("/", { replace: true });
-    },
-  });
+  const { mutate, isPending } = useLogout();
 
   const handleLogout = () => mutate();
 

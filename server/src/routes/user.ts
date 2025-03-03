@@ -8,6 +8,6 @@ const router = express();
 
 router.post("/recover-pwd", validatorRecoverPwd, asyncWrapper(recoverPwd));
 
-router.get("/info", getUserId, asyncWrapper(getUserInfo));
+router.get("/name", getUserId, asyncWrapper(getUserInfo));
 
 export default router;

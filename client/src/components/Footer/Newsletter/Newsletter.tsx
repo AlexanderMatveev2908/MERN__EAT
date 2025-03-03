@@ -11,7 +11,7 @@ const Newsletter: FC = () => {
         <div className="w-full ">
           <input
             type="email"
-            className="input_base txt__01"
+            className="input__base txt__01"
             placeholder="Your email..."
           />
         </div>

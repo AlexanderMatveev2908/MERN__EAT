@@ -22,7 +22,7 @@ const BasicAuthField: FC<PropsType> = ({ register, errors, field }) => {
       <div className="w-full relative">
         <input
           type={field.type}
-          className="input_with_icon "
+          className="input__auth_field "
           placeholder={`Your ${field.label}...`}
           {...(register(field.field, {
             required: `${field.label} is required`,
@@ -31,7 +31,7 @@ const BasicAuthField: FC<PropsType> = ({ register, errors, field }) => {
             },
           }) as any)}
         />
-        <field.svg className="icon_input" />
+        <field.svg className="icon__auth_field" />
       </div>
       {errors?.[field.field]?.message && (
         <span className="txt__00 text-red-600">

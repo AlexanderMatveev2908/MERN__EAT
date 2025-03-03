@@ -8,7 +8,7 @@ const Hero: FC = () => {
     useHero();
 
   return (
-    <div className="pad_page w-full pt-5 flex flex-col justify-center">
+    <div className="pad__page w-full pt-5 flex flex-col justify-center">
       <div className="w-full flex items-center relative">
         <button
           onClick={() => {

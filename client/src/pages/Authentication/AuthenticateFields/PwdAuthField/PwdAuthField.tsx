@@ -57,7 +57,7 @@ const PwdAuthField: FC<PropsType> = ({
       <div className="w-full relative">
         <input
           type={isVisible ? "text" : "password"}
-          className="input_with_icon "
+          className="input__auth_field "
           placeholder={field.place}
           {...register(
             field.field,
@@ -69,9 +69,9 @@ const PwdAuthField: FC<PropsType> = ({
           className="w-fit flex justify-center items-center"
         >
           {isVisible ? (
-            <Eye className="icon_input" />
+            <Eye className="icon__auth_field" />
           ) : (
-            <EyeOff className="icon_input" />
+            <EyeOff className="icon__auth_field" />
           )}
         </span>
       </div>
