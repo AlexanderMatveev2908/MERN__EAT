@@ -1,9 +1,12 @@
 import { FC } from "react";
 import ButtonAnimated from "../../ButtonAnimated/ButtonAnimated";
+import { useUser } from "../../../hooks/useGlobal";
 
 const Newsletter: FC = () => {
+  const { isLogged } = useUser();
+
   return (
-    <div className="w-full grid grid-cols-1 lg:grid-cols-[200px_1fr] items-center gap-5">
+    <div className="w-full grid grid-cols-1 lg:grid-cols-[200px_1fr] items-center gap-3">
       <div className="w-full flex flex-col">
         <span className="txt__02">Newsletter</span>
       </div>
@@ -17,7 +20,12 @@ const Newsletter: FC = () => {
         </div>
 
         <div className="w-full max-w-[200px] md:max-w-[225px] flex justify-start">
-          <ButtonAnimated {...{ label: "Subscribe" }} />
+          <ButtonAnimated
+            {...{
+              label: isLogged ? "Subscribe" : "Login Now",
+              type: isLogged ? "submit" : "button",
+            }}
+          />
         </div>
       </form>
       <div className="w-full flex lg:col-span-2">

@@ -14,7 +14,7 @@ export const useApp = () => {
   const { data, isSuccess, isError, error } = useQuery({
     queryKey: ["user", isLogged],
     queryFn: memoGetInfoAPI,
-    enabled: isLogged && !sessionStorage.getItem("initName"),
+    enabled: isLogged,
     retry: false,
     refetchOnWindowFocus: false,
   });
@@ -27,7 +27,8 @@ export const useApp = () => {
       } else if (isSuccess) {
         console.log(data);
         setCurrUser(data.user);
-        sessionStorage.setItem("initName", getInitialsName(data.user));
+        if (!sessionStorage.getItem("initName"))
+          sessionStorage.setItem("initName", getInitialsName(data.user));
       }
     };
 

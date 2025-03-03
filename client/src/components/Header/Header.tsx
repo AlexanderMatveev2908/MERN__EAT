@@ -1,8 +1,9 @@
-import { Menu, User, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useUser } from "../../hooks/useGlobal";
 import DropLogged from "./DropLogged/DropLogged";
+import DropNonLogged from "./DropNonLogged/DropNonLogged";
 
 type PropsType = {
   setSideOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,13 +25,7 @@ const Header: FC<PropsType> = ({ setSideOpen, sideOpen }) => {
 
         {needSideBar && (
           <div className="flex w-full gap-5 items-center justify-end">
-            {isLogged ? (
-              <DropLogged />
-            ) : (
-              <Link to="/auth/login" className="group flex items-center">
-                <User className="icon__base " />
-              </Link>
-            )}
+            {isLogged ? <DropLogged /> : <DropNonLogged />}
             {sideOpen ? (
               <div
                 onClick={() => setSideOpen?.(false)}

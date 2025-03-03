@@ -9,6 +9,7 @@ import {
 } from "./sidebarArr";
 import SideEL from "./SideEL/SideEL";
 import LogoutBtn from "./LogoutBtn/LogoutBtn";
+import UserInitials from "./UserInitials";
 
 type PropsType = {
   sideOpen: boolean;
@@ -22,7 +23,7 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
 
   const type = searchParams.get("type");
 
-  const { isLogged } = useUser();
+  const { isLogged, currUser } = useUser();
 
   const { isPending, handleLogout, handleSideClick } = useSidebar({
     sideRef,
@@ -43,7 +44,9 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
           sideOpen ? "translate-x-0" : "translate-x-full"
         } sidebar__content sidebar__i_content`}
       >
-        <div className="w-full grid grid-cols-1 justify-items-start gap-5 p-5">
+        <div className="w-full grid grid-cols-1 justify-items-start gap-5 pt-4">
+          {currUser && <UserInitials {...{ currUser }} />}
+
           {sidebarFieldsArrAllUser.map((el) => (
             <SideEL key={el.id} {...{ handleSideClick, type, location, el }} />
           ))}

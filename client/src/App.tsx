@@ -10,6 +10,8 @@ import RecoverPwd from "./pages/Authentication/RecoverPwd/RecoverPwd";
 import LayoutNonLoggedUserRoute from "./layouts/layoutNonLoggedUser/LayoutNonLoggedUserRoute";
 import NoticeEmail from "./pages/NoticeEmail/NoticeEmail";
 import { useApp } from "./hooks/useApp";
+import LayoutUserRoute from "./layouts/LayoutUserRoute/LayoutUserRoute";
+import UserProfile from "./pages/UserProfile/UserProfile";
 // import CallbackAuth from "./pages/CallbackAuth/CallbackAuth";
 
 const App: FC = () => {
@@ -30,6 +32,10 @@ const App: FC = () => {
           <Route path="verify" element={<Verify />} />
 
           <Route path="recover-pwd" element={<RecoverPwd />} />
+        </Route>
+
+        <Route path="user" element={<LayoutUserRoute />}>
+          <Route path="profile" element={<UserProfile />} />
         </Route>
 
         <Route path="notice-email" element={<NoticeEmail />} />

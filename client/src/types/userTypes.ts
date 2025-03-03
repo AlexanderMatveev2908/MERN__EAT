@@ -3,6 +3,7 @@ import { SET_CURR_USER, SET_IS_LOGGED } from "../context/actions/userActions";
 export type CurrUserType = {
   firstName: string;
   lastName: string;
+  email: string;
 };
 
 export type UserStateType = {

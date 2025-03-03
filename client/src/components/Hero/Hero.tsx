@@ -17,7 +17,7 @@ const Hero: FC = () => {
           }}
           className="absolute top-1/2 left-0 -translate-y-1/2 hero__i_arrow outline-none"
         >
-          <ChevronLeft className="h-[50px] w-[50px] text-orange-500 btn__pseudo hover:scale-110" />
+          <ChevronLeft className="h-[50px] w-[50px] text-orange-500 btn__pseudo hover:scale-120" />
         </button>
 
         <div className="w-full flex justify-items-center gap-[10%] overflow-x-auto hide_scrollbar snap-mandatory snap-x p-6 border-2 border-orange-500 rounded-xl">
@@ -47,7 +47,7 @@ const Hero: FC = () => {
           }}
           className="absolute top-1/2 right-0 -translate-y-1/2 hero__i_arrow outline-none"
         >
-          <ChevronRight className="h-[50px] w-[50px] text-orange-500 btn__pseudo hover:scale-110" />
+          <ChevronRight className="h-[50px] w-[50px] text-orange-500 btn__pseudo hover:scale-120" />
         </button>
       </div>
     </div>

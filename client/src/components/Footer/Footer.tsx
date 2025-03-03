@@ -16,7 +16,7 @@ const Footer: FC = () => {
             <div key={field.id} className="w-full flex flex-col items-start">
               <Link
                 to={field.path}
-                className="el__after_below txt__02 transition-all duration-300 hover:text-orange-500"
+                className="el__after_below txt__02 transition-all duration-300 hover:text-orange-500 opacity-50"
               >
                 {field.label}
               </Link>
