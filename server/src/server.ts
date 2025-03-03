@@ -9,6 +9,9 @@ import xss from "xss-clean";
 import mongoSanitize from "express-mongo-sanitize";
 import helmet from "helmet";
 import authRouter from "./routes/auth";
+import userRouter from "./routes/user";
+import verifyRouter from "./routes/verify";
+import refreshRouter from "./routes/refresh";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -26,6 +29,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/verify", verifyRouter);
+app.use("/api/v1/refresh", refreshRouter);
+app.use("/api/v1/user", userRouter);
 
 // app.use("/api/v1/auth", authRouter);
 
