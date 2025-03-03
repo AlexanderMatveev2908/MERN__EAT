@@ -9,7 +9,7 @@ type PropsType = {
 };
 
 const Header: FC<PropsType> = ({ setSideOpen, sideOpen }) => {
-  const { isLogged } = useUser();
+  const { currUser } = useUser();
 
   const location = useLocation();
   const needSideBar = location.pathname !== "/notice-email-sent";
@@ -23,7 +23,17 @@ const Header: FC<PropsType> = ({ setSideOpen, sideOpen }) => {
 
         {needSideBar && (
           <div className="flex w-full gap-5 items-center justify-end">
-            {!isLogged && (
+            {currUser ? (
+              <Link
+                to="/user/profile"
+                className="group flex items-center justify-center"
+              >
+                <span className="txt__01 transition-all duration-300 group-hover:text-orange-500 group-hover:scale-110 border-2 py-1 px-2 rounded-xl">
+                  {currUser.firstName.slice(0, 1)?.toUpperCase() +
+                    currUser.lastName.slice(0, 1)?.toUpperCase()}
+                </span>
+              </Link>
+            ) : (
               <Link to="/auth/login" className="group flex items-center">
                 <User className="icon " />
               </Link>

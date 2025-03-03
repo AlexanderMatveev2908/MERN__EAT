@@ -13,8 +13,9 @@ export const useSidebar = ({
   setSideOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { showToastMsg } = useToast();
-  const navigate = useNavigate();
   const { setUserLogged } = useUser();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const closeSide = (e: MouseEvent) => {
@@ -46,9 +47,15 @@ export const useSidebar = ({
 
   const handleLogout = () => mutate();
 
+  const handleSideClick = (path: string, from?: string) => {
+    navigate(path, from ? { state: { from } } : undefined);
+    setSideOpen(false);
+  };
+
   return {
     isPending,
     handleLogout,
+    handleSideClick,
   };
 };
 
