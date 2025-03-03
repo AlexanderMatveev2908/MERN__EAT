@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import User, { UserType } from "../models/User";
-import { genAccessJWT, genHashedInput, genTokenSHA } from "../utils/token";
+import {
+  checkTokenSHA,
+  genAccessJWT,
+  genHashedInput,
+  genTokenSHA,
+} from "../utils/token";
 import { sendUserEmail } from "../utils/mail";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../utils/hashPwd";
 import {
@@ -77,7 +82,7 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
 
   if (!refreshToken)
     return res.status(200).json({
-      msg: "Persistent cookie auto deletes themselves when expired so could be ok",
+      msg: "I guess is ok anyway",
       success: true,
     });
 
@@ -94,7 +99,9 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
 
   res.cookie("refreshToken", "", { expires: new Date(0) });
 
-  return res.status(200).json({ msg: "User logged out successfully" });
+  return res
+    .status(200)
+    .json({ msg: "User logged out successfully", success: true });
 };
 
 export const sendEmailUser = async (
@@ -154,20 +161,26 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const { userId, password, token } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) return res.status(400).json({ msg: "User not found" });
+  if (!user) return res.status(401).json({ msg: "User not found" });
   if (!user.isVerified)
     return res
-      .status(400)
+      .status(401)
       .json({ success: false, msg: "I don't even know how u get so far 🤔" });
   if (!user?.recoverPwdToken)
     return res.status(401).json({ success: false, msg: "Unauthorized" });
 
-  if (new Date(user?.expiryRecoverPwdToken ?? 0)?.getTime() < Date.now()) {
+  const hasExpired =
+    new Date(user?.expiryRecoverPwdToken ?? 0)?.getTime() < Date.now();
+  const isMatch = checkTokenSHA(token, user?.recoverPwdToken ?? "", "auth");
+  if (hasExpired || !isMatch) {
     user.recoverPwdToken = null;
     user.expiryRecoverPwdToken = null;
+
     await user.save();
 
-    return res.status(401).json({ success: false, msg: "Token expired" });
+    if (hasExpired)
+      return res.status(401).json({ success: false, msg: "Token expired" });
+    else return res.status(401).json({ success: false, msg: "Invalid token" });
   }
 
   if (password === user.email)
@@ -224,7 +237,7 @@ export const refreshToken = async (
 
   const user = await User.findOne({ refreshToken: hashedInput });
   if (!user)
-    return res.status(401).json({ msg: "Unauthorized", success: false });
+    return res.status(401).json({ msg: "User not found", success: false });
 
   if (new Date(user?.expiryRefreshToken ?? 0)?.getTime() < Date.now()) {
     user.refreshToken = null;

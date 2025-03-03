@@ -9,6 +9,7 @@ import { changeRecoverPwdAPI } from "../../../api/auth/authAPI";
 import { useToast, useUser } from "../../../hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../constants/regex";
 import { AccessResAPIType } from "../../../types/authTypes";
+import { useHandleErr } from "../../../hooks/useHandleErr";
 
 type ChangePwdFormType = {
   password: string;
@@ -19,6 +20,7 @@ export const useRecoverPwd = () => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
 
+  const { handleErrAPI } = useHandleErr();
   const { showToastMsg } = useToast();
   const { setCurrUser, isLogged } = useUser();
 
@@ -75,8 +77,7 @@ export const useRecoverPwd = () => {
       navigate("/", { replace: true });
     },
     onError: (err: any) => {
-      if (err?.response?.status === 401) navigate("/", { replace: true });
-      showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+      handleErrAPI({ err });
     },
   });
 

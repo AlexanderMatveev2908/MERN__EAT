@@ -6,10 +6,12 @@ import { recoverPwdAPI, verifyAccountAPI } from "../../../../api/auth/authAPI";
 import { useToast, useUser } from "../../../../hooks/useGlobal";
 import { useCallback, useEffect } from "react";
 import { AccessResAPIType, VerifyAPI } from "../../../../types/authTypes";
+import { useHandleErr } from "../../../../hooks/useHandleErr";
 
 export const useVerify = () => {
   const { showToastMsg } = useToast();
   const { setCurrUser, isLogged } = useUser();
+  const { handleErrAPI } = useHandleErr();
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -38,8 +40,7 @@ export const useVerify = () => {
       navigate("/", { replace: true });
     },
     onError: (err: any) => {
-      showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
-      navigate("/", { replace: true });
+      handleErrAPI({ err, push: true });
     },
   });
 
@@ -57,8 +58,7 @@ export const useVerify = () => {
       });
     },
     onError: (err: any) => {
-      showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
-      navigate("/", { replace: true });
+      handleErrAPI({ err, push: true });
     },
   });
 

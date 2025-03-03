@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { registerUserAPI } from "../../../api/auth/authAPI";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "../../../hooks/useGlobal";
+import { useHandleErr } from "../../../hooks/useHandleErr";
 
 export type RegisterFormType = {
   firstName: string;
@@ -20,6 +21,8 @@ export type RegisterFormType = {
 export const useRegisterCustom = () => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
+
+  const { handleErrAPI } = useHandleErr();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -68,7 +71,7 @@ export const useRegisterCustom = () => {
       });
     },
     onError: (err: any) => {
-      showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+      handleErrAPI({ err });
     },
   });
 

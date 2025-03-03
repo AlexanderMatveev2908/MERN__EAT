@@ -11,7 +11,7 @@ export const handleVerifyAccount = async (
   const { token } = req.body;
 
   if (user.isVerified)
-    return res.status(400).json({ msg: "User already verified" });
+    return res.status(401).json({ msg: "User already verified" });
   if (!user?.verifyAccountToken)
     return res.status(401).json({ msg: "Unauthorized", success: false });
   if (new Date(user?.expiryVerifyAccountToken ?? 0)?.getTime() < Date.now()) {
@@ -60,7 +60,7 @@ export const handleVerifyRecoverPwd = async (
   const { token } = req.body;
 
   if (!user.isVerified)
-    return res.status(400).json({ msg: "User not verified", success: false });
+    return res.status(401).json({ msg: "User not verified", success: false });
   if (!user?.recoverPwdToken)
     return res.status(401).json({ msg: "Unauthorized", success: false });
   if (new Date(user.expiryRecoverPwdToken ?? 0)?.getTime() < Date.now()) {
@@ -74,7 +74,7 @@ export const handleVerifyRecoverPwd = async (
 
   const isMatch = checkTokenSHA(token, user?.recoverPwdToken ?? "", "auth");
   if (!isMatch)
-    return res.status(401).json({ success: false, msg: "token expired" });
+    return res.status(401).json({ success: false, msg: "Invalid token" });
 
   return res.status(200).json({ success: true });
 };

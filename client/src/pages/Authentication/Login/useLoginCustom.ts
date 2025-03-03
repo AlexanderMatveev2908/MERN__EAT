@@ -7,6 +7,7 @@ import { loginUserAPI } from "../../../api/auth/authAPI";
 import { AccessResAPIType } from "../../../types/authTypes";
 import { useToast, useUser } from "../../../hooks/useGlobal";
 import { useNavigate } from "react-router-dom";
+import { useHandleErr } from "../../../hooks/useHandleErr";
 
 export type LoginFormType = {
   email: string;
@@ -16,6 +17,7 @@ export type LoginFormType = {
 export const useLoginCustom = () => {
   const { setCurrUser } = useUser();
   const { showToastMsg } = useToast();
+  const { handleErrAPI } = useHandleErr();
 
   const navigate = useNavigate();
 
@@ -42,7 +44,7 @@ export const useLoginCustom = () => {
       navigate("/");
     },
     onError: (err: any) => {
-      showToastMsg(err?.response?.data?.msg || err, "ERROR");
+      handleErrAPI({ err });
     },
   });
 

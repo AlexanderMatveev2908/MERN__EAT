@@ -18,7 +18,7 @@ export const verifyAccessToken = (
   const auth = req.headers?.authorization || req.headers?.Authorization;
 
   if (!auth)
-    return res.status(400).json({ msg: "Auth required", success: false });
+    return res.status(401).json({ msg: "Unauthorized", success: false });
 
   const token = (auth as string | undefined)?.split(" ")[1];
 
@@ -26,12 +26,12 @@ export const verifyAccessToken = (
 
   try {
     const decoded = verifyAccessJWT(token);
-    req.userId = decoded.userId as any;
+    req.userId = decoded.userId as string;
 
     next();
   } catch (err: any) {
     if (err.name === "TokenExpiredError")
       return res.status(401).json({ msg: "ACCESS TOKEN EXPIRED" });
-    return res.status(401).json({ msg: "Unauthorized" });
+    return res.status(401).json({ msg: "Invalid Token" });
   }
 };
