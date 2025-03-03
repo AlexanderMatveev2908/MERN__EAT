@@ -2,9 +2,12 @@
 import { FC, useEffect } from "react";
 import { useScrollTop } from "../../hooks/useScrollTop";
 import { foodAppInstance } from "../../constants/axiosInstance";
+import { useHandleErr } from "../../hooks/useHandleErr";
 
 const Home: FC = () => {
   useScrollTop();
+
+  const { handleErrAPI } = useHandleErr();
 
   useEffect(() => {
     const getInfo = async () => {
@@ -13,11 +16,11 @@ const Home: FC = () => {
 
         console.log(data);
       } catch (err: any) {
-        console.log(err);
+        handleErrAPI({ err });
       }
     };
 
-    getInfo();
+    // getInfo();
   }, []);
 
   return (

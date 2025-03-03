@@ -44,7 +44,14 @@ foodAppInstance.interceptors.response.use(
       } catch {
         sessionStorage.removeItem("accessToken");
 
-        return Promise.reject("SESSION EXPIRED");
+        return Promise.reject({
+          response: {
+            status: 401,
+            data: {
+              msg: "REFRESH TOKEN EXPIRED",
+            },
+          },
+        });
       }
     }
 

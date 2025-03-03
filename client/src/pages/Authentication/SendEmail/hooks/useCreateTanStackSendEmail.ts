@@ -4,6 +4,8 @@ import { SendEmailFormType } from "./useSendEmail";
 import { useToast } from "../../../../hooks/useGlobal";
 import { useNavigate } from "react-router-dom";
 import { UseFormReset } from "react-hook-form";
+import { BaseResAPIType } from "../../../../types/authTypes";
+import { useHandleErr } from "../../../../hooks/useHandleErr";
 
 export const useCreateTanStackSendEmail = ({
   reset,
@@ -12,14 +14,18 @@ export const useCreateTanStackSendEmail = ({
   from,
 }: {
   reset: UseFormReset<SendEmailFormType>;
-  callAPI: (params: {
+  callAPI: ({
+    email,
+    type,
+  }: {
     email: SendEmailFormType["email"];
     type: string | null;
-  }) => Promise<{ msg: string; success: boolean }>;
+  }) => Promise<BaseResAPIType>;
   from: string;
   type: string | null;
 }) => {
   const { showToastMsg } = useToast();
+  const { handleErrAPI } = useHandleErr();
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
@@ -34,7 +40,7 @@ export const useCreateTanStackSendEmail = ({
       });
     },
     onError: (err: any) => {
-      showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+      handleErrAPI({ err });
     },
   });
 
