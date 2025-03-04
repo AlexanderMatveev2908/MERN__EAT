@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UserProfileFormType } from "./types";
+import { allFields, fieldsDividedByArea } from "../../userProfileFieldsArr";
+import { UserProfileActions, UserProfileFormType } from "./types";
+import { totLen } from "./useProfileReducer";
 
 export const getRespectiveVals = (
   currFieldsArea: any[],
@@ -45,10 +47,93 @@ export const validateVals = (
     const currReg = currArea[i].reg;
 
     if (!currReg.test(respectiveVals[currArea[i].field])) {
-      console.log(respectiveVals[currArea[i].field]);
       isCurrFormValid = false;
     }
   }
 
   return isCurrFormValid;
+};
+
+export const handleErr = (
+  dispatch,
+  name: string,
+  value: string,
+  currField: any
+) => {
+  dispatch({
+    type: UserProfileActions.SET_ERR,
+    payload: {
+      field: name,
+      msg: currField.reg.test(value ?? "") ? null : currField.msg,
+    },
+  });
+
+  dispatch({
+    type: UserProfileActions.SET_REQUIRED,
+    payload: {
+      field: name,
+      required: value ? null : `${currField.label} is required`,
+    },
+  });
+};
+
+export const handleBtns = (
+  dispatch,
+  state,
+  name?: string,
+  value?: string,
+  curr?: number
+) => {
+  const currFieldsArea = fieldsDividedByArea[curr ?? state.currForm.curr];
+
+  const respectiveVals = getRespectiveVals_2(currFieldsArea, state.user);
+
+  if (name !== undefined && value !== undefined) respectiveVals[name] = value;
+
+  const isCurrFormValid = validateVals(respectiveVals, currFieldsArea);
+
+  dispatch({
+    type: UserProfileActions.SET_NEXT_DISABLED,
+    payload: {
+      isNextDisabled: !isCurrFormValid,
+    },
+  });
+};
+
+export const handleChangeBeforeUseCb = (
+  dispatch,
+  cbErr,
+  cbBtns,
+  e: React.ChangeEvent<HTMLInputElement>
+) => {
+  const { name, value } = e.target;
+
+  const [currField] = allFields.filter((field) => field.field === name) as any;
+
+  cbErr(name, value, currField);
+
+  cbBtns(name, value);
+
+  dispatch({
+    type: UserProfileActions.UPDATE_FIELD,
+    payload: { field: name, val: value },
+  });
+};
+
+export const handlePrevBeforeUseCb = (dispatch, curr) =>
+  curr > 0
+    ? dispatch({
+        type: UserProfileActions.SET_CURR,
+        payload: { curr: "PREV" },
+      })
+    : undefined;
+
+export const handleNextBeforeUseCb = (dispatch, currForm, cbBtns) => {
+  if (currForm.curr < totLen - 1 && !currForm.isNextDisabled)
+    dispatch({
+      type: UserProfileActions.SET_CURR,
+      payload: { curr: "NEXT" },
+    });
+
+  cbBtns(undefined, undefined, currForm.curr + 1);
 };

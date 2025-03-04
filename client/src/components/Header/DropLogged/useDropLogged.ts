@@ -4,6 +4,7 @@ import { useLogout } from "../../../hooks/useLogout";
 export const useDropLogged = () => {
   const [dropOpen, setDropOpen] = useState<boolean>(false);
   const dropRef = useRef<HTMLDivElement | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleOutClick = (e: MouseEvent) => {
@@ -27,6 +28,17 @@ export const useDropLogged = () => {
     mutate();
   };
 
+  const handleMouseEnter = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    setDropOpen(true);
+  };
+  const handleMouseLeave = () => {
+    timerRef.current = setTimeout(() => {
+      setDropOpen(false);
+    }, 250);
+  };
+
   return {
     dropOpen,
     dropRef,
@@ -34,5 +46,7 @@ export const useDropLogged = () => {
     isPending,
     handleDropLogout,
     setDropOpen,
+    handleMouseEnter,
+    handleMouseLeave,
   };
 };

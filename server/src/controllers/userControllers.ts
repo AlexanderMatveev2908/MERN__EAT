@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../utils/hashPwd";
 import { checkTokenSHA, genAccessJWT, genTokenSHA } from "../utils/token";
+import { RequestWithUserId } from "../middleware/general/verifyAccessToken";
+import mongoose from "mongoose";
 
 export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const { userId, password, token } = req.body;
@@ -84,6 +86,32 @@ export const getUserInfo = async (
     .lean();
   if (!user)
     return res.status(400).json({ msg: "user not found", success: false });
+
+  return res.status(200).json({ success: true, user });
+};
+
+export const getUserProfileDetails = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+
+  const userArr = await User.aggregate([
+    { $match: { _id: new mongoose.Types.ObjectId(userId) } },
+    {
+      $project: {
+        firstName: 1,
+        lastName: 1,
+        address: 1,
+        _id: 0,
+      },
+    },
+  ]);
+
+  const user = userArr[0];
+
+  if (!user)
+    return res.status(404).json({ msg: "User not found", success: false });
 
   return res.status(200).json({ success: true, user });
 };

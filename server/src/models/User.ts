@@ -6,6 +6,14 @@ export type UserType = {
   lastName: string;
   email: string;
   password: string;
+  address: {
+    country: string | null;
+    state: string | null;
+    city: string | null;
+    street: string | null;
+    zipCode: string | null;
+    phone: string | null;
+  };
   acceptedTerms: boolean;
   isVerified: boolean;
   refreshToken: string | null;
@@ -37,6 +45,32 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    address: {
+      country: {
+        type: String,
+        default: null,
+      },
+      state: {
+        type: String,
+        default: null,
+      },
+      city: {
+        type: String,
+        default: null,
+      },
+      street: {
+        type: String,
+        default: null,
+      },
+      zipCode: {
+        type: String,
+        default: null,
+      },
+      phone: {
+        type: String,
+        default: null,
+      },
     },
     acceptedTerms: {
       type: Boolean,
