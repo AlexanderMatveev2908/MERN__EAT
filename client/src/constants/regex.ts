@@ -8,7 +8,7 @@ export const REG_MONGO = /^[a-f0-9]{24}$/;
 export const REG_TOKEN = /^[a-f0-9]{128}$/;
 
 export const REG_COUNTRY = /^[A-Za-z\s]{2,50}$/;
-export const REG_STATE = /^[A-Z]{2,3}$/;
+export const REG_STATE = /^[A-Za-z\s-]{2,50}$/;
 export const REG_CITY = /^[A-Za-z\s-]{2,50}$/;
 export const REG_STREET = /^[A-Za-z0-9\s,.#-]{5,100}$/;
 export const REG_ZIP = /^\d{5}(-\d{4})?$/;

@@ -2,17 +2,15 @@
 import { FC } from "react";
 
 type PropsType = {
-  isLoading?: boolean;
   isDisabled?: boolean;
   label?: string;
   type?: "button" | "submit" | "reset";
   styleTxt?: string;
   styleBtn?: string;
-  handleClick?: (...params: any) => void;
+  handleClick?: (params?: any) => void;
 };
 
 const ButtonBasic: FC<PropsType> = ({
-  isLoading,
   isDisabled,
   label,
   type = "button",
@@ -22,10 +20,10 @@ const ButtonBasic: FC<PropsType> = ({
 }) => {
   return (
     <button
-      disabled={isDisabled || isLoading}
+      disabled={isDisabled}
       onClick={handleClick}
       type={type}
-      className="btn__with_shadow_container group "
+      className="btn__with_shadow_container group"
     >
       <div className={`${styleBtn} btn__with_shadow_container__content`}>
         <span className={`${styleTxt} content__txt`}>{label}</span>

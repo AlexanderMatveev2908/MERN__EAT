@@ -67,8 +67,8 @@ export const useGeneratePwd = () => {
     if (strongPwd) {
       try {
         await navigator.clipboard.writeText(strongPwd);
-      } catch (err: any) {
-        console.log(err);
+      } catch {
+        // console.log(err);
       }
     }
   };

@@ -25,7 +25,7 @@ export const useApp = () => {
         handleErrAPI({ err: error, toast: false });
         setCurrUser(null);
       } else if (isSuccess) {
-        console.log(data);
+        // console.log(data);
         setCurrUser(data.user);
         if (!sessionStorage.getItem("initName"))
           sessionStorage.setItem("initName", getInitialsName(data.user));

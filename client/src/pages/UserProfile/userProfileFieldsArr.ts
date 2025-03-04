@@ -12,13 +12,6 @@ import { genID } from "../../utils/genID";
 export const userProfileFields_0 = [
   {
     id: genID(),
-    field: "email",
-    label: "Email",
-    reg: /^$/,
-    msg: "READ ONLY",
-  },
-  {
-    id: genID(),
     field: "firstName",
     label: "First Name",
     reg: REG_NAME,
@@ -39,21 +32,21 @@ export const userProfileFields_1 = [
     field: "country",
     label: "Country",
     reg: REG_COUNTRY,
-    msg: "Country can only contains letters",
+    msg: "Country can only contains letters, and must be at least 2 chars",
   },
   {
     id: genID(),
     field: "state",
     label: "State",
     reg: REG_STATE,
-    msg: "State can only contains up to 3 uppercase letters (e.g., SA, NY, CA)",
+    msg: "State can only contains can only contains letters and hyphens if needed, and must be at least 2 chars ",
   },
   {
     id: genID(),
     field: "city",
     label: "City",
     reg: REG_CITY,
-    msg: "City can only contains letters and if needed hyphens",
+    msg: "City can only contains letters and hyphens if needed, and must be at least 2 chars",
   },
 ];
 
@@ -63,7 +56,7 @@ export const userProfileFields_2 = [
     field: "street",
     label: "Street",
     reg: REG_STREET,
-    msg: "Street can only contains letters, numbers, and spaces",
+    msg: "Street can only contains letters, numbers, and spaces, and must be at least 5 chars",
   },
   {
     id: genID(),
@@ -79,4 +72,10 @@ export const userProfileFields_2 = [
     reg: REG_PHONE,
     msg: "Phone can only contains numbers,and including country up to 15 digits ",
   },
+];
+
+export const allFields = [
+  ...userProfileFields_0,
+  ...userProfileFields_1,
+  ...userProfileFields_2,
 ];
