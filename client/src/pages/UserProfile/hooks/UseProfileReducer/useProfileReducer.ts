@@ -3,7 +3,7 @@ import { useCallback, useReducer } from "react";
 import { allFields, fieldsDividedByArea } from "../../userProfileFieldsArr";
 import { formReducer } from "./reducer";
 import { UserProfileActions, UserProfileFormType } from "./types";
-import { getRespectiveVals, validateVals } from "./utils";
+import { getRespectiveVals_2, validateVals } from "./utils";
 
 export const totLen = 3;
 
@@ -64,29 +64,11 @@ export const useProfileReducer = () => {
   const handleBtns = (name?: string, value?: string, curr?: number) => {
     const currFieldsArea = fieldsDividedByArea[curr ?? state.currForm.curr];
 
-    let respectiveVals;
-
-    for (const key in state.user) {
-      if (key === "errs") continue;
-
-      if (currFieldsArea.map((field) => field.field).includes(key)) {
-        respectiveVals = {
-          ...respectiveVals,
-          [key]: state.user[key as keyof typeof state.user],
-        };
-      }
-    }
+    const respectiveVals = getRespectiveVals_2(currFieldsArea, state.user);
 
     if (name !== undefined && value !== undefined) respectiveVals[name] = value;
 
-    let isCurrFormValid = true;
-
-    for (let i = 0; i < currFieldsArea.length; i++) {
-      const currReg = currFieldsArea[i].reg;
-
-      if (!currReg.test(respectiveVals[currFieldsArea[i].field]))
-        isCurrFormValid = false;
-    }
+    const isCurrFormValid = validateVals(respectiveVals, currFieldsArea);
 
     dispatch({
       type: UserProfileActions.SET_NEXT_DISABLED,
@@ -96,22 +78,25 @@ export const useProfileReducer = () => {
     });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
 
-    const [currField] = allFields.filter(
-      (field) => field.field === name
-    ) as any;
+      const [currField] = allFields.filter(
+        (field) => field.field === name
+      ) as any;
 
-    handleErr(name, value, currField);
+      handleErr(name, value, currField);
 
-    handleBtns(name, value);
+      handleBtns(name, value);
 
-    dispatch({
-      type: UserProfileActions.UPDATE_FIELD,
-      payload: { field: name, val: value },
-    });
-  };
+      dispatch({
+        type: UserProfileActions.UPDATE_FIELD,
+        payload: { field: name, val: value },
+      });
+    },
+    [handleBtns]
+  );
 
   const handlePrev = () =>
     state.currForm.curr > 0
@@ -128,27 +113,32 @@ export const useProfileReducer = () => {
         payload: { curr: "NEXT" },
       });
 
-    startForm(state.currForm.curr + 1);
-    // handleBtns(undefined, undefined, state.currForm.curr + 1);
+    handleBtns(undefined, undefined, state.currForm.curr + 1);
   };
 
-  const startForm = useCallback(
-    (currForm?: number) => {
-      const currArea = fieldsDividedByArea[currForm ?? 0];
-
-      const respectiveVals = getRespectiveVals(currArea, state.user);
-
-      const isValid = validateVals(respectiveVals, currArea);
-
-      dispatch({
-        type: UserProfileActions.SET_NEXT_DISABLED,
-        payload: {
-          isNextDisabled: !isValid,
-        },
-      });
-    },
-    [state.user]
-  );
-
-  return { state, handleChange, handlePrev, handleNext, handleBtns, startForm };
+  return {
+    state,
+    handleChange,
+    handlePrev,
+    handleNext,
+    handleBtns,
+  };
 };
+
+// const handleBtnsNewForm = useCallback(
+//   (currForm?: number) => {
+//     const currArea = fieldsDividedByArea[currForm ?? 0];
+
+//     const respectiveVals = getRespectiveVals(currArea, state.user);
+
+//     const isValid = validateVals(respectiveVals, currArea);
+
+//     dispatch({
+//       type: UserProfileActions.SET_NEXT_DISABLED,
+//       payload: {
+//         isNextDisabled: !isValid,
+//       },
+//     });
+//   },
+//   [state.user]
+// );
