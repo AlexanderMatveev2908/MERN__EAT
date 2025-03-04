@@ -419,19 +419,18 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* BASIC BTN */
 .btn__with_shadow_container,
-.btn__with_shadow_container__shadow,
-.content__txt {
+.btn__with_shadow_container__shadow {
   @apply transition-all duration-300;
 }
 .btn__with_shadow_container {
-  @apply relative w-fit min-w-[150px] sm:min-w-[200px] h-fit cursor-pointer disabled:opacity-50 disabled:cursor-wait;
+  @apply relative w-fit min-w-[150px] sm:min-w-[200px] h-fit cursor-pointer disabled:opacity-50;
 }
 .btn__with_shadow_container__content,
 .btn__with_shadow_container__shadow {
-  @apply min-w-full min-h-full border-2 rounded-xl;
+  @apply min-w-full min-h-full border-2 rounded-xl transition-all duration-300;
 }
 .btn__with_shadow_container__content {
-  @apply z-10 flex justify-center items-center bg-[#111]  px-5 sm:px-10 py-1 sm:py-2;
+  @apply z-10 flex justify-center items-center bg-[#111]  px-5 sm:px-10 py-1 sm:py-2 transition-all duration-300;
 }
 .btn__with_shadow_container__shadow {
   @apply -z-10 bg-[#111] absolute top-0 left-0;
@@ -448,7 +447,7 @@ input[type="range"]::-webkit-slider-thumb {
 /* ANIMATED BTN */
 
 .btn_container {
-  @apply w-full max-h-fit transition-all duration-500 relative cursor-pointer disabled:cursor-wait;
+  @apply w-full max-h-fit transition-all duration-500 relative cursor-pointer disabled:opacity-50;
 }
 
 .btn_container__content {

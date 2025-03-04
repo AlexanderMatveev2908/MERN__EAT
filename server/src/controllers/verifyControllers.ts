@@ -59,8 +59,6 @@ export const verifyAccount = async (
   if (!user?.verifyAccountToken)
     return res.status(401).json({ msg: "Unauthorized", success: false });
   if (new Date(user?.expiryVerifyAccountToken ?? 0)?.getTime() < Date.now()) {
-    console.log(new Date(user?.expiryVerifyAccountToken ?? 0)?.getTime());
-    console.log(Date.now());
     user.verifyAccountToken = null;
     user.expiryVerifyAccountToken = null;
 
