@@ -2,17 +2,37 @@
 import { UserProfileFormType } from "./types";
 
 export const getRespectiveVals = (
-  arrFields: any[],
+  currFieldsArea: any[],
   user: UserProfileFormType["user"]
 ) => {
   let obj;
 
   Object.keys(user).forEach((key) => {
-    if ([...arrFields.map((el) => el.field)].includes(key))
+    if ([...currFieldsArea.map((el) => el.field)].includes(key))
       obj = { ...obj, [key]: user[key as keyof typeof user] };
   });
 
   return obj;
+};
+
+export const getRespectiveVals_2 = (
+  currFieldsArea: any[],
+  user: UserProfileFormType["user"]
+) => {
+  let respectiveVals;
+
+  for (const key in user) {
+    if (key === "errs") continue;
+
+    if (currFieldsArea.map((field) => field.field).includes(key)) {
+      respectiveVals = {
+        ...respectiveVals,
+        [key]: user[key as keyof typeof user],
+      };
+    }
+  }
+
+  return respectiveVals;
 };
 
 export const validateVals = (
@@ -20,9 +40,6 @@ export const validateVals = (
   currArea: any[]
 ) => {
   let isCurrFormValid = true;
-
-  console.log(respectiveVals);
-  console.log(currArea);
 
   for (let i = 0; i < currArea.length; i++) {
     const currReg = currArea[i].reg;

@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useProfileReducer } from "./UseProfileReducer/useProfileReducer";
 
 export const useUserProfile = () => {
-  const { state, handleChange, handlePrev, handleNext, startForm } =
+  const { state, handleChange, handleBtns, handlePrev, handleNext } =
     useProfileReducer();
 
   const { isPrevDisabled, isNextDisabled, curr } = state.currForm;
 
   useEffect(() => {
-    startForm();
+    handleBtns();
     // eslint-disable-next-line
   }, []);
 
