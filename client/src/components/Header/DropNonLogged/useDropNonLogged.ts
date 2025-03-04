@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 export const useDropNonLogged = () => {
   const [dropOpen, setDropOpen] = useState<boolean>(false);
   const dropRef = useRef<HTMLDivElement | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const navigate = useNavigate();
 
@@ -28,10 +29,24 @@ export const useDropNonLogged = () => {
     setDropOpen(false);
   };
 
+  const handleMouseEnter = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    setDropOpen(true);
+  };
+  const handleMouseLeave = () => {
+    timerRef.current = setTimeout(() => {
+      setDropOpen(false);
+    }, 250);
+  };
+
   return {
     toggleDrop,
     dropOpen,
     dropRef,
     handleSideClick,
+    setDropOpen,
+    handleMouseEnter,
+    handleMouseLeave,
   };
 };

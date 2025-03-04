@@ -4,19 +4,33 @@ import { useDropNonLogged } from "./useDropNonLogged";
 import { User } from "lucide-react";
 
 const DropNonLogged: FC = () => {
-  const { toggleDrop, dropOpen, dropRef, handleSideClick } = useDropNonLogged();
+  const {
+    toggleDrop,
+    dropOpen,
+    dropRef,
+    handleSideClick,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = useDropNonLogged();
 
   return (
     <div
       ref={dropRef}
       className="flex items-center justify-center cursor-pointer relative"
     >
-      <div onClick={toggleDrop} className="txt__01">
+      <div
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={toggleDrop}
+        className="txt__01"
+      >
         <User className="w-[37.5px] h-[37.5px] transition-all duration-300 hover:text-orange-500 hover:scale-120" />
       </div>
 
       <div
-        className={`absolute border-2 border-orange-500 bg-[#111] -top-full -right-full h-fit w-fit rounded-xl z-10 transition-all duration-300 ${
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={`absolute border-2 border-orange-500 bg-[#111] -top-full -right-full h-fit w-fit rounded-xl z-10 transition-all duration-300  ${
           dropOpen
             ? "translate-y-[40%] opacity-100"
             : "opacity-0 translate-y-0 pointer-events-none"
