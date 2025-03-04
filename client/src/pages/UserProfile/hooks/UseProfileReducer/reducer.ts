@@ -84,6 +84,25 @@ export const formReducer = (state, action) => {
       };
     }
 
+    case UserProfileActions.SET_FETCHED_DATA: {
+      const { user } = action.payload;
+
+      return {
+        ...state,
+        user: {
+          firstName: user?.firstName ?? "",
+          lastName: user?.lastName ?? "",
+          country: user?.country ?? "",
+          state: user?.state ?? "",
+          city: user?.city ?? "",
+          street: user?.street ?? "",
+          zipCode: user?.zipCode ?? "",
+          phone: user?.phone ?? "",
+          errs: {},
+        },
+      };
+    }
+
     default:
       return state;
   }

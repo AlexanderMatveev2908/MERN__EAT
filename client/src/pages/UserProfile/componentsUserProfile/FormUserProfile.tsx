@@ -5,7 +5,7 @@ import {
   userProfileFields_1,
   userProfileFields_2,
 } from "../userProfileFieldsArr";
-import { UserProfileFormType } from "../hooks/UseProfileReducer/useProfileReducer";
+import { UserProfileFormType } from "../hooks/UseProfileReducer/types";
 
 type PropsTYpe = {
   state: UserProfileFormType;

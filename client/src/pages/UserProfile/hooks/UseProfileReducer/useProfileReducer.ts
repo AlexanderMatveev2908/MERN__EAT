@@ -1,129 +1,86 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useCallback, useReducer } from "react";
-import { allFields, fieldsDividedByArea } from "../../userProfileFieldsArr";
+import { useCallback, useEffect, useReducer } from "react";
 import { formReducer } from "./reducer";
-import { UserProfileActions, UserProfileFormType } from "./types";
-import { getRespectiveVals_2, validateVals } from "./utils";
+import { UserProfileActions } from "./types";
+import {
+  handleBtns,
+  handleChangeBeforeUseCb,
+  handleErr,
+  handleNextBeforeUseCb,
+  handlePrevBeforeUseCb,
+} from "./utils";
+import { useGetUserProfileDetails } from "../useGetUserProfileDetails";
+import { useHandleErr } from "../../../../hooks/useHandleErr";
+import { initState } from "./initState";
 
 export const totLen = 3;
 
 export const useProfileReducer = () => {
-  const existingUserData: Partial<UserProfileFormType> = {
-    user: {
-      firstName: null,
-      lastName: null,
-      country: null,
-      state: null,
-      city: null,
-      street: null,
-      zipCode: null,
-      phone: null,
-      errs: undefined,
-    },
-  };
-
-  const initState: UserProfileFormType = {
-    currForm: {
-      curr: 0,
-      isPrevDisabled: true,
-      isNextDisabled: false,
-    },
-    user: {
-      firstName: existingUserData.user?.firstName ?? "",
-      lastName: existingUserData.user?.lastName ?? "",
-      country: existingUserData.user?.country ?? "",
-      state: existingUserData.user?.state ?? "",
-      city: existingUserData.user?.city ?? "",
-      street: existingUserData.user?.street ?? "",
-      zipCode: existingUserData.user?.zipCode ?? "",
-      phone: existingUserData.user?.phone ?? "",
-      errs: {},
-    },
-  };
+  const { handleErrAPI } = useHandleErr();
+  const { fetchedUserData, isPending, isSuccess, isError, error } =
+    useGetUserProfileDetails();
 
   const [state, dispatch] = useReducer(formReducer, initState);
 
-  const handleErr = (name: string, value: string, currField: any) => {
-    dispatch({
-      type: UserProfileActions.SET_ERR,
-      payload: {
-        field: name,
-        msg: currField.reg.test(value ?? "") ? null : currField.msg,
-      },
-    });
-
-    dispatch({
-      type: UserProfileActions.SET_REQUIRED,
-      payload: {
-        field: name,
-        required: value ? null : `${currField.label} is required`,
-      },
-    });
-  };
-
-  const handleBtns = (name?: string, value?: string, curr?: number) => {
-    const currFieldsArea = fieldsDividedByArea[curr ?? state.currForm.curr];
-
-    const respectiveVals = getRespectiveVals_2(currFieldsArea, state.user);
-
-    if (name !== undefined && value !== undefined) respectiveVals[name] = value;
-
-    const isCurrFormValid = validateVals(respectiveVals, currFieldsArea);
-
-    dispatch({
-      type: UserProfileActions.SET_NEXT_DISABLED,
-      payload: {
-        isNextDisabled: !isCurrFormValid,
-      },
-    });
-  };
-
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-
-      const [currField] = allFields.filter(
-        (field) => field.field === name
-      ) as any;
-
-      handleErr(name, value, currField);
-
-      handleBtns(name, value);
-
+  const handleSideEffect = useCallback(() => {
+    if (isError) {
+      handleErrAPI({ err: error });
+    } else if (isSuccess) {
+      const { user: existingUserData = {} } = fetchedUserData ?? {};
+      console.log(existingUserData);
       dispatch({
-        type: UserProfileActions.UPDATE_FIELD,
-        payload: { field: name, val: value },
+        type: UserProfileActions.SET_FETCHED_DATA,
+        payload: {
+          user: existingUserData,
+        },
       });
-    },
-    [handleBtns]
-  );
+    }
+  }, [fetchedUserData, isSuccess, isError, error, handleErrAPI]);
 
-  const handlePrev = () =>
-    state.currForm.curr > 0
-      ? dispatch({
-          type: UserProfileActions.SET_CURR,
-          payload: { curr: "PREV" },
-        })
-      : undefined;
+  useEffect(() => {
+    handleSideEffect();
+  }, [handleSideEffect]);
 
-  const handleNext = () => {
-    if (state.currForm.curr < totLen - 1 && !state.currForm.isNextDisabled)
-      dispatch({
-        type: UserProfileActions.SET_CURR,
-        payload: { curr: "NEXT" },
-      });
+  const handleErrHigher = (name: string, value: string, currField: any) =>
+    handleErr(dispatch, name, value, currField);
 
-    handleBtns(undefined, undefined, state.currForm.curr + 1);
-  };
+  const handleBtnsHigher = (name?: string, value?: string, curr?: number) =>
+    handleBtns(dispatch, state, name, value, curr);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    handleChangeBeforeUseCb(dispatch, handleErrHigher, handleBtnsHigher, e);
+
+  const handlePrev = () => handlePrevBeforeUseCb(dispatch, state.currForm.curr);
+
+  const handleNext = () =>
+    handleNextBeforeUseCb(dispatch, state.currForm, handleBtnsHigher);
   return {
     state,
     handleChange,
     handlePrev,
     handleNext,
     handleBtns,
+    isPending,
   };
 };
+
+// const handleErr = (name: string, value: string, currField: any) => {
+//   dispatch({
+//     type: UserProfileActions.SET_ERR,
+//     payload: {
+//       field: name,
+//       msg: currField.reg.test(value ?? "") ? null : currField.msg,
+//     },
+//   });
+
+//   dispatch({
+//     type: UserProfileActions.SET_REQUIRED,
+//     payload: {
+//       field: name,
+//       required: value ? null : `${currField.label} is required`,
+//     },
+//   });
+// };
 
 // const handleBtnsNewForm = useCallback(
 //   (currForm?: number) => {
@@ -142,3 +99,59 @@ export const useProfileReducer = () => {
 //   },
 //   [state.user]
 // );
+
+// const handleBtns = useCallback(
+//   (name?: string, value?: string, curr?: number) => {
+//     const currFieldsArea = fieldsDividedByArea[curr ?? state.currForm.curr];
+
+//     const respectiveVals = getRespectiveVals_2(currFieldsArea, state.user);
+
+//     if (name !== undefined && value !== undefined)
+//       respectiveVals[name] = value;
+
+//     const isCurrFormValid = validateVals(respectiveVals, currFieldsArea);
+
+//     dispatch({
+//       type: UserProfileActions.SET_NEXT_DISABLED,
+//       payload: {
+//         isNextDisabled: !isCurrFormValid,
+//       },
+//     });
+//   },
+//   [state.user, state.currForm]
+// );
+
+// const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//   const { name, value } = e.target;
+
+//   const [currField] = allFields.filter(
+//     (field) => field.field === name
+//   ) as any;
+
+//   handleErr(name, value, currField);
+
+//   handleBtns(name, value);
+
+//   dispatch({
+//     type: UserProfileActions.UPDATE_FIELD,
+//     payload: { field: name, val: value },
+//   });
+// };
+
+// const handlePrev = () =>
+//   state.currForm.curr > 0
+//     ? dispatch({
+//         type: UserProfileActions.SET_CURR,
+//         payload: { curr: "PREV" },
+//       })
+//     : undefined;
+
+// const handleNext = () => {
+//   if (state.currForm.curr < totLen - 1 && !state.currForm.isNextDisabled)
+//     dispatch({
+//       type: UserProfileActions.SET_CURR,
+//       payload: { curr: "NEXT" },
+//     });
+
+//   handleBtns(undefined, undefined, state.currForm.curr + 1);
+// };

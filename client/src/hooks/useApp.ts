@@ -15,8 +15,6 @@ export const useApp = () => {
     queryKey: ["user", isLogged],
     queryFn: memoGetInfoAPI,
     enabled: isLogged,
-    retry: false,
-    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {

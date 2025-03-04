@@ -18,3 +18,9 @@ export const getUserInfoAPI = async () => {
 
   return data;
 };
+
+export const getUserProfileDetailsAPI = async () => {
+  const { data } = await foodAppInstance.get("/user/profile-details");
+
+  return data;
+};
