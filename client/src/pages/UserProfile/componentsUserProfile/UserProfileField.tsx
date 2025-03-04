@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { UserProfileFormType } from "../hooks/useProfileReducer";
+import { UserProfileFormType } from "../hooks/UseProfileReducer/types";
 
 type PropsType = {
   el: {

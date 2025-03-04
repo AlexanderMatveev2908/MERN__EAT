@@ -31,7 +31,9 @@ const ButtonsForm: FC<PropsType> = ({
       />
       {curr === 2 ? (
         <div className="w-full max-w-[225px] h-full flex items-center">
-          <ButtonAnimated {...{ label: "Save Details" }} />
+          <ButtonAnimated
+            {...{ label: "Save Details", isDisabled: isNextDisabled }}
+          />
         </div>
       ) : (
         <ButtonBasic

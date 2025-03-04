@@ -79,3 +79,9 @@ export const allFields = [
   ...userProfileFields_1,
   ...userProfileFields_2,
 ];
+
+export const fieldsDividedByArea = [
+  [...userProfileFields_0],
+  [...userProfileFields_1],
+  [...userProfileFields_2],
+];
