@@ -10,6 +10,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import helmet from "helmet";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
+import newsLetterRouter from "./routes/newsLetter";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
