@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { CircleCheck, CircleX, X } from "lucide-react";
-import { useToastComponent } from "./useToastComponent";
+import { useToastComponent } from "./hooks/useToastComponent";
 
 const Toast: FC = () => {
   const {

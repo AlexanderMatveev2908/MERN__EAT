@@ -1,7 +1,7 @@
 import { CircleCheckBig } from "lucide-react";
 import { FC } from "react";
 import { Navigate } from "react-router-dom";
-import { useNoticeEmail } from "./useNoticeEmail";
+import { useNoticeEmail } from "./hooks/useNoticeEmail";
 
 const NoticeEmail: FC = () => {
   const { canStay } = useNoticeEmail();
