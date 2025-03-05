@@ -4,7 +4,7 @@ import AcceptTerms from "./AcceptTerms/AcceptTerms";
 import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
 import PwdAuthField from "../../../components/commonCompForms/PwdAuthField/PwdAuthField";
 import { PulseLoader } from "react-spinners";
-import SwitchForm from "../SwitchForm/SwitchForm";
+import SwitchForm from "../../../components/commonCompForms/SwitchForm/SwitchForm";
 import PasswordChecker from "../../../components/commonCompForms/PasswordChecker/PasswordChecker";
 import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
 import { useRegisterCustom } from "./hooks/useRegisterCustom";

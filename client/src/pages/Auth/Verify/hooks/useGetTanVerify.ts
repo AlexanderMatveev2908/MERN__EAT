@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useToast, useUser } from "../../../hooks/useGlobal";
+import { useToast, useUser } from "../../../../hooks/useGlobal";
+import { AccessResAPIType, VerifyAPI } from "../../../../types/authTypes";
 import { useCreateTanVerify } from "./useCreateTanVerify";
-import { AccessResAPIType, VerifyAPI } from "../../../types/authTypes";
-import { recoverPwdAPI, verifyAccountAPI } from "../../../api/verify";
+import { recoverPwdAPI, verifyAccountAPI } from "../../../../api/auth";
 
 export const useGetTansCreated = (userId: string, token: string) => {
   const { showToastMsg } = useToast();

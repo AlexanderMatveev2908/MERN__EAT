@@ -6,8 +6,8 @@ import { useHandleErr } from "../../../../hooks/useHandleErr";
 import { useNavigate } from "react-router-dom";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
 import { useMutation } from "@tanstack/react-query";
-import { loginUserAPI } from "../../../../api/auth/authAPI";
 import { AccessResAPIType } from "../../../../types/authTypes";
+import { loginUserAPI } from "../../../../api/auth";
 
 export type LoginFormType = {
   email: string;

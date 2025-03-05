@@ -24,7 +24,7 @@ foodAppInstance.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalReq = err.config;
-    const isRefreshing = originalReq.url === "/refresh";
+    const isRefreshing = originalReq.url === "/auth/refresh";
 
     if (
       err?.response?.status === 401 &&
@@ -35,7 +35,7 @@ foodAppInstance.interceptors.response.use(
       try {
         originalReq.retry = true;
 
-        const { data } = await foodAppInstance.get("/refresh");
+        const { data } = await foodAppInstance.get("/auth/refresh");
 
         sessionStorage.setItem("accessToken", data.accessToken);
         originalReq.headers["Authorization"] = `Bearer ${data.accessToken}`;

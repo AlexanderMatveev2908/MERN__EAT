@@ -1,17 +1,5 @@
 import { foodAppInstance } from "../constants/axiosInstance";
-import { AccessResAPIType } from "../types/authTypes";
-
-export const changeRecoverPwdAPI = async ({
-  ...params
-}: {
-  password: string;
-  userId: string;
-  token: string;
-}): Promise<AccessResAPIType> => {
-  const { data } = await foodAppInstance.post("/user/recover-pwd", params);
-
-  return data;
-};
+import { UserProfileFormType } from "../pages/User/UserProfile/hooks/UseProfileReducer/types/types";
 
 export const getUserInfoAPI = async () => {
   const { data } = await foodAppInstance.get("/user/info-basic");
@@ -21,6 +9,14 @@ export const getUserInfoAPI = async () => {
 
 export const getUserProfileDetailsAPI = async () => {
   const { data } = await foodAppInstance.get("/user/profile-details");
+
+  return data;
+};
+
+export const updateUserProfileAPI = async ({
+  ...params
+}: Omit<UserProfileFormType["user"], "errs">) => {
+  const { data } = await foodAppInstance.patch("/user/profile-details", params);
 
   return data;
 };

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
-import { logoutUserAPI } from "../api/auth/authAPI";
 import { useToast, useUser } from "./useGlobal";
 import { useNavigate } from "react-router-dom";
+import { logoutUserAPI } from "../api/auth";
 
 export const useLogout = () => {
   const { showToastMsg } = useToast();

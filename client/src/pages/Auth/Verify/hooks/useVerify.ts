@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSearchParams } from "react-router-dom";
-import { REG_MONGO, REG_TOKEN } from "../../../constants/regex";
-import { useUser } from "../../../hooks/useGlobal";
 import { useCallback, useEffect } from "react";
 import { useGetTansCreated } from "./useGetTanVerify";
+import { useUser } from "../../../../hooks/useGlobal";
+import { REG_MONGO, REG_TOKEN } from "../../../../constants/regex";
 
 export const useVerify = () => {
   const { isLogged } = useUser();
