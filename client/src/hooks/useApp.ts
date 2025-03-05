@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { useUser } from "./useGlobal";
 import { useCallback, useEffect } from "react";
@@ -24,21 +25,20 @@ export const useApp = () => {
         setCurrUser(null);
       } else if (isSuccess) {
         // console.log(data);
-        setCurrUser(data.user);
+        const { user = {} as any } = data ?? ({} as any);
+        setCurrUser(user);
         if (!sessionStorage.getItem("initName"))
           sessionStorage.setItem("initName", getInitialsName(data.user));
       }
     };
 
     handleSIdeEffects();
-    // eslint-disable-next-line
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, handleErrAPI, error, setCurrUser, data]);
 
   useEffect(() => {
     if (!isLogged) {
       setCurrUser(null);
       sessionStorage.removeItem("initName");
     }
-    // eslint-disable-next-line
-  }, [isLogged]);
+  }, [isLogged, setCurrUser]);
 };

@@ -19,14 +19,11 @@ export const formReducer = (state, action) => {
 
       return {
         ...state,
-        user: {
-          ...state.user,
-          errs: {
-            ...state.user.errs,
-            [field]: {
-              ...state.user.errs[field],
-              msg,
-            },
+        errs: {
+          ...state.errs,
+          [field]: {
+            ...state.errs[field],
+            msg,
           },
         },
       };
@@ -36,14 +33,11 @@ export const formReducer = (state, action) => {
 
       return {
         ...state,
-        user: {
-          ...state.user,
-          errs: {
-            ...state.user.errs,
-            [field]: {
-              ...state.user.errs[field],
-              required,
-            },
+        errs: {
+          ...state.errs,
+          [field]: {
+            ...state.errs[field],
+            required,
           },
         },
       };
@@ -92,14 +86,14 @@ export const formReducer = (state, action) => {
         user: {
           firstName: user?.firstName ?? "",
           lastName: user?.lastName ?? "",
-          country: user?.country ?? "",
-          state: user?.state ?? "",
-          city: user?.city ?? "",
-          street: user?.street ?? "",
-          zipCode: user?.zipCode ?? "",
-          phone: user?.phone ?? "",
-          errs: {},
+          country: user?.address?.country ?? "",
+          state: user?.address?.state ?? "",
+          city: user?.address?.city ?? "",
+          street: user?.address?.street ?? "",
+          zipCode: user?.address?.zipCode ?? "",
+          phone: user?.address?.phone ?? "",
         },
+        errs: {},
       };
     }
 

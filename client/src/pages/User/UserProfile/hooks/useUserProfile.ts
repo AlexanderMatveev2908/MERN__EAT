@@ -1,8 +1,15 @@
 import { useProfileReducer } from "./UseProfileReducer/useProfileReducer";
 
 export const useUserProfile = () => {
-  const { state, handleChange, handlePrev, handleNext, isPending } =
-    useProfileReducer();
+  const {
+    state,
+    handleChange,
+    handlePrev,
+    handleNext,
+    isPending,
+    isPendingUpdate,
+    handleSubmit,
+  } = useProfileReducer();
 
   const { isPrevDisabled, isNextDisabled, curr } = state.currForm;
 
@@ -15,5 +22,7 @@ export const useUserProfile = () => {
     state,
     handleChange,
     isPending,
+    isPendingUpdate,
+    handleSubmit,
   };
 };

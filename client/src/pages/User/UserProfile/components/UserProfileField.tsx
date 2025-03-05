@@ -14,7 +14,7 @@ type PropsType = {
 };
 
 const UserProfileField: FC<PropsType> = ({ el, state, handleChange }) => {
-  const errObj = state.user?.errs?.[el.field];
+  const errObj = state.errs?.[el.field];
 
   return (
     <label key={el.id} className="w-full flex flex-col gap-y-2">

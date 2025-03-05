@@ -1,5 +1,5 @@
 import { foodAppInstance } from "../constants/axiosInstance";
-import { UserProfileFormType } from "../pages/User/UserProfile/hooks/UseProfileReducer/types/types";
+import { UserDataFormType } from "../pages/User/UserProfile/hooks/UseProfileReducer/types/types";
 
 export const getUserInfoAPI = async () => {
   const { data } = await foodAppInstance.get("/user/info-basic");
@@ -13,9 +13,7 @@ export const getUserProfileDetailsAPI = async () => {
   return data;
 };
 
-export const updateUserProfileAPI = async ({
-  ...params
-}: Omit<UserProfileFormType["user"], "errs">) => {
+export const updateUserProfileAPI = async (params: UserDataFormType) => {
   const { data } = await foodAppInstance.patch("/user/profile-details", params);
 
   return data;

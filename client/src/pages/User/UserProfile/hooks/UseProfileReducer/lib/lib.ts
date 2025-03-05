@@ -3,7 +3,11 @@ import {
   allFields,
   fieldsDividedByArea,
 } from "../../../../../../config/fieldsArr/userDetailsFields";
-import { UserProfileActions, UserProfileFormType } from "../types/types";
+import {
+  UserDataFormType,
+  UserProfileActions,
+  UserProfileFormType,
+} from "../types/types";
 import { totLen } from "../useProfileReducer";
 
 export const getRespectiveVals = (
@@ -27,8 +31,6 @@ export const getRespectiveVals_2 = (
   let respectiveVals;
 
   for (const key in user) {
-    if (key === "errs") continue;
-
     if (currFieldsArea.map((field) => field.field).includes(key)) {
       respectiveVals = {
         ...respectiveVals,
@@ -140,3 +142,11 @@ export const handleNextBeforeUseCb = (dispatch, currForm, cbBtns) => {
 
   cbBtns(undefined, undefined, currForm.curr + 1);
 };
+
+export const setDetailsFields = (dispatch, details: UserDataFormType) =>
+  dispatch({
+    type: UserProfileActions.SET_FETCHED_DATA,
+    payload: {
+      user: details,
+    },
+  });

@@ -15,6 +15,6 @@ export const initState: UserProfileFormType = {
     street: "",
     zipCode: "",
     phone: "",
-    errs: {},
   },
+  errs: {},
 };
