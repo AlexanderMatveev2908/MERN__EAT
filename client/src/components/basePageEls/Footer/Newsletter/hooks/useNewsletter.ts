@@ -41,7 +41,7 @@ export const useNewsletter = () => {
       showToastMsg(
         `You have ${
           data?.user?.hasSubscribedToNewsletter ? "subscribed" : "unsubscribed"
-        } from our newsletter successfully`,
+        } to our newsletter successfully`,
         "SUCCESS"
       );
     },

@@ -27,7 +27,7 @@ const Newsletter: FC = () => {
         <span className="txt__02">Newsletter</span>
       </div>
       <form className="grid grid-cols-[repeat(auto-fit,minmax(225px,1fr))] gap-y-5 gap-x-10 items-end ">
-        {!currUser?.hasSubscribedToNewsletter && (
+        {!isLogged && (
           <div className="w-full ">
             <input
               type="email"
