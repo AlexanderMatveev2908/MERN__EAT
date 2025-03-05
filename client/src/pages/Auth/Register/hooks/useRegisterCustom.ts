@@ -7,7 +7,7 @@ import { useHandleErr } from "../../../../hooks/useHandleErr";
 import { useChangeVisibilityPwd } from "../../../../hooks/useChangeVisibilityPwd";
 import { useToast } from "../../../../hooks/useGlobal";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
-import { registerUserAPI } from "../../../../api/auth/authAPI";
+import { registerUserAPI } from "../../../../api/auth";
 
 export type RegisterFormType = {
   firstName: string;

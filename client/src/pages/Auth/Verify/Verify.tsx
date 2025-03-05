@@ -3,7 +3,7 @@ import { FC } from "react";
 import { useVerify } from "./hooks/useVerify";
 import { GridLoader } from "react-spinners";
 import { Navigate } from "react-router-dom";
-import { useUpdateSizeLoaderPage } from "../../hooks/useUpdateSizeLoader";
+import { useUpdateSizeLoaderPage } from "../../../hooks/useUpdateSizeLoader";
 
 const Verify: FC = () => {
   const { canStay } = useVerify();

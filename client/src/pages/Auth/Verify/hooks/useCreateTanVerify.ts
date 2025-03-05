@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
-import { AccessResAPIType, VerifyAPI } from "../../../types/authTypes";
-import { useHandleErr } from "../../../hooks/useHandleErr";
+import { useHandleErr } from "../../../../hooks/useHandleErr";
+import { AccessResAPIType, VerifyAPI } from "../../../../types/authTypes";
 
 export const useCreateTanVerify = ({ callAPI, successCB }) => {
   const { handleErrAPI } = useHandleErr();

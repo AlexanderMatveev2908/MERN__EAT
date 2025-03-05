@@ -2,14 +2,14 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { useScrollTop } from "../../../hooks/useScrollTop";
-import { validateUserLocation } from "../../../utils/validateLocations";
 import { useCreateTanStackSendEmail } from "./useCreateTanStackSendEmail";
-import { sendUserEmailAPI } from "../../../api/verify";
 import {
   emailAllowedFrom,
   emailAllowedType,
-} from "../../../config/allowedPaths/pathsAndTypes";
+} from "../../../../config/allowedPaths/pathsAndTypes";
+import { validateUserLocation } from "../../../../utils/validateLocations";
+import { useScrollTop } from "../../../../hooks/useScrollTop";
+import { sendUserEmailAPI } from "../../../../api/auth";
 
 export type SendEmailFormType = {
   email: string;

@@ -8,8 +8,8 @@ import { REG_MONGO, REG_TOKEN } from "../../../../constants/regex";
 import { useChangeVisibilityPwd } from "../../../../hooks/useChangeVisibilityPwd";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
 import { useMutation } from "@tanstack/react-query";
-import { changeRecoverPwdAPI } from "../../../../api/user";
 import { AccessResAPIType } from "../../../../types/authTypes";
+import { changeRecoverPwdAPI } from "../../../../api/auth";
 
 type ChangePwdFormType = {
   password: string;

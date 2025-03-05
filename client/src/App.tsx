@@ -4,14 +4,14 @@ import Home from "./pages/Home/Home";
 import MainLayoutRoute from "./layouts/mainLayout/MainLayoutRoute";
 import Login from "./pages/Auth/Login/Login";
 import Register from "./pages/Auth/Register/Register";
-import Verify from "./pages/Verify/Verify";
-import RecoverPwd from "./pages/User/RecoverPwd/RecoverPwd";
 import LayoutNonLoggedUserRoute from "./layouts/layoutNonLoggedUser/LayoutNonLoggedUserRoute";
 import NoticeEmail from "./pages/NoticeEmail/NoticeEmail";
 import { useApp } from "./hooks/useApp";
 import LayoutUserRoute from "./layouts/LayoutUserRoute/LayoutUserRoute";
 import UserProfile from "./pages/User/UserProfile/UserProfile";
-import SendEmail from "./pages/SendEmail/SendEmail";
+import Verify from "./pages/Auth/Verify/Verify";
+import RecoverPwd from "./pages/Auth/RecoverPwd/RecoverPwd";
+import SendEmail from "./pages/Auth/SendEmail/SendEmail";
 // import CallbackAuth from "./pages/CallbackAuth/CallbackAuth";
 
 const App: FC = () => {

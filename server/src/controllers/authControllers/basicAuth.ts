@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import User, { UserType } from "../models/User";
-import { genAccessJWT, genHashedInput, genTokenSHA } from "../utils/token";
-import { sendUserEmail } from "../utils/mail";
-import { checkPwdBcrypt, hashPwdBcrypt } from "../utils/hashPwd";
+import User, { UserType } from "../../models/User";
+import { genAccessJWT, genHashedInput, genTokenSHA } from "../../utils/token";
+import { sendUserEmail } from "../../utils/mail";
+import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
 
 export const registerUser = async (
   req: Request,

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { genAccessJWT, genHashedInput } from "../utils/token";
-import User from "../models/User";
+import { genAccessJWT, genHashedInput } from "../../utils/token";
+import User from "../../models/User";
 
 export const refreshToken = async (
   req: Request,

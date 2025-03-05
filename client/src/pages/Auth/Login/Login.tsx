@@ -3,7 +3,7 @@ import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAni
 import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
 import PwdAuthField from "../../../components/commonCompForms/PwdAuthField/PwdAuthField";
 import { PulseLoader } from "react-spinners";
-import SwitchForm from "../SwitchForm/SwitchForm";
+import SwitchForm from "../../../components/commonCompForms/SwitchForm/SwitchForm";
 import { useLoginCustom } from "./hooks/useLoginCustom";
 import { emailField, pwdField } from "../../../config/fieldsArr/userFormFields";
 

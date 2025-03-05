@@ -2,9 +2,9 @@ import { FC } from "react";
 import { Navigate } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import { useSendEmail } from "./hooks/useSendEmail";
-import BasicAuthField from "../../components/commonCompForms/BasicAuthField/BasicAuthField";
-import ButtonAnimated from "../../components/buttons/ButtonAnimated/ButtonAnimated";
-import { emailField } from "../../config/fieldsArr/userFormFields";
+import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
+import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
+import { emailField } from "../../../config/fieldsArr/userFormFields";
 // import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
 
 const SendEmail: FC = () => {
