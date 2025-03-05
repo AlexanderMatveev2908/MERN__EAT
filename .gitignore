@@ -1,3 +1,6 @@
 .vscode
 .qodo
 .gitignore
+node_modules
+
+# stuff
