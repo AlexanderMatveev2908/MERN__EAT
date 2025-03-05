@@ -50,6 +50,7 @@ export const useGeneratePwd = () => {
     return Array.from(
       arrBytes,
       (el) => charSetRandom[el % charSetRandom.length]
+      // el % len cause there can not be a rest bigger than the value than has bee used to make a division
     ).join("");
   };
 

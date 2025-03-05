@@ -5,7 +5,6 @@ import {
   updateProfileDetails,
 } from "../controllers/userControllers";
 import { asyncWrapper } from "../middleware/general/asyncWrapper";
-import { validatorRecoverPwd } from "../middleware/auth/validatorRecoverPwd";
 import { getUserId } from "../middleware/general/getUserId";
 import { validatorProfileDetails } from "../middleware/user/validatorProfileDetails";
 import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
