@@ -22,11 +22,11 @@ export const useApp = () => {
     const handleSIdeEffects = () => {
       if (isError) {
         handleErrAPI({ err: error, toast: false });
-        setCurrUser(null);
+        setCurrUser({ user: null });
       } else if (isSuccess) {
         // console.log(data);
         const { user = {} as any } = data ?? ({} as any);
-        setCurrUser(user);
+        setCurrUser({ user });
         if (!sessionStorage.getItem("initName"))
           sessionStorage.setItem("initName", getInitialsName(data.user));
       }
@@ -37,7 +37,7 @@ export const useApp = () => {
 
   useEffect(() => {
     if (!isLogged) {
-      setCurrUser(null);
+      setCurrUser({ user: null });
       sessionStorage.removeItem("initName");
     }
   }, [isLogged, setCurrUser]);

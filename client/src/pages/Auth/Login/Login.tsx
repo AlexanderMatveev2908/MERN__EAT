@@ -2,10 +2,10 @@ import { FC, useState } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
 import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
 import PwdAuthField from "../../../components/commonCompForms/PwdAuthField/PwdAuthField";
-import { PulseLoader } from "react-spinners";
 import SwitchForm from "../../../components/commonCompForms/SwitchForm/SwitchForm";
 import { useLoginCustom } from "./hooks/useLoginCustom";
 import { emailField, pwdField } from "../../../config/fieldsArr/userFormFields";
+import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const Login: FC = () => {
   const { register, errors, isPending, handleLoginUser } = useLoginCustom();
@@ -37,10 +37,7 @@ const Login: FC = () => {
             />
 
             {isPending ? (
-              <div className="w-full flex justify-center mt-2">
-                <PulseLoader color="#f97316" size={40} />
-                {/* <SpinnerBtn /> */}
-              </div>
+              <SpinnerBtnReact />
             ) : (
               <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
                 <ButtonAnimated

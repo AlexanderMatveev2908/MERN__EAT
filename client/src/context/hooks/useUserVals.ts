@@ -21,8 +21,8 @@ export const useUserVals = (
   );
 
   const setCurrUser = useCallback(
-    (val: CurrUserType | null) => {
-      dispatch({ type: SET_CURR_USER, payload: val });
+    ({ user }: { user: CurrUserType | null }) => {
+      dispatch({ type: SET_CURR_USER, payload: user });
     },
     [dispatch]
   );

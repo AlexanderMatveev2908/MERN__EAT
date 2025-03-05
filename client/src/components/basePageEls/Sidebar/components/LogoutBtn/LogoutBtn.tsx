@@ -1,6 +1,6 @@
 import { LogOut } from "lucide-react";
 import { FC } from "react";
-import { PulseLoader } from "react-spinners";
+import SpinnerBtnReact from "../../../../loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   handleLogout: () => void;
@@ -9,10 +9,7 @@ type PropsType = {
 
 const LogoutBtn: FC<PropsType> = ({ handleLogout, isPending }) => {
   return isPending ? (
-    <div className="w-full flex justify-start ml-3">
-      {/* <SpinnerBtn /> */}
-      <PulseLoader color="#f97316" size={40} />
-    </div>
+    <SpinnerBtnReact />
   ) : (
     <button
       onClick={handleLogout}

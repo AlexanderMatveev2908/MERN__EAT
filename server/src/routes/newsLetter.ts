@@ -5,10 +5,6 @@ import { subscribeUserNewsLetter } from "../controllers/newsLetterControllers";
 
 const router = express();
 
-router.patch(
-  "/subscribe",
-  verifyAccessToken,
-  asyncWrapper(subscribeUserNewsLetter)
-);
+router.patch("/", verifyAccessToken, asyncWrapper(subscribeUserNewsLetter));
 
 export default router;

@@ -2,7 +2,6 @@ import { FC } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
 import PwdAuthField from "../../../components/commonCompForms/PwdAuthField/PwdAuthField";
 import { Navigate } from "react-router-dom";
-import { PulseLoader } from "react-spinners";
 import PasswordChecker from "../../../components/commonCompForms/PasswordChecker/PasswordChecker";
 import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
 import { useRecoverPwd } from "./hooks/useRecoverPwd";
@@ -11,6 +10,7 @@ import {
   confirmPwdField,
   pwdField,
 } from "../../../config/fieldsArr/userFormFields";
+import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const RecoverPwd: FC = () => {
   const {
@@ -70,10 +70,7 @@ const RecoverPwd: FC = () => {
             />
 
             {isPending ? (
-              <div className="w-full flex justify-center">
-                {/* <SpinnerBtn /> */}
-                <PulseLoader color="#f97316" size={40} />
-              </div>
+              <SpinnerBtnReact />
             ) : (
               <div className="w-full mt-2 max-w-[250px] md:max-w-[300px] justify-self-center flex justify-center">
                 <ButtonAnimated

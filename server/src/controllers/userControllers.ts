@@ -13,7 +13,7 @@ export const getUserInfo = async (
     return res.status(401).json({ msg: "Unauthorized", success: false });
 
   const user = await User.findById(userId)
-    .select("firstName lastName email hasSubscribedToNewsletter")
+    .select("firstName lastName email hasSubscribedToNewsletter -_id")
     .lean();
   if (!user)
     return res.status(400).json({ msg: "user not found", success: false });

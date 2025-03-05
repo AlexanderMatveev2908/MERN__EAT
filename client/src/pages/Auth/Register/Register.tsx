@@ -3,7 +3,6 @@ import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAni
 import AcceptTerms from "./AcceptTerms/AcceptTerms";
 import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
 import PwdAuthField from "../../../components/commonCompForms/PwdAuthField/PwdAuthField";
-import { PulseLoader } from "react-spinners";
 import SwitchForm from "../../../components/commonCompForms/SwitchForm/SwitchForm";
 import PasswordChecker from "../../../components/commonCompForms/PasswordChecker/PasswordChecker";
 import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
@@ -15,6 +14,7 @@ import {
   nameFieldsArr,
   pwdField,
 } from "../../../config/fieldsArr/userFormFields";
+import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 // import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
 
 const Register: FC = () => {
@@ -82,10 +82,7 @@ const Register: FC = () => {
             />
 
             {isPending ? (
-              <div className="w-full flex justify-center">
-                {/* <SpinnerBtn /> */}
-                <PulseLoader color="#f97316" size={40} />
-              </div>
+              <SpinnerBtnReact />
             ) : (
               <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
                 <ButtonAnimated

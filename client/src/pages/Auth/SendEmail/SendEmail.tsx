@@ -1,11 +1,10 @@
 import { FC } from "react";
 import { Navigate } from "react-router-dom";
-import { PulseLoader } from "react-spinners";
 import { useSendEmail } from "./hooks/useSendEmail";
 import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
 import { emailField } from "../../../config/fieldsArr/userFormFields";
-// import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
+import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const SendEmail: FC = () => {
   const { register, errors, canStay, type, isPending, handleSubmitEmail } =
@@ -30,10 +29,7 @@ const SendEmail: FC = () => {
             <BasicAuthField {...{ register, errors, field: emailField }} />
 
             {isPending ? (
-              <div className="w-full flex justify-center mt-2">
-                <PulseLoader color="#f97316" size={40} />
-                {/* <SpinnerBtn /> */}
-              </div>
+              <SpinnerBtnReact />
             ) : (
               <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
                 <ButtonAnimated
