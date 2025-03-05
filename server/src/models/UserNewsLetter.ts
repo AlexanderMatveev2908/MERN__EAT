@@ -11,6 +11,10 @@ const NonLoggedUserNewsLetterSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    hashedTokenToResubscribe: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );
