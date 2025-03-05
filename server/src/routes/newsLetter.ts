@@ -10,6 +10,6 @@ const router = express();
 
 router.patch("/logged", verifyAccessToken, asyncWrapper(toggleUserNewsLetter));
 
-router.post("/not-logged", asyncWrapper(subscribeNonLoggedUser));
+router.post("/non-logged", asyncWrapper(subscribeNonLoggedUser));
 
 export default router;

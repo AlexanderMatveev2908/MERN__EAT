@@ -11,7 +11,7 @@ export const newsLetterToggleLoggedAPI = async ({
 };
 
 export const subscribeNonLoggedUserAPI = async (email: string) => {
-  const { data } = await foodAppInstance.post("/newsletter/not-logged", {
+  const { data } = await foodAppInstance.post("/newsletter/non-logged", {
     email,
   });
 

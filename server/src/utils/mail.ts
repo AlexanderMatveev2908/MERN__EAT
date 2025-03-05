@@ -30,3 +30,26 @@ export const sendUserEmail = async ({
     } ✌🏼: ${verificationURL}`,
   });
 };
+
+export const sendSubScriptionNewsLetterConfirmed = async (
+  user: UserType,
+  token: string,
+  typeUser: "non-logged" | "logged"
+) => {
+  if ([user, token, typeUser].some((el) => !el)) return;
+
+  const unsubscribeURL = `${basePath}/notice-unsubscribed?userId=${user?._id}&token=${token}&typeUser=${typeUser}&action=unsubscribe`;
+
+  await transporterMail.sendMail({
+    from: process.env.MAIL_USER,
+    to: user?.email as string,
+    subject: "CONFIRM SUBSCRIPTION TO NEWSLETTER",
+    text: `Congrats on subscribing to our newsletter 🎉\nWe will keep you update on our sales and send you unique coupon discount ✌🏼\nIf for any reason you want to unsubscribe, don't worry, you only have to click the following link: ${unsubscribeURL}`,
+  });
+};
+
+export const confirmUnsubScribeNewsLetter = async (
+  user: UserType,
+  token: string,
+  typeUser: "non-logged" | "logged"
+) => {};

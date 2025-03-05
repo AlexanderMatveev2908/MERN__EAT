@@ -2,9 +2,9 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { JWTUserId } from "../middleware/general/verifyAccessToken";
 
-const EXPIRY_ACCESS = "15m";
-const genExpiryAuth = () => new Date(Date.now() + 1000 * 60 * 5);
-const genExpiryRefresh = () => new Date(Date.now() + 1000 * 60 * 60);
+const EXPIRY_ACCESS = "15m"; //basic access token
+const genExpiryAuth = () => new Date(Date.now() + 1000 * 60 * 5); //register, recover-pwd, verify-account
+const genExpiryRefresh = () => new Date(Date.now() + 1000 * 60 * 60); // refresh token for access token
 
 type ReturnToken = {
   token: string;
