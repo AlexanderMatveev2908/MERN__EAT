@@ -1,27 +1,29 @@
+export type UserDataFormType = {
+  firstName: string | null;
+  lastName: string | null;
+  country: string | null;
+  state: string | null;
+  city: string | null;
+  street: string | null;
+  zipCode: string | null;
+  phone: string | null;
+};
+
 export type UserProfileFormType = {
   currForm: {
     curr: number;
     isPrevDisabled: boolean;
     isNextDisabled: boolean;
   };
-  user: {
-    firstName: string | null;
-    lastName: string | null;
-    country: string | null;
-    state: string | null;
-    city: string | null;
-    street: string | null;
-    zipCode: string | null;
-    phone: string | null;
-    errs:
-      | {
-          [key: string]: {
-            msg: string | null;
-            required: string | null;
-          };
-        }
-      | undefined;
-  };
+  user: UserDataFormType;
+  errs:
+    | {
+        [key: string]: {
+          msg: string | null;
+          required: string | null;
+        };
+      }
+    | undefined;
 };
 
 export enum UserProfileActions {

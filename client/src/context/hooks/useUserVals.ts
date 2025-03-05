@@ -20,9 +20,11 @@ export const useUserVals = (
     [dispatch]
   );
 
-  const setCurrUser = (val: CurrUserType | null) => {
-    dispatch({ type: SET_CURR_USER, payload: val });
-  };
-
+  const setCurrUser = useCallback(
+    (val: CurrUserType | null) => {
+      dispatch({ type: SET_CURR_USER, payload: val });
+    },
+    [dispatch]
+  );
   return { ...userState, setCurrUser, setUserLogged };
 };

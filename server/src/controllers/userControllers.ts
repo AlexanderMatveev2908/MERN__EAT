@@ -52,25 +52,17 @@ export const updateProfileDetails = async (
   res: Response
 ): Promise<any> => {
   const { userId } = req;
+  const { firstName, lastName, ...address } = req.body;
 
   const user = await User.findById(userId);
   if (!user)
     return res.status(404).json({ msg: "User not found", success: false });
 
-  const updatedUserArr = await User.aggregate([
-    { $match: { _id: new mongoose.Types.ObjectId(userId) } },
-    { $set: req.body },
-    {
-      $project: {
-        firstName: 1,
-        lastName: 1,
-        address: 1,
-        _id: 0,
-      },
-    },
-  ]);
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { $set: { firstName, lastName, address } },
+    { new: true, select: "firstName lastName address -_id" }
+  );
 
-  const updatedUserDetails = updatedUserArr[0];
-
-  return res.status(200).json({ success: true, user: updatedUserDetails });
+  return res.status(200).json({ success: true, user: updatedUser });
 };

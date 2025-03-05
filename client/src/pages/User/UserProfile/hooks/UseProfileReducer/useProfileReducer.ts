@@ -1,46 +1,86 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useReducer } from "react";
 import { formReducer } from "./reducer/reducer";
-import { UserProfileActions } from "./types/types";
+import { UserDataFormType } from "./types/types";
 import {
   handleBtns,
   handleChangeBeforeUseCb,
   handleErr,
   handleNextBeforeUseCb,
   handlePrevBeforeUseCb,
+  setDetailsFields,
 } from "./lib/lib";
 import { useGetUserProfileDetails } from "../useGetUserProfileDetails";
 import { initState } from "./reducer/initState";
 import { useHandleErr } from "../../../../../hooks/useHandleErr";
+import { useToast } from "../../../../../hooks/useGlobal";
+import { useUpdateUserDetails } from "../useUpdateUserDetails";
 
 export const totLen = 3;
 
 export const useProfileReducer = () => {
   const { handleErrAPI } = useHandleErr();
+  const { showToastMsg } = useToast();
+
   const { fetchedUserData, isPending, isSuccess, isError, error } =
     useGetUserProfileDetails();
+  const {
+    dataUpdate,
+    isPendingUpdate,
+    isSuccessUpdate,
+    isErrorUpdate,
+    errorUpdate,
+    mutateUpdate,
+  } = useUpdateUserDetails();
 
   const [state, dispatch] = useReducer(formReducer, initState);
 
-  const handleSideEffect = useCallback(() => {
+  const setDetailsFieldsHigher = useCallback(
+    (details: UserDataFormType) => setDetailsFields(dispatch, details),
+    [dispatch]
+  );
+
+  const handleSideEffectGetDetails = useCallback(() => {
     if (isError) {
       handleErrAPI({ err: error });
     } else if (isSuccess) {
       const { user: existingUserData = {} as any } =
         fetchedUserData ?? ({} as any);
-      console.log(existingUserData);
-      dispatch({
-        type: UserProfileActions.SET_FETCHED_DATA,
-        payload: {
-          user: existingUserData,
-        },
-      });
+      setDetailsFieldsHigher(existingUserData);
     }
-  }, [fetchedUserData, isSuccess, isError, error, handleErrAPI]);
+  }, [
+    fetchedUserData,
+    isSuccess,
+    isError,
+    error,
+    handleErrAPI,
+    setDetailsFieldsHigher,
+  ]);
+  const handleSideEffectsUpdateDetails = useCallback(() => {
+    if (isErrorUpdate) {
+      handleErrAPI({ err: errorUpdate });
+    } else if (isSuccessUpdate) {
+      showToastMsg("Profile updated successfully", "SUCCESS");
+      const { user: updatedUser = {} as any } = dataUpdate ?? ({} as any);
+      setDetailsFieldsHigher(updatedUser);
+    }
+  }, [
+    isErrorUpdate,
+    handleErrAPI,
+    errorUpdate,
+    isSuccessUpdate,
+    showToastMsg,
+    setDetailsFieldsHigher,
+    dataUpdate,
+  ]);
 
   useEffect(() => {
-    handleSideEffect();
-  }, [handleSideEffect]);
+    handleSideEffectGetDetails();
+  }, [handleSideEffectGetDetails]);
+
+  useEffect(() => {
+    handleSideEffectsUpdateDetails();
+  }, [handleSideEffectsUpdateDetails]);
 
   const handleErrHigher = (name: string, value: string, currField: any) =>
     handleErr(dispatch, name, value, currField);
@@ -55,6 +95,12 @@ export const useProfileReducer = () => {
 
   const handleNext = () =>
     handleNextBeforeUseCb(dispatch, state.currForm, handleBtnsHigher);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutateUpdate({ ...state.user });
+  };
+
   return {
     state,
     handleChange,
@@ -62,6 +108,8 @@ export const useProfileReducer = () => {
     handleNext,
     handleBtns,
     isPending,
+    isPendingUpdate,
+    handleSubmit,
   };
 };
 

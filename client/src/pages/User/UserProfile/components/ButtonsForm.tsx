@@ -1,6 +1,8 @@
 import { FC } from "react";
 import ButtonBasic from "../../../../components/buttons/ButtonBasic/ButtonBasic";
 import ButtonAnimated from "../../../../components/buttons/ButtonAnimated/ButtonAnimated";
+import { PulseLoader } from "react-spinners";
+import { useUpdateSizeLoaderBtn } from "../../../../hooks/useUpdateSizeLoaderBtn";
 
 type PropsType = {
   isPrevDisabled: boolean;
@@ -8,6 +10,7 @@ type PropsType = {
   handlePrev: () => void;
   handleNext: () => void;
   curr: number;
+  isPendingUpdate: boolean;
 };
 
 const ButtonsForm: FC<PropsType> = ({
@@ -16,7 +19,10 @@ const ButtonsForm: FC<PropsType> = ({
   handlePrev,
   handleNext,
   curr,
+  isPendingUpdate,
 }) => {
+  const { size } = useUpdateSizeLoaderBtn();
+
   return (
     <div
       className="w-full grid grid-cols-2
@@ -36,9 +42,18 @@ const ButtonsForm: FC<PropsType> = ({
         />
       </div>
       {curr === 2 ? (
-        <div className="w-full max-w-[200px] h-full flex items-center">
-          <ButtonAnimated {...{ label: "Save", isDisabled: isNextDisabled }} />
-        </div>
+        isPendingUpdate ? (
+          <div className="w-full flex justify-center ml-3">
+            {/* <SpinnerBtn /> */}
+            <PulseLoader color="#f97316" size={size} />
+          </div>
+        ) : (
+          <div className="w-full max-w-[200px] h-full flex items-center">
+            <ButtonAnimated
+              {...{ label: "Save", isDisabled: isNextDisabled, type: "submit" }}
+            />
+          </div>
+        )
       ) : (
         <div className="w-full max-w-[30vw] sm:max-w-[200px]">
           <ButtonBasic

@@ -17,6 +17,8 @@ const UserProfile: FC = () => {
     state,
     handleChange,
     isPending,
+    isPendingUpdate,
+    handleSubmit,
   } = useUserProfile();
 
   return (
@@ -29,7 +31,10 @@ const UserProfile: FC = () => {
           {/* <Spinner /> */}
         </div>
       ) : (
-        <form className="w-full max-w-[600px] justify-self-center grid grid-cols-1 border-[3px] gap-5 border-orange-500 rounded-xl h-fit p-5 sm:px-10">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-[600px] justify-self-center grid grid-cols-1 border-[3px] gap-5 border-orange-500 rounded-xl h-fit p-5 sm:px-10"
+        >
           <div className="w-full overflow-hidden">
             <div
               className="w-[300%] grid grid-cols-3 transition-all duration-500 min-h-[250px]"
@@ -46,6 +51,7 @@ const UserProfile: FC = () => {
               handlePrev,
               handleNext,
               curr,
+              isPendingUpdate,
             }}
           />
         </form>
