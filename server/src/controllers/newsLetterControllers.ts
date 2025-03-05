@@ -7,11 +7,15 @@ export const subscribeUserNewsLetter = async (
   res: Response
 ): Promise<any> => {
   const { userId } = req;
+  const { type } = req.body;
+
+  if (!["subscribe", "unsubscribe"].includes(type))
+    return res.status(400).json({ msg: "Invalid request", success: false });
 
   const updatedUser = await User.findByIdAndUpdate(
     userId,
-    { $set: { hasSubscribedToNewsletter: true } },
-    { new: true, select: "hasSubscribedToNewsletter" }
+    { $set: { hasSubscribedToNewsletter: type === "subscribe" } },
+    { new: true, select: "hasSubscribedToNewsletter firstName lastName email" }
   ).lean();
 
   if (!updatedUser)
@@ -20,5 +24,6 @@ export const subscribeUserNewsLetter = async (
   return res.status(200).json({
     msg: "User subscribed to newsletter",
     success: true,
+    user: updatedUser,
   });
 };

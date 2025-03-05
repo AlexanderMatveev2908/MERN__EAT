@@ -2,7 +2,7 @@ import { LogOut, User } from "lucide-react";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { useDropLogged } from "./hooks/useDropLogged";
-import { PulseLoader } from "react-spinners";
+import SpinnerBtnReact from "../../../../loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const DropLogged: FC = () => {
   const {
@@ -52,9 +52,7 @@ const DropLogged: FC = () => {
           </Link>
 
           {isPending ? (
-            <div className="w-full h-[50px]  items-center flex justify-start">
-              <PulseLoader color="#f97316" size={25} className="pl-3" />
-            </div>
+            <SpinnerBtnReact />
           ) : (
             <button
               onClick={handleDropLogout}

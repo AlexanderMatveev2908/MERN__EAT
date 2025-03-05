@@ -1,6 +1,9 @@
+import { useScrollTop } from "../../../../hooks/useScrollTop";
 import { useProfileReducer } from "./UseProfileReducer/useProfileReducer";
 
 export const useUserProfile = () => {
+  useScrollTop();
+
   const {
     state,
     handleChange,
