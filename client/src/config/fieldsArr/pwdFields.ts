@@ -1,4 +1,4 @@
-import { genID } from "../../../../utils/genID";
+import { genID } from "../../utils/genID";
 
 export const REG_UPPERCASE = /(?=.*[A-Z])/;
 export const REG_LOWERCASE = /[a-z]+/;
@@ -31,6 +31,3 @@ export const passwordCheckerFieldsArr = [
     label: "!@#$...",
   },
 ];
-
-export const isValidPiecePwd = (pwd: string, reg: RegExp) =>
-  pwd && reg.test(pwd);

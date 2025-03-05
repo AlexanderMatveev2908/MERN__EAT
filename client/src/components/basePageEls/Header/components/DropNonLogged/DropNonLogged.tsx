@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { sidebarFieldsArrNonLoggedUser } from "../../../Sidebar/utils/sidebarArr";
 import { useDropNonLogged } from "./hooks/useDropNonLogged";
 import { User } from "lucide-react";
+import { nonLoggedUserFields } from "../../../../../config/fieldsArr/userDropDownFields";
 
 const DropNonLogged: FC = () => {
   const {
@@ -37,7 +37,7 @@ const DropNonLogged: FC = () => {
         }`}
       >
         <div className="w-full flex flex-col items-start">
-          {sidebarFieldsArrNonLoggedUser.map((el) => (
+          {nonLoggedUserFields.map((el) => (
             <button
               onClick={() => handleSideClick(el.path, el?.from)}
               key={el.id}

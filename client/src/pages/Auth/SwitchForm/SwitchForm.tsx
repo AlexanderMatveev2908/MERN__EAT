@@ -1,9 +1,9 @@
 import { FC, Fragment } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  switchFormLeftArr,
-  switchFormRightArr,
-} from "./utils/switchFormFieldsArr";
+  switchFormAuthLeft,
+  switchFormAuthRight,
+} from "../../../config/fieldsArr/switchForms";
 
 type PropsType = {
   type: "login" | "register";
@@ -27,7 +27,7 @@ const SwitchForm: FC<PropsType> = ({ type }) => {
         }
         className="w-full flex items-center gap-3 group el__after_below cursor-pointer"
       >
-        {switchFormLeftArr.map(
+        {switchFormAuthLeft.map(
           (field) =>
             field.type === type && (
               <Fragment key={field.id}>
@@ -44,7 +44,7 @@ const SwitchForm: FC<PropsType> = ({ type }) => {
         to={type === "login" ? "/auth/register" : "/auth/login"}
         className="w-full flex items-center gap-3 group el__after_below sm:justify-self-end"
       >
-        {switchFormRightArr.map(
+        {switchFormAuthRight.map(
           (field) =>
             field.type === type && (
               <Fragment key={field.id}>

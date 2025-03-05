@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { FC } from "react";
-import {
-  isValidPiecePwd,
-  passwordCheckerFieldsArr,
-} from "./utils/passwordCheckerFieldsArr";
 import { UseFormWatch } from "react-hook-form";
+import { passwordCheckerFieldsArr } from "../../../config/fieldsArr/pwdFields";
+import { isValidPiecePwd } from "../../../utils/validateStr";
 
 type PropsType = {
   watch: UseFormWatch<any>;

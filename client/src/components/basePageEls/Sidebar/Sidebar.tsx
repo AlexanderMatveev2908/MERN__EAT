@@ -1,15 +1,15 @@
 import { FC, useRef } from "react";
 import { useSidebar } from "./hooks/useSidebar";
 import { useLocation, useSearchParams } from "react-router-dom";
-import {
-  sidebarFieldsArrAllUser,
-  sidebarFieldsArrLoggedUser,
-  sidebarFieldsArrNonLoggedUser,
-} from "./utils/sidebarArr";
 import SideEL from "./components/SideEL/SideEL";
 import LogoutBtn from "./components/LogoutBtn/LogoutBtn";
 import UserInitials from "./components/UserInitals/UserInitials";
 import { useUser } from "../../../hooks/useGlobal";
+import {
+  allUsersFields,
+  loggedUserFields,
+  nonLoggedUserFields,
+} from "../../../config/fieldsArr/userDropDownFields";
 
 type PropsType = {
   sideOpen: boolean;
@@ -47,18 +47,18 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
         <div className="w-full grid grid-cols-1 justify-items-start gap-5 pt-4">
           {currUser && <UserInitials {...{ currUser }} />}
 
-          {sidebarFieldsArrAllUser.map((el) => (
+          {allUsersFields.map((el) => (
             <SideEL key={el.id} {...{ handleSideClick, type, location, el }} />
           ))}
 
           {isLogged
-            ? sidebarFieldsArrLoggedUser.map((el) => (
+            ? loggedUserFields.map((el) => (
                 <SideEL
                   key={el.id}
                   {...{ handleSideClick, type, location, el }}
                 />
               ))
-            : sidebarFieldsArrNonLoggedUser.map((el) => (
+            : nonLoggedUserFields.map((el) => (
                 <SideEL
                   key={el.id}
                   {...{ handleSideClick, type, location, el }}

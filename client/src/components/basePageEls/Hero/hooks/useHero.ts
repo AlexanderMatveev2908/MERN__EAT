@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { tailwindBreak } from "../../../../constants/breakpoints";
-import { heroFieldsArr } from "../utils/heroFieldsArr";
+import { heroFieldsArr } from "../../../../config/fieldsArr/heroFieldsArr";
 
 export const useHero = () => {
   const [activeIndx, setActiveIdx] = useState<number>(0);

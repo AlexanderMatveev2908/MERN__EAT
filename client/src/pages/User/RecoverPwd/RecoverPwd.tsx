@@ -6,11 +6,11 @@ import { PulseLoader } from "react-spinners";
 import PasswordChecker from "../../../components/commonCompForms/PasswordChecker/PasswordChecker";
 import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
 import { useRecoverPwd } from "./hooks/useRecoverPwd";
+import PasswordLength from "../../../components/commonCompForms/PasswordLength/PasswordLength";
 import {
   confirmPwdField,
   pwdField,
-} from "../../../components/commonCompForms/PwdAuthField/utils/pwdAuthFieldsArr";
-import PasswordLength from "../../../components/commonCompForms/PasswordLength/PasswordLength";
+} from "../../../config/fieldsArr/userFormFields";
 
 const RecoverPwd: FC = () => {
   const {

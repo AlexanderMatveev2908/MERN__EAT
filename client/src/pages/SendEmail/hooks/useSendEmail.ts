@@ -2,14 +2,14 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import {
-  sendEmailAllowedPaths,
-  sendEmailAllowedTypes,
-} from "../utils/sendEmailFieldsArr";
 import { useScrollTop } from "../../../hooks/useScrollTop";
-import { validateUserLocation } from "../../../utils/locations";
+import { validateUserLocation } from "../../../utils/validateLocations";
 import { useCreateTanStackSendEmail } from "./useCreateTanStackSendEmail";
 import { sendUserEmailAPI } from "../../../api/verify";
+import {
+  emailAllowedFrom,
+  emailAllowedType,
+} from "../../../config/allowedPaths/pathsAndTypes";
 
 export type SendEmailFormType = {
   email: string;
@@ -25,8 +25,8 @@ export const useSendEmail = () => {
   const type = searchParams.get("type");
 
   const canStay = validateUserLocation(
-    sendEmailAllowedPaths,
-    sendEmailAllowedTypes,
+    emailAllowedFrom,
+    emailAllowedType,
     from,
     type
   );

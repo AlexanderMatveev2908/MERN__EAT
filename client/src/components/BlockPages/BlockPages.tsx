@@ -1,6 +1,6 @@
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 import { FC, useState } from "react";
-import { useBlockPages } from "./useBlockPages";
+import { useBlockPages } from "./hooks/useBlockPages";
 
 export type PropsType = {
   totPages?: number;

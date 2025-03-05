@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import {
-  makeConditionalStyle,
-  NonLoggedSideLink,
-} from "../../utils/sidebarArr";
+import { makeConditionalStyleLocation } from "../../../../../utils/conditionalStyleLocation";
 
 type PropsType = {
   handleSideClick: (path: string, from?: string) => void;
   type: string | null;
   location: any;
-  el: NonLoggedSideLink;
+  el: any;
 };
 
 const SideEL: FC<PropsType> = ({ handleSideClick, type, location, el }) => {
@@ -17,7 +14,7 @@ const SideEL: FC<PropsType> = ({ handleSideClick, type, location, el }) => {
     <button
       key={el.id}
       onClick={() => handleSideClick(el.path, el?.from)}
-      className={`ml-3 w-full cursor-pointer flex gap-3 group max-w-fit items-center el__after_below sideLink ${makeConditionalStyle(
+      className={`ml-3 w-full cursor-pointer flex gap-3 group max-w-fit items-center el__after_below sideLink ${makeConditionalStyleLocation(
         { location, el, type }
       )}`}
     >

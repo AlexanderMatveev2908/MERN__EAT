@@ -1,7 +1,10 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { footerFieldsArr, socialFieldsArr } from "./utils/footerFieldsArr";
 import Newsletter from "./Newsletter/Newsletter";
+import {
+  footerFieldsArr,
+  socialFieldsArr,
+} from "../../../config/fieldsArr/footerFields";
 
 const Footer: FC = () => {
   return (

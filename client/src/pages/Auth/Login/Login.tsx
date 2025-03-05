@@ -5,8 +5,7 @@ import PwdAuthField from "../../../components/commonCompForms/PwdAuthField/PwdAu
 import { PulseLoader } from "react-spinners";
 import SwitchForm from "../SwitchForm/SwitchForm";
 import { useLoginCustom } from "./hooks/useLoginCustom";
-import { emailField } from "../../../components/commonCompForms/BasicAuthField/utils/basicAuthFieldsArr";
-import { pwdField } from "../../../components/commonCompForms/PwdAuthField/utils/pwdAuthFieldsArr";
+import { emailField, pwdField } from "../../../config/fieldsArr/userFormFields";
 
 const Login: FC = () => {
   const { register, errors, isPending, handleLoginUser } = useLoginCustom();
