@@ -1,10 +1,15 @@
 import express from "express";
 import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
 import { asyncWrapper } from "../middleware/general/asyncWrapper";
-import { subscribeUserNewsLetter } from "../controllers/newsLetterControllers";
+import {
+  subscribeNonLoggedUser,
+  toggleUserNewsLetter,
+} from "../controllers/newsLetterControllers";
 
 const router = express();
 
-router.patch("/", verifyAccessToken, asyncWrapper(subscribeUserNewsLetter));
+router.patch("/logged", verifyAccessToken, asyncWrapper(toggleUserNewsLetter));
+
+router.post("/not-logged", asyncWrapper(subscribeNonLoggedUser));
 
 export default router;

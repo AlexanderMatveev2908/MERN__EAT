@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../../models/User";
 import { checkTokenSHA, genAccessJWT, genTokenSHA } from "../../utils/token";
+import NonLoggedUserNewsLetter from "../../models/UserNewsLetter";
 
 export const verifyAccount = async (
   req: Request,
@@ -25,6 +26,14 @@ export const verifyAccount = async (
 
   const isMatch = checkTokenSHA(token, user?.verifyAccountToken ?? "", "auth");
   if (!isMatch) return res.status(401).json({ msg: "Invalid token" });
+
+  const isSubscribedNewsLetter = await NonLoggedUserNewsLetter.findOne({
+    email: user.email,
+  });
+  if (isSubscribedNewsLetter) {
+    await NonLoggedUserNewsLetter.deleteOne({ email: user.email });
+    user.hasSubscribedToNewsletter = true;
+  }
 
   user.isVerified = true;
   user.verifyAccountToken = null;

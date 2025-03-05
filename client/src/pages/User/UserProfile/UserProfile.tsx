@@ -2,12 +2,9 @@ import { FC } from "react";
 import { useUserProfile } from "./hooks/useUserProfile";
 import ButtonsForm from "./components/ButtonsForm";
 import FormUserProfile from "./components/FormUserProfile";
-import { GridLoader } from "react-spinners";
-import { useUpdateSizeLoaderPage } from "../../../hooks/useUpdateSizeLoader";
+import LoaderPageReact from "../../../components/loaders/LoaderPageReact/LoaderPageReact";
 
 const UserProfile: FC = () => {
-  const { size } = useUpdateSizeLoaderPage();
-
   const {
     isPrevDisabled,
     isNextDisabled,
@@ -26,10 +23,7 @@ const UserProfile: FC = () => {
       <span className="txt__04">Your Profile Details</span>
 
       {isPending ? (
-        <div className="w-full h-[50vh] sm:h-[75vh] flex justify-center items-center">
-          <GridLoader color="#f97316" size={size} />
-          {/* <Spinner /> */}
-        </div>
+        <LoaderPageReact />
       ) : (
         <form
           onSubmit={handleSubmit}

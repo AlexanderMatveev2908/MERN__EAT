@@ -23,6 +23,7 @@ export type UserType = {
   recoverPwdToken: string | null;
   expiryRecoverPwdToken: Date | null;
   hasSubscribedToNewsletter: boolean;
+  hashedTokenToUnsubscribeNewsLetter: string | null;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -107,6 +108,10 @@ const UserSchema = new mongoose.Schema(
     hasSubscribedToNewsletter: {
       type: Boolean,
       default: false,
+    },
+    hashedTokenToUnsubscribeNewsLetter: {
+      type: String,
+      default: null,
     },
   },
   { timestamps: true }

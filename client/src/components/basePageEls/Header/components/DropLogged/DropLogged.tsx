@@ -52,7 +52,9 @@ const DropLogged: FC = () => {
           </Link>
 
           {isPending ? (
-            <SpinnerBtnReact />
+            <div className="h-[50px] w-full flex items-center justify-center">
+              <SpinnerBtnReact {...{ sizeGiven: 25 }} />
+            </div>
           ) : (
             <button
               onClick={handleDropLogout}
