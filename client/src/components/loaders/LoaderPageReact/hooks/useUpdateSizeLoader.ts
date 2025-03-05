@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { tailwindBreak } from "../constants/breakpoints";
+import { tailwindBreak } from "../../../../constants/breakpoints";
 
-export const useUpdateSizeLoaderBtn = () => {
-  const [size, setSize] = useState(25);
+export const useUpdateSizeLoaderPage = () => {
+  const [size, setSize] = useState(50);
 
   useEffect(() => {
     const updateSize = () => {
       const currWidth = window.innerWidth;
 
-      return currWidth > tailwindBreak.sm ? setSize(40) : setSize(30);
+      return currWidth > tailwindBreak.md
+        ? setSize(100)
+        : currWidth > tailwindBreak.sm
+        ? setSize(75)
+        : setSize(50);
     };
 
     updateSize();

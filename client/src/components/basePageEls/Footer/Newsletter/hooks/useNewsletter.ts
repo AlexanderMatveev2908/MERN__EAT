@@ -1,62 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useToast, useUser } from "../../../../../hooks/useGlobal";
-import { newsLetterSubscribeAPI } from "../../../../../api/newsLetter";
-import { CurrUserType } from "../../../../../types/userTypes";
-import { useForm } from "react-hook-form";
-import { useEffect } from "react";
-
-type NewsLetterFormType = {
-  email: string;
-};
+import { useToggleNewsLetter } from "./useToggleNewsLetter";
+import { useNonLoggedNewLetter } from "./useNonLoggedNewLetter";
+import { useHandleErr } from "../../../../../hooks/useHandleErr";
 
 export const useNewsletter = () => {
   const { isLogged, currUser } = useUser();
-  const { setCurrUser } = useUser();
   const { showToastMsg } = useToast();
+  const { handleErrAPI } = useHandleErr();
 
   const navigate = useNavigate();
 
   const {
     register,
-    formState: { errors },
-    setValue,
-  } = useForm<NewsLetterFormType>({
-    defaultValues: {
-      email: currUser?.email ?? "",
-    },
-    mode: "onChange",
-  });
+    errors,
+    submitSubscribeNonLoggedUser,
+    isPending: isPendingNonLogged,
+  } = useNonLoggedNewLetter({ showToastMsg, handleErrAPI });
 
-  useEffect(() => {
-    if (currUser?.email) setValue("email", currUser?.email ?? "");
-  }, [currUser?.email, setValue]);
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: ({ type }: { type: "subscribe" | "unsubscribe" }) =>
-      newsLetterSubscribeAPI({ type }),
-    onSuccess: (data) => {
-      setCurrUser({ user: data?.user as CurrUserType | null });
-      showToastMsg(
-        `You have ${
-          data?.user?.hasSubscribedToNewsletter ? "subscribed" : "unsubscribed"
-        } to our newsletter successfully`,
-        "SUCCESS"
-      );
-    },
-    onError: (err: any) => {
-      console.log(err);
-      showToastMsg(`Oops something went wrong`, "ERROR");
-    },
-  });
+  const { mutate: mutateLogged, isPending: isPendingLogged } =
+    useToggleNewsLetter({ showToastMsg, handleErrAPI });
 
   const handleClickNonLoggedUser = () => navigate("/auth/login");
 
-  const submitNewsLetter = (e: React.FormEvent<HTMLFormElement>) => {
+  const toggleNewsLetter = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    mutate({
+    mutateLogged({
       type: currUser?.hasSubscribedToNewsletter ? "unsubscribe" : "subscribe",
     });
   };
@@ -64,10 +35,12 @@ export const useNewsletter = () => {
   return {
     handleClickNonLoggedUser,
     isLogged,
-    submitNewsLetter,
-    isPending,
+    toggleNewsLetter,
+    isPendingLogged,
     register,
     errors,
     currUser,
+    submitSubscribeNonLoggedUser,
+    isPendingNonLogged,
   };
 };

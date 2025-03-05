@@ -3,7 +3,7 @@ import { asyncWrapper } from "../middleware/general/asyncWrapper";
 import { makeLimiter } from "../utils/makeLimiter";
 import { validatorRegister } from "../middleware/auth/validateRegister";
 import { validatorLogin } from "../middleware/auth/validateLogin";
-import { validatorVerify } from "../middleware/verify/validatorVerify";
+import { validatorVerify } from "../middleware/auth/validatorVerify";
 import { validatorRecoverPwd } from "../middleware/auth/validatorRecoverPwd";
 import { refreshToken } from "../controllers/authControllers/refresh";
 import {
