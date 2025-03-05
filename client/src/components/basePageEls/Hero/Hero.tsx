@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { heroFieldsArr } from "./utils/heroFieldsArr";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useHero } from "./hooks/useHero";
+import { heroFieldsArr } from "../../../config/fieldsArr/heroFieldsArr";
 
 const Hero: FC = () => {
   const { activeIndx, handleNext, handlePrev, setBtnClicked, translateVal } =

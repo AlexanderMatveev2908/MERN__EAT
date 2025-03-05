@@ -10,13 +10,11 @@ import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/Generat
 import { useRegisterCustom } from "./hooks/useRegisterCustom";
 import PasswordLength from "../../../components/commonCompForms/PasswordLength/PasswordLength";
 import {
+  confirmPwdField,
   emailField,
   nameFieldsArr,
-} from "../../../components/commonCompForms/BasicAuthField/utils/basicAuthFieldsArr";
-import {
-  confirmPwdField,
   pwdField,
-} from "../../../components/commonCompForms/PwdAuthField/utils/pwdAuthFieldsArr";
+} from "../../../config/fieldsArr/userFormFields";
 // import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
 
 const Register: FC = () => {

@@ -8,7 +8,7 @@ import {
   handleErr,
   handleNextBeforeUseCb,
   handlePrevBeforeUseCb,
-} from "./utils/utils";
+} from "./lib/lib";
 import { useGetUserProfileDetails } from "../useGetUserProfileDetails";
 import { initState } from "./reducer/initState";
 import { useHandleErr } from "../../../../../hooks/useHandleErr";

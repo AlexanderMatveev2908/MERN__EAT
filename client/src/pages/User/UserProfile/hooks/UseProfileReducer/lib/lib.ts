@@ -2,7 +2,7 @@
 import {
   allFields,
   fieldsDividedByArea,
-} from "../../../utils/userProfileFieldsArr";
+} from "../../../../../../config/fieldsArr/userDetailsFields";
 import { UserProfileActions, UserProfileFormType } from "../types/types";
 import { totLen } from "../useProfileReducer";
 

@@ -7,11 +7,11 @@ import {
   User,
   UserPen,
 } from "lucide-react";
-import { genID } from "../../../../utils/genID";
+import { genID } from "../../utils/genID";
 
 export type BasicSideLink = Omit<NonLoggedSideLink, "from">;
 
-export const sidebarFieldsArrAllUser: BasicSideLink[] = [
+export const allUsersFields: BasicSideLink[] = [
   {
     id: genID(),
     path: "/",
@@ -20,7 +20,7 @@ export const sidebarFieldsArrAllUser: BasicSideLink[] = [
   },
 ];
 
-export const sidebarFieldsArrLoggedUser = [
+export const loggedUserFields = [
   {
     id: genID(),
     path: "/user/profile",
@@ -36,7 +36,7 @@ export type NonLoggedSideLink = {
   from?: string;
   svg: any;
 };
-export const sidebarFieldsArrNonLoggedUser: NonLoggedSideLink[] = [
+export const nonLoggedUserFields: NonLoggedSideLink[] = [
   {
     id: genID(),
     path: "/auth/login",
@@ -64,20 +64,3 @@ export const sidebarFieldsArrNonLoggedUser: NonLoggedSideLink[] = [
     svg: ShieldCheck,
   },
 ];
-
-export const makeConditionalStyle = ({
-  location,
-  el,
-  type,
-}: {
-  location: any;
-  el: NonLoggedSideLink;
-  type?: string | null;
-}) =>
-  el?.from && type
-    ? type === el.path.split("=")[1]
-      ? "active"
-      : ""
-    : location.pathname === el.path
-    ? "active"
-    : "";

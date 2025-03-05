@@ -1,7 +1,7 @@
 import { KeyRound, LogIn, ShieldCheck, UserPen } from "lucide-react";
-import { genID } from "../../../../utils/genID";
+import { genID } from "../../utils/genID";
 
-export const switchFormLeftArr = [
+export const switchFormAuthLeft = [
   {
     id: genID(),
     label: "Forgot password",
@@ -16,7 +16,7 @@ export const switchFormLeftArr = [
   },
 ];
 
-export const switchFormRightArr = [
+export const switchFormAuthRight = [
   {
     id: genID(),
     label: "Create account",

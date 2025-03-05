@@ -1,6 +1,6 @@
 import { CircleUser, Mail } from "lucide-react";
-import { genID } from "../../../../utils/genID";
-import { REG_EMAIL, REG_NAME } from "../../../../constants/regex";
+import { REG_EMAIL, REG_NAME } from "../../constants/regex";
+import { genID } from "../../utils/genID";
 
 export const emailField = {
   id: genID(),
@@ -32,3 +32,16 @@ export const nameFieldsArr = [
     type: "text",
   },
 ];
+
+export const pwdField = {
+  id: genID(),
+  field: "password",
+  label: "Password",
+  place: "Your password",
+};
+export const confirmPwdField = {
+  id: genID(),
+  field: "confirmPassword",
+  label: "Confirm Password",
+  place: "Confirm your password",
+};
