@@ -2,16 +2,16 @@ import { FC } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import MainLayoutRoute from "./layouts/mainLayout/MainLayoutRoute";
-import Login from "./pages/Authentication/Login/Login";
-import Register from "./pages/Authentication/Register/Register";
-import SendEmail from "./pages/Authentication/SendEmail/SendEmail";
-import Verify from "./pages/Authentication/Verify/Verify";
-import RecoverPwd from "./pages/Authentication/RecoverPwd/RecoverPwd";
+import Login from "./pages/Auth/Login/Login";
+import Register from "./pages/Auth/Register/Register";
+import Verify from "./pages/Verify/Verify";
+import RecoverPwd from "./pages/User/RecoverPwd/RecoverPwd";
 import LayoutNonLoggedUserRoute from "./layouts/layoutNonLoggedUser/LayoutNonLoggedUserRoute";
 import NoticeEmail from "./pages/NoticeEmail/NoticeEmail";
 import { useApp } from "./hooks/useApp";
 import LayoutUserRoute from "./layouts/LayoutUserRoute/LayoutUserRoute";
-import UserProfile from "./pages/UserProfile/UserProfile";
+import UserProfile from "./pages/User/UserProfile/UserProfile";
+import SendEmail from "./pages/SendEmail/SendEmail";
 // import CallbackAuth from "./pages/CallbackAuth/CallbackAuth";
 
 const App: FC = () => {

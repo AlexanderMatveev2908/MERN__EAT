@@ -1,5 +1,5 @@
 import { foodAppInstance } from "../../constants/axiosInstance";
-import { RegisterFormType } from "../../pages/Authentication/Register/useRegisterCustom";
+import { RegisterFormType } from "../../pages/Auth/Register/useRegisterCustom";
 import { AccessResAPIType, BaseResAPIType } from "../../types/authTypes";
 
 export const registerUserAPI = async (
