@@ -4,7 +4,12 @@ import User, { UserType } from "../models/User";
 import { REG_EMAIL } from "../constants/regex";
 import { checkTokenSHA } from "../utils/token";
 import NonLoggedUserNewsLetter from "./../models/UserNewsLetter";
-import { baseErrResponse, userNotFound } from "../utils/baseErrResponse";
+import {
+  badRequest,
+  baseErrResponse,
+  unauthorizedErr,
+  userNotFound,
+} from "../utils/baseErrResponse";
 
 export const toggleUserNewsLetter = async (
   req: RequestWithUserId,
@@ -13,8 +18,7 @@ export const toggleUserNewsLetter = async (
   const { userId } = req;
   const { type } = req.body;
 
-  if (!["subscribe", "unsubscribe"].includes(type))
-    baseErrResponse(res, 400, "Bad request");
+  if (!["subscribe", "unsubscribe"].includes(type)) badRequest(res);
 
   const updatedUser = await User.findByIdAndUpdate(
     userId,
@@ -37,11 +41,10 @@ export const subscribeNonLoggedUser = async (
 ): Promise<any> => {
   const { email } = req.body;
 
-  if (!REG_EMAIL.test(email)) baseErrResponse(res, 400, "Bad request");
+  if (!REG_EMAIL.test(email)) badRequest(res);
 
   const existingUser = await User.findOne({ email }).lean();
-  if (existingUser) baseErrResponse(res, 403, "Invalid request");
-
+  if (existingUser) baseErrResponse(res, 409, "User already registered");
   const existingSubscription = await User.findOne({ email }).lean();
   if (existingSubscription)
     baseErrResponse(res, 409, "User already subscribed");
@@ -65,8 +68,7 @@ export const unsubScribeNewsLetterViaEmailLinkLogged = async (
   if (!user) userNotFound(res);
   if (!user.hasSubscribedToNewsletter)
     baseErrResponse(res, 403, "User not subscribed to newsletter");
-  if (!user.tokens.unSubScribeNewsLetter?.hashed)
-    baseErrResponse(res, 400, "Bad request");
+  if (!user.tokens.unSubScribeNewsLetter?.hashed) badRequest(res);
 
   const hasExpired =
     new Date(user.tokens.unSubScribeNewsLetter?.expiry ?? 0).getTime() <
@@ -84,7 +86,7 @@ export const unsubScribeNewsLetterViaEmailLinkLogged = async (
 
     await user.save();
 
-    baseErrResponse(res, 401, hasExpired ? "Token Expired" : "Invalid Token");
+    unauthorizedErr(res, hasExpired ? "Token Expired" : "Invalid Token");
   }
 
   user.hasSubscribedToNewsletter = false;
@@ -105,7 +107,7 @@ export const unsubScribeNewsLetterViaEmailLinkNonLogged = async (
 
   const user = await NonLoggedUserNewsLetter.findById(userId);
   if (!user) userNotFound(res);
-  if (!user?.hashedTokenToUnsubscribe) baseErrResponse(res, 400, "Bad Request");
+  if (!user?.hashedTokenToUnsubscribe) badRequest(res);
 
   const isMatch = checkTokenSHA(
     token,
@@ -121,6 +123,6 @@ export const unsubScribeNewsLetterViaEmailLinkNonLogged = async (
 
     await user.save();
 
-    baseErrResponse(res, 401, hasExpired ? "Token Expired" : "Invalid Token");
+    unauthorizedErr(res, hasExpired ? "Token Expired" : "Invalid Token");
   }
 };

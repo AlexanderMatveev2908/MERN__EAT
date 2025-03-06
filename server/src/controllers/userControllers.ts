@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import { RequestWithUserId } from "../middleware/general/verifyAccessToken";
 import mongoose from "mongoose";
-import { baseErrResponse, userNotFound } from "../utils/baseErrResponse";
+import {
+  badRequest,
+  baseErrResponse,
+  userNotFound,
+} from "../utils/baseErrResponse";
 
 export const getUserInfo = async (
   req: Request,
@@ -10,7 +14,7 @@ export const getUserInfo = async (
 ): Promise<any> => {
   const { userId } = req as any;
 
-  if (!userId) baseErrResponse(res, 401, "Invalid user");
+  if (!userId) badRequest(res);
 
   const user = await User.findById(userId)
     .select("firstName lastName email hasSubscribedToNewsletter -_id")

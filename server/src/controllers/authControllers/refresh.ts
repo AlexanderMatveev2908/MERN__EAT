@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { checkTokenJWE, genAccessJWT } from "../../utils/token";
 import User from "../../models/User";
-import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
+import {
+  baseErrResponse,
+  unauthorizedErr,
+  userNotFound,
+} from "../../utils/baseErrResponse";
 
 export const refreshToken = async (
   req: Request,
@@ -10,7 +14,7 @@ export const refreshToken = async (
   const { refreshToken } = req.cookies;
 
   const payload = await checkTokenJWE(refreshToken ?? "");
-  if (!payload) baseErrResponse(res, 401, "REFRESH TOKEN INVALID");
+  if (!payload) unauthorizedErr(res, "REFRESH TOKEN INVALID");
 
   const user = await User.findById(payload?.userId);
   if (!user) userNotFound(res);
@@ -20,7 +24,7 @@ export const refreshToken = async (
     user.tokens.refresh.hashed = null;
     await user.save();
 
-    baseErrResponse(res, 401, "REFRESH TOKEN EXPIRED");
+    unauthorizedErr(res, "REFRESH TOKEN EXPIRED");
   }
 
   const accessToken = genAccessJWT(user._id);

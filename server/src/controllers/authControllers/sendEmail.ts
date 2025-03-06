@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import User from "../../models/User";
 import { genTokenSHA } from "../../utils/token";
 import { sendUserEmail } from "../../utils/mail";
-import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
+import {
+  badRequest,
+  baseErrResponse,
+  userNotFound,
+} from "../../utils/baseErrResponse";
 
 export const sendEmailUser = async (
   req: Request,
@@ -11,7 +15,7 @@ export const sendEmailUser = async (
   const { email } = req.body;
   const { type } = req.query;
 
-  if (!email || !type) return res.status(400).json({ msg: "invalid req" });
+  if (!email || !type) badRequest(res);
 
   const user = await User.findOne({ email });
   if (!user) userNotFound(res);
