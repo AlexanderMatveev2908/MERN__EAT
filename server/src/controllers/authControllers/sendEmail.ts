@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../../models/User";
 import { genTokenSHA } from "../../utils/token";
 import { sendUserEmail } from "../../utils/mail";
+import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
 
 export const sendEmailUser = async (
   req: Request,
@@ -13,11 +14,11 @@ export const sendEmailUser = async (
   if (!email || !type) return res.status(400).json({ msg: "invalid req" });
 
   const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ msg: "User not found" });
+  if (!user) userNotFound(res);
   if (!user.isVerified && type === "recover-pwd")
-    return res.status(403).json({ msg: "User not verified" });
+    baseErrResponse(res, 403, "User not verified");
   if (user.isVerified && type === "verify-account")
-    return res.status(403).json({ msg: "User already verified" });
+    baseErrResponse(res, 403, "User already verified");
 
   const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 
