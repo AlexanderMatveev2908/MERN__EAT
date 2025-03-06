@@ -26,32 +26,16 @@ export const useHandleErr = () => {
         if (err?.response?.config?.url === "/auth/refresh") {
           setUserLogged(false);
           showToastMsg("SESSION EXPIRED", "ERROR");
-          return;
-        } else if (err?.response?.config?.url?.startsWith("/auth/")) {
-          if (
-            [
-              "/auth/verify-recover-pwd",
-              "/auth/verify-account",
-              "/auth/recover-pwd",
-            ].includes(err?.response?.config?.url)
-          ) {
-            navigate("/", { replace: true });
-          }
+        } else if (
+          ["/auth/register", "/auth/login", "/auth/send-email"].includes(
+            err?.response?.config?.url
+          )
+        ) {
+          showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+        } else {
+          navigate("/", { replace: true });
           showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
         }
-
-        showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
-        // } else if (
-
-        //   [
-        //     "/auth/verify-recover-pwd",
-        //     "/auth/verify-account",
-        //     "/auth/recover-pwd",
-        //   ].includes(err?.response?.config?.url)
-        // ) {
-        //   showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
-        //   navigate("/", { replace: true });
-        // }
       } else if (err?.response?.status === 429) {
         navigate("/", { replace: true });
         showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
