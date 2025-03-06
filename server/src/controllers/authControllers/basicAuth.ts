@@ -18,8 +18,12 @@ export const registerUser = async (
 
   await User.create({
     ...req.body,
-    verifyAccountToken: hashedToken,
-    expiryVerifyAccountToken: expiryVerification,
+    tokens: {
+      verifyAccount: {
+        hashed: hashedToken,
+        expiry: expiryVerification,
+      },
+    },
   });
   const newUser = (await User.findOne({
     email: req.body.email,
@@ -50,8 +54,8 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
   const accessToken = genAccessJWT(user._id);
   const { token, hashedToken, expiryVerification } = genTokenSHA("refresh");
 
-  user.expiryRefreshToken = expiryVerification;
-  user.refreshToken = hashedToken;
+  user.tokens.refresh.expiry = expiryVerification;
+  user.tokens.refresh.hashed = hashedToken;
 
   await user.save();
   res.cookie("refreshToken", token, {
@@ -78,12 +82,12 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
 
   const hashedInput: string = genHashedInput(refreshToken);
 
-  const user = await User.findOne({ refreshToken: hashedInput });
+  const user = await User.findOne({ "tokens.refresh.hashed": hashedInput });
   if (!user)
     return res.status(404).json({ msg: "User not found", success: false });
 
-  user.refreshToken = null;
-  user.expiryRefreshToken = null;
+  user.tokens.refresh.hashed = null;
+  user.tokens.refresh.expiry = null;
 
   await user.save();
 

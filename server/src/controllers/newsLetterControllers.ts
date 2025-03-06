@@ -59,3 +59,8 @@ export const subscribeNonLoggedUser = async (
     success: true,
   });
 };
+
+export const unsubScribeNewsLetterViaEmail = async (
+  req: Request,
+  res: Response
+): Promise<any> => {};

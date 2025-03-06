@@ -13,13 +13,13 @@ export const refreshToken = async (
 
   const hashedInput = genHashedInput(refreshToken);
 
-  const user = await User.findOne({ refreshToken: hashedInput });
+  const user = await User.findOne({ "tokens.refresh.hashed": hashedInput });
   if (!user)
     return res.status(404).json({ msg: "User not found", success: false });
 
-  if (new Date(user?.expiryRefreshToken ?? 0)?.getTime() < Date.now()) {
-    user.refreshToken = null;
-    user.expiryRefreshToken = null;
+  if (new Date(user.tokens.refresh?.expiry ?? 0)?.getTime() < Date.now()) {
+    user.tokens.refresh.expiry = null;
+    user.tokens.refresh.hashed = null;
     await user.save();
 
     return res

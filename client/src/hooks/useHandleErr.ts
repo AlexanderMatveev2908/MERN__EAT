@@ -22,12 +22,19 @@ export const useHandleErr = () => {
     }) => {
       console.log(err);
 
-      if (
-        err?.response?.status === 401 &&
-        err?.response?.data?.msg === "REFRESH TOKEN EXPIRED"
-      ) {
-        setUserLogged(false);
-        showToastMsg("Session Expired", "ERROR");
+      if (err?.response?.status === 401) {
+        if (err?.response?.data?.msg === "REFRESH TOKEN EXPIRED") {
+          setUserLogged(false);
+          showToastMsg("Session Expired", "ERROR");
+        } else if (
+          [
+            "/auth/verify-recover-pwd",
+            "/auth/verify-account",
+            "/auth/recover-pwd",
+          ].includes(err?.response?.config?.url)
+        ) {
+          showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+        }
         navigate("/", { replace: true });
       } else if (err?.response?.status === 429) {
         navigate("/", { replace: true });

@@ -12,15 +12,19 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
     return res
       .status(403)
       .json({ success: false, msg: "I don't even know how u get so far 🤔" });
-  if (!user?.recoverPwdToken)
+  if (!user.tokens.recoverPwd?.hashed)
     return res.status(401).json({ success: false, msg: "Unauthorized" });
 
   const hasExpired =
-    new Date(user?.expiryRecoverPwdToken ?? 0)?.getTime() < Date.now();
-  const isMatch = checkTokenSHA(token, user?.recoverPwdToken ?? "", "auth");
+    new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now();
+  const isMatch = checkTokenSHA(
+    token,
+    user.tokens.recoverPwd.expiry ?? "",
+    "auth"
+  );
   if (hasExpired || !isMatch) {
-    user.recoverPwdToken = null;
-    user.expiryRecoverPwdToken = null;
+    user.tokens.recoverPwd.hashed = null;
+    user.tokens.recoverPwd.expiry = null;
 
     await user.save();
 
@@ -44,8 +48,8 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const hashedPwd = await hashPwdBcrypt(password);
 
   user.password = hashedPwd;
-  user.recoverPwdToken = null;
-  user.expiryRecoverPwdToken = null;
+  user.tokens.recoverPwd.hashed = null;
+  user.tokens.recoverPwd.expiry = null;
 
   const accessToken = genAccessJWT(user._id);
   const {
@@ -54,8 +58,8 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
     expiryVerification,
   } = genTokenSHA("refresh");
 
-  user.refreshToken = hashedToken;
-  user.expiryRefreshToken = expiryVerification;
+  user.tokens.refresh.hashed = hashedToken;
+  user.tokens.refresh.expiry = expiryVerification;
 
   await user.save();
 

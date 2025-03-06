@@ -22,11 +22,11 @@ export const sendEmailUser = async (
   const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 
   if (type === "verify-account") {
-    user.verifyAccountToken = hashedToken;
-    user.expiryVerifyAccountToken = expiryVerification;
+    user.tokens.verifyAccount.hashed = hashedToken;
+    user.tokens.verifyAccount.expiry = expiryVerification;
   } else if (type === "recover-pwd") {
-    user.recoverPwdToken = hashedToken;
-    user.expiryRecoverPwdToken = expiryVerification;
+    user.tokens.recoverPwd.hashed = hashedToken;
+    user.tokens.recoverPwd.expiry = expiryVerification;
   }
 
   await user.save();
