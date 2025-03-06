@@ -80,7 +80,7 @@ const encrypt = (key: string, iV: Buffer) => {
     iV
   );
 
-  let encryptedKey = cypher.update(key, "utf-8");
+  let encryptedKey = cypher.update(key);
   encryptedKey = Buffer.concat([encryptedKey, cypher.final()]);
   return encryptedKey.toString("base64");
 };

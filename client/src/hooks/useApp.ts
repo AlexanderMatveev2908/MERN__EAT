@@ -28,7 +28,7 @@ export const useApp = () => {
         const { user = {} as any } = data ?? ({} as any);
         setCurrUser({ user });
         if (!sessionStorage.getItem("initName"))
-          sessionStorage.setItem("initName", getInitialsName(data.user));
+          sessionStorage.setItem("initName", getInitialsName(user));
       }
     };
 

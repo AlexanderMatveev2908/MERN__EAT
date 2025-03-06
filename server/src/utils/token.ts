@@ -7,6 +7,7 @@ import { getKeys, makeKeys } from "./formatPEM";
 const EXPIRY_ACCESS = "15m"; //basic access token
 const genExpiryAuth = () => new Date(Date.now() + 1000 * 60 * 5); //register, recover-pwd, verify-account
 const genExpiryRefresh = () => new Date(Date.now() + 1000 * 60 * 60); // refresh token for access token
+const genExpiryNewsLetter = () => new Date(Date.now() + 1000 * 60 * 5); // newsletter unsubscribe
 
 type ReturnToken = {
   token: string;
@@ -14,11 +15,11 @@ type ReturnToken = {
   expiryVerification: Date;
 };
 
-export const genTokenSHA = (type: "auth" | "refresh"): ReturnToken => {
+export const genTokenSHA = (type: string): ReturnToken => {
   const token = crypto.randomBytes(64).toString("hex");
 
   const sign =
-    type === "auth" ? process.env.AUTH_SIGN : process.env.REFRESH_SIGN;
+    type === "auth" ? process.env.AUTH_SIGN : process.env.NEWSLETTER_SIGN;
 
   const hashedToken = crypto
     .createHmac("sha256", sign!)
@@ -26,24 +27,24 @@ export const genTokenSHA = (type: "auth" | "refresh"): ReturnToken => {
     .digest("hex");
 
   const expiryVerification =
-    type === "auth" ? genExpiryAuth() : genExpiryRefresh();
+    type === "auth" ? genExpiryAuth() : genExpiryNewsLetter();
 
   return { token, hashedToken, expiryVerification };
 };
 
-export const genHashedInput = (token: string) =>
-  crypto
-    .createHmac("sha256", process.env.REFRESH_SIGN!)
-    .update(token)
-    .digest("hex");
+// export const genHashedInput = (token: string) =>
+//   crypto
+//     .createHmac("sha256", process.env.REFRESH_SIGN!)
+//     .update(token)
+//     .digest("hex");
 
 export const checkTokenSHA = (
   receivedToken: string,
   storedToken: string,
-  type: "auth" | "refresh"
+  type: string
 ): boolean => {
   const sign =
-    type === "auth" ? process.env.AUTH_SIGN : process.env.REFRESH_SIGN;
+    type === "auth" ? process.env.AUTH_SIGN : process.env.NEWSLETTER_SIGN;
 
   const hashedInput = crypto
     .createHmac("sha256", sign!)

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { checkTokenJWE, genAccessJWT, genHashedInput } from "../../utils/token";
+import { checkTokenJWE, genAccessJWT } from "../../utils/token";
 import User from "../../models/User";
 
 export const refreshToken = async (
@@ -10,7 +10,9 @@ export const refreshToken = async (
 
   const payload = await checkTokenJWE(refreshToken ?? "");
   if (!payload)
-    return res.status(401).json({ msg: "INVALID TOKEN", success: false });
+    return res
+      .status(401)
+      .json({ msg: "REFRESH TOKEN INVALID", success: false });
 
   const user = await User.findById(payload.userId);
   if (!user)
@@ -26,7 +28,9 @@ export const refreshToken = async (
     user.tokens.refresh.hashed = null;
     await user.save();
 
-    return res.status(401).json({ msg: "SESSION EXPIRED", success: false });
+    return res
+      .status(401)
+      .json({ msg: "REFRESH TOKEN EXPIRED", success: false });
   }
 
   const accessToken = genAccessJWT(user._id);

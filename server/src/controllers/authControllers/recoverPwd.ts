@@ -1,11 +1,6 @@
 import { Request, Response } from "express";
 import User from "../../models/User";
-import {
-  checkTokenSHA,
-  genAccessJWT,
-  genTokenJWE,
-  genTokenSHA,
-} from "../../utils/token";
+import { checkTokenSHA, genAccessJWT, genTokenJWE } from "../../utils/token";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
 
 export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
@@ -22,6 +17,7 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
 
   const hasExpired =
     new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now();
+
   const isMatch = checkTokenSHA(
     token,
     user.tokens.recoverPwd.expiry ?? "",

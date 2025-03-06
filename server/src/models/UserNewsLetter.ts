@@ -11,8 +11,8 @@ const NonLoggedUserNewsLetterSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    hashedTokenToResubscribe: {
-      type: String,
+    tokenExpiry: {
+      type: Date,
       default: null,
     },
   },
