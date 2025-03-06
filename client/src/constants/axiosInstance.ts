@@ -41,17 +41,12 @@ foodAppInstance.interceptors.response.use(
         originalReq.headers["Authorization"] = `Bearer ${data.accessToken}`;
 
         return foodAppInstance(originalReq);
-      } catch {
+      } catch (err: any) {
         sessionStorage.removeItem("accessToken");
 
-        return Promise.reject({
-          response: {
-            status: 401,
-            data: {
-              msg: "REFRESH TOKEN EXPIRED",
-            },
-          },
-        });
+        console.log(err);
+
+        return Promise.reject(err);
       }
     }
 
