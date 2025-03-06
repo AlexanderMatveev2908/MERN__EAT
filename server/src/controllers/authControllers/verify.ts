@@ -1,11 +1,6 @@
 import { Request, Response } from "express";
 import User from "../../models/User";
-import {
-  checkTokenSHA,
-  genAccessJWT,
-  genTokenJWE,
-  genTokenSHA,
-} from "../../utils/token";
+import { checkTokenSHA, genAccessJWT, genTokenJWE } from "../../utils/token";
 import NonLoggedUserNewsLetter from "../../models/UserNewsLetter";
 
 export const verifyAccount = async (

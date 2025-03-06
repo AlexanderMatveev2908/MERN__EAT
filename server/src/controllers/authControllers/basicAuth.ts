@@ -3,7 +3,6 @@ import User, { UserType } from "../../models/User";
 import {
   checkTokenJWE,
   genAccessJWT,
-  genHashedInput,
   genTokenJWE,
   genTokenSHA,
 } from "../../utils/token";
@@ -16,7 +15,7 @@ export const registerUser = async (
 ): Promise<any> => {
   const existingUser = await User.findOne({ email: req.body.email });
   if (existingUser)
-    return res.status(400).json({ message: "User already exists" });
+    return res.status(409).json({ message: "User already exists" });
 
   const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 
@@ -31,6 +30,7 @@ export const registerUser = async (
       },
     },
   });
+
   const newUser = (await User.findOne({
     email: req.body.email,
   })
@@ -68,6 +68,7 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
   // user.tokens.refresh.hashed = hashedToken;
 
   await user.save();
+
   res.cookie("refreshToken", jwe, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -94,7 +95,9 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
 
   const isMatch = await checkTokenJWE(refreshToken ?? "");
   if (!isMatch)
-    return res.status(401).json({ msg: "INVALID TOKEN", success: false });
+    return res
+      .status(401)
+      .json({ msg: "REFRESH TOKEN INVALID", success: false });
 
   const user = await User.findOne({ "tokens.refresh.hashed": refreshToken });
   // const user = await User.findOne({ "tokens.refresh.hashed": hashedInput });
