@@ -9,7 +9,7 @@ type PropsType = {
 
 const LogoutBtn: FC<PropsType> = ({ handleLogout, isPending }) => {
   return isPending ? (
-    <SpinnerBtnReact />
+    <SpinnerBtnReact {...{ styleGiven: "justify-start" }} />
   ) : (
     <button
       onClick={handleLogout}

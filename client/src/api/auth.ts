@@ -81,3 +81,8 @@ export const changeRecoverPwdAPI = async ({
 
   return data;
 };
+
+export const refreshTokenAPI = async () => {
+  const { data } = await foodAppInstance.get("/auth/refresh");
+  return data;
+};

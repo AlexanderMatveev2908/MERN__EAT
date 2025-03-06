@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { RequestWithUserId } from "../middleware/general/verifyAccessToken";
-import User, { UserType } from "../models/User";
+import User from "../models/User";
 import { REG_EMAIL } from "../constants/regex";
-import { checkTokenSHA } from "../utils/token";
+import { checkTokenSHA, genTokenSHA } from "../utils/token";
 import NonLoggedUserNewsLetter from "./../models/UserNewsLetter";
 import {
   badRequest,
@@ -10,6 +10,7 @@ import {
   unauthorizedErr,
   userNotFound,
 } from "../utils/baseErrResponse";
+import { sendSubScriptionNewsLetterConfirmed } from "../utils/mail";
 
 export const toggleUserNewsLetter = async (
   req: RequestWithUserId,
@@ -20,13 +21,28 @@ export const toggleUserNewsLetter = async (
 
   if (!["subscribe", "unsubscribe"].includes(type)) return badRequest(res);
 
+  const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
+
   const updatedUser = await User.findByIdAndUpdate(
     userId,
-    { $set: { hasSubscribedToNewsletter: type === "subscribe" } },
+    {
+      $set: {
+        hasSubscribedToNewsletter: type === "subscribe",
+        "tokens.unSubScribeNewsLetter.hashed": hashedToken,
+        "tokens.unSubScribeNewsLetter.expiry": expiryVerification,
+      },
+    },
     { new: true, select: "hasSubscribedToNewsletter firstName lastName email" }
-  ).lean();
+  );
 
   if (!updatedUser) return userNotFound(res);
+
+  await sendSubScriptionNewsLetterConfirmed(
+    updatedUser,
+    token,
+    "logged",
+    "subscribe"
+  );
 
   return res.status(200).json({
     msg: "User toggled to newsletter",
@@ -49,7 +65,20 @@ export const subscribeNonLoggedUser = async (
   if (existingSubscription)
     return baseErrResponse(res, 409, "User already subscribed");
 
-  await NonLoggedUserNewsLetter.create({ email });
+  const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
+
+  const newUser = await NonLoggedUserNewsLetter.create({
+    email,
+    hashedTokenToUnsubscribe: hashedToken,
+    tokenExpiry: expiryVerification,
+  });
+
+  await sendSubScriptionNewsLetterConfirmed(
+    newUser,
+    token,
+    "non-logged",
+    "subscribe"
+  );
 
   return res.status(201).json({
     msg: "User subscribed to newsletter",
@@ -114,9 +143,7 @@ export const unsubScribeNewsLetterViaEmailLinkNonLogged = async (
     user.hashedTokenToUnsubscribe,
     "newsletter"
   );
-  const hasExpired =
-    new Date(user.tokens.unSubScribeNewsLetter?.expiry ?? 0).getTime() <
-    Date.now();
+  const hasExpired = new Date(user?.tokenExpiry ?? 0).getTime() < Date.now();
   if (!isMatch || hasExpired) {
     user.tokenExpiry = null;
     user.hashedTokenToUnsubscribe = null;
@@ -132,6 +159,63 @@ export const unsubScribeNewsLetterViaEmailLinkNonLogged = async (
     return res
       .status(200)
       .json({ msg: "User unsubscribed to newsletter", success: true });
+};
+
+export const sendEmailUnsubscribeRetryLogged = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { email } = req.body;
+
+  const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
+
+  const user = await User.findOne({ email });
+  if (!user) userNotFound(res);
+  if (!user?.hasSubscribedToNewsletter)
+    return baseErrResponse(res, 403, "User not subscribed");
+
+  user.tokens.unSubScribeNewsLetter = {
+    hashed: hashedToken,
+    expiry: expiryVerification,
+  };
+
+  await user.save();
+
+  await sendSubScriptionNewsLetterConfirmed(
+    user,
+    token,
+    "logged",
+    "unsubscribe"
+  );
+};
+
+export const sendEmailUnsubscribeRetryNonLogged = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { email } = req.body;
+
+  const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
+
+  const user = await NonLoggedUserNewsLetter.findOne({ email });
+  if (!user) return userNotFound(res);
+
+  user.hashedTokenToUnsubscribe = hashedToken;
+  user.tokenExpiry = expiryVerification;
+
+  await user.save();
+
+  await sendSubScriptionNewsLetterConfirmed(
+    user,
+    token,
+    "non-logged",
+    "unsubscribe"
+  );
+
+  return res.status(200).json({
+    msg: "Email sent to unsubscribe",
+    success: true,
+  });
 };
 
 export const unSubscribeAllUsersRetry = async (
