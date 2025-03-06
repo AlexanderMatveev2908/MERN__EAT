@@ -16,15 +16,29 @@ export type UserType = {
   };
   acceptedTerms: boolean;
   isVerified: boolean;
-  refreshToken: string | null;
-  expiryRefreshToken: Date | null;
-  verifyAccountToken: string | null;
-  expiryVerifyAccountToken: Date | null;
-  recoverPwdToken: string | null;
-  expiryRecoverPwdToken: Date | null;
   hasSubscribedToNewsletter: boolean;
-  hashedTokenToUnsubscribeNewsLetter: string | null;
-  hashedTokenToResubscribeNewsLetter: string | null;
+  tokens: {
+    refresh: {
+      hashed: string | null;
+      expiry: Date | null;
+    };
+    verifyAccount: {
+      hashed: string | null;
+      expiry: Date | null;
+    };
+    recoverPwd: {
+      hashed: string | null;
+      expiry: Date | null;
+    };
+    subScribeNewsLetter: {
+      hashed: string | null;
+      expiry: Date | null;
+    };
+    unSubScribeNewsLetter: {
+      hashed: string | null;
+      expiry: Date | null;
+    };
+  };
   createdAt: Date;
   updatedAt: Date;
 };
@@ -82,41 +96,51 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    refreshToken: {
-      type: String,
-      default: null,
-    },
-    expiryRefreshToken: {
-      type: Date,
-      default: null,
-    },
-    verifyAccountToken: {
-      type: String,
-      default: null,
-    },
-    expiryVerifyAccountToken: {
-      type: Date,
-      default: null,
-    },
-    recoverPwdToken: {
-      type: String,
-      default: null,
-    },
-    expiryRecoverPwdToken: {
-      type: Date,
-      default: null,
-    },
     hasSubscribedToNewsletter: {
       type: Boolean,
       default: false,
     },
-    hashedTokenToUnsubscribeNewsLetter: {
-      type: String,
-      default: null,
-    },
-    hashedTokenToResubscribeNewsLetter: {
-      type: String,
-      default: null,
+    tokens: {
+      refresh: {
+        hashed: {
+          type: String,
+          default: null,
+        },
+        expiry: {
+          type: Date,
+          default: null,
+        },
+      },
+      verifyAccount: {
+        hashed: {
+          type: String,
+          default: null,
+        },
+        expiry: {
+          type: Date,
+          default: null,
+        },
+      },
+      recoverPwd: {
+        hashed: {
+          type: String,
+          default: null,
+        },
+        expiry: {
+          type: Date,
+          default: null,
+        },
+      },
+      unSubScribeNewsLetter: {
+        hashed: {
+          type: String,
+          default: null,
+        },
+        expiry: {
+          type: Date,
+          default: null,
+        },
+      },
     },
   },
   { timestamps: true }

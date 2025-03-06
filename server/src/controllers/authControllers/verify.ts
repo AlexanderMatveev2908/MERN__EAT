@@ -14,17 +14,23 @@ export const verifyAccount = async (
 
   if (user.isVerified)
     return res.status(403).json({ msg: "User already verified" });
-  if (!user?.verifyAccountToken)
+  if (!user.tokens.verifyAccount?.hashed)
     return res.status(401).json({ msg: "Unauthorized", success: false });
-  if (new Date(user?.expiryVerifyAccountToken ?? 0)?.getTime() < Date.now()) {
-    user.verifyAccountToken = null;
-    user.expiryVerifyAccountToken = null;
+  if (
+    new Date(user.tokens.verifyAccount?.expiry ?? 0)?.getTime() < Date.now()
+  ) {
+    user.tokens.verifyAccount.expiry = null;
+    user.tokens.verifyAccount.hashed = null;
 
     await user.save();
     return res.status(401).json({ msg: "Token expired" });
   }
 
-  const isMatch = checkTokenSHA(token, user?.verifyAccountToken ?? "", "auth");
+  const isMatch = checkTokenSHA(
+    token,
+    user.tokens.verifyAccount?.hashed ?? "",
+    "auth"
+  );
   if (!isMatch) return res.status(401).json({ msg: "Invalid token" });
 
   const isSubscribedNewsLetter = await NonLoggedUserNewsLetter.findOne({
@@ -36,8 +42,8 @@ export const verifyAccount = async (
   }
 
   user.isVerified = true;
-  user.verifyAccountToken = null;
-  user.expiryVerifyAccountToken = null;
+  user.tokens.verifyAccount.expiry = null;
+  user.tokens.verifyAccount.hashed = null;
 
   const accessToken = genAccessJWT(user._id);
   const {
@@ -46,8 +52,8 @@ export const verifyAccount = async (
     expiryVerification,
   } = genTokenSHA("refresh");
 
-  user.refreshToken = hashedToken;
-  user.expiryRefreshToken = expiryVerification;
+  user.tokens.refresh.hashed = hashedToken;
+  user.tokens.refresh.expiry = expiryVerification;
 
   await user.save();
 
@@ -71,18 +77,22 @@ export const verifyRecoverPwd = async (
 
   if (!user.isVerified)
     return res.status(403).json({ msg: "User not verified", success: false });
-  if (!user?.recoverPwdToken)
+  if (!user.tokens.recoverPwd?.hashed)
     return res.status(401).json({ msg: "Unauthorized", success: false });
-  if (new Date(user.expiryRecoverPwdToken ?? 0)?.getTime() < Date.now()) {
-    user.recoverPwdToken = null;
-    user.expiryRecoverPwdToken = null;
+  if (new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now()) {
+    user.tokens.recoverPwd.hashed = null;
+    user.tokens.recoverPwd.expiry = null;
 
     await user.save();
 
     return res.status(401).json({ msg: "Token expired", success: false });
   }
 
-  const isMatch = checkTokenSHA(token, user?.recoverPwdToken ?? "", "auth");
+  const isMatch = checkTokenSHA(
+    token,
+    user.tokens.recoverPwd.hashed ?? "",
+    "auth"
+  );
   if (!isMatch)
     return res.status(401).json({ success: false, msg: "Invalid token" });
 
