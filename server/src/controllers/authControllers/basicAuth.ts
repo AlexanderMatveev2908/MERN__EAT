@@ -1,6 +1,12 @@
 import { Request, Response } from "express";
 import User, { UserType } from "../../models/User";
-import { genAccessJWT, genHashedInput, genTokenSHA } from "../../utils/token";
+import {
+  checkTokenJWE,
+  genAccessJWT,
+  genHashedInput,
+  genTokenJWE,
+  genTokenSHA,
+} from "../../utils/token";
 import { sendUserEmail } from "../../utils/mail";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
 
@@ -52,17 +58,27 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
     return res.status(401).json({ msg: "Invalid credentials", success: false });
 
   const accessToken = genAccessJWT(user._id);
-  const { token, hashedToken, expiryVerification } = genTokenSHA("refresh");
+  // const { token, hashedToken, expiryVerification } = genTokenSHA("refresh");
 
-  user.tokens.refresh.expiry = expiryVerification;
-  user.tokens.refresh.hashed = hashedToken;
+  const { jwe, expiry } = await genTokenJWE(user._id);
+
+  user.tokens.refresh.expiry = expiry;
+  user.tokens.refresh.hashed = jwe;
+  // user.tokens.refresh.expiry = expiryVerification;
+  // user.tokens.refresh.hashed = hashedToken;
 
   await user.save();
-  res.cookie("refreshToken", token, {
+  res.cookie("refreshToken", jwe, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    expires: expiryVerification,
+    expires: expiry,
   });
+  // await user.save();
+  // res.cookie("refreshToken", token, {
+  //   httpOnly: true,
+  //   secure: process.env.NODE_ENV === "production",
+  //   expires: expiryVerification,
+  // });
 
   return res.status(200).json({
     msg: "User logged in successfully",
@@ -74,15 +90,14 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
 export const logoutUser = async (req: Request, res: Response): Promise<any> => {
   const { refreshToken } = req.cookies;
 
-  if (!refreshToken)
-    return res.status(200).json({
-      msg: "🤔",
-      success: true,
-    });
+  // const hashedInput: string = genHashedInput(refreshToken);
 
-  const hashedInput: string = genHashedInput(refreshToken);
+  const isMatch = await checkTokenJWE(refreshToken ?? "");
+  if (!isMatch)
+    return res.status(401).json({ msg: "INVALID TOKEN", success: false });
 
-  const user = await User.findOne({ "tokens.refresh.hashed": hashedInput });
+  const user = await User.findOne({ "tokens.refresh.hashed": refreshToken });
+  // const user = await User.findOne({ "tokens.refresh.hashed": hashedInput });
   if (!user)
     return res.status(404).json({ msg: "User not found", success: false });
 

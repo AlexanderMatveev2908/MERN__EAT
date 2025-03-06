@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import User from "../../models/User";
-import { checkTokenSHA, genAccessJWT, genTokenSHA } from "../../utils/token";
+import {
+  checkTokenSHA,
+  genAccessJWT,
+  genTokenJWE,
+  genTokenSHA,
+} from "../../utils/token";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
 
 export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
@@ -52,22 +57,31 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   user.tokens.recoverPwd.expiry = null;
 
   const accessToken = genAccessJWT(user._id);
-  const {
-    token: refreshToken,
-    hashedToken,
-    expiryVerification,
-  } = genTokenSHA("refresh");
 
-  user.tokens.refresh.hashed = hashedToken;
-  user.tokens.refresh.expiry = expiryVerification;
+  const { jwe, expiry } = await genTokenJWE(user._id);
+  // const {
+  //   token: refreshToken,
+  //   hashedToken,
+  //   expiryVerification,
+  // } = genTokenSHA("refresh");
+
+  user.tokens.refresh.hashed = jwe;
+  user.tokens.refresh.expiry = expiry;
+  // user.tokens.refresh.hashed = hashedToken;
+  // user.tokens.refresh.expiry = expiryVerification;
 
   await user.save();
 
-  res.cookie("refreshToken", refreshToken, {
+  res.cookie("refreshToken", jwe, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    expires: expiryVerification,
+    expires: expiry,
   });
+  //  res.cookie("refreshToken", refreshToken, {
+  //     httpOnly: true,
+  //     secure: process.env.NODE_ENV === "production",
+  //     expires: expiryVerification,
+  //   });
 
   return res
     .status(200)

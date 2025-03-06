@@ -1,12 +1,116 @@
-export const getFormattedPEMKeys = (typeKey: "PRIVATE" | "PUBLIC") => {
-  const key =
-    typeKey === "PRIVATE"
-      ? process.env.REFRESH_PRIVATE_KEY
-      : process.env.REFRESH_PUBLIC_KEY;
+import Key from "../models/Key";
+import crypto from "crypto";
 
-  const keyBase64 = Buffer.from(key!, "base64").toString("utf-8");
+// export const getFormattedPEMKeys = (typeKey: "PRIVATE" | "PUBLIC") => {
+//   const key =
+//     typeKey === "PRIVATE"
+//       ? process.env.REFRESH_PRIVATE_KEY
+//       : process.env.REFRESH_PUBLIC_KEY;
 
-  const formattedKey = `-----BEGIN ${typeKey} KEY-----\n${keyBase64}\n-----END ${typeKey} KEY-----`;
+//   const keyBase64 = Buffer.from(key!, "utf-8").toString("base64");
 
-  return formattedKey;
+//   const formattedKey = `-----BEGIN ${typeKey} KEY-----\n${keyBase64}\n-----END ${typeKey} KEY-----`;
+
+//   return formattedKey;
+// };
+
+export const getKeys = async () => {
+  const keysArr = await Key.find({});
+
+  if (!keysArr?.length) return false;
+
+  // const { decryptedPrivateKey, decryptedPublicKey } = decryptMyKeys(
+  //   keysArr[0].encryptedPrivateKey,
+  //   keysArr[0].encryptedPublicKey,
+  //   keysArr[0].iV
+  // );
+
+  const cryptoPublicKey = crypto.createPublicKey(keysArr[0].publicKey);
+  const cryptoPrivateKey = crypto.createPrivateKey(keysArr[0].privateKey);
+
+  return { cryptoPublicKey, cryptoPrivateKey };
 };
+
+export const makeKeys = async () => {
+  const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
+    modulusLength: 2048,
+  });
+
+  const publicKeyBase64 = publicKey
+    .export({
+      type: "spki",
+      format: "pem",
+    })
+    .toString("base64");
+
+  const privateKeyBase64 = privateKey
+    .export({
+      type: "pkcs8",
+      format: "pem",
+    })
+    .toString("base64");
+
+  // const { encryptedPrivateKey, encryptedPublicKey, iV } = encryptMyKeys(
+  //   privateKeyBase64,
+  //   publicKeyBase64
+  // );
+
+  await Key.create({
+    publicKey: publicKeyBase64,
+    privateKey: privateKeyBase64,
+    // iV,
+  });
+
+  return { cryptoPublicKey: publicKey, cryptoPrivateKey: privateKey };
+};
+
+const encryptionKey = process.env.ENCRYPT_KEY_RSA;
+
+const encrypt = (key: string, iV: Buffer) => {
+  const cypher = crypto.createCipheriv(
+    "aes-256-cbc",
+    Buffer.from(encryptionKey!, "hex"),
+    iV
+  );
+
+  let encryptedKey = cypher.update(key, "utf-8");
+  encryptedKey = Buffer.concat([encryptedKey, cypher.final()]);
+  return encryptedKey.toString("base64");
+};
+
+// export const encryptMyKeys = (privateKey: string, publicKey: string) => {
+//   const iV = crypto.randomBytes(16);
+
+//   return {
+//     encryptedPrivateKey: encrypt(privateKey, iV),
+//     encryptedPublicKey: encrypt(publicKey, iV),
+//     iV: iV.toString("base64"),
+//   };
+// };
+
+// const decrypt = (key: string, iVBuffer: Buffer) => {
+//   const keyBuffer = Buffer.from(key, "base64");
+
+//   const decipher = crypto.createDecipheriv(
+//     "aes-256-cbc",
+//     Buffer.from(encryptionKey!, "hex"),
+//     iVBuffer
+//   );
+
+//   let decryptedKey = decipher.update(keyBuffer);
+//   decryptedKey = Buffer.concat([decryptedKey, decipher.final()]);
+//   return decryptedKey.toString("base64");
+// };
+
+// export const decryptMyKeys = (
+//   encryptedPrivateKey: string,
+//   encryptedPublicKey: string,
+//   iV: string
+// ) => {
+//   const iVBuffer = Buffer.from(iV, "base64");
+
+//   return {
+//     decryptedPrivateKey: decrypt(encryptedPrivateKey, iVBuffer),
+//     decryptedPublicKey: decrypt(encryptedPublicKey, iVBuffer),
+//   };
+// };

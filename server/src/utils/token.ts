@@ -1,12 +1,12 @@
-import crypto, { createPrivateKey, createPublicKey } from "crypto";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { JWTUserId } from "../middleware/general/verifyAccessToken";
 import { CompactEncrypt, jwtDecrypt } from "jose";
-import { getFormattedPEMKeys } from "./formatPEM";
+import { getKeys, makeKeys } from "./formatPEM";
 
-const EXPIRY_ACCESS = "15m"; //basic access token
+const EXPIRY_ACCESS = "5s"; //basic access token
 const genExpiryAuth = () => new Date(Date.now() + 1000 * 60 * 5); //register, recover-pwd, verify-account
-const genExpiryRefresh = () => new Date(Date.now() + 1000 * 60 * 60); // refresh token for access token
+const genExpiryRefresh = () => new Date(Date.now() + 1000 * 10); // refresh token for access token
 
 type ReturnToken = {
   token: string;
@@ -65,8 +65,16 @@ export const verifyAccessJWT = (token: string) =>
 export const genTokenJWE = async (userId: string) => {
   const token = crypto.randomBytes(64).toString("hex");
 
-  const publicKey = getFormattedPEMKeys("PUBLIC");
-  const cryptoPublicKey = createPublicKey(publicKey);
+  let publicKey;
+
+  const keys = await getKeys();
+  if (!keys) {
+    const { cryptoPublicKey } = await makeKeys();
+    publicKey = cryptoPublicKey;
+  } else {
+    publicKey = keys.cryptoPublicKey;
+  }
+
   const payload = {
     userId,
     token,
@@ -76,26 +84,33 @@ export const genTokenJWE = async (userId: string) => {
     new TextEncoder().encode(JSON.stringify(payload))
   )
     .setProtectedHeader({ alg: "RSA-OAEP", enc: "A256GCM" })
-    .encrypt(cryptoPublicKey);
+    .encrypt(publicKey);
 
   const expiry = genExpiryRefresh();
 
   return { jwe, expiry };
 
-  // payload is encrypted with shared symmetric key using A256GCM, the the shared symmetric kwy in encrypted using asymmetric public key with RSA-OAEP and can be decrypted only with private asymmetric ket
+  // payload is encrypted with shared symmetric key using A256GCM, the the shared symmetric key is encrypted using asymmetric public key with RSA-OAEP and can be decrypted only with private asymmetric key
 };
 
 export const checkTokenJWE = async (tokenJWE: string) => {
-  const privateKey = getFormattedPEMKeys("PRIVATE");
+  const keys = await getKeys();
 
-  const cryptoPrivateKey = createPrivateKey(privateKey);
+  let privateKey;
+
+  if (!keys) {
+    const { cryptoPrivateKey } = await makeKeys();
+    privateKey = cryptoPrivateKey;
+  } else {
+    privateKey = keys.cryptoPrivateKey;
+  }
 
   try {
-    const { payload } = await jwtDecrypt(tokenJWE, cryptoPrivateKey);
-
+    const { payload } = await jwtDecrypt(tokenJWE, privateKey);
     return payload;
   } catch (err: any) {
-    return "  INVALID TOKEN";
+    // console.log(err);
+    return false;
   }
 };
 
