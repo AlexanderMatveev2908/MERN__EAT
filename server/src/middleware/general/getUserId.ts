@@ -20,6 +20,6 @@ export const getUserId = (
   } catch (err: any) {
     if (err.name === "TokenExpiredError")
       return res.status(401).json({ msg: "ACCESS TOKEN EXPIRED" });
-    return res.status(401).json({ msg: "Invalid Token" });
+    return res.status(401).json({ msg: "ACCESS TOKEN INVALID" });
   }
 };

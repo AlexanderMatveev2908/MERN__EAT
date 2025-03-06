@@ -19,14 +19,16 @@ export const getKeys = async () => {
 
   if (!keysArr?.length) return false;
 
-  // const { decryptedPrivateKey, decryptedPublicKey } = decryptMyKeys(
-  //   keysArr[0].encryptedPrivateKey,
-  //   keysArr[0].encryptedPublicKey,
-  //   keysArr[0].iV
-  // );
+  const { decryptedPrivateKey, decryptedPublicKey } = decryptMyKeys(
+    keysArr[0].publicKey,
+    keysArr[0].privateKey,
+    keysArr[0].iV
+  );
 
-  const cryptoPublicKey = crypto.createPublicKey(keysArr[0].publicKey);
-  const cryptoPrivateKey = crypto.createPrivateKey(keysArr[0].privateKey);
+  // const cryptoPublicKey = crypto.createPublicKey(keysArr[0].publicKey);
+  // const cryptoPrivateKey = crypto.createPrivateKey(keysArr[0].privateKey);
+  const cryptoPublicKey = crypto.createPublicKey(decryptedPublicKey ?? "");
+  const cryptoPrivateKey = crypto.createPrivateKey(decryptedPrivateKey ?? "");
 
   return { cryptoPublicKey, cryptoPrivateKey };
 };
@@ -50,15 +52,20 @@ export const makeKeys = async () => {
     })
     .toString("base64");
 
-  // const { encryptedPrivateKey, encryptedPublicKey, iV } = encryptMyKeys(
-  //   privateKeyBase64,
-  //   publicKeyBase64
-  // );
+  const { encryptedPrivateKey, encryptedPublicKey, iV } = encryptMyKeys(
+    privateKeyBase64,
+    publicKeyBase64
+  );
 
+  // await Key.create({
+  //   publicKey: publicKeyBase64,
+  //   privateKey: privateKeyBase64,
+  //   // iV,
+  // });
   await Key.create({
-    publicKey: publicKeyBase64,
-    privateKey: privateKeyBase64,
-    // iV,
+    publicKey: encryptedPrivateKey,
+    privateKey: encryptedPublicKey,
+    iV,
   });
 
   return { cryptoPublicKey: publicKey, cryptoPrivateKey: privateKey };
@@ -78,39 +85,39 @@ const encrypt = (key: string, iV: Buffer) => {
   return encryptedKey.toString("base64");
 };
 
-// export const encryptMyKeys = (privateKey: string, publicKey: string) => {
-//   const iV = crypto.randomBytes(16);
+export const encryptMyKeys = (privateKey: string, publicKey: string) => {
+  const iV = crypto.randomBytes(16);
 
-//   return {
-//     encryptedPrivateKey: encrypt(privateKey, iV),
-//     encryptedPublicKey: encrypt(publicKey, iV),
-//     iV: iV.toString("base64"),
-//   };
-// };
+  return {
+    encryptedPrivateKey: encrypt(privateKey, iV),
+    encryptedPublicKey: encrypt(publicKey, iV),
+    iV: iV.toString("base64"),
+  };
+};
 
-// const decrypt = (key: string, iVBuffer: Buffer) => {
-//   const keyBuffer = Buffer.from(key, "base64");
+const decrypt = (key: string, iVBuffer: Buffer) => {
+  const keyBuffer = Buffer.from(key, "base64");
 
-//   const decipher = crypto.createDecipheriv(
-//     "aes-256-cbc",
-//     Buffer.from(encryptionKey!, "hex"),
-//     iVBuffer
-//   );
+  const decipher = crypto.createDecipheriv(
+    "aes-256-cbc",
+    Buffer.from(encryptionKey!, "hex"),
+    iVBuffer
+  );
 
-//   let decryptedKey = decipher.update(keyBuffer);
-//   decryptedKey = Buffer.concat([decryptedKey, decipher.final()]);
-//   return decryptedKey.toString("base64");
-// };
+  let decryptedKey = decipher.update(keyBuffer);
+  decryptedKey = Buffer.concat([decryptedKey, decipher.final()]);
+  return decryptedKey;
+};
 
-// export const decryptMyKeys = (
-//   encryptedPrivateKey: string,
-//   encryptedPublicKey: string,
-//   iV: string
-// ) => {
-//   const iVBuffer = Buffer.from(iV, "base64");
+export const decryptMyKeys = (
+  encryptedPrivateKey: string,
+  encryptedPublicKey: string,
+  iV: string
+) => {
+  const iVBuffer = Buffer.from(iV, "base64");
 
-//   return {
-//     decryptedPrivateKey: decrypt(encryptedPrivateKey, iVBuffer),
-//     decryptedPublicKey: decrypt(encryptedPublicKey, iVBuffer),
-//   };
-// };
+  return {
+    decryptedPrivateKey: decrypt(encryptedPrivateKey, iVBuffer),
+    decryptedPublicKey: decrypt(encryptedPublicKey, iVBuffer),
+  };
+};

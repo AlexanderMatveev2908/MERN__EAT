@@ -4,9 +4,9 @@ import { JWTUserId } from "../middleware/general/verifyAccessToken";
 import { CompactEncrypt, jwtDecrypt } from "jose";
 import { getKeys, makeKeys } from "./formatPEM";
 
-const EXPIRY_ACCESS = "5s"; //basic access token
+const EXPIRY_ACCESS = "15m"; //basic access token
 const genExpiryAuth = () => new Date(Date.now() + 1000 * 60 * 5); //register, recover-pwd, verify-account
-const genExpiryRefresh = () => new Date(Date.now() + 1000 * 10); // refresh token for access token
+const genExpiryRefresh = () => new Date(Date.now() + 1000 * 60 * 60); // refresh token for access token
 
 type ReturnToken = {
   token: string;
