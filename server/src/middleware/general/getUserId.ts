@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { verifyAccessJWT } from "../../utils/token";
 import { RequestWithUserId } from "./verifyAccessToken";
+import { baseErrResponse } from "../../utils/baseErrResponse";
 
 export const getUserId = (
   req: RequestWithUserId,
@@ -19,7 +20,7 @@ export const getUserId = (
     return next();
   } catch (err: any) {
     if (err.name === "TokenExpiredError")
-      return res.status(401).json({ msg: "ACCESS TOKEN EXPIRED" });
-    return res.status(401).json({ msg: "ACCESS TOKEN INVALID" });
+      baseErrResponse(res, 403, "ACCESS TOKEN EXPIRED");
+    baseErrResponse(res, 403, "ACCESS TOKEN INVALID");
   }
 };

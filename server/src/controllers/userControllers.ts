@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import { RequestWithUserId } from "../middleware/general/verifyAccessToken";
 import mongoose from "mongoose";
+import { baseErrResponse, userNotFound } from "../utils/baseErrResponse";
 
 export const getUserInfo = async (
   req: Request,
@@ -9,14 +10,12 @@ export const getUserInfo = async (
 ): Promise<any> => {
   const { userId } = req as any;
 
-  if (!userId)
-    return res.status(401).json({ msg: "Unauthorized", success: false });
+  if (!userId) baseErrResponse(res, 401, "Invalid user");
 
   const user = await User.findById(userId)
     .select("firstName lastName email hasSubscribedToNewsletter -_id")
     .lean();
-  if (!user)
-    return res.status(400).json({ msg: "user not found", success: false });
+  if (!user) userNotFound(res);
 
   return res.status(200).json({ success: true, user });
 };
@@ -41,8 +40,7 @@ export const getUserProfileDetails = async (
 
   const user = userArr[0];
 
-  if (!user)
-    return res.status(404).json({ msg: "User not found", success: false });
+  if (!user) userNotFound(res);
 
   return res.status(200).json({ success: true, user });
 };
@@ -55,8 +53,7 @@ export const updateProfileDetails = async (
   const { firstName, lastName, ...address } = req.body;
 
   const user = await User.findById(userId);
-  if (!user)
-    return res.status(404).json({ msg: "User not found", success: false });
+  if (!user) userNotFound(res);
 
   const updatedUser = await User.findByIdAndUpdate(
     userId,

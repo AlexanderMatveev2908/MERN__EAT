@@ -4,6 +4,7 @@ import User, { UserType } from "../models/User";
 import { REG_EMAIL } from "../constants/regex";
 import { checkTokenSHA } from "../utils/token";
 import NonLoggedUserNewsLetter from "./../models/UserNewsLetter";
+import { baseErrResponse, userNotFound } from "../utils/baseErrResponse";
 
 export const toggleUserNewsLetter = async (
   req: RequestWithUserId,
@@ -13,7 +14,7 @@ export const toggleUserNewsLetter = async (
   const { type } = req.body;
 
   if (!["subscribe", "unsubscribe"].includes(type))
-    return res.status(400).json({ msg: "Invalid request", success: false });
+    baseErrResponse(res, 400, "Bad request");
 
   const updatedUser = await User.findByIdAndUpdate(
     userId,
@@ -21,8 +22,7 @@ export const toggleUserNewsLetter = async (
     { new: true, select: "hasSubscribedToNewsletter firstName lastName email" }
   ).lean();
 
-  if (!updatedUser)
-    return res.status(400).json({ msg: "User not found", success: false });
+  if (!updatedUser) userNotFound(res);
 
   return res.status(200).json({
     msg: "User subscribed to newsletter",
@@ -37,21 +37,14 @@ export const subscribeNonLoggedUser = async (
 ): Promise<any> => {
   const { email } = req.body;
 
-  if (!REG_EMAIL.test(email))
-    return res.status(400).json({ msg: "Invalid email", success: false });
+  if (!REG_EMAIL.test(email)) baseErrResponse(res, 400, "Bad request");
 
   const existingUser = await User.findOne({ email }).lean();
-  if (existingUser)
-    return res.status(403).json({
-      msg: "I do not think user should have arrive til here 🤔",
-      success: false,
-    });
+  if (existingUser) baseErrResponse(res, 403, "Invalid request");
 
   const existingSubscription = await User.findOne({ email }).lean();
   if (existingSubscription)
-    return res
-      .status(409)
-      .json({ msg: "User already subscribed", success: false });
+    baseErrResponse(res, 409, "User already subscribed");
 
   await NonLoggedUserNewsLetter.create({ email });
 
@@ -69,12 +62,11 @@ export const unsubScribeNewsLetterViaEmailLinkLogged = async (
 
   const user = await User.findById(userId);
 
-  if (!user)
-    return res.status(404).json({ msg: "User not found", success: false });
+  if (!user) userNotFound(res);
   if (!user.hasSubscribedToNewsletter)
-    return res.status(400).json({ msg: "User not subscribed", success: false });
+    baseErrResponse(res, 403, "User not subscribed to newsletter");
   if (!user.tokens.unSubScribeNewsLetter?.hashed)
-    return res.status(401).json({ msg: "Invalid token", success: false });
+    baseErrResponse(res, 400, "Bad request");
 
   const hasExpired =
     new Date(user.tokens.unSubScribeNewsLetter?.expiry ?? 0).getTime() <
@@ -92,10 +84,7 @@ export const unsubScribeNewsLetterViaEmailLinkLogged = async (
 
     await user.save();
 
-    if (hasExpired)
-      return res.status(401).json({ msg: "Token expired", success: false });
-    else if (!isMatch)
-      return res.status(401).json({ msg: "Invalid token", success: false });
+    baseErrResponse(res, 401, hasExpired ? "Token Expired" : "Invalid Token");
   }
 
   user.hasSubscribedToNewsletter = false;
@@ -115,12 +104,8 @@ export const unsubScribeNewsLetterViaEmailLinkNonLogged = async (
   const { token, userId } = req.body;
 
   const user = await NonLoggedUserNewsLetter.findById(userId);
-  if (!user)
-    return res
-      .status(404)
-      .json({ msg: "User not found, so not subscribed", success: false });
-  if (!user?.hashedTokenToUnsubscribe)
-    return res.status(401).json({ msg: "Invalid token", success: false });
+  if (!user) userNotFound(res);
+  if (!user?.hashedTokenToUnsubscribe) baseErrResponse(res, 400, "Bad Request");
 
   const isMatch = checkTokenSHA(
     token,
@@ -136,9 +121,6 @@ export const unsubScribeNewsLetterViaEmailLinkNonLogged = async (
 
     await user.save();
 
-    if (!isMatch)
-      return res.status(401).json({ msg: "Invalid token", success: false });
-    if (hasExpired)
-      return res.status(401).json({ msg: "Token expired", success: false });
+    baseErrResponse(res, 401, hasExpired ? "Token Expired" : "Invalid Token");
   }
 };

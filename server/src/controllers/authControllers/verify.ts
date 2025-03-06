@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../../models/User";
 import { checkTokenSHA, genAccessJWT, genTokenJWE } from "../../utils/token";
 import NonLoggedUserNewsLetter from "../../models/UserNewsLetter";
+import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
 
 export const verifyAccount = async (
   req: Request,
@@ -10,12 +11,11 @@ export const verifyAccount = async (
   const { userId, token } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) return res.status(404).json({ msg: "User not found" });
+  if (!user) userNotFound(res);
 
-  if (user.isVerified)
-    return res.status(403).json({ msg: "User already verified" });
+  if (user.isVerified) baseErrResponse(res, 403, "User already verified");
   if (!user.tokens.verifyAccount?.hashed)
-    return res.status(401).json({ msg: "Unauthorized", success: false });
+    baseErrResponse(res, 400, "Bad request");
   if (
     new Date(user.tokens.verifyAccount?.expiry ?? 0)?.getTime() < Date.now()
   ) {
@@ -23,7 +23,8 @@ export const verifyAccount = async (
     user.tokens.verifyAccount.hashed = null;
 
     await user.save();
-    return res.status(401).json({ msg: "Token expired" });
+
+    baseErrResponse(res, 401, "Token expired");
   }
 
   const isMatch = checkTokenSHA(
@@ -31,7 +32,7 @@ export const verifyAccount = async (
     user.tokens.verifyAccount?.hashed ?? "",
     "auth"
   );
-  if (!isMatch) return res.status(401).json({ msg: "Invalid token" });
+  if (!isMatch) baseErrResponse(res, 401, "Invalid token");
 
   const isSubscribedNewsLetter = await NonLoggedUserNewsLetter.findOne({
     email: user.email,
@@ -46,19 +47,11 @@ export const verifyAccount = async (
   user.tokens.verifyAccount.hashed = null;
 
   const accessToken = genAccessJWT(user._id);
-  // const {
-  //   token: refreshToken,
-  //   hashedToken,
-  //   expiryVerification,
-  // } = genTokenSHA("refresh");
 
   const { jwe, expiry } = await genTokenJWE(user._id);
 
   user.tokens.refresh.hashed = jwe;
   user.tokens.refresh.expiry = expiry;
-  // user.tokens.refresh.hashed = hashedToken;
-  // user.tokens.refresh.expiry = expiryVerification;
-
   await user.save();
 
   res.cookie("refreshToken", jwe, {
@@ -66,11 +59,6 @@ export const verifyAccount = async (
     secure: process.env.NODE_ENV === "production",
     expires: expiry,
   });
-  // res.cookie("refreshToken", refreshToken, {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV === "production",
-  //   expires: expiryVerification,
-  // });
 
   return res.status(200).json({ accessToken, success: true });
 };
@@ -82,19 +70,17 @@ export const verifyRecoverPwd = async (
   const { userId, token } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) return res.status(404).json({ msg: "User not found" });
+  if (!user) userNotFound(res);
 
-  if (!user.isVerified)
-    return res.status(403).json({ msg: "User not verified", success: false });
-  if (!user.tokens.recoverPwd?.hashed)
-    return res.status(401).json({ msg: "Unauthorized", success: false });
+  if (!user.isVerified) baseErrResponse(res, 403, "User not verified");
+  if (!user.tokens.recoverPwd?.hashed) baseErrResponse(res, 400, "Bad request");
   if (new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now()) {
     user.tokens.recoverPwd.hashed = null;
     user.tokens.recoverPwd.expiry = null;
 
     await user.save();
 
-    return res.status(401).json({ msg: "Token expired", success: false });
+    baseErrResponse(res, 401, "Token expired");
   }
 
   const isMatch = checkTokenSHA(
@@ -102,8 +88,7 @@ export const verifyRecoverPwd = async (
     user.tokens.recoverPwd.hashed ?? "",
     "auth"
   );
-  if (!isMatch)
-    return res.status(401).json({ success: false, msg: "Invalid token" });
+  if (!isMatch) baseErrResponse(res, 401, "Invalid token");
 
   return res.status(200).json({ success: true });
 };

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { checkTokenJWE, genAccessJWT } from "../../utils/token";
 import User from "../../models/User";
+import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
 
 export const refreshToken = async (
   req: Request,
@@ -9,28 +10,17 @@ export const refreshToken = async (
   const { refreshToken } = req.cookies;
 
   const payload = await checkTokenJWE(refreshToken ?? "");
-  if (!payload)
-    return res
-      .status(401)
-      .json({ msg: "REFRESH TOKEN INVALID", success: false });
+  if (!payload) baseErrResponse(res, 401, "REFRESH TOKEN INVALID");
 
-  const user = await User.findById(payload.userId);
-  if (!user)
-    return res.status(404).json({ msg: "User not found", success: false });
-  // const hashedInput = genHashedInput(refreshToken);
-
-  // const user = await User.findOne({ "tokens.refresh.hashed": hashedInput });
-  // if (!user)
-  //   return res.status(404).json({ msg: "INVALID TOKEN", success: false });
+  const user = await User.findById(payload?.userId);
+  if (!user) userNotFound(res);
 
   if (new Date(user.tokens.refresh?.expiry ?? 0)?.getTime() < Date.now()) {
     user.tokens.refresh.expiry = null;
     user.tokens.refresh.hashed = null;
     await user.save();
 
-    return res
-      .status(401)
-      .json({ msg: "REFRESH TOKEN EXPIRED", success: false });
+    baseErrResponse(res, 401, "REFRESH TOKEN EXPIRED");
   }
 
   const accessToken = genAccessJWT(user._id);

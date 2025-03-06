@@ -32,12 +32,6 @@ export const genTokenSHA = (type: string): ReturnToken => {
   return { token, hashedToken, expiryVerification };
 };
 
-// export const genHashedInput = (token: string) =>
-//   crypto
-//     .createHmac("sha256", process.env.REFRESH_SIGN!)
-//     .update(token)
-//     .digest("hex");
-
 export const checkTokenSHA = (
   receivedToken: string,
   storedToken: string,
@@ -63,7 +57,7 @@ export const genAccessJWT = (userId: string): string =>
 export const verifyAccessJWT = (token: string) =>
   jwt.verify(token ?? "", process.env.JWT_ACCESS_SIGN!) as JWTUserId;
 
-export const genTokenJWE = async (userId: string) => {
+export const genTokenJWE = async (userId: string): Promise<any> => {
   const token = crypto.randomBytes(64).toString("hex");
 
   let publicKey;
@@ -94,7 +88,7 @@ export const genTokenJWE = async (userId: string) => {
   // payload is encrypted with shared symmetric key using A256GCM, the the shared symmetric key is encrypted using asymmetric public key with RSA-OAEP and can be decrypted only with private asymmetric key
 };
 
-export const checkTokenJWE = async (tokenJWE: string) => {
+export const checkTokenJWE = async (tokenJWE: string): Promise<any> => {
   const keys = await getKeys();
 
   let privateKey;

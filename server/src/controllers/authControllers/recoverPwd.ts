@@ -2,18 +2,15 @@ import { Request, Response } from "express";
 import User from "../../models/User";
 import { checkTokenSHA, genAccessJWT, genTokenJWE } from "../../utils/token";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
+import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
 
 export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const { userId, password, token } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) return res.status(404).json({ msg: "User not found" });
-  if (!user.isVerified)
-    return res
-      .status(403)
-      .json({ success: false, msg: "I don't even know how u get so far 🤔" });
-  if (!user.tokens.recoverPwd?.hashed)
-    return res.status(401).json({ success: false, msg: "Unauthorized" });
+  if (!user) userNotFound(res);
+  if (!user.isVerified) baseErrResponse(res, 403, "User not verified");
+  if (!user.tokens.recoverPwd?.hashed) baseErrResponse(res, 400, "Bad request");
 
   const hasExpired =
     new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now();
@@ -29,22 +26,15 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
 
     await user.save();
 
-    if (hasExpired)
-      return res.status(401).json({ success: false, msg: "Token expired" });
-    else return res.status(401).json({ success: false, msg: "Invalid token" });
+    baseErrResponse(res, 401, hasExpired ? "Token expired" : "Invalid token");
   }
 
   if (password === user.email)
-    return res
-      .status(400)
-      .json({ success: false, msg: "Password cannot be the same as email" });
+    baseErrResponse(res, 400, "Password can not be same as email");
 
   const isSamePwd = await checkPwdBcrypt(password, user.password);
   if (isSamePwd)
-    return res.status(400).json({
-      success: false,
-      msg: "new password must be different from old one",
-    });
+    baseErrResponse(res, 400, "New Password must be different from old one");
 
   const hashedPwd = await hashPwdBcrypt(password);
 
@@ -55,16 +45,9 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const accessToken = genAccessJWT(user._id);
 
   const { jwe, expiry } = await genTokenJWE(user._id);
-  // const {
-  //   token: refreshToken,
-  //   hashedToken,
-  //   expiryVerification,
-  // } = genTokenSHA("refresh");
 
   user.tokens.refresh.hashed = jwe;
   user.tokens.refresh.expiry = expiry;
-  // user.tokens.refresh.hashed = hashedToken;
-  // user.tokens.refresh.expiry = expiryVerification;
 
   await user.save();
 
@@ -73,11 +56,6 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
     secure: process.env.NODE_ENV === "production",
     expires: expiry,
   });
-  //  res.cookie("refreshToken", refreshToken, {
-  //     httpOnly: true,
-  //     secure: process.env.NODE_ENV === "production",
-  //     expires: expiryVerification,
-  //   });
 
   return res
     .status(200)

@@ -8,14 +8,14 @@ import {
 } from "../../utils/token";
 import { sendUserEmail } from "../../utils/mail";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
+import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
 
 export const registerUser = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   const existingUser = await User.findOne({ email: req.body.email });
-  if (existingUser)
-    return res.status(409).json({ message: "User already exists" });
+  if (existingUser) baseErrResponse(res, 409, "Email already exists");
 
   const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 
@@ -48,24 +48,18 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  if (!user)
-    return res.status(404).json({ msg: "User not found", success: false });
-  if (!user.isVerified)
-    return res.status(403).json({ msg: "User not verified", success: false });
+  if (!user) userNotFound(res);
+  if (!user.isVerified) baseErrResponse(res, 403, "User not verified");
 
   const isSamePwd = await checkPwdBcrypt(password, user.password);
-  if (!isSamePwd)
-    return res.status(401).json({ msg: "Invalid credentials", success: false });
+  if (!isSamePwd) baseErrResponse(res, 401, "Invalid password");
 
   const accessToken = genAccessJWT(user._id);
-  // const { token, hashedToken, expiryVerification } = genTokenSHA("refresh");
 
   const { jwe, expiry } = await genTokenJWE(user._id);
 
   user.tokens.refresh.expiry = expiry;
   user.tokens.refresh.hashed = jwe;
-  // user.tokens.refresh.expiry = expiryVerification;
-  // user.tokens.refresh.hashed = hashedToken;
 
   await user.save();
 
@@ -74,12 +68,6 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
     secure: process.env.NODE_ENV === "production",
     expires: expiry,
   });
-  // await user.save();
-  // res.cookie("refreshToken", token, {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV === "production",
-  //   expires: expiryVerification,
-  // });
 
   return res.status(200).json({
     msg: "User logged in successfully",
@@ -91,18 +79,11 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
 export const logoutUser = async (req: Request, res: Response): Promise<any> => {
   const { refreshToken } = req.cookies;
 
-  // const hashedInput: string = genHashedInput(refreshToken);
-
   const isMatch = await checkTokenJWE(refreshToken ?? "");
-  if (!isMatch)
-    return res
-      .status(401)
-      .json({ msg: "REFRESH TOKEN INVALID", success: false });
+  if (!isMatch) baseErrResponse(res, 401, "INVALID REFRESH TOKEN");
 
   const user = await User.findOne({ "tokens.refresh.hashed": refreshToken });
-  // const user = await User.findOne({ "tokens.refresh.hashed": hashedInput });
-  if (!user)
-    return res.status(404).json({ msg: "User not found", success: false });
+  if (!user) userNotFound(res);
 
   user.tokens.refresh.hashed = null;
   user.tokens.refresh.expiry = null;

@@ -36,6 +36,9 @@ export const useHandleErr = () => {
           navigate("/", { replace: true });
           showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
         }
+      } else if (err?.response?.status === 403) {
+        navigate("/", { replace: true });
+        showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
       } else if (err?.response?.status === 429) {
         navigate("/", { replace: true });
         showToastMsg(err?.response?.data?.msg || err.message, "ERROR");

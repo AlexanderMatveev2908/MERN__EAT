@@ -28,8 +28,11 @@ foodAppInstance.interceptors.response.use(
 
     if (
       err?.response?.status === 401 &&
-      (err?.response?.data?.msg === "ACCESS TOKEN EXPIRED" ||
-        err?.response?.data?.msg === "ACCESS TOKEN INVALID") &&
+      [
+        "ACCESS TOKEN EXPIRED",
+        "ACCESS TOKEN INVALID",
+        "MISSING ACCESS TOKEN",
+      ].includes(err?.response?.data?.msg) &&
       !isRefreshing &&
       !originalReq.retry
     ) {
