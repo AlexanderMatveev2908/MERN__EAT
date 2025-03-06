@@ -20,7 +20,7 @@ export const registerUser = async (
 ): Promise<any> => {
   const existingUser = await User.findOne({ email: req.body.email });
 
-  if (existingUser) baseErrResponse(res, 409, "Email already exists");
+  if (existingUser) return baseErrResponse(res, 409, "Email already exists");
 
   const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 
@@ -53,11 +53,11 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  if (!user) userNotFound(res);
-  if (!user.isVerified) baseErrResponse(res, 403, "User not verified");
+  if (!user) return userNotFound(res);
+  if (!user.isVerified) return baseErrResponse(res, 403, "User not verified");
 
   const isSamePwd = await checkPwdBcrypt(password, user.password);
-  if (!isSamePwd) unauthorizedErr(res, "Invalid credentials");
+  if (!isSamePwd) return unauthorizedErr(res, "Invalid credentials");
 
   const accessToken = genAccessJWT(user._id);
 
@@ -85,10 +85,10 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
   const { refreshToken } = req.cookies;
 
   const isMatch = await checkTokenJWE(refreshToken ?? "");
-  if (!isMatch) baseErrResponse(res, 400, "REFRESH TOKEN NOT PROVIDED");
+  if (!isMatch) return baseErrResponse(res, 400, "REFRESH TOKEN NOT PROVIDED");
 
   const user = await User.findOne({ "tokens.refresh.hashed": refreshToken });
-  if (!user) userNotFound(res);
+  if (!user) return userNotFound(res);
 
   user.tokens.refresh.hashed = null;
   user.tokens.refresh.expiry = null;

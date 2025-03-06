@@ -13,9 +13,9 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const { userId, password, token } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) userNotFound(res);
-  if (!user.isVerified) baseErrResponse(res, 403, "User not verified");
-  if (!user.tokens.recoverPwd?.hashed) badRequest(res);
+  if (!user) return userNotFound(res);
+  if (!user.isVerified) return baseErrResponse(res, 403, "User not verified");
+  if (!user.tokens.recoverPwd?.hashed) return badRequest(res);
 
   const hasExpired =
     new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now();
@@ -31,15 +31,19 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
 
     await user.save();
 
-    unauthorizedErr(res, hasExpired ? "Token expired" : "Invalid token");
+    return unauthorizedErr(res, hasExpired ? "Token expired" : "Invalid token");
   }
 
   if (password === user.email)
-    baseErrResponse(res, 400, "Password can not be same as email");
+    return baseErrResponse(res, 400, "Password can not be same as email");
 
   const isSamePwd = await checkPwdBcrypt(password, user.password);
   if (isSamePwd)
-    baseErrResponse(res, 400, "New Password must be different from old one");
+    return baseErrResponse(
+      res,
+      400,
+      "New Password must be different from old one"
+    );
 
   const hashedPwd = await hashPwdBcrypt(password);
 

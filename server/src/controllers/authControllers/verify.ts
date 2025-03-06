@@ -16,10 +16,11 @@ export const verifyAccount = async (
   const { userId, token } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) userNotFound(res);
+  if (!user) return userNotFound(res);
 
-  if (user.isVerified) baseErrResponse(res, 403, "User already verified");
-  if (!user.tokens.verifyAccount?.hashed) badRequest(res);
+  if (user.isVerified)
+    return baseErrResponse(res, 403, "User already verified");
+  if (!user.tokens.verifyAccount?.hashed) return badRequest(res);
   if (
     new Date(user.tokens.verifyAccount?.expiry ?? 0)?.getTime() < Date.now()
   ) {
@@ -28,7 +29,7 @@ export const verifyAccount = async (
 
     await user.save();
 
-    unauthorizedErr(res, "Token Expired");
+    return unauthorizedErr(res, "Token Expired");
   }
 
   const isMatch = checkTokenSHA(
@@ -36,14 +37,16 @@ export const verifyAccount = async (
     user.tokens.verifyAccount?.hashed ?? "",
     "auth"
   );
-  if (!isMatch) unauthorizedErr(res, "Invalid token");
+  if (!isMatch) return unauthorizedErr(res, "Invalid token");
 
   const isSubscribedNewsLetter = await NonLoggedUserNewsLetter.findOne({
     email: user.email,
   });
   if (isSubscribedNewsLetter) {
-    await NonLoggedUserNewsLetter.deleteOne({ email: user.email });
-    user.hasSubscribedToNewsletter = true;
+    const result = await NonLoggedUserNewsLetter.deleteOne({
+      email: user.email,
+    });
+    if (result?.deletedCount === 0) user.hasSubscribedToNewsletter = true;
   }
 
   user.isVerified = true;
@@ -74,17 +77,17 @@ export const verifyRecoverPwd = async (
   const { userId, token } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) userNotFound(res);
+  if (!user) return userNotFound(res);
 
-  if (!user.isVerified) baseErrResponse(res, 403, "User not verified");
-  if (!user.tokens.recoverPwd?.hashed) badRequest(res);
+  if (!user.isVerified) return baseErrResponse(res, 403, "User not verified");
+  if (!user.tokens.recoverPwd?.hashed) return badRequest(res);
   if (new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now()) {
     user.tokens.recoverPwd.hashed = null;
     user.tokens.recoverPwd.expiry = null;
 
     await user.save();
 
-    unauthorizedErr(res, "Token Expired");
+    return unauthorizedErr(res, "Token Expired");
   }
 
   const isMatch = checkTokenSHA(
@@ -92,7 +95,7 @@ export const verifyRecoverPwd = async (
     user.tokens.recoverPwd.hashed ?? "",
     "auth"
   );
-  if (!isMatch) unauthorizedErr(res, "Token Invalid");
+  if (!isMatch) return unauthorizedErr(res, "Token Invalid");
 
   return res.status(200).json({ success: true });
 };
