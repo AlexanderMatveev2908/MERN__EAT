@@ -14,12 +14,12 @@ export const getUserInfo = async (
 ): Promise<any> => {
   const { userId } = req as any;
 
-  if (!userId) badRequest(res);
+  if (!userId) return badRequest(res);
 
   const user = await User.findById(userId)
     .select("firstName lastName email hasSubscribedToNewsletter -_id")
     .lean();
-  if (!user) userNotFound(res);
+  if (!user) return userNotFound(res);
 
   return res.status(200).json({ success: true, user });
 };
@@ -44,7 +44,7 @@ export const getUserProfileDetails = async (
 
   const user = userArr[0];
 
-  if (!user) userNotFound(res);
+  if (!user) return userNotFound(res);
 
   return res.status(200).json({ success: true, user });
 };
@@ -57,7 +57,7 @@ export const updateProfileDetails = async (
   const { firstName, lastName, ...address } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) userNotFound(res);
+  if (!user) return userNotFound(res);
 
   const updatedUser = await User.findByIdAndUpdate(
     userId,

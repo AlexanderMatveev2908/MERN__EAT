@@ -15,14 +15,14 @@ export const sendEmailUser = async (
   const { email } = req.body;
   const { type } = req.query;
 
-  if (!email || !type) badRequest(res);
+  if (!email || !type) return badRequest(res);
 
   const user = await User.findOne({ email });
-  if (!user) userNotFound(res);
+  if (!user) return userNotFound(res);
   if (!user.isVerified && type === "recover-pwd")
-    baseErrResponse(res, 403, "User not verified");
+    return baseErrResponse(res, 403, "User not verified");
   if (user.isVerified && type === "verify-account")
-    baseErrResponse(res, 403, "User already verified");
+    return baseErrResponse(res, 403, "User already verified");
 
   const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 

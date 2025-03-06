@@ -20,7 +20,7 @@ export const getUserId = (
     return next();
   } catch (err: any) {
     if (err.name === "TokenExpiredError")
-      unauthorizedErr(res, "ACCESS TOKEN EXPIRED");
-    unauthorizedErr(res, "ACCESS TOKEN INVALID");
+      return unauthorizedErr(res, "ACCESS TOKEN EXPIRED");
+    return unauthorizedErr(res, "ACCESS TOKEN INVALID");
   }
 };
