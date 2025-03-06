@@ -8,13 +8,18 @@ import {
 } from "../../utils/token";
 import { sendUserEmail } from "../../utils/mail";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
-import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
+import {
+  baseErrResponse,
+  unauthorizedErr,
+  userNotFound,
+} from "../../utils/baseErrResponse";
 
 export const registerUser = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   const existingUser = await User.findOne({ email: req.body.email });
+
   if (existingUser) baseErrResponse(res, 409, "Email already exists");
 
   const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
@@ -52,7 +57,7 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
   if (!user.isVerified) baseErrResponse(res, 403, "User not verified");
 
   const isSamePwd = await checkPwdBcrypt(password, user.password);
-  if (!isSamePwd) baseErrResponse(res, 401, "Invalid password");
+  if (!isSamePwd) unauthorizedErr(res, "Invalid credentials");
 
   const accessToken = genAccessJWT(user._id);
 
@@ -80,7 +85,7 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
   const { refreshToken } = req.cookies;
 
   const isMatch = await checkTokenJWE(refreshToken ?? "");
-  if (!isMatch) baseErrResponse(res, 401, "INVALID REFRESH TOKEN");
+  if (!isMatch) baseErrResponse(res, 400, "REFRESH TOKEN NOT PROVIDED");
 
   const user = await User.findOne({ "tokens.refresh.hashed": refreshToken });
   if (!user) userNotFound(res);

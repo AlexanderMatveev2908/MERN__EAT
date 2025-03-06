@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { verifyAccessJWT } from "../../utils/token";
 import { JWTPayload } from "express-oauth2-jwt-bearer";
-import { baseErrResponse } from "../../utils/baseErrResponse";
+import { baseErrResponse, unauthorizedErr } from "../../utils/baseErrResponse";
 
 export interface RequestWithUserId extends Request {
   userId?: string;
@@ -19,7 +19,7 @@ export const verifyAccessToken = (
   const auth = req.headers?.authorization || req.headers?.Authorization;
   const token = (auth as string | undefined)?.split(" ")[1];
 
-  if (!token) baseErrResponse(res, 401, "MISSING ACCESS TOKEN");
+  if (!token) unauthorizedErr(res, "ACCESS TOKEN NOT PROVIDED");
 
   try {
     const decoded = verifyAccessJWT(token!);
@@ -28,7 +28,7 @@ export const verifyAccessToken = (
     return next();
   } catch (err: any) {
     if (err.name === "TokenExpiredError")
-      baseErrResponse(res, 403, "ACCESS TOKEN EXPIRED");
-    baseErrResponse(res, 403, "ACCESS TOKEN INVALID");
+      unauthorizedErr(res, "ACCESS TOKEN EXPIRED");
+    unauthorizedErr(res, "ACCESS TOKEN INVALID");
   }
 };

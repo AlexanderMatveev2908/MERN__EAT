@@ -13,12 +13,10 @@ export const useHandleErr = () => {
       err,
       push = false,
       toast = true,
-    }: // logUnauthorized = false,
-    {
+    }: {
       err: any;
       push?: boolean;
       toast?: boolean;
-      // logUnauthorized?: boolean;
     }) => {
       console.log(err);
 
@@ -36,10 +34,7 @@ export const useHandleErr = () => {
           navigate("/", { replace: true });
           showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
         }
-      } else if (err?.response?.status === 403) {
-        navigate("/", { replace: true });
-        showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
-      } else if (err?.response?.status === 429) {
+      } else if ([403, 429].includes(err?.response?.status)) {
         navigate("/", { replace: true });
         showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
       } else {

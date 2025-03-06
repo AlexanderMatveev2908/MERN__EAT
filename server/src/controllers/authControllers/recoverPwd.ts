@@ -2,7 +2,12 @@ import { Request, Response } from "express";
 import User from "../../models/User";
 import { checkTokenSHA, genAccessJWT, genTokenJWE } from "../../utils/token";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
-import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
+import {
+  badRequest,
+  baseErrResponse,
+  unauthorizedErr,
+  userNotFound,
+} from "../../utils/baseErrResponse";
 
 export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const { userId, password, token } = req.body;
@@ -10,7 +15,7 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const user = await User.findById(userId);
   if (!user) userNotFound(res);
   if (!user.isVerified) baseErrResponse(res, 403, "User not verified");
-  if (!user.tokens.recoverPwd?.hashed) baseErrResponse(res, 400, "Bad request");
+  if (!user.tokens.recoverPwd?.hashed) badRequest(res);
 
   const hasExpired =
     new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now();
@@ -26,7 +31,7 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
 
     await user.save();
 
-    baseErrResponse(res, 401, hasExpired ? "Token expired" : "Invalid token");
+    unauthorizedErr(res, hasExpired ? "Token expired" : "Invalid token");
   }
 
   if (password === user.email)

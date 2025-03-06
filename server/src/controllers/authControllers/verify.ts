@@ -2,7 +2,12 @@ import { Request, Response } from "express";
 import User from "../../models/User";
 import { checkTokenSHA, genAccessJWT, genTokenJWE } from "../../utils/token";
 import NonLoggedUserNewsLetter from "../../models/UserNewsLetter";
-import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
+import {
+  badRequest,
+  baseErrResponse,
+  unauthorizedErr,
+  userNotFound,
+} from "../../utils/baseErrResponse";
 
 export const verifyAccount = async (
   req: Request,
@@ -14,8 +19,7 @@ export const verifyAccount = async (
   if (!user) userNotFound(res);
 
   if (user.isVerified) baseErrResponse(res, 403, "User already verified");
-  if (!user.tokens.verifyAccount?.hashed)
-    baseErrResponse(res, 400, "Bad request");
+  if (!user.tokens.verifyAccount?.hashed) badRequest(res);
   if (
     new Date(user.tokens.verifyAccount?.expiry ?? 0)?.getTime() < Date.now()
   ) {
@@ -24,7 +28,7 @@ export const verifyAccount = async (
 
     await user.save();
 
-    baseErrResponse(res, 401, "Token expired");
+    unauthorizedErr(res, "Token Expired");
   }
 
   const isMatch = checkTokenSHA(
@@ -32,7 +36,7 @@ export const verifyAccount = async (
     user.tokens.verifyAccount?.hashed ?? "",
     "auth"
   );
-  if (!isMatch) baseErrResponse(res, 401, "Invalid token");
+  if (!isMatch) unauthorizedErr(res, "Invalid token");
 
   const isSubscribedNewsLetter = await NonLoggedUserNewsLetter.findOne({
     email: user.email,
@@ -73,14 +77,14 @@ export const verifyRecoverPwd = async (
   if (!user) userNotFound(res);
 
   if (!user.isVerified) baseErrResponse(res, 403, "User not verified");
-  if (!user.tokens.recoverPwd?.hashed) baseErrResponse(res, 400, "Bad request");
+  if (!user.tokens.recoverPwd?.hashed) badRequest(res);
   if (new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now()) {
     user.tokens.recoverPwd.hashed = null;
     user.tokens.recoverPwd.expiry = null;
 
     await user.save();
 
-    baseErrResponse(res, 401, "Token expired");
+    unauthorizedErr(res, "Token Expired");
   }
 
   const isMatch = checkTokenSHA(
@@ -88,7 +92,7 @@ export const verifyRecoverPwd = async (
     user.tokens.recoverPwd.hashed ?? "",
     "auth"
   );
-  if (!isMatch) baseErrResponse(res, 401, "Invalid token");
+  if (!isMatch) unauthorizedErr(res, "Token Invalid");
 
   return res.status(200).json({ success: true });
 };
