@@ -5,15 +5,20 @@ export const newsLetterToggleLoggedAPI = async ({
 }: {
   type: "subscribe" | "unsubscribe";
 }) => {
-  const { data } = await foodAppInstance.patch("/newsletter/logged", { type });
+  const { data } = await foodAppInstance.patch("/newsletter/toggle-logged", {
+    type,
+  });
 
   return data;
 };
 
 export const subscribeNonLoggedUserAPI = async (email: string) => {
-  const { data } = await foodAppInstance.post("/newsletter/non-logged", {
-    email,
-  });
+  const { data } = await foodAppInstance.post(
+    "/newsletter/subscribe-non-logged",
+    {
+      email,
+    }
+  );
 
   return data;
 };

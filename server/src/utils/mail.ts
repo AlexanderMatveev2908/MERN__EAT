@@ -31,19 +31,36 @@ export const sendUserEmail = async ({
   });
 };
 
+const SUB_CONFIRM_NEWSLETTER = "SUBSCRIPTION TO NEWSLETTER";
+const SUB_UNSUBSCRIBE_NEWSLETTER = "UNSUBSCRIBE NEWSLETTER";
+
+const TXT_CONFIRM_NEWSLETTER = (URL: string) =>
+  `Congrats on subscribing to our newsletter 🎉\nWe will keep you update on our sales and send you unique coupon discount ✌🏼\nIf for any reason you want to unsubscribe, don't worry, you only have to click the following link: ${URL}`;
+const TXT_UNSUBSCRIBE_NEWSLETTER = (
+  URL: string
+) => `Clicking the following link you will be redirected on our page and your subscription will be deleted, if you accidentally ask to unsubscribe you can ignore the email\n
+Unsubscribe: ${URL}`;
+
 export const sendSubScriptionNewsLetterConfirmed = async (
   user: UserType,
   token: string,
-  typeUser: "non-logged" | "logged"
+  typeUser: "non-logged" | "logged",
+  action: "subscribe" | "unsubscribe"
 ) => {
-  if ([user, token, typeUser].some((el) => !el)) return;
+  if ([user, token].some((el) => !el)) return;
 
-  const unsubscribeURL = `${basePath}/notice-unsubscribed?userId=${user?._id}&token=${token}&typeUser=${typeUser}`;
+  const unsubscribeURL = `${basePath}/unsubscribe-verify?userId=${user?._id}&token=${token}&typeUser=${typeUser}`;
 
   await transporterMail.sendMail({
     from: process.env.MAIL_USER,
     to: user?.email as string,
-    subject: "CONFIRM SUBSCRIPTION TO NEWSLETTER",
-    text: `Congrats on subscribing to our newsletter 🎉\nWe will keep you update on our sales and send you unique coupon discount ✌🏼\nIf for any reason you want to unsubscribe, don't worry, you only have to click the following link: ${unsubscribeURL}`,
+    subject:
+      action === "subscribe"
+        ? SUB_CONFIRM_NEWSLETTER
+        : SUB_UNSUBSCRIBE_NEWSLETTER,
+    text:
+      action === "subscribe"
+        ? TXT_CONFIRM_NEWSLETTER(unsubscribeURL)
+        : TXT_UNSUBSCRIBE_NEWSLETTER(unsubscribeURL),
   });
 };
