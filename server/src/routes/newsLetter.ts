@@ -2,8 +2,7 @@ import express from "express";
 import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
 import { asyncWrapper } from "../middleware/general/asyncWrapper";
 import {
-  sendEmailUnsubscribeRetryLogged,
-  sendEmailUnsubscribeRetryNonLogged,
+  sendEmailUnsubscribeRetry,
   subscribeNonLoggedUser,
   toggleUserNewsLetter,
   unsubScribeNewsLetterViaEmailLinkLogged,
@@ -45,17 +44,10 @@ router.delete(
 );
 
 router.post(
-  "/send-email-retry-unsubscribe-logged",
+  "/send-email-unsubscribe",
   makeLimiter({ max: 8 }),
   validatorUnsubscribeNewsLetterRetry,
-  asyncWrapper(sendEmailUnsubscribeRetryLogged)
-);
-
-router.post(
-  "/send-email-retry-unsubscribe-non-logged",
-  makeLimiter({ max: 8 }),
-  validatorUnsubscribeNewsLetterRetry,
-  asyncWrapper(sendEmailUnsubscribeRetryNonLogged)
+  asyncWrapper(sendEmailUnsubscribeRetry)
 );
 
 export default router;

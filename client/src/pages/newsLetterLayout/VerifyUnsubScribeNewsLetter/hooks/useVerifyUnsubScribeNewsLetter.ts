@@ -48,19 +48,20 @@ export const useVerifyUnsubScribeNewsLetter = () => {
   useEffect(() => {
     const handleSideEffects = () => {
       if (isError) {
-        console.log(error);
-
         if ([429].includes((error as any)?.response?.status))
           navigate("/", { state: { from: location.pathname }, replace: true });
         else
-          navigate(
-            `/newsletter/notice-unsubscribe-with-retry?success=false&typeUser=${typeUser}`,
-            { state: { from: location.pathname }, replace: true }
-          );
+          navigate(`/newsletter/notice-unsubscribe-with-retry?success=false`, {
+            state: { from: location.pathname },
+            replace: true,
+          });
 
         showToastMsg((error as any)?.response?.data?.msg, "ERROR");
       } else if (isSuccess) {
-        navigate("/newsletter/notice-unsubscribe-with-retry?success=true");
+        navigate("/newsletter/notice-unsubscribe-with-retry?success=true", {
+          state: { from: location.pathname },
+          replace: true,
+        });
         showToastMsg("Subscription deleted successfully", "SUCCESS");
       }
     };

@@ -1,5 +1,5 @@
 import { foodAppInstance } from "../constants/axiosInstance";
-import { UserDataFormType } from "../pages/User/UserProfile/hooks/UseProfileReducer/types/types";
+import { UserDataFormType } from "../pages/userLayout/UserProfile/hooks/UseProfileReducer/types/types";
 
 export const getUserInfoAPI = async () => {
   const { data } = await foodAppInstance.get("/user/info-basic");

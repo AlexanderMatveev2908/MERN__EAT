@@ -22,7 +22,6 @@ export const useNoticeUnSubscribe = () => {
   const navigate = useNavigate();
 
   const success = searchParams.get("success");
-  const userType = searchParams.get("userType");
 
   const canStay = location?.state?.from === "/newsletter/verify-unsubscribe";
 
@@ -34,10 +33,9 @@ export const useNoticeUnSubscribe = () => {
   } = useForm<UnsubscribeEmailFormType>({ mode: "onChange" });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: ({ email, path }: { email: string; path: string }) =>
+    mutationFn: ({ email }: { email: string }) =>
       sendEmailUnsubscribeAPI({
         email,
-        path,
       }),
     onSuccess: () => {
       reset();
@@ -47,17 +45,13 @@ export const useNoticeUnSubscribe = () => {
       });
     },
     onError: (err: any) => {
-      handleErrAPI(err);
+      handleErrAPI({ err });
     },
   });
 
   const handleSubmitEmail = handleSubmit((data) => {
     mutate({
       email: data.email,
-      path:
-        userType === "logged"
-          ? "/send-email-retry-unsubscribe-logged"
-          : "/send-email-retry-unsubscribe-non-logged",
     });
   });
 

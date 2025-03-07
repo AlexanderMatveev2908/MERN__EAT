@@ -13,6 +13,7 @@ const Newsletter: FC = () => {
     currUser,
     submitSubscribeNonLoggedUser,
     isPendingNonLogged,
+    handleRedirection,
   } = useNewsletter();
 
   return (
@@ -47,6 +48,18 @@ const Newsletter: FC = () => {
           />
         )}
       </div>
+
+      {!isLogged && (
+        <div className="w-full flex justify-start">
+          <span
+            onClick={handleRedirection}
+            className="txt__01 el__after_below cursor-pointer transition-all duration-300 hover:text-orange-500"
+          >
+            Send link to unsubscribe
+          </span>
+        </div>
+      )}
+
       <div className="w-full flex">
         <span className="txt__00">
           Subscribe to our newsletter to receive the latest updates and get a

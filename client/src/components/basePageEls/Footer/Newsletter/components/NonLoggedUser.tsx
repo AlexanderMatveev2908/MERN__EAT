@@ -5,7 +5,6 @@ import { REG_EMAIL } from "../../../../../constants/regex";
 import { CurrUserType } from "../../../../../types/userTypes";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { NewsLetterFormType } from "../hooks/useNonLoggedNewLetter";
-import { useNavigate } from "react-router-dom";
 
 type PropsType = {
   isPending: boolean;
@@ -22,14 +21,6 @@ const NonLoggedUser: FC<PropsType> = ({
   register,
   errors,
 }) => {
-  const navigate = useNavigate();
-
-  const handleRedirection = () =>
-    navigate(
-      `/newsletter/notice-unsubscribe-with-retry?success=false&typeUser=non-logged`,
-      { state: { from: "/newsletter/verify-unsubscribe" } }
-    );
-
   return (
     <div className="w-full flex flex-col gap-5">
       <form className="grid grid-cols-[repeat(auto-fit,minmax(225px,1fr))] sm:grid-cols-2 gap-5 sm:gap-x-10 items-center">
@@ -69,15 +60,6 @@ const NonLoggedUser: FC<PropsType> = ({
           </div>
         )}
       </form>
-
-      <div className="w-full flex col-span-2 justify-start">
-        <span
-          onClick={handleRedirection}
-          className="txt__01 el__after_below cursor-pointer transition-all duration-300 hover:text-orange-500"
-        >
-          Send link to unsubscribe
-        </span>
-      </div>
     </div>
   );
 };
