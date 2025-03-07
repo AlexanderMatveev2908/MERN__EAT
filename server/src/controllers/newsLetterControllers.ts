@@ -59,18 +59,40 @@ export const subscribeNonLoggedUser = async (
 
   if (!REG_EMAIL.test(email)) return badRequest(res);
 
-  const existingUser = await User.findOne({ email }).lean();
-  if (existingUser)
-    baseErrResponse(
-      res,
-      409,
-      "User already registered, to subscribe first login"
-    );
-  const existingSubscription = await User.findOne({ email }).lean();
-  if (existingSubscription)
-    return baseErrResponse(res, 409, "User already subscribed");
-
   const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
+
+  const existingUser = await User.findOne({ email });
+  const existingSubscription = await NonLoggedUserNewsLetter.findOne({
+    email,
+  }).lean();
+
+  if (existingUser) {
+    if (existingUser.hasSubscribedToNewsletter) {
+      return baseErrResponse(res, 409, "User already subscribed");
+    } else {
+      existingUser.hasSubscribedToNewsletter = true;
+      existingUser.tokens.unSubScribeNewsLetter = {
+        hashed: hashedToken,
+        expiry: expiryVerification,
+      };
+
+      await existingUser.save();
+
+      await sendSubScriptionNewsLetterConfirmed(
+        existingUser,
+        token,
+        "logged",
+        "subscribe"
+      );
+
+      return res.status(200).json({
+        msg: "User subscribed to newsletter",
+        success: true,
+      });
+    }
+  } else if (existingSubscription) {
+    return baseErrResponse(res, 409, "User already subscribed");
+  }
 
   const newUser = await NonLoggedUserNewsLetter.create({
     email,
