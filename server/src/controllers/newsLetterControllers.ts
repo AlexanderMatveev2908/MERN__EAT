@@ -119,7 +119,8 @@ export const unsubScribeNewsLetterViaEmailLinkLogged = async (
   if (!user) return userNotFound(res);
   if (!user.hasSubscribedToNewsletter)
     return baseErrResponse(res, 403, "User not subscribed to newsletter");
-  if (!user.tokens.unSubScribeNewsLetter?.hashed) return badRequest(res);
+  if (!user.tokens.unSubScribeNewsLetter?.hashed)
+    return unauthorizedErr(res, "Verification token not emitted");
 
   const hasExpired =
     new Date(user.tokens.unSubScribeNewsLetter?.expiry ?? 0).getTime() <
@@ -158,7 +159,8 @@ export const unsubScribeNewsLetterViaEmailLinkNonLogged = async (
 
   const user = await NonLoggedUserNewsLetter.findById(userId);
   if (!user) return userNotFound(res);
-  if (!user?.hashedTokenToUnsubscribe) return badRequest(res);
+  if (!user?.hashedTokenToUnsubscribe)
+    return unauthorizedErr(res, "Verification token not emitted");
 
   const isMatch = checkTokenSHA(
     token,

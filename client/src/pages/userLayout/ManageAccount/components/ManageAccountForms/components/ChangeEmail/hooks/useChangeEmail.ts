@@ -39,7 +39,6 @@ export const useChangeEmail = ({
       });
     },
     onError: (err: any) => {
-      console.log(err);
       handleErrAPI({ err });
     },
   });

@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import User from "../../models/User";
 import { RequestWithUserId } from "../../middleware/general/verifyAccessToken";
 import mongoose from "mongoose";
-import { badRequest, userNotFound } from "../../utils/baseErrResponse";
+import {
+  badRequest,
+  unauthorizedErr,
+  userNotFound,
+} from "../../utils/baseErrResponse";
 
 export const getUserInfo = async (
   req: Request,
@@ -10,7 +14,7 @@ export const getUserInfo = async (
 ): Promise<any> => {
   const { userId } = req as any;
 
-  if (!userId) return badRequest(res);
+  if (!userId) return unauthorizedErr(res, "ACCESS TOKEN NOT PROVIDED");
 
   const user = await User.findById(userId)
     .select("firstName lastName email hasSubscribedToNewsletter -_id")

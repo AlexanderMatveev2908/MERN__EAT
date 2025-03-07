@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { checkTokenJWE, genAccessJWT } from "../../utils/token";
+import {
+  checkTokenJWE,
+  decodeExpiredJWT,
+  genAccessJWT,
+} from "../../utils/token";
 import User from "../../models/User";
 import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse";
 
@@ -10,7 +14,9 @@ export const refreshToken = async (
   const { refreshToken } = req.cookies;
 
   const payload = await checkTokenJWE(refreshToken ?? "");
-  if (!payload) return unauthorizedErr(res, "REFRESH TOKEN INVALID");
+  if (!payload) {
+    return unauthorizedErr(res, "REFRESH TOKEN INVALID");
+  }
 
   const user = await User.findById(payload?.userId);
   if (!user) return userNotFound(res);

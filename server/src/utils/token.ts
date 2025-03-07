@@ -54,7 +54,7 @@ export const genAccessJWT = (userId: string): any =>
 export const verifyAccessJWT = (token: string) =>
   jwt.verify(token ?? "", ACCESS_SIGN!) as JWTUserId;
 
-// export const decodeExpiredJWT = (token: string) :any=> jwt.decode(token);
+export const decodeExpiredJWT = (token: string): any => jwt.decode(token);
 
 export const genTokenJWE = async (userId: string): Promise<any> => {
   const token = crypto.randomBytes(64).toString("hex");

@@ -20,7 +20,8 @@ export const verifyAccount = async (
 
   if (user.isVerified)
     return baseErrResponse(res, 403, "User already verified");
-  if (!user.tokens.verifyAccount?.hashed) return badRequest(res);
+  if (!user.tokens.verifyAccount?.hashed)
+    return unauthorizedErr(res, "Verification token not emitted");
   if (
     new Date(user.tokens.verifyAccount?.expiry ?? 0)?.getTime() < Date.now()
   ) {
@@ -80,7 +81,8 @@ export const verifyRecoverPwd = async (
   if (!user) return userNotFound(res);
 
   if (!user.isVerified) return baseErrResponse(res, 403, "User not verified");
-  if (!user.tokens.recoverPwd?.hashed) return badRequest(res);
+  if (!user.tokens.recoverPwd?.hashed)
+    return unauthorizedErr(res, "Verification token not emitted");
   if (new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now()) {
     user.tokens.recoverPwd.hashed = null;
     user.tokens.recoverPwd.expiry = null;

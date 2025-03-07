@@ -45,8 +45,6 @@ foodAppInstance.interceptors.response.use(
       } catch (err: any) {
         sessionStorage.removeItem("accessToken");
 
-        console.log(err);
-
         return Promise.reject(err);
       }
     }

@@ -4,7 +4,7 @@ import Home from "./pages/Home/Home";
 import MainLayoutRoute from "./layouts/mainLayout/MainLayoutRoute";
 import LayoutNonLoggedUserRoute from "./layouts/layoutNonLoggedUser/LayoutNonLoggedUserRoute";
 import NoticeEmail from "./pages/NoticeEmail/NoticeEmail";
-import { useApp } from "./hooks/useApp";
+import { useApp } from "./hooks/useApp/useApp";
 import LayoutUserRoute from "./layouts/LayoutUserRoute/LayoutUserRoute";
 import LayoutNewsLetterRoute from "./layouts/layoutNewsLetter/LayoutNewsLetterRoute";
 import Login from "./pages/authLayout/Login/Login";
@@ -16,6 +16,7 @@ import UserProfile from "./pages/userLayout/UserProfile/UserProfile";
 import VerifyUnsubScribeNewsLetter from "./pages/newsLetterLayout/VerifyUnsubScribeNewsLetter/VerifyUnsubScribeNewsLetter";
 import NoticeUnSubscribe from "./pages/newsLetterLayout/NoticeUnSubscribe/NoticeUnSubscribe";
 import ManageAccount from "./pages/userLayout/ManageAccount/ManageAccount";
+import VerifyUser from "./pages/userLayout/VerifyUser/VerifyUser";
 // import CallbackAuth from "./pages/CallbackAuth/CallbackAuth";
 
 const App: FC = () => {
@@ -42,6 +43,7 @@ const App: FC = () => {
           <Route path="profile" element={<UserProfile />} />
 
           <Route path="manage-account" element={<ManageAccount />} />
+          <Route path="verify-new-email" element={<VerifyUser />} />
         </Route>
 
         <Route path="notice-email" element={<NoticeEmail />} />

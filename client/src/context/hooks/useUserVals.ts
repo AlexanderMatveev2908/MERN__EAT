@@ -10,11 +10,14 @@ import {
   SET_IS_LOGGED,
 } from "../actions/userActions";
 import { getInitialsName } from "../../utils/getInitialsName";
+import { useNavigate } from "react-router-dom";
 
 export const useUserVals = (
   userState: UserStateType,
   dispatch: React.Dispatch<UserActionTypes>
 ) => {
+  const navigate = useNavigate();
+
   const setUserLogged = useCallback(
     (val?: string | boolean) => {
       if (!val) sessionStorage.removeItem("accessToken");
@@ -60,7 +63,9 @@ export const useUserVals = (
     dispatch({ type: SET_IS_LOGGED, payload: false });
     dispatch({ type: SET_CURR_USER, payload: null });
     dispatch({ type: SET_CAN_MANAGE_ACCOUNT, payload: false });
-  }, [dispatch]);
+
+    navigate("/", { replace: true });
+  }, [dispatch, navigate]);
 
   return {
     ...userState,

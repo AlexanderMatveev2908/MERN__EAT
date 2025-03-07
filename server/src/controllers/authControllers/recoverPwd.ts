@@ -15,7 +15,8 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const user = await User.findById(userId);
   if (!user) return userNotFound(res);
   if (!user.isVerified) return baseErrResponse(res, 403, "User not verified");
-  if (!user.tokens.recoverPwd?.hashed) return badRequest(res);
+  if (!user.tokens.recoverPwd?.hashed)
+    return unauthorizedErr(res, "Verification token not emitted");
 
   const hasExpired =
     new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now();
