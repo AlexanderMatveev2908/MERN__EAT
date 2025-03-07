@@ -1,5 +1,7 @@
 import { SET_IS_TOAST } from "../context/actions/toastActions";
 
+export type ShowToastType = (msg: string, type: "SUCCESS" | "ERROR") => void;
+
 export type ToastStateType = {
   isToast: boolean;
   msg: string;

@@ -3,25 +3,19 @@ import jwt from "jsonwebtoken";
 import { JWTUserId } from "../middleware/general/verifyAccessToken";
 import { CompactEncrypt, jwtDecrypt } from "jose";
 import { getKeys, makeKeys } from "./formatPEM";
-
-const EXPIRY_ACCESS = "10m"; //basic access token
-const GEN_EXPIRY_AUTH = () => new Date(Date.now() + 1000 * 60 * 15); //register, recover-pwd, verify-account
-const GEN_EXPIRY_REFRESH = () => new Date(Date.now() + 1000 * 60 * 60); // refresh token for access token
-const GEN_EXPIRY_NEWSLETTER = () => new Date(Date.now() + 1000 * 60 * 30); // newsletter unsubscribe
-const GEN_EXPIRY_MANAGE_ACCOUNT = () => new Date(Date.now() + 1000 * 60 * 15); // manage-account
+import {
+  ACCESS_SIGN,
+  EXPIRY_ACCESS,
+  GEN_EXPIRY_REFRESH,
+  GET_EXPIRY,
+  GET_SIGN,
+} from "../config/signs";
 
 type ReturnToken = {
   token: string;
   hashedToken: string;
   expiryVerification: Date;
 };
-
-const GET_SIGN = (type: "auth" | "newsletter" | "manageAccount") =>
-  type === "auth"
-    ? process.env.AUTH_SIGN
-    : type === "newsletter"
-    ? process.env.NEWSLETTER_SIGN
-    : process.env.MANAGE_ACCOUNT_SIGN;
 
 export const genTokenSHA = (
   type: "auth" | "newsletter" | "manageAccount"
@@ -33,10 +27,9 @@ export const genTokenSHA = (
     .update(token)
     .digest("hex");
 
-  const expiryVerification =
-    type === "auth" ? GEN_EXPIRY_AUTH() : GEN_EXPIRY_NEWSLETTER();
+  const expiryVerification = GET_EXPIRY(type);
 
-  return { token, hashedToken, expiryVerification };
+  return { token, hashedToken, expiryVerification: expiryVerification as Date };
 };
 
 export const checkTokenSHA = (
@@ -52,14 +45,16 @@ export const checkTokenSHA = (
   return hashedInput === storedToken;
 };
 
-export const genAccessJWT = (userId: string): string =>
-  jwt.sign({ userId }, process.env.JWT_ACCESS_SIGN!, {
+export const genAccessJWT = (userId: string): any =>
+  jwt.sign({ userId }, ACCESS_SIGN!, {
     algorithm: "HS256",
     expiresIn: EXPIRY_ACCESS,
   });
 
 export const verifyAccessJWT = (token: string) =>
-  jwt.verify(token ?? "", process.env.JWT_ACCESS_SIGN!) as JWTUserId;
+  jwt.verify(token ?? "", ACCESS_SIGN!) as JWTUserId;
+
+// export const decodeExpiredJWT = (token: string) :any=> jwt.decode(token);
 
 export const genTokenJWE = async (userId: string): Promise<any> => {
   const token = crypto.randomBytes(64).toString("hex");

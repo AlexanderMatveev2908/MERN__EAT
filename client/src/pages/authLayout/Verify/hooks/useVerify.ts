@@ -5,7 +5,7 @@ import { useGetTansCreated } from "./useGetTanVerify";
 import { useUser } from "../../../../hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../../constants/regex";
 import { isValidStr, validateStrWithArr } from "../../../../utils/validateStr";
-import { emailAllowedType } from "../../../../config/allowedPathsAndQuery/pathsAndTypes";
+import { allowedFromAuthType } from "../../../../config/allowedPathsAndQuery/pathsAndTypes";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
 
 export const useVerify = () => {
@@ -21,7 +21,7 @@ export const useVerify = () => {
 
   const isUserIdValid = isValidStr(userId ?? "", REG_MONGO);
   const isTokenValid = isValidStr(token ?? "", REG_TOKEN);
-  const isValidType = validateStrWithArr(emailAllowedType, type ?? "");
+  const isValidType = validateStrWithArr(allowedFromAuthType, type ?? "");
 
   const canStay =
     [isTokenValid, isUserIdValid, isValidType].every((el) => !!el) && !isLogged;

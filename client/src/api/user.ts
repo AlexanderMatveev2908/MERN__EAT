@@ -26,3 +26,20 @@ export const getRightManageAccountAPI = async (password: string) => {
 
   return data;
 };
+
+export const changeEmailAPI = async (params) => {
+  const { data } = await foodAppInstance.patch("/user/change-email", {
+    ...params,
+  });
+
+  return data;
+};
+
+export const verifyNewEmailAPI = async (params: {
+  userId: string;
+  token: string;
+}) => {
+  const { data } = await foodAppInstance.post("/user-verify-new-email", params);
+
+  return data;
+};

@@ -13,11 +13,9 @@ export const emailField = {
 };
 
 export const changeEmailField = {
-  id: genID(),
+  ...emailField,
   label: "New Email",
   field: "newEmail",
-  type: "email",
-  reg: REG_EMAIL,
 };
 
 export const nameFieldsArr = [
@@ -49,14 +47,19 @@ export const pwdFieldToAccess = {
   msg: "Invalid password",
   reg: /.*/,
 };
-export const pwdFieldToMakeNew = {
-  id: genID(),
-  field: "password",
-  label: "Password",
-  place: "Your password",
-  msg: "Password must follow this pattern: ${/^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[W_])[A-Za-zdW_]{8,}$/} 🧐",
+
+export const pwdFieldToCreate = {
+  ...pwdFieldToAccess,
   reg: REG_PWD,
+  msg: `Password must follow this pattern ${/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/} 🧐`,
 };
+
+export const pwdFieldToChangeOldPwd = {
+  ...pwdFieldToCreate,
+  label: "New Password",
+  place: "Your new password",
+};
+
 export const confirmPwdField = {
   id: genID(),
   field: "confirmPassword",
@@ -65,13 +68,3 @@ export const confirmPwdField = {
   msg: "",
   reg: /.*/,
 };
-
-export const changePwdFields = [
-  {
-    id: genID(),
-    label: "Old Password",
-    field: "password",
-    type: "password",
-    reg: /.*/,
-  },
-];

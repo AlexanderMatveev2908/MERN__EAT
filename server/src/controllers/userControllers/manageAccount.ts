@@ -13,10 +13,10 @@ export const getRightManageAccount = async (
   const { password } = req.body;
 
   const user = await User.findById(userId);
-  if (!user) userNotFound(res);
+  if (!user) return userNotFound(res);
 
   const isMatch = await checkPwdBcrypt(password, user.password);
-  if (!isMatch) unauthorizedErr(res, "Invalid password");
+  if (!isMatch) return unauthorizedErr(res, "Invalid password");
 
   const { token, hashedToken, expiryVerification } =
     genTokenSHA("manageAccount");

@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useNoticeEmail } from "./hooks/useNoticeEmail";
 
 const NoticeEmail: FC = () => {
-  const { canStay } = useNoticeEmail();
+  const { canStay, txt } = useNoticeEmail();
 
   return !canStay ? (
     <Navigate to="/" replace />
@@ -12,8 +12,8 @@ const NoticeEmail: FC = () => {
     <div className="w-full flex flex-col items-center gap-y-14">
       <div className="w-full flex justify-center">
         <span className="txt__04 leading-10 lg:leading-16">
-          We&apos;ve sent you an email! If you don&apos;t see it, check your
-          spam folder, it might be partying there
+          {`We've sent you an email ${txt}! If you don't see it, check your
+          spam folder, it might be partying there`}
         </span>
       </div>
 

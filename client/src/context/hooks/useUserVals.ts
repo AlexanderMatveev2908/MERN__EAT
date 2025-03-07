@@ -27,15 +27,15 @@ export const useUserVals = (
 
   const setCurrUser = useCallback(
     ({ user }: { user: CurrUserType | null }) => {
-      if (
-        Object.keys(user ?? {})?.length &&
-        !sessionStorage.getItem("initName")
-      )
-        sessionStorage.setItem(
-          "initName",
-          getInitialsName(user as CurrUserType)
-        );
-      else sessionStorage.removeItem("initName");
+      if (user) {
+        if (!sessionStorage.getItem("initName"))
+          sessionStorage.setItem(
+            "initName",
+            getInitialsName(user as CurrUserType)
+          );
+      } else {
+        sessionStorage.removeItem("initName");
+      }
 
       dispatch({ type: SET_CURR_USER, payload: user });
     },
