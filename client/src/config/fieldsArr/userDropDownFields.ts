@@ -6,6 +6,7 @@ import {
   ShieldCheck,
   User,
   UserPen,
+  UserRoundPen,
 } from "lucide-react";
 import { genID } from "../../utils/genID";
 
@@ -26,6 +27,12 @@ export const loggedUserFields = [
     path: "/user/profile",
     label: "Profile",
     svg: User,
+  },
+  {
+    id: genID(),
+    path: "/user/manage-account",
+    label: "Manage Account",
+    svg: UserRoundPen,
   },
 ];
 

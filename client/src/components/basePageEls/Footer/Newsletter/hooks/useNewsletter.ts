@@ -33,10 +33,9 @@ export const useNewsletter = () => {
   };
 
   const handleRedirection = () =>
-    navigate(
-      `/newsletter/notice-unsubscribe-with-retry?success=false&typeUser=non-logged`,
-      { state: { from: "/newsletter/verify-unsubscribe" } }
-    );
+    navigate(`/newsletter/notice-unsubscribe-with-retry?success=false`, {
+      state: { from: "/newsletter/verify-unsubscribe" },
+    });
 
   return {
     handleClickNonLoggedUser,

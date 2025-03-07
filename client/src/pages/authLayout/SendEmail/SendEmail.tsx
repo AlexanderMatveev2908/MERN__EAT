@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useSendEmail } from "./hooks/useSendEmail";
 import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
-import { emailField } from "../../../config/fieldsArr/userFormFields";
+import { emailField } from "../../../config/fieldsArr/basicFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const SendEmail: FC = () => {

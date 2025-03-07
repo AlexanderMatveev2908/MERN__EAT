@@ -58,6 +58,10 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    tempNewEmail: {
+      type: String,
+      default: null,
+    },
     password: {
       type: String,
       required: true,
@@ -132,6 +136,36 @@ const UserSchema = new mongoose.Schema(
         },
       },
       unSubScribeNewsLetter: {
+        hashed: {
+          type: String,
+          default: null,
+        },
+        expiry: {
+          type: Date,
+          default: null,
+        },
+      },
+      changePwd: {
+        hashed: {
+          type: String,
+          default: null,
+        },
+        expiry: {
+          type: Date,
+          default: null,
+        },
+      },
+      changeEmail: {
+        hashed: {
+          type: String,
+          default: null,
+        },
+        expiry: {
+          type: Date,
+          default: null,
+        },
+      },
+      subScribeNewsLetter: {
         hashed: {
           type: String,
           default: null,

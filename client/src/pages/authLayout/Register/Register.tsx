@@ -13,7 +13,7 @@ import {
   emailField,
   nameFieldsArr,
   pwdField,
-} from "../../../config/fieldsArr/userFormFields";
+} from "../../../config/fieldsArr/basicFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 // import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
 
