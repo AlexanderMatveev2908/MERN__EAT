@@ -18,7 +18,7 @@ type ReturnToken = {
 };
 
 export const genTokenSHA = (
-  type: "auth" | "newsletter" | "manageAccount"
+  type: "auth" | "newsletter" | "manageAccount" | "verifyNewEmail"
 ): ReturnToken => {
   const token = crypto.randomBytes(64).toString("hex");
 
@@ -35,7 +35,7 @@ export const genTokenSHA = (
 export const checkTokenSHA = (
   receivedToken: string,
   storedToken: string,
-  type: "auth" | "newsletter" | "manageAccount"
+  type: "auth" | "newsletter" | "manageAccount" | "verifyNewEmail"
 ): boolean => {
   const hashedInput = crypto
     .createHmac("sha256", GET_SIGN(type)!)

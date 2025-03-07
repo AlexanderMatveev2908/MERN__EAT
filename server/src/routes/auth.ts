@@ -18,6 +18,7 @@ import {
 } from "../controllers/authControllers/verify";
 import { recoverPwd } from "../controllers/authControllers/recoverPwd";
 import { validatorSendEmail } from "../middleware/auth/validatorSendEmail";
+import { verifyAccessToken } from "./../middleware/general/verifyAccessToken";
 
 const router = express();
 
@@ -30,7 +31,7 @@ router.post(
   validatorLogin,
   asyncWrapper(loginUser)
 );
-router.post("/logout", asyncWrapper(logoutUser));
+router.post("/logout", verifyAccessToken, asyncWrapper(logoutUser));
 
 router.post(
   "/send-email",

@@ -48,7 +48,7 @@ export const changeEmail = async (
     token,
     hashedToken,
     expiryVerification: expiryVerification,
-  } = genTokenSHA("auth");
+  } = genTokenSHA("verifyNewEmail");
 
   user.tokens.verifyNewEmail = {
     hashed: hashedToken,
@@ -79,7 +79,7 @@ export const verifyChangeEmail = async (
   const isMatch = checkTokenSHA(
     token,
     user.tokens.verifyNewEmail.hashed,
-    "auth"
+    "verifyNewEmail"
   );
   const hasExpired =
     new Date(user.tokens.verifyNewEmail?.expiry ?? 0).getTime() < Date.now();
