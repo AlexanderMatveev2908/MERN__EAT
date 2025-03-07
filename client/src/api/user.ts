@@ -39,7 +39,7 @@ export const verifyNewEmailAPI = async (params: {
   userId: string;
   token: string;
 }) => {
-  const { data } = await foodAppInstance.post("/user-verify-new-email", params);
+  const { data } = await foodAppInstance.post("/user/verify-new-email", params);
 
   return data;
 };

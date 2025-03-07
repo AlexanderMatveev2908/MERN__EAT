@@ -4,6 +4,16 @@ import { useToast, useUser } from "./useGlobal";
 import { useCallback } from "react";
 import { URLsToNotPush } from "../config/URLsToHandle/URLsToHandle";
 
+export type HandleErrType = ({
+  err,
+  push,
+  toast,
+}: {
+  err: any;
+  push?: boolean;
+  toast?: boolean;
+}) => void;
+
 export const useHandleErr = () => {
   const { showToastMsg } = useToast();
   const navigate = useNavigate();
@@ -38,14 +48,6 @@ export const useHandleErr = () => {
         if (toast)
           showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
       }
-
-      // else if (
-      //   logUnauthorized &&
-      //   err?.response?.status === 401 &&
-      //   err?.response?.data?.msg !== "REFRESH TOKEN EXPIRED"
-      // ) {
-      //   showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
-      // }
     },
     [navigate, showToastMsg, logoutUser]
   );

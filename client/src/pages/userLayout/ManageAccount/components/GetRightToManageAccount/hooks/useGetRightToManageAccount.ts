@@ -24,7 +24,7 @@ export const useGetRightToManageAccount = ({
     formState: { errors },
     handleSubmit,
     setFocus,
-  } = useForm<GetRightManageAccountFormType>({ mode: "onBlur" });
+  } = useForm<GetRightManageAccountFormType>({ mode: "onChange" });
 
   useEffect(() => {
     setFocus("password");

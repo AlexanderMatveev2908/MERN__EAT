@@ -2,7 +2,7 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { JWTUserId } from "../middleware/general/verifyAccessToken";
 import { CompactEncrypt, jwtDecrypt } from "jose";
-import { getKeys, makeKeys } from "./formatPEM";
+import { getKeys, makeKeys } from "./keys";
 import {
   ACCESS_SIGN,
   EXPIRY_ACCESS,
@@ -103,7 +103,6 @@ export const checkTokenJWE = async (tokenJWE: string): Promise<any> => {
     const { payload } = await jwtDecrypt(tokenJWE, privateKey);
     return payload;
   } catch (err: any) {
-    // console.log(err);
     return false;
   }
 };

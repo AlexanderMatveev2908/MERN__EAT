@@ -1,19 +1,6 @@
 import Key from "../models/Key";
 import crypto from "crypto";
 
-// export const getFormattedPEMKeys = (typeKey: "PRIVATE" | "PUBLIC") => {
-//   const key =
-//     typeKey === "PRIVATE"
-//       ? process.env.REFRESH_PRIVATE_KEY
-//       : process.env.REFRESH_PUBLIC_KEY;
-
-//   const keyBase64 = Buffer.from(key!, "utf-8").toString("base64");
-
-//   const formattedKey = `-----BEGIN ${typeKey} KEY-----\n${keyBase64}\n-----END ${typeKey} KEY-----`;
-
-//   return formattedKey;
-// };
-
 export const getKeys = async () => {
   const keysArr = await Key.find({});
 
@@ -25,8 +12,6 @@ export const getKeys = async () => {
     keysArr[0].iV
   );
 
-  // const cryptoPublicKey = crypto.createPublicKey(keysArr[0].publicKey);
-  // const cryptoPrivateKey = crypto.createPrivateKey(keysArr[0].privateKey);
   const cryptoPublicKey = crypto.createPublicKey(decryptedPublicKey ?? "");
   const cryptoPrivateKey = crypto.createPrivateKey(decryptedPrivateKey ?? "");
 
@@ -57,11 +42,6 @@ export const makeKeys = async () => {
     publicKeyBase64
   );
 
-  // await Key.create({
-  //   publicKey: publicKeyBase64,
-  //   privateKey: privateKeyBase64,
-  //   // iV,
-  // });
   await Key.create({
     publicKey: encryptedPrivateKey,
     privateKey: encryptedPublicKey,
