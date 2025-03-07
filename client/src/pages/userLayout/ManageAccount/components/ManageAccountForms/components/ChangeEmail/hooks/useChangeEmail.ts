@@ -58,10 +58,14 @@ export const useChangeEmail = ({
     });
   });
 
+  const custom = (newEmail: string, oldEmail: string | undefined) =>
+    newEmail === oldEmail ? "New Email must be different from old one" : true;
+
   return {
     register,
     errors,
     handleSubmitChangeEmail,
     isPending,
+    custom,
   };
 };

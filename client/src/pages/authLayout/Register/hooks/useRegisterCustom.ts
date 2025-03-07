@@ -80,6 +80,11 @@ export const useRegisterCustom = () => {
     mutate(registerVals);
   });
 
+  const customPwd = (val: string) =>
+    val === watch("email") ? "Password must be different from email" : true;
+  const customConfirmPwd = (val: string) =>
+    val !== watch("password") ? "Passwords do not match 🤔" : true;
+
   return {
     register,
     errors,
@@ -91,5 +96,7 @@ export const useRegisterCustom = () => {
     handleChangeConfirmPwdVisibility,
     isPending,
     handleRegister,
+    customPwd,
+    customConfirmPwd,
   };
 };

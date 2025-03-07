@@ -26,6 +26,11 @@ export const useChangePwd = () => {
 
   const { mutate, isPending } = useMutation({});
 
+  const customPwd = (val: string, email: string) =>
+    val === email ? "Password must be different from email" : true;
+  const customConfirmPwd = (val: string) =>
+    val !== watch("password") ? "Passwords do not match 🤔" : true;
+
   return {
     register,
     errors,
@@ -34,5 +39,7 @@ export const useChangePwd = () => {
     handleChangeConfirmPwdVisibility,
     isConfirmPwdVisible,
     isPwdVisible,
+    customPwd,
+    customConfirmPwd,
   };
 };

@@ -7,18 +7,10 @@ type PropsType = {
   register: UseFormRegister<any>;
   errors: FieldErrors;
   field: AuthFieldUserType;
-  customWatch?: {
-    val: string | undefined;
-    msg: string;
-  } | null;
+  custom?: (val: any) => any;
 };
 
-const BaseFormField: FC<PropsType> = ({
-  register,
-  errors,
-  field,
-  customWatch,
-}) => {
+const BaseFormField: FC<PropsType> = ({ register, errors, field, custom }) => {
   return (
     <label className="grid grid-cols-1 gap-y-3">
       <span className="txt__02">{field.label}</span>
@@ -31,10 +23,7 @@ const BaseFormField: FC<PropsType> = ({
             required: `${field.label} is required`,
             validate: (val: string) => {
               if (!val || !field.reg.test(val)) return field.msg;
-              if (customWatch && customWatch.val === val)
-                return customWatch.msg;
-
-              return true;
+              return custom ? custom?.(val) : true;
             },
           }) as any)}
         />

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Eye, EyeOff } from "lucide-react";
 import { FC } from "react";
-import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { AuthPwdFieldType } from "../../../config/fieldsArr/authFieldsUser";
 
 type PropsType = {
@@ -10,23 +10,16 @@ type PropsType = {
   isVisible: boolean;
   handleChangeVisibility: () => void;
   field: AuthPwdFieldType;
-  watch?: UseFormWatch<any>;
-  customWatch?: {
-    val: string | undefined;
-    msg: string;
-  };
-  lookEmail?: boolean;
+  custom?: (val: any) => any;
 };
 
 const BasePwdField: FC<PropsType> = ({
   register,
   errors,
-  watch,
   isVisible,
-  customWatch,
   handleChangeVisibility,
   field,
-  lookEmail = false,
+  custom,
 }) => {
   const defOpt = {
     required: "Password is required",
@@ -35,24 +28,7 @@ const BasePwdField: FC<PropsType> = ({
       message: field.msg,
     },
     validate: (val: string) => {
-      if (watch && lookEmail) {
-        if (watch("email") === val)
-          return "Password and email can't be the same 🥸";
-      }
-
-      if (customWatch?.val === val) return customWatch.msg;
-
-      return true;
-    },
-  };
-
-  const confirmOpt = {
-    required: "You need to confirm password",
-    validate: (val: string) => {
-      if (watch) {
-        if (watch("password") !== val) return "Passwords do not match 🤔";
-      }
-      return true;
+      return custom ? custom(val) : true;
     },
   };
 
@@ -64,10 +40,7 @@ const BasePwdField: FC<PropsType> = ({
           type={isVisible ? "text" : "password"}
           className="input__auth_field "
           placeholder={field.place}
-          {...register(
-            field.field,
-            field.field === "password" ? defOpt : confirmOpt
-          )}
+          {...register(field.field, defOpt)}
         />
         <span
           onClick={() => handleChangeVisibility()}

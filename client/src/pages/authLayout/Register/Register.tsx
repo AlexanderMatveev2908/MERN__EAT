@@ -15,7 +15,6 @@ import {
   pwdFieldToAccess,
 } from "../../../config/fieldsArr/authFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
-// import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
 
 const Register: FC = () => {
   const {
@@ -28,6 +27,8 @@ const Register: FC = () => {
     handleChangeConfirmPwdVisibility,
     isPending,
     handleRegister,
+    customPwd,
+    customConfirmPwd,
   } = useRegisterCustom();
 
   return (
@@ -50,8 +51,7 @@ const Register: FC = () => {
               {...{
                 register,
                 errors,
-                watch,
-                lookEmail: true,
+                custom: customPwd,
                 isVisible: isPwdVisible,
                 handleChangeVisibility: handleChangePwdVisibility,
                 field: pwdFieldToAccess,
@@ -69,7 +69,7 @@ const Register: FC = () => {
               {...{
                 register,
                 errors,
-                watch,
+                custom: customConfirmPwd,
                 isVisible: isConfirmPwdVisible,
                 handleChangeVisibility: handleChangeConfirmPwdVisibility,
                 field: confirmPwdField,
