@@ -46,7 +46,7 @@ export const verifyAccount = async (
     const result = await NonLoggedUserNewsLetter.deleteOne({
       email: user.email,
     });
-    if (result?.deletedCount === 0) user.hasSubscribedToNewsletter = true;
+    if (result?.deletedCount === 1) user.hasSubscribedToNewsletter = true;
   }
 
   user.isVerified = true;

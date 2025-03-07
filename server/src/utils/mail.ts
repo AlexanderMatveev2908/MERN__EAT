@@ -49,7 +49,7 @@ export const sendSubScriptionNewsLetterConfirmed = async (
 ) => {
   if ([user, token].some((el) => !el)) return;
 
-  const unsubscribeURL = `${basePath}/unsubscribe-verify?userId=${user?._id}&token=${token}&typeUser=${typeUser}`;
+  const unsubscribeURL = `${basePath}/newsletter/verify-unsubscribe?userId=${user?._id}&token=${token}&typeUser=${typeUser}`;
 
   await transporterMail.sendMail({
     from: process.env.MAIL_USER,

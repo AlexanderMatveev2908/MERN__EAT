@@ -22,7 +22,7 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
 
   const isMatch = checkTokenSHA(
     token,
-    user.tokens.recoverPwd.expiry ?? "",
+    user.tokens.recoverPwd?.hashed ?? "",
     "auth"
   );
   if (hasExpired || !isMatch) {

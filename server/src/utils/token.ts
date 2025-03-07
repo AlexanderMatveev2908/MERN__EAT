@@ -4,9 +4,9 @@ import { JWTUserId } from "../middleware/general/verifyAccessToken";
 import { CompactEncrypt, jwtDecrypt } from "jose";
 import { getKeys, makeKeys } from "./formatPEM";
 
-const EXPIRY_ACCESS = "15m"; //basic access token
-const genExpiryAuth = () => new Date(Date.now() + 1000 * 60 * 5); //register, recover-pwd, verify-account
-const genExpiryRefresh = () => new Date(Date.now() + 1000 * 60 * 60); // refresh token for access token
+const EXPIRY_ACCESS = "10m"; //basic access token
+const genExpiryAuth = () => new Date(Date.now() + 1000 * 60 * 15); //register, recover-pwd, verify-account
+const genExpiryRefresh = () => new Date(Date.now() + 1000 * 60 * 30); // refresh token for access token
 const genExpiryNewsLetter = () => new Date(Date.now() + 1000 * 60 * 5); // newsletter unsubscribe
 
 type ReturnToken = {
@@ -15,7 +15,7 @@ type ReturnToken = {
   expiryVerification: Date;
 };
 
-export const genTokenSHA = (type: string): ReturnToken => {
+export const genTokenSHA = (type: "auth" | "newsletter"): ReturnToken => {
   const token = crypto.randomBytes(64).toString("hex");
 
   const sign =

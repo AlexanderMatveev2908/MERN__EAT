@@ -2,16 +2,19 @@ import { FC } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import MainLayoutRoute from "./layouts/mainLayout/MainLayoutRoute";
-import Login from "./pages/Auth/Login/Login";
-import Register from "./pages/Auth/Register/Register";
 import LayoutNonLoggedUserRoute from "./layouts/layoutNonLoggedUser/LayoutNonLoggedUserRoute";
 import NoticeEmail from "./pages/NoticeEmail/NoticeEmail";
 import { useApp } from "./hooks/useApp";
 import LayoutUserRoute from "./layouts/LayoutUserRoute/LayoutUserRoute";
-import UserProfile from "./pages/User/UserProfile/UserProfile";
-import Verify from "./pages/Auth/Verify/Verify";
-import RecoverPwd from "./pages/Auth/RecoverPwd/RecoverPwd";
-import SendEmail from "./pages/Auth/SendEmail/SendEmail";
+import LayoutNewsLetterRoute from "./layouts/layoutNewsLetter/LayoutNewsLetterRoute";
+import Login from "./pages/authLayout/Login/Login";
+import Register from "./pages/authLayout/Register/Register";
+import SendEmail from "./pages/authLayout/SendEmail/SendEmail";
+import Verify from "./pages/authLayout/Verify/Verify";
+import RecoverPwd from "./pages/authLayout/RecoverPwd/RecoverPwd";
+import UserProfile from "./pages/userLayout/UserProfile/UserProfile";
+import VerifyUnsubScribeNewsLetter from "./pages/newsLetterLayout/VerifyUnsubScribeNewsLetter/VerifyUnsubScribeNewsLetter";
+import NoticeUnSubscribe from "./pages/newsLetterLayout/NoticeUnSubscribe/NoticeUnSubscribe";
 // import CallbackAuth from "./pages/CallbackAuth/CallbackAuth";
 
 const App: FC = () => {
@@ -39,6 +42,18 @@ const App: FC = () => {
         </Route>
 
         <Route path="notice-email" element={<NoticeEmail />} />
+
+        <Route path="newsletter" element={<LayoutNewsLetterRoute />}>
+          <Route
+            path="verify-unsubscribe"
+            element={<VerifyUnsubScribeNewsLetter />}
+          />
+
+          <Route
+            path="notice-unsubscribe-with-retry"
+            element={<NoticeUnSubscribe />}
+          />
+        </Route>
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
