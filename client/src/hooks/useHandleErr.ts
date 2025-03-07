@@ -21,19 +21,18 @@ export const useHandleErr = () => {
     }) => {
       console.log(err);
 
-      if (err?.response?.status === 401) {
-        if (err?.response?.config?.url === "/auth/refresh") {
-          logoutUser();
-          showToastMsg("SESSION EXPIRED", "ERROR");
-        } else if (URLsToNotPush.includes(err?.response?.config?.url)) {
-          showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+      if ([401, 403, 429].includes(err?.response?.status)) {
+        if (err?.response?.status === 401) {
+          if (err?.response?.config?.url === "/auth/refresh") {
+            logoutUser();
+            showToastMsg("SESSION EXPIRED", "ERROR");
+          } else if (URLsToNotPush.includes(err?.response?.config?.url)) {
+            showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+          }
         } else {
           navigate("/", { replace: true });
           showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
         }
-      } else if ([403, 429].includes(err?.response?.status)) {
-        navigate("/", { replace: true });
-        showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
       } else {
         if (push) navigate("/", { replace: true });
         if (toast)

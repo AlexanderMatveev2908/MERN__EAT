@@ -36,7 +36,6 @@ export const useGetRightToManageAccount = ({
       setCanManageAccount(data.manageAccountToken);
     },
     onError: (err: any) => {
-      console.log(err);
       if (err?.response?.status === 429) logoutUser();
 
       showToastMsg(err?.response?.data?.msg || err.message, "ERROR");

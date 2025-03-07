@@ -84,18 +84,27 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
 export const logoutUser = async (req: Request, res: Response): Promise<any> => {
   const { refreshToken } = req.cookies;
 
-  const isMatch = await checkTokenJWE(refreshToken ?? "");
-  if (!isMatch) return baseErrResponse(res, 400, "REFRESH TOKEN NOT PROVIDED");
+  const user = await User.findOne({
+    "tokens.refresh.hashed": refreshToken ?? "",
+  });
 
-  const user = await User.findOne({ "tokens.refresh.hashed": refreshToken });
-  if (!user) return userNotFound(res);
+  if (user) {
+    user.tokens = {
+      ...user.tokens,
+      refresh: {
+        hashed: null,
+        expiry: null,
+      },
+      manageAccount: {
+        hashed: null,
+        expiry: null,
+      },
+    };
 
-  user.tokens.refresh.hashed = null;
-  user.tokens.refresh.expiry = null;
+    await user.save();
 
-  await user.save();
-
-  res.cookie("refreshToken", "", { expires: new Date(0) });
+    res.cookie("refreshToken", "", { expires: new Date(0) });
+  }
 
   return res
     .status(200)

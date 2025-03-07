@@ -31,7 +31,7 @@ router.post(
   validatorLogin,
   asyncWrapper(loginUser)
 );
-router.post("/logout", verifyAccessToken, asyncWrapper(logoutUser));
+router.post("/logout", asyncWrapper(logoutUser));
 
 router.post(
   "/send-email",

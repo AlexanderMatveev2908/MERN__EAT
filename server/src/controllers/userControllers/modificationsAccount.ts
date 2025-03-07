@@ -4,6 +4,7 @@ import User from "../../models/User";
 import {
   badRequest,
   baseErrResponse,
+  unauthorizedErr,
   userNotFound,
 } from "../../utils/baseErrResponse";
 import { checkTokenSHA, genTokenSHA } from "../../utils/token";
@@ -19,7 +20,8 @@ export const changeEmail = async (
   const user = await User.findById(userId);
   if (!user) return userNotFound(res);
   if (user.email === newEmail) return badRequest(res);
-  if (!user.tokens.manageAccount?.hashed) return badRequest(res);
+  if (!user.tokens.manageAccount?.hashed)
+    return unauthorizedErr(res, "Verification token not emitted");
 
   const isMatch = checkTokenSHA(
     manageAccountToken,
@@ -74,7 +76,8 @@ export const verifyChangeEmail = async (
 
   const user = await User.findById(userId);
   if (!user) return userNotFound(res);
-  if (!user.tokens.verifyNewEmail?.hashed) return badRequest(res);
+  if (!user.tokens.verifyNewEmail?.hashed)
+    return unauthorizedErr(res, "Verification token not emitted");
 
   const isMatch = checkTokenSHA(
     token,
