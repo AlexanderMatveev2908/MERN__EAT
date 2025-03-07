@@ -6,6 +6,7 @@ type PropsType = {
   isNextDisabled: boolean;
   handlePrev: () => void;
   handleNext: () => void;
+  bothDisabled: boolean;
 };
 
 const ButtonsForms: FC<PropsType> = ({
@@ -13,6 +14,7 @@ const ButtonsForms: FC<PropsType> = ({
   isNextDisabled,
   handlePrev,
   handleNext,
+  bothDisabled,
 }) => {
   return (
     <div className="w-full flex justify-between">
@@ -23,7 +25,7 @@ const ButtonsForms: FC<PropsType> = ({
             styleTxt: "txt__02",
             label: "Prev",
             handleClick: handlePrev,
-            isDisabled: isPrevDisabled,
+            isDisabled: bothDisabled || isPrevDisabled,
           }}
         />
       </div>
@@ -35,7 +37,7 @@ const ButtonsForms: FC<PropsType> = ({
             styleTxt: "txt__02",
             label: "Next",
             handleClick: handleNext,
-            isDisabled: isNextDisabled,
+            isDisabled: bothDisabled || isNextDisabled,
           }}
         />
       </div>

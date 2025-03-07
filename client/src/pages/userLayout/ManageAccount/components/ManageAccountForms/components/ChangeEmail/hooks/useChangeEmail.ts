@@ -7,13 +7,16 @@ import { useMutation } from "@tanstack/react-query";
 import { changeEmailAPI } from "../../../../../../../../api/user";
 import { ShowToastType } from "../../../../../../../../types/toastTypes";
 import { useLocation, useNavigate } from "react-router-dom";
+import { HandleErrType } from "../../../../../../../../hooks/useHandleErr";
 
 export const useChangeEmail = ({
   showToastMsg,
   handleErrAPI,
+  setIsChildLoading,
 }: {
   showToastMsg: ShowToastType;
-  handleErrAPI: ({ err }: { err: any }) => void;
+  handleErrAPI: HandleErrType;
+  setIsChildLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,8 +33,10 @@ export const useChangeEmail = ({
   }, [setFocus]);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (params: { newEmail: string; manageAccountToken: string }) =>
-      changeEmailAPI(params),
+    mutationFn: (params: { newEmail: string; manageAccountToken: string }) => {
+      setIsChildLoading(true);
+      return changeEmailAPI(params);
+    },
     onSuccess: () => {
       showToastMsg("Email changed successfully!", "SUCCESS");
       navigate("/notice-email?type=change-email", {
@@ -40,6 +45,9 @@ export const useChangeEmail = ({
     },
     onError: (err: any) => {
       handleErrAPI({ err });
+    },
+    onSettled: () => {
+      setIsChildLoading(false);
     },
   });
 

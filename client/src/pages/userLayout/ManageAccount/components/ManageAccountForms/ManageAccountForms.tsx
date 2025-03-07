@@ -6,11 +6,17 @@ import ChangePwd from "./components/ChangePwd/ChangePwd";
 import DeleteAccount from "./components/DeleteAccount/DeleteAccount";
 import { CurrUserType } from "../../../../../types/userTypes";
 import { ShowToastType } from "../../../../../types/toastTypes";
+import { HandleErrType } from "../../../../../hooks/useHandleErr";
 
 type PropsType = {
   currUser: CurrUserType | null;
   showToastMsg: ShowToastType;
 };
+
+export type PropsForChildren = {
+  setIsChildLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  handleErrAPI: HandleErrType;
+} & PropsType;
 
 const ManageAccountForms: FC<PropsType> = ({ currUser, showToastMsg }) => {
   const {
@@ -20,6 +26,8 @@ const ManageAccountForms: FC<PropsType> = ({ currUser, showToastMsg }) => {
     isPrevDisabled,
     isNextDisabled,
     handleErrAPI,
+    isChildLoading,
+    setIsChildLoading,
   } = useManageAccountForms();
 
   return (
@@ -30,17 +38,25 @@ const ManageAccountForms: FC<PropsType> = ({ currUser, showToastMsg }) => {
             className="w-[300%] grid grid-cols-3 transition-all duration-500"
             style={{ transform: `translateX(-${(currForm * 100) / 3}%)` }}
           >
-            <ChangeEmail {...{ currUser, showToastMsg, handleErrAPI }} />
+            <ChangeEmail
+              {...{
+                currUser,
+                showToastMsg,
+                handleErrAPI,
+                setIsChildLoading,
+              }}
+            />
 
-            <ChangePwd />
+            <ChangePwd {...{ setIsChildLoading }} />
 
-            <DeleteAccount />
+            <DeleteAccount {...{ setIsChildLoading }} />
           </div>
         </div>
       </div>
 
       <ButtonsForms
         {...{
+          bothDisabled: isChildLoading,
           isPrevDisabled,
           isNextDisabled,
           handlePrev,

@@ -90,7 +90,6 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
 
   if (user) {
     user.tokens = {
-      ...user.tokens,
       refresh: {
         hashed: null,
         expiry: null,
