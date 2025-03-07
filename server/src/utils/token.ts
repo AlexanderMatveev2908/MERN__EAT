@@ -5,9 +5,10 @@ import { CompactEncrypt, jwtDecrypt } from "jose";
 import { getKeys, makeKeys } from "./formatPEM";
 
 const EXPIRY_ACCESS = "10m"; //basic access token
-const genExpiryAuth = () => new Date(Date.now() + 1000 * 60 * 15); //register, recover-pwd, verify-account
-const genExpiryRefresh = () => new Date(Date.now() + 1000 * 60 * 30); // refresh token for access token
-const genExpiryNewsLetter = () => new Date(Date.now() + 1000 * 60 * 5); // newsletter unsubscribe
+const GEN_EXPIRY_AUTH = () => new Date(Date.now() + 1000 * 60 * 15); //register, recover-pwd, verify-account
+const GEN_EXPIRY_REFRESH = () => new Date(Date.now() + 1000 * 60 * 60); // refresh token for access token
+const GEN_EXPIRY_NEWSLETTER = () => new Date(Date.now() + 1000 * 60 * 30); // newsletter unsubscribe
+const GEN_EXPIRY_MANAGE_ACCOUNT = () => new Date(Date.now() + 1000 * 60 * 15); // manage-account
 
 type ReturnToken = {
   token: string;
@@ -15,19 +16,25 @@ type ReturnToken = {
   expiryVerification: Date;
 };
 
-export const genTokenSHA = (type: "auth" | "newsletter"): ReturnToken => {
+const GET_SIGN = (type: "auth" | "newsletter" | "manageAccount") =>
+  type === "auth"
+    ? process.env.AUTH_SIGN
+    : type === "newsletter"
+    ? process.env.NEWSLETTER_SIGN
+    : process.env.MANAGE_ACCOUNT_SIGN;
+
+export const genTokenSHA = (
+  type: "auth" | "newsletter" | "manageAccount"
+): ReturnToken => {
   const token = crypto.randomBytes(64).toString("hex");
 
-  const sign =
-    type === "auth" ? process.env.AUTH_SIGN : process.env.NEWSLETTER_SIGN;
-
   const hashedToken = crypto
-    .createHmac("sha256", sign!)
+    .createHmac("sha256", GET_SIGN(type)!)
     .update(token)
     .digest("hex");
 
   const expiryVerification =
-    type === "auth" ? genExpiryAuth() : genExpiryNewsLetter();
+    type === "auth" ? GEN_EXPIRY_AUTH() : GEN_EXPIRY_NEWSLETTER();
 
   return { token, hashedToken, expiryVerification };
 };
@@ -35,13 +42,10 @@ export const genTokenSHA = (type: "auth" | "newsletter"): ReturnToken => {
 export const checkTokenSHA = (
   receivedToken: string,
   storedToken: string,
-  type: string
+  type: "auth" | "newsletter" | "manageAccount"
 ): boolean => {
-  const sign =
-    type === "auth" ? process.env.AUTH_SIGN : process.env.NEWSLETTER_SIGN;
-
   const hashedInput = crypto
-    .createHmac("sha256", sign!)
+    .createHmac("sha256", GET_SIGN(type)!)
     .update(receivedToken)
     .digest("hex");
 
@@ -81,7 +85,7 @@ export const genTokenJWE = async (userId: string): Promise<any> => {
     .setProtectedHeader({ alg: "RSA-OAEP", enc: "A256GCM" })
     .encrypt(publicKey);
 
-  const expiry = genExpiryRefresh();
+  const expiry = GEN_EXPIRY_REFRESH();
 
   return { jwe, expiry };
 

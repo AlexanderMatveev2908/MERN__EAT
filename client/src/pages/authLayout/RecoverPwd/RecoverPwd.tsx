@@ -8,7 +8,7 @@ import { useRecoverPwd } from "./hooks/useRecoverPwd";
 import PasswordLength from "../../../components/commonCompForms/PasswordLength/PasswordLength";
 import {
   confirmPwdField,
-  pwdField,
+  pwdFieldToMakeNew,
 } from "../../../config/fieldsArr/basicFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
@@ -46,7 +46,7 @@ const RecoverPwd: FC = () => {
                 errors,
                 isVisible: isPwdVisible,
                 handleChangeVisibility: handleChangePwdVisibility,
-                field: pwdField,
+                field: pwdFieldToMakeNew,
               }}
             />
             {!!Object.keys(errors?.password ?? {})?.length && (

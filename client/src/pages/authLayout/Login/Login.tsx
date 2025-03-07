@@ -6,7 +6,7 @@ import SwitchForm from "../../../components/commonCompForms/SwitchForm/SwitchFor
 import { useLoginCustom } from "./hooks/useLoginCustom";
 import {
   emailField,
-  pwdField,
+  pwdFieldToAccess,
 } from "../../../config/fieldsArr/basicFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
@@ -35,7 +35,7 @@ const Login: FC = () => {
                 errors,
                 isVisible: isPwdVisible,
                 handleChangeVisibility: () => setIsPwdVisible(!isPwdVisible),
-                field: pwdField,
+                field: pwdFieldToAccess,
               }}
             />
 

@@ -1,14 +1,18 @@
-import { SET_CURR_USER, SET_IS_LOGGED } from "../context/actions/userActions";
+import {
+  SET_CAN_MANAGE_ACCOUNT,
+  SET_CURR_USER,
+  SET_IS_LOGGED,
+} from "../context/actions/userActions";
 
 export type ChangeEmailFormType = {
   newEmail: string;
   password: string;
 };
-export type ChangePwdFormTypeStep_1 = {
+export type GetRightManageAccountFormType = {
   password: string;
 };
 
-export type ChangePwdFormTypeStep_2 = {
+export type ChangePwdFormTypeStep = {
   password: string;
   confirmPassword: string;
 };
@@ -27,6 +31,7 @@ export type CurrUserType = {
 export type UserStateType = {
   currUser: null | CurrUserType;
   isLogged: boolean;
+  canManageAccount: boolean;
 };
 
 export type UserActionTypes =
@@ -37,9 +42,15 @@ export type UserActionTypes =
   | {
       type: typeof SET_CURR_USER;
       payload: CurrUserType | null;
+    }
+  | {
+      type: typeof SET_CAN_MANAGE_ACCOUNT;
+      payload: boolean;
     };
 
 export type UserValsType = UserStateType & {
   setCurrUser: ({ user }: { user: CurrUserType | null }) => void;
-  setUserLogged: (token?: string | boolean) => void;
+  setUserLogged: (val?: string | boolean) => void;
+  setCanManageAccount: (val: string | boolean) => void;
+  logoutUser: () => void;
 };

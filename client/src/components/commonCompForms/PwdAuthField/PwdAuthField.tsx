@@ -2,12 +2,12 @@
 import { Eye, EyeOff } from "lucide-react";
 import { FC } from "react";
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
-import { REG_PWD } from "../../../constants/regex";
 
 type PropsType = {
   register: UseFormRegister<any>;
   errors: FieldErrors;
   watch?: UseFormWatch<any>;
+  lookEmail?: boolean;
   isVisible: boolean;
   handleChangeVisibility: () => void;
   field: {
@@ -15,6 +15,8 @@ type PropsType = {
     label: string;
     field: string;
     place: string;
+    reg: RegExp;
+    msg: string;
   };
 };
 
@@ -25,15 +27,16 @@ const PwdAuthField: FC<PropsType> = ({
   isVisible,
   handleChangeVisibility,
   field,
+  lookEmail = false,
 }) => {
   const defOpt = {
     required: "Password is required",
     pattern: {
-      value: REG_PWD,
-      message: `Password must follow this pattern: ${/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/} 🧐`,
+      value: field.reg,
+      message: field.msg,
     },
     validate: (val: string) => {
-      if (watch) {
+      if (watch && lookEmail) {
         if (watch("email") === val)
           return "Password and email can't be the same 🥸";
       }

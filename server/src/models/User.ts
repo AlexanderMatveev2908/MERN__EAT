@@ -145,27 +145,7 @@ const UserSchema = new mongoose.Schema(
           default: null,
         },
       },
-      changePwd: {
-        hashed: {
-          type: String,
-          default: null,
-        },
-        expiry: {
-          type: Date,
-          default: null,
-        },
-      },
-      changeEmail: {
-        hashed: {
-          type: String,
-          default: null,
-        },
-        expiry: {
-          type: Date,
-          default: null,
-        },
-      },
-      subScribeNewsLetter: {
+      manageAccount: {
         hashed: {
           type: String,
           default: null,

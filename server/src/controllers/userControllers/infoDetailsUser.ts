@@ -1,12 +1,8 @@
 import { Request, Response } from "express";
-import User from "../models/User";
-import { RequestWithUserId } from "../middleware/general/verifyAccessToken";
+import User from "../../models/User";
+import { RequestWithUserId } from "../../middleware/general/verifyAccessToken";
 import mongoose from "mongoose";
-import {
-  badRequest,
-  baseErrResponse,
-  userNotFound,
-} from "../utils/baseErrResponse";
+import { badRequest, userNotFound } from "../../utils/baseErrResponse";
 
 export const getUserInfo = async (
   req: Request,

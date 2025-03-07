@@ -7,7 +7,7 @@ import { URLsToNotPush } from "../config/URLsToHandle/URLsToHandle";
 export const useHandleErr = () => {
   const { showToastMsg } = useToast();
   const navigate = useNavigate();
-  const { setUserLogged } = useUser();
+  const { logoutUser } = useUser();
 
   const handleErrAPI = useCallback(
     ({
@@ -23,7 +23,7 @@ export const useHandleErr = () => {
 
       if (err?.response?.status === 401) {
         if (err?.response?.config?.url === "/auth/refresh") {
-          setUserLogged(false);
+          logoutUser();
           showToastMsg("SESSION EXPIRED", "ERROR");
         } else if (URLsToNotPush.includes(err?.response?.config?.url)) {
           showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
@@ -48,7 +48,7 @@ export const useHandleErr = () => {
       //   showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
       // }
     },
-    [navigate, showToastMsg, setUserLogged]
+    [navigate, showToastMsg, logoutUser]
   );
 
   return { handleErrAPI };

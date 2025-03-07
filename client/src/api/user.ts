@@ -18,3 +18,11 @@ export const updateUserProfileAPI = async (params: UserDataFormType) => {
 
   return data;
 };
+
+export const getRightManageAccountAPI = async (password: string) => {
+  const { data } = await foodAppInstance.post("/user/manage-account", {
+    password,
+  });
+
+  return data;
+};

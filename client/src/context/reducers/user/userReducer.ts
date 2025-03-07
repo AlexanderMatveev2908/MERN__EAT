@@ -1,4 +1,8 @@
-import { SET_CURR_USER, SET_IS_LOGGED } from "../../actions/userActions";
+import {
+  SET_CAN_MANAGE_ACCOUNT,
+  SET_CURR_USER,
+  SET_IS_LOGGED,
+} from "../../actions/userActions";
 import { RootActionTypes } from "../../root/rootTypes";
 
 export const userReducer = (userState, action: RootActionTypes) => {
@@ -13,6 +17,12 @@ export const userReducer = (userState, action: RootActionTypes) => {
       return {
         ...userState,
         currUser: action.payload,
+      };
+    }
+    case SET_CAN_MANAGE_ACCOUNT: {
+      return {
+        ...userState,
+        canManageAccount: action.payload,
       };
     }
 

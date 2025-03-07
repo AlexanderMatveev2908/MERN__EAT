@@ -3,11 +3,14 @@ import {
   getUserInfo,
   getUserProfileDetails,
   updateProfileDetails,
-} from "../controllers/userControllers";
+} from "../controllers/userControllers/infoDetailsUser";
 import { asyncWrapper } from "../middleware/general/asyncWrapper";
 import { getUserId } from "../middleware/general/getUserId";
 import { validatorProfileDetails } from "../middleware/user/validatorProfileDetails";
 import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
+import { validatorManageAccount } from "../middleware/user/validatorManageAccount";
+import { getRightManageAccount } from "../controllers/userControllers/manageAccount";
+import { manageAccountLimiter } from "../middleware/user/limiterManageAccount";
 
 const router = express();
 
@@ -21,5 +24,13 @@ router
     validatorProfileDetails,
     asyncWrapper(updateProfileDetails)
   );
+
+router.post(
+  "/manage-account",
+  verifyAccessToken,
+  manageAccountLimiter,
+  validatorManageAccount,
+  asyncWrapper(getRightManageAccount)
+);
 
 export default router;
