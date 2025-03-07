@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useCreateTanStackSendEmail } from "./useCreateTanStackSendEmail";
 import {
-  emailAllowedFrom,
-  emailAllowedType,
+  allowedFromAuthEmail,
+  allowedFromAuthType,
 } from "../../../../config/allowedPathsAndQuery/pathsAndTypes";
 import { sendUserEmailAPI } from "../../../../api/auth";
 import { validateStrWithArr } from "../../../../utils/validateStr";
@@ -25,8 +25,8 @@ export const useSendEmail = () => {
   const type = searchParams.get("type");
 
   const canStay =
-    validateStrWithArr(emailAllowedFrom, from) &&
-    validateStrWithArr(emailAllowedType, type ?? "");
+    validateStrWithArr(allowedFromAuthEmail, from) &&
+    validateStrWithArr(allowedFromAuthType, type ?? "");
 
   const {
     register,

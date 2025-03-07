@@ -6,7 +6,14 @@ export const useManageAccount = () => {
 
   const { showToastMsg } = useToast();
 
-  const { setCanManageAccount, canManageAccount, logoutUser } = useUser();
+  const { setCanManageAccount, canManageAccount, logoutUser, currUser } =
+    useUser();
 
-  return { showToastMsg, canManageAccount, setCanManageAccount, logoutUser };
+  return {
+    showToastMsg,
+    canManageAccount,
+    setCanManageAccount,
+    logoutUser,
+    currUser,
+  };
 };

@@ -64,3 +64,19 @@ export const sendSubScriptionNewsLetterConfirmed = async (
         : TXT_UNSUBSCRIBE_NEWSLETTER(unsubscribeURL),
   });
 };
+
+export const sendEmailChangeAccountEmail = async (
+  user: UserType,
+  token: string
+) => {
+  if (!token || !Object.keys(user ?? {})?.length) return;
+
+  const verifyEmailURL = `${basePath}/user/verify-new-email?userId=${user._id}&token=${token}`;
+
+  await transporterMail.sendMail({
+    from: process.env.MAIL_USER,
+    to: user?.tempNewEmail as string,
+    subject: "VERIFY NEW EMAIL",
+    text: `Click the link to be redirected to our app and verify your new email ✌🏼: ${verifyEmailURL}`,
+  });
+};

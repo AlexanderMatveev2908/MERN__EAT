@@ -4,11 +4,12 @@ import PwdAuthField from "../../../../../components/commonCompForms/PwdAuthField
 import { pwdFieldToAccess } from "../../../../../config/fieldsArr/basicFieldsUser";
 import ButtonBasic from "../../../../../components/buttons/ButtonBasic/ButtonBasic";
 import SpinnerBtnReact from "../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
+import { ShowToastType } from "../../../../../types/toastTypes";
 
 type PropsType = {
   setCanManageAccount: (val: string | boolean) => void;
   logoutUser: () => void;
-  showToastMsg: (msg: string, type: "SUCCESS" | "ERROR") => void;
+  showToastMsg: ShowToastType;
 };
 
 const GetRightToManageAccount: FC<PropsType> = ({

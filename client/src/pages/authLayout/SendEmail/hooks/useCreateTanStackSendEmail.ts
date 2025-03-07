@@ -33,7 +33,7 @@ export const useCreateTanStackSendEmail = ({
       callAPI({ email, type }),
     onSuccess: () => {
       reset();
-      showToastMsg("Email sent successfully", "SUCCESS");
+      showToastMsg("Verification Email sent successfully", "SUCCESS");
       navigate(`/notice-email?type=${type ?? ""}`, {
         state: { from },
       });

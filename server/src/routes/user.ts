@@ -11,6 +11,13 @@ import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
 import { validatorManageAccount } from "../middleware/user/validatorManageAccount";
 import { getRightManageAccount } from "../controllers/userControllers/manageAccount";
 import { manageAccountLimiter } from "../middleware/user/limiterManageAccount";
+import { makeLimiter } from "../utils/makeLimiter";
+import { validatorChangeEmail } from "./../middleware/user/validatorChangeEmail";
+import {
+  changeEmail,
+  verifyChangeEmail,
+} from "../controllers/userControllers/modificationsAccount";
+import { validatorVerifyEmail } from "../middleware/user/validatorVerifyEmail";
 
 const router = express();
 
@@ -31,6 +38,22 @@ router.post(
   manageAccountLimiter,
   validatorManageAccount,
   asyncWrapper(getRightManageAccount)
+);
+
+router.patch(
+  "/change-email",
+  verifyAccessToken,
+  makeLimiter({ max: 3 }),
+  validatorChangeEmail,
+  asyncWrapper(changeEmail)
+);
+
+router.post(
+  "/verify-new-email",
+  verifyAccessToken,
+  makeLimiter({ max: 3 }),
+  validatorVerifyEmail,
+  asyncWrapper(verifyChangeEmail)
 );
 
 export default router;

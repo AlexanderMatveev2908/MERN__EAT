@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { GetRightManageAccountFormType } from "../../../../../../types/userTypes";
 import { useMutation } from "@tanstack/react-query";
 import { getRightManageAccountAPI } from "../../../../../../api/user";
+import { ShowToastType } from "../../../../../../types/toastTypes";
 
 export const useGetRightToManageAccount = ({
   logoutUser,
@@ -12,7 +13,7 @@ export const useGetRightToManageAccount = ({
 }: {
   logoutUser: () => void;
   setCanManageAccount: (val: string | boolean) => void;
-  showToastMsg: (msg: string, type: "SUCCESS" | "ERROR") => void;
+  showToastMsg: ShowToastType;
 }) => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
 
@@ -22,7 +23,12 @@ export const useGetRightToManageAccount = ({
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<GetRightManageAccountFormType>({ mode: "onSubmit" });
+    setFocus,
+  } = useForm<GetRightManageAccountFormType>({ mode: "onBlur" });
+
+  useEffect(() => {
+    setFocus("password");
+  }, [setFocus]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: (password: string) => getRightManageAccountAPI(password),
@@ -37,7 +43,9 @@ export const useGetRightToManageAccount = ({
     },
   });
 
-  const submitManageForm = handleSubmit((data) => mutate(data.password));
+  const submitManageForm = handleSubmit((data) => {
+    mutate(data.password);
+  });
 
   return {
     register,

@@ -13,9 +13,18 @@ type PropsType = {
     svg: any;
     type: string;
   };
+  customWatch?: {
+    val: string | undefined;
+    msg: string;
+  } | null;
 };
 
-const BasicAuthField: FC<PropsType> = ({ register, errors, field }) => {
+const BasicAuthField: FC<PropsType> = ({
+  register,
+  errors,
+  field,
+  customWatch,
+}) => {
   return (
     <label className="grid grid-cols-1 gap-y-3">
       <span className="txt__02">{field.label}</span>
@@ -28,6 +37,10 @@ const BasicAuthField: FC<PropsType> = ({ register, errors, field }) => {
             required: `${field.label} is required`,
             validate: (val: string) => {
               if (!val || !field.reg.test(val)) return field.msg;
+              if (customWatch && customWatch.val === val)
+                return customWatch.msg;
+
+              return true;
             },
           }) as any)}
         />

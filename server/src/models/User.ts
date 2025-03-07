@@ -5,6 +5,7 @@ export type UserType = {
   firstName: string;
   lastName: string;
   email: string;
+  tempNewEmail: string | null;
   password: string;
   address: {
     country: string | null;
@@ -30,11 +31,15 @@ export type UserType = {
       hashed: string | null;
       expiry: Date | null;
     };
-    subScribeNewsLetter: {
+    unSubScribeNewsLetter: {
       hashed: string | null;
       expiry: Date | null;
     };
-    unSubScribeNewsLetter: {
+    manageAccount: {
+      hashed: string | null;
+      expiry: Date | null;
+    };
+    verifyNewEmail: {
       hashed: string | null;
       expiry: Date | null;
     };
@@ -146,6 +151,16 @@ const UserSchema = new mongoose.Schema(
         },
       },
       manageAccount: {
+        hashed: {
+          type: String,
+          default: null,
+        },
+        expiry: {
+          type: Date,
+          default: null,
+        },
+      },
+      verifyNewEmail: {
         hashed: {
           type: String,
           default: null,
