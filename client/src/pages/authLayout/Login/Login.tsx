@@ -1,13 +1,13 @@
 import { FC, useState } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
-import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
-import PwdAuthField from "../../../components/commonCompForms/PwdAuthField/PwdAuthField";
+import BaseFormField from "../../../components/commonCompForms/BaseFormField/BaseFormField";
+import BasePwdField from "../../../components/commonCompForms/BasePwdField/BasePwdField";
 import SwitchForm from "../../../components/commonCompForms/SwitchForm/SwitchForm";
 import { useLoginCustom } from "./hooks/useLoginCustom";
 import {
   emailField,
   pwdFieldToAccess,
-} from "../../../config/fieldsArr/basicFieldsUser";
+} from "../../../config/fieldsArr/authFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const Login: FC = () => {
@@ -27,9 +27,9 @@ const Login: FC = () => {
             className="grid grid-cols-1 w-full gap-y-8"
           >
             {/* <EmailField {...{ register, errors }} /> */}
-            <BasicAuthField {...{ register, errors, field: emailField }} />
+            <BaseFormField {...{ register, errors, field: emailField }} />
 
-            <PwdAuthField
+            <BasePwdField
               {...{
                 register,
                 errors,

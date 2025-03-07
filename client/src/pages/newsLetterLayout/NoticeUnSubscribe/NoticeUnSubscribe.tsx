@@ -3,8 +3,8 @@ import { FC } from "react";
 import { useNoticeUnSubscribe } from "./useNoticeUnSubscribe";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
-import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
-import { emailField } from "../../../config/fieldsArr/basicFieldsUser";
+import BaseFormField from "../../../components/commonCompForms/BaseFormField/BaseFormField";
+import { emailField } from "../../../config/fieldsArr/authFieldsUser";
 import { Navigate } from "react-router-dom";
 
 const NoticeUnSubscribe: FC = () => {
@@ -38,7 +38,7 @@ const NoticeUnSubscribe: FC = () => {
             onSubmit={handleSubmitEmail}
             className="grid grid-cols-1 w-full gap-y-8"
           >
-            <BasicAuthField {...{ register, errors, field: emailField }} />
+            <BaseFormField {...{ register, errors, field: emailField }} />
 
             {isPending ? (
               <SpinnerBtnReact />

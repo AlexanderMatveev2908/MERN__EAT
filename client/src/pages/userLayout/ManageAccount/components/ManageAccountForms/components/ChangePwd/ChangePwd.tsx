@@ -1,12 +1,12 @@
 import { FC } from "react";
 import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import ButtonBasic from "../../../../../../../components/buttons/ButtonBasic/ButtonBasic";
-import PwdAuthField from "../../../../../../../components/commonCompForms/PwdAuthField/PwdAuthField";
+import BasePwdField from "../../../../../../../components/commonCompForms/BasePwdField/BasePwdField";
 import { useChangePwd } from "./hooks/useChangePwd";
 import {
   confirmPwdField,
   pwdFieldToChangeOldPwd,
-} from "../../../../../../../config/fieldsArr/basicFieldsUser";
+} from "../../../../../../../config/fieldsArr/authFieldsUser";
 import PasswordChecker from "../../../../../../../components/commonCompForms/PasswordChecker/PasswordChecker";
 import PasswordLength from "../../../../../../../components/commonCompForms/PasswordLength/PasswordLength";
 import { PropsForChildren } from "../../ManageAccountForms";
@@ -33,7 +33,7 @@ const ChangePwd: FC<PropsForChildren> = ({
 
       <form className="w-full grid grid-cols-1 justify-items-center gap-y-5">
         <div className="w-full">
-          <PwdAuthField
+          <BasePwdField
             {...{
               field: pwdFieldToChangeOldPwd,
               register,
@@ -57,7 +57,7 @@ const ChangePwd: FC<PropsForChildren> = ({
         )}
 
         <div className="w-full">
-          <PwdAuthField
+          <BasePwdField
             {...{
               field: confirmPwdField,
               register,

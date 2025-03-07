@@ -2,29 +2,23 @@
 import { Eye, EyeOff } from "lucide-react";
 import { FC } from "react";
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
+import { AuthPwdFieldType } from "../../../config/fieldsArr/authFieldsUser";
 
 type PropsType = {
   register: UseFormRegister<any>;
   errors: FieldErrors;
+  isVisible: boolean;
+  handleChangeVisibility: () => void;
+  field: AuthPwdFieldType;
   watch?: UseFormWatch<any>;
   customWatch?: {
     val: string | undefined;
     msg: string;
   };
   lookEmail?: boolean;
-  isVisible: boolean;
-  handleChangeVisibility: () => void;
-  field: {
-    id: string;
-    label: string;
-    field: string;
-    place: string;
-    reg: RegExp;
-    msg: string;
-  };
 };
 
-const PwdAuthField: FC<PropsType> = ({
+const BasePwdField: FC<PropsType> = ({
   register,
   errors,
   watch,
@@ -94,4 +88,4 @@ const PwdAuthField: FC<PropsType> = ({
     </label>
   );
 };
-export default PwdAuthField;
+export default BasePwdField;
