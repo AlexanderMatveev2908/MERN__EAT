@@ -15,8 +15,6 @@ export const sendEmailUser = async (
   const { email } = req.body;
   const { type } = req.query;
 
-  if (!email || !type) return badRequest(res);
-
   const user = await User.findOne({ email });
   if (!user) return userNotFound(res);
   if (!user.isVerified && type === "recover-pwd")

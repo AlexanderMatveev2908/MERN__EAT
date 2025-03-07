@@ -10,7 +10,8 @@ import {
 } from "../controllers/newsLetterControllers";
 import { makeLimiter } from "../utils/makeLimiter";
 import { validatorUnsubscribeNewsLetterLink } from "../middleware/newsLetter/validatorUnsubscribeNewsLetterLogged";
-import { validatorUnsubscribeNewsLetterRetry } from "../middleware/newsLetter/validatorUnsubscribeNonLogged";
+import { validatorToggleSubscribe } from "../middleware/newsLetter/validatorToggleSubscribe";
+import { validatorNewsLetterEmail } from "../middleware/newsLetter/validatorUnsubscribeNonLogged";
 
 const router = express();
 
@@ -20,12 +21,14 @@ router.patch(
   "/toggle-logged",
   makeLimiter({ max: 5 }),
   verifyAccessToken,
+  validatorToggleSubscribe,
   asyncWrapper(toggleUserNewsLetter)
 );
 
 router.post(
   "/subscribe-non-logged",
   makeLimiter({ max: 5 }),
+  validatorNewsLetterEmail,
   asyncWrapper(subscribeNonLoggedUser)
 );
 
@@ -46,7 +49,7 @@ router.delete(
 router.post(
   "/send-email-unsubscribe",
   makeLimiter({ max: 8 }),
-  validatorUnsubscribeNewsLetterRetry,
+  validatorNewsLetterEmail,
   asyncWrapper(sendEmailUnsubscribeRetry)
 );
 

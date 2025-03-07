@@ -17,6 +17,7 @@ import {
   verifyRecoverPwd,
 } from "../controllers/authControllers/verify";
 import { recoverPwd } from "../controllers/authControllers/recoverPwd";
+import { validatorSendEmail } from "../middleware/auth/validatorSendEmail";
 
 const router = express();
 
@@ -34,6 +35,7 @@ router.post("/logout", asyncWrapper(logoutUser));
 router.post(
   "/send-email",
   makeLimiter({ max: 3 }),
+  validatorSendEmail,
   asyncWrapper(sendEmailUser)
 );
 

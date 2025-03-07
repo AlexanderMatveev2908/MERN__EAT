@@ -19,8 +19,6 @@ export const toggleUserNewsLetter = async (
   const { userId } = req;
   const { type } = req.body;
 
-  if (!["subscribe", "unsubscribe"].includes(type)) return badRequest(res);
-
   const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
 
   const updatedUser = await User.findByIdAndUpdate(
@@ -56,8 +54,6 @@ export const subscribeNonLoggedUser = async (
   res: Response
 ): Promise<any> => {
   const { email } = req.body;
-
-  if (!REG_EMAIL.test(email)) return badRequest(res);
 
   const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
 

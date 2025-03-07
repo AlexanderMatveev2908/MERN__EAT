@@ -4,11 +4,10 @@ import { useUser } from "./useGlobal";
 import { useCallback, useEffect } from "react";
 import { useHandleErr } from "./useHandleErr";
 import { getUserInfoAPI } from "../api/user";
-import { getInitialsName } from "../utils/getInitialsName";
 import { refreshTokenAPI } from "../api/auth";
 
 export const useApp = () => {
-  const { setCurrUser, isLogged, setUserLogged } = useUser();
+  const { setCurrUser, isLogged, setUserLogged, logoutUser } = useUser();
   const { handleErrAPI } = useHandleErr();
 
   const memoGetInfoAPI = useCallback(async () => await getUserInfoAPI(), []);
@@ -20,8 +19,7 @@ export const useApp = () => {
       setUserLogged(data.accessToken);
     },
     onError: () => {
-      setUserLogged(false);
-      sessionStorage.removeItem("initName");
+      logoutUser();
     },
   });
 
@@ -35,12 +33,9 @@ export const useApp = () => {
     const handleSIdeEffects = () => {
       if (isError) {
         handleErrAPI({ err: error, toast: false });
-        setCurrUser({ user: null });
       } else if (isSuccess) {
         const { user = {} as any } = data ?? ({} as any);
         setCurrUser({ user });
-        if (!sessionStorage.getItem("initName"))
-          sessionStorage.setItem("initName", getInitialsName(user));
       }
     };
 
