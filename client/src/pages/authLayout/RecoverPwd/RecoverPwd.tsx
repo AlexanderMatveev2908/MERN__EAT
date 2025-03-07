@@ -24,6 +24,7 @@ const RecoverPwd: FC = () => {
     canStay,
     isPending,
     handleSubmitRecoverPwd,
+    customConfirmPwd,
   } = useRecoverPwd();
 
   return !canStay ? (
@@ -62,7 +63,7 @@ const RecoverPwd: FC = () => {
               {...{
                 register,
                 errors,
-                watch,
+                custom: customConfirmPwd,
                 isVisible: isConfirmPwdVisible,
                 handleChangeVisibility: handleChangeConfirmPwdVisibility,
                 field: confirmPwdField,

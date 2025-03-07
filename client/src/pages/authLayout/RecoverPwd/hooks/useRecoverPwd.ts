@@ -97,6 +97,9 @@ export const useRecoverPwd = () => {
     if (pwd) trigger("confirmPassword");
   }, [pwd, trigger]);
 
+  const customConfirmPwd = (val: string) =>
+    val !== watch("password") ? "Passwords do not match 🤔" : true;
+
   return {
     register,
     errors,
@@ -108,5 +111,6 @@ export const useRecoverPwd = () => {
     canStay,
     handleSubmitRecoverPwd,
     isPending,
+    customConfirmPwd,
   };
 };

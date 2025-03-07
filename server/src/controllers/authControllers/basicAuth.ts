@@ -89,15 +89,13 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
   });
 
   if (user) {
-    user.tokens = {
-      refresh: {
-        hashed: null,
-        expiry: null,
-      },
-      manageAccount: {
-        hashed: null,
-        expiry: null,
-      },
+    user.tokens.refresh = {
+      hashed: null,
+      expiry: null,
+    };
+    user.tokens.manageAccount = {
+      hashed: null,
+      expiry: null,
     };
 
     await user.save();

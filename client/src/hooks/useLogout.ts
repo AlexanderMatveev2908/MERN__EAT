@@ -7,8 +7,8 @@ import { useHandleErr } from "./useHandleErr";
 
 export const useLogout = () => {
   const { showToastMsg } = useToast();
-  const { setUserLogged } = useUser();
   const { handleErrAPI } = useHandleErr();
+  const { logoutUser } = useUser();
 
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export const useLogout = () => {
       handleErrAPI(err);
     },
     onSettled: () => {
-      setUserLogged(false);
+      logoutUser();
       navigate("/", { replace: true });
     },
   });

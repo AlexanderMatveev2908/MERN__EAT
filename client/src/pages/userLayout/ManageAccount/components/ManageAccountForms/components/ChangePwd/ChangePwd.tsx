@@ -25,6 +25,8 @@ const ChangePwd: FC<PropsForChildren> = ({
     handleChangeConfirmPwdVisibility,
     isConfirmPwdVisible,
     isPwdVisible,
+    customPwd,
+    customConfirmPwd,
   } = useChangePwd();
 
   return (
@@ -40,10 +42,7 @@ const ChangePwd: FC<PropsForChildren> = ({
               errors,
               isVisible: isPwdVisible,
               handleChangeVisibility: handleChangePwdVisibility,
-              customWatch: {
-                val: currUser?.email,
-                msg: "You can't change your password with your current email 🥸",
-              },
+              custom: customPwd,
             }}
           />
         </div>
@@ -64,7 +63,7 @@ const ChangePwd: FC<PropsForChildren> = ({
               errors,
               isVisible: isConfirmPwdVisible,
               handleChangeVisibility: handleChangeConfirmPwdVisibility,
-              watch,
+              custom: customConfirmPwd,
             }}
           />
         </div>

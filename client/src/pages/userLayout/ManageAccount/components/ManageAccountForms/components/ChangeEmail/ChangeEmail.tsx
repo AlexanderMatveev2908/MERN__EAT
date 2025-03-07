@@ -13,7 +13,7 @@ const ChangeEmail: FC<PropsForChildren> = ({
   handleErrAPI,
   setIsChildLoading,
 }) => {
-  const { register, errors, handleSubmitChangeEmail, isPending } =
+  const { register, errors, handleSubmitChangeEmail, isPending, custom } =
     useChangeEmail({ showToastMsg, handleErrAPI, setIsChildLoading });
 
   return (
@@ -30,10 +30,7 @@ const ChangeEmail: FC<PropsForChildren> = ({
               register,
               errors,
               field: changeEmailField,
-              customWatch: {
-                val: currUser?.email,
-                msg: "New email can not be the same as the old one 🥸",
-              },
+              custom: (newEmail: string) => custom(newEmail, currUser?.email),
             }}
           />
         </div>
