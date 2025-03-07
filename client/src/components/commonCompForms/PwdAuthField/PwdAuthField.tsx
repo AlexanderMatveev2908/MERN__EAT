@@ -7,6 +7,10 @@ type PropsType = {
   register: UseFormRegister<any>;
   errors: FieldErrors;
   watch?: UseFormWatch<any>;
+  customWatch?: {
+    val: string | undefined;
+    msg: string;
+  };
   lookEmail?: boolean;
   isVisible: boolean;
   handleChangeVisibility: () => void;
@@ -25,6 +29,7 @@ const PwdAuthField: FC<PropsType> = ({
   errors,
   watch,
   isVisible,
+  customWatch,
   handleChangeVisibility,
   field,
   lookEmail = false,
@@ -40,6 +45,9 @@ const PwdAuthField: FC<PropsType> = ({
         if (watch("email") === val)
           return "Password and email can't be the same 🥸";
       }
+
+      if (customWatch?.val === val) return customWatch.msg;
+
       return true;
     },
   };

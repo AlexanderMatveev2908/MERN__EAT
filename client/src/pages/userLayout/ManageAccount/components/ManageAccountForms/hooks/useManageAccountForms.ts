@@ -5,6 +5,7 @@ const totLen = 3;
 
 export const useManageAccountForms = () => {
   const [currForm, setCurrForm] = useState(0);
+  const [isChildLoading, setIsChildLoading] = useState(false);
 
   const { handleErrAPI } = useHandleErr();
 
@@ -22,5 +23,7 @@ export const useManageAccountForms = () => {
     isPrevDisabled,
     isNextDisabled,
     handleErrAPI,
+    isChildLoading,
+    setIsChildLoading,
   };
 };

@@ -16,7 +16,7 @@ import { validatorChangeEmail } from "./../middleware/user/validatorChangeEmail"
 import {
   changeEmail,
   verifyChangeEmail,
-} from "../controllers/userControllers/modificationsAccount";
+} from "../controllers/userControllers/modifyEmail";
 import { validatorVerifyEmail } from "../middleware/user/validatorVerifyEmail";
 
 const router = express();

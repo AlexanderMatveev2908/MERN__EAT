@@ -3,24 +3,18 @@ import { FC } from "react";
 import { useChangeEmail } from "./hooks/useChangeEmail";
 import BasicAuthField from "../../../../../../../components/commonCompForms/BasicAuthField/BasicAuthField";
 import { changeEmailField } from "../../../../../../../config/fieldsArr/basicFieldsUser";
-import { CurrUserType } from "../../../../../../../types/userTypes";
 import ButtonBasic from "./../../../../../../../components/buttons/ButtonBasic/ButtonBasic";
-import { ShowToastType } from "../../../../../../../types/toastTypes";
 import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
+import { PropsForChildren } from "../../ManageAccountForms";
 
-type PropsType = {
-  currUser: CurrUserType | null;
-  showToastMsg: ShowToastType;
-  handleErrAPI: ({ err }: { err: any }) => void;
-};
-
-const ChangeEmail: FC<PropsType> = ({
+const ChangeEmail: FC<PropsForChildren> = ({
   currUser,
   showToastMsg,
   handleErrAPI,
+  setIsChildLoading,
 }) => {
   const { register, errors, handleSubmitChangeEmail, isPending } =
-    useChangeEmail({ showToastMsg, handleErrAPI });
+    useChangeEmail({ showToastMsg, handleErrAPI, setIsChildLoading });
 
   return (
     <div className="w-full grid grid-cols-1 justify-items-center gap-y-5 py-5 pb-10 px-5 sm:px-10">
