@@ -48,14 +48,11 @@ export const unSubscribeViaLinkNonLoggedAPI = async (params: {
   return data;
 };
 
-export const sendEmailUnsubscribeAPI = async ({
-  email,
-  path,
-}: {
-  email: string;
-  path: string;
-}) => {
-  const { data } = await foodAppInstance.post(`/newsletter${path}`, { email });
+export const sendEmailUnsubscribeAPI = async ({ email }: { email: string }) => {
+  const { data } = await foodAppInstance.post(
+    `/newsletter/send-email-unsubscribe`,
+    { email }
+  );
 
   return data;
 };

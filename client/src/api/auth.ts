@@ -1,5 +1,5 @@
 import { foodAppInstance } from "../constants/axiosInstance";
-import { RegisterFormType } from "../pages/Auth/Register/hooks/useRegisterCustom";
+import { RegisterFormType } from "../pages/authLayout/Register/hooks/useRegisterCustom";
 import {
   AccessResAPIType,
   BaseResAPIType,

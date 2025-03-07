@@ -60,7 +60,12 @@ export const subscribeNonLoggedUser = async (
   if (!REG_EMAIL.test(email)) return badRequest(res);
 
   const existingUser = await User.findOne({ email }).lean();
-  if (existingUser) baseErrResponse(res, 409, "User already registered");
+  if (existingUser)
+    baseErrResponse(
+      res,
+      409,
+      "User already registered, to subscribe first login"
+    );
   const existingSubscription = await User.findOne({ email }).lean();
   if (existingSubscription)
     return baseErrResponse(res, 409, "User already subscribed");
@@ -161,92 +166,58 @@ export const unsubScribeNewsLetterViaEmailLinkNonLogged = async (
       .json({ msg: "User unsubscribed to newsletter", success: true });
 };
 
-export const sendEmailUnsubscribeRetryLogged = async (
+export const sendEmailUnsubscribeRetry = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   const { email } = req.body;
 
-  const user = await User.findOne({ email });
-  if (!user) userNotFound(res);
-  if (!user?.hasSubscribedToNewsletter)
-    return baseErrResponse(res, 403, "User not subscribed");
-
   const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
 
-  user.tokens.unSubScribeNewsLetter = {
-    hashed: hashedToken,
-    expiry: expiryVerification,
-  };
-
-  await user.save();
-
-  await sendSubScriptionNewsLetterConfirmed(
-    user,
-    token,
-    "logged",
-    "unsubscribe"
-  );
-};
-
-export const sendEmailUnsubscribeRetryNonLogged = async (
-  req: Request,
-  res: Response
-): Promise<any> => {
-  const { email } = req.body;
-
-  const user = await NonLoggedUserNewsLetter.findOne({ email });
-  if (!user) return userNotFound(res);
-
-  const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
-
-  user.hashedTokenToUnsubscribe = hashedToken;
-  user.tokenExpiry = expiryVerification;
-
-  await user.save();
-
-  await sendSubScriptionNewsLetterConfirmed(
-    user,
-    token,
-    "non-logged",
-    "unsubscribe"
-  );
-
-  return res.status(200).json({
-    msg: "Email sent to unsubscribe",
-    success: true,
+  const existingNonLoggedUser = await NonLoggedUserNewsLetter.findOne({
+    email,
   });
+  if (!existingNonLoggedUser) {
+    const loggedUser = await User.findOne({ email });
+
+    if (!loggedUser) userNotFound(res);
+    if (!loggedUser?.hasSubscribedToNewsletter)
+      return baseErrResponse(res, 403, "User not subscribed");
+
+    loggedUser.tokens.unSubScribeNewsLetter = {
+      hashed: hashedToken,
+      expiry: expiryVerification,
+    };
+
+    await loggedUser.save();
+
+    await sendSubScriptionNewsLetterConfirmed(
+      loggedUser,
+      token,
+      "logged",
+      "unsubscribe"
+    );
+
+    return res.status(200).json({
+      msg: "Email sent to unsubscribe",
+      success: true,
+    });
+  } else {
+    existingNonLoggedUser.hashedTokenToUnsubscribe = hashedToken;
+    existingNonLoggedUser.tokenExpiry = expiryVerification;
+
+    await existingNonLoggedUser.save();
+
+    await sendSubScriptionNewsLetterConfirmed(
+      existingNonLoggedUser,
+      token,
+      "non-logged",
+      "unsubscribe"
+    );
+
+    return res.status(200).json({
+      msg: "Email sent to unsubscribe",
+      success: true,
+    });
+  }
 };
-
-// export const unSubscribeAllUsersRetry = async (
-//   req: Request,
-//   res: Response
-// ): Promise<any> => {
-//   const { email, type } = req.body;
-
-//   if (!REG_EMAIL.test(email) || !["logged", "non-logged"].includes(type))
-//     return badRequest(res);
-
-//   if (type === "logged") {
-//     const user = await User.findOne({ email });
-
-//     if (!user) return userNotFound(res);
-//     if (!user?.hasSubscribedToNewsletter)
-//       return baseErrResponse(res, 403, "User not subscribed");
-
-//     user.hasSubscribedToNewsletter = false;
-
-//     await user.save();
-//   } else {
-//     const user = await NonLoggedUserNewsLetter.findOne({ email });
-
-//     if (!user) return userNotFound(res);
-
-//     const result = await NonLoggedUserNewsLetter.deleteOne({ email });
-//     if (result.deletedCount === 0) return userNotFound(res);
-//   }
-
-//   return res
-//     .status(200)
-//     .json({ msg: "User unsubscribed to newsletter", success: true });
-// };

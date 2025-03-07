@@ -13,7 +13,20 @@ const NoticeUnSubscribe: FC = () => {
 
   return !canStay ? (
     <Navigate to="/" replace />
-  ) : success ? (
+  ) : success === "true" ? (
+    <div className="w-full flex flex-col items-center gap-y-14">
+      <div className="w-full flex justify-center">
+        <span className="txt__04 leading-10 lg:leading-16">
+          Your subscription has deleted successfully, if you unsubscribe by
+          mistake don&apos;t worry, you can subscribe again anytime ✌🏼
+        </span>
+      </div>
+
+      <div className="w-full flex justify-center items-center">
+        <CircleCheckBig className="w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] md:w-[400px] md:h-[400px] text-green-600" />
+      </div>
+    </div>
+  ) : (
     <div className="w-full grid grid-cols-1 gap-y-10 items-center">
       <div className="w-full flex justify-center">
         <span className="txt__04">Send unsubscribe link</span>
@@ -42,19 +55,6 @@ const NoticeUnSubscribe: FC = () => {
             )}
           </form>
         </div>
-      </div>
-    </div>
-  ) : (
-    <div className="w-full flex flex-col items-center gap-y-14">
-      <div className="w-full flex justify-center">
-        <span className="txt__04 leading-10 lg:leading-16">
-          Your subscription has deleted successfully, if you unsubscribe by
-          mistake don&apos;t worry, you can subscribe again anytime ✌🏼
-        </span>
-      </div>
-
-      <div className="w-full flex justify-center items-center">
-        <CircleCheckBig className="w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] md:w-[400px] md:h-[400px] text-green-600" />
       </div>
     </div>
   );
