@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useGetRightToManageAccount } from "./hooks/useGetRightToManageAccount";
-import PwdAuthField from "../../../../../components/commonCompForms/PwdAuthField/PwdAuthField";
-import { pwdFieldToAccess } from "../../../../../config/fieldsArr/basicFieldsUser";
+import BasePwdField from "../../../../../components/commonCompForms/BasePwdField/BasePwdField";
+import { pwdFieldToAccess } from "../../../../../config/fieldsArr/authFieldsUser";
 import ButtonBasic from "../../../../../components/buttons/ButtonBasic/ButtonBasic";
 import SpinnerBtnReact from "../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import { ShowToastType } from "../../../../../types/toastTypes";
@@ -38,7 +38,7 @@ const GetRightToManageAccount: FC<PropsType> = ({
       <span className="txt__03">Confirm your password before proceeding</span>
 
       <div className="w-full">
-        <PwdAuthField
+        <BasePwdField
           {...{
             field: pwdFieldToAccess,
             register,

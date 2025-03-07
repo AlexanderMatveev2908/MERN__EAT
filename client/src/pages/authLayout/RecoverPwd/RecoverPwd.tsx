@@ -1,6 +1,6 @@
 import { FC } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
-import PwdAuthField from "../../../components/commonCompForms/PwdAuthField/PwdAuthField";
+import BasePwdField from "../../../components/commonCompForms/BasePwdField/BasePwdField";
 import { Navigate } from "react-router-dom";
 import PasswordChecker from "../../../components/commonCompForms/PasswordChecker/PasswordChecker";
 import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
@@ -9,7 +9,7 @@ import PasswordLength from "../../../components/commonCompForms/PasswordLength/P
 import {
   confirmPwdField,
   pwdFieldToCreate,
-} from "../../../config/fieldsArr/basicFieldsUser";
+} from "../../../config/fieldsArr/authFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const RecoverPwd: FC = () => {
@@ -40,7 +40,7 @@ const RecoverPwd: FC = () => {
             onSubmit={handleSubmitRecoverPwd}
             className="grid grid-cols-1 w-full gap-y-8"
           >
-            <PwdAuthField
+            <BasePwdField
               {...{
                 register,
                 errors,
@@ -58,7 +58,7 @@ const RecoverPwd: FC = () => {
 
             <GeneratePwd />
 
-            <PwdAuthField
+            <BasePwdField
               {...{
                 register,
                 errors,

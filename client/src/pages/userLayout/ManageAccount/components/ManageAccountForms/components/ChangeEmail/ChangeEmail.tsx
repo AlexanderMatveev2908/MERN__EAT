@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { useChangeEmail } from "./hooks/useChangeEmail";
-import BasicAuthField from "../../../../../../../components/commonCompForms/BasicAuthField/BasicAuthField";
-import { changeEmailField } from "../../../../../../../config/fieldsArr/basicFieldsUser";
+import BaseFormField from "../../../../../../../components/commonCompForms/BaseFormField/BaseFormField";
+import { changeEmailField } from "../../../../../../../config/fieldsArr/authFieldsUser";
 import ButtonBasic from "./../../../../../../../components/buttons/ButtonBasic/ButtonBasic";
 import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import { PropsForChildren } from "../../ManageAccountForms";
@@ -25,7 +25,7 @@ const ChangeEmail: FC<PropsForChildren> = ({
         className="w-full grid grid-cols-1 justify-items-center gap-y-10"
       >
         <div className="w-full">
-          <BasicAuthField
+          <BaseFormField
             {...{
               register,
               errors,

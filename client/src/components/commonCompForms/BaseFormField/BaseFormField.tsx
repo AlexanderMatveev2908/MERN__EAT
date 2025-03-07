@@ -1,25 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { AuthFieldUserType } from "../../../config/fieldsArr/authFieldsUser";
 
 type PropsType = {
   register: UseFormRegister<any>;
   errors: FieldErrors;
-  field: {
-    label: string;
-    field: string;
-    msg: string;
-    reg: RegExp;
-    svg: any;
-    type: string;
-  };
+  field: AuthFieldUserType;
   customWatch?: {
     val: string | undefined;
     msg: string;
   } | null;
 };
 
-const BasicAuthField: FC<PropsType> = ({
+const BaseFormField: FC<PropsType> = ({
   register,
   errors,
   field,
@@ -54,4 +48,4 @@ const BasicAuthField: FC<PropsType> = ({
     </label>
   );
 };
-export default BasicAuthField;
+export default BaseFormField;

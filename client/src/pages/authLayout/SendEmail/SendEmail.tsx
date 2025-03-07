@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { Navigate } from "react-router-dom";
 import { useSendEmail } from "./hooks/useSendEmail";
-import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
+import BaseFormField from "../../../components/commonCompForms/BaseFormField/BaseFormField";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
-import { emailField } from "../../../config/fieldsArr/basicFieldsUser";
+import { emailField } from "../../../config/fieldsArr/authFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const SendEmail: FC = () => {
@@ -26,7 +26,7 @@ const SendEmail: FC = () => {
             onSubmit={handleSubmitEmail}
             className="grid grid-cols-1 w-full gap-y-8"
           >
-            <BasicAuthField {...{ register, errors, field: emailField }} />
+            <BaseFormField {...{ register, errors, field: emailField }} />
 
             {isPending ? (
               <SpinnerBtnReact />

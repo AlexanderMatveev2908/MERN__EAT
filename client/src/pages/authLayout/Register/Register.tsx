@@ -1,8 +1,8 @@
 import { FC } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
 import AcceptTerms from "./AcceptTerms/AcceptTerms";
-import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
-import PwdAuthField from "../../../components/commonCompForms/PwdAuthField/PwdAuthField";
+import BaseFormField from "../../../components/commonCompForms/BaseFormField/BaseFormField";
+import BasePwdField from "../../../components/commonCompForms/BasePwdField/BasePwdField";
 import SwitchForm from "../../../components/commonCompForms/SwitchForm/SwitchForm";
 import PasswordChecker from "../../../components/commonCompForms/PasswordChecker/PasswordChecker";
 import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
@@ -13,7 +13,7 @@ import {
   emailField,
   nameFieldsArr,
   pwdFieldToAccess,
-} from "../../../config/fieldsArr/basicFieldsUser";
+} from "../../../config/fieldsArr/authFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 // import SpinnerBtn from "../../../components/SpinnerBtn/SpinnerBtn";
 
@@ -43,10 +43,10 @@ const Register: FC = () => {
             className="grid grid-cols-1 w-full gap-y-8"
           >
             {[...nameFieldsArr, emailField].map((field) => (
-              <BasicAuthField key={field.id} {...{ register, errors, field }} />
+              <BaseFormField key={field.id} {...{ register, errors, field }} />
             ))}
 
-            <PwdAuthField
+            <BasePwdField
               {...{
                 register,
                 errors,
@@ -65,7 +65,7 @@ const Register: FC = () => {
               </div>
             )}
 
-            <PwdAuthField
+            <BasePwdField
               {...{
                 register,
                 errors,
