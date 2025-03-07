@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { useToast, useUser } from "./useGlobal";
 import { useCallback } from "react";
+import { URLsToNotPush } from "../config/URLsToHandle/URLsToHandle";
 
 export const useHandleErr = () => {
   const { showToastMsg } = useToast();
@@ -24,11 +25,7 @@ export const useHandleErr = () => {
         if (err?.response?.config?.url === "/auth/refresh") {
           setUserLogged(false);
           showToastMsg("SESSION EXPIRED", "ERROR");
-        } else if (
-          ["/auth/register", "/auth/login", "/auth/send-email"].includes(
-            err?.response?.config?.url
-          )
-        ) {
+        } else if (URLsToNotPush.includes(err?.response?.config?.url)) {
           showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
         } else {
           navigate("/", { replace: true });

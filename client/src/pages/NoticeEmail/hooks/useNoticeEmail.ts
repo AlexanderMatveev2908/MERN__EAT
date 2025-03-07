@@ -1,10 +1,5 @@
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useScrollTop } from "../../../hooks/useScrollTop";
-import { validateUserLocation } from "../../../utils/validateLocations";
-import {
-  emailAllowedFrom,
-  emailAllowedType,
-} from "../../../config/allowedPaths/pathsAndTypes";
 
 export const useNoticeEmail = () => {
   useScrollTop();
@@ -14,14 +9,18 @@ export const useNoticeEmail = () => {
 
   const type = searchParams.get("type");
   const from = location?.state?.from;
-  const hasBeenSentEmail = sessionStorage.getItem("sentEmail");
 
-  const canStay =
-    validateUserLocation(emailAllowedFrom, emailAllowedType, from, type) &&
-    hasBeenSentEmail;
+  const canStay = () => {
+    if (
+      (from === "/auth/register" && type !== "verify-account") ||
+      (from === "/auth/login" && type !== "recover-pwd") ||
+      (from === "/newsletter/notice-unsubscribe-with-retry" &&
+        type !== "sentEmailUnsubscribe")
+    )
+      return false;
+  };
 
   return {
     canStay,
-    hasBeenSentEmail,
   };
 };
