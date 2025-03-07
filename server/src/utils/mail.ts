@@ -71,7 +71,7 @@ export const sendEmailChangeAccountEmail = async (
 ) => {
   if (!token || !Object.keys(user ?? {})?.length) return;
 
-  const verifyEmailURL = `${basePath}/user/verify-new-email?userId=${user._id}&token=${token}`;
+  const verifyEmailURL = `${basePath}/verify-new-email?userId=${user._id}&token=${token}`;
 
   await transporterMail.sendMail({
     from: process.env.MAIL_USER,

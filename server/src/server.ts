@@ -17,6 +17,7 @@ import { scheduleFoodCoupon } from "./config/cron";
 const app = express();
 const port = process.env.PORT ?? 3000;
 
+// console.log(crypto.randomBytes(32));
 // scheduleFoodCoupon();
 
 app.set("trust proxy", 1);

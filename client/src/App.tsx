@@ -43,8 +43,9 @@ const App: FC = () => {
           <Route path="profile" element={<UserProfile />} />
 
           <Route path="manage-account" element={<ManageAccount />} />
-          <Route path="verify-new-email" element={<VerifyUser />} />
         </Route>
+
+        <Route path="verify-new-email" element={<VerifyUser />} />
 
         <Route path="notice-email" element={<NoticeEmail />} />
 
