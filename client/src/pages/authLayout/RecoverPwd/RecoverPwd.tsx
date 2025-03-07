@@ -9,7 +9,7 @@ import PasswordLength from "../../../components/commonCompForms/PasswordLength/P
 import {
   confirmPwdField,
   pwdField,
-} from "../../../config/fieldsArr/userFormFields";
+} from "../../../config/fieldsArr/basicFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const RecoverPwd: FC = () => {

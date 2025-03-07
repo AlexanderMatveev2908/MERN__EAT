@@ -4,7 +4,10 @@ import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/B
 import PwdAuthField from "../../../components/commonCompForms/PwdAuthField/PwdAuthField";
 import SwitchForm from "../../../components/commonCompForms/SwitchForm/SwitchForm";
 import { useLoginCustom } from "./hooks/useLoginCustom";
-import { emailField, pwdField } from "../../../config/fieldsArr/userFormFields";
+import {
+  emailField,
+  pwdField,
+} from "../../../config/fieldsArr/basicFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const Login: FC = () => {

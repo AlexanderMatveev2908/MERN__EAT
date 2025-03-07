@@ -15,6 +15,7 @@ import RecoverPwd from "./pages/authLayout/RecoverPwd/RecoverPwd";
 import UserProfile from "./pages/userLayout/UserProfile/UserProfile";
 import VerifyUnsubScribeNewsLetter from "./pages/newsLetterLayout/VerifyUnsubScribeNewsLetter/VerifyUnsubScribeNewsLetter";
 import NoticeUnSubscribe from "./pages/newsLetterLayout/NoticeUnSubscribe/NoticeUnSubscribe";
+import ManageAccount from "./pages/userLayout/ManageAccount/ManageAccount";
 // import CallbackAuth from "./pages/CallbackAuth/CallbackAuth";
 
 const App: FC = () => {
@@ -39,6 +40,8 @@ const App: FC = () => {
 
         <Route path="user" element={<LayoutUserRoute />}>
           <Route path="profile" element={<UserProfile />} />
+
+          <Route path="manage-account" element={<ManageAccount />} />
         </Route>
 
         <Route path="notice-email" element={<NoticeEmail />} />

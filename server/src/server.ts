@@ -12,9 +12,12 @@ import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 import newsLetterRouter from "./routes/newsLetter";
 import crypto from "crypto";
+import { scheduleFoodCoupon } from "./config/cron";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
+
+// scheduleFoodCoupon();
 
 app.set("trust proxy", 1);
 

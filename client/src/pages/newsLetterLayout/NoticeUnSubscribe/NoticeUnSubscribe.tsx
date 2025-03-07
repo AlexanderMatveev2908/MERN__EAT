@@ -4,7 +4,7 @@ import { useNoticeUnSubscribe } from "./useNoticeUnSubscribe";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import BasicAuthField from "../../../components/commonCompForms/BasicAuthField/BasicAuthField";
-import { emailField } from "../../../config/fieldsArr/userFormFields";
+import { emailField } from "../../../config/fieldsArr/basicFieldsUser";
 import { Navigate } from "react-router-dom";
 
 const NoticeUnSubscribe: FC = () => {

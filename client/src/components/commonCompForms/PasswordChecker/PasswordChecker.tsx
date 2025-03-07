@@ -2,7 +2,7 @@
 import { CircleCheckBig, CircleX } from "lucide-react";
 import { FC } from "react";
 import { UseFormWatch } from "react-hook-form";
-import { passwordCheckerFieldsArr } from "../../../config/fieldsArr/pwdFields";
+import { passwordCheckerFieldsArr } from "../../../config/fieldsArr/pwdFieldsRegChecker";
 import { isValidStr } from "../../../utils/validateStr";
 
 type PropsType = {
