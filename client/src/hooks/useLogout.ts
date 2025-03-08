@@ -3,11 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useToast, useUser } from "./useGlobal";
 import { useNavigate } from "react-router-dom";
 import { logoutUserAPI } from "../api/auth";
-import { useHandleErr } from "./useHandleErr";
 
 export const useLogout = () => {
   const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
   const { logoutUser } = useUser();
 
   const navigate = useNavigate();
@@ -18,7 +16,7 @@ export const useLogout = () => {
       showToastMsg("Logout successful", "SUCCESS");
     },
     onError: (err: any) => {
-      handleErrAPI(err);
+      showToastMsg(err?.response?.data?.msg || err?.message, "ERROR");
     },
     onSettled: () => {
       logoutUser();

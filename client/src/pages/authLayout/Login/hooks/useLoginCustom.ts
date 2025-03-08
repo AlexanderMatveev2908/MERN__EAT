@@ -44,7 +44,9 @@ export const useLoginCustom = () => {
       navigate("/");
     },
     onError: (err: any) => {
-      handleErrAPI({ err });
+      if (err?.response?.status === 401)
+        showToastMsg("Invalid credentials", "ERROR");
+      else handleErrAPI({ err });
     },
   });
 

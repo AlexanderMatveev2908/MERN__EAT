@@ -48,6 +48,7 @@ export const changeOldPwdAPI = async (params: {
   newPassword: string;
   manageAccountToken: string;
 }) => {
+  console.log(params);
   const { data } = await foodAppInstance.patch("/user/change-old-pwd", params);
 
   return data;

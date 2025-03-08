@@ -10,6 +10,8 @@ import {
   userNotFound,
 } from "../utils/baseErrResponse";
 import { sendSubScriptionNewsLetterConfirmed } from "../utils/mail";
+import { REG_TOKEN } from "../constants/regex";
+import mongoose from "mongoose";
 
 export const toggleUserNewsLetter = async (
   req: RequestWithUserId,

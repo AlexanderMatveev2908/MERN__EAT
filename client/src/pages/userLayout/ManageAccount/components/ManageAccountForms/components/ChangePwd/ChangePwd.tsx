@@ -14,7 +14,7 @@ import GeneratePwd from "../../../../../../../components/commonCompForms/Generat
 
 const ChangePwd: FC<PropsForChildren> = ({
   showToastMsg,
-  handleErrAPI,
+  handleErrManageUser,
   setIsChildLoading,
   currUser,
 }) => {
@@ -30,7 +30,11 @@ const ChangePwd: FC<PropsForChildren> = ({
     customConfirmPwd,
     isPending,
     handleSubmitChangePwd,
-  } = useChangePwd({ showToastMsg, handleErrAPI, setIsChildLoading });
+  } = useChangePwd({
+    showToastMsg,
+    handleErrManageUser,
+    setIsChildLoading,
+  });
 
   return (
     <div className="w-full grid grid-cols-1 justify-items-center gap-y-5 py-5 pb-10 px-5 sm:px-10">

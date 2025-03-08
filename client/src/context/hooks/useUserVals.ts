@@ -63,9 +63,7 @@ export const useUserVals = (
     dispatch({ type: SET_IS_LOGGED, payload: false });
     dispatch({ type: SET_CURR_USER, payload: null });
     dispatch({ type: SET_CAN_MANAGE_ACCOUNT, payload: false });
-
-    navigate("/", { replace: true });
-  }, [dispatch, navigate]);
+  }, [dispatch]);
 
   return {
     ...userState,

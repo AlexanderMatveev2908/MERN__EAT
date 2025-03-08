@@ -9,5 +9,5 @@ export const validatorNewsLetterEmail = [
     .matches(REG_EMAIL)
     .withMessage("Invalid format"),
 
-  handleValidator,
+  handleValidator(400),
 ];

@@ -11,5 +11,5 @@ export const validatorLogin = [
 
   body("password").matches(REG_PWD).withMessage("Invalid password"),
 
-  handleValidator,
+  handleValidator(401),
 ];

@@ -15,5 +15,5 @@ export const validatorSendEmail = [
       : Promise.reject("Invalid type")
   ),
 
-  handleValidator,
+  handleValidator(400),
 ];

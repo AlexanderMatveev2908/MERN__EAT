@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useHandleErr } from "../../../../hooks/useHandleErr";
 import { useChangeVisibilityPwd } from "../../../../hooks/useChangeVisibilityPwd";
 import { useToast } from "../../../../hooks/useGlobal";
 import { registerUserAPI } from "../../../../api/auth";
@@ -21,8 +20,6 @@ export type RegisterFormType = {
 export const useRegisterCustom = () => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
-
-  const { handleErrAPI } = useHandleErr();
 
   useScrollTop();
 
@@ -70,7 +67,7 @@ export const useRegisterCustom = () => {
       });
     },
     onError: (err: any) => {
-      handleErrAPI({ err });
+      showToastMsg(err?.response?.data?.msg || err?.message, "ERROR");
     },
   });
 

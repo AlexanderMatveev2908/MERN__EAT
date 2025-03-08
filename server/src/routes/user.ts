@@ -8,19 +8,18 @@ import { asyncWrapper } from "../middleware/general/asyncWrapper";
 import { getUserId } from "../middleware/general/getUserId";
 import { validatorProfileDetails } from "../middleware/user/validatorProfileDetails";
 import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
-import { validatorManageAccount } from "../middleware/user/validatorManageAccount";
 import { getRightManageAccount } from "../controllers/userControllers/manageAccount";
 import { manageAccountLimiter } from "../middleware/user/limiterManageAccount";
 import { makeLimiter } from "../utils/makeLimiter";
-import { validatorChangeEmail } from "./../middleware/user/validatorChangeEmail";
 import {
   changeEmail,
   verifyChangeEmail,
 } from "../controllers/userControllers/modifyEmail";
-import { validatorVerifyEmail } from "../middleware/user/validatorVerifyEmail";
 import { HOUR } from "../constants/time";
-import { validatorChangeOldPwd } from "../middleware/user/validatorChangePwd";
 import { changeOldPwd } from "../controllers/userControllers/changePwd";
+import { validatorChangeEmail } from "../middleware/user/validatorChangeEmail";
+import { validatorVerifyNewEmail } from "../middleware/user/validatorVerifyNewEmail";
+import { validatorChangePwd } from "../middleware/user/validatorChangePwd";
 
 const router = express();
 
@@ -39,31 +38,29 @@ router.post(
   "/manage-account",
   verifyAccessToken,
   manageAccountLimiter,
-  validatorManageAccount,
   asyncWrapper(getRightManageAccount)
 );
 
 router.patch(
   "/change-email",
-  verifyAccessToken,
   makeLimiter({ max: 5, ms: HOUR }),
+  verifyAccessToken,
   validatorChangeEmail,
   asyncWrapper(changeEmail)
 );
 
 router.post(
   "/verify-new-email",
-  verifyAccessToken,
   makeLimiter({ max: 5, ms: HOUR }),
-  validatorVerifyEmail,
+  validatorVerifyNewEmail,
   asyncWrapper(verifyChangeEmail)
 );
 
 router.patch(
   "/change-old-pwd",
-  verifyAccessToken,
   makeLimiter({ max: 5, ms: HOUR }),
-  validatorChangeOldPwd,
+  verifyAccessToken,
+  validatorChangePwd,
   asyncWrapper(changeOldPwd)
 );
 

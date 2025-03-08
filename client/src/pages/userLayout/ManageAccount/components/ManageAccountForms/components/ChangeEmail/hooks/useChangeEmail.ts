@@ -5,19 +5,13 @@ import { ChangeEmailFormType } from "../../../../../../../../types/userTypes";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { changeEmailAPI } from "../../../../../../../../api/user";
-import { ShowToastType } from "../../../../../../../../types/toastTypes";
 import { useLocation, useNavigate } from "react-router-dom";
-import { HandleErrType } from "../../../../../../../../hooks/useHandleErr";
 
 export const useChangeEmail = ({
   showToastMsg,
-  handleErrAPI,
   setIsChildLoading,
-}: {
-  showToastMsg: ShowToastType;
-  handleErrAPI: HandleErrType;
-  setIsChildLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+  handleErrManageUser,
+}: any) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -44,7 +38,7 @@ export const useChangeEmail = ({
       });
     },
     onError: (err: any) => {
-      handleErrAPI({ err });
+      handleErrManageUser(err);
     },
     onSettled: () => {
       setIsChildLoading(false);
