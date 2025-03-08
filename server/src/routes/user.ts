@@ -19,7 +19,7 @@ import {
 } from "../controllers/userControllers/modifyEmail";
 import { validatorVerifyEmail } from "../middleware/user/validatorVerifyEmail";
 import { HOUR } from "../constants/time";
-import { validatorChangeOldPwd } from "../middleware/user/validatorChangeOldPwd";
+import { validatorChangeOldPwd } from "../middleware/user/validatorChangePwd";
 import { changeOldPwd } from "../controllers/userControllers/changePwd";
 
 const router = express();
