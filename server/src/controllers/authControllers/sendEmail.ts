@@ -2,11 +2,7 @@ import { Request, Response } from "express";
 import User from "../../models/User";
 import { genTokenSHA } from "../../utils/token";
 import { sendUserEmail } from "../../utils/mail";
-import {
-  badRequest,
-  baseErrResponse,
-  userNotFound,
-} from "../../utils/baseErrResponse";
+import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
 
 export const sendEmailUser = async (
   req: Request,
@@ -20,16 +16,20 @@ export const sendEmailUser = async (
   if (!user.isVerified && type === "recover-pwd")
     return baseErrResponse(res, 403, "User not verified");
   if (user.isVerified && type === "verify-account")
-    return baseErrResponse(res, 403, "User already verified");
+    return baseErrResponse(res, 409, "User already verified");
 
   const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 
   if (type === "verify-account") {
-    user.tokens.verifyAccount.hashed = hashedToken;
-    user.tokens.verifyAccount.expiry = expiryVerification;
+    user.tokens.verifyAccount = {
+      hashed: hashedToken,
+      expiry: expiryVerification,
+    };
   } else if (type === "recover-pwd") {
-    user.tokens.recoverPwd.hashed = hashedToken;
-    user.tokens.recoverPwd.expiry = expiryVerification;
+    user.tokens.recoverPwd = {
+      hashed: hashedToken,
+      expiry: expiryVerification,
+    };
   }
 
   await user.save();

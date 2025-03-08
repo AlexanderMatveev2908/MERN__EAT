@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
-import {
-  checkTokenJWE,
-  decodeExpiredJWT,
-  genAccessJWT,
-} from "../../utils/token";
+import { checkTokenJWE, genAccessJWT } from "../../utils/token";
 import User from "../../models/User";
 import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse";
 
@@ -12,6 +8,8 @@ export const refreshToken = async (
   res: Response
 ): Promise<any> => {
   const { refreshToken } = req.cookies;
+
+  if (!refreshToken) return unauthorizedErr(res, "REFRESH TOKEN NOT PROVIDED");
 
   const payload = await checkTokenJWE(refreshToken ?? "");
   if (!payload) {
@@ -22,8 +20,10 @@ export const refreshToken = async (
   if (!user) return userNotFound(res);
 
   if (new Date(user.tokens.refresh?.expiry ?? 0)?.getTime() < Date.now()) {
-    user.tokens.refresh.expiry = null;
-    user.tokens.refresh.hashed = null;
+    user.tokens.refresh = {
+      hashed: null,
+      expiry: null,
+    };
     await user.save();
 
     return unauthorizedErr(res, "REFRESH TOKEN EXPIRED");

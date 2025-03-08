@@ -36,7 +36,7 @@ const ManageAccountForms: FC<PropsType> = ({
   return (
     <div className="w-full grid grid-cols-1 justify-items-center gap-y-10 max-w-[600px]">
       <div
-        className={`w-full max-w-[600px] justify-self-center grid grid-cols-1 border-[3px] gap-5 border-orange-500 rounded-xl overflow-hidden h-fit transition-all duration-500 ${
+        className={`w-full max-w-[600px] justify-self-center grid grid-cols-1 border-[3px] gap-5 border-orange-500 rounded-xl overflow-hidden h-fit  transition-all duration-500 ${
           currForm === 0
             ? "max-h-[350px]"
             : currForm === 1

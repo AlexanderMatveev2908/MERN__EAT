@@ -4,14 +4,11 @@ import User from "../models/User";
 import { checkTokenSHA, genTokenSHA } from "../utils/token";
 import NonLoggedUserNewsLetter from "./../models/UserNewsLetter";
 import {
-  badRequest,
   baseErrResponse,
   unauthorizedErr,
   userNotFound,
 } from "../utils/baseErrResponse";
 import { sendSubScriptionNewsLetterConfirmed } from "../utils/mail";
-import { REG_TOKEN } from "../constants/regex";
-import mongoose from "mongoose";
 
 export const toggleUserNewsLetter = async (
   req: RequestWithUserId,
@@ -124,7 +121,7 @@ export const unsubScribeNewsLetterViaEmailLinkLogged = async (
   if (!user.tokens.unSubScribeNewsLetter?.hashed)
     return unauthorizedErr(res, "Verification token not emitted");
 
-  const hasExpired =
+  const isExpired =
     new Date(user.tokens.unSubScribeNewsLetter?.expiry ?? 0).getTime() <
     Date.now();
   const isMatch = checkTokenSHA(
@@ -132,7 +129,7 @@ export const unsubScribeNewsLetterViaEmailLinkLogged = async (
     user.tokens.unSubScribeNewsLetter?.hashed ?? "",
     "newsletter"
   );
-  if (hasExpired || !isMatch) {
+  if (isExpired || !isMatch) {
     user.tokens.unSubScribeNewsLetter = {
       hashed: null,
       expiry: null,
@@ -140,10 +137,14 @@ export const unsubScribeNewsLetterViaEmailLinkLogged = async (
 
     await user.save();
 
-    return unauthorizedErr(res, hasExpired ? "Token Expired" : "Invalid Token");
+    return unauthorizedErr(res, isExpired ? "Token Expired" : "Invalid Token");
   }
 
   user.hasSubscribedToNewsletter = false;
+  user.tokens.unSubScribeNewsLetter = {
+    hashed: null,
+    expiry: null,
+  };
 
   await user.save();
 
@@ -169,18 +170,18 @@ export const unsubScribeNewsLetterViaEmailLinkNonLogged = async (
     user.hashedTokenToUnsubscribe,
     "newsletter"
   );
-  const hasExpired = new Date(user?.tokenExpiry ?? 0).getTime() < Date.now();
-  if (!isMatch || hasExpired) {
+  const isExpired = new Date(user?.tokenExpiry ?? 0).getTime() < Date.now();
+  if (!isMatch || isExpired) {
     user.tokenExpiry = null;
     user.hashedTokenToUnsubscribe = null;
 
     await user.save();
 
-    return unauthorizedErr(res, hasExpired ? "Token Expired" : "Invalid Token");
+    return unauthorizedErr(res, isExpired ? "Token Expired" : "Invalid Token");
   }
 
   const result = await NonLoggedUserNewsLetter.deleteOne({ email: user.email });
-  if (result?.deletedCount === 0) return userNotFound(res);
+  if (result?.deletedCount !== 1) return userNotFound(res);
   else
     return res
       .status(200)

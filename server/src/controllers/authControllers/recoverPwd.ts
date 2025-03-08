@@ -3,7 +3,6 @@ import User from "../../models/User";
 import { checkTokenSHA, genAccessJWT, genTokenJWE } from "../../utils/token";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
 import {
-  badRequest,
   baseErrResponse,
   unauthorizedErr,
   userNotFound,
@@ -18,21 +17,23 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   if (!user.tokens.recoverPwd?.hashed)
     return unauthorizedErr(res, "Verification token not emitted");
 
-  const hasExpired =
+  const isExpired =
     new Date(user.tokens.recoverPwd?.expiry ?? 0)?.getTime() < Date.now();
-
   const isMatch = checkTokenSHA(
     token,
     user.tokens.recoverPwd?.hashed ?? "",
     "auth"
   );
-  if (hasExpired || !isMatch) {
-    user.tokens.recoverPwd.hashed = null;
-    user.tokens.recoverPwd.expiry = null;
+
+  if (isExpired || !isMatch) {
+    user.tokens.recoverPwd = {
+      hashed: null,
+      expiry: null,
+    };
 
     await user.save();
 
-    return unauthorizedErr(res, hasExpired ? "Token expired" : "Invalid token");
+    return unauthorizedErr(res, isExpired ? "Token expired" : "Invalid token");
   }
 
   if (password === user.email)
@@ -49,15 +50,19 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const hashedPwd = await hashPwdBcrypt(password);
 
   user.password = hashedPwd;
-  user.tokens.recoverPwd.hashed = null;
-  user.tokens.recoverPwd.expiry = null;
+  user.tokens.recoverPwd = {
+    hashed: null,
+    expiry: null,
+  };
 
   const accessToken = genAccessJWT(user._id);
 
   const { jwe, expiry } = await genTokenJWE(user._id);
 
-  user.tokens.refresh.hashed = jwe;
-  user.tokens.refresh.expiry = expiry;
+  user.tokens.refresh = {
+    hashed: jwe,
+    expiry: expiry,
+  };
 
   await user.save();
 

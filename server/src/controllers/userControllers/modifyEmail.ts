@@ -9,8 +9,6 @@ import {
 } from "../../utils/baseErrResponse";
 import { checkTokenSHA, genTokenSHA } from "../../utils/token";
 import { sendEmailChangeAccountEmail } from "../../utils/mail";
-import { REG_TOKEN } from "../../constants/regex";
-import mongoose from "mongoose";
 
 export const changeEmail = async (
   req: RequestWithUserId,
@@ -30,10 +28,10 @@ export const changeEmail = async (
     user.tokens.manageAccount.hashed,
     "manageAccount"
   );
-  const hasExpired =
+  const isExpired =
     new Date(user.tokens.manageAccount?.expiry ?? 0).getTime() < Date.now();
 
-  if (!isMatch || hasExpired) {
+  if (!isMatch || isExpired) {
     user.tokens.manageAccount = {
       hashed: null,
       expiry: null,
@@ -86,10 +84,10 @@ export const verifyChangeEmail = async (
     user.tokens.verifyNewEmail.hashed,
     "verifyNewEmail"
   );
-  const hasExpired =
+  const isExpired =
     new Date(user.tokens.verifyNewEmail?.expiry ?? 0).getTime() < Date.now();
 
-  if (!isMatch || hasExpired) {
+  if (!isMatch || isExpired) {
     user.tokens.verifyNewEmail = {
       hashed: null,
       expiry: null,

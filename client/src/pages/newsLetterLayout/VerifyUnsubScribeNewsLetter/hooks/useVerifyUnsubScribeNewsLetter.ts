@@ -10,6 +10,7 @@ import { useToast } from "../../../../hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../../constants/regex";
 import { isValidStr, validateStrWithArr } from "../../../../utils/validateStr";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
+import { useHandleErr } from "../../../../hooks/useHandleErr";
 
 export const useVerifyUnsubScribeNewsLetter = () => {
   useScrollTop();
@@ -19,6 +20,7 @@ export const useVerifyUnsubScribeNewsLetter = () => {
   const location = useLocation();
 
   const { showToastMsg } = useToast();
+  const { handleErrAPI } = useHandleErr();
 
   const typeUser = searchParams.get("typeUser");
   const userId = searchParams.get("userId");
@@ -47,15 +49,16 @@ export const useVerifyUnsubScribeNewsLetter = () => {
   useEffect(() => {
     const handleSideEffects = () => {
       if (isError) {
-        if ([429].includes((error as any)?.response?.status))
-          navigate("/", { state: { from: location.pathname }, replace: true });
-        else
+        if ((error as any)?.response?.status === 401) {
           navigate(`/newsletter/notice-unsubscribe-with-retry?success=false`, {
             state: { from: location.pathname },
             replace: true,
           });
 
-        showToastMsg((error as any)?.response?.data?.msg, "ERROR");
+          showToastMsg((error as any)?.response?.data?.msg, "ERROR");
+        } else {
+          handleErrAPI({ err: error });
+        }
       } else if (isSuccess) {
         navigate("/newsletter/notice-unsubscribe-with-retry?success=true", {
           state: { from: location.pathname },
