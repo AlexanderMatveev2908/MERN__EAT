@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { useChangeEmail } from "./hooks/useChangeEmail";
 import BaseFormField from "../../../../../../../components/commonCompForms/BaseFormField/BaseFormField";
@@ -7,7 +6,7 @@ import ButtonBasic from "./../../../../../../../components/buttons/ButtonBasic/B
 import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import { PropsForChildren } from "../../ManageAccountForms";
 
-const ChangeEmail: FC<PropsForChildren> = ({
+const ChangeEmail: FC<Omit<PropsForChildren, "setCanManageAccount">> = ({
   currUser,
   showToastMsg,
   setIsChildLoading,

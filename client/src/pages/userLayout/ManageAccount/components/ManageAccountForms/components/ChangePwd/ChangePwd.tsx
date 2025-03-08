@@ -17,6 +17,7 @@ const ChangePwd: FC<PropsForChildren> = ({
   handleErrManageUser,
   setIsChildLoading,
   currUser,
+  setCanManageAccount,
 }) => {
   const {
     register,
@@ -34,6 +35,7 @@ const ChangePwd: FC<PropsForChildren> = ({
     showToastMsg,
     handleErrManageUser,
     setIsChildLoading,
+    setCanManageAccount,
   });
 
   return (

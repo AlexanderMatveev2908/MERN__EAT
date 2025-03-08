@@ -18,7 +18,12 @@ const ManageAccount: FC = () => {
 
       {canManageAccount ? (
         <ManageAccountForms
-          {...{ currUser, showToastMsg, handleErrManageUser }}
+          {...{
+            currUser,
+            showToastMsg,
+            handleErrManageUser,
+            setCanManageAccount,
+          }}
         />
       ) : (
         <GetRightToManageAccount
