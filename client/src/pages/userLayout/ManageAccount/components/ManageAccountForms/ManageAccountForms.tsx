@@ -7,15 +7,18 @@ import ChangePwd from "./components/ChangePwd/ChangePwd";
 import DeleteAccount from "./components/DeleteAccount/DeleteAccount";
 import { CurrUserType } from "../../../../../types/userTypes";
 import { ShowToastType } from "../../../../../types/toastTypes";
+import { handleErrManageUserType } from "../../hooks/useManageAccount";
 
 type PropsType = {
   currUser: CurrUserType | null;
   showToastMsg: ShowToastType;
-  handleErrManageUser: (err: any) => void;
+  handleErrManageUser: handleErrManageUserType;
 };
 
+export type SetChildLoadingType = (val: boolean) => void;
+
 export type PropsForChildren = {
-  setIsChildLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsChildLoading: SetChildLoadingType;
 } & PropsType;
 
 const ManageAccountForms: FC<PropsType> = ({
@@ -41,7 +44,7 @@ const ManageAccountForms: FC<PropsType> = ({
             ? "max-h-[350px]"
             : currForm === 1
             ? "max-h-[700px]"
-            : "max-h-[100px]"
+            : "max-h-[350px]"
         }`}
       >
         <div
@@ -68,7 +71,6 @@ const ManageAccountForms: FC<PropsType> = ({
 
           <DeleteAccount
             {...{
-              currUser,
               showToastMsg,
               setIsChildLoading,
               handleErrManageUser,

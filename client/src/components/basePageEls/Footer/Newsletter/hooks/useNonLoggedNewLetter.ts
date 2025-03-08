@@ -2,7 +2,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { subscribeNonLoggedUserAPI } from "../../../../../api/newsLetter";
-import { ToastStateType } from "../../../../../types/toastTypes";
+import { ShowToastType } from "../../../../../types/toastTypes";
 
 export type NewsLetterFormType = {
   email: string;
@@ -11,7 +11,7 @@ export type NewsLetterFormType = {
 export const useNonLoggedNewLetter = ({
   showToastMsg,
 }: {
-  showToastMsg: (msg: string, type: ToastStateType["type"]) => void;
+  showToastMsg: ShowToastType;
 }) => {
   const {
     register,

@@ -57,7 +57,7 @@ export const useVerifyUnsubScribeNewsLetter = () => {
 
           showToastMsg((error as any)?.response?.data?.msg, "ERROR");
         } else {
-          handleErrAPI({ err: error });
+          handleErrAPI({ err: error, push: true });
         }
       } else if (isSuccess) {
         navigate("/newsletter/notice-unsubscribe-with-retry?success=true", {
@@ -77,6 +77,7 @@ export const useVerifyUnsubScribeNewsLetter = () => {
     typeUser,
     location.pathname,
     isSuccess,
+    handleErrAPI,
   ]);
 
   return { canStay };

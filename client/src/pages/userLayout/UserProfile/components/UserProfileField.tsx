@@ -1,14 +1,9 @@
 import { FC } from "react";
 import { UserProfileFormType } from "../hooks/UseProfileReducer/types/types";
+import { UserDetailsFieldType } from "../../../../config/fieldsArr/userDetailsFields";
 
 type PropsType = {
-  el: {
-    id: string;
-    label: string;
-    field: string;
-    reg: RegExp;
-    msg: string;
-  };
+  el: UserDetailsFieldType;
   state: UserProfileFormType;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };

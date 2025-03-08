@@ -1,17 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useForm } from "react-hook-form";
 import { ChangeEmailFormType } from "../../../../../../../../types/userTypes";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { changeEmailAPI } from "../../../../../../../../api/user";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ShowToastType } from "../../../../../../../../types/toastTypes";
+import { SetChildLoadingType } from "../../../ManageAccountForms";
+import { handleErrManageUserType } from "../../../../../hooks/useManageAccount";
 
 export const useChangeEmail = ({
   showToastMsg,
   setIsChildLoading,
   handleErrManageUser,
-}: any) => {
+}: {
+  showToastMsg: ShowToastType;
+  setIsChildLoading: SetChildLoadingType;
+  handleErrManageUser: handleErrManageUserType;
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
 

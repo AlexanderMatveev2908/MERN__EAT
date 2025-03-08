@@ -5,7 +5,6 @@ import { useToast, useUser } from "../../../../hooks/useGlobal";
 import { useHandleErr } from "../../../../hooks/useHandleErr";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { AccessResAPIType } from "../../../../types/authTypes";
 import { loginUserAPI } from "../../../../api/auth";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
 
@@ -37,15 +36,15 @@ export const useLoginCustom = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: LoginFormType) => loginUserAPI(data),
-    onSuccess: (data: AccessResAPIType) => {
+    onSuccess: (data) => {
       reset();
       setUserLogged(data.accessToken);
       showToastMsg("User logged in successfully", "SUCCESS");
       navigate("/");
     },
     onError: (err: any) => {
-      if (err?.response?.status === 401)
-        showToastMsg("Invalid credentials", "ERROR");
+      if ([401, 403].includes(err?.response?.status))
+        showToastMsg(err?.response?.data?.msg, "ERROR");
       else handleErrAPI({ err });
     },
   });

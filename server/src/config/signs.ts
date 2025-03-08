@@ -1,7 +1,7 @@
 export const EXPIRY_ACCESS = "5m"; //basic access token
 export const ACCESS_SIGN = process.env.JWT_ACCESS_SIGN;
 
-const GEN_EXPIRY_AUTH = () => new Date(Date.now() + 1000 * 60 * 15); //register, recover-pwd, verify-account, change-email
+const GEN_EXPIRY_AUTH = () => new Date(Date.now() + 1000 * 60 * 15); //verify-email, recover-pwd
 const GEN_EXPIRY_NEWSLETTER = () => new Date(Date.now() + 1000 * 60 * 30); // newsletter unsubscribe
 const GEN_EXPIRY_MANAGE_ACCOUNT = () => new Date(Date.now() + 1000 * 60 * 15); // manage-account
 const GEN_EXPIRY_VERIFY_NEW_EMAIL = () => new Date(Date.now() + 1000 * 60 * 15); // verify-new-email

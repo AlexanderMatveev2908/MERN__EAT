@@ -15,5 +15,5 @@ export type ToastActionTypes = {
 
 export type ToastValsType = ToastStateType & {
   closeToast: () => void;
-  showToastMsg: (msg: string, type: ToastStateType["type"]) => void;
+  showToastMsg: ShowToastType;
 };

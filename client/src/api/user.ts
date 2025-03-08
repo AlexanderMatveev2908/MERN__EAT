@@ -27,7 +27,10 @@ export const getRightManageAccountAPI = async (password: string) => {
   return data;
 };
 
-export const changeEmailAPI = async (params) => {
+export const changeEmailAPI = async (params: {
+  newEmail: string;
+  manageAccountToken: string;
+}) => {
   const { data } = await foodAppInstance.patch("/user/change-email", {
     ...params,
   });
@@ -48,8 +51,15 @@ export const changeOldPwdAPI = async (params: {
   newPassword: string;
   manageAccountToken: string;
 }) => {
-  console.log(params);
   const { data } = await foodAppInstance.patch("/user/change-old-pwd", params);
+
+  return data;
+};
+
+export const deleteAccountAPI = async (manageAccountToken: string) => {
+  const { data } = await foodAppInstance.delete("/user/delete-account", {
+    data: { manageAccountToken },
+  });
 
   return data;
 };

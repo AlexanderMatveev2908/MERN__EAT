@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";

@@ -12,7 +12,7 @@ import {
   confirmPwdField,
   emailField,
   nameFieldsArr,
-  pwdFieldToAccess,
+  pwdFieldToCreate,
 } from "../../../config/fieldsArr/authFieldsUser";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
@@ -54,7 +54,7 @@ const Register: FC = () => {
                 custom: customPwd,
                 isVisible: isPwdVisible,
                 handleChangeVisibility: handleChangePwdVisibility,
-                field: pwdFieldToAccess,
+                field: pwdFieldToCreate,
               }}
             />
 

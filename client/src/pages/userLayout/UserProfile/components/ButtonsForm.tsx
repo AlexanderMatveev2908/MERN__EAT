@@ -44,7 +44,12 @@ const ButtonsForm: FC<PropsType> = ({
         ) : (
           <div className="w-full max-w-[200px] h-full flex items-center">
             <ButtonAnimated
-              {...{ label: "Save", isDisabled: isNextDisabled, type: "submit" }}
+              {...{
+                label: "Save",
+                isDisabled: isNextDisabled,
+                type: "submit",
+                styleTxt: "txt__02",
+              }}
             />
           </div>
         )

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate } from "react-router-dom";
 import { useToast, useUser } from "../../../../../hooks/useGlobal";
 import { useToggleNewsLetter } from "./useToggleNewsLetter";

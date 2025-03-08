@@ -3,6 +3,8 @@ import { useScrollTop } from "../../../../hooks/useScrollTop";
 import { useToast, useUser } from "../../../../hooks/useGlobal";
 import { useHandleErr } from "../../../../hooks/useHandleErr";
 
+export type handleErrManageUserType = (err: any) => void;
+
 export const useManageAccount = () => {
   useScrollTop();
 

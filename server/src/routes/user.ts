@@ -21,6 +21,8 @@ import { validatorChangeEmail } from "../middleware/user/validatorChangeEmail";
 import { validatorVerifyNewEmail } from "../middleware/user/validatorVerifyNewEmail";
 import { validatorChangePwd } from "../middleware/user/validatorChangePwd";
 import { validatorManageAccount } from "../middleware/user/validatorManageAccount";
+import { validatorDeleteAccount } from "../middleware/user/validatorDeleteAccount";
+import { deleteAccount } from "../controllers/userControllers/deleteAccount";
 
 const router = express();
 
@@ -64,6 +66,14 @@ router.patch(
   verifyAccessToken,
   validatorChangePwd,
   asyncWrapper(changeOldPwd)
+);
+
+router.delete(
+  "/delete-account",
+  verifyAccessToken,
+  makeLimiter({ max: 5, ms: HOUR }),
+  validatorDeleteAccount,
+  asyncWrapper(deleteAccount)
 );
 
 export default router;

@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { useDropLogged } from "./hooks/useDropLogged";
 import SpinnerBtnReact from "../../../../loaders/SpinnerBtnReact/SpinnerBtnReact";
-import { loggedUserFields } from "../../../../../config/fieldsArr/userDropDownFields";
+import { loggedUserFields } from "../../../../../config/fieldsArr/dropSideFields";
 
 const DropLogged: FC = () => {
   const {

@@ -3,14 +3,15 @@ import { useMutation } from "@tanstack/react-query";
 import { newsLetterToggleLoggedAPI } from "../../../../../api/newsLetter";
 import { CurrUserType } from "../../../../../types/userTypes";
 import { useUser } from "../../../../../hooks/useGlobal";
-import { ToastStateType } from "../../../../../types/toastTypes";
+import { ShowToastType } from "../../../../../types/toastTypes";
+import { HandleErrType } from "../../../../../hooks/useHandleErr";
 
 export const useToggleNewsLetter = ({
   showToastMsg,
   handleErrAPI,
 }: {
-  handleErrAPI: ({ err }: { err: any }) => void;
-  showToastMsg: (msg: string, type: ToastStateType["type"]) => void;
+  handleErrAPI: HandleErrType;
+  showToastMsg: ShowToastType;
 }) => {
   const { setCurrUser } = useUser();
 

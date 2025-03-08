@@ -7,7 +7,6 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { REG_MONGO, REG_TOKEN } from "../../../../constants/regex";
 import { useChangeVisibilityPwd } from "../../../../hooks/useChangeVisibilityPwd";
 import { useMutation } from "@tanstack/react-query";
-import { AccessResAPIType } from "../../../../types/authTypes";
 import { changeRecoverPwdAPI } from "../../../../api/auth";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
 
@@ -70,7 +69,7 @@ export const useRecoverPwd = () => {
       token: string;
       userId: string;
     }) => changeRecoverPwdAPI({ password: password, token, userId }),
-    onSuccess: (data: AccessResAPIType) => {
+    onSuccess: (data) => {
       reset();
       setUserLogged(data.accessToken);
       showToastMsg("Password changed successfully", "SUCCESS");
