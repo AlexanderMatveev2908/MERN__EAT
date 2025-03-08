@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { responseMsgToRefresh } from "../config/responseMsgToHandle/responseMsgToHandle";
 
 export const foodAppInstance = axios.create({
   baseURL:
@@ -29,7 +28,11 @@ foodAppInstance.interceptors.response.use(
 
     if (
       err?.response?.status === 401 &&
-      responseMsgToRefresh.includes(err?.response?.data?.msg) &&
+      [
+        "ACCESS TOKEN EXPIRED",
+        "ACCESS TOKEN INVALID",
+        "ACCESS TOKEN NOT PROVIDED",
+      ].includes(err?.response?.data?.msg) &&
       !isRefreshing &&
       !originalReq.retry
     ) {

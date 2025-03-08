@@ -43,3 +43,12 @@ export const verifyNewEmailAPI = async (params: {
 
   return data;
 };
+
+export const changeOldPwdAPI = async (params: {
+  newPassword: string;
+  manageAccountToken: string;
+}) => {
+  const { data } = await foodAppInstance.patch("/user/change-old-pwd", params);
+
+  return data;
+};

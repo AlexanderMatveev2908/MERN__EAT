@@ -3,10 +3,6 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useCreateTanStackSendEmail } from "./useCreateTanStackSendEmail";
-import {
-  allowedFromAuthEmail,
-  allowedFromAuthType,
-} from "../../../../config/allowedPathsAndQuery/pathsAndTypes";
 import { sendUserEmailAPI } from "../../../../api/auth";
 import { validateStrWithArr } from "../../../../utils/validateStr";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
@@ -25,8 +21,8 @@ export const useSendEmail = () => {
   const type = searchParams.get("type");
 
   const canStay =
-    validateStrWithArr(allowedFromAuthEmail, from) &&
-    validateStrWithArr(allowedFromAuthType, type ?? "");
+    validateStrWithArr(["/auth/register", "/auth/login"], from) &&
+    validateStrWithArr(["recover-pwd", "verify-account"], type ?? "");
 
   const {
     register,

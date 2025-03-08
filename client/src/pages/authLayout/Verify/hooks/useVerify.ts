@@ -5,7 +5,6 @@ import { useGetTansCreated } from "./useGetTanVerify";
 import { useUser } from "../../../../hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../../constants/regex";
 import { isValidStr, validateStrWithArr } from "../../../../utils/validateStr";
-import { allowedFromAuthType } from "../../../../config/allowedPathsAndQuery/pathsAndTypes";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
 
 export const useVerify = () => {
@@ -21,7 +20,10 @@ export const useVerify = () => {
 
   const isUserIdValid = isValidStr(userId ?? "", REG_MONGO);
   const isTokenValid = isValidStr(token ?? "", REG_TOKEN);
-  const isValidType = validateStrWithArr(allowedFromAuthType, type ?? "");
+  const isValidType = validateStrWithArr(
+    ["recover-pwd", "verify-account"],
+    type ?? ""
+  );
 
   const canStay =
     [isTokenValid, isUserIdValid, isValidType].every((el) => !!el) && !isLogged;

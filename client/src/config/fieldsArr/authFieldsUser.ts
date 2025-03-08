@@ -72,6 +72,7 @@ export const pwdFieldToChangeOldPwd = {
   ...pwdFieldToCreate,
   label: "New Password",
   place: "Your new password",
+  field: "newPassword",
 };
 
 export const confirmPwdField = {

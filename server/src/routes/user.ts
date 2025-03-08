@@ -18,6 +18,9 @@ import {
   verifyChangeEmail,
 } from "../controllers/userControllers/modifyEmail";
 import { validatorVerifyEmail } from "../middleware/user/validatorVerifyEmail";
+import { HOUR } from "../constants/time";
+import { validatorChangeOldPwd } from "../middleware/user/validatorChangeOldPwd";
+import { changeOldPwd } from "../controllers/userControllers/changePwd";
 
 const router = express();
 
@@ -43,7 +46,7 @@ router.post(
 router.patch(
   "/change-email",
   verifyAccessToken,
-  makeLimiter({ max: 3 }),
+  makeLimiter({ max: 5, ms: HOUR }),
   validatorChangeEmail,
   asyncWrapper(changeEmail)
 );
@@ -51,9 +54,17 @@ router.patch(
 router.post(
   "/verify-new-email",
   verifyAccessToken,
-  makeLimiter({ max: 3 }),
+  makeLimiter({ max: 5, ms: HOUR }),
   validatorVerifyEmail,
   asyncWrapper(verifyChangeEmail)
+);
+
+router.patch(
+  "/change-old-pwd",
+  verifyAccessToken,
+  makeLimiter({ max: 5, ms: HOUR }),
+  validatorChangeOldPwd,
+  asyncWrapper(changeOldPwd)
 );
 
 export default router;

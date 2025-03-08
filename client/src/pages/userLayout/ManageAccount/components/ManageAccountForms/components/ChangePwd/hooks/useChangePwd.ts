@@ -3,10 +3,19 @@ import { ChangePwdFormTypeStep } from "../../../../../../../../types/userTypes";
 import { useState } from "react";
 import { useChangeVisibilityPwd } from "../../../../../../../../hooks/useChangeVisibilityPwd";
 import { useMutation } from "@tanstack/react-query";
+import { changeOldPwdAPI } from "../../../../../../../../api/user";
+import { PropsForChildren } from "../../../ManageAccountForms";
+import { useNavigate } from "react-router-dom";
 
-export const useChangePwd = () => {
+export const useChangePwd = ({
+  showToastMsg,
+  handleErrAPI,
+  setIsChildLoading,
+}: Omit<PropsForChildren, "currUser">) => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -24,12 +33,38 @@ export const useChangePwd = () => {
       setIsPwdVisible,
     });
 
-  const { mutate, isPending } = useMutation({});
+  const { mutate, isPending } = useMutation({
+    mutationFn: (params: {
+      newPassword: string;
+      manageAccountToken: string;
+    }) => {
+      setIsChildLoading(true);
 
-  const customPwd = (val: string, email: string) =>
+      return changeOldPwdAPI(params);
+    },
+    onSuccess: () => {
+      reset();
+      showToastMsg("Password changed successfully", "SUCCESS");
+      navigate("/");
+    },
+    onError: (err) => {
+      handleErrAPI({ err });
+    },
+    onSettled: () => setIsChildLoading(false),
+  });
+
+  const handleSubmitChangePwd = handleSubmit((data) => {
+    const { newPassword } = data;
+    mutate({
+      newPassword,
+      manageAccountToken: sessionStorage.getItem("manageAccountToken") ?? "",
+    });
+  });
+
+  const customPwd = (val: string, email: string | undefined) =>
     val === email ? "Password must be different from email" : true;
   const customConfirmPwd = (val: string) =>
-    val !== watch("password") ? "Passwords do not match 🤔" : true;
+    val !== watch("newPassword") ? "Passwords do not match 🤔" : true;
 
   return {
     register,
@@ -41,5 +76,7 @@ export const useChangePwd = () => {
     isPwdVisible,
     customPwd,
     customConfirmPwd,
+    isPending,
+    handleSubmitChangePwd,
   };
 };

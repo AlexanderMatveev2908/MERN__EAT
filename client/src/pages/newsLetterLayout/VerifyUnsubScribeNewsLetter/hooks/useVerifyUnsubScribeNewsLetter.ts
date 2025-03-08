@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { useToast } from "../../../../hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../../constants/regex";
 import { isValidStr, validateStrWithArr } from "../../../../utils/validateStr";
-import { unSubscribeNewsLetterAllowedUserType } from "../../../../config/allowedPathsAndQuery/pathsAndTypes";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
 
 export const useVerifyUnsubScribeNewsLetter = () => {
@@ -26,7 +25,7 @@ export const useVerifyUnsubScribeNewsLetter = () => {
   const token = searchParams.get("token");
 
   const canStay =
-    validateStrWithArr(unSubscribeNewsLetterAllowedUserType, typeUser ?? "") &&
+    validateStrWithArr(["non-logged", "logged"], typeUser ?? "") &&
     isValidStr(token ?? "", REG_TOKEN) &&
     isValidStr(userId ?? "", REG_MONGO);
 

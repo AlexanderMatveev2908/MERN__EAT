@@ -18,7 +18,7 @@ import {
 } from "../controllers/authControllers/verify";
 import { recoverPwd } from "../controllers/authControllers/recoverPwd";
 import { validatorSendEmail } from "../middleware/auth/validatorSendEmail";
-import { verifyAccessToken } from "./../middleware/general/verifyAccessToken";
+import { HOUR } from "../constants/time";
 
 const router = express();
 
@@ -35,20 +35,20 @@ router.post("/logout", asyncWrapper(logoutUser));
 
 router.post(
   "/send-email",
-  makeLimiter({ max: 3 }),
+  makeLimiter({ max: 5, ms: HOUR }),
   validatorSendEmail,
   asyncWrapper(sendEmailUser)
 );
 
 router.post(
   "/verify-account",
-  makeLimiter({ max: 3 }),
+  makeLimiter({ max: 5, ms: HOUR }),
   validatorVerify,
   asyncWrapper(verifyAccount)
 );
 router.post(
   "/verify-recover-pwd",
-  makeLimiter({ max: 3 }),
+  makeLimiter({ max: 5, ms: HOUR }),
   validatorVerify,
   asyncWrapper(verifyRecoverPwd)
 );

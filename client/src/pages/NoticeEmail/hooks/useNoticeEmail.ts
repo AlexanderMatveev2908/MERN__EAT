@@ -1,10 +1,6 @@
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useScrollTop } from "../../../hooks/useScrollTop";
 import { validateStrWithArr } from "../../../utils/validateStr";
-import {
-  allowedUsersNoticeEmailFrom,
-  allowedUsersNoticeEmailType,
-} from "../../../config/allowedPathsAndQuery/pathsAndTypes";
 
 export const useNoticeEmail = () => {
   useScrollTop();
@@ -16,8 +12,25 @@ export const useNoticeEmail = () => {
   const from = location?.state?.from;
 
   const canStay =
-    validateStrWithArr(allowedUsersNoticeEmailType, type ?? "") &&
-    validateStrWithArr(allowedUsersNoticeEmailFrom, from);
+    validateStrWithArr(
+      [
+        "verify-account",
+        "recover-pwd",
+        "sentEmailUnsubscribe",
+        "change-email",
+        "change-pwd",
+      ],
+      type ?? ""
+    ) &&
+    validateStrWithArr(
+      [
+        "/auth/register",
+        "/auth/login",
+        "/newsletter/notice-unsubscribe-with-retry",
+        "/user/manage-account",
+      ],
+      from
+    );
 
   const txt =
     type === "verify-account"
