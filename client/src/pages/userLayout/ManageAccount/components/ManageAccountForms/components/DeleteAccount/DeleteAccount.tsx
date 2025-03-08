@@ -7,7 +7,12 @@ const DeleteAccount: FC<PropsForChildren> = ({
   showToastMsg,
   handleErrAPI,
   setIsChildLoading,
+  currForm,
 }) => {
-  return <DeleteAccountBtn />;
+  return (
+    <div className="">
+      <DeleteAccountBtn />;
+    </div>
+  );
 };
 export default DeleteAccount;
