@@ -11,14 +11,10 @@ import helmet from "helmet";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 import newsLetterRouter from "./routes/newsLetter";
-import crypto from "crypto";
-import { scheduleFoodCoupon } from "./config/cron";
+import path from "path";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
-
-// console.log(crypto.randomBytes(32));
-// scheduleFoodCoupon();
 
 app.set("trust proxy", 1);
 
@@ -36,14 +32,13 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/newsletter", newsLetterRouter);
 
-// app.use("/api/v1/auth", authRouter);
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../../client/dist")));
 
-// app.get(
-//   "/api/v1/protected",
-//   checkJwtMiddleware,
-//   (req: Request, res: Response): any =>
-//     res.status(200).json({ success: true, msg: "you have access" })
-// );
+  app.get("*", (_, res) =>
+    res.sendFile(path.join(__dirname, "../../client/dist/index.html"))
+  );
+}
 
 app.use(errMiddleware);
 

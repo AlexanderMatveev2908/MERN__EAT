@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { makeConditionalStyleLocation } from "../../../../../utils/conditionalStyleLocation";
+import { SideDropFieldType } from "../../../../../config/fieldsArr/dropSideFields";
 
 type PropsType = {
   handleSideClick: (path: string, from?: string) => void;
   type: string | null;
   location: any;
-  el: any;
+  el: SideDropFieldType;
 };
 
 const SideEL: FC<PropsType> = ({ handleSideClick, type, location, el }) => {

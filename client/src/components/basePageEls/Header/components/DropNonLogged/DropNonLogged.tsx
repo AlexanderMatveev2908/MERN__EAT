@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useDropNonLogged } from "./hooks/useDropNonLogged";
 import { User } from "lucide-react";
-import { nonLoggedUserFields } from "../../../../../config/fieldsArr/userDropDownFields";
+import { nonLoggedUserFields } from "../../../../../config/fieldsArr/dropSideFields";
 
 const DropNonLogged: FC = () => {
   const {

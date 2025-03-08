@@ -3,11 +3,11 @@ import { FC } from "react";
 import { Beef, Cookie, Fish, Ham, IceCreamCone, Pizza } from "lucide-react";
 
 type PropsType = {
-  isDisabled?: boolean;
-  label?: string;
-  type?: "button" | "submit" | "reset";
+  label: string;
+  type: "button" | "submit" | "reset";
   styleTxt?: string;
   handleClick?: (...params: any) => void;
+  isDisabled?: boolean;
 };
 
 const ButtonAnimated: FC<PropsType> = ({

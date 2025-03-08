@@ -57,6 +57,11 @@ export const changeOldPwd = async (
     );
 
   const hashedPwd = await hashPwdBcrypt(newPassword);
+
+  user.tokens.manageAccount = {
+    hashed: null,
+    expiry: null,
+  };
   user.password = hashedPwd;
 
   await user.save();

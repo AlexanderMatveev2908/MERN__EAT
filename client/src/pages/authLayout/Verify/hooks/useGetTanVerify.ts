@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useToast, useUser } from "../../../../hooks/useGlobal";
-import { AccessResAPIType, VerifyAPI } from "../../../../types/authTypes";
 import { useCreateTanVerify } from "./useCreateTanVerify";
 import { recoverPwdAPI, verifyAccountAPI } from "../../../../api/auth";
 
@@ -19,9 +18,8 @@ export const useGetTansCreated = (userId: string, token: string) => {
   };
 
   const { mutate: mutateVerify } = useCreateTanVerify({
-    callAPI: ({ userId, token }: VerifyAPI) =>
-      verifyAccountAPI({ userId, token }),
-    successCB: (data: AccessResAPIType) => handleSuccessVerifyAccount(data),
+    callAPI: ({ userId, token }) => verifyAccountAPI({ userId, token }),
+    successCB: (data) => handleSuccessVerifyAccount(data),
   });
 
   const handleSuccessVerifyRecoverPwd = () => {
@@ -34,7 +32,7 @@ export const useGetTansCreated = (userId: string, token: string) => {
   };
 
   const { mutate: mutateRecover } = useCreateTanVerify({
-    callAPI: ({ userId, token }: VerifyAPI) => recoverPwdAPI({ userId, token }),
+    callAPI: ({ userId, token }) => recoverPwdAPI({ userId, token }),
     successCB: () => handleSuccessVerifyRecoverPwd(),
   });
 

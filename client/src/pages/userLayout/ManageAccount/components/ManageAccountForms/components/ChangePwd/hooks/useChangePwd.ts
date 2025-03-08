@@ -6,12 +6,19 @@ import { useChangeVisibilityPwd } from "../../../../../../../../hooks/useChangeV
 import { useMutation } from "@tanstack/react-query";
 import { changeOldPwdAPI } from "../../../../../../../../api/user";
 import { useNavigate } from "react-router-dom";
+import { ShowToastType } from "../../../../../../../../types/toastTypes";
+import { handleErrManageUserType } from "../../../../../hooks/useManageAccount";
+import { SetChildLoadingType } from "../../../ManageAccountForms";
 
 export const useChangePwd = ({
   showToastMsg,
   handleErrManageUser,
   setIsChildLoading,
-}: any) => {
+}: {
+  showToastMsg: ShowToastType;
+  handleErrManageUser: handleErrManageUserType;
+  setIsChildLoading: SetChildLoadingType;
+}) => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
 

@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
 import { useHandleErr } from "../../../../hooks/useHandleErr";
-import { AccessResAPIType, VerifyAPI } from "../../../../types/authTypes";
 
 export const useCreateTanVerify = ({ callAPI, successCB }) => {
   const { handleErrAPI } = useHandleErr();
 
   const { mutate } = useMutation({
-    mutationFn: ({ userId, token }: VerifyAPI) => callAPI({ userId, token }),
-    onSuccess: (data: AccessResAPIType) => {
+    mutationFn: ({ userId, token }: { userId: string; token: string }) =>
+      callAPI({ userId, token }),
+    onSuccess: (data) => {
       successCB(data);
     },
     onError: (err: any) => {

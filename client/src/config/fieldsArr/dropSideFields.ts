@@ -10,9 +10,15 @@ import {
 } from "lucide-react";
 import { genID } from "../../utils/genID";
 
-export type BasicSideLink = Omit<NonLoggedSideLink, "from">;
+export type SideDropFieldType = {
+  id: string;
+  path: string;
+  label: string;
+  svg: any;
+  from?: string;
+};
 
-export const allUsersFields: BasicSideLink[] = [
+export const allUsersFields = [
   {
     id: genID(),
     path: "/",
@@ -36,14 +42,7 @@ export const loggedUserFields = [
   },
 ];
 
-export type NonLoggedSideLink = {
-  id: string;
-  path: string;
-  label: string;
-  from?: string;
-  svg: any;
-};
-export const nonLoggedUserFields: NonLoggedSideLink[] = [
+export const nonLoggedUserFields = [
   {
     id: genID(),
     path: "/auth/login",

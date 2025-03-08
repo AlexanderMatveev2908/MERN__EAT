@@ -9,7 +9,7 @@ import {
   allUsersFields,
   loggedUserFields,
   nonLoggedUserFields,
-} from "../../../config/fieldsArr/userDropDownFields";
+} from "../../../config/fieldsArr/dropSideFields";
 
 type PropsType = {
   sideOpen: boolean;

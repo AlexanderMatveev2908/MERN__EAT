@@ -3,7 +3,6 @@ import { useMutation } from "@tanstack/react-query";
 import { SendEmailFormType } from "./useSendEmail";
 import { useNavigate } from "react-router-dom";
 import { UseFormReset } from "react-hook-form";
-import { BaseResAPIType } from "../../../../types/authTypes";
 import { useToast } from "../../../../hooks/useGlobal";
 import { useHandleErr } from "../../../../hooks/useHandleErr";
 
@@ -14,13 +13,7 @@ export const useCreateTanStackSendEmail = ({
   from,
 }: {
   reset: UseFormReset<SendEmailFormType>;
-  callAPI: ({
-    email,
-    type,
-  }: {
-    email: SendEmailFormType["email"];
-    type: string | null;
-  }) => Promise<BaseResAPIType>;
+  callAPI: any;
   from: string;
   type: string | null;
 }) => {
@@ -39,7 +32,9 @@ export const useCreateTanStackSendEmail = ({
       });
     },
     onError: (err: any) => {
-      handleErrAPI({ err });
+      if (err?.response?.status === 403)
+        showToastMsg(err?.response?.data?.msg, "ERROR");
+      else handleErrAPI({ err });
     },
   });
 

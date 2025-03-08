@@ -26,7 +26,6 @@ const Login: FC = () => {
             onSubmit={handleLoginUser}
             className="grid grid-cols-1 w-full gap-y-8"
           >
-            {/* <EmailField {...{ register, errors }} /> */}
             <BaseFormField {...{ register, errors, field: emailField }} />
 
             <BasePwdField
