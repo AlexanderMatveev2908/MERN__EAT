@@ -6,6 +6,7 @@ import {
   unauthorizedErr,
   userNotFound,
 } from "../../utils/baseErrResponse";
+import { isDev } from "../../config/currMode";
 
 export const verifyAccount = async (
   req: Request,
@@ -58,7 +59,7 @@ export const verifyAccount = async (
 
   res.cookie("refreshToken", jwe, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isDev,
     expires: expiry,
   });
 

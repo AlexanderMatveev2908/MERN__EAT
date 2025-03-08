@@ -1,10 +1,8 @@
+import { isDev } from "../config/currMode";
 import { transporterMail } from "../config/nodemailer";
 import { UserType } from "../models/User";
 
-const basePath =
-  process.env.NODE_ENV === "development"
-    ? process.env.FRONT_URL_DEV
-    : process.env.FRONT_URL;
+const basePath = isDev ? process.env.FRONT_URL_DEV : process.env.FRONT_URL;
 
 export const sendUserEmail = async ({
   user,

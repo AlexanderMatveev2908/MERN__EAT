@@ -58,6 +58,8 @@ const Register: FC = () => {
               }}
             />
 
+            <GeneratePwd />
+
             {!!Object.keys(errors?.password ?? {})?.length && (
               <div className="w-full grid grid-cols-2 gap-5 sm:grid-cols-4">
                 <PasswordChecker {...{ watch }} />
@@ -75,8 +77,6 @@ const Register: FC = () => {
                 field: confirmPwdField,
               }}
             />
-
-            <GeneratePwd />
 
             <AcceptTerms
               {...{ register, errors, valTerms: watch("acceptedTerms") }}
