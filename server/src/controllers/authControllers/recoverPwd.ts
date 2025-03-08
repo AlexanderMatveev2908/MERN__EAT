@@ -7,6 +7,7 @@ import {
   unauthorizedErr,
   userNotFound,
 } from "../../utils/baseErrResponse";
+import { isDev } from "../../config/currMode";
 
 export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const { userId, password, token } = req.body;
@@ -68,7 +69,7 @@ export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
 
   res.cookie("refreshToken", jwe, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isDev,
     expires: expiry,
   });
 

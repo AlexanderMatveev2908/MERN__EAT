@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { isDev } from "./currMode";
 
 const optDev = {
   host: "smtp.gmail.com",
@@ -19,7 +20,7 @@ const optProd = {
 };
 
 export const transporterMail = nodemailer.createTransport({
-  ...(process.env.NODE_ENV === "production" ? optProd : optDev),
+  ...(isDev ? optDev : optProd),
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,

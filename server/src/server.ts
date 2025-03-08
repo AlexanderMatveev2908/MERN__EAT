@@ -12,6 +12,7 @@ import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 import newsLetterRouter from "./routes/newsLetter";
 import path from "path";
+import { isDev } from "./config/currMode";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -23,7 +24,10 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        connectSrc: ["'self'", process.env.FRONT_URL!],
+        connectSrc: [
+          "'self'",
+          isDev ? process.env.FRONT_URL_DEV! : process.env.FRONT_URL!,
+        ],
       },
     },
   })
@@ -41,7 +45,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/newsletter", newsLetterRouter);
 
-if (process.env.NODE_ENV === "production") {
+if (isDev) {
   app.use(express.static(path.join(__dirname, "../../client/dist")));
 
   app.get("*", (_, res) =>

@@ -22,11 +22,13 @@ export const useManageAccount = () => {
     if (url === "/user/manage-account") {
       if (status === 401) {
         showToastMsg(msg, "ERROR");
-      }
-    } else {
-      if (status === 429) {
+      } else if (status === 429) {
         logoutUser();
-      } else if (status === 401) {
+      }
+
+      handleErrAPI({ err });
+    } else {
+      if (status === 401) {
         setCanManageAccount(false);
       }
 

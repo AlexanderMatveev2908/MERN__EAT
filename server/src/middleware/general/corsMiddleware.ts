@@ -1,10 +1,8 @@
 import cors from "cors";
+import { isDev } from "../../config/currMode";
 
 export const corsMiddleware = cors({
-  origin:
-    process.env.NODE_ENV === "development"
-      ? process.env.FRONT_URL_DEV
-      : process.env.FRONT_URL,
+  origin: isDev ? process.env.FRONT_URL_DEV : process.env.FRONT_URL,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   credentials: true,
 });

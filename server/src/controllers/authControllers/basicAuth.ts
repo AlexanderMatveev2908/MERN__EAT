@@ -9,6 +9,7 @@ import {
   userNotFound,
 } from "../../utils/baseErrResponse";
 import NonLoggedUserNewsLetter from "../../models/UserNewsLetter";
+import { isDev } from "../../config/currMode";
 
 export const registerUser = async (
   req: Request,
@@ -79,7 +80,7 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
 
   res.cookie("refreshToken", jwe, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isDev,
     expires: expiry,
   });
 
