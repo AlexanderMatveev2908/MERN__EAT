@@ -45,13 +45,11 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/newsletter", newsLetterRouter);
 
-if (isDev) {
-  app.use(express.static(path.join(__dirname, "../../client/dist")));
+app.use(express.static(path.join(__dirname, "../../client/dist")));
 
-  app.get("*", (_, res) =>
-    res.sendFile(path.join(__dirname, "../../client/dist/index.html"))
-  );
-}
+app.get("*", (_, res) =>
+  res.sendFile(path.join(__dirname, "../../client/dist/index.html"))
+);
 
 app.use(errMiddleware);
 

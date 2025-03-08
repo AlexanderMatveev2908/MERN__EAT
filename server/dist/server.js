@@ -51,10 +51,8 @@ app.use((0, cookie_parser_1.default)());
 app.use("/api/v1/auth", auth_1.default);
 app.use("/api/v1/user", user_1.default);
 app.use("/api/v1/newsletter", newsLetter_1.default);
-if (currMode_1.isDev) {
-    app.use(express_1.default.static(path_1.default.join(__dirname, "../../client/dist")));
-    app.get("*", (_, res) => res.sendFile(path_1.default.join(__dirname, "../../client/dist/index.html")));
-}
+app.use(express_1.default.static(path_1.default.join(__dirname, "../../client/dist")));
+app.get("*", (_, res) => res.sendFile(path_1.default.join(__dirname, "../../client/dist/index.html")));
 app.use(errMiddleware_1.errMiddleware);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -67,4 +65,5 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 // netstat -ano | findstr :3000
 // npx kill-port 3000
+// dummy github
 start();
