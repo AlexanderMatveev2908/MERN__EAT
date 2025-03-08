@@ -43,7 +43,7 @@ const ManageAccountForms: FC<PropsType> = ({
           currForm === 0
             ? "max-h-[350px]"
             : currForm === 1
-            ? "max-h-[700px]"
+            ? "max-h-[750px]"
             : "max-h-[350px]"
         }`}
       >

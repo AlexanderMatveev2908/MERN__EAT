@@ -10,8 +10,8 @@ const GEN_EXPIRY_VERIFY_NEW_EMAIL = () => new Date(Date.now() + 1000 * 60 * 15);
 
 export const GEN_EXPIRY_REFRESH = () =>
   isDev
-    ? new Date(Date.now() + 1000 * 60 * 60 * 48)
-    : new Date(Date.now() + 1000 * 60 * 30); // refresh token for access token
+    ? new Date(Date.now() + 1000 * 60 * 30) // refresh token for access token
+    : new Date(Date.now() + 1000 * 60 * 60 * 24);
 
 export const GET_SIGN = (
   type: "auth" | "newsletter" | "manageAccount" | "verifyNewEmail"
