@@ -10,11 +10,15 @@ import { PropsForChildren } from "../../ManageAccountForms";
 const ChangeEmail: FC<PropsForChildren> = ({
   currUser,
   showToastMsg,
-  handleErrAPI,
   setIsChildLoading,
+  handleErrManageUser,
 }) => {
   const { register, errors, handleSubmitChangeEmail, isPending, custom } =
-    useChangeEmail({ showToastMsg, handleErrAPI, setIsChildLoading });
+    useChangeEmail({
+      showToastMsg,
+      setIsChildLoading,
+      handleErrManageUser,
+    });
 
   return (
     <div className="w-full grid grid-cols-1 justify-items-center gap-y-5 py-5 px-5 sm:px-10">

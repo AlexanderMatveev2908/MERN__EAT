@@ -22,5 +22,5 @@ export const validatorProfileDetails = [
   body("zipCode").matches(REG_ZIP).withMessage("invalid zip"),
   body("phone").matches(REG_PHONE).withMessage("invalid phone"),
 
-  handleValidator,
+  handleValidator(400),
 ];

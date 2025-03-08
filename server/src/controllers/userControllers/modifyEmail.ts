@@ -9,6 +9,8 @@ import {
 } from "../../utils/baseErrResponse";
 import { checkTokenSHA, genTokenSHA } from "../../utils/token";
 import { sendEmailChangeAccountEmail } from "../../utils/mail";
+import { REG_TOKEN } from "../../constants/regex";
+import mongoose from "mongoose";
 
 export const changeEmail = async (
   req: RequestWithUserId,

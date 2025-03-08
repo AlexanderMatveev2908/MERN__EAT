@@ -4,5 +4,5 @@ import { handleValidator } from "../../utils/handleValidator";
 export const validatorToggleSubscribe = [
   body("type").isIn(["subscribe", "unsubscribe"]).withMessage("Invalid type"),
 
-  handleValidator,
+  handleValidator(400),
 ];

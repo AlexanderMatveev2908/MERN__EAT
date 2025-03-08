@@ -30,26 +30,20 @@ export const useHandleErr = () => {
     }) => {
       console.log(err);
 
-      if ([401, 403, 429].includes(err?.response?.status)) {
-        if (err?.response?.status === 401) {
-          if (err?.response?.config?.url === "/auth/refresh") {
-            logoutUser();
-            showToastMsg("SESSION EXPIRED", "ERROR");
-          } else if (
-            ["/auth/register", "/auth/login", "/auth/send-email"].includes(
-              err?.response?.config?.url
-            )
-          ) {
-            showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
-          }
-        } else {
-          navigate("/", { replace: true });
-          showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
-        }
+      const msg = err?.response?.data?.msg || err.message;
+      const url = err?.response?.config?.url || "";
+      const status = err?.response?.status;
+
+      if (url === "/auth/refresh") {
+        logoutUser();
+        navigate("/", { replace: true });
+        showToastMsg("SESSION EXPIRED", "ERROR");
+      } else if ([401, 403, 429].includes(status)) {
+        showToastMsg(msg, "ERROR");
+        navigate("/", { replace: true });
       } else {
         if (push) navigate("/", { replace: true });
-        if (toast)
-          showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+        if (toast) showToastMsg(msg, "ERROR");
       }
     },
     [navigate, showToastMsg, logoutUser]

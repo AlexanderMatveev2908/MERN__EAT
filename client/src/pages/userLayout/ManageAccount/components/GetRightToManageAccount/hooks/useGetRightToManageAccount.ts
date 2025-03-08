@@ -4,16 +4,10 @@ import { useForm } from "react-hook-form";
 import { GetRightManageAccountFormType } from "../../../../../../types/userTypes";
 import { useMutation } from "@tanstack/react-query";
 import { getRightManageAccountAPI } from "../../../../../../api/user";
-import { ShowToastType } from "../../../../../../types/toastTypes";
 
 export const useGetRightToManageAccount = ({
-  logoutUser,
   setCanManageAccount,
-  showToastMsg,
-}: {
-  logoutUser: () => void;
-  setCanManageAccount: (val: string | boolean) => void;
-  showToastMsg: ShowToastType;
+  handleErrManageUser,
 }) => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
 
@@ -36,9 +30,7 @@ export const useGetRightToManageAccount = ({
       setCanManageAccount(data.manageAccountToken);
     },
     onError: (err: any) => {
-      if (err?.response?.status === 429) logoutUser();
-
-      showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+      handleErrManageUser(err);
     },
   });
 

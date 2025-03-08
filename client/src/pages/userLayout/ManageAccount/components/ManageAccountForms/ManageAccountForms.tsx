@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import ChangeEmail from "./components/ChangeEmail/ChangeEmail";
 import { useManageAccountForms } from "./hooks/useManageAccountForms";
@@ -6,26 +7,28 @@ import ChangePwd from "./components/ChangePwd/ChangePwd";
 import DeleteAccount from "./components/DeleteAccount/DeleteAccount";
 import { CurrUserType } from "../../../../../types/userTypes";
 import { ShowToastType } from "../../../../../types/toastTypes";
-import { HandleErrType } from "../../../../../hooks/useHandleErr";
 
 type PropsType = {
   currUser: CurrUserType | null;
   showToastMsg: ShowToastType;
+  handleErrManageUser: (err: any) => void;
 };
 
 export type PropsForChildren = {
   setIsChildLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  handleErrAPI: HandleErrType;
 } & PropsType;
 
-const ManageAccountForms: FC<PropsType> = ({ currUser, showToastMsg }) => {
+const ManageAccountForms: FC<PropsType> = ({
+  currUser,
+  showToastMsg,
+  handleErrManageUser,
+}) => {
   const {
     currForm,
     handlePrev,
     handleNext,
     isPrevDisabled,
     isNextDisabled,
-    handleErrAPI,
     isChildLoading,
     setIsChildLoading,
   } = useManageAccountForms();
@@ -49,17 +52,27 @@ const ManageAccountForms: FC<PropsType> = ({ currUser, showToastMsg }) => {
             {...{
               currUser,
               showToastMsg,
-              handleErrAPI,
               setIsChildLoading,
+              handleErrManageUser,
             }}
           />
 
           <ChangePwd
-            {...{ currUser, showToastMsg, handleErrAPI, setIsChildLoading }}
+            {...{
+              currUser,
+              showToastMsg,
+              setIsChildLoading,
+              handleErrManageUser,
+            }}
           />
 
           <DeleteAccount
-            {...{ currUser, showToastMsg, handleErrAPI, setIsChildLoading }}
+            {...{
+              currUser,
+              showToastMsg,
+              setIsChildLoading,
+              handleErrManageUser,
+            }}
           />
         </div>
       </div>

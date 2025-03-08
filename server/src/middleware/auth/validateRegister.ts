@@ -25,5 +25,5 @@ export const validatorRegister = [
     .equals("true")
     .withMessage("Terms Accepted needed to proceed"),
 
-  handleValidator,
+  handleValidator(400),
 ];

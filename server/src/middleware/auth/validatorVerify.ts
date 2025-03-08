@@ -6,5 +6,5 @@ export const validatorVerify = [
   body("token").matches(REG_TOKEN).withMessage("invalid token"),
   body("userId").matches(REG_MONGO).withMessage("invalid userId"),
 
-  handleValidator,
+  handleValidator(401),
 ];

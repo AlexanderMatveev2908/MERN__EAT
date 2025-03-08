@@ -9,10 +9,10 @@ import {
   unsubScribeNewsLetterViaEmailLinkNonLogged,
 } from "../controllers/newsLetterControllers";
 import { makeLimiter } from "../utils/makeLimiter";
-import { validatorUnsubscribeNewsLetterLink } from "../middleware/newsLetter/validatorUnsubscribeNewsLetterLogged";
 import { validatorToggleSubscribe } from "../middleware/newsLetter/validatorToggleSubscribe";
-import { validatorNewsLetterEmail } from "../middleware/newsLetter/validatorUnsubscribeNonLogged";
+import { validatorNewsLetterEmail } from "../middleware/newsLetter/validatorNewsLetterEmail";
 import { HOUR } from "../constants/time";
+import { validatorUnsubscribeVerify } from "../middleware/newsLetter/validatorUnsubscribeVerify";
 
 const router = express();
 
@@ -36,14 +36,14 @@ router.post(
 router.patch(
   "/unsubscribe-via-link-logged",
   makeLimiter({ max: 5 }),
-  validatorUnsubscribeNewsLetterLink,
+  validatorUnsubscribeVerify,
   asyncWrapper(unsubScribeNewsLetterViaEmailLinkLogged)
 );
 
 router.delete(
   "/unsubscribe-via-link-non-logged",
   makeLimiter({ max: 5 }),
-  validatorUnsubscribeNewsLetterLink,
+  validatorUnsubscribeVerify,
   asyncWrapper(unsubScribeNewsLetterViaEmailLinkNonLogged)
 );
 

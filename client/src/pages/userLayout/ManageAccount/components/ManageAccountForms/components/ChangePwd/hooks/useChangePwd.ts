@@ -1,17 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { ChangePwdFormTypeStep } from "../../../../../../../../types/userTypes";
 import { useState } from "react";
 import { useChangeVisibilityPwd } from "../../../../../../../../hooks/useChangeVisibilityPwd";
 import { useMutation } from "@tanstack/react-query";
 import { changeOldPwdAPI } from "../../../../../../../../api/user";
-import { PropsForChildren } from "../../../ManageAccountForms";
 import { useNavigate } from "react-router-dom";
 
 export const useChangePwd = ({
   showToastMsg,
-  handleErrAPI,
+  handleErrManageUser,
   setIsChildLoading,
-}: Omit<PropsForChildren, "currUser">) => {
+}: any) => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
 
@@ -48,7 +48,7 @@ export const useChangePwd = ({
       navigate("/");
     },
     onError: (err) => {
-      handleErrAPI({ err });
+      handleErrManageUser(err);
     },
     onSettled: () => setIsChildLoading(false),
   });

@@ -7,9 +7,9 @@ const ManageAccount: FC = () => {
   const {
     showToastMsg,
     canManageAccount,
-    setCanManageAccount,
-    logoutUser,
     currUser,
+    handleErrManageUser,
+    setCanManageAccount,
   } = useManageAccount();
 
   return (
@@ -17,10 +17,12 @@ const ManageAccount: FC = () => {
       <span className="txt__04">Manage your account</span>
 
       {canManageAccount ? (
-        <ManageAccountForms {...{ currUser, showToastMsg }} />
+        <ManageAccountForms
+          {...{ currUser, showToastMsg, handleErrManageUser }}
+        />
       ) : (
         <GetRightToManageAccount
-          {...{ setCanManageAccount, logoutUser, showToastMsg }}
+          {...{ handleErrManageUser, setCanManageAccount }}
         />
       )}
     </div>

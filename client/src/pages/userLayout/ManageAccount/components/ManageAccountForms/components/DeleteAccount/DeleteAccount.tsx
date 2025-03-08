@@ -5,7 +5,6 @@ import { PropsForChildren } from "../../ManageAccountForms";
 const DeleteAccount: FC<PropsForChildren> = ({
   currUser,
   showToastMsg,
-  handleErrAPI,
   setIsChildLoading,
   currForm,
 }) => {
