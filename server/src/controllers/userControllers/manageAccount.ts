@@ -1,11 +1,7 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { RequestWithUserId } from "../../middleware/general/verifyAccessToken";
 import User from "../../models/User";
-import {
-  badRequest,
-  unauthorizedErr,
-  userNotFound,
-} from "../../utils/baseErrResponse";
+import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse";
 import { checkPwdBcrypt } from "../../utils/hashPwd";
 import { genTokenSHA } from "../../utils/token";
 
