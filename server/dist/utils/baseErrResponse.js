@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.forbiddenErr = exports.unauthorizedErr = exports.badRequest = exports.userNotFound = exports.baseErrResponse = void 0;
+const baseErrResponse = (res, status, msg) => res.status(status).json({ success: false, msg: msg });
+exports.baseErrResponse = baseErrResponse;
+const userNotFound = (res) => (0, exports.baseErrResponse)(res, 404, "User not found");
+exports.userNotFound = userNotFound;
+const badRequest = (res) => (0, exports.baseErrResponse)(res, 400, "Bad request");
+exports.badRequest = badRequest;
+const unauthorizedErr = (res, msg) => (0, exports.baseErrResponse)(res, 401, msg);
+exports.unauthorizedErr = unauthorizedErr;
+const forbiddenErr = (res) => (0, exports.baseErrResponse)(res, 403, "User not allowed");
+exports.forbiddenErr = forbiddenErr;
