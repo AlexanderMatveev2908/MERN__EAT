@@ -18,7 +18,16 @@ const port = process.env.PORT ?? 3000;
 
 app.set("trust proxy", 1);
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: ["'self'", process.env.FRONT_URL!],
+      },
+    },
+  })
+);
 app.use(xss());
 app.use(mongoSanitize());
 
