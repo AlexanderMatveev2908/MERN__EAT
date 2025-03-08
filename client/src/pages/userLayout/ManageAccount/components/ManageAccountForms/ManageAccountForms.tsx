@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import ChangeEmail from "./components/ChangeEmail/ChangeEmail";
 import { useManageAccountForms } from "./hooks/useManageAccountForms";
@@ -13,6 +12,7 @@ type PropsType = {
   currUser: CurrUserType | null;
   showToastMsg: ShowToastType;
   handleErrManageUser: handleErrManageUserType;
+  setCanManageAccount: (val: string | boolean) => void;
 };
 
 export type SetChildLoadingType = (val: boolean) => void;
@@ -25,6 +25,7 @@ const ManageAccountForms: FC<PropsType> = ({
   currUser,
   showToastMsg,
   handleErrManageUser,
+  setCanManageAccount,
 }) => {
   const {
     currForm,
@@ -66,6 +67,7 @@ const ManageAccountForms: FC<PropsType> = ({
               showToastMsg,
               setIsChildLoading,
               handleErrManageUser,
+              setCanManageAccount,
             }}
           />
 

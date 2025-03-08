@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { ChangePwdFormTypeStep } from "../../../../../../../../types/userTypes";
 import { useState } from "react";
@@ -14,10 +13,12 @@ export const useChangePwd = ({
   showToastMsg,
   handleErrManageUser,
   setIsChildLoading,
+  setCanManageAccount,
 }: {
   showToastMsg: ShowToastType;
   handleErrManageUser: handleErrManageUserType;
   setIsChildLoading: SetChildLoadingType;
+  setCanManageAccount: (val: string | boolean) => void;
 }) => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
@@ -57,7 +58,10 @@ export const useChangePwd = ({
     onError: (err) => {
       handleErrManageUser(err);
     },
-    onSettled: () => setIsChildLoading(false),
+    onSettled: () => {
+      setIsChildLoading(false);
+      setCanManageAccount(false);
+    },
   });
 
   const handleSubmitChangePwd = handleSubmit((data) => {
