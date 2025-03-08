@@ -13,7 +13,7 @@ export type GetRightManageAccountFormType = {
 };
 
 export type ChangePwdFormTypeStep = {
-  password: string;
+  newPassword: string;
   confirmPassword: string;
 };
 

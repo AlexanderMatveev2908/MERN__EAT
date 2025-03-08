@@ -47,9 +47,13 @@ const ManageAccountForms: FC<PropsType> = ({ currUser, showToastMsg }) => {
               }}
             />
 
-            <ChangePwd {...{ setIsChildLoading }} />
+            <ChangePwd
+              {...{ currUser, showToastMsg, handleErrAPI, setIsChildLoading }}
+            />
 
-            <DeleteAccount {...{ setIsChildLoading }} />
+            <DeleteAccount
+              {...{ currUser, showToastMsg, handleErrAPI, setIsChildLoading }}
+            />
           </div>
         </div>
       </div>

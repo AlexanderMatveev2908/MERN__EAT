@@ -3,7 +3,7 @@ import rateLimit from "express-rate-limit";
 
 export const manageAccountLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 3,
+  max: 5,
   message: {
     msg: `Server was tired for too many requests, so he decided to take a nap, try later 💤`,
     success: false,

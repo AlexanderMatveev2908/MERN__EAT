@@ -12,6 +12,7 @@ import { makeLimiter } from "../utils/makeLimiter";
 import { validatorUnsubscribeNewsLetterLink } from "../middleware/newsLetter/validatorUnsubscribeNewsLetterLogged";
 import { validatorToggleSubscribe } from "../middleware/newsLetter/validatorToggleSubscribe";
 import { validatorNewsLetterEmail } from "../middleware/newsLetter/validatorUnsubscribeNonLogged";
+import { HOUR } from "../constants/time";
 
 const router = express();
 
@@ -48,7 +49,7 @@ router.delete(
 
 router.post(
   "/send-email-unsubscribe",
-  makeLimiter({ max: 8 }),
+  makeLimiter({ max: 5, ms: HOUR }),
   validatorNewsLetterEmail,
   asyncWrapper(sendEmailUnsubscribeRetry)
 );
