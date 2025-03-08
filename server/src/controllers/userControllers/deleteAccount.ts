@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { RequestWithUserId } from "./../../middleware/general/verifyAccessToken";
+import { RequestWithUserId } from "../../middleware/general/verifyAccessToken";
 import User from "../../models/User";
 import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse";
 import { checkTokenSHA } from "../../utils/token";

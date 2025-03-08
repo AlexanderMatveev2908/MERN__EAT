@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { RequestWithUserId } from "../middleware/general/verifyAccessToken";
 import User from "../models/User";
 import { checkTokenSHA, genTokenSHA } from "../utils/token";
-import NonLoggedUserNewsLetter from "./../models/UserNewsLetter";
+import NonLoggedUserNewsLetter from "../models/UserNewsLetter";
 import {
   baseErrResponse,
   unauthorizedErr,
