@@ -4,7 +4,8 @@ import { handleValidator } from "../../utils/handleValidator";
 
 export const validatorChangePwd = [
   body("manageAccountToken").matches(REG_TOKEN).withMessage("Invalid token"),
-  body("newPassword").matches(REG_PWD).withMessage("Invalid password"),
-
   handleValidator(401),
+
+  body("newPassword").matches(REG_PWD).withMessage("Invalid password"),
+  handleValidator(400),
 ];

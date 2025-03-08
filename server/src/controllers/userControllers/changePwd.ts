@@ -23,7 +23,7 @@ export const changeOldPwd = async (
   if (!user.tokens.manageAccount?.hashed)
     return unauthorizedErr(res, "Verification token not emitted");
 
-  const hasExpired =
+  const isExpired =
     new Date(user.tokens.manageAccount?.expiry ?? 0).getTime() < Date.now();
   const isMatch = checkTokenSHA(
     manageAccountToken,
@@ -31,7 +31,7 @@ export const changeOldPwd = async (
     "manageAccount"
   );
 
-  if (!isMatch || hasExpired) {
+  if (!isMatch || isExpired) {
     user.tokens.manageAccount = {
       hashed: null,
       expiry: null,
@@ -39,7 +39,7 @@ export const changeOldPwd = async (
 
     await user.save();
 
-    return unauthorizedErr(res, hasExpired ? "Token expired" : "Token invalid");
+    return unauthorizedErr(res, isExpired ? "Token expired" : "Token invalid");
   }
 
   const isSamePwd = await checkPwdBcrypt(newPassword, user.password);
@@ -49,7 +49,7 @@ export const changeOldPwd = async (
       400,
       "New password can not be the same as the old one"
     );
-  if (newPassword === user.email || newPassword === user.tempNewEmail)
+  if ([user.email, user?.tempEmail].some((el) => el === newPassword))
     return baseErrResponse(
       res,
       400,

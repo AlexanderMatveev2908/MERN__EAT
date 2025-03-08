@@ -27,7 +27,8 @@ export const useToggleNewsLetter = ({
       );
     },
     onError: (err: any) => {
-      handleErrAPI({ err });
+      if (err?.response?.status === 401) handleErrAPI({ err });
+      else showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
     },
   });
 

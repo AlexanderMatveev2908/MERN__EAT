@@ -2,10 +2,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { sendEmailUnsubscribeAPI } from "../../../api/newsLetter";
-import { useToast } from "../../../hooks/useGlobal";
-import { useHandleErr } from "../../../hooks/useHandleErr";
-import { useScrollTop } from "../../../hooks/useScrollTop";
+import { sendEmailUnsubscribeAPI } from "../../../../api/newsLetter";
+import { useToast } from "../../../../hooks/useGlobal";
+import { useHandleErr } from "../../../../hooks/useHandleErr";
+import { useScrollTop } from "../../../../hooks/useScrollTop";
 
 type UnsubscribeEmailFormType = {
   email: string;

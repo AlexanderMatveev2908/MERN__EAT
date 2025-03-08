@@ -20,6 +20,7 @@ import { changeOldPwd } from "../controllers/userControllers/changePwd";
 import { validatorChangeEmail } from "../middleware/user/validatorChangeEmail";
 import { validatorVerifyNewEmail } from "../middleware/user/validatorVerifyNewEmail";
 import { validatorChangePwd } from "../middleware/user/validatorChangePwd";
+import { validatorManageAccount } from "../middleware/user/validatorManageAccount";
 
 const router = express();
 
@@ -36,8 +37,9 @@ router
 
 router.post(
   "/manage-account",
-  verifyAccessToken,
   manageAccountLimiter,
+  verifyAccessToken,
+  validatorManageAccount,
   asyncWrapper(getRightManageAccount)
 );
 

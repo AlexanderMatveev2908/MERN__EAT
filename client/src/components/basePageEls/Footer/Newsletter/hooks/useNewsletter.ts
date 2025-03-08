@@ -17,7 +17,7 @@ export const useNewsletter = () => {
     errors,
     submitSubscribeNonLoggedUser,
     isPending: isPendingNonLogged,
-  } = useNonLoggedNewLetter({ showToastMsg, handleErrAPI });
+  } = useNonLoggedNewLetter({ showToastMsg });
 
   const { mutate: mutateLogged, isPending: isPendingLogged } =
     useToggleNewsLetter({ showToastMsg, handleErrAPI });

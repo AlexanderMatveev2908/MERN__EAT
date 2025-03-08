@@ -1,11 +1,6 @@
 import { Request, Response } from "express";
 import User, { UserType } from "../../models/User";
-import {
-  checkTokenJWE,
-  genAccessJWT,
-  genTokenJWE,
-  genTokenSHA,
-} from "../../utils/token";
+import { genAccessJWT, genTokenJWE, genTokenSHA } from "../../utils/token";
 import { sendUserEmail } from "../../utils/mail";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
 import {
@@ -13,6 +8,7 @@ import {
   unauthorizedErr,
   userNotFound,
 } from "../../utils/baseErrResponse";
+import NonLoggedUserNewsLetter from "../../models/UserNewsLetter";
 
 export const registerUser = async (
   req: Request,
@@ -20,14 +16,27 @@ export const registerUser = async (
 ): Promise<any> => {
   const existingUser = await User.findOne({ email: req.body.email });
 
-  if (existingUser) return baseErrResponse(res, 409, "Email already exists");
+  if (existingUser) return baseErrResponse(res, 409, "User already exists");
+
+  const dataNewUser = { ...req.body };
 
   const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
 
-  req.body.password = await hashPwdBcrypt(req.body.password);
+  dataNewUser.password = await hashPwdBcrypt(req.body.password);
+
+  const isSubscribedNewsLetter = await NonLoggedUserNewsLetter.findOne({
+    email: dataNewUser.email,
+  });
+  if (isSubscribedNewsLetter) {
+    const result = await NonLoggedUserNewsLetter.deleteOne({
+      email: dataNewUser.email,
+    });
+    if (result?.deletedCount === 1)
+      dataNewUser.hasSubscribedToNewsletter = true;
+  }
 
   await User.create({
-    ...req.body,
+    ...dataNewUser,
     tokens: {
       verifyAccount: {
         hashed: hashedToken,
@@ -63,8 +72,8 @@ export const loginUser = async (req: Request, res: Response): Promise<any> => {
 
   const { jwe, expiry } = await genTokenJWE(user._id);
 
-  user.tokens.refresh.expiry = expiry;
   user.tokens.refresh.hashed = jwe;
+  user.tokens.refresh.expiry = expiry;
 
   await user.save();
 

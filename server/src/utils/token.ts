@@ -11,7 +11,7 @@ import {
   GET_SIGN,
 } from "../config/signs";
 
-type ReturnToken = {
+export type ReturnTokenSHAType = {
   token: string;
   hashedToken: string;
   expiryVerification: Date;
@@ -19,7 +19,7 @@ type ReturnToken = {
 
 export const genTokenSHA = (
   type: "auth" | "newsletter" | "manageAccount" | "verifyNewEmail"
-): ReturnToken => {
+): ReturnTokenSHAType => {
   const token = crypto.randomBytes(64).toString("hex");
 
   const hashedToken = crypto

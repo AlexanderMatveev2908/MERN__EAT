@@ -10,9 +10,7 @@ export type NewsLetterFormType = {
 
 export const useNonLoggedNewLetter = ({
   showToastMsg,
-  handleErrAPI,
 }: {
-  handleErrAPI: ({ err }: { err: any }) => void;
   showToastMsg: (msg: string, type: ToastStateType["type"]) => void;
 }) => {
   const {
@@ -34,7 +32,7 @@ export const useNonLoggedNewLetter = ({
       );
     },
     onError: (err: any) => {
-      handleErrAPI({ err });
+      showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
     },
   });
 
