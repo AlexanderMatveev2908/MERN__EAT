@@ -30,7 +30,14 @@ const path_1 = __importDefault(require("path"));
 const app = (0, express_1.default)();
 const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
 app.set("trust proxy", 1);
-app.use((0, helmet_1.default)());
+app.use((0, helmet_1.default)({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            connectSrc: ["'self'", process.env.FRONT_URL],
+        },
+    },
+}));
 app.use((0, xss_clean_1.default)());
 app.use((0, express_mongo_sanitize_1.default)());
 app.use(corsMiddleware_1.corsMiddleware);

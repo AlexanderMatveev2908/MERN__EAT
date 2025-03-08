@@ -2,9 +2,9 @@ import { transporterMail } from "../config/nodemailer";
 import { UserType } from "../models/User";
 
 const basePath =
-  process.env.NODE_ENV === "production"
-    ? process.env.FRONT_URL
-    : process.env.FRONT_URL_DEV;
+  process.env.NODE_ENV === "development"
+    ? process.env.FRONT_URL_DEV
+    : process.env.FRONT_URL;
 
 export const sendUserEmail = async ({
   user,

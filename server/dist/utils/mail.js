@@ -11,9 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendEmailChangeAccountEmail = exports.sendSubScriptionNewsLetterConfirmed = exports.sendUserEmail = void 0;
 const nodemailer_1 = require("../config/nodemailer");
-const basePath = process.env.NODE_ENV === "production"
-    ? process.env.FRONT_URL
-    : process.env.FRONT_URL_DEV;
+const basePath = process.env.NODE_ENV === "development"
+    ? process.env.FRONT_URL_DEV
+    : process.env.FRONT_URL;
 const sendUserEmail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ user, token, type, }) {
     if ([user, token, type].some((el) => !el))
         return;
