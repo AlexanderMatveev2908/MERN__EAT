@@ -1,6 +1,6 @@
 import { FC } from "react";
 import FormFieldNoIcon from "../../../../../../../components/commonCompForms/FormFieldNoIcon/FormFieldNoIcon";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { AddRestaurantFormType } from "../../../../../../../types/myRestaurants";
 import {
   myRestaurantsAddress_0,
@@ -9,11 +9,14 @@ import {
 
 type PropsType = {
   currForm: number;
-  register: UseFormRegister<AddRestaurantFormType>;
-  errors: FieldErrors;
+  formContext: UseFormReturn<AddRestaurantFormType>;
 };
 
-const SwapperContent: FC<PropsType> = ({ currForm, register, errors }) => {
+const SwapperContent: FC<PropsType> = ({ currForm, formContext }) => {
+  const {
+    register,
+    formState: { errors },
+  } = formContext;
   return (
     <div className="overflow-hidden">
       <div

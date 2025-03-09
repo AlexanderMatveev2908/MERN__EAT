@@ -4,26 +4,13 @@ import { useScrollTop } from "../../../../hooks/useScrollTop";
 import { useEffect } from "react";
 
 export const useAddRestaurant = () => {
-  const {
-    register,
-    formState: { errors },
-    setFocus,
-    // reset,
-    watch,
-    // trigger,
-    // setValue,
-    // handleSubmit,
-  } = useForm<AddRestaurantFormType>({ mode: "onChange" });
+  const formContext = useForm<AddRestaurantFormType>({ mode: "onChange" });
 
   useScrollTop();
 
   useEffect(() => {
-    setFocus("name");
-  }, [setFocus]);
+    formContext.setFocus("name");
+  }, [formContext]);
 
-  return {
-    register,
-    errors,
-    watch,
-  };
+  return { formContext };
 };

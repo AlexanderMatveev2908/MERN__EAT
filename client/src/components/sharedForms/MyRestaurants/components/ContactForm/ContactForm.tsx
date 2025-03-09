@@ -1,15 +1,18 @@
 import { FC } from "react";
 import { myRestaurantsContact } from "../../../../../config/fieldsArr/myRestaurantsFields";
 import FormFieldNoIcon from "../../../../commonCompForms/FormFieldNoIcon/FormFieldNoIcon";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { AddRestaurantFormType } from "../../../../../types/myRestaurants";
 
 type PropsType = {
-  register: UseFormRegister<AddRestaurantFormType>;
-  errors: FieldErrors;
+  formContext: UseFormReturn<AddRestaurantFormType>;
 };
 
-const ContactForm: FC<PropsType> = ({ register, errors }) => {
+const ContactForm: FC<PropsType> = ({ formContext }) => {
+  const {
+    register,
+    formState: { errors },
+  } = formContext;
   return (
     <div className="w-full grid grid-cols-1 gap-y-5">
       <span className="txt__03">Restaurant Address</span>
