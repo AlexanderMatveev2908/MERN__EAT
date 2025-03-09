@@ -12,9 +12,9 @@ export const useUserProfile = () => {
 
   const {
     state,
-    handleChange,
-    handlePrev,
-    handleNext,
+    handleChangeHigher: handleChange,
+    handlePrevHigher: handlePrev,
+    handleNextHigher: handleNext,
     isPending,
     isPendingUpdate,
     handleSubmit,
@@ -32,19 +32,19 @@ export const useUserProfile = () => {
     if (state.currForm.curr === 0) {
       setTimeout(() => {
         inputRef_0.current?.focus();
-      }, 500);
+      }, 600);
     }
 
     if (state.currForm.curr === 1) {
       setTimeout(() => {
         inputRef_1.current?.focus();
-      }, 500);
+      }, 600);
     }
 
     if (state.currForm.curr === 2) {
       setTimeout(() => {
         inputRef_2.current?.focus();
-      }, 500);
+      }, 600);
     }
   }, [state.currForm.curr]);
 

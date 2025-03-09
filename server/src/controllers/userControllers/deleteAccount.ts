@@ -37,6 +37,10 @@ export const deleteAccount = async (
 
   const result = await User.deleteOne({ _id: userId });
 
-  if (result?.deletedCount !== 1) return userNotFound(res);
-  else return res.status(200).json({ success: true, msg: "Account deleted" });
+  if (result?.deletedCount !== 1) {
+    return userNotFound(res);
+  } else {
+    res.cookie("refreshToken", "", { expires: new Date(0) });
+    return res.status(200).json({ success: true, msg: "Account deleted" });
+  }
 };

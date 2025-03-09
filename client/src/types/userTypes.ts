@@ -28,6 +28,21 @@ export type CurrUserType = {
   email: string;
 };
 
+export type UserDetailsType = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  address: {
+    country: string | null;
+    state: string | null;
+    city: string | null;
+    street: string | null;
+    zipCode: string | null;
+    phone: string | null;
+  };
+};
+
 export type UserStateType = {
   currUser: null | CurrUserType;
   isLogged: boolean;

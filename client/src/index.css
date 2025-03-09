@@ -311,23 +311,23 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 
 /* icon */
 
-.icon__base {
+.svg__header {
   @apply w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] transition-all duration-300 group-hover:text-orange-500 group-hover:scale-120 cursor-pointer disabled:opacity-50 disabled:cursor-wait;
 }
 
-.icon__header {
+.svg__drop {
   @apply w-[30px] h-[30px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer;
 }
 
-.icon__auth_field {
+.svg__auth_field {
   @apply w-[25px] h-[25px] transition-all duration-300 hover:text-orange-500 hover:scale-120 cursor-pointer absolute top-[25%] right-5;
 }
 
-.icon__switch_form {
+.svg__switch_form {
   @apply w-[25px] h-[25px] transition-all duration-300 group-hover:text-orange-500;
 }
 
-.icon__sidebar {
+.svg__sidebar {
   @apply w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer;
 }
 

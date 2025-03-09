@@ -1,10 +1,11 @@
 import { foodAppInstance } from "../constants/axiosInstance";
+import { ReturnAPIBasic, ReturnUserInfoAPIType } from "../types/API";
 
 export const newsLetterToggleLoggedAPI = async ({
   type,
 }: {
   type: "subscribe" | "unsubscribe";
-}) => {
+}): Promise<ReturnAPIBasic & ReturnUserInfoAPIType> => {
   const { data } = await foodAppInstance.patch("/newsletter/toggle-logged", {
     type,
   });
@@ -12,7 +13,9 @@ export const newsLetterToggleLoggedAPI = async ({
   return data;
 };
 
-export const subscribeNonLoggedUserAPI = async (email: string) => {
+export const subscribeNonLoggedUserAPI = async (
+  email: string
+): Promise<ReturnAPIBasic> => {
   const { data } = await foodAppInstance.post(
     "/newsletter/subscribe-non-logged",
     {
@@ -26,7 +29,7 @@ export const subscribeNonLoggedUserAPI = async (email: string) => {
 export const unSubScribeViaLinkLoggedAPI = async (params: {
   userId: string;
   token: string;
-}) => {
+}): Promise<ReturnAPIBasic> => {
   const { data } = await foodAppInstance.patch(
     "/newsletter/unsubscribe-via-link-logged",
     params
@@ -38,7 +41,7 @@ export const unSubScribeViaLinkLoggedAPI = async (params: {
 export const unSubscribeViaLinkNonLoggedAPI = async (params: {
   userId: string;
   token: string;
-}) => {
+}): Promise<ReturnAPIBasic> => {
   const { data } = await foodAppInstance.delete(
     "/newsletter/unsubscribe-via-link-non-logged",
     { data: params }
@@ -48,7 +51,11 @@ export const unSubscribeViaLinkNonLoggedAPI = async (params: {
   return data;
 };
 
-export const sendEmailUnsubscribeAPI = async ({ email }: { email: string }) => {
+export const sendEmailUnsubscribeAPI = async ({
+  email,
+}: {
+  email: string;
+}): Promise<ReturnAPIBasic> => {
   const { data } = await foodAppInstance.post(
     `/newsletter/send-email-unsubscribe`,
     { email }

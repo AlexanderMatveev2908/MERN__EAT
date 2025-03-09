@@ -31,14 +31,14 @@ const Header: FC<PropsType> = ({ setSideOpen, sideOpen }) => {
                 onClick={() => setSideOpen?.(false)}
                 className="max-w-fit justify-self-end group flex items-center"
               >
-                <X className="icon__base" />
+                <X className="svg__header" />
               </div>
             ) : (
               <div
                 onClick={() => setSideOpen?.(true)}
                 className="max-w-fit justify-self-end group flex items-center"
               >
-                <Menu className="icon__base" />
+                <Menu className="svg__header" />
               </div>
             )}
           </div>

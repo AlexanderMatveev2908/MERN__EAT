@@ -19,7 +19,7 @@ const SideEL: FC<PropsType> = ({ handleSideClick, type, location, el }) => {
         { location, el, type }
       )}`}
     >
-      <el.svg className="icon__sidebar" />
+      <el.svg className="svg__sidebar" />
 
       <span className="cursor-pointer txt__02 group-hover:text-orange-500 transition-all duration-300">
         {el.label}

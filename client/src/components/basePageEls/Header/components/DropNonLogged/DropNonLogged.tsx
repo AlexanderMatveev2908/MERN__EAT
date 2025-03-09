@@ -43,7 +43,7 @@ const DropNonLogged: FC = () => {
               key={el.id}
               className="min-w-[300px] w-full flex gap-3 border-b-orange-500 border-b-2 pl-3 pr-10 py-3 justify-start group cursor-pointer"
             >
-              <el.svg className="icon__header" />
+              <el.svg className="svg__drop" />
               <span className="txt__02 transition-all duration-300 group-hover:text-orange-500">
                 {el.label}
               </span>
