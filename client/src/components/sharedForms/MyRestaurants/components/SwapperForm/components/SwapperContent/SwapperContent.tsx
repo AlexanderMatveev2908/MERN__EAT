@@ -1,7 +1,7 @@
 import { FC } from "react";
 import FormFieldNoIcon from "../../../../../../../components/commonCompForms/FormFieldNoIcon/FormFieldNoIcon";
 import { UseFormReturn } from "react-hook-form";
-import { AddRestaurantFormType } from "../../../../../../../types/myRestaurants";
+import { MyRestaurantsAddUpdateFormType } from "../../../../../../../types/myRestaurants";
 import {
   myRestaurantsAddress_0,
   myRestaurantsAddress_1,
@@ -9,7 +9,7 @@ import {
 
 type PropsType = {
   currForm: number;
-  formContext: UseFormReturn<AddRestaurantFormType>;
+  formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
 };
 
 const SwapperContent: FC<PropsType> = ({ currForm, formContext }) => {

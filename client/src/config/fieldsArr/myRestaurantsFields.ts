@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FaDoorClosed, FaDoorOpen } from "react-icons/fa";
 import {
   REG_EMAIL,
   REG_PHONE,
@@ -67,5 +69,33 @@ export const myRestaurantsContact = [
     reg: REG_WEB_URL,
     msg: "A URL can have optionally the protocol, subdomain, must have main domain and eventually path query or fragment",
     type: "url",
+  },
+];
+
+export type OpenCLoseFormType = {
+  id: string;
+  field: string;
+  label: string;
+  minVal: number;
+  maxVal: number;
+  icon: any;
+};
+
+export const myRestaurantsOpenCloseFields: OpenCLoseFormType[] = [
+  {
+    id: genID(),
+    field: "openTime",
+    label: "Open time",
+    minVal: 0,
+    maxVal: 1439,
+    icon: FaDoorOpen,
+  },
+  {
+    id: genID(),
+    field: "closeTime",
+    label: "Close time",
+    minVal: 0,
+    maxVal: 1439,
+    icon: FaDoorClosed,
   },
 ];

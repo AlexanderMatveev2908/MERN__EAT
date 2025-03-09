@@ -16,6 +16,7 @@
     "axios": "^1.8.1",
     "crypto-browserify": "^3.12.1",
     "lucide-react": "^0.475.0",
+    "luxon": "^3.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",

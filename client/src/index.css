@@ -358,6 +358,12 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
 }
 
+/* title my restaurants form */
+
+.el__sub_title_my_restaurants_form {
+  @apply w-full flex items-center gap-5 text-orange-500;
+}
+
 /* general */
 .hide_scrollbar::-webkit-scrollbar {
   display: none;
@@ -411,7 +417,7 @@ input[type="range"] {
   appearance: none;
   -webkit-appearance: none;
   width: 100%;
-  height: 30px;
+  height: 40px;
   cursor: pointer;
   position: relative;
   z-index: 100;

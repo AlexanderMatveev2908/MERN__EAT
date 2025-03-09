@@ -26,7 +26,7 @@ export type RestaurantOpenHoursType = {
   closeTime: string;
 };
 
-export type AddRestaurantFormType = {
+export type MyRestaurantsAddUpdateFormType = {
   name: string;
   categories: string[];
   deliveryTime: number;
