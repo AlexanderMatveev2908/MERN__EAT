@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 import { myRestaurantsAddressByArea } from "../../../../../../config/fieldsArr/myRestaurantsFields";
 
+export const totLen = 2;
+
 export const useSwapperForm = ({ watch }: { watch: UseFormRegister<any> }) => {
   const [currForm, setCurrForm] = useState(0);
   const [nextDisabled, setNextDisabled] = useState(false);
 
-  const totLen = 2;
   const currArrArea = myRestaurantsAddressByArea[currForm];
   const valsOfArea = currArrArea.map((el) => ({
     val: watch(el.field),
@@ -17,8 +18,9 @@ export const useSwapperForm = ({ watch }: { watch: UseFormRegister<any> }) => {
   useEffect(() => {
     const handleBtns = () => {
       setNextDisabled(false);
-      for (const val of valsOfArea) {
-        if (!val.reg.test(val.val as any)) setNextDisabled(true);
+
+      for (const field of valsOfArea) {
+        if (!field.reg.test(field.val as any)) setNextDisabled(true);
       }
     };
 
@@ -35,6 +37,11 @@ export const useSwapperForm = ({ watch }: { watch: UseFormRegister<any> }) => {
 
   return {
     currForm,
-    buttonsProps: { handlePrev, handleNext, isPrevDisabled, isNextDisabled },
+    buttonsProps: {
+      handlePrev,
+      handleNext,
+      isPrevDisabled,
+      isNextDisabled,
+    },
   };
 };

@@ -363,6 +363,12 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   display: none;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* TOAST */
 
 .toast__container_after {

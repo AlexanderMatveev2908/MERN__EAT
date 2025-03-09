@@ -22,6 +22,7 @@ const FormFieldNoIcon: FC<PropsType> = ({ field, register, errors }) => {
             pattern: { value: field.reg, message: field.msg },
           })}
           className="input__base txt__02"
+          placeholder={field?.place ?? `Your ${field.label}...`}
         />
       </label>
 

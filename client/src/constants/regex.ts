@@ -16,3 +16,5 @@ export const REG_PHONE =
   /^\+?\d{1,4}[\s-]?\(?\d{2,3}\)?[\s-]?\d{3,4}[\s-]?\d{3,4}$/;
 
 export const REG_RESTAURANT_NAME = /^[A-Za-zÀ-ÿ0-9\s,&`'-]{3,50}$/;
+export const REG_WEB_URL =
+  /^(https?\/\/)?(www\.)?[A-Za-z0-9-]+(\.[A-Za-z]{2,})(\/[A-Za-z0-9-/]*)?(\?[A-Za-z0-9=&]*)?(#[A-Za-z0-9-_]*)?$/;
