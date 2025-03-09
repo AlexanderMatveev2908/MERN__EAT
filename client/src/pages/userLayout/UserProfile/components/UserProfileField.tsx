@@ -1,14 +1,21 @@
 import { FC } from "react";
 import { UserProfileFormType } from "../hooks/UseProfileReducer/types/types";
 import { UserDetailsFieldType } from "../../../../config/fieldsArr/userDetailsFields";
+import { InputRefType } from "../hooks/useUserProfile";
 
 type PropsType = {
   el: UserDetailsFieldType;
   state: UserProfileFormType;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  inputRef: InputRefType;
 };
 
-const UserProfileField: FC<PropsType> = ({ el, state, handleChange }) => {
+const UserProfileField: FC<PropsType> = ({
+  el,
+  state,
+  handleChange,
+  inputRef,
+}) => {
   const errObj = state.errs?.[el.field];
 
   return (
@@ -16,6 +23,7 @@ const UserProfileField: FC<PropsType> = ({ el, state, handleChange }) => {
       <span className="txt__02">{el.label}</span>
 
       <input
+        ref={inputRef}
         onChange={handleChange}
         type="text"
         className="w-full outline-none px-5 py-1 txt__01 border-2 border-orange-500 rounded-full focus__base transition-all duration-300"
@@ -24,9 +32,9 @@ const UserProfileField: FC<PropsType> = ({ el, state, handleChange }) => {
         value={state.user[el.field]}
       />
 
-      {!!Object.keys(errObj ?? {})?.length && (
+      {!!Object.keys(errObj ?? {}).length && (
         <span className="txt__00 text-red-600">
-          {errObj?.required || errObj?.msg || undefined}
+          {errObj?.required || errObj?.msg || ""}
         </span>
       )}
     </label>

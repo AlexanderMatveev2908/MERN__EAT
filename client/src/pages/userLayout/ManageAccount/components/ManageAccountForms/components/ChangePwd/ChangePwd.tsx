@@ -59,7 +59,7 @@ const ChangePwd: FC<PropsForChildren> = ({
           />
         </div>
 
-        {!!Object.keys(errors?.newPassword ?? {})?.length && (
+        {!!Object.keys(errors?.newPassword ?? {}).length && (
           <div className="w-full grid grid-cols-2 sm:grid-cols-3 gap-3">
             <PasswordChecker {...{ watch }} />
 
