@@ -78,7 +78,7 @@ export const userProfileFields_2 = [
     field: "phone",
     label: "Phone",
     reg: REG_PHONE,
-    msg: "Phone can only contains numbers,and including country up to 15 digits ",
+    msg: "Phone can only contains numbers,and including country prefix up to 15 digits ",
   },
 ];
 

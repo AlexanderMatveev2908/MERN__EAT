@@ -1,5 +1,6 @@
 import { FC } from "react";
-import ButtonBasic from "../../../../../../components/buttons/ButtonBasic/ButtonBasic";
+import ButtonBasic from "../../../../../../buttons/ButtonBasic/ButtonBasic";
+import { totLen } from "../../hooks/useSwapperForm";
 
 type PropsType = {
   currForm: number;
@@ -17,7 +18,7 @@ const ButtonsForm: FC<PropsType> = ({
   handleNext,
 }) => {
   return (
-    <div className="w-full grid grid-cols-2 sm:justify-items-center">
+    <div className="w-full grid grid-cols-2 sm:justify-items-center lg:hidden">
       <div className="w-full max-w-[30vw] sm:max-w-[200px] justify-self-start sm:justify-self-center">
         <ButtonBasic
           {...{
@@ -28,16 +29,18 @@ const ButtonsForm: FC<PropsType> = ({
           }}
         />
       </div>
-      <div className="w-full max-w-[30vw] sm:max-w-[200px] justify-self-end sm:justify-self-center">
-        <ButtonBasic
-          {...{
-            label: "Next",
-            isDisabled: isNextDisabled,
-            handleClick: handleNext,
-            styleTxt: "txt__02",
-          }}
-        />
-      </div>
+      {currForm !== totLen - 1 && (
+        <div className="w-full max-w-[30vw] sm:max-w-[200px] justify-self-end sm:justify-self-center">
+          <ButtonBasic
+            {...{
+              label: "Next",
+              isDisabled: isNextDisabled,
+              handleClick: handleNext,
+              styleTxt: "txt__02",
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

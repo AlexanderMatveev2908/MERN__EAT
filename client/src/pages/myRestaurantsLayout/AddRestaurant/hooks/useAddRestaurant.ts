@@ -16,6 +16,7 @@ export const useAddRestaurant = () => {
   } = useForm<AddRestaurantFormType>({ mode: "onChange" });
 
   useScrollTop();
+
   useEffect(() => {
     setFocus("name");
   }, [setFocus]);
