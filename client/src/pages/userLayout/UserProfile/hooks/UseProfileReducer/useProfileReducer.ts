@@ -4,10 +4,10 @@ import { formReducer } from "./reducer/reducer";
 import { UserDataFormType } from "./types/types";
 import {
   handleBtns,
-  handleChangeBeforeUseCb,
+  handleChange,
   handleErr,
-  handleNextBeforeUseCb,
-  handlePrevBeforeUseCb,
+  handleNext,
+  handlePrev,
   setDetailsFields,
 } from "./lib/lib";
 import { useGetUserProfileDetails } from "../useGetUserProfileDetails";
@@ -88,13 +88,13 @@ export const useProfileReducer = () => {
   const handleBtnsHigher = (name?: string, value?: string, curr?: number) =>
     handleBtns(dispatch, state, name, value, curr);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    handleChangeBeforeUseCb(dispatch, handleErrHigher, handleBtnsHigher, e);
+  const handleChangeHigher = (e: React.ChangeEvent<HTMLInputElement>) =>
+    handleChange(dispatch, handleErrHigher, handleBtnsHigher, e);
 
-  const handlePrev = () => handlePrevBeforeUseCb(dispatch, state.currForm.curr);
+  const handlePrevHigher = () => handlePrev(dispatch, state.currForm.curr);
 
-  const handleNext = () =>
-    handleNextBeforeUseCb(dispatch, state.currForm, handleBtnsHigher);
+  const handleNextHigher = () =>
+    handleNext(dispatch, state.currForm, handleBtnsHigher);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -103,10 +103,9 @@ export const useProfileReducer = () => {
 
   return {
     state,
-    handleChange,
-    handlePrev,
-    handleNext,
-    handleBtns,
+    handleChangeHigher,
+    handlePrevHigher,
+    handleNextHigher,
     isPending,
     isPendingUpdate,
     handleSubmit,

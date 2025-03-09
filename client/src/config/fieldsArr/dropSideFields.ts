@@ -8,6 +8,7 @@ import {
   UserPen,
   UserRoundPen,
 } from "lucide-react";
+import { MdAdminPanelSettings } from "react-icons/md";
 import { genID } from "../../utils/genID";
 
 export type SideDropFieldType = {
@@ -40,7 +41,15 @@ export const loggedUserFields = [
     label: "Manage Account",
     svg: UserRoundPen,
   },
+  {
+    id: genID(),
+    path: "/my-restaurants/add-restaurant",
+    label: "Create restaurant",
+    svg: MdAdminPanelSettings,
+  },
 ];
+
+export const loggedUserFieldsDrop = loggedUserFields.slice(0, 2);
 
 export const nonLoggedUserFields = [
   {

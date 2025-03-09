@@ -11,10 +11,12 @@ export const useToastVals = (
 
   const showToastMsg = useCallback(
     (msg: string, type: ToastStateType["type"]) => {
-      dispatch({
-        type: SET_IS_TOAST,
-        payload: { isToast: true, msg, type },
-      });
+      setTimeout(() => {
+        dispatch({
+          type: SET_IS_TOAST,
+          payload: { isToast: true, msg, type },
+        });
+      }, 250);
     },
     [dispatch]
   );

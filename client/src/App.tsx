@@ -17,7 +17,8 @@ import VerifyUnsubScribeNewsLetter from "./pages/newsLetterLayout/VerifyUnsubScr
 import NoticeUnSubscribe from "./pages/newsLetterLayout/NoticeUnSubscribe/NoticeUnSubscribe";
 import ManageAccount from "./pages/userLayout/ManageAccount/ManageAccount";
 import VerifyUser from "./pages/userLayout/VerifyUser/VerifyUser";
-// import CallbackAuth from "./pages/CallbackAuth/CallbackAuth";
+import LayoutMyRestaurantsRoute from "./layouts/layoutMyRestaurants/LayoutMyRestaurantsRoute";
+import AddRestaurant from "./pages/myRestaurantsLayout/AddRestaurant/AddRestaurant";
 
 const App: FC = () => {
   useApp();
@@ -27,21 +28,16 @@ const App: FC = () => {
       <Route path="/" element={<MainLayoutRoute />}>
         <Route index element={<Home />} />
 
-        {/* <Route path="callback" element={<CallbackAuth />} /> */}
-
         <Route path="auth" element={<LayoutNonLoggedUserRoute />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-
           <Route path="send-email" element={<SendEmail />} />
           <Route path="verify" element={<Verify />} />
-
           <Route path="recover-pwd" element={<RecoverPwd />} />
         </Route>
 
         <Route path="user" element={<LayoutUserRoute />}>
           <Route path="profile" element={<UserProfile />} />
-
           <Route path="manage-account" element={<ManageAccount />} />
         </Route>
 
@@ -54,11 +50,14 @@ const App: FC = () => {
             path="verify-unsubscribe"
             element={<VerifyUnsubScribeNewsLetter />}
           />
-
           <Route
             path="notice-unsubscribe-with-retry"
             element={<NoticeUnSubscribe />}
           />
+        </Route>
+
+        <Route path="my-restaurants" element={<LayoutMyRestaurantsRoute />}>
+          <Route path="add-restaurant" element={<AddRestaurant />} />
         </Route>
       </Route>
 

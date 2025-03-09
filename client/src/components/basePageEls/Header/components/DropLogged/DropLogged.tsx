@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { useDropLogged } from "./hooks/useDropLogged";
 import SpinnerBtnReact from "../../../../loaders/SpinnerBtnReact/SpinnerBtnReact";
-import { loggedUserFields } from "../../../../../config/fieldsArr/dropSideFields";
+import { loggedUserFieldsDrop } from "../../../../../config/fieldsArr/dropSideFields";
 
 const DropLogged: FC = () => {
   const {
@@ -41,14 +41,14 @@ const DropLogged: FC = () => {
         }`}
       >
         <div className="w-full flex flex-col items-start">
-          {loggedUserFields.map((el) => (
+          {loggedUserFieldsDrop.map((el) => (
             <Link
               key={el.id}
               onClick={() => setDropOpen(false)}
               to={el.path}
               className="w-full flex gap-3 border-b-orange-500 border-b-2 pl-3 pr-10 py-3 justify-start group"
             >
-              <el.svg className="icon__header" />
+              <el.svg className="svg__drop" />
               <span className="txt__02 transition-all duration-300 group-hover:text-orange-500">
                 {el.label}
               </span>
@@ -64,7 +64,7 @@ const DropLogged: FC = () => {
               onClick={handleDropLogout}
               className="w-full cursor-pointer flex gap-3 pl-3 pr-10 py-3 justify-start group"
             >
-              <LogOut className="icon__header" />
+              <LogOut className="svg__drop" />
               <span className="txt__02 group-hover:text-orange-500 duration-300 transition-all">
                 Logout
               </span>

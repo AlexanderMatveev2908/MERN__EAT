@@ -13,6 +13,7 @@ import userRouter from "./routes/user";
 import newsLetterRouter from "./routes/newsLetter";
 import path from "path";
 import { isDev } from "./config/currMode";
+import { connectCloudinary } from "./config/cloud";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -58,6 +59,8 @@ app.use(errMiddleware);
 const start = async () => {
   try {
     await connectDB();
+
+    await connectCloudinary();
 
     app.listen(+port!, "0.0.0.0", () =>
       console.log(`=> server listening on ${port}...`)

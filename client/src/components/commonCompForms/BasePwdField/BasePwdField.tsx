@@ -47,9 +47,9 @@ const BasePwdField: FC<PropsType> = ({
           className="w-fit flex justify-center items-center"
         >
           {isVisible ? (
-            <Eye className="icon__auth_field" />
+            <Eye className="svg__auth_field" />
           ) : (
-            <EyeOff className="icon__auth_field" />
+            <EyeOff className="svg__auth_field" />
           )}
         </span>
       </div>

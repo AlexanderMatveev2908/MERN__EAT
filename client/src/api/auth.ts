@@ -1,6 +1,6 @@
 import { foodAppInstance } from "../constants/axiosInstance";
 import { RegisterFormType } from "../pages/authLayout/Register/hooks/useRegisterCustom";
-import { ReturnAPIBasic } from "../types/API";
+import { ReturnAccessTokenAPIType, ReturnAPIBasic } from "../types/API";
 
 export const registerUserAPI = async (
   registerVals: Omit<RegisterFormType, "confirmPassword">
@@ -12,17 +12,13 @@ export const registerUserAPI = async (
   return data;
 };
 
-type LoginUserAPIType = {
-  accessToken: string;
-};
-
 export const loginUserAPI = async ({
   email,
   password,
 }: {
   email: string;
   password: string;
-}): Promise<ReturnAPIBasic & LoginUserAPIType> => {
+}): Promise<ReturnAPIBasic & ReturnAccessTokenAPIType> => {
   const { data } = await foodAppInstance.post("/auth/login", {
     email,
     password,
@@ -56,7 +52,7 @@ export const verifyAccountAPI = async ({
 }: {
   userId: string;
   token: string;
-}): Promise<LoginUserAPIType> => {
+}): Promise<ReturnAPIBasic & ReturnAccessTokenAPIType> => {
   const { data } = await foodAppInstance.post(`/auth/verify-account`, params);
 
   return data;
@@ -67,7 +63,7 @@ export const recoverPwdAPI = async ({
 }: {
   userId: string;
   token: string;
-}) => {
+}): Promise<ReturnAPIBasic> => {
   const { data } = await foodAppInstance.post(
     `/auth/verify-recover-pwd`,
     params
@@ -82,13 +78,15 @@ export const changeRecoverPwdAPI = async ({
   password: string;
   userId: string;
   token: string;
-}) => {
+}): Promise<ReturnAPIBasic> => {
   const { data } = await foodAppInstance.patch("/auth/recover-pwd", params);
 
   return data;
 };
 
-export const refreshTokenAPI = async () => {
+export const refreshTokenAPI = async (): Promise<
+  ReturnAPIBasic & ReturnAccessTokenAPIType
+> => {
   const { data } = await foodAppInstance.get("/auth/refresh");
   return data;
 };

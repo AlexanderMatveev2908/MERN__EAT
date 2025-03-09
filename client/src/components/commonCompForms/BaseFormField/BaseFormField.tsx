@@ -27,7 +27,7 @@ const BaseFormField: FC<PropsType> = ({ register, errors, field, custom }) => {
             },
           }) as any)}
         />
-        <field.svg className="icon__auth_field" />
+        <field.svg className="svg__auth_field" />
       </div>
       {errors?.[field.field]?.message && (
         <span className="txt__00 text-red-600">

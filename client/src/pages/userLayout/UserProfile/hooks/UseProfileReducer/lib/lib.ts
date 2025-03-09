@@ -105,7 +105,7 @@ export const handleBtns = (
   });
 };
 
-export const handleChangeBeforeUseCb = (
+export const handleChange = (
   dispatch,
   cbErr,
   cbBtns,
@@ -125,7 +125,7 @@ export const handleChangeBeforeUseCb = (
   });
 };
 
-export const handlePrevBeforeUseCb = (dispatch, curr) =>
+export const handlePrev = (dispatch, curr) =>
   curr > 0
     ? dispatch({
         type: UserProfileActions.SET_CURR,
@@ -133,7 +133,7 @@ export const handlePrevBeforeUseCb = (dispatch, curr) =>
       })
     : undefined;
 
-export const handleNextBeforeUseCb = (dispatch, currForm, cbBtns) => {
+export const handleNext = (dispatch, currForm, cbBtns) => {
   if (currForm.curr < totLen - 1 && !currForm.isNextDisabled)
     dispatch({
       type: UserProfileActions.SET_CURR,
