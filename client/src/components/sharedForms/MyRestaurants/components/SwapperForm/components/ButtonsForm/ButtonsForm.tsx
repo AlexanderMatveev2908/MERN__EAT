@@ -26,6 +26,7 @@ const ButtonsForm: FC<PropsType> = ({
             isDisabled: isPrevDisabled,
             handleClick: handlePrev,
             styleTxt: "txt__02",
+            type: "button",
           }}
         />
       </div>
@@ -37,6 +38,7 @@ const ButtonsForm: FC<PropsType> = ({
               isDisabled: isNextDisabled,
               handleClick: handleNext,
               styleTxt: "txt__02",
+              type: "button",
             }}
           />
         </div>
