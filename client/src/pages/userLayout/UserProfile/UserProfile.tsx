@@ -16,6 +16,9 @@ const UserProfile: FC = () => {
     isPending,
     isPendingUpdate,
     handleSubmit,
+    inputRef_0,
+    inputRef_1,
+    inputRef_2,
   } = useUserProfile();
 
   return (
@@ -34,7 +37,15 @@ const UserProfile: FC = () => {
               className="w-[300%] grid grid-cols-3 transition-all duration-500 min-h-[250px]"
               style={{ transform: `translateX(-${(curr * 100) / 3}%)` }}
             >
-              <FormUserProfile {...{ state, handleChange }} />
+              <FormUserProfile
+                {...{
+                  state,
+                  handleChange,
+                  inputRef_0,
+                  inputRef_1,
+                  inputRef_2,
+                }}
+              />
             </div>
           </div>
 

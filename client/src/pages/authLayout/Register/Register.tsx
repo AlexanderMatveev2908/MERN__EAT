@@ -60,7 +60,7 @@ const Register: FC = () => {
 
             <GeneratePwd />
 
-            {!!Object.keys(errors?.password ?? {})?.length && (
+            {!!Object.keys(errors?.password ?? {}).length && (
               <div className="w-full grid grid-cols-2 gap-5 sm:grid-cols-4">
                 <PasswordChecker {...{ watch }} />
                 <PasswordLength {...{ watch }} />
