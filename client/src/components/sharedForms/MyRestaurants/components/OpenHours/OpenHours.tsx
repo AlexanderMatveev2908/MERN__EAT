@@ -61,7 +61,6 @@ const OpenHours: FC<PropsType> = ({ formContext }) => {
                 register,
                 field: el,
                 currVal: watch(el.field as any),
-                formatValCb: formatTimeRange,
                 validateCb:
                   el.field === "closeTime" ? customValidateOpen : undefined,
                 setValue,
