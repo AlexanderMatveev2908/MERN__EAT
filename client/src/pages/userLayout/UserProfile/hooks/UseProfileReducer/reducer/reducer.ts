@@ -1,4 +1,4 @@
-import { totLen } from "../useProfileReducer";
+import { totLenUserDetails } from "../../../../../../config/fieldsArr/userDetailsFields";
 import { UserProfileActions } from "../types/types";
 
 export const formReducer = (state, action) => {
@@ -61,7 +61,7 @@ export const formReducer = (state, action) => {
           currForm: {
             curr: state.currForm.curr + 1,
             isPrevDisabled: false,
-            isNextDisabled: state.currForm.curr + 1 === totLen - 1,
+            isNextDisabled: state.currForm.curr + 1 === totLenUserDetails - 1,
           },
         };
     }

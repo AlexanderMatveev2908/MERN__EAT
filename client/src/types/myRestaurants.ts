@@ -26,11 +26,16 @@ export type RestaurantOpenHoursType = {
   closeTime: string;
 };
 
+export type ImageUploadedType = {
+  url: string;
+  public_id: string;
+};
+
 export type MyRestaurantsAddUpdateFormType = {
   name: string;
   categories: string[];
   deliveryTime: number;
-  images: File[];
+  images: File[] | ImageUploadedType[];
   dishes: DishMenuFormType[];
 } & RestaurantAddressType &
   RestaurantOpenHoursType &
