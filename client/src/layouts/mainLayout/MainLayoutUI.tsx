@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Toast from "../../components/Toast/Toast";
-import Header from "../../components/basePageEls/Header/Header";
-import Sidebar from "./../../components/basePageEls/Sidebar/Sidebar";
-import Hero from "../../components/basePageEls/Hero/Hero";
-import Footer from "../../components/basePageEls/Footer/Footer";
+import Toast from "./../../common/Toast/Toast";
+import Header from "./../../common/Header/Header";
+import Sidebar from "./../../common/Sidebar/Sidebar";
+import Hero from "./../../common/Hero/Hero";
+import Footer from "./../../common/Footer/Footer";
 
 type PropsType = {
   children: React.ReactNode;
