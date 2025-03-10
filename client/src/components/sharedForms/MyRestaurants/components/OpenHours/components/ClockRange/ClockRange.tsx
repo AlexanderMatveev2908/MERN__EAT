@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Ham } from "lucide-react";
 import { FC, useRef } from "react";
-import { UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../../../../../types/myRestaurants";
 import { useRangeInput } from "../../../../../../inputs/RangeInput/hooks/useRangeInput";
 import { OpenCLoseFormType } from "../../../../../../../config/fieldsArr/myRestaurantsFields";
@@ -11,6 +11,7 @@ type PropsType = {
   currVal: string;
   field: OpenCLoseFormType;
   formatValCb?: (va: any) => any;
+  validateCb?: (val: string) => true | string;
 };
 
 const ClockRange: FC<PropsType> = ({
@@ -18,6 +19,7 @@ const ClockRange: FC<PropsType> = ({
   currVal,
   field,
   formatValCb,
+  validateCb,
 }) => {
   const rangeRef = useRef<HTMLInputElement | null>(null);
 
@@ -51,7 +53,9 @@ const ClockRange: FC<PropsType> = ({
             type="range"
             min={field.minVal}
             max={field.maxVal}
-            {...register(field.field as any)}
+            {...register(field.field as any, {
+              validate: (val) => (validateCb ? validateCb?.(val) : true),
+            })}
           />
 
           <span
