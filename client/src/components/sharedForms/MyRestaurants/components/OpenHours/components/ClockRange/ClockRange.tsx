@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Ham } from "lucide-react";
-import { FC, useRef } from "react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FC } from "react";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../../../../../types/myRestaurants";
-import { useRangeInput } from "../../../../../../inputs/RangeInput/hooks/useRangeInput";
 import { OpenCLoseFormType } from "../../../../../../../config/fieldsArr/myRestaurantsFields";
+import { REG_OPEN_CLOSE_TIME } from "../../../../../../../constants/regex";
+import { reverseFormaTime } from "../../../../../../../utils/formatTime";
 
 type PropsType = {
   register: UseFormRegister<MyRestaurantsAddUpdateFormType>;
@@ -12,6 +13,7 @@ type PropsType = {
   field: OpenCLoseFormType;
   formatValCb?: (va: any) => any;
   validateCb?: (val: string) => true | string;
+  setValue: UseFormSetValue<MyRestaurantsAddUpdateFormType>;
 };
 
 const ClockRange: FC<PropsType> = ({
@@ -20,27 +22,22 @@ const ClockRange: FC<PropsType> = ({
   field,
   formatValCb,
   validateCb,
+  setValue,
 }) => {
-  const rangeRef = useRef<HTMLInputElement | null>(null);
-
-  useRangeInput({ rangeRef });
-
   return (
-    <div
-      ref={rangeRef}
-      tabIndex={0}
-      className="w-full transition-all duration-300 focus__base flex border-2 border-orange-500 rounded-xl"
-    >
+    <div className="w-full transition-all duration-300 focus__base flex border-2 border-orange-500 rounded-xl">
       <div className="relative w-full p-5 grid grid-cols-1">
         <div className="w-full relative">
-          <div
-            className="z-10 absolute -top-14 h-[50px] w-[80px] border-[3px] border-orange-500 bg-[#111] rounded-xl flex justify-center items-center pointer-events-none"
+          <input
+            className="z-10 absolute -top-14 h-[50px] w-[80px] border-[3px] border-orange-500 bg-[#111] rounded-xl outline-none focus__base px-3 pl-4 txt__01"
+            defaultValue={formatValCb ? formatValCb?.(currVal) : ""}
+            onChange={(e) => {
+              const { value: val } = e.target;
+              if (REG_OPEN_CLOSE_TIME.test(val))
+                setValue(field.field as any, reverseFormaTime(val));
+            }}
             style={{ left: `calc(${(+currVal / field.maxVal) * 100}% - 40px)` }}
-          >
-            <span className="text-nowrap txt__01">
-              {formatValCb?.(currVal)}
-            </span>
-          </div>
+          />
 
           <div className="range__track w-full h-[10px] bg-[whitesmoke] top-1/2 absolute -translate-y-1/2 rounded-2xl">
             <div
