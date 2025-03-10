@@ -7,6 +7,7 @@ import { myRestaurantsName } from "../../../config/fieldsArr/myRestaurantsFields
 import ContactForm from "./components/ContactForm/ContactForm";
 import OpenHours from "./components/OpenHours/OpenHours";
 import { MdDriveFileRenameOutline } from "react-icons/md";
+import CatForm from "./components/CatForm/CatForm";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
@@ -32,6 +33,8 @@ const MyRestaurantsForm: FC<PropsType> = ({ formContext }) => {
       <ContactForm {...{ formContext }} />
 
       <OpenHours {...{ formContext }} />
+
+      <CatForm {...{ formContext }} />
     </form>
   );
 };

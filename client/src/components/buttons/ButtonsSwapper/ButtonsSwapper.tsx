@@ -1,5 +1,5 @@
 import { FC } from "react";
-import ButtonBasic from "../../../../../../buttons/ButtonBasic/ButtonBasic";
+import ButtonBasic from "../ButtonBasic/ButtonBasic";
 
 type PropsType = {
   currForm: number;
@@ -10,7 +10,7 @@ type PropsType = {
   handleNext: () => void;
 };
 
-const ButtonsForm: FC<PropsType> = ({
+const ButtonsSwapper: FC<PropsType> = ({
   currForm,
   isPrevDisabled,
   isNextDisabled,
@@ -47,4 +47,4 @@ const ButtonsForm: FC<PropsType> = ({
     </div>
   );
 };
-export default ButtonsForm;
+export default ButtonsSwapper;

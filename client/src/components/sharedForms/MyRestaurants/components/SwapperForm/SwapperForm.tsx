@@ -5,6 +5,7 @@ import ButtonsForm from "./components/ButtonsForm/ButtonsForm";
 import SwapperContent from "./components/SwapperContent/SwapperContent";
 import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
 import { BiWorld } from "react-icons/bi";
+import { totLenAddressMyRestaurants } from "../../../../../config/fieldsArr/myRestaurantsFields";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
@@ -25,7 +26,9 @@ const SwapperForm: FC<PropsType> = ({ formContext }) => {
       <div className="w-full grid grid-cols-1 border-[3px] rounded-xl border-orange-500 lg:border-0 lg:p-0 p-5 pb-10 gap-y-8">
         <SwapperContent {...{ currForm, formContext }} />
 
-        <ButtonsForm {...{ ...buttonsProps, currForm }} />
+        <ButtonsForm
+          {...{ ...buttonsProps, currForm, totLen: totLenAddressMyRestaurants }}
+        />
       </div>
     </div>
   );

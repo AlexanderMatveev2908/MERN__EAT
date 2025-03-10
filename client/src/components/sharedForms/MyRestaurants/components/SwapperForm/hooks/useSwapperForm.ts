@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { UseFormRegister } from "react-hook-form";
-import { myRestaurantsAddressByArea } from "../../../../../../config/fieldsArr/myRestaurantsFields";
-
-export const totLen = 2;
+import {
+  myRestaurantsAddressByArea,
+  totLenAddressMyRestaurants,
+} from "../../../../../../config/fieldsArr/myRestaurantsFields";
 
 export const useSwapperForm = ({ watch }: { watch: UseFormRegister<any> }) => {
   const [currForm, setCurrForm] = useState(0);
@@ -30,10 +31,13 @@ export const useSwapperForm = ({ watch }: { watch: UseFormRegister<any> }) => {
   const handlePrev = () =>
     currForm > 0 ? setCurrForm((prev) => prev - 1) : undefined;
   const handleNext = () =>
-    currForm < totLen - 1 ? setCurrForm((prev) => prev + 1) : undefined;
+    currForm < totLenAddressMyRestaurants - 1
+      ? setCurrForm((prev) => prev + 1)
+      : undefined;
 
   const isPrevDisabled = currForm === 0;
-  const isNextDisabled = nextDisabled || currForm === totLen - 1;
+  const isNextDisabled =
+    nextDisabled || currForm === totLenAddressMyRestaurants - 1;
 
   return {
     currForm,
