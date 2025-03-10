@@ -50,7 +50,7 @@ const OpenHours: FC<PropsType> = ({ formContext }) => {
 
       <div className="w-full grid grid-cols-1 gap-y-5">
         {myRestaurantsOpenCloseFields.map((el) => (
-          <div key={el.id} className="w-full grid grid-cols-1 gap-y-10">
+          <div key={el.id} className="w-full grid grid-cols-1 gap-y-5">
             <span className="txt__02 justify-self-start flex w-1/2 items-center gap-4">
               <el.icon className="w-[30px] h-[30px]" />
               {el.label}

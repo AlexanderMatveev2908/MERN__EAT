@@ -7,8 +7,8 @@ export const useAddRestaurant = () => {
   const formContext = useForm<MyRestaurantsAddUpdateFormType>({
     mode: "onChange",
     defaultValues: {
-      openTime: "0",
-      closeTime: "1",
+      openTime: "480",
+      closeTime: "1200",
     },
   });
 

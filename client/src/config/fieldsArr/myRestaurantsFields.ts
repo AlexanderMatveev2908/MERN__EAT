@@ -40,6 +40,8 @@ export const myRestaurantsAddressByArea = [
   [...myRestaurantsAddress_1],
 ];
 
+export const totLenAddressMyRestaurants = 2;
+
 export const myRestaurantsContact = [
   {
     id: genID(),
@@ -99,3 +101,47 @@ export const myRestaurantsOpenCloseFields: OpenCLoseFormType[] = [
     icon: FaDoorClosed,
   },
 ];
+
+export const myRestaurantsCat = [
+  "italian",
+  "chinese",
+  "japanese",
+  "mexican",
+  "indian",
+  "french",
+  "mediterranean",
+  "fast-food",
+  "vegetarian",
+  "vegan",
+  "seafood",
+  "steakhouse",
+];
+
+export type CatFormType = {
+  id: string;
+  field: string;
+  label: string;
+};
+
+export const myRestaurantsCatFields: CatFormType[] = myRestaurantsCat.map(
+  (el) => ({
+    field: el,
+    id: genID(),
+    label:
+      el === "fast-food"
+        ? "Fast-Food"
+        : el.charAt(0).toUpperCase() + el.slice(1),
+  })
+);
+
+export const totLenMyRestaurantsCat = Math.ceil(
+  myRestaurantsCatFields.length / 6
+);
+
+export const arrCatByArea: any[] = [];
+
+for (let i = 0; i < myRestaurantsCatFields?.length - 1; i++) {
+  if (i % 6 === 0) {
+    arrCatByArea.push([...myRestaurantsCatFields.slice(i, i + 6)]);
+  }
+}

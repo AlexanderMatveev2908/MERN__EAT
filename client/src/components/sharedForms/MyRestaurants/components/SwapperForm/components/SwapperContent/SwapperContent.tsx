@@ -26,13 +26,13 @@ const SwapperContent: FC<PropsType> = ({ currForm, formContext }) => {
           maxHeight: currForm === 0 ? "600px" : "275px",
         }}
       >
-        <div className="w-full flex gap-y-5 flex-col max-h-fit sm:px-5 lg:p-0">
+        <div className="w-full flex gap-y-5 flex-col max-h-fit px-2 sm:px-5 lg:p-0">
           {myRestaurantsAddress_0.map((el) => (
             <FormFieldNoIcon key={el.id} {...{ register, errors, field: el }} />
           ))}
         </div>
 
-        <div className="w-full flex gap-y-5 flex-col max-h-fit sm:px-5 lg:p-0">
+        <div className="w-full flex gap-y-5 flex-col max-h-fit px-2 sm:px-5 lg:p-0">
           {myRestaurantsAddress_1.map((el) => (
             <FormFieldNoIcon key={el.id} {...{ register, errors, field: el }} />
           ))}
