@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useAddRestaurant } from "./hooks/useAddRestaurant";
-import MyRestaurantsForm from "../../../components/sharedForms/MyRestaurants/MyRestaurantsForm";
 import { FormProvider } from "react-hook-form";
+import MyRestaurantsForm from "../../../forms/MyRestaurants/MyRestaurantsForm";
 
 const AddRestaurant: FC = () => {
   const { formContext } = useAddRestaurant();
