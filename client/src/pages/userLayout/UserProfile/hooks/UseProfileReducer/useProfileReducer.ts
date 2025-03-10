@@ -16,8 +16,6 @@ import { useHandleErr } from "../../../../../hooks/useHandleErr";
 import { useToast } from "../../../../../hooks/useGlobal";
 import { useUpdateUserDetails } from "../useUpdateUserDetails";
 
-export const totLen = 3;
-
 export const useProfileReducer = () => {
   const { handleErrAPI } = useHandleErr();
   const { showToastMsg } = useToast();

@@ -2,13 +2,13 @@
 import {
   allFields,
   fieldsDividedByArea,
+  totLenUserDetails,
 } from "../../../../../../config/fieldsArr/userDetailsFields";
 import {
   UserDataFormType,
   UserProfileActions,
   UserProfileFormType,
 } from "../types/types";
-import { totLen } from "../useProfileReducer";
 
 export const getRespectiveVals = (
   currFieldsArea: any[],
@@ -134,7 +134,7 @@ export const handlePrev = (dispatch, curr) =>
     : undefined;
 
 export const handleNext = (dispatch, currForm, cbBtns) => {
-  if (currForm.curr < totLen - 1 && !currForm.isNextDisabled)
+  if (currForm.curr < totLenUserDetails - 1 && !currForm.isNextDisabled)
     dispatch({
       type: UserProfileActions.SET_CURR,
       payload: { curr: "NEXT" },

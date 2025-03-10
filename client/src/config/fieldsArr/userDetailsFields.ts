@@ -93,3 +93,5 @@ export const fieldsDividedByArea = [
   [...userProfileFields_1],
   [...userProfileFields_2],
 ];
+
+export const totLenUserDetails = 3;

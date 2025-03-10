@@ -145,3 +145,5 @@ for (let i = 0; i < myRestaurantsCatFields?.length - 1; i++) {
     arrCatByArea.push([...myRestaurantsCatFields.slice(i, i + 6)]);
   }
 }
+
+export const allowedImgs = 5;

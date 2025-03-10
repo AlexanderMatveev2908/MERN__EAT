@@ -1,5 +1,5 @@
 import { FC } from "react";
-import ButtonBasic from "../ButtonBasic/ButtonBasic";
+import ButtonBasic from "../../buttons/ButtonBasic/ButtonBasic";
 
 type PropsType = {
   currForm: number;
