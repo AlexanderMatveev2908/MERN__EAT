@@ -18,6 +18,7 @@ const OpenHours: FC<PropsType> = ({ formContext }) => {
     control,
     trigger,
     formState: { errors },
+    setValue,
   } = formContext;
 
   const openVal = useWatch({ control, name: "openTime" });
@@ -30,16 +31,16 @@ const OpenHours: FC<PropsType> = ({ formContext }) => {
     if (closeVal) trigger("openTime");
   }, [closeVal, trigger]);
 
-  const customValidateOpen = (val: string) =>
-    getDiffTime(val, watch("closeTime")) < 4
-      ? "You must keep open at least 4 hours (part-time)"
-      : true;
-  const customValidateClose = (val: string) =>
-    getDiffTime(watch("openTime"), val) < 4
-      ? "You must keep close at least 4 hours (part-time)"
-      : true;
+  const customValidateOpen = (val: string) => {
+    const res = getDiffTime(val, watch("openTime"));
+    if (res > 0 && res < 4)
+      return "You must keep open at least 4 hours (part-time)";
+    if (formatTimeRange(val) === formatTimeRange(watch("openTime")))
+      return "Open and close time must be different by at least one minute";
 
-  console.log(customValidateOpen(watch("openTime")), watch("closeTime"));
+    return true;
+  };
+
   return (
     <div className="w-full grid grid-cols-1 gap-y-5">
       <span className="txt__03 el__sub_title_my_restaurants_form">
@@ -62,9 +63,8 @@ const OpenHours: FC<PropsType> = ({ formContext }) => {
                 currVal: watch(el.field as any),
                 formatValCb: formatTimeRange,
                 validateCb:
-                  el.field === "openTime"
-                    ? customValidateOpen
-                    : customValidateClose,
+                  el.field === "closeTime" ? customValidateOpen : undefined,
+                setValue,
               }}
             />
           </div>
