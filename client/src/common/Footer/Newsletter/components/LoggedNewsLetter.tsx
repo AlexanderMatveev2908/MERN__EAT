@@ -24,7 +24,7 @@ const LoggedNewsLetter: FC<PropsType> = ({
           label: currUser?.hasSubscribedToNewsletter
             ? "Unsubscribe"
             : "Subscribe",
-          type: "submit",
+          type: "button",
           handleClick: submitNewsLetter,
         }}
       />

@@ -2,9 +2,9 @@ import { FC } from "react";
 import { REG_EMAIL } from "../../../../constants/regex";
 import { CurrUserType } from "../../../../types/userTypes";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { NewsLetterFormType } from "../hooks/useNonLoggedNewLetter";
 import SpinnerBtnReact from "./../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import ButtonAnimated from "./../../../../components/buttons/ButtonAnimated/ButtonAnimated";
+import { NewsLetterFormType } from "../hooks/useNewsletter";
 
 type PropsType = {
   isPending: boolean;
