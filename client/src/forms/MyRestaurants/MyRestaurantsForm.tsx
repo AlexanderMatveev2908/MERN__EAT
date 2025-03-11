@@ -10,17 +10,23 @@ import NameRestaurant from "./components/NameRestaurant/NameRestaurant";
 import ImagesRestaurant from "./components/ImagesRestaurant/ImagesRestaurant";
 import Delivery from "./components/Delivery/Delivery";
 import ButtonAnimated from "../../components/buttons/ButtonAnimated";
+import SpinnerBtnReact from "../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
   handleSave: (data: MyRestaurantsAddUpdateFormType) => void;
+  isPending: boolean;
 };
 
 export type PropsTypeFormContextRestaurants = {
   formContext: PropsType["formContext"];
 };
 
-const MyRestaurantsForm: FC<PropsType> = ({ formContext, handleSave }) => {
+const MyRestaurantsForm: FC<PropsType> = ({
+  formContext,
+  handleSave,
+  isPending,
+}) => {
   return (
     <form
       onSubmit={handleSave as any}
@@ -40,15 +46,19 @@ const MyRestaurantsForm: FC<PropsType> = ({ formContext, handleSave }) => {
 
       <Delivery {...{ formContext }} />
 
-      <div className="w-full max-w-[300px]">
-        <ButtonAnimated
-          {...{
-            label: "Create Restaurant",
-            type: "submit",
-            styleTxt: "txt__02 relative z-10",
-          }}
-        />
-      </div>
+      {isPending ? (
+        <SpinnerBtnReact {...{ styleGiven: "justify-center mt-5" }} />
+      ) : (
+        <div className="w-full max-w-[300px]">
+          <ButtonAnimated
+            {...{
+              label: "Create Restaurant",
+              type: "submit",
+              styleTxt: "txt__02 relative z-10",
+            }}
+          />
+        </div>
+      )}
     </form>
   );
 };

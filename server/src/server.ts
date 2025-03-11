@@ -14,6 +14,7 @@ import newsLetterRouter from "./routes/newsLetter";
 import path from "path";
 import { isDev } from "./config/currMode";
 import { connectCloudinary } from "./config/cloud";
+import myRestaurantsRouter from "./routes/myRestaurants";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -44,7 +45,10 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
+
 app.use("/api/v1/newsletter", newsLetterRouter);
+
+app.use("/api/v1/my-restaurants", myRestaurantsRouter);
 
 if (!isDev) {
   app.use(express.static(path.join(__dirname, "../../client/dist")));

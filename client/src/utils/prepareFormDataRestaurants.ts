@@ -9,7 +9,7 @@ export const prepareFormData = (
   const { images, categories, ...primitiveVals } = data;
 
   [...(images as any)].forEach((img) =>
-    formData.append("imagesRestaurant", img)
+    formData.append("restaurantsImages", img)
   );
   categories.forEach((cat) => formData.append("categories", cat));
 
