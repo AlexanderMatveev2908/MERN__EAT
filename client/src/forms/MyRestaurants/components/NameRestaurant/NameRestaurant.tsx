@@ -1,15 +1,12 @@
 import { FC } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "./../../../../types/myRestaurants";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { myRestaurantsName } from "./../../../../config/fieldsArr/myRestaurantsFields";
 import FormFieldNoIcon from "./../../../../components/commonCompForms/FormFieldNoIcon";
+import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
 
-type PropsType = {
-  formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
-};
-
-const NameRestaurant: FC<PropsType> = ({ formContext }) => {
+const NameRestaurant: FC<PropsTypeFormContextRestaurants> = ({
+  formContext,
+}) => {
   const {
     register,
     formState: { errors },

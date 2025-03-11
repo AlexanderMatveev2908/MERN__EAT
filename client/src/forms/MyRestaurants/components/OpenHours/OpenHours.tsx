@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect } from "react";
-import { UseFormReturn, useWatch } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "./../../../../types/myRestaurants";
+import { useWatch } from "react-hook-form";
 import { FaRegClock } from "react-icons/fa";
-import ClockRange from "./ClockRange/ClockRange";
 import { myRestaurantsOpenCloseFields } from "./../../../../config/fieldsArr/myRestaurantsFields";
-import { formatTimeRange, getDiffTime } from "./../../../../utils/formatTime";
+import {
+  formatTimeRangeHhMm,
+  getDiffTime,
+  reverseFormaTimeHhMm,
+} from "./../../../../utils/formatTime";
+import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
+import ClockRange from "./components/ClockRange";
 
-type PropsType = {
-  formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
-};
-
-const OpenHours: FC<PropsType> = ({ formContext }) => {
+const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
   const {
     register,
     watch,
@@ -35,8 +35,6 @@ const OpenHours: FC<PropsType> = ({ formContext }) => {
     const res = getDiffTime(val, watch("openTime"));
     if (res > 0 && res < 4)
       return "You must keep open at least 4 hours (part-time)";
-    if (formatTimeRange(val) === formatTimeRange(watch("openTime")))
-      return "Open and close time must be different by at least one minute";
 
     return true;
   };
@@ -64,6 +62,9 @@ const OpenHours: FC<PropsType> = ({ formContext }) => {
                 validateCb:
                   el.field === "closeTime" ? customValidateOpen : undefined,
                 setValue,
+                trigger,
+                formatTimeCB: formatTimeRangeHhMm,
+                reverseFormatTimeCB: reverseFormaTimeHhMm,
               }}
             />
           </div>

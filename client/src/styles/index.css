@@ -1,0 +1,186 @@
+@import url("https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "tailwindcss";
+
+@import "./elsZ.css";
+@import "./txt.css";
+@import "./buttons.css";
+@import "./animations.css";
+
+* {
+  font-family: "Sour Gummy";
+}
+
+body {
+  @apply bg-[#111] text-[whitesmoke];
+}
+
+/* 
+IMPORTANT: for some practical reasons i chose using snake case instead of kebab case in css naming, but only because i am working just myself on this project, if i would have been in a team i would been followed conventions of css of those one established by team  
+*/
+
+/* BASE */
+
+/* padding page */
+.pad__page {
+  @apply px-[5%] sm:px-10;
+}
+
+/* btn */
+.btn__pseudo {
+  @apply transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-wait;
+}
+
+.btn__brand {
+  @apply transition-all duration-300 cursor-pointer disabled:opacity-50;
+}
+.btn__brand:not(:disabled):hover {
+  @apply hover:scale-120 hover:text-orange-500;
+}
+.btn__brand:not(:disabled):active {
+  @apply active:scale-120 active:text-orange-500;
+}
+
+/* input */
+
+.input__base {
+  @apply w-full border-2 border-orange-500 rounded-full outline-none px-5 py-1 text-white transition-all duration-300;
+}
+.input__base:focus,
+.input__auth_field:focus {
+  @apply ring-2 ring-orange-400;
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
+}
+
+.input__auth_field {
+  @apply w-full border-2 border-orange-500 rounded-full outline-none px-5 pr-14 py-2 text-white transition-all duration-300;
+}
+
+/* sideBar */
+
+.sidebar__content {
+  @apply fixed top-[75px] right-0 h-[calc(100vh-75px)] w-3/4 sm:w-1/2 border-l-2 border-orange-500 flex flex-col items-center bg-[#111]  transition-all duration-500;
+}
+
+/* sideLink */
+
+.sideLink.active {
+  @apply text-orange-500;
+}
+
+/* svg */
+
+.svg__header {
+  @apply w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] transition-all duration-300 group-hover:text-orange-500 group-hover:scale-120 cursor-pointer disabled:opacity-50 disabled:cursor-wait;
+}
+
+.svg__drop {
+  @apply w-[30px] h-[30px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer;
+}
+
+.svg__auth_field {
+  @apply w-[25px] h-[25px] transition-all duration-300 hover:text-orange-500 hover:scale-120 cursor-pointer absolute top-[25%] right-5;
+}
+
+.svg__switch_form {
+  @apply w-[25px] h-[25px] transition-all duration-300 group-hover:text-orange-500;
+}
+
+.svg__sidebar {
+  @apply w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer;
+}
+
+/* tooltip */
+
+.tooltip {
+  @apply absolute text-sm lg:text-base px-4 py-1 -top-1/2 left-1/2 border-2 border-orange-500 rounded-xl w-full whitespace-nowrap bg-[#111] pointer-events-none z-10;
+}
+
+/* UTILS ELEMENTS  */
+
+.el__after_below {
+  @apply relative max-w-fit;
+}
+
+.el__after_below::after {
+  @apply absolute content-[""] -bottom-2 left-1/2 w-0 h-[3px] bg-orange-500 transition-all duration-300 -translate-x-1/2;
+}
+
+.el__after_below:hover::after {
+  @apply w-full;
+}
+
+.focus__base:focus,
+.focus__base:active {
+  @apply ring-2 ring-orange-400;
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
+}
+
+.el__sub_title_my_restaurants_form {
+  @apply w-full flex items-center gap-5 text-orange-500;
+}
+
+/* general */
+.hide_scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* TOAST */
+
+.toast__container_after {
+  @apply relative overflow-hidden;
+}
+
+.toast__container_after::after {
+  @apply absolute h-[7px] w-full bottom-0 left-0 content-[""];
+  background: var(--toast-color);
+}
+
+/* SPINNER */
+
+.spinner__el::after {
+  @apply content-[""] absolute top-0 left-0 w-[20px] h-[20px] bg-[#f97316] rounded-full;
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316, 0 0 40px #f97316,
+    0 0 60px #f97316, 0 0 80px #f97316, 0 0 100px #f97316;
+}
+
+/* SPINNER BTN */
+
+.spinner_tbn__el {
+  @apply h-[20px] sm:h-[25px] w-[25px] sm:w-[30px] lg:w-[35px] lg:h-[35px] rounded-full bg-[#f97316];
+  box-shadow: 0 0 10px #f97316, 0 0 15px #f97316;
+}
+
+/* RANGE */
+
+.range__tooltip::after {
+  @apply absolute content-[''] -z-10 w-full h-full bg-[#111] rotate-45 border-orange-500 border-2 rounded-tl-4xl rounded-tr-4xl rounded-bl-4xl;
+}
+
+.range__thumb,
+.range__track,
+.track__progress {
+  @apply pointer-events-none;
+}
+
+input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 40px;
+  cursor: pointer;
+  position: relative;
+  z-index: 100;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+}

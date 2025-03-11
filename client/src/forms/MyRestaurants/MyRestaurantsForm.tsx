@@ -7,9 +7,14 @@ import OpenHours from "./components/OpenHours/OpenHours";
 import CatForm from "./components/CatForm/CatForm";
 import NameRestaurant from "./components/NameRestaurant/NameRestaurant";
 import ImagesRestaurant from "./components/ImagesRestaurant/ImagesRestaurant";
+import DeliveryTime from "./components/DeliveryTime/DeliveryTime";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
+};
+
+export type PropsTypeFormContextRestaurants = {
+  formContext: PropsType["formContext"];
 };
 
 const MyRestaurantsForm: FC<PropsType> = ({ formContext }) => {
@@ -26,6 +31,8 @@ const MyRestaurantsForm: FC<PropsType> = ({ formContext }) => {
       <OpenHours {...{ formContext }} />
 
       <CatForm {...{ formContext }} />
+
+      <DeliveryTime {...{ formContext }} />
     </form>
   );
 };

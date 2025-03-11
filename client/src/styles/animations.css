@@ -1,0 +1,183 @@
+/* ANIMATIONS */
+
+.toast__active_in {
+  animation: toast_in 0.4s ease-out;
+}
+
+.toast__active_out {
+  animation: toast_out 0.3s ease-in forwards;
+}
+
+@keyframes toast_in {
+  0% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-30%);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(30%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast_out {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  20% {
+    transform: translateX(-40%);
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+.toast__container_after::after {
+  animation: toast_progress 5s linear forwards;
+}
+
+@keyframes toast_progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.spinner__el::after {
+  animation: spinner var(--duration) linear infinite;
+}
+
+.spinner__el.active::after {
+  animation-delay: calc((1.5s / var(--numEls)) * var(--i));
+}
+
+@keyframes spinner {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.spinner_tbn__el {
+  animation: 1s spinner_btn ease-in-out infinite;
+  animation-delay: calc(0.25s * var(--i));
+}
+
+@keyframes spinner_btn {
+  0% {
+    transform: scale(1) translateY(0%);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5) translateY(-60%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0.5s) translateY(0%);
+    opacity: 1;
+  }
+}
+
+/* .skeleton__el {
+    background-color: #333;
+    transform-origin: center;
+    animation: scale_bounce 1.5s infinite ease-in-out;
+  }
+  
+  @keyframes scale_bounce {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+  } */
+
+.skeleton__el {
+  background: linear-gradient(90deg, #222 25%, #333 50%, #222 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.generate_password__tooltip {
+  animation: explode_btn 0.6s ease;
+}
+
+@keyframes explode_btn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.register__checkbox {
+  animation: checky 0.5s ease;
+}
+
+@keyframes checky {
+  0% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.5, 0.75);
+  }
+  60% {
+    transform: scale(0.75, 1.5);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* 
+  .skeleton__el {
+    background-color: #333;
+    animation: pulse 1.5s infinite ease-in-out;
+  } */
+
+/* @keyframes pulse {
+    0% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.6;
+    }
+  } */
