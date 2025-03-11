@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
+import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
 import BaseFormField from "../../../components/commonCompForms/BaseFormField";
 import BasePwdField from "../../../components/commonCompForms/BasePwdField";
 import SwitchForm from "../../../components/commonCompForms/SwitchForm";

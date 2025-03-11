@@ -3,12 +3,12 @@ import {
   arrCatByArea,
   myRestaurantsCatFields,
   totLenMyRestaurantsCat,
-} from "./../../../../../../config/fieldsArr/myRestaurantsFields";
+} from "../../../../../config/fieldsArr/myRestaurantsFields";
 import { UseFormReturn } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "./../../../../../../types/myRestaurants";
-import CatElement from "../CatElement/CatElement";
+import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
 import { useSwapperCat } from "./hooks/useSwapperCat";
-import ButtonsSwapper from "../../../../../../components/commonCompForms/ButtonsSwapper";
+import ButtonsSwapper from "../../../../../components/commonCompForms/ButtonsSwapper";
+import CatElement from "./components/CatElement";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;

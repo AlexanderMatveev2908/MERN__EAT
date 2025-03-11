@@ -1,5 +1,5 @@
 import { FC } from "react";
-import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
+import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
 import BasePwdField from "../../../components/commonCompForms/BasePwdField";
 import { Navigate } from "react-router-dom";
 import PasswordChecker from "../../../components/commonCompForms/PasswordChecker";

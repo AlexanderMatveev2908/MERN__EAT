@@ -1,6 +1,6 @@
 import { FC } from "react";
-import ButtonBasic from "../../../../components/buttons/ButtonBasic/ButtonBasic";
-import ButtonAnimated from "../../../../components/buttons/ButtonAnimated/ButtonAnimated";
+import ButtonBasic from "../../../../components/buttons/ButtonBasic";
+import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";
 import SpinnerBtnReact from "../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
