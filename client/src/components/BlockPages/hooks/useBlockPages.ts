@@ -41,28 +41,28 @@ export const useBlockPages = ({ totPages }: { totPages: number }) => {
   const handlePrev = () =>
     isPrevDisabled ? null : setCurrBlock(currBlock - 1);
 
-  const startIntervalHandler = (action: "prev" | "next") => {
-    if (intervalRef.current) return;
+  // const startIntervalHandler = (action: "prev" | "next") => {
+  //   if (intervalRef.current) return;
 
-    intervalRef.current = setInterval(() => {
-      setCurrBlock((prev) => {
-        const newBlock = action === "prev" ? prev - 1 : prev + 1;
+  //   intervalRef.current = setInterval(() => {
+  //     setCurrBlock((prev) => {
+  //       const newBlock = action === "prev" ? prev - 1 : prev + 1;
 
-        const isPrevDisabled = newBlock < 1;
-        const isNextDisabled = (newBlock - 1) * blockSize >= totPages!;
+  //       const isPrevDisabled = newBlock < 1;
+  //       const isNextDisabled = (newBlock - 1) * blockSize >= totPages!;
 
-        if (
-          (action === "prev" && isPrevDisabled) ||
-          (action === "next" && isNextDisabled)
-        ) {
-          clearIntervalHandler();
-          return prev;
-        }
+  //       if (
+  //         (action === "prev" && isPrevDisabled) ||
+  //         (action === "next" && isNextDisabled)
+  //       ) {
+  //         clearIntervalHandler();
+  //         return prev;
+  //       }
 
-        return newBlock;
-      });
-    }, 150);
-  };
+  //       return newBlock;
+  //     });
+  //   }, 150);
+  // };
 
   const handlePrevInterval = () => {
     if (intervalRef.current) return;
@@ -107,7 +107,7 @@ export const useBlockPages = ({ totPages }: { totPages: number }) => {
     isPrevDisabled,
     isNextDisabled,
     arrToMakeBtns,
-    startIntervalHandler,
+    // startIntervalHandler,
     handlePrevInterval,
     handleNextInterval,
     clearIntervalHandler,

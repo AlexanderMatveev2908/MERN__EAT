@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { AuthFieldUserType } from "../../../config/fieldsArr/authFieldsUser";
+import { AuthFieldUserType } from "../../config/fieldsArr/authFieldsUser";
 
 type PropsType = {
   register: UseFormRegister<any>;

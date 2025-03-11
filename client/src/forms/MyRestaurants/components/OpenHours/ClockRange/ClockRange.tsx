@@ -6,13 +6,13 @@ import {
   UseFormSetValue,
   UseFormTrigger,
 } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "./../../../../../../types/myRestaurants";
-import { OpenCLoseFormType } from "./../../../../../../config/fieldsArr/myRestaurantsFields";
-import { REG_OPEN_CLOSE_TIME } from "./../../../../../../constants/regex";
+import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
+import { OpenCLoseFormType } from "../../../../../config/fieldsArr/myRestaurantsFields";
+import { REG_OPEN_CLOSE_TIME } from "../../../../../constants/regex";
 import {
   formatTimeRange,
   reverseFormaTime,
-} from "./../../../../../../utils/formatTime";
+} from "../../../../../utils/formatTime";
 
 type PropsType = {
   register: UseFormRegister<MyRestaurantsAddUpdateFormType>;

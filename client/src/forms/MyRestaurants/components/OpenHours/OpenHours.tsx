@@ -3,7 +3,7 @@ import { FC, useEffect } from "react";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "./../../../../types/myRestaurants";
 import { FaRegClock } from "react-icons/fa";
-import ClockRange from "./components/ClockRange/ClockRange";
+import ClockRange from "./ClockRange/ClockRange";
 import { myRestaurantsOpenCloseFields } from "./../../../../config/fieldsArr/myRestaurantsFields";
 import { formatTimeRange, getDiffTime } from "./../../../../utils/formatTime";
 

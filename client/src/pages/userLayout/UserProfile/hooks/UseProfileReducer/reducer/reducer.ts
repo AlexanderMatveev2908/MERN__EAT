@@ -1,5 +1,5 @@
 import { totLenUserDetails } from "../../../../../../config/fieldsArr/userDetailsFields";
-import { UserProfileActions } from "../types/types";
+import { UserProfileActions } from "../types";
 
 export const formReducer = (state, action) => {
   switch (action.type) {

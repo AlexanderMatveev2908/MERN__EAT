@@ -1,12 +1,15 @@
 import { FC } from "react";
 import ChangeEmail from "./components/ChangeEmail/ChangeEmail";
-import { useManageAccountForms } from "./hooks/useManageAccountForms";
-import ButtonsForms from "./components/ButtonsForms/ButtonsForms";
+import {
+  totLenManageAccountForms,
+  useManageAccountForms,
+} from "./hooks/useManageAccountForms";
 import ChangePwd from "./components/ChangePwd/ChangePwd";
 import DeleteAccount from "./components/DeleteAccount/DeleteAccount";
 import { CurrUserType } from "../../../../../types/userTypes";
 import { ShowToastType } from "../../../../../types/toastTypes";
 import { handleErrManageUserType } from "../../hooks/useManageAccount";
+import ButtonsSwapper from "../../../../../components/commonCompForms/ButtonsSwapper";
 
 type PropsType = {
   currUser: CurrUserType | null;
@@ -81,8 +84,11 @@ const ManageAccountForms: FC<PropsType> = ({
         </div>
       </div>
 
-      <ButtonsForms
+      <ButtonsSwapper
         {...{
+          hiddenLg: false,
+          currForm,
+          totLen: totLenManageAccountForms,
           bothDisabled: isChildLoading,
           isPrevDisabled,
           isNextDisabled,

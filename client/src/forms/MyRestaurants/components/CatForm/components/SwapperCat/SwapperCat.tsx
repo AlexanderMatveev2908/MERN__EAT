@@ -8,7 +8,7 @@ import { UseFormReturn } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "./../../../../../../types/myRestaurants";
 import CatElement from "../CatElement/CatElement";
 import { useSwapperCat } from "./hooks/useSwapperCat";
-import ButtonsSwapper from "../../../../../../components/commonCompForms/ButtonsSwapper/ButtonsSwapper";
+import ButtonsSwapper from "../../../../../../components/commonCompForms/ButtonsSwapper";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
@@ -58,7 +58,9 @@ const SwapperCat: FC<PropsType> = ({ formContext }) => {
         </span>
       )}
       <div className="w-full flex px-5">
-        <ButtonsSwapper {...{ totLen: totLenMyRestaurantsCat, ...propsBtns }} />
+        <ButtonsSwapper
+          {...{ totLen: totLenMyRestaurantsCat, ...propsBtns, hiddenLg: true }}
+        />
       </div>
     </div>
   );

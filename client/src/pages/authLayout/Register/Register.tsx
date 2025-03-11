@@ -1,13 +1,13 @@
 import { FC } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
 import AcceptTerms from "./AcceptTerms/AcceptTerms";
-import BaseFormField from "../../../components/commonCompForms/BaseFormField/BaseFormField";
-import BasePwdField from "../../../components/commonCompForms/BasePwdField/BasePwdField";
-import SwitchForm from "../../../components/commonCompForms/SwitchForm/SwitchForm";
-import PasswordChecker from "../../../components/commonCompForms/PasswordChecker/PasswordChecker";
+import BaseFormField from "../../../components/commonCompForms/BaseFormField";
+import BasePwdField from "../../../components/commonCompForms/BasePwdField";
+import SwitchForm from "../../../components/commonCompForms/SwitchForm";
+import PasswordChecker from "../../../components/commonCompForms/PasswordChecker";
 import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
 import { useRegisterCustom } from "./hooks/useRegisterCustom";
-import PasswordLength from "../../../components/commonCompForms/PasswordLength/PasswordLength";
+import PasswordLength from "../../../components/commonCompForms/PasswordLength";
 import {
   confirmPwdField,
   emailField,

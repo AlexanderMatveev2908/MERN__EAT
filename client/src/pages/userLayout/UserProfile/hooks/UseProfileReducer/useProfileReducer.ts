@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useReducer } from "react";
 import { formReducer } from "./reducer/reducer";
-import { UserDataFormType } from "./types/types";
+import { UserDataFormType } from "./types";
 import {
   handleBtns,
   handleChange,
@@ -9,27 +9,41 @@ import {
   handleNext,
   handlePrev,
   setDetailsFields,
-} from "./lib/lib";
-import { useGetUserProfileDetails } from "../useGetUserProfileDetails";
+} from "./lib";
 import { initState } from "./reducer/initState";
 import { useHandleErr } from "../../../../../hooks/useHandleErr";
 import { useToast } from "../../../../../hooks/useGlobal";
-import { useUpdateUserDetails } from "../useUpdateUserDetails";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  getUserProfileDetailsAPI,
+  updateUserProfileAPI,
+} from "../../../../../api/user";
 
 export const useProfileReducer = () => {
   const { handleErrAPI } = useHandleErr();
   const { showToastMsg } = useToast();
 
-  const { fetchedUserData, isPending, isSuccess, isError, error } =
-    useGetUserProfileDetails();
   const {
-    dataUpdate,
-    isPendingUpdate,
-    isSuccessUpdate,
-    isErrorUpdate,
-    errorUpdate,
-    mutateUpdate,
-  } = useUpdateUserDetails();
+    data: fetchedUserData,
+    isPending,
+    isError,
+    isSuccess,
+    error,
+  } = useQuery({
+    queryKey: ["userProfileDetails"],
+    queryFn: getUserProfileDetailsAPI,
+  });
+
+  const {
+    mutate: mutateUpdate,
+    data: dataUpdate,
+    isPending: isPendingUpdate,
+    isSuccess: isSuccessUpdate,
+    isError: isErrorUpdate,
+    error: errorUpdate,
+  } = useMutation({
+    mutationFn: (params: UserDataFormType) => updateUserProfileAPI(params),
+  });
 
   const [state, dispatch] = useReducer(formReducer, initState);
 

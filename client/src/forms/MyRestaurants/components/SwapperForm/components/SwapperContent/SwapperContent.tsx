@@ -1,11 +1,11 @@
 import { FC } from "react";
-import FormFieldNoIcon from "./../../../../../../components/commonCompForms/FormFieldNoIcon/FormFieldNoIcon";
 import { UseFormReturn } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "./../../../../../../types/myRestaurants";
 import {
   myRestaurantsAddress_0,
   myRestaurantsAddress_1,
 } from "./../../../../../../config/fieldsArr/myRestaurantsFields";
+import FormFieldNoIcon from "../../../../../../components/commonCompForms/FormFieldNoIcon";
 
 type PropsType = {
   currForm: number;

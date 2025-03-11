@@ -2,7 +2,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import { FC } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { AuthPwdFieldType } from "../../../config/fieldsArr/authFieldsUser";
+import { AuthPwdFieldType } from "../../config/fieldsArr/authFieldsUser";
 
 type PropsType = {
   register: UseFormRegister<any>;

@@ -1,5 +1,5 @@
 import { foodAppInstance } from "../constants/axiosInstance";
-import { UserDataFormType } from "../pages/userLayout/UserProfile/hooks/UseProfileReducer/types/types";
+import { UserDataFormType } from "../pages/userLayout/UserProfile/hooks/UseProfileReducer/types";
 import {
   ReturnAPIBasic,
   ReturnManageAccountAPIType,

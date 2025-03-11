@@ -1,4 +1,4 @@
-import { UserProfileFormType } from "../types/types";
+import { UserProfileFormType } from "../types";
 
 export const initState: UserProfileFormType = {
   currForm: {

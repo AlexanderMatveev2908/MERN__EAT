@@ -1,16 +1,16 @@
 import { FC } from "react";
 import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
-import ButtonBasic from "../../../../../../../components/buttons/ButtonBasic/ButtonBasic";
-import BasePwdField from "../../../../../../../components/commonCompForms/BasePwdField/BasePwdField";
+import BasePwdField from "../../../../../../../components/commonCompForms/BasePwdField";
 import { useChangePwd } from "./hooks/useChangePwd";
 import {
   confirmPwdField,
   pwdFieldToChangeOldPwd,
 } from "../../../../../../../config/fieldsArr/authFieldsUser";
-import PasswordChecker from "../../../../../../../components/commonCompForms/PasswordChecker/PasswordChecker";
-import PasswordLength from "../../../../../../../components/commonCompForms/PasswordLength/PasswordLength";
+import PasswordChecker from "../../../../../../../components/commonCompForms/PasswordChecker";
+import PasswordLength from "../../../../../../../components/commonCompForms/PasswordLength";
 import { PropsForChildren } from "../../ManageAccountForms";
 import GeneratePwd from "../../../../../../../components/commonCompForms/GeneratePwd/GeneratePwd";
+import ButtonAnimated from "../../../../../../../components/buttons/ButtonAnimated/ButtonAnimated";
 
 const ChangePwd: FC<PropsForChildren> = ({
   showToastMsg,
@@ -86,7 +86,7 @@ const ChangePwd: FC<PropsForChildren> = ({
           <SpinnerBtnReact />
         ) : (
           <div className="w-full flex justify-center max-w-[250px] mt-5">
-            <ButtonBasic
+            <ButtonAnimated
               {...{ styleTxt: "txt__02", label: "Submit", type: "submit" }}
             />
           </div>
