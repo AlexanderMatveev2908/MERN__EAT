@@ -1,17 +1,12 @@
 import { FC } from "react";
-import { UseFormReturn } from "react-hook-form";
 import { useSwapperForm } from "./hooks/useSwapperForm";
 import SwapperContent from "./components/SwapperContent";
-import { MyRestaurantsAddUpdateFormType } from "./../../../../types/myRestaurants";
 import { BiWorld } from "react-icons/bi";
 import { totLenAddressMyRestaurants } from "./../../../../config/fieldsArr/myRestaurantsFields";
 import ButtonsSwapper from "../../../../components/commonCompForms/ButtonsSwapper";
+import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
 
-type PropsType = {
-  formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
-};
-
-const SwapperForm: FC<PropsType> = ({ formContext }) => {
+const SwapperForm: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
   const { buttonsProps, currForm } = useSwapperForm({
     watch: formContext.watch,
   });

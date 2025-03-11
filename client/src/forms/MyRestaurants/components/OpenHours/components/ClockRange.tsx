@@ -1,18 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Ham } from "lucide-react";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import {
   UseFormRegister,
   UseFormSetValue,
   UseFormTrigger,
 } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
 import { OpenCLoseFormType } from "../../../../../config/fieldsArr/myRestaurantsFields";
+import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
 import { REG_OPEN_CLOSE_TIME } from "../../../../../constants/regex";
-import {
-  formatTimeRange,
-  reverseFormaTime,
-} from "../../../../../utils/formatTime";
 
 type PropsType = {
   register: UseFormRegister<MyRestaurantsAddUpdateFormType>;
@@ -20,7 +16,9 @@ type PropsType = {
   field: OpenCLoseFormType;
   validateCb?: (val: string) => true | string;
   setValue: UseFormSetValue<MyRestaurantsAddUpdateFormType>;
-  trigger?: UseFormTrigger<MyRestaurantsAddUpdateFormType>;
+  trigger: UseFormTrigger<MyRestaurantsAddUpdateFormType>;
+  formatTimeCB: (val: string) => any;
+  reverseFormatTimeCB: (val: string) => any;
 };
 
 const ClockRange: FC<PropsType> = ({
@@ -30,18 +28,20 @@ const ClockRange: FC<PropsType> = ({
   validateCb,
   setValue,
   trigger,
+  formatTimeCB,
+  reverseFormatTimeCB,
 }) => {
   const [isFakeFocus, setIsFakeFocus] = useState(false);
   const [fakeVal, setFakeVal] = useState("");
 
-  useEffect(() => {
-    if (!isFakeFocus) setFakeVal(formatTimeRange(currVal));
-    // eslint-disable-next-line
-  }, [isFakeFocus, currVal]);
+  const memoizeFormatTime = useCallback(
+    () => formatTimeCB(currVal),
+    [currVal, formatTimeCB]
+  );
 
   useEffect(() => {
-    trigger?.(field.field as any, reverseFormaTime(fakeVal) as any);
-  }, [trigger, fakeVal, field.field]);
+    if (!isFakeFocus) setFakeVal(memoizeFormatTime());
+  }, [isFakeFocus, currVal, memoizeFormatTime]);
 
   return (
     <div className="w-full transition-all duration-300 focus__base flex border-2 border-orange-500 rounded-xl">
@@ -60,9 +60,10 @@ const ClockRange: FC<PropsType> = ({
                 onChange={(e) => {
                   const { value: val } = e.target;
                   if (isFakeFocus) {
-                    console.log(REG_OPEN_CLOSE_TIME.test(val));
-                    if (REG_OPEN_CLOSE_TIME.test(val))
-                      setValue(field.field as any, reverseFormaTime(val));
+                    if (REG_OPEN_CLOSE_TIME.test(val)) {
+                      setValue(field.field as any, reverseFormatTimeCB(val));
+                      trigger(field.field as any);
+                    }
 
                     setFakeVal(val);
                   }
@@ -75,7 +76,7 @@ const ClockRange: FC<PropsType> = ({
                   isFakeFocus ? "hidden" : "absolute"
                 }`}
               >
-                {formatTimeRange(currVal)}
+                {memoizeFormatTime()}
               </span>
             </div>
           </div>

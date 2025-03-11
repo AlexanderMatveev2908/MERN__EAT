@@ -147,3 +147,9 @@ for (let i = 0; i < myRestaurantsCatFields?.length - 1; i++) {
 }
 
 export const allowedImgs = 5;
+
+export const deliveryTimeField = {
+  field: "deliveryTime",
+  min: "1",
+  max: "120",
+};

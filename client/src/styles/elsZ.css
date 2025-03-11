@@ -1,0 +1,25 @@
+/* INDEXES */
+
+.hero__i_arrow {
+  z-index: 100;
+}
+
+.sidebar__i_bg {
+  z-index: 500;
+}
+
+.sidebar__i_content {
+  z-index: 1000;
+}
+
+.header__i {
+  z-index: 1500;
+}
+
+.popup__i {
+  z-index: 2000;
+}
+
+.toast__i {
+  z-index: 2500;
+}

@@ -1,15 +1,10 @@
 import { FC } from "react";
 import { myRestaurantsContact } from "./../../../../config/fieldsArr/myRestaurantsFields";
-import { UseFormReturn } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "./../../../../types/myRestaurants";
 import { MdConnectWithoutContact } from "react-icons/md";
 import FormFieldNoIcon from "../../../../components/commonCompForms/FormFieldNoIcon";
+import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
 
-type PropsType = {
-  formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
-};
-
-const ContactForm: FC<PropsType> = ({ formContext }) => {
+const ContactForm: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
   const {
     register,
     formState: { errors },

@@ -34,7 +34,7 @@ export type ImageUploadedType = {
 export type MyRestaurantsAddUpdateFormType = {
   name: string;
   categories: string[];
-  deliveryTime: number;
+  deliveryTime: string;
   images: File[] | ImageUploadedType[];
   dishes: DishMenuFormType[];
 } & RestaurantAddressType &
