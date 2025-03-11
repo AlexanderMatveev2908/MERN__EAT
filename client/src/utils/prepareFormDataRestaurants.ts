@@ -14,10 +14,11 @@ export const prepareFormData = (
   categories.forEach((cat) => formData.append("categories", cat));
 
   for (const key in primitiveVals) {
-    formData.append(
-      key,
-      primitiveVals[key as keyof MyRestaurantsAddUpdateFormType]
-    );
+    if (primitiveVals[key])
+      formData.append(
+        key,
+        primitiveVals[key as keyof MyRestaurantsAddUpdateFormType]
+      );
   }
 
   return formData;
