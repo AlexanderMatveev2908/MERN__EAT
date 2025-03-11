@@ -6,7 +6,7 @@ import {
 } from "../../../../../config/fieldsArr/myRestaurantsFields";
 import { UseFormReturn } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
-import { useSwapperCat } from "./hooks/useSwapperCat";
+import { useSwapperCat } from "./useSwapperCat";
 import ButtonsSwapper from "../../../../../components/commonCompForms/ButtonsSwapper";
 import CatElement from "./components/CatElement";
 

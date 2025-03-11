@@ -3,13 +3,13 @@ import ChangeEmail from "./components/ChangeEmail/ChangeEmail";
 import {
   totLenManageAccountForms,
   useManageAccountForms,
-} from "./hooks/useManageAccountForms";
+} from "./useManageAccountForms";
 import ChangePwd from "./components/ChangePwd/ChangePwd";
 import DeleteAccount from "./components/DeleteAccount/DeleteAccount";
 import { CurrUserType } from "../../../../../types/userTypes";
 import { ShowToastType } from "../../../../../types/toastTypes";
-import { handleErrManageUserType } from "../../hooks/useManageAccount";
 import ButtonsSwapper from "../../../../../components/commonCompForms/ButtonsSwapper";
+import { handleErrManageUserType } from "../../useManageAccount";
 
 type PropsType = {
   currUser: CurrUserType | null;

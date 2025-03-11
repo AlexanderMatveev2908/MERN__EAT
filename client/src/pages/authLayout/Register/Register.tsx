@@ -6,7 +6,7 @@ import BasePwdField from "../../../components/commonCompForms/BasePwdField";
 import SwitchForm from "../../../components/commonCompForms/SwitchForm";
 import PasswordChecker from "../../../components/commonCompForms/PasswordChecker";
 import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
-import { useRegisterCustom } from "./hooks/useRegisterCustom";
+import { useRegisterCustom } from "./useRegisterCustom";
 import PasswordLength from "../../../components/commonCompForms/PasswordLength";
 import {
   confirmPwdField,

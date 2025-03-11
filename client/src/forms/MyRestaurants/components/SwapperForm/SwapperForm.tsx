@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useSwapperForm } from "./hooks/useSwapperForm";
+import { useSwapperForm } from "./useSwapperForm";
 import SwapperContent from "./components/SwapperContent";
 import { BiWorld } from "react-icons/bi";
 import { totLenAddressMyRestaurants } from "./../../../../config/fieldsArr/myRestaurantsFields";

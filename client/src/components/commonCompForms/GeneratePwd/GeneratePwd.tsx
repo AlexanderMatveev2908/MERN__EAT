@@ -1,6 +1,6 @@
 import { BadgeHelp } from "lucide-react";
 import { FC } from "react";
-import { useGeneratePwd } from "./hooks/useGeneratePwd";
+import { useGeneratePwd } from "./useGeneratePwd";
 
 const GeneratePwd: FC = () => {
   const { strongPwd, generatePwd, handleCopyPwd, tooltipRef } =

@@ -1,7 +1,7 @@
 import { LogOut } from "lucide-react";
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { useDropLogged } from "./hooks/useDropLogged";
+import { useDropLogged } from "./useDropLogged";
 import { loggedUserFieldsDrop } from "./../../../../config/fieldsArr/dropSideFields";
 import SpinnerBtnReact from "./../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 

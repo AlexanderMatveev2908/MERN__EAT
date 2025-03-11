@@ -3,7 +3,7 @@ import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
 import BaseFormField from "../../../components/commonCompForms/BaseFormField";
 import BasePwdField from "../../../components/commonCompForms/BasePwdField";
 import SwitchForm from "../../../components/commonCompForms/SwitchForm";
-import { useLoginCustom } from "./hooks/useLoginCustom";
+import { useLoginCustom } from "./useLoginCustom";
 import {
   emailField,
   pwdFieldToAccess,

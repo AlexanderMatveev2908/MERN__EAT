@@ -63,9 +63,10 @@ const RestaurantSchema = new mongoose.Schema(
         required: true,
       },
     ],
-    deliveryTime: {
-      type: Number,
-      required: true,
+    delivery: {
+      estTimeDelivery: { type: Number, required: true },
+      price: { type: Number, default: 0 },
+      freeDeliveryPrice: { type: Number, default: 0 },
     },
     images: [
       {

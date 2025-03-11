@@ -6,7 +6,7 @@ import {
 } from "../../../types/myRestaurants";
 import { Trash2 } from "lucide-react";
 import { UseFormSetValue, UseFormTrigger } from "react-hook-form";
-import { useImgToUploadEl } from "./hooks/useImgToUploadEl";
+import { useImgToUploadEl } from "./useImgToUploadEl";
 
 export type PropsType = {
   img: File | ImageUploadedType;

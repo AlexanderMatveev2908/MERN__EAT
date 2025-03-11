@@ -1,5 +1,5 @@
 import { FC, useRef, useState } from "react";
-import { useRangeInput } from "./hooks/useRangeInput";
+import { useRangeInput } from "./useRangeInput";
 import { Ham } from "lucide-react";
 
 type PropsType = {

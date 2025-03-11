@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useChangeEmail } from "./hooks/useChangeEmail";
+import { useChangeEmail } from "./useChangeEmail";
 import BaseFormField from "../../../../../../../components/commonCompForms/BaseFormField";
 import { changeEmailField } from "../../../../../../../config/fieldsArr/authFieldsUser";
 import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";

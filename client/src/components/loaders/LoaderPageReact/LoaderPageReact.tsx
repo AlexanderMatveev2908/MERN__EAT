@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { GridLoader } from "react-spinners";
-import { useUpdateSizeLoaderPage } from "./hooks/useUpdateSizeLoader";
+import { useUpdateSizeLoaderPage } from "./useUpdateSizeLoader";
 
 const LoaderPageReact: FC = () => {
   const { size } = useUpdateSizeLoaderPage();

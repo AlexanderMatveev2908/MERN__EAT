@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { RegisterFormType } from "../hooks/useRegisterCustom";
+import { RegisterFormType } from "..//useRegisterCustom";
 
 type PropsTYpe = {
   register: UseFormRegister<RegisterFormType>;

@@ -4,7 +4,7 @@ import BasePwdField from "../../../components/commonCompForms/BasePwdField";
 import { Navigate } from "react-router-dom";
 import PasswordChecker from "../../../components/commonCompForms/PasswordChecker";
 import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
-import { useRecoverPwd } from "./hooks/useRecoverPwd";
+import { useRecoverPwd } from "./useRecoverPwd";
 import PasswordLength from "../../../components/commonCompForms/PasswordLength";
 import {
   confirmPwdField,

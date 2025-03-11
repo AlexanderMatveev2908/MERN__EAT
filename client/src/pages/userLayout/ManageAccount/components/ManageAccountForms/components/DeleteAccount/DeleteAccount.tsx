@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { ShowToastType } from "../../../../../../../types/toastTypes";
 import { SetChildLoadingType } from "../../ManageAccountForms";
-import { handleErrManageUserType } from "../../../../hooks/useManageAccount";
+import { handleErrManageUserType } from "../../../../useManageAccount";
 import DeleteAccountBtn from "./components/DeleteAccountBtn";
 
 type PropsType = {

@@ -2,9 +2,9 @@ import { Trash2 } from "lucide-react";
 import { FC } from "react";
 import { ShowToastType } from "../../../../../../../../types/toastTypes";
 import { SetChildLoadingType } from "../../../ManageAccountForms";
-import { handleErrManageUserType } from "../../../../../hooks/useManageAccount";
+import { handleErrManageUserType } from "../../../../../useManageAccount";
 import SpinnerBtnReact from "../../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
-import { useDeleteAccountBtn } from "./hooks/useDeleteAccountBtn";
+import { useDeleteAccountBtn } from "./useDeleteAccountBtn";
 
 type PropsType = {
   showToastMsg: ShowToastType;

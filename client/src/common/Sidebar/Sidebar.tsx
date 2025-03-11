@@ -1,5 +1,5 @@
 import { FC, useRef } from "react";
-import { useSidebar } from "./hooks/useSidebar";
+import { useSidebar } from "./useSidebar";
 import { useLocation, useSearchParams } from "react-router-dom";
 import SideEL from "./components/SideEL/SideEL";
 import LogoutBtn from "./components/LogoutBtn/LogoutBtn";

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useGetRightToManageAccount } from "./hooks/useGetRightToManageAccount";
+import { useGetRightToManageAccount } from "./useGetRightToManageAccount";
 import BasePwdField from "../../../../../components/commonCompForms/BasePwdField";
 import { pwdFieldToAccess } from "../../../../../config/fieldsArr/authFieldsUser";
 import ButtonBasic from "../../../../../components/buttons/ButtonBasic";

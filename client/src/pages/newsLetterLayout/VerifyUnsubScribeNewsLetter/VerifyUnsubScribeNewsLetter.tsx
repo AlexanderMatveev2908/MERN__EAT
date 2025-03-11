@@ -1,6 +1,6 @@
 import { FC } from "react";
 import LoaderPageReact from "../../../components/loaders/LoaderPageReact/LoaderPageReact";
-import { useVerifyUnsubScribeNewsLetter } from "./hooks/useVerifyUnsubScribeNewsLetter";
+import { useVerifyUnsubScribeNewsLetter } from "./useVerifyUnsubScribeNewsLetter";
 import { Navigate } from "react-router-dom";
 
 const VerifyUnsubScribeNewsLetter: FC = () => {

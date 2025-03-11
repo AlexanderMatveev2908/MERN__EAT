@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useNewsletter } from "./hooks/useNewsletter";
+import { useNewsletter } from "./useNewsletter";
 import LoggedNewsLetter from "./components/LoggedNewsLetter";
 import NonLoggedUser from "./components/NonLoggedUser";
 
