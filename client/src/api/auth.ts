@@ -78,7 +78,7 @@ export const changeRecoverPwdAPI = async ({
   password: string;
   userId: string;
   token: string;
-}): Promise<ReturnAPIBasic> => {
+}): Promise<ReturnAPIBasic & ReturnAccessTokenAPIType> => {
   const { data } = await foodAppInstance.patch("/auth/recover-pwd", params);
 
   return data;

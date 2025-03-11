@@ -180,17 +180,6 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   }
 }
 
-/* .skeleton__el {
-  background-color: #333;
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0.5;
-  }
-} */
-
 /* 
 .skeleton__el {
   background-color: #333;

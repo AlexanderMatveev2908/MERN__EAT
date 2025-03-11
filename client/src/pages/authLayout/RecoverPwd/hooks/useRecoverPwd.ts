@@ -71,7 +71,7 @@ export const useRecoverPwd = () => {
     }) => changeRecoverPwdAPI({ password: password, token, userId }),
     onSuccess: (data) => {
       reset();
-      setUserLogged(data.accessToken);
+      setUserLogged(data?.accessToken);
       showToastMsg("Password changed successfully", "SUCCESS");
       navigate("/", { replace: true });
     },

@@ -1,11 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate } from "react-router-dom";
-import { useToggleNewsLetter } from "./useToggleNewsLetter";
-import { useNonLoggedNewLetter } from "./useNonLoggedNewLetter";
 import { useHandleErr } from "../../../../hooks/useHandleErr";
 import { useToast, useUser } from "../../../../hooks/useGlobal";
+import { useMutation } from "@tanstack/react-query";
+import {
+  newsLetterToggleLoggedAPI,
+  subscribeNonLoggedUserAPI,
+} from "../../../../api/newsLetter";
+import { CurrUserType } from "../../../../types/userTypes";
+import { useForm } from "react-hook-form";
+
+export type NewsLetterFormType = {
+  email: string;
+};
 
 export const useNewsletter = () => {
-  const { isLogged, currUser } = useUser();
+  const { isLogged, currUser, setCurrUser } = useUser();
   const { showToastMsg } = useToast();
   const { handleErrAPI } = useHandleErr();
 
@@ -13,19 +23,51 @@ export const useNewsletter = () => {
 
   const {
     register,
-    errors,
-    submitSubscribeNonLoggedUser,
-    isPending: isPendingNonLogged,
-  } = useNonLoggedNewLetter({ showToastMsg });
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<NewsLetterFormType>({
+    mode: "onChange",
+  });
 
-  const { mutate: mutateLogged, isPending: isPendingLogged } =
-    useToggleNewsLetter({ showToastMsg, handleErrAPI });
+  const { mutate: mutateNonLogged, isPending: isPendingNonLogged } =
+    useMutation({
+      mutationFn: (email: string) => subscribeNonLoggedUserAPI(email),
+      onSuccess: () => {
+        reset();
+        showToastMsg(
+          "You have successfully subscribed to out newsLetter",
+          "SUCCESS"
+        );
+      },
+      onError: (err: any) => {
+        showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+      },
+    });
 
-  const handleClickNonLoggedUser = () => navigate("/auth/login");
+  const submitSubscribeNonLoggedUser = handleSubmit((data) => {
+    mutateNonLogged(data.email);
+  });
 
-  const toggleNewsLetter = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const { mutate: mutateLogged, isPending: isPendingLogged } = useMutation({
+    mutationFn: ({ type }: { type: "subscribe" | "unsubscribe" }) =>
+      newsLetterToggleLoggedAPI({ type }),
+    onSuccess: (data) => {
+      setCurrUser({ user: data?.user as CurrUserType | null });
+      showToastMsg(
+        `You have ${
+          data?.user?.hasSubscribedToNewsletter ? "subscribed" : "unsubscribed"
+        } to our newsletter successfully`,
+        "SUCCESS"
+      );
+    },
+    onError: (err: any) => {
+      if (err?.response?.status === 401) handleErrAPI({ err });
+      else showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
+    },
+  });
 
+  const toggleNewsLetter = () => {
     mutateLogged({
       type: currUser?.hasSubscribedToNewsletter ? "unsubscribe" : "subscribe",
     });
@@ -37,7 +79,6 @@ export const useNewsletter = () => {
     });
 
   return {
-    handleClickNonLoggedUser,
     isLogged,
     toggleNewsLetter,
     isPendingLogged,
