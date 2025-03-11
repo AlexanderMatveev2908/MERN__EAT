@@ -1,5 +1,39 @@
 import mongoose from "mongoose";
 
+export type RestaurantType = {
+  owner: string[];
+  name: string;
+  address: {
+    country: string;
+    state: string;
+    city: string;
+    street: string;
+    zipCode: string;
+  };
+  contact: {
+    phone: string;
+    email: string;
+    website: string;
+  };
+  openHours: {
+    openTime: number;
+    closeTime: number;
+  };
+  categories: string[];
+  delivery: {
+    estTimeDelivery: number;
+    price: number;
+    freeDeliveryPrice: number;
+  };
+  images: {
+    url: string;
+    public_id: string;
+  }[];
+  dishes: string[];
+  orders: string[];
+  reviews: string[];
+};
+
 const RestaurantSchema = new mongoose.Schema(
   {
     owner: {
@@ -36,7 +70,7 @@ const RestaurantSchema = new mongoose.Schema(
     contact: {
       phone: {
         type: String,
-        required: true,
+        default: null,
       },
       email: {
         type: String,
@@ -49,11 +83,11 @@ const RestaurantSchema = new mongoose.Schema(
     },
     openHours: {
       openTime: {
-        type: String,
+        type: Number,
         required: true,
       },
       closeTime: {
-        type: String,
+        type: Number,
         required: true,
       },
     },

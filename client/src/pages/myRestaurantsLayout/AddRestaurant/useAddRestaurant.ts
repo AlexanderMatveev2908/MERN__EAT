@@ -3,8 +3,15 @@ import { MyRestaurantsAddUpdateFormType } from "../../../types/myRestaurants";
 import { useScrollTop } from "../../../hooks/useScrollTop";
 import { useEffect } from "react";
 import { prepareFormData } from "../../../utils/prepareFormDataRestaurants";
+import { useMutation } from "@tanstack/react-query";
+import { createRestaurantAPI } from "../../../api/myRestaurants";
+import { useToast } from "../../../hooks/useGlobal";
+import { useHandleErr } from "../../../hooks/useHandleErr";
 
 export const useAddRestaurant = () => {
+  const { showToastMsg } = useToast();
+  const { handleErrAPI } = useHandleErr();
+
   const formContext = useForm<MyRestaurantsAddUpdateFormType>({
     mode: "onChange",
     defaultValues: {
@@ -32,13 +39,29 @@ export const useAddRestaurant = () => {
     formContext.setFocus("name");
   }, [formContext]);
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (formData: FormData) => createRestaurantAPI(formData),
+    onSuccess: (data) => {
+      showToastMsg("Restaurant created successfully", "SUCCESS");
+      console.log(data);
+    },
+    onError: (err) => {
+      handleErrAPI({ err });
+      console.log(err);
+    },
+  });
+
   const handleSave = formContext.handleSubmit(
     (data: MyRestaurantsAddUpdateFormType) => {
-      for (const [key, val] of prepareFormData(data).entries()) {
-        console.log(key, val);
-      }
+      // for (const [key, val] of prepareFormData(data).entries()) {
+      //   console.log(key, val);
+      // }
+
+      const formData = prepareFormData(data);
+
+      mutate(formData);
     }
   );
 
-  return { formContext, handleSave };
+  return { formContext, handleSave, isPending };
 };
