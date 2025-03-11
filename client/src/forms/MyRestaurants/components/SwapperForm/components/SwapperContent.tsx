@@ -18,7 +18,7 @@ const SwapperContent: FC<PropsType> = ({ currForm, formContext }) => {
     formState: { errors },
   } = formContext;
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden py-5">
       <div
         className="w-[200%] flex transition-all duration-500 justify-items-start items-start h-fit lg:grid lg:grid-cols-2 lg:w-full lg:gap-10"
         style={{
