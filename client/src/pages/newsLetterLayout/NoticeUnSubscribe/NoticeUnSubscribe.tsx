@@ -5,7 +5,7 @@ import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/Spinner
 import BaseFormField from "../../../components/commonCompForms/BaseFormField";
 import { emailField } from "../../../config/fieldsArr/authFieldsUser";
 import { Navigate } from "react-router-dom";
-import { useNoticeUnSubscribe } from "./hooks/useNoticeUnSubscribe";
+import { useNoticeUnSubscribe } from "./useNoticeUnSubscribe";
 
 const NoticeUnSubscribe: FC = () => {
   const { canStay, success, register, errors, handleSubmitEmail, isPending } =

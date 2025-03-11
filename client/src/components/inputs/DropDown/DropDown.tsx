@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { FC, useRef, useState } from "react";
-import { useDropDown } from "./hoooks/useDropDown";
+import { useDropDown } from "./useDropDown";
 
 type PropsType = {
   isAbsolute?: boolean;

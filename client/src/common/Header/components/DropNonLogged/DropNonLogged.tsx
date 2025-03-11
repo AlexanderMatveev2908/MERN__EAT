@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useDropNonLogged } from "./hooks/useDropNonLogged";
+import { useDropNonLogged } from "./useDropNonLogged";
 import { User } from "lucide-react";
 import { nonLoggedUserFields } from "../../../../config/fieldsArr/dropSideFields";
 

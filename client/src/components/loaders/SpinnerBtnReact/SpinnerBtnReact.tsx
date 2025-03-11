@@ -1,5 +1,5 @@
 import { PulseLoader } from "react-spinners";
-import { useUpdateSizeLoaderBtn } from "./hooks/useUpdateSizeLoaderBtn";
+import { useUpdateSizeLoaderBtn } from "./useUpdateSizeLoaderBtn";
 import { FC } from "react";
 
 type PropsType = {

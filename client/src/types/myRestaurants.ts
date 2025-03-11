@@ -31,12 +31,18 @@ export type ImageUploadedType = {
   public_id: string;
 };
 
+export type DeliveryType = {
+  estTimeDelivery: string;
+  price: string;
+  freeDeliveryPrice: string;
+};
+
 export type MyRestaurantsAddUpdateFormType = {
   name: string;
   categories: string[];
-  deliveryTime: string;
   images: File[] | ImageUploadedType[];
   dishes: DishMenuFormType[];
 } & RestaurantAddressType &
   RestaurantOpenHoursType &
-  RestaurantContactType;
+  RestaurantContactType &
+  DeliveryType;

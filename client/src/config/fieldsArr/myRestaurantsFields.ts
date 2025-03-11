@@ -2,7 +2,9 @@
 import { FaDoorClosed, FaDoorOpen } from "react-icons/fa";
 import {
   REG_EMAIL,
+  REG_EST_TIME,
   REG_PHONE,
+  REG_PRICE,
   REG_RESTAURANT_NAME,
   REG_WEB_URL,
 } from "../../constants/regex";
@@ -148,8 +150,35 @@ for (let i = 0; i < myRestaurantsCatFields?.length - 1; i++) {
 
 export const allowedImgs = 5;
 
-export const deliveryTimeField = {
-  field: "deliveryTime",
-  min: "1",
-  max: "120",
-};
+export const myRestaurantsDeliveryFields = [
+  {
+    id: genID(),
+    type: "number",
+    field: "estTimeDelivery",
+    label: "Delivery time",
+    msg: "Estimated delivery time must be a decimal number not bigger than time while restaurant is open",
+    required: true,
+    place: "Delivery time...",
+    reg: REG_EST_TIME,
+  },
+  {
+    id: genID(),
+    type: "number",
+    field: "price",
+    label: "Charge for delivery",
+    msg: "Delivery charge must be a decimal number with at most 2 decimal places.",
+    required: false,
+    place: "Leave empty if no charge",
+    reg: REG_PRICE,
+  },
+  {
+    id: genID(),
+    type: "number",
+    field: "freeDeliveryPrice",
+    label: "Amount free delivery",
+    msg: "The value must be a decimal number with at most 2 decimal places.",
+    required: false,
+    place: "Leave empty if no amount",
+    reg: REG_PRICE,
+  },
+];

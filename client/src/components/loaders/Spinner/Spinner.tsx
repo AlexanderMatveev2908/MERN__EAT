@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useSpinner } from "./hooks/useSpinner";
+import { useSpinner } from "./useSpinner";
 
 const Spinner: FC = () => {
   const { numEls, deg, passedFirstRender } = useSpinner();

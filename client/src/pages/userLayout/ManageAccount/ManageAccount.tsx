@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useManageAccount } from "./hooks/useManageAccount";
+import { useManageAccount } from "./useManageAccount";
 import GetRightToManageAccount from "./components/GetRightToManageAccount/GetRightToManageAccount";
 import ManageAccountForms from "./components/ManageAccountForms/ManageAccountForms";
 

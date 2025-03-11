@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useHero } from "./hooks/useHero";
+import { useHero } from "./useHero";
 import { heroFieldsArr } from "../../config/fieldsArr/heroFieldsArr";
 
 const Hero: FC = () => {

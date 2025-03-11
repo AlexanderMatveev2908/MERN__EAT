@@ -1,7 +1,7 @@
 import { FC } from "react";
 import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import BasePwdField from "../../../../../../../components/commonCompForms/BasePwdField";
-import { useChangePwd } from "./hooks/useChangePwd";
+import { useChangePwd } from "./useChangePwd";
 import {
   confirmPwdField,
   pwdFieldToChangeOldPwd,

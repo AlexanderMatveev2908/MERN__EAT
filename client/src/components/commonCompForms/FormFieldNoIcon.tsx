@@ -7,9 +7,15 @@ type PropsType = {
   field: FieldNoIconType;
   register: UseFormRegister<any>;
   errors: FieldErrors;
+  customValidate?: (val: any) => any;
 };
 
-const FormFieldNoIcon: FC<PropsType> = ({ field, register, errors }) => {
+const FormFieldNoIcon: FC<PropsType> = ({
+  field,
+  register,
+  errors,
+  customValidate,
+}) => {
   return (
     <div className="max-w-full w-full grid grid-cols-1 gap-y-3 justify-items-start">
       <label className="w-full flex flex-col gap-y-2 justify-start">
@@ -20,6 +26,7 @@ const FormFieldNoIcon: FC<PropsType> = ({ field, register, errors }) => {
           {...register(field.field, {
             required: field?.required ? `${field.label} is required` : false,
             pattern: { value: field.reg, message: field.msg },
+            validate: (val) => (customValidate ? customValidate(val) : true),
           })}
           className="input__base txt__02"
           placeholder={field?.place ?? `Your ${field.label}...`}
