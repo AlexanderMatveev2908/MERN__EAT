@@ -10,7 +10,7 @@ import PasswordChecker from "../../../../../../../components/commonCompForms/Pas
 import PasswordLength from "../../../../../../../components/commonCompForms/PasswordLength";
 import { PropsForChildren } from "../../ManageAccountForms";
 import GeneratePwd from "../../../../../../../components/commonCompForms/GeneratePwd/GeneratePwd";
-import ButtonAnimated from "../../../../../../../components/buttons/ButtonAnimated/ButtonAnimated";
+import ButtonAnimated from "../../../../../../../components/buttons/ButtonAnimated";
 
 const ChangePwd: FC<PropsForChildren> = ({
   showToastMsg,

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { X } from "lucide-react";
 import { FC } from "react";
-import ButtonBasic from "../buttons/ButtonBasic/ButtonBasic";
+import ButtonBasic from "../buttons/ButtonBasic";
 
 type PropsType = {
   txt?: string;

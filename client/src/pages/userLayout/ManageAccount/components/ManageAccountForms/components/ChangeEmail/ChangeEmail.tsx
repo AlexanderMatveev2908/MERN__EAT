@@ -4,7 +4,7 @@ import BaseFormField from "../../../../../../../components/commonCompForms/BaseF
 import { changeEmailField } from "../../../../../../../config/fieldsArr/authFieldsUser";
 import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import { PropsForChildren } from "../../ManageAccountForms";
-import ButtonAnimated from "../../../../../../../components/buttons/ButtonAnimated/ButtonAnimated";
+import ButtonAnimated from "../../../../../../../components/buttons/ButtonAnimated";
 
 const ChangeEmail: FC<Omit<PropsForChildren, "setCanManageAccount">> = ({
   currUser,

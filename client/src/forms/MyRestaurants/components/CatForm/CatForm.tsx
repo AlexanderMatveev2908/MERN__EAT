@@ -2,7 +2,7 @@ import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "./../../../../types/myRestaurants";
 import { MdCategory } from "react-icons/md";
-import SwapperCat from "./components/SwapperCat/SwapperCat";
+import SwapperCat from "./SwapperCat/SwapperCat";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;

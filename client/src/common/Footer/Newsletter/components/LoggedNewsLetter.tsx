@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { CurrUserType } from "../../../../types/userTypes";
 import SpinnerBtnReact from "../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
-import ButtonAnimated from "../../../../components/buttons/ButtonAnimated/ButtonAnimated";
+import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";
 // import { CurrUserType } from "../../../../../types/userTypes";
 
 type PropsType = {

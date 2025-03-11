@@ -1,6 +1,6 @@
 import { FC } from "react";
-import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
-import AcceptTerms from "./AcceptTerms/AcceptTerms";
+import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
+import AcceptTerms from "./components/AcceptTerms";
 import BaseFormField from "../../../components/commonCompForms/BaseFormField";
 import BasePwdField from "../../../components/commonCompForms/BasePwdField";
 import SwitchForm from "../../../components/commonCompForms/SwitchForm";
