@@ -19,11 +19,13 @@ const Delivery: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
     if (chargeDelivery) trigger("freeDeliveryPrice");
   }, [chargeDelivery, trigger]);
 
-  const customValidateDeliveryTime = (val: string) =>
-    getDiffTime(watch("closeTime"), watch("openTime")) < +val / 60
+  const customValidateDeliveryTime = (val: string) => {
+    const diff = getDiffTime(watch("closeTime"), watch("openTime"));
+
+    return diff > 0 && diff < +val / 60
       ? "Delivery time can not take more than your business activity"
       : true;
-
+  };
   const customValidateDeliveryFree = (val: string) =>
     !watch("price") && val
       ? "You can not set a free delivery without a delivery charge"

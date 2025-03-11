@@ -41,7 +41,7 @@ export type MyRestaurantsAddUpdateFormType = {
   name: string;
   categories: string[];
   images: File[] | ImageUploadedType[];
-  dishes: DishMenuFormType[];
+  dishes?: DishMenuFormType[];
 } & RestaurantAddressType &
   RestaurantOpenHoursType &
   RestaurantContactType &

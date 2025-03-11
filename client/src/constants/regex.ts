@@ -17,7 +17,7 @@ export const REG_PHONE =
 
 export const REG_RESTAURANT_NAME = /^[A-Za-zÀ-ÿ0-9\s,&`'-]{2,50}$/;
 export const REG_WEB_URL =
-  /^(https?\/\/)?(www\.)?[A-Za-z0-9-]+(\.[A-Za-z]{2,})(\/[A-Za-z0-9-/]*)?(\?[A-Za-z0-9=&]*)?(#[A-Za-z0-9-_]*)?$/;
+  /^(https?:\/\/)?(www\.)?[A-Za-z0-9-]+(\.[A-Za-z]{2,})(\/[A-Za-z0-9-/]*)?(\?[A-Za-z0-9=&]*)?(#[A-Za-z0-9-_]*)?$/;
 export const REG_OPEN_CLOSE_TIME = /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
 export const REG_HOURS = /^([01]?[0-9]|2[0-3])$/;
 export const REG_MINUTES = /^([0-5]?[0-9])$/;
