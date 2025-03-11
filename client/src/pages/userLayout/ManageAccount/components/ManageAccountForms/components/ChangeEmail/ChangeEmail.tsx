@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { useChangeEmail } from "./hooks/useChangeEmail";
-import BaseFormField from "../../../../../../../components/commonCompForms/BaseFormField/BaseFormField";
+import BaseFormField from "../../../../../../../components/commonCompForms/BaseFormField";
 import { changeEmailField } from "../../../../../../../config/fieldsArr/authFieldsUser";
-import ButtonBasic from "./../../../../../../../components/buttons/ButtonBasic/ButtonBasic";
 import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import { PropsForChildren } from "../../ManageAccountForms";
+import ButtonAnimated from "../../../../../../../components/buttons/ButtonAnimated/ButtonAnimated";
 
 const ChangeEmail: FC<Omit<PropsForChildren, "setCanManageAccount">> = ({
   currUser,
@@ -42,7 +42,7 @@ const ChangeEmail: FC<Omit<PropsForChildren, "setCanManageAccount">> = ({
           <SpinnerBtnReact />
         ) : (
           <div className="w-full flex justify-center max-w-[250px]">
-            <ButtonBasic
+            <ButtonAnimated
               {...{ styleTxt: "txt__02", label: "Submit", type: "submit" }}
             />
           </div>

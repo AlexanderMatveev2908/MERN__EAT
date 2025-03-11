@@ -3,7 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "./../../../../types/myRestaurants";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { myRestaurantsName } from "./../../../../config/fieldsArr/myRestaurantsFields";
-import FormFieldNoIcon from "./../../../../components/commonCompForms/FormFieldNoIcon/FormFieldNoIcon";
+import FormFieldNoIcon from "./../../../../components/commonCompForms/FormFieldNoIcon";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;

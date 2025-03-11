@@ -1,11 +1,11 @@
 import { FC } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
-import BasePwdField from "../../../components/commonCompForms/BasePwdField/BasePwdField";
+import BasePwdField from "../../../components/commonCompForms/BasePwdField";
 import { Navigate } from "react-router-dom";
-import PasswordChecker from "../../../components/commonCompForms/PasswordChecker/PasswordChecker";
+import PasswordChecker from "../../../components/commonCompForms/PasswordChecker";
 import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
 import { useRecoverPwd } from "./hooks/useRecoverPwd";
-import PasswordLength from "../../../components/commonCompForms/PasswordLength/PasswordLength";
+import PasswordLength from "../../../components/commonCompForms/PasswordLength";
 import {
   confirmPwdField,
   pwdFieldToCreate,

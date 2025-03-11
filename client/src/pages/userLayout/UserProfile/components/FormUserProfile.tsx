@@ -5,7 +5,7 @@ import {
   userProfileFields_1,
   userProfileFields_2,
 } from "../../../../config/fieldsArr/userDetailsFields.ts";
-import { UserProfileFormType } from "../hooks/UseProfileReducer/types/types";
+import { UserProfileFormType } from "../hooks/UseProfileReducer/types.ts";
 import { InputRefType } from "../hooks/useUserProfile.ts";
 
 type PropsTYpe = {

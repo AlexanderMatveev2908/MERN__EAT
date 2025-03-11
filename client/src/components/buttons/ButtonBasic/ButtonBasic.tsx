@@ -25,11 +25,19 @@ const ButtonBasic: FC<PropsType> = ({
       type={type}
       className="btn__with_shadow_container group"
     >
-      <div className={`${styleBtn} btn__with_shadow_container__content`}>
+      <div
+        className={`${
+          styleBtn ?? "group-hover:text-orange-500"
+        } btn__with_shadow_container__content`}
+      >
         <span className={`${styleTxt} content__txt`}>{label}</span>
       </div>
 
-      <span className={`${styleBtn} btn__with_shadow_container__shadow`}></span>
+      <span
+        className={`${
+          styleBtn ?? "group-hover:text-orange-500"
+        } btn__with_shadow_container__shadow`}
+      ></span>
     </button>
   );
 };

@@ -3,12 +3,12 @@ import {
   allFields,
   fieldsDividedByArea,
   totLenUserDetails,
-} from "../../../../../../config/fieldsArr/userDetailsFields";
+} from "../../../../../config/fieldsArr/userDetailsFields";
 import {
   UserDataFormType,
   UserProfileActions,
   UserProfileFormType,
-} from "../types/types";
+} from "./types";
 
 export const getRespectiveVals = (
   currFieldsArea: any[],

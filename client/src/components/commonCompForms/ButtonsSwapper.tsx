@@ -1,5 +1,5 @@
 import { FC } from "react";
-import ButtonBasic from "../../buttons/ButtonBasic/ButtonBasic";
+import ButtonBasic from "./../buttons/ButtonBasic/ButtonBasic";
 
 type PropsType = {
   currForm: number;
@@ -8,6 +8,7 @@ type PropsType = {
   isNextDisabled: boolean;
   handlePrev: () => void;
   handleNext: () => void;
+  hiddenLg: boolean;
 };
 
 const ButtonsSwapper: FC<PropsType> = ({
@@ -17,9 +18,14 @@ const ButtonsSwapper: FC<PropsType> = ({
   handlePrev,
   handleNext,
   totLen,
+  hiddenLg,
 }) => {
   return (
-    <div className="w-full grid grid-cols-2 sm:justify-items-center lg:hidden">
+    <div
+      className={`w-full grid grid-cols-2 sm:justify-items-center ${
+        hiddenLg ? "lg:hidden" : ""
+      }`}
+    >
       <div className="w-full max-w-[30vw] sm:max-w-[200px] justify-self-start sm:justify-self-center">
         <ButtonBasic
           {...{

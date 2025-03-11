@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   switchFormAuthLeft,
   switchFormAuthRight,
-} from "../../../config/fieldsArr/switchForms";
+} from "../../config/fieldsArr/switchForms";
 
 type PropsType = {
   type: "login" | "register";

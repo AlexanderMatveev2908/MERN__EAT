@@ -3,7 +3,7 @@ import { myRestaurantsContact } from "./../../../../config/fieldsArr/myRestauran
 import { UseFormReturn } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "./../../../../types/myRestaurants";
 import { MdConnectWithoutContact } from "react-icons/md";
-import FormFieldNoIcon from "../../../../components/commonCompForms/FormFieldNoIcon/FormFieldNoIcon";
+import FormFieldNoIcon from "../../../../components/commonCompForms/FormFieldNoIcon";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;

@@ -2,7 +2,7 @@ import { CircleCheckBig } from "lucide-react";
 import { FC } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated/ButtonAnimated";
 import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
-import BaseFormField from "../../../components/commonCompForms/BaseFormField/BaseFormField";
+import BaseFormField from "../../../components/commonCompForms/BaseFormField";
 import { emailField } from "../../../config/fieldsArr/authFieldsUser";
 import { Navigate } from "react-router-dom";
 import { useNoticeUnSubscribe } from "./hooks/useNoticeUnSubscribe";

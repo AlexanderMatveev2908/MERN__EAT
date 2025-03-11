@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { UserProfileFormType } from "../hooks/UseProfileReducer/types/types";
+import { UserProfileFormType } from "../hooks/UseProfileReducer/types";
 import { UserDetailsFieldType } from "../../../../config/fieldsArr/userDetailsFields";
 import { InputRefType } from "../hooks/useUserProfile";
 
