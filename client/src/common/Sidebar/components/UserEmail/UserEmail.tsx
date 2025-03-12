@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { CircleUserRound } from "lucide-react";
-import { CurrUserType } from "./../../../../types/userTypes";
+import { CurrUserType } from "../../../../types/userTypes";
 
 type PropsType = {
   currUser: CurrUserType;
 };
 
-const UserInitials: FC<PropsType> = ({ currUser }) => {
+const UserEmail: FC<PropsType> = ({ currUser }) => {
   return (
     <div className="w-full flex items-center border-b-2 border-orange-500">
       <div className="w-full flex items-center pb-4 pl-3 gap-3">
@@ -16,4 +16,4 @@ const UserInitials: FC<PropsType> = ({ currUser }) => {
     </div>
   );
 };
-export default UserInitials;
+export default UserEmail;
