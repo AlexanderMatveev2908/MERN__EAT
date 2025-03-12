@@ -1,11 +1,7 @@
-export type DishMenuFormType = {
-  name: string;
-  quantity: number;
-  price: number;
-  discount: number;
-  description: string;
-  images: File[];
-};
+import { ImageUploadedType } from "./API";
+import { DishType } from "./dishes";
+import { OrderType } from "./orders";
+import { ReviewType } from "./reviews";
 
 export type RestaurantAddressType = {
   country: string;
@@ -26,11 +22,6 @@ export type RestaurantOpenHoursType = {
   closeTime: string;
 };
 
-export type ImageUploadedType = {
-  url: string;
-  public_id: string;
-};
-
 export type DeliveryType = {
   estTimeDelivery: string;
   price: string;
@@ -41,8 +32,28 @@ export type MyRestaurantsAddUpdateFormType = {
   name: string;
   categories: string[];
   images: File[] | ImageUploadedType[];
-  dishes?: DishMenuFormType[];
 } & RestaurantAddressType &
   RestaurantOpenHoursType &
   RestaurantContactType &
   DeliveryType;
+
+export type MyRestaurantType = {
+  _id: string;
+  name: string;
+  images: ImageUploadedType[];
+  address: RestaurantAddressType;
+  contact: RestaurantContactType;
+  openHours: {
+    openTime: string;
+    closeTime: string;
+  };
+  delivery: {
+    estTimeDelivery: number;
+    price: number;
+    freeDeliveryPrice: number;
+  };
+  categories: string[];
+  dishes?: DishType[];
+  order: OrderType[];
+  reviews: ReviewType[];
+};
