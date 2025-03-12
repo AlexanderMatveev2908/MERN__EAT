@@ -1,6 +1,11 @@
 import { RequestWithUserId } from "../middleware/general/verifyAccessToken";
+import { RestaurantType } from "../models/Restaurant";
 
-export const formatMyRestaurantsBody = (req: RequestWithUserId) => {
+export const formatMyRestaurantsBody = (
+  req: RequestWithUserId,
+  userEmail: string,
+  userPhone: string
+) => {
   const { userId } = req;
 
   const {
@@ -24,8 +29,8 @@ export const formatMyRestaurantsBody = (req: RequestWithUserId) => {
     name,
     address,
     contact: {
-      email: email ?? null,
-      phone: phone ?? null,
+      email: email ?? userEmail,
+      phone: phone ?? userPhone,
       website: website ?? null,
     },
     openHours: {
@@ -35,8 +40,8 @@ export const formatMyRestaurantsBody = (req: RequestWithUserId) => {
     categories,
     delivery: {
       estTimeDelivery,
-      price: price ?? null,
-      freeDeliveryPrice: freeDeliveryPrice ?? null,
+      price: price ?? 0,
+      freeDeliveryPrice: freeDeliveryPrice ?? 0,
     },
   };
 };

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { genID } from "./../../../utils/genID";
-import { GrDocumentTest } from "react-icons/gr";
 
 export type FieldCheckboxSwapType = {
   id: string;
@@ -9,9 +8,15 @@ export type FieldCheckboxSwapType = {
   icon: any;
 };
 
-export const fieldTest = {
-  id: genID(),
-  field: "test",
-  label: "Test",
-  icon: GrDocumentTest,
-};
+export const fieldsShowMyRestaurants = (...params) => [
+  {
+    id: genID(),
+    label: "Location",
+    obj: params[0],
+  },
+  {
+    id: genID(),
+    label: "Contact",
+    obj: params[1],
+  },
+];
