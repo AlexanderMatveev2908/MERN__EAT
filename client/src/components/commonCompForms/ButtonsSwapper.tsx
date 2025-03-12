@@ -39,7 +39,9 @@ const ButtonsSwapper: FC<PropsType> = ({
           }}
         />
       </div>
-      {currForm !== totLen - 1 && (
+      {currForm === totLen - 1 ? (
+        children ?? null
+      ) : (
         <div className="w-full max-w-[30vw] sm:max-w-[200px] justify-self-end sm:justify-self-center">
           <ButtonBasic
             {...{
