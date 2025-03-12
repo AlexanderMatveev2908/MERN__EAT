@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const useDropNonLogged = () => {
+export const useDropDownHeader = () => {
   const [dropOpen, setDropOpen] = useState<boolean>(false);
   const dropRef = useRef<HTMLDivElement | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -45,7 +45,6 @@ export const useDropNonLogged = () => {
     dropOpen,
     dropRef,
     handleSideClick,
-    setDropOpen,
     handleMouseEnter,
     handleMouseLeave,
   };

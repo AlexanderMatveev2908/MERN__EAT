@@ -1,9 +1,17 @@
 import { FC } from "react";
-import { useDropNonLogged } from "./useDropNonLogged";
+import { useDropDownHeader } from "./useDropDownHeader";
 import { User } from "lucide-react";
-import { nonLoggedUserFields } from "../../../../config/fieldsArr/dropSideFields";
+import {
+  loggedUserFieldsDrop,
+  nonLoggedUserFields,
+} from "../../config/fieldsArr/dropSideFields";
 
-const DropNonLogged: FC = () => {
+type PropsType = {
+  isLogged: boolean;
+  children?: React.ReactNode;
+};
+
+const DropDownHeader: FC<PropsType> = ({ isLogged, children }) => {
   const {
     toggleDrop,
     dropOpen,
@@ -11,7 +19,9 @@ const DropNonLogged: FC = () => {
     handleSideClick,
     handleMouseEnter,
     handleMouseLeave,
-  } = useDropNonLogged();
+  } = useDropDownHeader();
+
+  const fieldsToMap = isLogged ? loggedUserFieldsDrop : nonLoggedUserFields;
 
   return (
     <div
@@ -22,9 +32,17 @@ const DropNonLogged: FC = () => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={toggleDrop}
-        className="txt__01"
+        className={`txt__01 ${
+          isLogged
+            ? "transition-all duration-300 hover:text-orange-500 hover:scale-120 border-2 py-1 px-2 rounded-xl"
+            : ""
+        }`}
       >
-        <User className="w-[37.5px] h-[37.5px] transition-all duration-300 hover:text-orange-500 hover:scale-120" />
+        {isLogged ? (
+          sessionStorage.getItem("initName") ?? ""
+        ) : (
+          <User className="w-[37.5px] h-[37.5px] transition-all duration-300 hover:text-orange-500 hover:scale-120" />
+        )}
       </div>
 
       <div
@@ -37,9 +55,9 @@ const DropNonLogged: FC = () => {
         }`}
       >
         <div className="w-full flex flex-col items-start">
-          {nonLoggedUserFields.map((el) => (
+          {fieldsToMap.map((el) => (
             <button
-              onClick={() => handleSideClick(el.path, el?.from)}
+              onClick={() => handleSideClick(el.path, el?.from ?? "")}
               key={el.id}
               className="min-w-[300px] w-full flex gap-3 border-b-orange-500 border-b-2 pl-3 pr-10 py-3 justify-start group cursor-pointer"
             >
@@ -49,9 +67,11 @@ const DropNonLogged: FC = () => {
               </span>
             </button>
           ))}
+
+          {children}
         </div>
       </div>
     </div>
   );
 };
-export default DropNonLogged;
+export default DropDownHeader;

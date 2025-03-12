@@ -28,7 +28,7 @@ export const allUsersFields = [
   },
 ];
 
-export const loggedUserFields = [
+export const loggedUserFields: SideDropFieldType[] = [
   {
     id: genID(),
     path: "/user/profile",
@@ -57,7 +57,7 @@ export const loggedUserFields = [
 
 export const loggedUserFieldsDrop = loggedUserFields.slice(0, 2);
 
-export const nonLoggedUserFields = [
+export const nonLoggedUserFields: SideDropFieldType[] = [
   {
     id: genID(),
     path: "/auth/login",

@@ -2,7 +2,7 @@ import { Menu, X } from "lucide-react";
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import DropLogged from "./components/DropLogged/DropLogged";
-import DropNonLogged from "./components/DropNonLogged/DropNonLogged";
+import DropNonLogged from "./components/DropNonLogged";
 import { useUser } from "../../hooks/useGlobal";
 
 type PropsType = {
