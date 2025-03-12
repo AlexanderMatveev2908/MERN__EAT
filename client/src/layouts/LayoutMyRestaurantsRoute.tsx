@@ -4,6 +4,6 @@ import { useUser } from "./../hooks/useGlobal";
 const LayoutMyRestaurantsRoute = () => {
   const { isLogged } = useUser();
 
-  return isLogged ? <Outlet /> : <Navigate to="/auth/login" replace />;
+  return isLogged ? <Outlet /> : <Navigate to="/" replace />;
 };
 export default LayoutMyRestaurantsRoute;

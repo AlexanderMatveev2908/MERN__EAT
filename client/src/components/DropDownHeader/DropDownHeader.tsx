@@ -68,7 +68,7 @@ const DropDownHeader: FC<PropsType> = ({ isLogged, children }) => {
             </button>
           ))}
 
-          {children}
+          {children ?? null}
         </div>
       </div>
     </div>
