@@ -21,7 +21,7 @@ export const useApp = () => {
   });
 
   const { data, isSuccess, isError, error } = useQuery({
-    queryKey: ["user", isLogged],
+    queryKey: ["currUser", isLogged],
     queryFn: getUserInfoAPI,
     enabled: isLogged,
   });
