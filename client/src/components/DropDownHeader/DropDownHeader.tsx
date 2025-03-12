@@ -5,6 +5,8 @@ import {
   loggedUserFieldsDrop,
   nonLoggedUserFields,
 } from "../../config/fieldsArr/dropSideFields";
+import { makeConditionalStyleLocation } from "../../utils/conditionalStyleLocation";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 type PropsType = {
   isLogged: boolean;
@@ -12,6 +14,10 @@ type PropsType = {
 };
 
 const DropDownHeader: FC<PropsType> = ({ isLogged, children }) => {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get("type");
+
   const {
     toggleDrop,
     dropOpen,
@@ -59,10 +65,14 @@ const DropDownHeader: FC<PropsType> = ({ isLogged, children }) => {
             <button
               onClick={() => handleSideClick(el.path, el?.from ?? "")}
               key={el.id}
-              className="min-w-[300px] w-full flex gap-3 border-b-orange-500 border-b-2 pl-3 pr-10 py-3 justify-start group cursor-pointer"
+              className={`min-w-[300px] w-full flex gap-3 border-b-orange-500 border-b-2 pl-3 pr-10 py-3 justify-start group cursor-pointer hover:text-orange-500 ${
+                makeConditionalStyleLocation({ location, el, type })
+                  ? "text-orange-500"
+                  : ""
+              }`}
             >
               <el.svg className="svg__drop" />
-              <span className="txt__02 transition-all duration-300 group-hover:text-orange-500">
+              <span className="txt__02 transition-all duration-300">
                 {el.label}
               </span>
             </button>

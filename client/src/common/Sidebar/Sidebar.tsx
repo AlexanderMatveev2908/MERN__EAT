@@ -3,13 +3,13 @@ import { useSidebar } from "./useSidebar";
 import { useLocation, useSearchParams } from "react-router-dom";
 import SideEL from "./components/SideEL/SideEL";
 import LogoutBtn from "./components/LogoutBtn/LogoutBtn";
-import UserInitials from "./components/UserInitals/UserInitials";
 import { useUser } from "./../../hooks/useGlobal";
 import {
   allUsersFields,
   loggedUserFields,
   nonLoggedUserFields,
 } from "./../../config/fieldsArr/dropSideFields";
+import UserEmail from "./components/UserEmail/UserEmail";
 
 type PropsType = {
   sideOpen: boolean;
@@ -45,7 +45,7 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
         } sidebar__content sidebar__i_content`}
       >
         <div className="w-full grid grid-cols-1 justify-items-start gap-5 pt-4">
-          {currUser && <UserInitials {...{ currUser }} />}
+          {currUser && <UserEmail {...{ currUser }} />}
 
           {allUsersFields.map((el) => (
             <SideEL key={el.id} {...{ handleSideClick, type, location, el }} />
