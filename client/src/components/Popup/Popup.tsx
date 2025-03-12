@@ -9,7 +9,7 @@ type PropsType = {
   isPopup?: boolean;
   greenLabel?: string;
   redLabel?: string;
-  confirmAction?: (...params: any) => void;
+  confirmAction?: (params?: any) => void;
   isLoading?: boolean;
 };
 

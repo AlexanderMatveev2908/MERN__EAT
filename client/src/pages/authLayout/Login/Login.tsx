@@ -8,7 +8,6 @@ import {
   emailField,
   pwdFieldToAccess,
 } from "../../../config/fieldsArr/authFieldsUser";
-import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const Login: FC = () => {
   const { register, errors, isPending, handleLoginUser } = useLoginCustom();
@@ -38,19 +37,16 @@ const Login: FC = () => {
               }}
             />
 
-            {isPending ? (
-              <SpinnerBtnReact />
-            ) : (
-              <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
-                <ButtonAnimated
-                  {...{
-                    styleTxt: "txt__02 z-40 relative",
-                    label: "Login",
-                    type: "submit",
-                  }}
-                />
-              </div>
-            )}
+            <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
+              <ButtonAnimated
+                {...{
+                  styleTxt: "txt__02",
+                  label: "Login",
+                  type: "submit",
+                  isPending,
+                }}
+              />
+            </div>
 
             <div className="w-full">
               <SwitchForm {...{ type: "login" }} />

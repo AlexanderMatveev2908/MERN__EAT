@@ -2,7 +2,6 @@ import { FC } from "react";
 import { useChangeEmail } from "./useChangeEmail";
 import BaseFormField from "../../../../../../../components/commonCompForms/BaseFormField";
 import { changeEmailField } from "../../../../../../../config/fieldsArr/authFieldsUser";
-import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import { PropsForChildren } from "../../ManageAccountForms";
 import ButtonAnimated from "../../../../../../../components/buttons/ButtonAnimated";
 
@@ -38,15 +37,16 @@ const ChangeEmail: FC<Omit<PropsForChildren, "setCanManageAccount">> = ({
           />
         </div>
 
-        {isPending ? (
-          <SpinnerBtnReact />
-        ) : (
-          <div className="w-full flex justify-center max-w-[250px]">
-            <ButtonAnimated
-              {...{ styleTxt: "txt__02", label: "Submit", type: "submit" }}
-            />
-          </div>
-        )}
+        <div className="w-full flex justify-center max-w-[250px]">
+          <ButtonAnimated
+            {...{
+              styleTxt: "txt__02",
+              label: "Submit",
+              type: "submit",
+              isPending,
+            }}
+          />
+        </div>
       </form>
     </div>
   );

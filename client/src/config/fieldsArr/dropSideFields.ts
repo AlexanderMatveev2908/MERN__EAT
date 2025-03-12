@@ -47,6 +47,12 @@ export const loggedUserFields = [
     label: "Create restaurant",
     svg: MdAdminPanelSettings,
   },
+  {
+    id: genID(),
+    path: "/my-restaurants",
+    label: "My restaurants",
+    svg: MdAdminPanelSettings,
+  },
 ];
 
 export const loggedUserFieldsDrop = loggedUserFields.slice(0, 2);

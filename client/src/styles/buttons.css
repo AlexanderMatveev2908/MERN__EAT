@@ -48,7 +48,7 @@
 }
 
 .btn__txt {
-  @apply sm:text-lg lg:text-xl font-bold relative z-40 text-[whitesmoke];
+  @apply sm:text-lg lg:text-xl font-bold text-[whitesmoke];
 }
 
 .btn__ref_1,

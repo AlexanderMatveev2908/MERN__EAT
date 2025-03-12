@@ -10,7 +10,6 @@ import NameRestaurant from "./components/NameRestaurant/NameRestaurant";
 import ImagesRestaurant from "./components/ImagesRestaurant/ImagesRestaurant";
 import Delivery from "./components/Delivery/Delivery";
 import ButtonAnimated from "../../components/buttons/ButtonAnimated";
-import SpinnerBtnReact from "../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
@@ -46,19 +45,16 @@ const MyRestaurantsForm: FC<PropsType> = ({
 
       <Delivery {...{ formContext }} />
 
-      {isPending ? (
-        <SpinnerBtnReact {...{ styleGiven: "justify-center mt-5" }} />
-      ) : (
-        <div className="w-full max-w-[300px]">
-          <ButtonAnimated
-            {...{
-              label: "Create Restaurant",
-              type: "submit",
-              styleTxt: "txt__02 relative z-10",
-            }}
-          />
-        </div>
-      )}
+      <div className="max-w-[300px] justify-center mt-10">
+        <ButtonAnimated
+          {...{
+            label: "Create Restaurant",
+            type: "submit",
+            styleTxt: "txt__02",
+            isPending,
+          }}
+        />
+      </div>
     </form>
   );
 };

@@ -14,7 +14,6 @@ import {
   nameFieldsArr,
   pwdFieldToCreate,
 } from "../../../config/fieldsArr/authFieldsUser";
-import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const Register: FC = () => {
   const {
@@ -82,19 +81,16 @@ const Register: FC = () => {
               {...{ register, errors, valTerms: watch("acceptedTerms") }}
             />
 
-            {isPending ? (
-              <SpinnerBtnReact />
-            ) : (
-              <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
-                <ButtonAnimated
-                  {...{
-                    styleTxt: "txt__02 z-40 relative",
-                    label: "Register",
-                    type: "submit",
-                  }}
-                />
-              </div>
-            )}
+            <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
+              <ButtonAnimated
+                {...{
+                  styleTxt: "txt__02",
+                  label: "Register",
+                  type: "submit",
+                  isPending,
+                }}
+              />
+            </div>
 
             <div className="w-full">
               <SwitchForm {...{ type: "register" }} />

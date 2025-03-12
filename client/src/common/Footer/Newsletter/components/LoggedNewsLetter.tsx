@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { CurrUserType } from "../../../../types/userTypes";
-import SpinnerBtnReact from "../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";
 // import { CurrUserType } from "../../../../../types/userTypes";
 
@@ -15,9 +14,7 @@ const LoggedNewsLetter: FC<PropsType> = ({
   currUser,
   submitNewsLetter,
 }) => {
-  return isPending ? (
-    <SpinnerBtnReact {...{ styleGiven: "justify-start" }} />
-  ) : (
+  return (
     <div className="max-w-[200px] md:max-w-[225px] flex justify-start">
       <ButtonAnimated
         {...{
@@ -26,6 +23,7 @@ const LoggedNewsLetter: FC<PropsType> = ({
             : "Subscribe",
           type: "button",
           handleClick: submitNewsLetter,
+          isPending,
         }}
       />
     </div>

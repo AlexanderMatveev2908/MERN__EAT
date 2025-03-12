@@ -4,7 +4,6 @@ import { useSendEmail } from "./hooks/useSendEmail";
 import BaseFormField from "../../../components/commonCompForms/BaseFormField";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
 import { emailField } from "../../../config/fieldsArr/authFieldsUser";
-import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const SendEmail: FC = () => {
   const { register, errors, canStay, type, isPending, handleSubmitEmail } =
@@ -28,19 +27,16 @@ const SendEmail: FC = () => {
           >
             <BaseFormField {...{ register, errors, field: emailField }} />
 
-            {isPending ? (
-              <SpinnerBtnReact />
-            ) : (
-              <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
-                <ButtonAnimated
-                  {...{
-                    styleTxt: "txt__02 z-40 relative",
-                    label: "Send Email",
-                    type: "submit",
-                  }}
-                />
-              </div>
-            )}
+            <div className="w-full mt-2 max-w-[225px] md:max-w-[250px] justify-self-center flex justify-center">
+              <ButtonAnimated
+                {...{
+                  styleTxt: "txt__02",
+                  label: "Send Email",
+                  type: "submit",
+                  isPending,
+                }}
+              />
+            </div>
           </form>
         </div>
       </div>

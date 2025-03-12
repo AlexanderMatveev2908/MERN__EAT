@@ -1,5 +1,4 @@
 import { FC } from "react";
-import SpinnerBtnReact from "../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import BasePwdField from "../../../../../../../components/commonCompForms/BasePwdField";
 import { useChangePwd } from "./useChangePwd";
 import {
@@ -82,15 +81,16 @@ const ChangePwd: FC<PropsForChildren> = ({
           />
         </div>
 
-        {isPending ? (
-          <SpinnerBtnReact />
-        ) : (
-          <div className="w-full flex justify-center max-w-[250px] mt-5">
-            <ButtonAnimated
-              {...{ styleTxt: "txt__02", label: "Submit", type: "submit" }}
-            />
-          </div>
-        )}
+        <div className="w-full flex justify-center max-w-[250px] mt-5">
+          <ButtonAnimated
+            {...{
+              styleTxt: "txt__02",
+              label: "Submit",
+              type: "submit",
+              isPending,
+            }}
+          />
+        </div>
       </form>
     </div>
   );

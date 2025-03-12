@@ -10,7 +10,6 @@ import {
   confirmPwdField,
   pwdFieldToCreate,
 } from "../../../config/fieldsArr/authFieldsUser";
-import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const RecoverPwd: FC = () => {
   const {
@@ -70,19 +69,16 @@ const RecoverPwd: FC = () => {
               }}
             />
 
-            {isPending ? (
-              <SpinnerBtnReact />
-            ) : (
-              <div className="w-full mt-2 max-w-[250px] md:max-w-[300px] justify-self-center flex justify-center">
-                <ButtonAnimated
-                  {...{
-                    styleTxt: "txt__02 z-40 relative",
-                    label: "Change Password",
-                    type: "submit",
-                  }}
-                />
-              </div>
-            )}
+            <div className="w-full mt-2 max-w-[250px] md:max-w-[300px] justify-self-center flex justify-center">
+              <ButtonAnimated
+                {...{
+                  styleTxt: "txt__02",
+                  label: "Change Password",
+                  type: "submit",
+                  isPending,
+                }}
+              />
+            </div>
           </form>
         </div>
       </div>
