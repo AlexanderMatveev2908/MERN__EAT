@@ -3,7 +3,7 @@ import {
   arrCatByArea,
   myRestaurantsCatFields,
   totLenMyRestaurantsCat,
-} from "../../../../../config/fieldsArr/myRestaurantsFields";
+} from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { UseFormReturn } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
 import { useSwapperCat } from "./useSwapperCat";

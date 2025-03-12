@@ -4,9 +4,9 @@ import { UseFormRegister } from "react-hook-form";
 import {
   myRestaurantsAddressByArea,
   totLenAddressMyRestaurants,
-} from "./../../../../config/fieldsArr/myRestaurantsFields";
+} from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 
-export const useSwapperForm = ({ watch }: { watch: UseFormRegister<any> }) => {
+export const useAddressForm = ({ watch }: { watch: UseFormRegister<any> }) => {
   const [currForm, setCurrForm] = useState(0);
   const [nextDisabled, setNextDisabled] = useState(false);
 

@@ -2,7 +2,7 @@
 import { FC, useEffect } from "react";
 import { useWatch } from "react-hook-form";
 import { FaRegClock } from "react-icons/fa";
-import { myRestaurantsOpenCloseFields } from "./../../../../config/fieldsArr/myRestaurantsFields";
+import { myRestaurantsOpenCloseFields } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import {
   formatTimeRangeHhMm,
   getDiffTime,

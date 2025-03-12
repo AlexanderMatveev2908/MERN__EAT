@@ -4,7 +4,7 @@ import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestauran
 import {
   myRestaurantsAddress_0,
   myRestaurantsAddress_1,
-} from "../../../../../config/fieldsArr/myRestaurantsFields";
+} from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import FormFieldNoIcon from "../../../../../components/commonCompForms/FormFieldNoIcon";
 
 type PropsType = {

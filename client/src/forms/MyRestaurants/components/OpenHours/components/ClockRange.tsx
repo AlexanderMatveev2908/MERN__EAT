@@ -6,7 +6,7 @@ import {
   UseFormSetValue,
   UseFormTrigger,
 } from "react-hook-form";
-import { OpenCLoseFormType } from "../../../../../config/fieldsArr/myRestaurantsFields";
+import { OpenCLoseFormType } from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
 import { REG_OPEN_CLOSE_TIME } from "../../../../../constants/regex";
 

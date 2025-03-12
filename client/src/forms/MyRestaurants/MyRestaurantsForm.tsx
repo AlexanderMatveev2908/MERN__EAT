@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
-import SwapperForm from "./components/SwapperForm/SwapperForm";
 import { MyRestaurantsAddUpdateFormType } from "./../../types/myRestaurants";
 import ContactForm from "./components/ContactForm/ContactForm";
 import OpenHours from "./components/OpenHours/OpenHours";
@@ -10,6 +9,7 @@ import NameRestaurant from "./components/NameRestaurant/NameRestaurant";
 import ImagesRestaurant from "./components/ImagesRestaurant/ImagesRestaurant";
 import Delivery from "./components/Delivery/Delivery";
 import ButtonAnimated from "../../components/buttons/ButtonAnimated";
+import AddressForm from "./components/AddressForm/AddressForm";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
@@ -35,7 +35,7 @@ const MyRestaurantsForm: FC<PropsType> = ({
 
       <ImagesRestaurant {...{ formContext }} />
 
-      <SwapperForm {...{ formContext }} />
+      <AddressForm {...{ formContext }} />
 
       <ContactForm {...{ formContext }} />
 

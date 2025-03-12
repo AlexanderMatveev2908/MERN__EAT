@@ -1,13 +1,13 @@
 import { FC } from "react";
-import { useSwapperForm } from "./useSwapperForm";
 import SwapperContent from "./components/SwapperContent";
 import { BiWorld } from "react-icons/bi";
-import { totLenAddressMyRestaurants } from "./../../../../config/fieldsArr/myRestaurantsFields";
+import { totLenAddressMyRestaurants } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import ButtonsSwapper from "../../../../components/commonCompForms/ButtonsSwapper";
 import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
+import { useAddressForm } from "./useAddressForm";
 
-const SwapperForm: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
-  const { buttonsProps, currForm } = useSwapperForm({
+const AddressForm: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
+  const { buttonsProps, currForm } = useAddressForm({
     watch: formContext.watch,
   });
 
@@ -33,4 +33,4 @@ const SwapperForm: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
     </div>
   );
 };
-export default SwapperForm;
+export default AddressForm;
