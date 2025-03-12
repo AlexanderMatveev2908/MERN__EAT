@@ -14,7 +14,7 @@ const HeaderNameImgItem: FC<PropsType> = ({ url, name }) => {
         </span>
       </div>
 
-      <div className="w-full min-w-[200px] max-w-[700px] h-full min-h-[40vw] max-h-[40vw] rounded-xl overflow-hidden aspect-[16/9]">
+      <div className="w-full min-w-[200px] max-w-[700px] h-full min-h-[40vw] max-h-[40vw] md:min-h-[250px] md:max-h-[250px] rounded-xl overflow-hidden aspect-[16/9]">
         <img
           src={url}
           alt="Your main img uploaded"
