@@ -7,11 +7,13 @@ import ButtonBasic from "../../../../../components/buttons/ButtonBasic";
 type PropsType = {
   setCanManageAccount: (val: string | boolean) => void;
   handleErrManageUser;
+  closeToast: () => void;
 };
 
 const GetRightToManageAccount: FC<PropsType> = ({
   setCanManageAccount,
   handleErrManageUser,
+  closeToast,
 }) => {
   const {
     register,
@@ -23,6 +25,7 @@ const GetRightToManageAccount: FC<PropsType> = ({
   } = useGetRightToManageAccount({
     setCanManageAccount,
     handleErrManageUser,
+    closeToast,
   });
 
   return (

@@ -10,6 +10,7 @@ const ManageAccount: FC = () => {
     currUser,
     handleErrManageUser,
     setCanManageAccount,
+    closeToast,
   } = useManageAccount();
 
   return (
@@ -27,7 +28,7 @@ const ManageAccount: FC = () => {
         />
       ) : (
         <GetRightToManageAccount
-          {...{ handleErrManageUser, setCanManageAccount }}
+          {...{ handleErrManageUser, setCanManageAccount, closeToast }}
         />
       )}
     </div>

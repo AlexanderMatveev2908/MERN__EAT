@@ -29,7 +29,11 @@ const DeleteAccount: FC<PropsType> = ({
       </div>
 
       <DeleteAccountBtn
-        {...{ showToastMsg, setIsChildLoading, handleErrManageUser }}
+        {...{
+          showToastMsg,
+          setIsChildLoading,
+          handleErrManageUser,
+        }}
       />
     </div>
   );

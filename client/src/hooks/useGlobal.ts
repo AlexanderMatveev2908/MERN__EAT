@@ -16,3 +16,5 @@ const useGlobal = (): RootValsType => {
 export const useToast = (): ToastValsType => useGlobal().toastState;
 
 export const useUser = (): UserValsType => useGlobal().userState;
+
+export const usePopup = () => useGlobal().popupState;

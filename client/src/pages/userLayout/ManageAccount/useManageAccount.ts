@@ -8,7 +8,7 @@ export type handleErrManageUserType = (err: any) => void;
 export const useManageAccount = () => {
   useScrollTop();
 
-  const { showToastMsg } = useToast();
+  const { showToastMsg, closeToast } = useToast();
   const { handleErrAPI } = useHandleErr();
 
   const { setCanManageAccount, canManageAccount, currUser, logoutUser } =
@@ -24,11 +24,10 @@ export const useManageAccount = () => {
         showToastMsg(msg, "ERROR");
       } else if (status === 429) {
         logoutUser();
+        handleErrAPI({ err });
       }
-
-      handleErrAPI({ err });
     } else {
-      if (status === 401) {
+      if ([401, 429].includes(status)) {
         setCanManageAccount(false);
       }
 
@@ -41,5 +40,6 @@ export const useManageAccount = () => {
     setCanManageAccount,
     currUser,
     handleErrManageUser,
+    closeToast,
   };
 };
