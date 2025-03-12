@@ -9,6 +9,7 @@ type PropsType = {
   handlePrev: () => void;
   handleNext: () => void;
   hiddenLg: boolean;
+  children?: React.ReactNode;
 };
 
 const ButtonsSwapper: FC<PropsType> = ({
@@ -19,6 +20,7 @@ const ButtonsSwapper: FC<PropsType> = ({
   handleNext,
   totLen,
   hiddenLg,
+  children = false,
 }) => {
   return (
     <div
