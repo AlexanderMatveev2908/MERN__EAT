@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
+import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   isDisabled?: boolean;
@@ -8,6 +9,7 @@ type PropsType = {
   styleTxt?: string;
   styleBtn?: string;
   handleClick?: (params?: any) => void;
+  isPending?: boolean;
 };
 
 const ButtonBasic: FC<PropsType> = ({
@@ -17,8 +19,11 @@ const ButtonBasic: FC<PropsType> = ({
   handleClick,
   styleTxt,
   styleBtn,
+  isPending,
 }) => {
-  return (
+  return isPending ? (
+    <SpinnerBtnReact />
+  ) : (
     <button
       disabled={isDisabled}
       onClick={handleClick}

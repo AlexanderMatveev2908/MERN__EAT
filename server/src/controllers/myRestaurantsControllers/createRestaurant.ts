@@ -15,5 +15,5 @@ export const createRestaurant = async (
     images: arrImages,
   });
 
-  return res.status(201).json({ success: true, newRestaurant });
+  return res.status(201).json({ success: true, restId: newRestaurant._id });
 };

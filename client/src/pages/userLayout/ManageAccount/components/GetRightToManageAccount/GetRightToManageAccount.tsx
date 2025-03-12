@@ -3,7 +3,6 @@ import { useGetRightToManageAccount } from "./useGetRightToManageAccount";
 import BasePwdField from "../../../../../components/commonCompForms/BasePwdField";
 import { pwdFieldToAccess } from "../../../../../config/fieldsArr/authFieldsUser";
 import ButtonBasic from "../../../../../components/buttons/ButtonBasic";
-import SpinnerBtnReact from "../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   setCanManageAccount: (val: string | boolean) => void;
@@ -46,13 +45,14 @@ const GetRightToManageAccount: FC<PropsType> = ({
       </div>
 
       <div className="w-full flex max-w-[200px] sm:max-w-[250px] justify-center">
-        {isPending ? (
-          <SpinnerBtnReact />
-        ) : (
-          <ButtonBasic
-            {...{ label: "Submit", styleTxt: "txt__02", type: "submit" }}
-          />
-        )}
+        <ButtonBasic
+          {...{
+            label: "Submit",
+            styleTxt: "txt__02",
+            type: "submit",
+            isPending,
+          }}
+        />
       </div>
     </form>
   );

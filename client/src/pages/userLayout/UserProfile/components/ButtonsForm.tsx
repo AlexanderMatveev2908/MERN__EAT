@@ -1,7 +1,6 @@
 import { FC } from "react";
 import ButtonBasic from "../../../../components/buttons/ButtonBasic";
 import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";
-import SpinnerBtnReact from "../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   isPrevDisabled: boolean;
@@ -39,20 +38,17 @@ const ButtonsForm: FC<PropsType> = ({
         />
       </div>
       {curr === 2 ? (
-        isPendingUpdate ? (
-          <SpinnerBtnReact />
-        ) : (
-          <div className="w-full max-w-[200px] h-full flex items-center">
-            <ButtonAnimated
-              {...{
-                label: "Save",
-                isDisabled: isNextDisabled,
-                type: "submit",
-                styleTxt: "txt__02",
-              }}
-            />
-          </div>
-        )
+        <div className="w-full max-w-[200px] h-full flex items-center">
+          <ButtonAnimated
+            {...{
+              label: "Save",
+              isDisabled: isNextDisabled,
+              type: "submit",
+              styleTxt: "txt__02",
+              isPending: isPendingUpdate,
+            }}
+          />
+        </div>
       ) : (
         <div className="w-full max-w-[30vw] sm:max-w-[200px]">
           <ButtonBasic

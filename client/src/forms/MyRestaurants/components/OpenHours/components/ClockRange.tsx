@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Ham } from "lucide-react";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   UseFormRegister,
   UseFormSetValue,
@@ -34,14 +34,10 @@ const ClockRange: FC<PropsType> = ({
   const [isFakeFocus, setIsFakeFocus] = useState(false);
   const [fakeVal, setFakeVal] = useState("");
 
-  const memoizeFormatTime = useCallback(
-    () => formatTimeCB(currVal),
-    [currVal, formatTimeCB]
-  );
-
   useEffect(() => {
-    if (!isFakeFocus) setFakeVal(memoizeFormatTime());
-  }, [isFakeFocus, currVal, memoizeFormatTime]);
+    if (!isFakeFocus) setFakeVal(formatTimeCB(currVal));
+    // eslint-disable-next-line
+  }, [isFakeFocus, currVal]);
 
   return (
     <div className="w-full transition-all duration-300 focus__base flex border-2 border-orange-500 rounded-xl">
@@ -76,7 +72,7 @@ const ClockRange: FC<PropsType> = ({
                   isFakeFocus ? "hidden" : "absolute"
                 }`}
               >
-                {memoizeFormatTime()}
+                {formatTimeCB(currVal)}
               </span>
             </div>
           </div>

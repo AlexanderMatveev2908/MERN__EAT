@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { Beef, Cookie, Fish, Ham, IceCreamCone, Pizza } from "lucide-react";
+import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   label: string;
@@ -8,6 +9,7 @@ type PropsType = {
   styleTxt?: string;
   handleClick?: (...params: any) => void;
   isDisabled?: boolean;
+  isPending?: boolean;
 };
 
 const ButtonAnimated: FC<PropsType> = ({
@@ -16,8 +18,11 @@ const ButtonAnimated: FC<PropsType> = ({
   type = "button",
   handleClick,
   styleTxt,
+  isPending,
 }) => {
-  return (
+  return isPending ? (
+    <SpinnerBtnReact />
+  ) : (
     <button
       onClick={handleClick}
       type={type}
@@ -26,7 +31,7 @@ const ButtonAnimated: FC<PropsType> = ({
     >
       <div className="btn_container__content">
         <div className="content__btn">
-          <span className={`${styleTxt ?? "btn__txt"}`}>
+          <span className={`relative z-40 ${styleTxt ?? "btn__txt"}`}>
             {label ?? "BUTTON"}
           </span>
         </div>

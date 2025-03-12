@@ -55,7 +55,7 @@ const DropLogged: FC = () => {
             </Link>
           ))}
 
-          {isPending ? (
+          {!isPending ? (
             <div className="h-[50px] w-full flex items-center justify-center">
               <SpinnerBtnReact {...{ sizeGiven: 25 }} />
             </div>

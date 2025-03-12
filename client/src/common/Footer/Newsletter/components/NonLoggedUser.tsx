@@ -2,9 +2,8 @@ import { FC } from "react";
 import { REG_EMAIL } from "../../../../constants/regex";
 import { CurrUserType } from "../../../../types/userTypes";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import SpinnerBtnReact from "./../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";
-import { NewsLetterFormType } from "../hooks/useNewsletter";
+import { NewsLetterFormType } from "../useNewsletter";
 
 type PropsType = {
   isPending: boolean;
@@ -44,21 +43,18 @@ const NonLoggedUser: FC<PropsType> = ({
           )}
         </div>
 
-        {isPending ? (
-          <SpinnerBtnReact {...{ styleGiven: "justify-start" }} />
-        ) : (
-          <div className="w-full max-w-[200px] md:max-w-[225px] flex justify-start items-start">
-            <ButtonAnimated
-              {...{
-                label: currUser?.hasSubscribedToNewsletter
-                  ? "Unsubscribe"
-                  : "Subscribe",
-                type: "submit",
-                handleClick: submitNewsLetter,
-              }}
-            />
-          </div>
-        )}
+        <div className="w-full max-w-[200px] md:max-w-[225px] flex justify-start items-start">
+          <ButtonAnimated
+            {...{
+              label: currUser?.hasSubscribedToNewsletter
+                ? "Unsubscribe"
+                : "Subscribe",
+              type: "submit",
+              handleClick: submitNewsLetter,
+              isPending,
+            }}
+          />
+        </div>
       </form>
     </div>
   );
