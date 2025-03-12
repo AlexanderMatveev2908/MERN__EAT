@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { MyRestaurantsAddUpdateFormType } from "../../../types/myRestaurants";
 import { Trash2 } from "lucide-react";
 import { UseFormSetValue, UseFormTrigger } from "react-hook-form";
-import { ImageUploadedType } from "../../../types/API";
 import { useShowImgToUpload } from "./useShowImgToUpload";
+import { ImageUploadedType } from "../../../../types/API";
+import { MyRestaurantsAddUpdateFormType } from "../../../../types/myRestaurants";
 
 export type PropsType = {
   img: File | ImageUploadedType;

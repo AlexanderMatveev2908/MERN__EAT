@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { UseFormRegister, UseFormWatch } from "react-hook-form";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { MyRestaurantsAddUpdateFormType } from "../../types/myRestaurants";
+import { MyRestaurantsAddUpdateFormType } from "../../../types/myRestaurants";
 
 type PropsType = {
   register: UseFormRegister<MyRestaurantsAddUpdateFormType>;

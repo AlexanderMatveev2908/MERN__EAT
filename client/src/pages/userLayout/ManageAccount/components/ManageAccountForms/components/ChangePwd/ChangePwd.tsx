@@ -1,15 +1,15 @@
 import { FC } from "react";
-import BasePwdField from "../../../../../../../components/commonCompForms/BasePwdField";
 import { useChangePwd } from "./useChangePwd";
 import {
   confirmPwdField,
   pwdFieldToChangeOldPwd,
 } from "../../../../../../../config/fieldsArr/authFieldsUser";
-import PasswordChecker from "../../../../../../../components/commonCompForms/PasswordChecker";
-import PasswordLength from "../../../../../../../components/commonCompForms/PasswordLength";
+import PasswordLength from "../../../../../../../components/auth/PasswordLength";
 import { PropsForChildren } from "../../ManageAccountForms";
-import GeneratePwd from "../../../../../../../components/commonCompForms/GeneratePwd/GeneratePwd";
 import ButtonAnimated from "../../../../../../../components/buttons/ButtonAnimated";
+import PasswordChecker from "../../../../../../../components/auth/PasswordChecker";
+import BasePwdField from "../../../../../../../components/auth/BasePwdField";
+import GeneratePwd from "../../../../../../../components/auth/GeneratePwd/GeneratePwd";
 
 const ChangePwd: FC<PropsForChildren> = ({
   showToastMsg,

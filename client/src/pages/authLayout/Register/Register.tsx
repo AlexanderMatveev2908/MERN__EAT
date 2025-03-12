@@ -1,19 +1,19 @@
 import { FC } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
 import AcceptTerms from "./components/AcceptTerms";
-import BaseFormField from "../../../components/commonCompForms/BaseFormField";
-import BasePwdField from "../../../components/commonCompForms/BasePwdField";
-import SwitchForm from "../../../components/commonCompForms/SwitchForm";
-import PasswordChecker from "../../../components/commonCompForms/PasswordChecker";
-import GeneratePwd from "../../../components/commonCompForms/GeneratePwd/GeneratePwd";
+import BaseFormField from "../../../components/InputFields/BaseFormField";
 import { useRegisterCustom } from "./useRegisterCustom";
-import PasswordLength from "../../../components/commonCompForms/PasswordLength";
+import PasswordLength from "../../../components/auth/PasswordLength";
+import PasswordChecker from "../../../components/auth/PasswordChecker";
+import SwitchForm from "../../../components/auth/SwitchForm";
 import {
   confirmPwdField,
   emailField,
   nameFieldsArr,
   pwdFieldToCreate,
 } from "../../../config/fieldsArr/authFieldsUser";
+import BasePwdField from "../../../components/auth/BasePwdField";
+import GeneratePwd from "../../../components/auth/GeneratePwd/GeneratePwd";
 
 const Register: FC = () => {
   const {
