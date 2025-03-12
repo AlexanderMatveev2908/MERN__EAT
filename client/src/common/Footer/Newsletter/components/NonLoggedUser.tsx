@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { REG_EMAIL } from "../../../../constants/regex";
+import { REG_EMAIL } from "../../../../config/constants/regex";
 import { CurrUserType } from "../../../../types/userTypes";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";

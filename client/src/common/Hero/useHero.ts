@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { tailwindBreak } from "./../../constants/breakpoints";
+import { tailwindBreak } from "../../config/constants/breakpoints";
 import { heroFieldsArr } from "./../../config/fieldsArr/heroFieldsArr";
 
 export const useHero = () => {
