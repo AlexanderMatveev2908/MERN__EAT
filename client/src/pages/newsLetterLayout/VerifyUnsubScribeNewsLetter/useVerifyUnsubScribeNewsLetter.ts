@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
   unSubScribeViaLinkLoggedAPI,
@@ -31,54 +31,46 @@ export const useVerifyUnsubScribeNewsLetter = () => {
     isValidStr(token ?? "", REG_TOKEN) &&
     isValidStr(userId ?? "", REG_MONGO);
 
-  const { isError, error, isSuccess } = useQuery({
-    queryKey: ["unSubscribeViaLink", userId, token, typeUser],
-    queryFn: () =>
+  const params = {
+    userId: userId ?? "",
+    token: token ?? "",
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: () =>
       typeUser === "logged"
         ? unSubScribeViaLinkLoggedAPI({
-            userId: userId ?? "",
-            token: token ?? "",
+            ...params,
           })
         : unSubscribeViaLinkNonLoggedAPI({
-            userId: userId ?? "",
-            token: token ?? "",
+            ...params,
           }),
-    enabled: !!canStay,
-  });
-
-  useEffect(() => {
-    const handleSideEffects = () => {
-      if (isError) {
-        if ((error as any)?.response?.status === 401) {
-          navigate(`/newsletter/notice-unsubscribe-with-retry?success=false`, {
-            state: { from: location.pathname },
-            replace: true,
-          });
-
-          showToastMsg((error as any)?.response?.data?.msg, "ERROR");
-        } else {
-          handleErrAPI({ err: error, push: true });
-        }
-      } else if (isSuccess) {
-        navigate("/newsletter/notice-unsubscribe-with-retry?success=true", {
+    onSuccess: () => {
+      navigate("/newsletter/notice-unsubscribe-with-retry?success=true", {
+        state: { from: location.pathname },
+        replace: true,
+      });
+      showToastMsg("Subscription deleted successfully", "SUCCESS");
+    },
+    onError: (err: any) => {
+      if (err?.response?.status === 401) {
+        navigate(`/newsletter/notice-unsubscribe-with-retry?success=false`, {
           state: { from: location.pathname },
           replace: true,
         });
-        showToastMsg("Subscription deleted successfully", "SUCCESS");
-      }
-    };
 
-    handleSideEffects();
-  }, [
-    isError,
-    error,
-    showToastMsg,
-    navigate,
-    typeUser,
-    location.pathname,
-    isSuccess,
-    handleErrAPI,
-  ]);
+        showToastMsg(err?.response?.data?.msg, "ERROR");
+      } else {
+        handleErrAPI({ err, push: true });
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (canStay) {
+      mutate();
+    }
+  }, [canStay, mutate]);
 
   return { canStay };
 };
