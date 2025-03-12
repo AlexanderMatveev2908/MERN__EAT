@@ -3,8 +3,8 @@ import { FC } from "react";
 import { MyRestaurantsAddUpdateFormType } from "../../../types/myRestaurants";
 import { Trash2 } from "lucide-react";
 import { UseFormSetValue, UseFormTrigger } from "react-hook-form";
-import { useImgToUploadEl } from "./useImgToUploadEl";
 import { ImageUploadedType } from "../../../types/API";
+import { useShowImgToUpload } from "./useShowImgToUpload";
 
 export type PropsType = {
   img: File | ImageUploadedType;
@@ -13,8 +13,8 @@ export type PropsType = {
   setValue: UseFormSetValue<MyRestaurantsAddUpdateFormType>;
 };
 
-const ImgToUploadEl: FC<PropsType> = ({ img, trigger, images, setValue }) => {
-  const { handleRemoveExistingFile } = useImgToUploadEl({
+const ShowImgToUpload: FC<PropsType> = ({ img, trigger, images, setValue }) => {
+  const { handleRemoveExistingFile } = useShowImgToUpload({
     img,
     trigger,
     images,
@@ -43,4 +43,4 @@ const ImgToUploadEl: FC<PropsType> = ({ img, trigger, images, setValue }) => {
     </div>
   );
 };
-export default ImgToUploadEl;
+export default ShowImgToUpload;
