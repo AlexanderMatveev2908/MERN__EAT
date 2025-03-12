@@ -5,6 +5,7 @@ import Header from "./../../common/Header/Header";
 import Sidebar from "./../../common/Sidebar/Sidebar";
 import Hero from "./../../common/Hero/Hero";
 import Footer from "./../../common/Footer/Footer";
+import Popup from "../../common/Popup/Popup";
 
 type PropsType = {
   children: React.ReactNode;
@@ -18,6 +19,8 @@ const MainLayoutUI: FC<PropsType> = ({ children }) => {
     <div className="w-full min-h-screen flex flex-col items-center">
       <Header {...{ setSideOpen, sideOpen }} />
       <Sidebar {...{ sideOpen, setSideOpen }} />
+
+      <Popup />
 
       <Toast />
 

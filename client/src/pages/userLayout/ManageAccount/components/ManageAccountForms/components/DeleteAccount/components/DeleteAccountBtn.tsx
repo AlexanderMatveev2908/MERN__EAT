@@ -3,7 +3,6 @@ import { FC } from "react";
 import { ShowToastType } from "../../../../../../../../types/toastTypes";
 import { SetChildLoadingType } from "../../../ManageAccountForms";
 import { handleErrManageUserType } from "../../../../../useManageAccount";
-import SpinnerBtnReact from "../../../../../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 import { useDeleteAccountBtn } from "./useDeleteAccountBtn";
 
 type PropsType = {
@@ -17,17 +16,13 @@ const DeleteAccountBtn: FC<PropsType> = ({
   setIsChildLoading,
   handleErrManageUser,
 }) => {
-  const { handleSubmitDeleteAccount, isPending } = useDeleteAccountBtn({
+  const { handleSubmitDeleteAccount } = useDeleteAccountBtn({
     showToastMsg,
     setIsChildLoading,
     handleErrManageUser,
   });
 
-  return isPending ? (
-    <div className="w-full flex justify-center mt-14">
-      <SpinnerBtnReact />
-    </div>
-  ) : (
+  return (
     <div className="w-full flex justify-center mt-14">
       <button
         onClick={handleSubmitDeleteAccount}

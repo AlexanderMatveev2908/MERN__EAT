@@ -5,7 +5,7 @@ import { SetChildLoadingType } from "./../../../ManageAccountForms";
 import { deleteAccountAPI } from "./../../../../../../../../api/user";
 import { useNavigate } from "react-router-dom";
 import { handleErrManageUserType } from "./../../../../../useManageAccount";
-import { useUser } from "./../../../../../../../../hooks/useGlobal";
+import { usePopup, useUser } from "./../../../../../../../../hooks/useGlobal";
 
 export const useDeleteAccountBtn = ({
   showToastMsg,
@@ -18,29 +18,42 @@ export const useDeleteAccountBtn = ({
 }) => {
   const navigate = useNavigate();
   const { logoutUser } = useUser();
+  const { setPopup, popup } = usePopup();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (manageAccountToken: string) => {
       setIsChildLoading(true);
+      setPopup({ ...(popup as any), isPending: true });
 
       return deleteAccountAPI(manageAccountToken);
     },
     onSuccess: () => {
-      logoutUser();
       navigate("/", { replace: true });
+      logoutUser();
       showToastMsg("Account deleted successfully", "SUCCESS");
     },
     onError: (err: any) => {
       handleErrManageUser(err);
     },
     onSettled: () => {
+      setPopup(null);
       setIsChildLoading(false);
     },
   });
 
-  const handleSubmitDeleteAccount = () => {
+  const handleDeleteAccount = () => {
     mutate(sessionStorage.getItem("manageAccountToken") ?? "");
   };
 
-  return { handleSubmitDeleteAccount, isPending };
+  const handleSubmitDeleteAccount = () => {
+    setPopup({
+      txt: "delete your account?",
+      greenLabel: "I change Idea",
+      redLabel: "Delete account",
+      isPending,
+      confirmAction: handleDeleteAccount,
+    });
+  };
+
+  return { handleSubmitDeleteAccount, isPending, handleDeleteAccount };
 };

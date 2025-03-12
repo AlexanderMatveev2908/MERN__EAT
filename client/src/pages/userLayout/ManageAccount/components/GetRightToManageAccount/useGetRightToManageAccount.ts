@@ -4,10 +4,16 @@ import { useForm } from "react-hook-form";
 import { GetRightManageAccountFormType } from "./../../../../../types/userTypes";
 import { useMutation } from "@tanstack/react-query";
 import { getRightManageAccountAPI } from "./../../../../../api/user";
+import { HandleErrType } from "../../../../../hooks/useHandleErr";
 
 export const useGetRightToManageAccount = ({
   setCanManageAccount,
   handleErrManageUser,
+  closeToast,
+}: {
+  setCanManageAccount: (val: string | boolean) => void;
+  handleErrManageUser: HandleErrType;
+  closeToast: () => void;
 }) => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
 
@@ -28,6 +34,7 @@ export const useGetRightToManageAccount = ({
     mutationFn: (password: string) => getRightManageAccountAPI(password),
     onSuccess: (data) => {
       setCanManageAccount(data.manageAccountToken);
+      closeToast();
     },
     onError: (err: any) => {
       handleErrManageUser(err);

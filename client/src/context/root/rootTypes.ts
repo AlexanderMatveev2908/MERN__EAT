@@ -1,4 +1,9 @@
 import {
+  PopupActionTypes,
+  PopupStateType,
+  PopupValsType,
+} from "../../types/popup";
+import {
   ToastActionTypes,
   ToastStateType,
   ToastValsType,
@@ -12,11 +17,16 @@ import {
 export type RootStateType = {
   toastState: ToastStateType;
   userState: UserStateType;
+  popupState: PopupStateType;
 };
 
-export type RootActionTypes = ToastActionTypes | UserActionTypes;
+export type RootActionTypes =
+  | ToastActionTypes
+  | UserActionTypes
+  | PopupActionTypes;
 
 export type RootValsType = {
   toastState: ToastValsType;
   userState: UserValsType;
+  popupState: PopupValsType;
 };
