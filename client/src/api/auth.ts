@@ -1,4 +1,4 @@
-import { foodAppInstance } from "../constants/axiosInstance";
+import { foodAppInstance } from "../config/constants/axiosInstance";
 import { RegisterFormType } from "../pages/authLayout/Register/hooks/useRegisterCustom";
 import { ReturnAccessTokenAPIType, ReturnAPIBasic } from "../types/API";
 

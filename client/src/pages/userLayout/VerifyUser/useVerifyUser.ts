@@ -7,7 +7,7 @@ import { useHandleErr } from "./../../../hooks/useHandleErr";
 import { isValidStr } from "./../../../utils/validateStr";
 import { useMutation } from "@tanstack/react-query";
 import { verifyNewEmailAPI } from "./../../../api/user";
-import { REG_MONGO, REG_TOKEN } from "./../../../constants/regex";
+import { REG_MONGO, REG_TOKEN } from "../../../config/constants/regex";
 
 export const useVerifyUser = () => {
   const [searchParams] = useSearchParams();

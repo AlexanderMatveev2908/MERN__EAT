@@ -6,7 +6,7 @@ import {
   REG_STATE,
   REG_STREET,
   REG_ZIP,
-} from "../../constants/regex.ts";
+} from "../constants/regex.ts";
 import { genID } from "../../utils/genID.ts";
 
 export type UserDetailsFieldType = {

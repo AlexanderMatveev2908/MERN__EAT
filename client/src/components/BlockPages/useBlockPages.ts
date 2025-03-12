@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { tailwindBreak } from "../../constants/breakpoints";
+import { tailwindBreak } from "../../config/constants/breakpoints";
 
 export const useBlockPages = ({ totPages }: { totPages: number }) => {
   const [blockSize, setBlockSize] = useState<number>(3);

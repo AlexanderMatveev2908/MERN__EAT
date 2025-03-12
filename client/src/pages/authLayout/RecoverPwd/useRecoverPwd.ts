@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useHandleErr } from "./../../../hooks/useHandleErr";
 import { useToast, useUser } from "./../../../hooks/useGlobal";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { REG_MONGO, REG_TOKEN } from "./../../../constants/regex";
+import { REG_MONGO, REG_TOKEN } from "../../../config/constants/regex";
 import { useChangeVisibilityPwd } from "./../../../hooks/useChangeVisibilityPwd";
 import { useMutation } from "@tanstack/react-query";
 import { changeRecoverPwdAPI } from "./../../../api/auth";

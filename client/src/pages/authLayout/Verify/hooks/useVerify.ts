@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 import { useGetTansCreated } from "./useGetTanVerify";
 import { useUser } from "../../../../hooks/useGlobal";
-import { REG_MONGO, REG_TOKEN } from "../../../../constants/regex";
+import { REG_MONGO, REG_TOKEN } from "../../../../config/constants/regex";
 import { isValidStr, validateStrWithArr } from "../../../../utils/validateStr";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
 

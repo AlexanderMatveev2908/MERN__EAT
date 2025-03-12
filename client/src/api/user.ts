@@ -1,4 +1,4 @@
-import { foodAppInstance } from "../constants/axiosInstance";
+import { foodAppInstance } from "../config/constants/axiosInstance";
 import { UserDataFormType } from "../pages/userLayout/UserProfile/hooks/UseProfileReducer/types";
 import {
   ReturnAPIBasic,

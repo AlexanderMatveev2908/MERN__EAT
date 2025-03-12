@@ -8,7 +8,7 @@ import {
 } from "react-hook-form";
 import { OpenCLoseFormType } from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
-import { REG_OPEN_CLOSE_TIME } from "../../../../../constants/regex";
+import { REG_OPEN_CLOSE_TIME } from "../../../../../config/constants/regex";
 
 type PropsType = {
   register: UseFormRegister<MyRestaurantsAddUpdateFormType>;

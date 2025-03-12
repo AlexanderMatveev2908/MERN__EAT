@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { tailwindBreak } from "./../../../constants/breakpoints";
+import { tailwindBreak } from "../../../config/constants/breakpoints";
 
 export const useSpinner = () => {
   const [numEls, setNumEls] = useState(35);

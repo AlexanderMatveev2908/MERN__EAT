@@ -1,4 +1,4 @@
-import { foodAppInstance } from "../constants/axiosInstance";
+import { foodAppInstance } from "../config/constants/axiosInstance";
 import { ReturnAPIBasic, ReturnUserInfoAPIType } from "../types/API";
 
 export const newsLetterToggleLoggedAPI = async ({
