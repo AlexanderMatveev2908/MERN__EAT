@@ -56,6 +56,26 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   @apply w-full border-2 border-orange-500 rounded-full outline-none px-5 pr-14 py-2 text-white transition-all duration-300;
 }
 
+/* check_swap */
+
+.check_swap__label {
+  box-shadow: inset 2.5px 5px 10px rgba(0, 0, 0, 0.5),
+    inset 5px 10px 20px rgba(0, 0, 0, 0.5),
+    inset 10px 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.check_swap__swap {
+  box-shadow: 2.5px 5px 10px rgba(0, 0, 0, 0.5),
+    inset 1.25px 2.5px 5px rgba(255, 255, 255, 0.5);
+}
+
+.check_swap__swap::after {
+  @apply content-[""] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full;
+
+  background-color: var(--color-swap);
+  box-shadow: 0 0 5px 5px var(--color-swap), 0 0 10px 10px var(--color-swap);
+}
+
 /* sideBar */
 
 .sidebar__content {

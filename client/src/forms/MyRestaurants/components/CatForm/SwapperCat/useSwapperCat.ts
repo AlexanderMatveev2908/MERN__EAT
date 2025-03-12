@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { totLenMyRestaurantsCat } from "./../../../../../config/fieldsArr/myRestaurantsFields";
+import { totLenMyRestaurantsCat } from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 
 export const useSwapperCat = () => {
   const [currForm, setCurrForm] = useState(0);

@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { MdDeliveryDining } from "react-icons/md";
 import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
-import { myRestaurantsDeliveryFields } from "../../../../config/fieldsArr/myRestaurantsFields";
+import { myRestaurantsDeliveryFields } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import FormFieldNoIcon from "../../../../components/commonCompForms/FormFieldNoIcon";
 
 const Delivery: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {

@@ -7,9 +7,9 @@ import {
   REG_PRICE,
   REG_RESTAURANT_NAME,
   REG_WEB_URL,
-} from "../../constants/regex";
-import { genID } from "../../utils/genID";
-import { userProfileFields_1, userProfileFields_2 } from "./userDetailsFields";
+} from "../../../constants/regex";
+import { genID } from "../../../utils/genID";
+import { userProfileFields_1, userProfileFields_2 } from "../userDetailsFields";
 
 export type FieldNoIconType = {
   id: string;
