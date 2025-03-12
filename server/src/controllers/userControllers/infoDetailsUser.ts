@@ -55,11 +55,11 @@ export const updateProfileDetails = async (
   const user = await User.findById(userId);
   if (!user) return userNotFound(res);
 
-  const updatedUser = await User.findByIdAndUpdate(
+  await User.findByIdAndUpdate(
     userId,
-    { $set: { firstName, lastName, address } },
-    { new: true, select: "firstName lastName address -_id" }
+    { $set: { firstName, lastName, address } }
+    // { new: true, select: "firstName lastName address -_id" }
   );
 
-  return res.status(200).json({ success: true, user: updatedUser });
+  return res.status(200).json({ success: true });
 };
