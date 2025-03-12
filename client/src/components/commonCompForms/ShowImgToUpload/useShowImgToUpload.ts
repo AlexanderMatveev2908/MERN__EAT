@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PropsType } from "./ImgToUploadEl";
+import { PropsType } from "./ShowImgToUpload";
 
-export const useImgToUploadEl = ({
+export const useShowImgToUpload = ({
   trigger,
   setValue,
   images,
