@@ -13,7 +13,7 @@ import {
 import { initState } from "./reducer/initState";
 import { useHandleErr } from "../../../../../hooks/useHandleErr";
 import { useToast } from "../../../../../hooks/useGlobal";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getUserProfileDetailsAPI,
   updateUserProfileAPI,
@@ -22,6 +22,8 @@ import {
 export const useProfileReducer = () => {
   const { handleErrAPI } = useHandleErr();
   const { showToastMsg } = useToast();
+
+  const queryClient = useQueryClient();
 
   const {
     data: fetchedUserData,
@@ -36,7 +38,6 @@ export const useProfileReducer = () => {
 
   const {
     mutate: mutateUpdate,
-    data: dataUpdate,
     isPending: isPendingUpdate,
     isSuccess: isSuccessUpdate,
     isError: isErrorUpdate,
@@ -68,22 +69,22 @@ export const useProfileReducer = () => {
     handleErrAPI,
     setDetailsFieldsHigher,
   ]);
-  const handleSideEffectsUpdateDetails = useCallback(() => {
+  const handleSideEffectsUpdateDetails = useCallback(async () => {
     if (isErrorUpdate) {
       handleErrAPI({ err: errorUpdate });
     } else if (isSuccessUpdate) {
       showToastMsg("Profile updated successfully", "SUCCESS");
-      const { user: updatedUser = {} as any } = dataUpdate ?? ({} as any);
-      setDetailsFieldsHigher(updatedUser);
+      await queryClient.invalidateQueries({
+        queryKey: ["userProfileDetails"],
+      });
     }
   }, [
+    queryClient,
     isErrorUpdate,
     handleErrAPI,
     errorUpdate,
     isSuccessUpdate,
     showToastMsg,
-    setDetailsFieldsHigher,
-    dataUpdate,
   ]);
 
   useEffect(() => {
