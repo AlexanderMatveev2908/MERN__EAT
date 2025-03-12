@@ -1,6 +1,7 @@
 import { FC } from "react";
-import ButtonBasic from "../../../../components/buttons/ButtonBasic";
 import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";
+import ButtonsSwapper from "../../../../components/commonCompForms/ButtonsSwapper";
+import { totLenUserDetails } from "../../../../config/fieldsArr/userDetailsFields";
 
 type PropsType = {
   isPrevDisabled: boolean;
@@ -20,51 +21,29 @@ const ButtonsForm: FC<PropsType> = ({
   isPendingUpdate,
 }) => {
   return (
-    <div
-      className="w-full grid grid-cols-2
-     items-center h-fit justify-items-center"
+    <ButtonsSwapper
+      {...{
+        isPrevDisabled,
+        isNextDisabled,
+        handleNext,
+        handlePrev,
+        currForm: curr,
+        totLen: totLenUserDetails,
+        hiddenLg: false,
+      }}
     >
-      <div className="w-full max-w-[30vw] sm:max-w-[200px]">
-        <ButtonBasic
+      <div className="w-full max-w-[200px] h-full flex items-center">
+        <ButtonAnimated
           {...{
-            label: "Prev",
-            type: "button",
+            label: "Save",
+            isDisabled: isNextDisabled,
+            type: "submit",
             styleTxt: "txt__02",
-            isDisabled: isPrevDisabled,
-            handleClick: handlePrev,
-            styleBtn:
-              "group-hover:text-orange-500 group-hover:border-orange-500",
+            isPending: isPendingUpdate,
           }}
         />
       </div>
-      {curr === 2 ? (
-        <div className="w-full max-w-[200px] h-full flex items-center">
-          <ButtonAnimated
-            {...{
-              label: "Save",
-              isDisabled: isNextDisabled,
-              type: "submit",
-              styleTxt: "txt__02",
-              isPending: isPendingUpdate,
-            }}
-          />
-        </div>
-      ) : (
-        <div className="w-full max-w-[30vw] sm:max-w-[200px]">
-          <ButtonBasic
-            {...{
-              label: "Next",
-              type: "button",
-              styleTxt: "txt__02",
-              isDisabled: isNextDisabled,
-              handleClick: handleNext,
-              styleBtn:
-                "group-hover:text-orange-500 group-hover:border-orange-500",
-            }}
-          />
-        </div>
-      )}
-    </div>
+    </ButtonsSwapper>
   );
 };
 export default ButtonsForm;
