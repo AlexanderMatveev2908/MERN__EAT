@@ -5,7 +5,7 @@ import {
   myRestaurantsAddress_0,
   myRestaurantsAddress_1,
 } from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
-import FormFieldNoIcon from "../../../../../components/commonCompForms/FormFieldNoIcon";
+import FormFieldNoIcon from "../../../../../components/InputFields/FormFieldNoIcon";
 
 type PropsType = {
   currForm: number;

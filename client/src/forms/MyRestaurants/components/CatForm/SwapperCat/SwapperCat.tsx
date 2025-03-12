@@ -7,8 +7,8 @@ import {
 import { UseFormReturn } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
 import { useSwapperCat } from "./useSwapperCat";
-import ButtonsSwapper from "../../../../../components/commonCompForms/ButtonsSwapper";
 import CatElement from "./components/CatElement";
+import ButtonsSwapper from "../../../../../components/ButtonsSwapper";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;

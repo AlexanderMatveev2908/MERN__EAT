@@ -8,8 +8,8 @@ import ChangePwd from "./components/ChangePwd/ChangePwd";
 import DeleteAccount from "./components/DeleteAccount/DeleteAccount";
 import { CurrUserType } from "../../../../../types/userTypes";
 import { ShowToastType } from "../../../../../types/toastTypes";
-import ButtonsSwapper from "../../../../../components/commonCompForms/ButtonsSwapper";
 import { handleErrManageUserType } from "../../useManageAccount";
+import ButtonsSwapper from "../../../../../components/ButtonsSwapper";
 
 type PropsType = {
   currUser: CurrUserType | null;

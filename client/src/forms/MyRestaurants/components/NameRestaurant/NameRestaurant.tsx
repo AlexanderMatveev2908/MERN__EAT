@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { myRestaurantsName } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
-import FormFieldNoIcon from "./../../../../components/commonCompForms/FormFieldNoIcon";
+import FormFieldNoIcon from "../../../../components/InputFields/FormFieldNoIcon";
 import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
 
 const NameRestaurant: FC<PropsTypeFormContextRestaurants> = ({

@@ -2,9 +2,9 @@ import { FC } from "react";
 import SwapperContent from "./components/SwapperContent";
 import { BiWorld } from "react-icons/bi";
 import { totLenAddressMyRestaurants } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
-import ButtonsSwapper from "../../../../components/commonCompForms/ButtonsSwapper";
 import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
 import { useAddressForm } from "./useAddressForm";
+import ButtonsSwapper from "../../../../components/ButtonsSwapper";
 
 const AddressForm: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
   const { buttonsProps, currForm } = useAddressForm({

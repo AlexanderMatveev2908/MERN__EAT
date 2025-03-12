@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
-import BaseFormField from "../../../components/commonCompForms/BaseFormField";
-import BasePwdField from "../../../components/commonCompForms/BasePwdField";
-import SwitchForm from "../../../components/commonCompForms/SwitchForm";
+import BaseFormField from "../../../components/InputFields/BaseFormField";
 import { useLoginCustom } from "./useLoginCustom";
+import SwitchForm from "../../../components/auth/SwitchForm";
+import BasePwdField from "./../../../components/auth/BasePwdField";
 import {
   emailField,
   pwdFieldToAccess,
