@@ -28,20 +28,22 @@ export type CurrUserType = {
   email: string;
 };
 
+export type UserAddressType = {
+  country: string | null;
+  state: string | null;
+  city: string | null;
+  street: string | null;
+  zipCode: string | null;
+  phone: string | null;
+};
+
 export type UserDetailsType = {
   user: {
     _id: string;
     firstName: string;
     lastName: string;
     email: string;
-    address: {
-      country: string | null;
-      state: string | null;
-      city: string | null;
-      street: string | null;
-      zipCode: string | null;
-      phone: string | null;
-    };
+    address: UserAddressType;
   };
 };
 

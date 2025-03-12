@@ -18,3 +18,9 @@ export type ReturnAccessTokenAPIType = {
 export type ReturnManageAccountAPIType = {
   manageAccountToken: string;
 };
+
+export type ImageUploadedType = {
+  _id: string;
+  url: string;
+  public_id: string;
+};
