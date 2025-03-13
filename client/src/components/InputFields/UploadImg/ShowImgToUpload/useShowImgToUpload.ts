@@ -16,7 +16,17 @@ export const useShowImgToUpload = ({
     trigger("images");
   };
 
+  const handleRemoveExistingImgUploaded = () => {
+    const updatedImages = (images as any).filter(
+      (image) => image._id !== img._id
+    );
+
+    setValue("images", updatedImages);
+    trigger("images");
+  };
+
   return {
     handleRemoveExistingFile,
+    handleRemoveExistingImgUploaded,
   };
 };
