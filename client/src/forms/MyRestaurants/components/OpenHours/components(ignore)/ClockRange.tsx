@@ -35,8 +35,7 @@ const ClockRange: FC<PropsType> = ({
   const [fakeVal, setFakeVal] = useState("");
 
   useEffect(() => {
-    if (!isFakeFocus && fakeVal !== formatTimeCB(currVal))
-      setFakeVal(formatTimeCB(currVal));
+    if (!isFakeFocus) setFakeVal(formatTimeCB(currVal));
     // eslint-disable-next-line
   }, [isFakeFocus, currVal]);
 
@@ -61,7 +60,8 @@ const ClockRange: FC<PropsType> = ({
                       setValue(field.field as any, reverseFormatTimeCB(val));
                       trigger(field.field as any);
                     }
-                    if (val !== fakeVal) setFakeVal(val);
+
+                    setFakeVal(val);
                   }
                 }}
                 className="border-orange-500 border-[3px] bg-[#111] rounded-xl outline-none focus__base w-full h-full px-3 txt__01 "

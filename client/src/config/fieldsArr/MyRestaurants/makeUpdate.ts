@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FaDoorClosed, FaDoorOpen } from "react-icons/fa";
 import {
   REG_EMAIL,
   REG_EST_TIME,
+  REG_OPEN_CLOSE_TIME,
   REG_PHONE,
   REG_PRICE,
   REG_RESTAURANT_NAME,
@@ -80,9 +80,10 @@ export type OpenCLoseFormType = {
   id: string;
   field: string;
   label: string;
-  minVal: number;
-  maxVal: number;
-  icon: any;
+  reg: RegExp;
+  required: true;
+  msg: string;
+  place: string;
 };
 
 export const myRestaurantsOpenCloseFields: OpenCLoseFormType[] = [
@@ -90,17 +91,19 @@ export const myRestaurantsOpenCloseFields: OpenCLoseFormType[] = [
     id: genID(),
     field: "openTime",
     label: "Open time",
-    minVal: 0,
-    maxVal: 1439,
-    icon: FaDoorOpen,
+    place: "Open time (8:00 e.g)",
+    reg: REG_OPEN_CLOSE_TIME,
+    required: true,
+    msg: "Follow format HH:MM",
   },
   {
     id: genID(),
     field: "closeTime",
     label: "Close time",
-    minVal: 0,
-    maxVal: 1439,
-    icon: FaDoorClosed,
+    place: "Close time (21:00 e.g)",
+    reg: REG_OPEN_CLOSE_TIME,
+    required: true,
+    msg: "Follow the format HH:MM",
   },
 ];
 
