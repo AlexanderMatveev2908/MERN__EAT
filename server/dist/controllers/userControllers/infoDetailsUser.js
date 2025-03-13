@@ -64,7 +64,9 @@ const updateProfileDetails = (req, res) => __awaiter(void 0, void 0, void 0, fun
     const user = yield User_1.default.findById(userId);
     if (!user)
         return (0, baseErrResponse_1.userNotFound)(res);
-    const updatedUser = yield User_1.default.findByIdAndUpdate(userId, { $set: { firstName, lastName, address } }, { new: true, select: "firstName lastName address -_id" });
-    return res.status(200).json({ success: true, user: updatedUser });
+    yield User_1.default.findByIdAndUpdate(userId, { $set: { firstName, lastName, address } }
+    // { new: true, select: "firstName lastName address -_id" }
+    );
+    return res.status(200).json({ success: true });
 });
 exports.updateProfileDetails = updateProfileDetails;

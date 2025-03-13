@@ -17,6 +17,6 @@ const KeySchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
-});
+}, { timestamps: true });
 const Key = mongoose_1.default.models.Key || mongoose_1.default.model("Key", KeySchema);
 exports.default = Key;

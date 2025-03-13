@@ -36,9 +36,12 @@ const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         return (0, baseErrResponse_1.unauthorizedErr)(res, isExpired ? "Token expired" : "Invalid Token");
     }
     const result = yield User_1.default.deleteOne({ _id: userId });
-    if ((result === null || result === void 0 ? void 0 : result.deletedCount) !== 1)
+    if ((result === null || result === void 0 ? void 0 : result.deletedCount) !== 1) {
         return (0, baseErrResponse_1.userNotFound)(res);
-    else
+    }
+    else {
+        res.cookie("refreshToken", "", { expires: new Date(0) });
         return res.status(200).json({ success: true, msg: "Account deleted" });
+    }
 });
 exports.deleteAccount = deleteAccount;
