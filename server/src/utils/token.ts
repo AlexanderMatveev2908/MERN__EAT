@@ -1,19 +1,15 @@
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
-import { JWTUserId } from "../middleware/general/verifyAccessToken";
-import { getKeys, makeKeys } from "./keys";
+import { JWTUserId } from "../middleware/general/verifyAccessToken.js";
+import { getKeys, makeKeys } from "./keys.js";
 import {
   ACCESS_SIGN,
   EXPIRY_ACCESS,
   GEN_EXPIRY_REFRESH,
   GET_EXPIRY,
   GET_SIGN,
-} from "../config/signs";
-
-const loadJose = async () => {
-  const jose = await import("jose");
-  return jose;
-};
+} from "../config/signs.js";
+import { CompactEncrypt, jwtDecrypt } from "jose";
 
 export type ReturnTokenSHAType = {
   token: string;
@@ -78,8 +74,6 @@ export const genTokenJWE = async (userId: string): Promise<any> => {
     token,
   };
 
-  const { CompactEncrypt } = await loadJose();
-
   const jwe = await new CompactEncrypt(
     new TextEncoder().encode(JSON.stringify(payload))
   )
@@ -106,8 +100,6 @@ export const checkTokenJWE = async (tokenJWE: string): Promise<any> => {
   }
 
   try {
-    const { jwtDecrypt } = await loadJose();
-
     const { payload } = await jwtDecrypt(tokenJWE, privateKey);
     return payload;
   } catch (err: any) {

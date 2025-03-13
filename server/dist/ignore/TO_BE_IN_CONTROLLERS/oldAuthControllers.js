@@ -1,4 +1,3 @@
-"use strict";
 // import axios from "axios";
 // import { Request, Response } from "express";
 // import jwt, { JwtPayload } from "jsonwebtoken";
@@ -9,6 +8,7 @@
 // } from "../utils/auth0";
 // import User from "../models/User";
 // import { JWTPayload } from "express-oauth2-jwt-bearer";
+export {};
 // export const exchangeToken = async (
 //   req: Request,
 //   res: Response

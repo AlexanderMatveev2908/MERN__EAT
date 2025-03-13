@@ -1,11 +1,11 @@
 import { Response } from "express";
-import { RequestWithUserId } from "../middleware/general/verifyAccessToken";
-import { uploadCloud } from "../utils/cloud";
-import { formatMyRestaurantsBody } from "../utils/getValsMyRestaurantFromBody";
-import Restaurant from "../models/Restaurant";
+import { RequestWithUserId } from "../middleware/general/verifyAccessToken.js";
+import { uploadCloud } from "../utils/cloud.js";
+import { formatMyRestaurantsBody } from "../utils/getValsMyRestaurantFromBody.js";
+import Restaurant from "../models/Restaurant.js";
 import mongoose from "mongoose";
-import User from "../models/User";
-import { baseErrResponse, userNotFound } from "../utils/baseErrResponse";
+import User from "../models/User.js";
+import { baseErrResponse, userNotFound } from "../utils/baseErrResponse.js";
 
 export const createRestaurant = async (
   req: RequestWithUserId,

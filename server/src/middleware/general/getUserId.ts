@@ -1,7 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { verifyAccessJWT } from "../../utils/token";
-import { RequestWithUserId } from "./verifyAccessToken";
-import { baseErrResponse, unauthorizedErr } from "../../utils/baseErrResponse";
+import { verifyAccessJWT } from "../../utils/token.js";
+import { RequestWithUserId } from "./verifyAccessToken.js";
+import {
+  baseErrResponse,
+  unauthorizedErr,
+} from "../../utils/baseErrResponse.js";
 
 export const getUserId = (
   req: RequestWithUserId,

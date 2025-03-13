@@ -3,26 +3,26 @@ import {
   getUserInfo,
   getUserProfileDetails,
   updateProfileDetails,
-} from "../controllers/userControllers/infoDetailsUser";
-import { asyncWrapper } from "../middleware/general/asyncWrapper";
-import { getUserId } from "../middleware/general/getUserId";
-import { validatorProfileDetails } from "../middleware/user/validatorProfileDetails";
-import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
-import { getRightManageAccount } from "../controllers/userControllers/manageAccount";
-import { manageAccountLimiter } from "../middleware/user/limiterManageAccount";
-import { makeLimiter } from "../utils/makeLimiter";
+} from "../controllers/userControllers/infoDetailsUser.js";
+import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
+import { getUserId } from "../middleware/general/getUserId.js";
+import { validatorProfileDetails } from "../middleware/user/validatorProfileDetails.js";
+import { verifyAccessToken } from "../middleware/general/verifyAccessToken.js";
+import { getRightManageAccount } from "../controllers/userControllers/manageAccount.js";
+import { manageAccountLimiter } from "../middleware/user/limiterManageAccount.js";
+import { makeLimiter } from "../utils/makeLimiter.js";
 import {
   changeEmail,
   verifyChangeEmail,
-} from "../controllers/userControllers/modifyEmail";
-import { HOUR } from "../constants/time";
-import { changeOldPwd } from "../controllers/userControllers/changePwd";
-import { validatorChangeEmail } from "../middleware/user/validatorChangeEmail";
-import { validatorVerifyNewEmail } from "../middleware/user/validatorVerifyNewEmail";
-import { validatorChangePwd } from "../middleware/user/validatorChangePwd";
-import { validatorManageAccount } from "../middleware/user/validatorManageAccount";
-import { validatorDeleteAccount } from "../middleware/user/validatorDeleteAccount";
-import { deleteAccount } from "../controllers/userControllers/deleteAccount";
+} from "../controllers/userControllers/modifyEmail.js";
+import { HOUR } from "../constants/time.js";
+import { changeOldPwd } from "../controllers/userControllers/changePwd.js";
+import { validatorChangeEmail } from "../middleware/user/validatorChangeEmail.js";
+import { validatorVerifyNewEmail } from "../middleware/user/validatorVerifyNewEmail.js";
+import { validatorChangePwd } from "../middleware/user/validatorChangePwd.js";
+import { validatorManageAccount } from "../middleware/user/validatorManageAccount.js";
+import { validatorDeleteAccount } from "../middleware/user/validatorDeleteAccount.js";
+import { deleteAccount } from "../controllers/userControllers/deleteAccount.js";
 
 const router = express();
 

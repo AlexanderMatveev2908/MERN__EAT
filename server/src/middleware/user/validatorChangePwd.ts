@@ -1,6 +1,6 @@
 import { body } from "express-validator";
-import { REG_PWD, REG_TOKEN } from "../../constants/regex";
-import { handleValidator } from "../../utils/handleValidator";
+import { REG_PWD, REG_TOKEN } from "../../constants/regex.js";
+import { handleValidator } from "../../utils/handleValidator.js";
 
 export const validatorChangePwd = [
   body("manageAccountToken").matches(REG_TOKEN).withMessage("Invalid token"),

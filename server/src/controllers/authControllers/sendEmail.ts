@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import User from "../../models/User";
-import { genTokenSHA } from "../../utils/token";
-import { sendUserEmail } from "../../utils/mail";
-import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse";
+import User from "../../models/User.js";
+import { genTokenSHA } from "../../utils/token.js";
+import { sendUserEmail } from "../../utils/mail.js";
+import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse.js";
 
 export const sendEmailUser = async (
   req: Request,

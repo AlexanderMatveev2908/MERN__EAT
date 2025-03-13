@@ -1,11 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeLimiter = void 0;
-const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
-const makeLimiter = ({ max, ms = 1000 * 60 * 15 }) => (0, express_rate_limit_1.default)({
+import rateLimit from "express-rate-limit";
+export const makeLimiter = ({ max, ms = 1000 * 60 * 15 }) => rateLimit({
     windowMs: ms,
     max: max,
     message: {
@@ -16,4 +10,3 @@ const makeLimiter = ({ max, ms = 1000 * 60 * 15 }) => (0, express_rate_limit_1.d
     legacyHeaders: false,
     keyGenerator: (req) => { var _a; return (_a = req.ip) !== null && _a !== void 0 ? _a : "unknown-ip"; },
 });
-exports.makeLimiter = makeLimiter;

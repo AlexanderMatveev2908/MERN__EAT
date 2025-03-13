@@ -1,4 +1,3 @@
-"use strict";
 // import express from "express";
 // import { asyncWrapper } from "../middleware/general/asyncWrapper";
 // import {
@@ -6,6 +5,7 @@
 //   getRefreshToken,
 //   logoutUser,
 // } from "../controllers/authControllers";
+export {};
 // const router = express();
 // router.post("/exchange-token", asyncWrapper(exchangeToken));
 // router.post("/logout", asyncWrapper(logoutUser));

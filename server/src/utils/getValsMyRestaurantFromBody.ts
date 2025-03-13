@@ -1,5 +1,5 @@
-import { RequestWithUserId } from "../middleware/general/verifyAccessToken";
-import { RestaurantType } from "../models/Restaurant";
+import { RequestWithUserId } from "../middleware/general/verifyAccessToken.js";
+import { RestaurantType } from "../models/Restaurant.js";
 
 export const formatMyRestaurantsBody = (
   req: RequestWithUserId,

@@ -1,4 +1,4 @@
-import { isDev } from "./currMode";
+import { isDev } from "./currMode.js";
 
 export const EXPIRY_ACCESS = isDev ? "15m" : "15m"; //basic access token
 export const ACCESS_SIGN = process.env.JWT_ACCESS_SIGN;

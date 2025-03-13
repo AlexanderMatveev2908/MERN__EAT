@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { verifyAccessJWT } from "../../utils/token";
+import { verifyAccessJWT } from "../../utils/token.js";
 import { JWTPayload } from "express-oauth2-jwt-bearer";
-import { unauthorizedErr } from "../../utils/baseErrResponse";
+import { unauthorizedErr } from "../../utils/baseErrResponse.js";
 
 export interface RequestWithUserId extends Request {
   userId?: string;

@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,32 +7,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var _a;
-Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
-const express_1 = __importDefault(require("express"));
-const db_1 = require("./config/db");
-const corsMiddleware_1 = require("./middleware/general/corsMiddleware");
-const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const errMiddleware_1 = require("./middleware/general/errMiddleware");
+import "dotenv/config";
+import express from "express";
+import { connectDB } from "./config/db.js";
+import { corsMiddleware } from "./middleware/general/corsMiddleware.js";
+import cookieParser from "cookie-parser";
+import { errMiddleware } from "./middleware/general/errMiddleware.js";
 // @ts-ignore
-const xss_clean_1 = __importDefault(require("xss-clean"));
-const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
-const helmet_1 = __importDefault(require("helmet"));
-const auth_1 = __importDefault(require("./routes/auth"));
-const user_1 = __importDefault(require("./routes/user"));
-const newsLetter_1 = __importDefault(require("./routes/newsLetter"));
-const path_1 = __importDefault(require("path"));
-const currMode_1 = require("./config/currMode");
-const cloud_1 = require("./config/cloud");
-const myRestaurants_1 = __importDefault(require("./routes/myRestaurants"));
-const app = (0, express_1.default)();
+import xss from "xss-clean";
+import mongoSanitize from "express-mongo-sanitize";
+import helmet from "helmet";
+import authRouter from "./routes/auth.js";
+import userRouter from "./routes/user.js";
+import newsLetterRouter from "./routes/newsLetter.js";
+import path from "path";
+import { isDev } from "./config/currMode.js";
+import { connectCloudinary } from "./config/cloud.js";
+import myRestaurantsRouter from "./routes/myRestaurants.js";
+const app = express();
 const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
 app.set("trust proxy", 1);
-app.use((0, helmet_1.default)({
+app.use(helmet({
     contentSecurityPolicy: {
         useDefaults: false,
         directives: {
@@ -43,30 +38,30 @@ app.use((0, helmet_1.default)({
             fontSrc: ["'self'", "https://fonts.gstatic.com"],
             connectSrc: [
                 "'self'",
-                currMode_1.isDev ? process.env.FRONT_URL_DEV : process.env.FRONT_URL,
+                isDev ? process.env.FRONT_URL_DEV : process.env.FRONT_URL,
             ],
         },
     },
 }));
-app.use((0, xss_clean_1.default)());
-app.use((0, express_mongo_sanitize_1.default)());
-app.use(corsMiddleware_1.corsMiddleware);
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: true }));
-app.use((0, cookie_parser_1.default)());
-app.use("/api/v1/auth", auth_1.default);
-app.use("/api/v1/user", user_1.default);
-app.use("/api/v1/newsletter", newsLetter_1.default);
-app.use("/api/v1/my-restaurants", myRestaurants_1.default);
-if (!currMode_1.isDev) {
-    app.use(express_1.default.static(path_1.default.join(__dirname, "../../client/dist")));
-    app.get("*", (_, res) => res.sendFile(path_1.default.join(__dirname, "../../client/dist/index.html")));
+app.use(xss());
+app.use(mongoSanitize());
+app.use(corsMiddleware);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/newsletter", newsLetterRouter);
+app.use("/api/v1/my-restaurants", myRestaurantsRouter);
+if (!isDev) {
+    app.use(express.static(path.join(__dirname, "../../client/dist")));
+    app.get("*", (_, res) => res.sendFile(path.join(__dirname, "../../client/dist/index.html")));
 }
-app.use(errMiddleware_1.errMiddleware);
+app.use(errMiddleware);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, db_1.connectDB)();
-        yield (0, cloud_1.connectCloudinary)();
+        yield connectDB();
+        yield connectCloudinary();
         app.listen(+port, "0.0.0.0", () => console.log(`=> server listening on ${port}...`));
     }
     catch (err) {

@@ -1,20 +1,20 @@
 import "dotenv/config";
 import express from "express";
-import { connectDB } from "./config/db";
-import { corsMiddleware } from "./middleware/general/corsMiddleware";
+import { connectDB } from "./config/db.js";
+import { corsMiddleware } from "./middleware/general/corsMiddleware.js";
 import cookieParser from "cookie-parser";
-import { errMiddleware } from "./middleware/general/errMiddleware";
+import { errMiddleware } from "./middleware/general/errMiddleware.js";
 // @ts-ignore
 import xss from "xss-clean";
 import mongoSanitize from "express-mongo-sanitize";
 import helmet from "helmet";
-import authRouter from "./routes/auth";
-import userRouter from "./routes/user";
-import newsLetterRouter from "./routes/newsLetter";
+import authRouter from "./routes/auth.js";
+import userRouter from "./routes/user.js";
+import newsLetterRouter from "./routes/newsLetter.js";
 import path from "path";
-import { isDev } from "./config/currMode";
-import { connectCloudinary } from "./config/cloud";
-import myRestaurantsRouter from "./routes/myRestaurants";
+import { isDev } from "./config/currMode.js";
+import { connectCloudinary } from "./config/cloud.js";
+import myRestaurantsRouter from "./routes/myRestaurants.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;

@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { isDev } from "./currMode";
+import { isDev } from "./currMode.js";
 
 const optDev = {
   host: "smtp.gmail.com",

@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -19,30 +18,24 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProfileDetails = exports.getUserProfileDetails = exports.getUserInfo = void 0;
-const User_1 = __importDefault(require("../../models/User"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const baseErrResponse_1 = require("../../utils/baseErrResponse");
-const getUserInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+import User from "../../models/User.js";
+import mongoose from "mongoose";
+import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
+export const getUserInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
     if (!userId)
-        return (0, baseErrResponse_1.unauthorizedErr)(res, "ACCESS TOKEN NOT PROVIDED");
-    const user = yield User_1.default.findById(userId)
+        return unauthorizedErr(res, "ACCESS TOKEN NOT PROVIDED");
+    const user = yield User.findById(userId)
         .select("firstName lastName email hasSubscribedToNewsletter -_id")
         .lean();
     if (!user)
-        return (0, baseErrResponse_1.userNotFound)(res);
+        return userNotFound(res);
     return res.status(200).json({ success: true, user });
 });
-exports.getUserInfo = getUserInfo;
-const getUserProfileDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+export const getUserProfileDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
-    const userArr = yield User_1.default.aggregate([
-        { $match: { _id: new mongoose_1.default.Types.ObjectId(userId) } },
+    const userArr = yield User.aggregate([
+        { $match: { _id: new mongoose.Types.ObjectId(userId) } },
         {
             $project: {
                 firstName: 1,
@@ -54,19 +47,17 @@ const getUserProfileDetails = (req, res) => __awaiter(void 0, void 0, void 0, fu
     ]);
     const user = userArr[0];
     if (!user)
-        return (0, baseErrResponse_1.userNotFound)(res);
+        return userNotFound(res);
     return res.status(200).json({ success: true, user });
 });
-exports.getUserProfileDetails = getUserProfileDetails;
-const updateProfileDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+export const updateProfileDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
     const _a = req.body, { firstName, lastName } = _a, address = __rest(_a, ["firstName", "lastName"]);
-    const user = yield User_1.default.findById(userId);
+    const user = yield User.findById(userId);
     if (!user)
-        return (0, baseErrResponse_1.userNotFound)(res);
-    yield User_1.default.findByIdAndUpdate(userId, { $set: { firstName, lastName, address } }
+        return userNotFound(res);
+    yield User.findByIdAndUpdate(userId, { $set: { firstName, lastName, address } }
     // { new: true, select: "firstName lastName address -_id" }
     );
     return res.status(200).json({ success: true });
 });
-exports.updateProfileDetails = updateProfileDetails;

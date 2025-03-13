@@ -1,6 +1,6 @@
-import { isDev } from "../config/currMode";
-import { transporterMail } from "../config/nodemailer";
-import { UserType } from "../models/User";
+import { isDev } from "../config/currMode.js";
+import { transporterMail } from "../config/nodemailer.js";
+import { UserType } from "../models/User.js";
 
 const basePath = isDev ? process.env.FRONT_URL_DEV : process.env.FRONT_URL;
 

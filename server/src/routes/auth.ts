@@ -1,24 +1,24 @@
 import express from "express";
-import { asyncWrapper } from "../middleware/general/asyncWrapper";
-import { makeLimiter } from "../utils/makeLimiter";
-import { validatorRegister } from "../middleware/auth/validateRegister";
-import { validatorLogin } from "../middleware/auth/validateLogin";
-import { validatorVerify } from "../middleware/auth/validatorVerify";
-import { validatorRecoverPwd } from "../middleware/auth/validatorRecoverPwd";
-import { refreshToken } from "../controllers/authControllers/refresh";
+import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
+import { makeLimiter } from "../utils/makeLimiter.js";
+import { validatorRegister } from "../middleware/auth/validateRegister.js";
+import { validatorLogin } from "../middleware/auth/validateLogin.js";
+import { validatorVerify } from "../middleware/auth/validatorVerify.js";
+import { validatorRecoverPwd } from "../middleware/auth/validatorRecoverPwd.js";
+import { refreshToken } from "../controllers/authControllers/refresh.js";
 import {
   loginUser,
   logoutUser,
   registerUser,
-} from "../controllers/authControllers/basicAuth";
-import { sendEmailUser } from "../controllers/authControllers/sendEmail";
+} from "../controllers/authControllers/basicAuth.js";
+import { sendEmailUser } from "../controllers/authControllers/sendEmail.js";
 import {
   verifyAccount,
   verifyRecoverPwd,
-} from "../controllers/authControllers/verify";
-import { recoverPwd } from "../controllers/authControllers/recoverPwd";
-import { validatorSendEmail } from "../middleware/auth/validatorSendEmail";
-import { HOUR } from "../constants/time";
+} from "../controllers/authControllers/verify.js";
+import { recoverPwd } from "../controllers/authControllers/recoverPwd.js";
+import { validatorSendEmail } from "../middleware/auth/validatorSendEmail.js";
+import { HOUR } from "../constants/time.js";
 
 const router = express();
 
