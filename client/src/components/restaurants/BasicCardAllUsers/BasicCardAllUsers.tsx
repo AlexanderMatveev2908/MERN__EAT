@@ -32,7 +32,7 @@ const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
         </span>
 
         <ChevronDown
-          className={`w-[40px] h-[40px] transition-all duration-300 group-hover:text-orange-500 ${
+          className={`min-w-[40px] min-h-[40px] transition-all duration-300 group-hover:text-orange-500 ${
             isOpen ? "rotate-180" : ""
           }`}
         />

@@ -18,18 +18,20 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
 
         <BasicCardAllUsers {...{ rest }} />
 
-        {managementMyRestaurantsFields(
-          rest.dishes?.length,
-          rest.reviews?.length,
-          rest.orders?.length
-        ).map((el) => (
-          <ManageEl key={el.id} {...{ el }} />
-        ))}
+        <div className="w-full mt-3 ">
+          {managementMyRestaurantsFields(
+            rest.dishes?.length,
+            rest.reviews?.length,
+            rest.orders?.length
+          ).map((el) => (
+            <ManageEl key={el.id} {...{ el }} />
+          ))}
+        </div>
       </div>
 
       <div className="w-full max-w-fit justify-center justify-self-center flex mt-5">
         <Link
-          to="/"
+          to={`/my-restaurants/update/${rest._id}`}
           className="txt__02 border-2 border-orange-500 rounded-xl px-12 py-1 transition-all duration-300 hover:text-orange-500 hover:scale-110 cursor-pointer"
         >
           View Details

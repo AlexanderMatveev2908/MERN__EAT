@@ -20,6 +20,7 @@ import LayoutUserRoute from "./layouts/LayoutUserRoute";
 import LayoutMyRestaurantsRoute from "./layouts/LayoutMyRestaurantsRoute";
 import LayoutNonLoggedUserRoute from "./layouts/LayoutNonLoggedUserRoute";
 import MyRestaurants from "./pages/myRestaurantsLayout/MyRestaurants/MyRestaurants";
+import UpdateRestaurant from "./pages/myRestaurantsLayout/UpdateRestaurant/UpdateRestaurant";
 
 const App: FC = () => {
   useApp();
@@ -61,6 +62,7 @@ const App: FC = () => {
           <Route index element={<MyRestaurants />} />
 
           <Route path="add-restaurant" element={<AddRestaurant />} />
+          <Route path="update/:restId" element={<UpdateRestaurant />} />
         </Route>
       </Route>
 
