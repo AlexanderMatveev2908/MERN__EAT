@@ -9,8 +9,6 @@ export const foodAppInstance = axios.create({
   withCredentials: true,
 });
 
-console.log(import.meta.env.VITE_NODE_ENV);
-
 foodAppInstance.interceptors.request.use(
   (config) => {
     const accessToken = sessionStorage.getItem("accessToken");
