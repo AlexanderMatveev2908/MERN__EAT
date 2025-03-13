@@ -27,8 +27,9 @@ app.use(
       useDefaults: false,
       directives: {
         defaultSrc: ["'self'"],
-        imgSrc: ["'self'", "data:", "blob:"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "blob:", "https://console.cloudinary.com/"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
         connectSrc: [
           "'self'",
           isDev ? process.env.FRONT_URL_DEV! : process.env.FRONT_URL!,
