@@ -3,33 +3,39 @@ import { FC } from "react";
 import { Trash2 } from "lucide-react";
 import { UseFormSetValue, UseFormTrigger } from "react-hook-form";
 import { useShowImgToUpload } from "./useShowImgToUpload";
-import { ImageUploadedType } from "../../../../types/API";
 import { MyRestaurantsAddUpdateFormType } from "../../../../types/myRestaurants";
 
 export type PropsType = {
-  img: File | ImageUploadedType;
+  img: any;
   trigger: UseFormTrigger<MyRestaurantsAddUpdateFormType>;
-  images: File[] | ImageUploadedType[];
+  images: any[];
   setValue: UseFormSetValue<MyRestaurantsAddUpdateFormType>;
 };
 
 const ShowImgToUpload: FC<PropsType> = ({ img, trigger, images, setValue }) => {
-  const { handleRemoveExistingFile } = useShowImgToUpload({
-    img,
-    trigger,
-    images,
-    setValue,
-  });
+  const { handleRemoveExistingFile, handleRemoveExistingImgUploaded } =
+    useShowImgToUpload({
+      img,
+      trigger,
+      images,
+      setValue,
+    });
 
   return (
     <div
-      onClick={handleRemoveExistingFile}
+      onClick={
+        img instanceof File
+          ? handleRemoveExistingFile
+          : handleRemoveExistingImgUploaded
+      }
       className="min-w-[100px] max-w-[100px] sm:min-w-[200px] sm:max-w-[200px] h-[100px] sm:h-[200px] snap-center relative group cursor-pointer"
     >
       {img && (
         <img
           className="w-full h-full"
-          src={URL.createObjectURL(img as File)}
+          src={
+            img instanceof File ? URL.createObjectURL(img as File) : img?.url
+          }
           alt=""
         />
       )}

@@ -18,7 +18,7 @@ export const getMyRestaurantsAPI = async (): Promise<
   return data;
 };
 
-export const getInfoRestaurant = async (id: string) => {
+export const getInfoRestaurantAPI = async (id: string) => {
   const { data } = await foodAppInstance.get(
     `/my-restaurants/info-restaurant/${id}`
   );
