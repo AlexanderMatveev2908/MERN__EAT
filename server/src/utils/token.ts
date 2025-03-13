@@ -10,11 +10,7 @@ import {
   GET_SIGN,
 } from "../config/signs";
 
-const loadJose = async () => {
-  const { CompactEncrypt, jwtDecrypt } = await import("jose");
-
-  return { CompactEncrypt, jwtDecrypt };
-};
+const loadJose = async () => await import("jose");
 
 export type ReturnTokenSHAType = {
   token: string;
