@@ -33,6 +33,14 @@ export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, 
     const restaurantsArr = yield Restaurant.aggregate([
         { $match: { owner: new mongoose.Types.ObjectId(userId) } },
         {
+            $lookup: {
+                from: "reviews",
+                localField: "reviews", //local relative to our curr potion (rest)
+                foreignField: "_id",
+                as: "reviews",
+            },
+        },
+        {
             $addFields: {
                 dishesCount: {
                     $size: "$dishes",
@@ -42,6 +50,9 @@ export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, 
                 },
                 reviewsCount: {
                     $size: "$reviews",
+                },
+                avgRating: {
+                    $ifNull: [{ $avg: "$reviews.rating" }, 0],
                 },
             },
         },
