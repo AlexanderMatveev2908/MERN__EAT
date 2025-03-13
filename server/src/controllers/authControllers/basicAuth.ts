@@ -109,9 +109,9 @@ export const logoutUser = async (req: Request, res: Response): Promise<any> => {
     };
 
     await user.save();
-
-    res.cookie("refreshToken", "", { expires: new Date(0) });
   }
+
+  res.cookie("refreshToken", "", { expires: new Date(0) });
 
   return res
     .status(200)

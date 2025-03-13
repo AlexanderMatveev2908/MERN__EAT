@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { IconType } from "react-icons/lib";
 import { Link } from "react-router-dom";
