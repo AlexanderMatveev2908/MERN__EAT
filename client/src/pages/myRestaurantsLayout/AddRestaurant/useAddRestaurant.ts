@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createRestaurantAPI } from "../../../api/myRestaurants";
 import { useToast } from "../../../hooks/useGlobal";
 import { useHandleErr } from "../../../hooks/useHandleErr";
+import { defaultValuesMyRest } from "../../../config/onlyDev/defVals";
 
 export const useAddRestaurant = () => {
   const { showToastMsg } = useToast();
@@ -14,23 +15,10 @@ export const useAddRestaurant = () => {
 
   const formContext = useForm<MyRestaurantsAddUpdateFormType>({
     mode: "onChange",
-    defaultValues: {
-      name: "Name",
-      country: "Country",
-      state: "State",
-      city: "City",
-      street: "Street",
-      zipCode: "12345",
-      email: "email@exampple.com",
-      phone: "1234567890",
-      website: "http://www.example.com",
-      estTimeDelivery: "30",
-      price: "10",
-      freeDeliveryPrice: "50",
-      categories: ["italian", "chinese"],
-      openTime: "480",
-      closeTime: "1200",
-    },
+    defaultValues:
+      import.meta.env.VITE_NODE_ENV === "development"
+        ? { ...defaultValuesMyRest }
+        : {},
   });
 
   useScrollTop();
