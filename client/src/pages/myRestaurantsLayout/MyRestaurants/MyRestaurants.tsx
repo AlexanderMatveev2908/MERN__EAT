@@ -19,8 +19,8 @@ const MyRestaurants: FC = () => {
         />
       ) : (
         <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center mt-8 gap-5 place-content-start items-start">
-          {restaurants?.map((el) => (
-            <RestaurantItem key={el._id} {...{ el }} />
+          {restaurants?.map((rest) => (
+            <RestaurantItem key={rest._id} {...{ rest }} />
           ))}
         </div>
       )}

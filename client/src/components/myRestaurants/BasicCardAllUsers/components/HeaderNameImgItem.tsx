@@ -7,7 +7,7 @@ type PropsType = {
 
 const HeaderNameImgItem: FC<PropsType> = ({ url, name }) => {
   return (
-    <div className="w-full flex justify-center relative">
+    <div className="w-full flex justify-center relative mb-1">
       <div className="w-full absolute top-0 left-0 flex justify-start h-[50px] bg-black/90 items-center ">
         <span className="txt__03 ml-2 overflow-x-auto hide_scrollbar">
           {name}
