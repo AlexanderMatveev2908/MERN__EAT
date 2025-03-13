@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import HeaderNameImgItem from "./components/HeaderNameImgItem";
 import {
   fieldsShowMyRestaurants,
   showMyRestaurantsDelivery,
@@ -21,8 +20,6 @@ const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
 
   return (
     <>
-      <HeaderNameImgItem {...{ name: rest.name, url: rest.images[0].url }} />
-
       <div
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between border-b-2 border-orange-500 group cursor-pointer items-center px-3 py-1"

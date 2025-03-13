@@ -5,6 +5,7 @@ import BasicCardAllUsers from "../../../../components/restaurants/BasicCardAllUs
 import { managementMyRestaurantsFields } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
 import ManageEl from "./components/ManageEl";
 import { Link } from "react-router-dom";
+import HeaderNameImgItem from "./components/HeaderNameImgItem";
 
 type PropsType = {
   rest: MyRestaurantType;
@@ -16,13 +17,15 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
       <div className="w-full flex flex-col">
         <HeaderIDItem {...{ id: rest._id }} />
 
+        <HeaderNameImgItem {...{ name: rest.name, url: rest.images[0].url }} />
+
         <BasicCardAllUsers {...{ rest }} />
 
         <div className="w-full mt-3 ">
           {managementMyRestaurantsFields(
-            rest.dishes?.length,
-            rest.reviews?.length,
-            rest.orders?.length
+            rest.dishesCount,
+            rest.reviewsCount,
+            rest.ordersCount
           ).map((el) => (
             <ManageEl key={el.id} {...{ el }} />
           ))}
