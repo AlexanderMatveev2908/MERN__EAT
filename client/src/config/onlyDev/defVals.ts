@@ -12,6 +12,6 @@ export const defaultValuesMyRest = {
   price: "10",
   freeDeliveryPrice: "50",
   categories: ["italian", "chinese"],
-  openTime: "480",
-  closeTime: "1200",
+  openTime: "",
+  closeTime: "",
 };

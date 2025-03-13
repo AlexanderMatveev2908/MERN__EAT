@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MyRestaurantsAddUpdateFormType } from "../types/myRestaurants";
+import { reverseFormaTimeHhMm } from "./formatTime";
 
 export const prepareFormData = (
   data: MyRestaurantsAddUpdateFormType
@@ -14,11 +15,18 @@ export const prepareFormData = (
   categories.forEach((cat) => formData.append("categories", cat));
 
   for (const key in primitiveVals) {
-    if (primitiveVals[key])
-      formData.append(
-        key,
-        primitiveVals[key as keyof MyRestaurantsAddUpdateFormType]
-      );
+    if (primitiveVals[key]) {
+      if (["openTime", "closeTime"].includes(key))
+        formData.append(
+          key,
+          `${reverseFormaTimeHhMm(primitiveVals[key]) + ""}`
+        );
+      else
+        formData.append(
+          key,
+          primitiveVals[key as keyof MyRestaurantsAddUpdateFormType]
+        );
+    }
   }
 
   return formData;

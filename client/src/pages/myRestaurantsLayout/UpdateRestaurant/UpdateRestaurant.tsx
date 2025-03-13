@@ -16,7 +16,7 @@ const UpdateRestaurant: FC = () => {
   ) : (
     <FormProvider {...formContext}>
       <div className="w-full grid grid-cols-1 justify-items-center gap-y-5">
-        <span className="txt__04">Create new restaurant</span>
+        <span className="txt__04">Update your restaurant</span>
 
         <MyRestaurantsForm {...({ formContext } as any)} />
       </div>

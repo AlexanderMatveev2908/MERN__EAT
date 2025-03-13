@@ -1,34 +1,42 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { FaRegClock } from "react-icons/fa";
-import { myRestaurantsOpenCloseFields } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
-import {
-  formatTimeRangeHhMm,
-  getDiffTime,
-  reverseFormaTimeHhMm,
-} from "./../../../../utils/formatTime";
+import { getDiffTime } from "./../../../../utils/formatTime";
 import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
-import ClockRange from "./components/ClockRange";
+import { myRestaurantsOpenCloseFields } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
+import FormFieldNoIcon from "../../../../components/InputFields/FormFieldNoIcon";
 
 const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
   const {
     register,
     watch,
-    trigger,
     formState: { errors },
-    setValue,
+    trigger,
   } = formContext;
 
-  const res = getDiffTime(watch("closeTime"), watch("openTime"));
+  const open = watch("openTime");
+  const close = watch("closeTime");
 
-  const customValidateOpen = (val: string) => {
+  useEffect(() => {
+    const updateErrs = () => {
+      const res = getDiffTime(close, open);
+      if (res !==0) {
+        trigger("openTime");
+        trigger("closeTime");
+      }
+    };
+
+    updateErrs();
+  }, [open, close, trigger]);
+
+  const customValidateClose = (val: string) => {
     const res = getDiffTime(val, watch("openTime"));
     if (res > 0 && res < 4)
       return "You must keep open at least 4 hours (part-time)";
 
     return true;
   };
-  const customValidateClose = (val: string) => {
+
+  const customValidateOpen = (val: string) => {
     const res = getDiffTime(watch("closeTime"), val);
     if (res > 0 && res < 4)
       return "You must keep open at least 4 hours (part-time)";
@@ -43,37 +51,21 @@ const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
         Opening and closing times
       </span>
 
-      <div className="w-full grid grid-cols-1 gap-y-5">
+      <div className="w-full sm:grid grid-cols-2 gap-5">
         {myRestaurantsOpenCloseFields.map((el) => (
-          <div key={el.id} className="w-full grid grid-cols-1 gap-y-5">
-            <span className="txt__02 justify-self-start flex w-1/2 items-center gap-4">
-              <el.icon className="w-[30px] h-[30px]" />
-              {el.label}
-            </span>
-
-            <ClockRange
-              {...{
-                register,
-                field: el,
-                currVal: watch(el.field as any),
-                validateCb:
-                  el.field === "closeTime"
-                    ? customValidateOpen
-                    : customValidateClose,
-                setValue,
-                trigger,
-                formatTimeCB: formatTimeRangeHhMm,
-                reverseFormatTimeCB: reverseFormaTimeHhMm,
-              }}
-            />
-          </div>
+          <FormFieldNoIcon
+            key={el.id}
+            {...{
+              field: el,
+              errors,
+              register,
+              customValidate:
+                el.field === "closeTime"
+                  ? customValidateClose
+                  : customValidateOpen,
+            }}
+          />
         ))}
-
-        {res > 0 && res < 4 ? (
-          <span className="text-red-600 txt__01">
-            {errors?.openTime?.message || errors?.closeTime?.message}
-          </span>
-        ) : null}
       </div>
     </div>
   );
