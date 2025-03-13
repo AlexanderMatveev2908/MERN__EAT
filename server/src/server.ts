@@ -23,11 +23,9 @@ const __filename = new URL(import.meta.url).pathname;
 const __dirname = path.dirname(__filename);
 
 app.set("trust proxy", 1);
-
 app.use(helmetMid);
 app.use(xss());
 app.use(mongoSanitize());
-
 app.use(corsMiddleware);
 
 app.use(express.json());
@@ -36,9 +34,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
-
 app.use("/api/v1/newsletter", newsLetterRouter);
-
 app.use("/api/v1/my-restaurants", myRestaurantsRouter);
 
 if (!isDev) {
