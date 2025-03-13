@@ -44,8 +44,8 @@ export const getMyRestaurants = async (
     {
       $lookup: {
         from: "reviews",
-        localField: "_id",
-        foreignField: "restaurant",
+        localField: "reviews", //local relative to our curr potion (rest)
+        foreignField: "_id",
         as: "reviews",
       },
     },
