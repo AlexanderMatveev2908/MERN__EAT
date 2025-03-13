@@ -5,12 +5,14 @@ import { FC, useRef, useState } from "react";
 type PropsType = {
   el: {
     label: string;
-    vals: string[];
+    vals?: string[];
     icon: any;
+    subLabel?: string;
   };
+  children?: any;
 };
 
-const DropEl: FC<PropsType> = ({ el }) => {
+const DropEl: FC<PropsType> = ({ el, children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -32,7 +34,7 @@ const DropEl: FC<PropsType> = ({ el }) => {
         onClick={() => setIsOpen(!isOpen)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`w-full flex justify-between items-center px-3 py-1 group cursor-pointer transition-all duration-300`}
+        className={`w-full flex justify-between items-center py-1 group cursor-pointer transition-all duration-300`}
       >
         <div className=" transition-all duration-300 group-hover:text-orange-500 flex gap-3 items-center">
           <el.icon className="w-[25px] h-[25px]" />
@@ -49,21 +51,24 @@ const DropEl: FC<PropsType> = ({ el }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className={`w-[80%] right-0 max-h-fit grid py-1 border-2 border-orange-500 rounded-xl bg-[#111] transition-all duration-500 absolute  ${
-          el.label === "Categories" ? "grid-cols-2" : " grid-cols-1 gap-1"
+          ["Categories", "Open Hours"].includes(el.label)
+            ? "grid-cols-2"
+            : " grid-cols-1 gap-1"
         } ${
           isOpen
             ? "opacity-100 -translate-y-full pointer-events-auto"
             : "translate-y-full opacity-0 pointer-events-none"
         }`}
       >
-        {el.vals.map((val: string | number, i) => (
-          <li
-            key={i}
-            className="px-3 transition-all duration-300 truncate pointer-events-none cursor-pointer"
-          >
-            <span className="txt__01">{val}</span>
-          </li>
-        ))}
+        {children ??
+          el?.vals?.map((val: string | number, i) => (
+            <li
+              key={i}
+              className="px-3 transition-all duration-300 truncate pointer-events-none cursor-pointer"
+            >
+              <span className="txt__01">{val}</span>
+            </li>
+          ))}
       </ul>
     </div>
   );
