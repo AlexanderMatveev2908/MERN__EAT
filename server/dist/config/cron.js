@@ -1,2 +1,2 @@
 import cron from "node-cron";
-export const scheduleFoodCoupon = () => cron.schedule("*/1 * * * *", () => console.log("run"));
+export const scheduleFoodCoupon = () => cron.schedule("*/1 * * * *", () => null);

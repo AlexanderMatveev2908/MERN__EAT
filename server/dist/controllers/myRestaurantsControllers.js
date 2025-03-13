@@ -22,43 +22,43 @@ export const createRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, 
     if (!user.isVerified)
         return baseErrResponse(res, 403, "User not verified");
     if (!((_a = req.body) === null || _a === void 0 ? void 0 : _a.phone) && !((_b = user.address) === null || _b === void 0 ? void 0 : _b.phone))
-        return baseErrResponse(res, 400, "Phone number is required if set in profile details");
+        return baseErrResponse(res, 400, "Phone number is required if not specified in profile details");
     const arrImages = yield uploadCloud(req.files);
     const newRestaurant = yield Restaurant.create(Object.assign(Object.assign({}, formatMyRestaurantsBody(req, user.email, (_c = user.address) === null || _c === void 0 ? void 0 : _c.phone)), { images: arrImages }));
     return res.status(201).json({ success: true, restId: newRestaurant._id });
 });
 export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d;
+    var _a;
     const { userId } = req;
     const restaurantsArr = yield Restaurant.aggregate([
         { $match: { owner: new mongoose.Types.ObjectId(userId) } },
         {
-            $lookup: {
-                from: "dishes",
-                localField: "dishes",
-                foreignField: "_id",
-                as: "dishes",
+            $addFields: {
+                dishesCount: {
+                    $size: "$dishes",
+                },
+                ordersCount: {
+                    $size: "$orders",
+                },
+                reviewsCount: {
+                    $size: "$reviews",
+                },
             },
         },
-        {
-            $lookup: {
-                from: "orders",
-                localField: "orders",
-                foreignField: "_id",
-                as: "orders",
-            },
-        },
-        {
-            $lookup: {
-                from: "reviews",
-                localField: "reviews",
-                foreignField: "_id",
-                as: "reviews",
-            },
-        },
+        { $sort: { createdAt: -1 } },
         {
             $facet: {
-                paginatedRes: [{ $sort: { createAt: -1 } }],
+                paginatedRes: [
+                    {
+                        $project: {
+                            dishes: 0,
+                            orders: 0,
+                            reviews: 0,
+                            owner: 0,
+                            __v: 0,
+                        },
+                    },
+                ],
                 totCount: [
                     {
                         $count: "count",
@@ -67,9 +67,20 @@ export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, 
             },
         },
     ]);
+    if (!((_a = restaurantsArr === null || restaurantsArr === void 0 ? void 0 : restaurantsArr[0]) === null || _a === void 0 ? void 0 : _a.totCount))
+        return res
+            .status(200)
+            .json({ success: true, restaurants: [], totRestaurants: 0 });
     return res.status(200).json({
         success: true,
-        restaurants: (_a = restaurantsArr === null || restaurantsArr === void 0 ? void 0 : restaurantsArr[0]) === null || _a === void 0 ? void 0 : _a.paginatedRes,
-        totRestaurants: (_d = (_c = (_b = restaurantsArr === null || restaurantsArr === void 0 ? void 0 : restaurantsArr[0]) === null || _b === void 0 ? void 0 : _b.totCount) === null || _c === void 0 ? void 0 : _c[0]) === null || _d === void 0 ? void 0 : _d.count,
+        restaurants: restaurantsArr[0].paginatedRes,
+        totRestaurants: restaurantsArr[0].totCount[0].count,
     });
+});
+export const getMySingleRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { restId } = req.params;
+    const restaurant = yield Restaurant.findById(restId);
+    if (!restaurant)
+        return baseErrResponse(res, 404, "Restaurant not found");
+    return res.status(200).json({ success: true, restaurant });
 });

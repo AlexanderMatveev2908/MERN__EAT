@@ -1,5 +1,5 @@
 import { body } from "express-validator";
-import { REG_CITY, REG_COUNTRY, REG_EMAIL, REG_PHONE, REG_PRICE, REG_RESTAURANT_NAME, REG_STATE, REG_STREET, REG_WEB_URL, REG_ZIP, } from "../../constants/regex.js";
+import { REG_CITY, REG_COUNTRY, REG_EMAIL, REG_EST_TIME, REG_PHONE, REG_PRICE, REG_RESTAURANT_NAME, REG_STATE, REG_STREET, REG_WEB_URL, REG_ZIP, } from "../../constants/regex.js";
 import { badRequest } from "../../utils/baseErrResponse.js";
 import { handleValidator } from "../../utils/handleValidator.js";
 export const validateFiles = (req, res, next) => {
@@ -14,18 +14,9 @@ export const validatorMyRestaurants = [
     body("city").matches(REG_CITY).withMessage("Invalid city format"),
     body("street").matches(REG_STREET).withMessage("Invalid street format"),
     body("zipCode").matches(REG_ZIP).withMessage("Invalid zip code format"),
-    body("phone")
-        .optional()
-        .matches(REG_PHONE)
-        .withMessage("Invalid phone format"),
-    body("email")
-        .optional()
-        .matches(REG_EMAIL)
-        .withMessage("Invalid email format"),
-    body("website")
-        .optional()
-        .matches(REG_WEB_URL)
-        .withMessage("Invalid website format"),
+    body("phone").custom((val) => !val || REG_PHONE.test(val) ? true : Promise.reject("Invalid phone format")),
+    body("email").custom((val) => !val || REG_EMAIL.test(val) ? true : Promise.reject("Invalid email format")),
+    body("website").custom((val) => !val || REG_WEB_URL.test(val) ? true : Promise.reject("Invalid format url")),
     body("openTime")
         .toInt()
         .isInt({ min: 0, max: 1439 })
@@ -40,18 +31,19 @@ export const validatorMyRestaurants = [
     body("estTimeDelivery").custom((val, { req }) => {
         const diff = +req.body.closeTime - +req.body.openTime;
         if (diff > 0 && diff < +val)
+            throw new Error("Invalid est time delivery request");
+        if (!REG_EST_TIME.test(val))
             throw new Error("Invalid est time delivery format");
         return true;
     }),
-    body("price")
-        .optional()
-        .matches(REG_PRICE)
-        .withMessage("Invalid price format"),
+    body("price").custom((val) => !val || REG_PRICE.test(val) ? true : Promise.reject("Invalid price format")),
     body("freeDeliveryPrice")
         .optional()
         .custom((val, { req }) => {
         if (!req.body.price && val)
             throw new Error("Not possible make free something that already is");
+        if (!REG_PRICE.test(val))
+            throw new Error("Invalid free delivery price format");
         return true;
     }),
     handleValidator(400),
