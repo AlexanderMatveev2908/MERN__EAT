@@ -88,8 +88,8 @@ export const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, functi
             expiry: null,
         };
         yield user.save();
-        res.cookie("refreshToken", "", { expires: new Date(0) });
     }
+    res.cookie("refreshToken", "", { expires: new Date(0) });
     return res
         .status(200)
         .json({ msg: "User logged out successfully", success: true });
