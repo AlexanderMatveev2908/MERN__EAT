@@ -28,6 +28,8 @@ const user_1 = __importDefault(require("./routes/user"));
 const newsLetter_1 = __importDefault(require("./routes/newsLetter"));
 const path_1 = __importDefault(require("path"));
 const currMode_1 = require("./config/currMode");
+const cloud_1 = require("./config/cloud");
+const myRestaurants_1 = __importDefault(require("./routes/myRestaurants"));
 const app = (0, express_1.default)();
 const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
 app.set("trust proxy", 1);
@@ -51,12 +53,16 @@ app.use((0, cookie_parser_1.default)());
 app.use("/api/v1/auth", auth_1.default);
 app.use("/api/v1/user", user_1.default);
 app.use("/api/v1/newsletter", newsLetter_1.default);
-app.use(express_1.default.static(path_1.default.join(__dirname, "../../client/dist")));
-app.get("*", (_, res) => res.sendFile(path_1.default.join(__dirname, "../../client/dist/index.html")));
+app.use("/api/v1/my-restaurants", myRestaurants_1.default);
+if (!currMode_1.isDev) {
+    app.use(express_1.default.static(path_1.default.join(__dirname, "../../client/dist")));
+    app.get("*", (_, res) => res.sendFile(path_1.default.join(__dirname, "../../client/dist/index.html")));
+}
 app.use(errMiddleware_1.errMiddleware);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, db_1.connectDB)();
+        yield (0, cloud_1.connectCloudinary)();
         app.listen(+port, "0.0.0.0", () => console.log(`=> server listening on ${port}...`));
     }
     catch (err) {
