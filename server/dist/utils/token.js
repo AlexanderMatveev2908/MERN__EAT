@@ -50,10 +50,7 @@ const crypto_1 = __importDefault(require("crypto"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const keys_1 = require("./keys");
 const signs_1 = require("../config/signs");
-const loadJose = () => __awaiter(void 0, void 0, void 0, function* () {
-    const { CompactEncrypt, jwtDecrypt } = yield Promise.resolve().then(() => __importStar(require("jose")));
-    return { CompactEncrypt, jwtDecrypt };
-});
+const loadJose = () => __awaiter(void 0, void 0, void 0, function* () { return yield Promise.resolve().then(() => __importStar(require("jose"))); });
 const genTokenSHA = (type) => {
     const token = crypto_1.default.randomBytes(64).toString("hex");
     const hashedToken = crypto_1.default

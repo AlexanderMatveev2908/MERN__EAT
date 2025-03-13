@@ -24,6 +24,7 @@ app.set("trust proxy", 1);
 app.use(
   helmet({
     contentSecurityPolicy: {
+      useDefaults: false,
       directives: {
         defaultSrc: ["'self'"],
         imgSrc: ["'self'", "data:", "blob:"],

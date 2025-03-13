@@ -35,6 +35,7 @@ const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
 app.set("trust proxy", 1);
 app.use((0, helmet_1.default)({
     contentSecurityPolicy: {
+        useDefaults: false,
         directives: {
             defaultSrc: ["'self'"],
             imgSrc: ["'self'", "data:", "blob:"],
