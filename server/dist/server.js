@@ -38,7 +38,7 @@ app.use((0, helmet_1.default)({
         useDefaults: false,
         directives: {
             defaultSrc: ["'self'"],
-            imgSrc: ["'self'", "data:", "blob:", "https://console.cloudinary.com/"],
+            imgSrc: ["'self'", "data:", "blob:", "https://res.cloudinary.com/"],
             styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
             fontSrc: ["'self'", "https://fonts.gstatic.com"],
             connectSrc: [
