@@ -4,7 +4,7 @@
   "main": "./src/server.ts",
   "type": "module",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon --exec tsx src/server.ts",
     "start": "node ./dist/server.js",
     "build": "npx tsc"
   },
@@ -55,6 +55,7 @@
     "@types/nodemailer": "^6.4.17",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.7.3"
   }
 }

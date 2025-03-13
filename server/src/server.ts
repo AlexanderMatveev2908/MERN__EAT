@@ -7,7 +7,6 @@ import { errMiddleware } from "./middleware/general/errMiddleware.js";
 // @ts-ignore
 import xss from "xss-clean";
 import mongoSanitize from "express-mongo-sanitize";
-import helmet from "helmet";
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/user.js";
 import newsLetterRouter from "./routes/newsLetter.js";
@@ -15,29 +14,17 @@ import path from "path";
 import { isDev } from "./config/currMode.js";
 import { connectCloudinary } from "./config/cloud.js";
 import myRestaurantsRouter from "./routes/myRestaurants.js";
+import { helmetMid } from "./middleware/general/helmet.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
 
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(__filename);
+
 app.set("trust proxy", 1);
 
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      useDefaults: false,
-      directives: {
-        defaultSrc: ["'self'"],
-        imgSrc: ["'self'", "data:", "blob:", "https://res.cloudinary.com/"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        connectSrc: [
-          "'self'",
-          isDev ? process.env.FRONT_URL_DEV! : process.env.FRONT_URL!,
-        ],
-      },
-    },
-  })
-);
+app.use(helmetMid);
 app.use(xss());
 app.use(mongoSanitize());
 
