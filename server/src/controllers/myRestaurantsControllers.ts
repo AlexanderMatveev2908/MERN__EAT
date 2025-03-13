@@ -20,7 +20,7 @@ export const createRestaurant = async (
     return baseErrResponse(
       res,
       400,
-      "Phone number is required if set in profile details"
+      "Phone number is required if not specified in profile details"
     );
 
   const arrImages = await uploadCloud(req.files as Express.Multer.File[]);
@@ -42,32 +42,32 @@ export const getMyRestaurants = async (
   const restaurantsArr = await Restaurant.aggregate([
     { $match: { owner: new mongoose.Types.ObjectId(userId) } },
     {
-      $lookup: {
-        from: "dishes",
-        localField: "dishes",
-        foreignField: "_id",
-        as: "dishes",
+      $addFields: {
+        dishesCount: {
+          $size: "$dishes",
+        },
+        ordersCount: {
+          $size: "$orders",
+        },
+        reviewsCount: {
+          $size: "$reviews",
+        },
       },
     },
-    {
-      $lookup: {
-        from: "orders",
-        localField: "orders",
-        foreignField: "_id",
-        as: "orders",
-      },
-    },
-    {
-      $lookup: {
-        from: "reviews",
-        localField: "reviews",
-        foreignField: "_id",
-        as: "reviews",
-      },
-    },
+    { $sort: { createdAt: -1 } },
     {
       $facet: {
-        paginatedRes: [{ $sort: { createAt: -1 } }],
+        paginatedRes: [
+          {
+            $project: {
+              dishes: 0,
+              orders: 0,
+              reviews: 0,
+              owner: 0,
+              __v: 0,
+            },
+          },
+        ],
         totCount: [
           {
             $count: "count",
@@ -77,9 +77,26 @@ export const getMyRestaurants = async (
     },
   ]);
 
+  if (!restaurantsArr?.[0]?.totCount)
+    return res
+      .status(200)
+      .json({ success: true, restaurants: [], totRestaurants: 0 });
+
   return res.status(200).json({
     success: true,
-    restaurants: restaurantsArr?.[0]?.paginatedRes,
-    totRestaurants: restaurantsArr?.[0]?.totCount?.[0]?.count,
+    restaurants: restaurantsArr[0].paginatedRes,
+    totRestaurants: restaurantsArr[0].totCount[0].count,
   });
+};
+
+export const getMySingleRestaurant = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { restId } = req.params;
+
+  const restaurant = await Restaurant.findById(restId);
+  if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
+
+  return res.status(200).json({ success: true, restaurant });
 };

@@ -9,7 +9,9 @@ import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
 import {
   createRestaurant,
   getMyRestaurants,
+  getMySingleRestaurant,
 } from "../controllers/myRestaurantsControllers.js";
+import { validatorMySingleRest } from "../middleware/myRestaurants/validatorMySingleRest.js";
 
 const router = express();
 
@@ -23,5 +25,12 @@ router
     asyncWrapper(createRestaurant)
   )
   .get(verifyAccessToken, asyncWrapper(getMyRestaurants));
+
+router.get(
+  "/info-restaurant/:restId",
+  verifyAccessToken,
+  validatorMySingleRest,
+  asyncWrapper(getMySingleRestaurant)
+);
 
 export default router;

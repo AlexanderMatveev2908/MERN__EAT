@@ -56,4 +56,7 @@ export type MyRestaurantType = {
   dishes?: DishType[];
   orders: OrderType[];
   reviews: ReviewType[];
+  dishesCount: number;
+  reviewsCount: number;
+  ordersCount: number;
 };

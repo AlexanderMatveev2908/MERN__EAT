@@ -14,6 +14,7 @@ type PropsType = {
 
 const DropEl: FC<PropsType> = ({ el, children }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasBeenClicked, setHasBeenClicked] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseEnter = () => {
@@ -31,7 +32,10 @@ const DropEl: FC<PropsType> = ({ el, children }) => {
   return (
     <div className="w-full grid grid-cols-1 transition-all duration-300 relative px-3">
       <div
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          setHasBeenClicked(!hasBeenClicked);
+        }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className={`w-full flex justify-between items-center py-1 group cursor-pointer transition-all duration-300`}
@@ -42,7 +46,7 @@ const DropEl: FC<PropsType> = ({ el, children }) => {
         </div>
         <ChevronUp
           className={`w-[35px] h-[35px] transition-all duration-300 group-hover:text-orange-500 ${
-            isOpen ? "rotate-180" : ""
+            hasBeenClicked || isOpen ? "rotate-180" : ""
           }`}
         />
       </div>
@@ -55,7 +59,7 @@ const DropEl: FC<PropsType> = ({ el, children }) => {
             ? "grid-cols-2"
             : " grid-cols-1 gap-1"
         } ${
-          isOpen
+          hasBeenClicked || isOpen
             ? "opacity-100 -translate-y-full pointer-events-auto"
             : "translate-y-full opacity-0 pointer-events-none"
         }`}

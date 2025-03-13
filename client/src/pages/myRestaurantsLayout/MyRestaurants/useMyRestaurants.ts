@@ -19,7 +19,7 @@ export const useMyRestaurants = () => {
       handleErrAPI({ err: error });
     }
     if (isSuccess) {
-      console.log("");
+      console.log(data);
     }
   }, [handleErrAPI, isError, error, isSuccess, data]);
 
