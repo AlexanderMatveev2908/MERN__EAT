@@ -74,7 +74,6 @@ const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, functio
             },
         },
     ]);
-    console.log(restaurantsArr);
     return res.status(200).json({
         success: true,
         restaurants: (_a = restaurantsArr === null || restaurantsArr === void 0 ? void 0 : restaurantsArr[0]) === null || _a === void 0 ? void 0 : _a.paginatedRes,

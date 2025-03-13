@@ -41,13 +41,11 @@ export const useAddRestaurant = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (formData: FormData) => createRestaurantAPI(formData),
-    onSuccess: (data) => {
+    onSuccess: () => {
       showToastMsg("Restaurant created successfully", "SUCCESS");
-      console.log(data);
     },
     onError: (err) => {
       handleErrAPI({ err });
-      console.log(err);
     },
   });
 

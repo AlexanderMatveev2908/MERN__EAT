@@ -39,6 +39,7 @@ app.use((0, helmet_1.default)({
         directives: {
             defaultSrc: ["'self'"],
             imgSrc: ["'self'", "data:", "blob:"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
             connectSrc: [
                 "'self'",
                 currMode_1.isDev ? process.env.FRONT_URL_DEV : process.env.FRONT_URL,

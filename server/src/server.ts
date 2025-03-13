@@ -28,6 +28,7 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         imgSrc: ["'self'", "data:", "blob:"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
         connectSrc: [
           "'self'",
           isDev ? process.env.FRONT_URL_DEV! : process.env.FRONT_URL!,
