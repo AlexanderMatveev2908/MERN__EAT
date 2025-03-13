@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ImageSchema } from "./Image.js";
 
 export type RestaurantType = {
   owner: string[];
@@ -102,18 +103,7 @@ const RestaurantSchema = new mongoose.Schema(
       price: { type: Number, default: 0 },
       freeDeliveryPrice: { type: Number, default: 0 },
     },
-    images: [
-      {
-        url: {
-          type: String,
-          required: true,
-        },
-        public_id: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    images: [ImageSchema],
     dishes: [
       {
         type: mongoose.Schema.Types.ObjectId,

@@ -91,14 +91,14 @@ export const managementMyRestaurantsFields = (...params) => [
   },
   {
     id: genID(),
-    label: "Reviews",
-    icon: MdOutlineRateReview,
-    val: params[1],
-  },
-  {
-    id: genID(),
     label: "Orders",
     icon: CiDeliveryTruck,
     val: params[2],
+  },
+  {
+    id: genID(),
+    label: "Reviews",
+    icon: MdOutlineRateReview,
+    val: params[1],
   },
 ];

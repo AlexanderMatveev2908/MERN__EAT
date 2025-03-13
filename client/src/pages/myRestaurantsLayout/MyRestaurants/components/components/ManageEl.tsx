@@ -16,10 +16,10 @@ const ManageEl: FC<PropsType> = ({ el }) => {
     <div className="w-full grid grid-cols-[120px_20px_1fr] gap-5 items-center py-1 px-3">
       <div className="flex w-full items-center gap-3">
         <el.icon className="min-w-[30px] min-h-[30px]" />
-        <span className="txt__02">{el.label}</span>
+        <span className="txt__01">{el.label}</span>
       </div>
 
-      <span className="txt__01 text-center justify-self-center">{el.val}</span>
+      <span className="txt__02 text-center justify-self-center">{el.val}</span>
 
       <Link
         to="/"

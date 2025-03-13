@@ -42,6 +42,14 @@ export const getMyRestaurants = async (
   const restaurantsArr = await Restaurant.aggregate([
     { $match: { owner: new mongoose.Types.ObjectId(userId) } },
     {
+      $lookup: {
+        from: "reviews",
+        localField: "_id",
+        foreignField: "restaurant",
+        as: "reviews",
+      },
+    },
+    {
       $addFields: {
         dishesCount: {
           $size: "$dishes",
@@ -51,6 +59,9 @@ export const getMyRestaurants = async (
         },
         reviewsCount: {
           $size: "$reviews",
+        },
+        avgRating: {
+          $ifNull: [{ $avg: "$reviews.rating" }, 0],
         },
       },
     },

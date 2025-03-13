@@ -6,6 +6,7 @@ import { managementMyRestaurantsFields } from "../../../../config/fieldsArr/MyRe
 import ManageEl from "./components/ManageEl";
 import { Link } from "react-router-dom";
 import HeaderNameImgItem from "./components/HeaderNameImgItem";
+import AvgRating from "./components/AvgRating";
 
 type PropsType = {
   rest: MyRestaurantType;
@@ -24,12 +25,14 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
         <div className="w-full mt-3 ">
           {managementMyRestaurantsFields(
             rest.dishesCount,
-            rest.reviewsCount,
-            rest.ordersCount
+            rest.ordersCount,
+            rest.reviewsCount
           ).map((el) => (
             <ManageEl key={el.id} {...{ el }} />
           ))}
         </div>
+
+        <AvgRating {...{ rating: rest.avgRating }} />
       </div>
 
       <div className="w-full max-w-fit justify-center justify-self-center flex mt-5">
