@@ -10,7 +10,10 @@ import {
   GET_SIGN,
 } from "../config/signs";
 
-const loadJose = async () => await import("jose");
+const loadJose = async () => {
+  const jose = await import("jose");
+  return jose;
+};
 
 export type ReturnTokenSHAType = {
   token: string;
