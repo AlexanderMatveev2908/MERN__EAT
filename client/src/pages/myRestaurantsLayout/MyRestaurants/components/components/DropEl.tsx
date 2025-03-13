@@ -59,7 +59,7 @@ const DropEl: FC<PropsType> = ({ el }) => {
         {el.vals.map((val: string | number, i) => (
           <li
             key={i}
-            className="px-3 transition-all duration-300 truncate hover:text-orange-500"
+            className="px-3 transition-all duration-300 truncate pointer-events-none cursor-pointer"
           >
             <span className="txt__01">{val}</span>
           </li>

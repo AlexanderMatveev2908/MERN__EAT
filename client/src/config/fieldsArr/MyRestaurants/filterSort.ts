@@ -3,6 +3,7 @@ import { BiWorld } from "react-icons/bi";
 import { genID } from "./../../../utils/genID";
 import { MdConnectWithoutContact } from "react-icons/md";
 import { IoRestaurant } from "react-icons/io5";
+import { FaDoorClosed, FaDoorOpen } from "react-icons/fa";
 
 export type FieldCheckboxSwapType = {
   id: string;
@@ -29,5 +30,18 @@ export const fieldsShowMyRestaurants = (...params) => [
     label: "Categories",
     vals: params[2],
     icon: IoRestaurant,
+  },
+];
+
+export const fieldsShowMyRestaurantsOpenHours = [
+  {
+    id: genID(),
+    field: "openHours",
+    icon: FaDoorOpen,
+  },
+  {
+    id: genID(),
+    field: "closeHours",
+    icon: FaDoorClosed,
   },
 ];
