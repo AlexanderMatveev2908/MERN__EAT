@@ -16,19 +16,18 @@ const RestaurantItem: FC<PropsType> = ({ el }) => {
 
       <HeaderNameImgItem {...{ name: el.name, url: el.images[0].url }} />
 
-      {fieldsShowMyRestaurants(el.address, el.contact).map((el, i, arg) => (
+      {fieldsShowMyRestaurants(
+        Object.values(el.address),
+        Object.values(el.contact),
+        el.categories
+      ).map((el, i) => (
         <DropEl
           key={i}
           {...{
-            label: el.label,
-            obj: el.obj,
-            isFirst: i === 0,
-            isLast: i === arg.length - 1,
+            el,
           }}
         />
       ))}
-
-      <p>fjfjfjfj</p>
     </div>
   );
 };

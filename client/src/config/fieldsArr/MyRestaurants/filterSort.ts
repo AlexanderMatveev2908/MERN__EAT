@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { BiWorld } from "react-icons/bi";
 import { genID } from "./../../../utils/genID";
+import { MdConnectWithoutContact } from "react-icons/md";
+import { IoRestaurant } from "react-icons/io5";
 
 export type FieldCheckboxSwapType = {
   id: string;
@@ -12,11 +15,19 @@ export const fieldsShowMyRestaurants = (...params) => [
   {
     id: genID(),
     label: "Location",
-    obj: params[0],
+    vals: params[0],
+    icon: BiWorld,
   },
   {
     id: genID(),
     label: "Contact",
-    obj: params[1],
+    vals: params[1],
+    icon: MdConnectWithoutContact,
+  },
+  {
+    id: genID(),
+    label: "Categories",
+    vals: params[2],
+    icon: IoRestaurant,
   },
 ];

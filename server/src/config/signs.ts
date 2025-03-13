@@ -1,6 +1,6 @@
 import { isDev } from "./currMode";
 
-export const EXPIRY_ACCESS = isDev ? "5m" : "15m"; //basic access token
+export const EXPIRY_ACCESS = isDev ? "15m" : "15m"; //basic access token
 export const ACCESS_SIGN = process.env.JWT_ACCESS_SIGN;
 
 const GEN_EXPIRY_AUTH = () => new Date(Date.now() + 1000 * 60 * 15); //verify-email, recover-pwd
@@ -10,7 +10,7 @@ const GEN_EXPIRY_VERIFY_NEW_EMAIL = () => new Date(Date.now() + 1000 * 60 * 15);
 
 export const GEN_EXPIRY_REFRESH = () =>
   isDev
-    ? new Date(Date.now() + 1000 * 60 * 30) // refresh token for access token
+    ? new Date(Date.now() + 1000 * 60 * 60 * 24) // refresh token for access token
     : new Date(Date.now() + 1000 * 60 * 60 * 24);
 
 export const GET_SIGN = (
