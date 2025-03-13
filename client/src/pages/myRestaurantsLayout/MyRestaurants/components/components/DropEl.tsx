@@ -3,18 +3,14 @@ import { ChevronDown } from "lucide-react";
 import { FC, useState } from "react";
 
 type PropsType = {
-  label: string;
-  obj: any;
-  isFirst?: boolean;
-  isLast: boolean;
+  el: {
+    label: string;
+    vals: string[];
+    icon: any;
+  };
 };
 
-const DropEl: FC<PropsType> = ({
-  label,
-  obj,
-  isFirst = false,
-  isLast = false,
-}) => {
+const DropEl: FC<PropsType> = ({ el }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -22,12 +18,13 @@ const DropEl: FC<PropsType> = ({
       <div
         onClick={() => setIsOpen(!isOpen)}
         className={`w-full border-t-2 border-b-2 ${
-          isOpen && isFirst ? "border-b-orange-500" : "border-b-transparent"
-        } border-orange-500 flex justify-between items-center px-3 group cursor-pointer transition-all duration-300`}
+          isOpen ? "border-b-orange-500" : "border-b-transparent"
+        } border-orange-500 flex justify-between items-center px-3 py-1 group cursor-pointer transition-all duration-300`}
       >
-        <span className="txt__02 transition-all duration-300 group-hover:text-orange-500 ">
-          {label}
-        </span>
+        <div className=" transition-all duration-300 group-hover:text-orange-500 flex gap-3 items-center">
+          <el.icon className="w-[25px] h-[25px]" />
+          <span className="txt__02">{el.label}</span>
+        </div>
         <ChevronDown
           className={`w-[35px] h-[35px] transition-all duration-300 group-hover:text-orange-500 ${
             isOpen ? "rotate-180" : ""
@@ -36,13 +33,15 @@ const DropEl: FC<PropsType> = ({
       </div>
 
       <ul
-        className={`w-full flex flex-col gap-1 py-1 transition-all duration-300 ${
+        className={`w-full grid py-1 transition-all duration-300 ${
+          el.label === "Categories" ? "grid-cols-2" : " grid-cols-1 gap-1"
+        } ${
           isOpen
             ? "pointer-events-auto opacity-100"
-            : " -translate-y-[100px] pointer-events-none opacity-0 absolute"
+            : "-translate-y-[100px] pointer-events-none opacity-0 absolute top-0 left-0"
         }`}
       >
-        {Object.values(obj).map((val: string | number, i) => (
+        {el.vals.map((val: string | number, i) => (
           <li
             key={i}
             className={`px-3 transition-all duration-300 truncate max-w-full ${

@@ -16,7 +16,7 @@ export const createRestaurant = async (
   const user = await User.findById(userId);
   if (!user) return userNotFound(res);
   if (!user.isVerified) return baseErrResponse(res, 403, "User not verified");
-  if (!req.body?.phone && !user.phone)
+  if (!req.body?.phone && !user.address?.phone)
     return baseErrResponse(
       res,
       400,
@@ -26,7 +26,7 @@ export const createRestaurant = async (
   const arrImages = await uploadCloud(req.files as Express.Multer.File[]);
 
   const newRestaurant = await Restaurant.create({
-    ...formatMyRestaurantsBody(req, user.email, user.phone),
+    ...formatMyRestaurantsBody(req, user.email, user.address?.phone),
     images: arrImages,
   });
 
