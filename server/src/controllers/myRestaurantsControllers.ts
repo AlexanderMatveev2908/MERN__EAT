@@ -111,12 +111,3 @@ export const getMySingleRestaurant = async (
 
   return res.status(200).json({ success: true, restaurant });
 };
-
-export const getAll = async (
-  req: RequestWithUserId,
-  res: Response
-): Promise<any> => {
-  const restaurants = await Restaurant.find({}).sort({ createdAt: -1 });
-
-  return res.status(200).json({ success: true, restaurants });
-};

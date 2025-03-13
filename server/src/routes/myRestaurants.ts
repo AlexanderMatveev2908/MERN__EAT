@@ -8,7 +8,6 @@ import {
 import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
 import {
   createRestaurant,
-  getAll,
   getMyRestaurants,
   getMySingleRestaurant,
 } from "../controllers/myRestaurantsControllers.js";
@@ -33,7 +32,5 @@ router.get(
   validatorMySingleRest,
   asyncWrapper(getMySingleRestaurant)
 );
-
-router.get("/all", getAll);
 
 export default router;
