@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,70 +7,64 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.logoutUser = exports.loginUser = exports.registerUser = void 0;
-const User_1 = __importDefault(require("../../models/User"));
-const token_1 = require("../../utils/token");
-const mail_1 = require("../../utils/mail");
-const hashPwd_1 = require("../../utils/hashPwd");
-const baseErrResponse_1 = require("../../utils/baseErrResponse");
-const UserNewsLetter_1 = __importDefault(require("../../models/UserNewsLetter"));
-const currMode_1 = require("../../config/currMode");
-const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const existingUser = yield User_1.default.findOne({ email: req.body.email });
+import User from "../../models/User.js";
+import { genAccessJWT, genTokenJWE, genTokenSHA } from "../../utils/token.js";
+import { sendUserEmail } from "../../utils/mail.js";
+import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd.js";
+import { baseErrResponse, unauthorizedErr, userNotFound, } from "../../utils/baseErrResponse.js";
+import NonLoggedUserNewsLetter from "../../models/UserNewsLetter.js";
+import { isDev } from "../../config/currMode.js";
+export const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const existingUser = yield User.findOne({ email: req.body.email });
     if (existingUser)
-        return (0, baseErrResponse_1.baseErrResponse)(res, 409, "User already exists");
+        return baseErrResponse(res, 409, "User already exists");
     const dataNewUser = Object.assign({}, req.body);
-    const { token, hashedToken, expiryVerification } = (0, token_1.genTokenSHA)("auth");
-    dataNewUser.password = yield (0, hashPwd_1.hashPwdBcrypt)(req.body.password);
-    const isSubscribedNewsLetter = yield UserNewsLetter_1.default.findOne({
+    const { token, hashedToken, expiryVerification } = genTokenSHA("auth");
+    dataNewUser.password = yield hashPwdBcrypt(req.body.password);
+    const isSubscribedNewsLetter = yield NonLoggedUserNewsLetter.findOne({
         email: dataNewUser.email,
     });
     if (isSubscribedNewsLetter) {
-        const result = yield UserNewsLetter_1.default.deleteOne({
+        const result = yield NonLoggedUserNewsLetter.deleteOne({
             email: dataNewUser.email,
         });
         if ((result === null || result === void 0 ? void 0 : result.deletedCount) === 1)
             dataNewUser.hasSubscribedToNewsletter = true;
     }
-    yield User_1.default.create(Object.assign(Object.assign({}, dataNewUser), { tokens: {
+    yield User.create(Object.assign(Object.assign({}, dataNewUser), { tokens: {
             verifyAccount: {
                 hashed: hashedToken,
                 expiry: expiryVerification,
             },
         } }));
-    const newUser = (yield User_1.default.findOne({
+    const newUser = (yield User.findOne({
         email: req.body.email,
     })
         .select("email _id")
         .lean());
-    yield (0, mail_1.sendUserEmail)({ user: newUser, token, type: "verify-account" });
+    yield sendUserEmail({ user: newUser, token, type: "verify-account" });
     return res
         .status(201)
         .json({ msg: "User created successfully", success: true });
 });
-exports.registerUser = registerUser;
-const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+export const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
-    const user = yield User_1.default.findOne({ email });
+    const user = yield User.findOne({ email });
     if (!user)
-        return (0, baseErrResponse_1.userNotFound)(res);
+        return userNotFound(res);
     if (!user.isVerified)
-        return (0, baseErrResponse_1.baseErrResponse)(res, 403, "User not verified");
-    const isSamePwd = yield (0, hashPwd_1.checkPwdBcrypt)(password, user.password);
+        return baseErrResponse(res, 403, "User not verified");
+    const isSamePwd = yield checkPwdBcrypt(password, user.password);
     if (!isSamePwd)
-        return (0, baseErrResponse_1.unauthorizedErr)(res, "Invalid credentials");
-    const accessToken = (0, token_1.genAccessJWT)(user._id);
-    const { jwe, expiry } = yield (0, token_1.genTokenJWE)(user._id);
+        return unauthorizedErr(res, "Invalid credentials");
+    const accessToken = genAccessJWT(user._id);
+    const { jwe, expiry } = yield genTokenJWE(user._id);
     user.tokens.refresh.hashed = jwe;
     user.tokens.refresh.expiry = expiry;
     yield user.save();
     res.cookie("refreshToken", jwe, {
         httpOnly: true,
-        secure: currMode_1.isDev,
+        secure: isDev,
         expires: expiry,
     });
     return res.status(200).json({
@@ -80,10 +73,9 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         accessToken,
     });
 });
-exports.loginUser = loginUser;
-const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+export const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { refreshToken } = req.cookies;
-    const user = yield User_1.default.findOne({
+    const user = yield User.findOne({
         "tokens.refresh.hashed": refreshToken !== null && refreshToken !== void 0 ? refreshToken : "",
     });
     if (user) {
@@ -102,4 +94,3 @@ const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         .status(200)
         .json({ msg: "User logged out successfully", success: true });
 });
-exports.logoutUser = logoutUser;

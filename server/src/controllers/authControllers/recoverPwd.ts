@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import User from "../../models/User";
-import { checkTokenSHA, genAccessJWT, genTokenJWE } from "../../utils/token";
-import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
+import User from "../../models/User.js";
+import { checkTokenSHA, genAccessJWT, genTokenJWE } from "../../utils/token.js";
+import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd.js";
 import {
   baseErrResponse,
   unauthorizedErr,
   userNotFound,
-} from "../../utils/baseErrResponse";
-import { isDev } from "../../config/currMode";
+} from "../../utils/baseErrResponse.js";
+import { isDev } from "../../config/currMode.js";
 
 export const recoverPwd = async (req: Request, res: Response): Promise<any> => {
   const { userId, password, token } = req.body;

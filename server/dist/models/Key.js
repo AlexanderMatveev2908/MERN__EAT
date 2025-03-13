@@ -1,10 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const KeySchema = new mongoose_1.default.Schema({
+import mongoose from "mongoose";
+const KeySchema = new mongoose.Schema({
     publicKey: {
         type: String,
         required: true,
@@ -18,5 +13,5 @@ const KeySchema = new mongoose_1.default.Schema({
         required: true,
     },
 }, { timestamps: true });
-const Key = mongoose_1.default.models.Key || mongoose_1.default.model("Key", KeySchema);
-exports.default = Key;
+const Key = mongoose.models.Key || mongoose.model("Key", KeySchema);
+export default Key;

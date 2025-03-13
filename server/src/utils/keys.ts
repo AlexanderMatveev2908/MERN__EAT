@@ -1,4 +1,4 @@
-import Key from "../models/Key";
+import Key from "../models/Key.js";
 import crypto from "crypto";
 
 export const getKeys = async () => {

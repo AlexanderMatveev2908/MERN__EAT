@@ -10,10 +10,10 @@ import {
   REG_STREET,
   REG_WEB_URL,
   REG_ZIP,
-} from "../../constants/regex";
+} from "../../constants/regex.js";
 import { NextFunction, Request, Response } from "express";
-import { badRequest } from "../../utils/baseErrResponse";
-import { handleValidator } from "../../utils/handleValidator";
+import { badRequest } from "../../utils/baseErrResponse.js";
+import { handleValidator } from "../../utils/handleValidator.js";
 
 export const validateFiles = (
   req: Request,

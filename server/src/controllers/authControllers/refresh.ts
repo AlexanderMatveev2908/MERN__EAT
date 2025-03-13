@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { checkTokenJWE, genAccessJWT } from "../../utils/token";
-import User from "../../models/User";
-import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse";
+import { checkTokenJWE, genAccessJWT } from "../../utils/token.js";
+import User from "../../models/User.js";
+import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
 
 export const refreshToken = async (
   req: Request,

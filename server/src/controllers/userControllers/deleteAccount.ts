@@ -1,8 +1,8 @@
 import { Response } from "express";
-import { RequestWithUserId } from "../../middleware/general/verifyAccessToken";
-import User from "../../models/User";
-import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse";
-import { checkTokenSHA } from "../../utils/token";
+import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
+import User from "../../models/User.js";
+import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
+import { checkTokenSHA } from "../../utils/token.js";
 
 export const deleteAccount = async (
   req: RequestWithUserId,

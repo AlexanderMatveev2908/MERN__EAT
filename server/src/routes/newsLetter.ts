@@ -1,18 +1,18 @@
 import express from "express";
-import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
-import { asyncWrapper } from "../middleware/general/asyncWrapper";
+import { verifyAccessToken } from "../middleware/general/verifyAccessToken.js";
+import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
 import {
   sendEmailUnsubscribeRetry,
   subscribeNonLoggedUser,
   toggleUserNewsLetter,
   unsubScribeNewsLetterViaEmailLinkLogged,
   unsubScribeNewsLetterViaEmailLinkNonLogged,
-} from "../controllers/newsLetterControllers";
-import { makeLimiter } from "../utils/makeLimiter";
-import { validatorToggleSubscribe } from "../middleware/newsLetter/validatorToggleSubscribe";
-import { validatorNewsLetterEmail } from "../middleware/newsLetter/validatorNewsLetterEmail";
-import { HOUR } from "../constants/time";
-import { validatorUnsubscribeVerify } from "../middleware/newsLetter/validatorUnsubscribeVerify";
+} from "../controllers/newsLetterControllers.js";
+import { makeLimiter } from "../utils/makeLimiter.js";
+import { validatorToggleSubscribe } from "../middleware/newsLetter/validatorToggleSubscribe.js";
+import { validatorNewsLetterEmail } from "../middleware/newsLetter/validatorNewsLetterEmail.js";
+import { HOUR } from "../constants/time.js";
+import { validatorUnsubscribeVerify } from "../middleware/newsLetter/validatorUnsubscribeVerify.js";
 
 const router = express();
 

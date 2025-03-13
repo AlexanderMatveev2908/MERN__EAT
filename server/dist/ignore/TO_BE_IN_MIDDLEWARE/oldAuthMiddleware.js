@@ -1,5 +1,5 @@
-"use strict";
 // import { auth } from "express-oauth2-jwt-bearer";
+export {};
 // export const checkJwtMiddleware = auth({
 //   audience:
 //     process.env.NODE_ENV === "development"

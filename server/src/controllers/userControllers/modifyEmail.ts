@@ -1,14 +1,14 @@
 import { Response } from "express";
-import { RequestWithUserId } from "../../middleware/general/verifyAccessToken";
-import User from "../../models/User";
+import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
+import User from "../../models/User.js";
 import {
   badRequest,
   baseErrResponse,
   unauthorizedErr,
   userNotFound,
-} from "../../utils/baseErrResponse";
-import { checkTokenSHA, genTokenSHA } from "../../utils/token";
-import { sendEmailChangeAccountEmail } from "../../utils/mail";
+} from "../../utils/baseErrResponse.js";
+import { checkTokenSHA, genTokenSHA } from "../../utils/token.js";
+import { sendEmailChangeAccountEmail } from "../../utils/mail.js";
 
 export const changeEmail = async (
   req: RequestWithUserId,

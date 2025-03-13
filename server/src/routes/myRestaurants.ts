@@ -1,15 +1,15 @@
 import express from "express";
-import { verifyAccessToken } from "../middleware/general/verifyAccessToken";
-import { uploadMyRestaurants } from "../middleware/myRestaurants/multer";
+import { verifyAccessToken } from "../middleware/general/verifyAccessToken.js";
+import { uploadMyRestaurants } from "../middleware/myRestaurants/multer.js";
 import {
   validateFiles,
   validatorMyRestaurants,
-} from "../middleware/myRestaurants/validatorMyRestaurants";
-import { asyncWrapper } from "../middleware/general/asyncWrapper";
+} from "../middleware/myRestaurants/validatorMyRestaurants.js";
+import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
 import {
   createRestaurant,
   getMyRestaurants,
-} from "../controllers/myRestaurantsControllers";
+} from "../controllers/myRestaurantsControllers.js";
 
 const router = express();
 

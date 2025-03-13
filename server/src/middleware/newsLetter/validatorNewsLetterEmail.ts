@@ -1,6 +1,6 @@
 import { body } from "express-validator";
-import { REG_EMAIL } from "../../constants/regex";
-import { handleValidator } from "../../utils/handleValidator";
+import { REG_EMAIL } from "../../constants/regex.js";
+import { handleValidator } from "../../utils/handleValidator.js";
 
 export const validatorNewsLetterEmail = [
   body("email")

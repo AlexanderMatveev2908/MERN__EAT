@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
-import { RequestWithUserId } from "../../middleware/general/verifyAccessToken";
-import User from "../../models/User";
+import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
+import User from "../../models/User.js";
 import {
   badRequest,
   baseErrResponse,
   unauthorizedErr,
   userNotFound,
-} from "../../utils/baseErrResponse";
-import { checkTokenSHA } from "../../utils/token";
-import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
-import { REG_PWD, REG_TOKEN } from "../../constants/regex";
+} from "../../utils/baseErrResponse.js";
+import { checkTokenSHA } from "../../utils/token.js";
+import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd.js";
+import { REG_PWD, REG_TOKEN } from "../../constants/regex.js";
 
 export const changeOldPwd = async (
   req: RequestWithUserId,

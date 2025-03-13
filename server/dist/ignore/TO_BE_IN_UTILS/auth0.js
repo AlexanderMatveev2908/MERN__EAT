@@ -1,4 +1,3 @@
-"use strict";
 // export const makeOptAuth0Login = (code: string, codeVerifier: string) =>
 //   new URLSearchParams({
 //     grant_type: "authorization_code",
@@ -21,6 +20,7 @@
 //         ? process.env.AUTH0_AUDIENCE_DEV!
 //         : process.env.AUTH0_AUDIENCE!,
 //   });
+export {};
 // export const makeOptAuth0Logout = (refreshToken: string) =>
 //   new URLSearchParams({
 //     client_id:

@@ -1,9 +1,9 @@
 import { Response } from "express";
-import { RequestWithUserId } from "../../middleware/general/verifyAccessToken";
-import User from "../../models/User";
-import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse";
-import { checkPwdBcrypt } from "../../utils/hashPwd";
-import { genTokenSHA } from "../../utils/token";
+import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
+import User from "../../models/User.js";
+import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
+import { checkPwdBcrypt } from "../../utils/hashPwd.js";
+import { genTokenSHA } from "../../utils/token.js";
 
 export const getRightManageAccount = async (
   req: RequestWithUserId,

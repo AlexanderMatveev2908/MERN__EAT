@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
-import { RequestWithUserId } from "../middleware/general/verifyAccessToken";
-import User from "../models/User";
-import { checkTokenSHA, genTokenSHA } from "../utils/token";
-import NonLoggedUserNewsLetter from "../models/UserNewsLetter";
+import { RequestWithUserId } from "../middleware/general/verifyAccessToken.js";
+import User from "../models/User.js";
+import { checkTokenSHA, genTokenSHA } from "../utils/token.js";
+import NonLoggedUserNewsLetter from "../models/UserNewsLetter.js";
 import {
   baseErrResponse,
   unauthorizedErr,
   userNotFound,
-} from "../utils/baseErrResponse";
-import { sendSubScriptionNewsLetterConfirmed } from "../utils/mail";
+} from "../utils/baseErrResponse.js";
+import { sendSubScriptionNewsLetterConfirmed } from "../utils/mail.js";
 
 export const toggleUserNewsLetter = async (
   req: RequestWithUserId,

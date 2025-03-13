@@ -7,8 +7,8 @@ import {
   REG_STATE,
   REG_STREET,
   REG_ZIP,
-} from "../../constants/regex";
-import { handleValidator } from "../../utils/handleValidator";
+} from "../../constants/regex.js";
+import { handleValidator } from "../../utils/handleValidator.js";
 
 export const validatorProfileDetails = [
   body("firstName").matches(REG_NAME).withMessage("invalid first name"),

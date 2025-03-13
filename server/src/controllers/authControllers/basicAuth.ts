@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
-import User, { UserType } from "../../models/User";
-import { genAccessJWT, genTokenJWE, genTokenSHA } from "../../utils/token";
-import { sendUserEmail } from "../../utils/mail";
-import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd";
+import User, { UserType } from "../../models/User.js";
+import { genAccessJWT, genTokenJWE, genTokenSHA } from "../../utils/token.js";
+import { sendUserEmail } from "../../utils/mail.js";
+import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd.js";
 import {
   baseErrResponse,
   unauthorizedErr,
   userNotFound,
-} from "../../utils/baseErrResponse";
-import NonLoggedUserNewsLetter from "../../models/UserNewsLetter";
-import { isDev } from "../../config/currMode";
+} from "../../utils/baseErrResponse.js";
+import NonLoggedUserNewsLetter from "../../models/UserNewsLetter.js";
+import { isDev } from "../../config/currMode.js";
 
 export const registerUser = async (
   req: Request,
