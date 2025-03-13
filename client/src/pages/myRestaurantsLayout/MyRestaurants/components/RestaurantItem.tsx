@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { MyRestaurantType } from "../../../../types/myRestaurants";
 import HeaderIDItem from "./components/HeaderIDItem";
-import BasicCardAllUsers from "../../../../components/myRestaurants/BasicCardAllUsers/BasicCardAllUsers";
+import BasicCardAllUsers from "../../../../components/restaurants/BasicCardAllUsers/BasicCardAllUsers";
 import { managementMyRestaurantsFields } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
 import ManageEl from "./components/ManageEl";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ type PropsType = {
 const RestaurantItem: FC<PropsType> = ({ rest }) => {
   return (
     <div className="w-full grid grid-cols-1 border-2 rounded-xl border-orange-500 max-w-fit place-content-start justify-items-start items-start pt-1 pb-5">
-      <div className="w-full flex flex-col px-3 gap-1">
+      <div className="w-full flex flex-col">
         <HeaderIDItem {...{ id: rest._id }} />
 
         <BasicCardAllUsers {...{ rest }} />
