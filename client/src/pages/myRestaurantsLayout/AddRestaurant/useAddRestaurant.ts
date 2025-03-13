@@ -39,9 +39,9 @@ export const useAddRestaurant = () => {
 
   const handleSave = formContext.handleSubmit(
     (data: MyRestaurantsAddUpdateFormType) => {
-      for (const [key, val] of prepareFormData(data).entries()) {
-        console.log(key, val);
-      }
+      // for (const [key, val] of prepareFormData(data).entries()) {
+      //   console.log(key, val);
+      // }
 
       const formData = prepareFormData(data);
 
