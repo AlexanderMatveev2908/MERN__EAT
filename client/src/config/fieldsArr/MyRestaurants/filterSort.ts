@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BiWorld } from "react-icons/bi";
+import { BiSolidDish, BiWorld } from "react-icons/bi";
 import { genID } from "./../../../utils/genID";
-import { MdConnectWithoutContact, MdDeliveryDining } from "react-icons/md";
+import {
+  MdConnectWithoutContact,
+  MdDeliveryDining,
+  MdOutlineRateReview,
+} from "react-icons/md";
 import { IoRestaurant } from "react-icons/io5";
 import { FaClock, FaDoorClosed, FaDoorOpen } from "react-icons/fa";
 import { formatTimeRangeHhMm } from "../../../utils/formatTime";
+import { CiDeliveryTruck } from "react-icons/ci";
 
 export type FieldCheckboxSwapType = {
   id: string;
@@ -73,6 +78,27 @@ export const showMyRestaurantsDeliveryFields = (...params) => [
   {
     id: genID(),
     label: "Free meal",
+    val: params[2],
+  },
+];
+
+export const managementMyRestaurantsFields = (...params) => [
+  {
+    id: genID(),
+    label: "Dishes",
+    icon: BiSolidDish,
+    val: params[0],
+  },
+  {
+    id: genID(),
+    label: "Reviews",
+    icon: MdOutlineRateReview,
+    val: params[1],
+  },
+  {
+    id: genID(),
+    label: "Orders",
+    icon: CiDeliveryTruck,
     val: params[2],
   },
 ];

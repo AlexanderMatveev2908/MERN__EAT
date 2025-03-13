@@ -54,6 +54,6 @@ export type MyRestaurantType = {
   };
   categories: string[];
   dishes?: DishType[];
-  order: OrderType[];
+  orders: OrderType[];
   reviews: ReviewType[];
 };
