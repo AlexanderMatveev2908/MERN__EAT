@@ -26,6 +26,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "blob:"],
         connectSrc: [
           "'self'",
           isDev ? process.env.FRONT_URL_DEV! : process.env.FRONT_URL!,
