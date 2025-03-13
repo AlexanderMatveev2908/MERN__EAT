@@ -77,8 +77,6 @@ export const getMyRestaurants = async (
     },
   ]);
 
-  console.log(restaurantsArr);
-
   return res.status(200).json({
     success: true,
     restaurants: restaurantsArr?.[0]?.paginatedRes,

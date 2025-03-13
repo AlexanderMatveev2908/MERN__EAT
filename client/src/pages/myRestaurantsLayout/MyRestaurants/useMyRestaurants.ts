@@ -16,7 +16,7 @@ export const useMyRestaurants = () => {
       handleErrAPI({ err: error });
     }
     if (isSuccess) {
-      console.log(data);
+      console.log("");
     }
   }, [handleErrAPI, isError, error, isSuccess, data]);
 
