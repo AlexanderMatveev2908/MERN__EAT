@@ -29,7 +29,7 @@ const DropEl: FC<PropsType> = ({ el, children }) => {
   };
 
   return (
-    <div className="w-full grid grid-cols-1 transition-all duration-300 relative">
+    <div className="w-full grid grid-cols-1 transition-all duration-300 relative px-3">
       <div
         onClick={() => setIsOpen(!isOpen)}
         onMouseEnter={handleMouseEnter}
@@ -38,7 +38,7 @@ const DropEl: FC<PropsType> = ({ el, children }) => {
       >
         <div className=" transition-all duration-300 group-hover:text-orange-500 flex gap-3 items-center">
           <el.icon className="w-[25px] h-[25px]" />
-          <span className="txt__02">{el.label}</span>
+          <span className="txt__01">{el.label}</span>
         </div>
         <ChevronUp
           className={`w-[35px] h-[35px] transition-all duration-300 group-hover:text-orange-500 ${
