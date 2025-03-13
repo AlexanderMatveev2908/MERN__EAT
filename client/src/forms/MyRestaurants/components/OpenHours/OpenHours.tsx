@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect } from "react";
-import { useWatch } from "react-hook-form";
+import { FC } from "react";
 import { FaRegClock } from "react-icons/fa";
 import { myRestaurantsOpenCloseFields } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import {
@@ -15,24 +14,22 @@ const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
   const {
     register,
     watch,
-    control,
     trigger,
     formState: { errors },
     setValue,
   } = formContext;
 
-  const openVal = useWatch({ control, name: "openTime" });
-  const closeVal = useWatch({ control, name: "closeTime" });
-
-  useEffect(() => {
-    if (openVal) trigger("closeTime");
-  }, [openVal, trigger]);
-  useEffect(() => {
-    if (closeVal) trigger("openTime");
-  }, [closeVal, trigger]);
+  const res = getDiffTime(watch("closeTime"), watch("openTime"));
 
   const customValidateOpen = (val: string) => {
     const res = getDiffTime(val, watch("openTime"));
+    if (res > 0 && res < 4)
+      return "You must keep open at least 4 hours (part-time)";
+
+    return true;
+  };
+  const customValidateClose = (val: string) => {
+    const res = getDiffTime(watch("closeTime"), val);
     if (res > 0 && res < 4)
       return "You must keep open at least 4 hours (part-time)";
 
@@ -60,7 +57,9 @@ const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
                 field: el,
                 currVal: watch(el.field as any),
                 validateCb:
-                  el.field === "closeTime" ? customValidateOpen : undefined,
+                  el.field === "closeTime"
+                    ? customValidateOpen
+                    : customValidateClose,
                 setValue,
                 trigger,
                 formatTimeCB: formatTimeRangeHhMm,
@@ -70,7 +69,7 @@ const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
           </div>
         ))}
 
-        {errors?.openTime || errors?.closeTime ? (
+        {res > 0 && res < 4 ? (
           <span className="text-red-600 txt__01">
             {errors?.openTime?.message || errors?.closeTime?.message}
           </span>
