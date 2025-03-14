@@ -9,6 +9,7 @@ import {
 import { IoRestaurant } from "react-icons/io5";
 import { FaClock, FaDoorClosed, FaDoorOpen } from "react-icons/fa";
 import { CiDeliveryTruck } from "react-icons/ci";
+import { formatTimeHmMh } from "../../../utils/formatTime";
 
 export type FieldCheckboxSwapType = {
   id: string;
@@ -48,12 +49,12 @@ export const showMyRestaurantsOpenHoursFields = (...params) => [
   {
     id: genID(),
     icon: FaDoorOpen,
-    val: params[0],
+    val: formatTimeHmMh(params[0]),
   },
   {
     id: genID(),
     icon: FaDoorClosed,
-    val: params[1],
+    val: formatTimeHmMh(params[1]),
   },
 ];
 
