@@ -1,9 +1,9 @@
-import { ChevronDown } from "lucide-react";
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FieldQuerySortType } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
 import MoreSearch from "./components/MoreSearch";
 import CatQuery from "./components/CatQuery";
+import DropHandler from "../DropHandler";
 
 type PropsType = {
   searchFields: FieldQuerySortType[];
@@ -20,20 +20,14 @@ const MoreQueries: FC<PropsType> = ({
 
   return (
     <div className="w-full grid grid-cols-1 gap-3">
-      <div
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full border-b-[3px] pb-1 flex justify-between border-orange-500 group cursor-pointer"
-      >
-        <span className="txt__02 group-hover:text-orange-500 el__flow">
-          More queries 🤔 ?
-        </span>
-
-        <ChevronDown
-          className={`w-[35px] h-[35px] group-hover:text-orange-500 el__flow ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
-      </div>
+      <DropHandler
+        {...{
+          txt: "More queries 🤔?",
+          isOpen,
+          setIsOpen,
+          customStyle: "pb-1 border-b-[3px] border-orange-500",
+        }}
+      />
 
       <div
         className={`w-full grid grid-cols-1 transition-all duration-300 gap-2 ${

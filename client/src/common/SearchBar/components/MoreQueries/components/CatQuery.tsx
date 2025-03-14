@@ -2,8 +2,8 @@
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FieldQuerySortType } from "../../../../../config/fieldsArr/MyRestaurants/filterSort";
-import { ChevronDown } from "lucide-react";
 import CatElement from "../../../../../components/inputFields/CatElement";
+import DropHandler from "../../DropHandler";
 
 type PropsType = {
   catFields: FieldQuerySortType[];
@@ -16,20 +16,7 @@ const CatQuery: FC<PropsType> = ({ formContext, catFields }) => {
 
   return (
     <div className="w-full grid grid-cols-1">
-      <div
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between group cursor-pointer"
-      >
-        <span className="txt__02 group-hover:text-orange-500 el__flow">
-          Search by Category
-        </span>
-
-        <ChevronDown
-          className={`w-[35px] h-[35px] group-hover:text-orange-500 el__flow ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
-      </div>
+      <DropHandler {...{ isOpen, setIsOpen, txt: "Search by category" }} />
 
       <div
         className={`w-full grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 transition-all duration-300 ${

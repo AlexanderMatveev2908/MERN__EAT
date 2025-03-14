@@ -28,7 +28,7 @@ const ShowImgToUpload: FC<PropsType> = ({ img, trigger, images, setValue }) => {
           ? handleRemoveExistingFile
           : handleRemoveExistingImgUploaded
       }
-      className="min-w-[100px] max-w-[100px] sm:min-w-[200px] sm:max-w-[200px] h-[100px] sm:h-[200px] snap-center relative group cursor-pointer"
+      className="min-w-[150px] max-w-[150px] h-[150px] sm:min-w-[200px] sm:max-w-[200px] sm:h-[200px] rounded-xl snap-center relative group cursor-pointer"
     >
       {img && (
         <img

@@ -129,13 +129,4 @@ export const myRestAdminNumericFieldsArr = [
   { field: "maxRating", label: "Max rating" },
   { field: "minPriceRange", label: "Min price" },
   { field: "maxPriceRange", label: "Max price" },
-  { field: "limit", label: "Limit per page" },
 ];
-
-export const myRestAdminNumericFields = myRestAdminNumericFieldsArr.map(
-  (el) => ({
-    ...el,
-    id: genID(),
-    place: `${el.label}...`,
-  })
-);
