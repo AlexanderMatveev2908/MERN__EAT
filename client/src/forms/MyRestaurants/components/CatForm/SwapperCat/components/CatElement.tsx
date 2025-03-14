@@ -15,7 +15,7 @@ const CatElement: FC<PropsType> = ({ field, register, valsChosen }) => {
 
   return (
     <label
-      className={`w-full flex items-center border-2 rounded-xl py-2 transition-all duration-300 cursor-pointer ${
+      className={`w-full flex items-center border-2 rounded-xl py-2 el__flow cursor-pointer ${
         isIn ? "scale-105 border-orange-500" : "border-[#222]"
       }`}
     >
@@ -34,7 +34,7 @@ const CatElement: FC<PropsType> = ({ field, register, valsChosen }) => {
       />
 
       <span
-        className={`txt__01 w-full flex justify-center break-all transition-all duration-300 ${
+        className={`txt__01 w-full flex justify-center break-all el__flow ${
           isIn ? "text-orange-500" : ""
         }`}
       >

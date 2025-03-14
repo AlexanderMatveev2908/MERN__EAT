@@ -39,9 +39,9 @@ const ShowImgToUpload: FC<PropsType> = ({ img, trigger, images, setValue }) => {
           alt=""
         />
       )}
-      <div className="absolute inset-0 bg-black/70 opacity-0 transition-all duration-300 group-hover:opacity-100"></div>
+      <div className="absolute inset-0 bg-black/70 opacity-0 el__flow group-hover:opacity-100"></div>
 
-      <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full flex justify-center items-center z-20 gap-4 transition-all duration-300 opacity-0 pointer-events-none group-hover:pointer-events-auto group-hover:opacity-100  group-hover:scale-120">
+      <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full flex justify-center items-center z-20 gap-4 el__flow opacity-0 pointer-events-none group-hover:pointer-events-auto group-hover:opacity-100  group-hover:scale-120">
         <Trash2 className="w-[30px] h-[30px] text-red-600" />
 
         <span className="txt__01 text-red-600">Remove</span>

@@ -6,6 +6,7 @@ import { deleteAccountAPI } from "./../../../../../../../../api/user";
 import { useNavigate } from "react-router-dom";
 import { handleErrManageUserType } from "./../../../../../useManageAccount";
 import { usePopup, useUser } from "./../../../../../../../../hooks/useGlobal";
+import { PopupPayloadSetter } from "../../../../../../../../types/popup";
 
 export const useDeleteAccountBtn = ({
   showToastMsg,
@@ -23,7 +24,7 @@ export const useDeleteAccountBtn = ({
   const { mutate, isPending } = useMutation({
     mutationFn: (manageAccountToken: string) => {
       setIsChildLoading(true);
-      setPopup({ ...(popup as any), isPending: true });
+      setPopup({ ...(popup as PopupPayloadSetter), isPending: true });
 
       return deleteAccountAPI(manageAccountToken);
     },
@@ -48,7 +49,6 @@ export const useDeleteAccountBtn = ({
   const handleSubmitDeleteAccount = () => {
     setPopup({
       txt: "delete your account?",
-      greenLabel: "I change Idea",
       redLabel: "Delete account",
       isPending,
       confirmAction: handleDeleteAccount,

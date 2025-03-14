@@ -66,8 +66,8 @@ export const getMyRestaurants = async (
 
   return res.status(200).json({
     success: true,
-    restaurants: restaurantsArr[0].paginatedRes,
-    totRestaurants: restaurantsArr[0].totCount[0].count,
+    restaurants: restaurantsArr[0]?.paginatedRes,
+    totRestaurants: restaurantsArr[0]?.totCount[0]?.count,
   });
 };
 

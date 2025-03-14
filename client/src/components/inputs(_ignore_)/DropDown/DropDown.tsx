@@ -18,7 +18,7 @@ const DropDown: FC<PropsType> = ({ isAbsolute = true }) => {
     >
       <div
         tabIndex={1}
-        className={`w-full flex flex-col border-2 border-orange-500 bg-[#111] rounded-xl transition-all duration-300 ${
+        className={`w-full flex flex-col border-2 border-orange-500 bg-[#111] rounded-xl el__flow ${
           isAbsolute ? "absolute" : ""
         } ${isDropOpen ? "focus__base" : ""}`}
       >
@@ -29,21 +29,21 @@ const DropDown: FC<PropsType> = ({ isAbsolute = true }) => {
             isDropOpen ? "border-b-2 border-orange-500" : ""
           }`}
         >
-          <span className="txt__02 group-hover:text-orange-500 transition-all duration-300">
+          <span className="txt__02 group-hover:text-orange-500 el__flow">
             Select Something
           </span>
 
-          <span className="w-fit flex justify-center items-center transition-all duration-300">
+          <span className="w-fit flex justify-center items-center el__flow">
             <ChevronDown
               className={`${
                 isDropOpen ? "rotate-180" : ""
-              } w-[40px] h-[40px] transition-all duration-300  group-hover:text-orange-500`}
+              } w-[40px] h-[40px] el__flow  group-hover:text-orange-500`}
             />
           </span>
         </div>
 
         <ul
-          className={`w-full flex flex-col transition-all duration-300 ${
+          className={`w-full flex flex-col el__flow ${
             isDropOpen ? "max-h-[500px] pb-3" : "max-h-0"
           }`}
         >

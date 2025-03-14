@@ -6,7 +6,13 @@ import { usePopup } from "../../hooks/useGlobal";
 const Popup: FC = () => {
   const { setPopup, popup } = usePopup();
 
-  const { txt, greenLabel, redLabel, confirmAction, isPending } = popup ?? {};
+  const {
+    txt,
+    greenLabel = "I change idea",
+    redLabel,
+    confirmAction,
+    isPending,
+  } = popup ?? {};
 
   return (
     <div

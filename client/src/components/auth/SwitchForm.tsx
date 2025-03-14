@@ -32,7 +32,7 @@ const SwitchForm: FC<PropsType> = ({ type }) => {
             field.type === type && (
               <Fragment key={field.id}>
                 <field.svg className="svg__switch_form" />{" "}
-                <span className="transition-all duration-300 group-hover:text-orange-500 txt__00">
+                <span className="el__flow group-hover:text-orange-500 txt__00">
                   {field.label}
                 </span>
               </Fragment>
@@ -49,7 +49,7 @@ const SwitchForm: FC<PropsType> = ({ type }) => {
             field.type === type && (
               <Fragment key={field.id}>
                 <field.svg className="svg__switch_form" />
-                <span className="transition-all duration-300 group-hover:text-orange-500 txt__00">
+                <span className="el__flow group-hover:text-orange-500 txt__00">
                   {field.label}
                 </span>
               </Fragment>

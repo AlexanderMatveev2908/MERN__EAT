@@ -40,3 +40,9 @@ export const updateRestaurantAPI = async ({
 
   return data;
 };
+
+export const deleteRestaurantAPI = async (id: string) => {
+  const { data } = await foodAppInstance.delete(`/my-restaurants/${id}`);
+
+  return data;
+};

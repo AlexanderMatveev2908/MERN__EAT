@@ -28,7 +28,11 @@ export const validateFiles = (
 
 export const validateImagesUploaded = [
   check("restaurantImages").custom((val, { req }) => {
-    if (!JSON.parse(req.body.restaurantImages ?? "[]")?.length && !req.files)
+    const imagesUploaded = JSON.parse(req.body.restaurantImages ?? "[]");
+    if (
+      (!imagesUploaded?.length || !Array.isArray(imagesUploaded)) &&
+      !req.files
+    )
       throw new Error("No images uploaded");
 
     return true;

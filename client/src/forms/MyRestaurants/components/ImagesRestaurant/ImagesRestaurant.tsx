@@ -30,7 +30,7 @@ const ImagesRestaurant: FC<PropsType> = ({ formContext }) => {
       </span>
 
       <div
-        className={`w-full flex flex-row overflow-x-auto snap-x snap-mandatory gap-5 sm:gap-10 hide_scrollbar border-[3px] rounded-xl transition-all duration-300 ${
+        className={`w-full flex flex-row overflow-x-auto snap-x snap-mandatory gap-5 sm:gap-10 hide_scrollbar border-[3px] rounded-xl el__flow ${
           watch("images")?.length
             ? "max-h-[500px] p-5 sm:p-8 border-orange-500 "
             : "max-h-0 border-transparent"

@@ -40,21 +40,21 @@ const DropDownHeader: FC<PropsType> = ({ isLogged, children }) => {
         onClick={toggleDrop}
         className={`txt__01 ${
           isLogged
-            ? "transition-all duration-300 hover:text-orange-500 hover:scale-120 border-2 py-1 px-2 rounded-xl"
+            ? "el__flow hover:text-orange-500 hover:scale-120 border-2 py-1 px-2 rounded-xl"
             : ""
         }`}
       >
         {isLogged ? (
           sessionStorage.getItem("initName") ?? ""
         ) : (
-          <User className="w-[37.5px] h-[37.5px] transition-all duration-300 hover:text-orange-500 hover:scale-120" />
+          <User className="w-[37.5px] h-[37.5px] el__flow hover:text-orange-500 hover:scale-120" />
         )}
       </div>
 
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`absolute border-2 border-orange-500 bg-[#111] -top-full -right-full h-fit w-fit rounded-xl z-10 transition-all duration-300  ${
+        className={`absolute border-2 border-orange-500 bg-[#111] -top-full -right-full h-fit w-fit rounded-xl z-10 el__flow  ${
           dropOpen
             ? "translate-y-[40%] opacity-100"
             : "opacity-0 translate-y-0 pointer-events-none"
@@ -72,9 +72,7 @@ const DropDownHeader: FC<PropsType> = ({ isLogged, children }) => {
               }`}
             >
               <el.svg className="svg__drop" />
-              <span className="txt__02 transition-all duration-300">
-                {el.label}
-              </span>
+              <span className="txt__02 el__flow">{el.label}</span>
             </button>
           ))}
 

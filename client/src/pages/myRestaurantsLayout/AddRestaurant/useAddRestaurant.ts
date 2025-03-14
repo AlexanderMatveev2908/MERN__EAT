@@ -8,8 +8,11 @@ import { createRestaurantAPI } from "../../../api/myRestaurants";
 import { useToast } from "../../../hooks/useGlobal";
 import { useHandleErr } from "../../../hooks/useHandleErr";
 import { defaultValuesMyRest } from "../../../config/onlyDev/defVals";
+import { useNavigate } from "react-router-dom";
 
 export const useAddRestaurant = () => {
+  const navigate = useNavigate();
+
   const { showToastMsg } = useToast();
   const { handleErrAPI } = useHandleErr();
 
@@ -31,6 +34,7 @@ export const useAddRestaurant = () => {
     mutationFn: (formData: FormData) => createRestaurantAPI(formData),
     onSuccess: () => {
       showToastMsg("Restaurant created successfully", "SUCCESS");
+      navigate("/my-restaurants");
     },
     onError: (err) => {
       handleErrAPI({ err });
