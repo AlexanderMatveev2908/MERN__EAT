@@ -3,15 +3,19 @@ import { verifyAccessToken } from "../middleware/general/verifyAccessToken.js";
 import { uploadMyRestaurants } from "../middleware/myRestaurants/multer.js";
 import {
   validateFiles,
+  validateImagesUploaded,
   validatorMyRestaurants,
 } from "../middleware/myRestaurants/validatorMyRestaurants.js";
 import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
 import {
-  createRestaurant,
   getMyRestaurants,
   getMySingleRestaurant,
-} from "../controllers/myRestaurantsControllers.js";
+} from "../controllers/myRestaurants/getRest.js";
 import { validatorMySingleRest } from "../middleware/myRestaurants/validatorMySingleRest.js";
+import {
+  createRestaurant,
+  updateMyRestaurant,
+} from "../controllers/myRestaurants/makeUpdateDelete.js";
 
 const router = express();
 
@@ -32,5 +36,15 @@ router.get(
   validatorMySingleRest,
   asyncWrapper(getMySingleRestaurant)
 );
+
+router
+  .route("/:restId")
+  .patch(
+    verifyAccessToken,
+    uploadMyRestaurants,
+    validatorMyRestaurants,
+    validateImagesUploaded,
+    asyncWrapper(updateMyRestaurant)
+  );
 
 export default router;

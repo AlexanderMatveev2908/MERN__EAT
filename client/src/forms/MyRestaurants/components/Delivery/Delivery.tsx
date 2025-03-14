@@ -3,6 +3,7 @@ import { MdDeliveryDining } from "react-icons/md";
 import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
 import { myRestaurantsDeliveryFields } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import FormFieldNoIcon from "../../../../components/InputFields/FormFieldNoIcon";
+import { reverseFormaTimeHhMm } from "../../../../utils/formatTime";
 
 const Delivery: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
   const {
@@ -19,7 +20,11 @@ const Delivery: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
   }, [chargeDelivery, trigger]);
 
   const customValidateDeliveryTime = (val: string) => {
-    const diff = +watch("closeTime") - +watch("openTime");
+    const diff =
+      reverseFormaTimeHhMm(watch("closeTime")) -
+      reverseFormaTimeHhMm(watch("openTime"));
+
+    console.log(diff);
 
     return diff > 0 && diff < +val
       ? "Delivery time can not take more than your business activity"

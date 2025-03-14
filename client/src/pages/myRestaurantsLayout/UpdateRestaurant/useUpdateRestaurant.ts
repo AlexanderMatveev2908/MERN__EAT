@@ -4,11 +4,16 @@ import { useHandleErr } from "../../../hooks/useHandleErr";
 import { useScrollTop } from "../../../hooks/useScrollTop";
 import { MyRestaurantsAddUpdateFormType } from "../../../types/myRestaurants";
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getInfoRestaurantAPI } from "../../../api/myRestaurants";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  getInfoRestaurantAPI,
+  updateRestaurantAPI,
+} from "../../../api/myRestaurants";
 import { useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../config/constants/regex";
 import { formatTimeHmMh } from "../../../utils/formatTime";
+import { useToast } from "../../../hooks/useGlobal";
+import { prepareFormData } from "../../../utils/prepareFormDataRestaurants";
 
 export const useUpdateRestaurant = () => {
   const { restId } = useParams();
@@ -18,6 +23,7 @@ export const useUpdateRestaurant = () => {
   useScrollTop();
 
   const { handleErrAPI } = useHandleErr();
+  const { showToastMsg } = useToast();
 
   const formContext = useForm<MyRestaurantsAddUpdateFormType>({
     mode: "onChange",
@@ -74,5 +80,27 @@ export const useUpdateRestaurant = () => {
     formContext,
   ]);
 
-  return { formContext, canStay, isPendingInfo };
+  const { mutate, isPending: isPendingUpdate } = useMutation({
+    mutationFn: ({ id, formData }: { id: string; formData: FormData }) =>
+      updateRestaurantAPI({ id, formData }),
+    onSuccess: () => {
+      showToastMsg("Restaurant updated", "SUCCESS");
+    },
+    onError: (err: any) => {
+      handleErrAPI({ err });
+    },
+  });
+
+  const handleSave = formContext.handleSubmit(
+    (data: MyRestaurantsAddUpdateFormType) => {
+      const formData = prepareFormData(data);
+      for (const [key, val] of prepareFormData(data).entries()) {
+        console.log(key, val);
+      }
+
+      mutate({ id: restId ?? "", formData });
+    }
+  );
+
+  return { formContext, canStay, isPendingInfo, handleSave, isPendingUpdate };
 };

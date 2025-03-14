@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, check } from "express-validator";
 import {
   REG_CITY,
   REG_COUNTRY,
@@ -26,6 +26,16 @@ export const validateFiles = (
   return next();
 };
 
+export const validateImagesUploaded = [
+  check("images").custom((val, { req }) => {
+    if (!val?.length && !req.files) throw new Error("No images uploaded");
+
+    return true;
+  }),
+
+  handleValidator(400),
+];
+
 export const validatorMyRestaurants = [
   body("name").matches(REG_RESTAURANT_NAME).withMessage("Invalid name format"),
 
@@ -48,11 +58,25 @@ export const validatorMyRestaurants = [
   body("openTime")
     .toInt()
     .isInt({ min: 0, max: 1439 })
-    .withMessage("Invalid open time format"),
+    .withMessage("Invalid open time format")
+    .custom((val, { req }) => {
+      const diff = (+req.body.closeTime - val) / 60;
+
+      if (diff > 0 && diff < 4) throw new Error("Invalid close time");
+
+      return true;
+    }),
   body("closeTime")
     .toInt()
     .isInt({ min: 0, max: 1439 })
-    .withMessage("Invalid close time format"),
+    .withMessage("Invalid close time format")
+    .custom((val, { req }) => {
+      const diff = (val - +req.body.openTime) / 60;
+
+      if (diff > 0 && diff < 4) throw new Error("Invalid open time");
+
+      return true;
+    }),
 
   body("categories")
     .isArray({ min: 1, max: 3 })

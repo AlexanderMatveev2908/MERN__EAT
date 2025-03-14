@@ -159,7 +159,7 @@ export const myRestaurantsDeliveryFields = [
     type: "number",
     field: "estTimeDelivery",
     label: "Delivery time",
-    msg: "Estimated delivery time must be a decimal number not bigger than time while restaurant is open",
+    msg: "Invalid format, write delivery time in minutes (e.g 20)",
     required: true,
     place: "Delivery time...",
     reg: REG_EST_TIME,
