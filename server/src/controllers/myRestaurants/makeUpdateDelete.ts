@@ -28,6 +28,7 @@ export const createRestaurant = async (
 
   const newRestaurant = await Restaurant.create({
     ...formatMyRestaurantsBody(req, user.email, user.address?.phone),
+    owner: userId,
     images: arrImages,
   });
 
@@ -38,10 +39,8 @@ export const updateMyRestaurant = async (
   req: RequestWithUserId,
   res: Response
 ): Promise<any> => {
-  const result = await checkUserProperty(req, res);
-  if (!result) return;
-
-  const { user, restaurant } = result;
+  const { user, restaurant } = await checkUserProperty(req, res);
+  if ([user, restaurant].some((el) => !el)) return;
 
   if (!req.body?.phone && !user.address?.phone)
     return baseErrResponse(
@@ -52,7 +51,7 @@ export const updateMyRestaurant = async (
 
   let updatedImages;
 
-  if (!req.body?.images?.length) {
+  if (!JSON.parse(req.body?.restaurantImages ?? "[]")?.length) {
     const promises = restaurant.images.map(
       async (img: ImageType) => await deleteCloud(img.public_id)
     );
@@ -61,9 +60,9 @@ export const updateMyRestaurant = async (
 
     updatedImages = await uploadCloud(req.files as Express.Multer.File[]);
   } else {
-    const reqIds = new Set(
-      req.body.images.map((el: ImageType) => el.public_id)
-    );
+    const parsedImgs = JSON.parse(req.body.restaurantImages);
+
+    const reqIds = new Set(parsedImgs.map((el: ImageType) => el.public_id));
 
     const deletedImages = restaurant.images.filter(
       (img: ImageType) => !reqIds.has(img.public_id)
@@ -73,10 +72,19 @@ export const updateMyRestaurant = async (
       async (img: ImageType) => await deleteCloud(img.public_id)
     );
 
-    const result = await Promise.all(promises);
+    await Promise.all(promises);
 
-    updatedImages = req.body.images;
+    updatedImages = parsedImgs;
   }
 
-  return res.status(200).json({ msg: "Restaurant updated", success: true });
+  restaurant.set({
+    ...formatMyRestaurantsBody(req, user.email, user.address?.phone),
+    images: updatedImages,
+  });
+
+  await restaurant.save();
+
+  return res
+    .status(200)
+    .json({ msg: "Restaurant updated", success: true, restId: restaurant._id });
 };

@@ -1,7 +1,7 @@
 import { v2 } from "cloudinary";
 
 export const uploadCloud = (files: any): Promise<any> => {
-  const promises = files?.restaurantsImages.map(async (file: any) => {
+  const promises = files?.restaurantImages.map(async (file: any) => {
     const b64 = file.buffer.toString("base64");
     const dataURI = "data:" + file.mimetype + ";base64," + b64;
 

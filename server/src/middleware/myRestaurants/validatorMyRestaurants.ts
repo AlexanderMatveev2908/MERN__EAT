@@ -27,8 +27,9 @@ export const validateFiles = (
 };
 
 export const validateImagesUploaded = [
-  check("images").custom((val, { req }) => {
-    if (!val?.length && !req.files) throw new Error("No images uploaded");
+  check("restaurantImages").custom((val, { req }) => {
+    if (!JSON.parse(req.body.restaurantImages ?? "[]")?.length && !req.files)
+      throw new Error("No images uploaded");
 
     return true;
   }),
