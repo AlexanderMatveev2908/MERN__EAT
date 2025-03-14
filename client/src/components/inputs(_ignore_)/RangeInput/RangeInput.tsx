@@ -21,7 +21,7 @@ const RangeInput: FC<PropsType> = () => {
     <div
       ref={rangeRef}
       tabIndex={0}
-      className="w-full transition-all duration-300 input_range_container focus__base flex border-2 border-orange-500 rounded-xl"
+      className="w-full el__flow input_range_container focus__base flex border-2 border-orange-500 rounded-xl"
     >
       <div className="input_range_container__field relative w-full p-5 grid-cols-3 grid md:grid-cols-[75px_1fr_75px] items-center">
         <span className="justify-self-start">0</span>

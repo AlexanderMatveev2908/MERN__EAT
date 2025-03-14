@@ -24,18 +24,18 @@ const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between border-b-2 border-orange-500 group cursor-pointer items-center px-3 py-1"
       >
-        <span className="txt__02 transition-all duration-300 group-hover:text-orange-500">
+        <span className="txt__02 el__flow group-hover:text-orange-500">
           Details
         </span>
 
         <ChevronDown
-          className={`min-w-[40px] min-h-[40px] transition-all duration-300 group-hover:text-orange-500 ${
+          className={`min-w-[40px] min-h-[40px] el__flow group-hover:text-orange-500 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
       </div>
       <div
-        className={`w-full transition-all duration-300 grid grid-cols-1 gap-1 ${
+        className={`w-full el__flow grid grid-cols-1 gap-1 ${
           isOpen
             ? "opacity-100 max-h-[500px] pointer-events-auto"
             : "opacity-0 max-h-0 pointer-events-none"
@@ -60,7 +60,7 @@ const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
           ).map((el, i) => (
             <li
               key={i}
-              className="px-3 transition-all duration-300 truncate pointer-events-none cursor-pointer flex items-center gap-3"
+              className="px-3 el__flow truncate pointer-events-none cursor-pointer flex items-center gap-3"
             >
               <el.icon className="w-[25px] h-[25px]" />
 
@@ -75,7 +75,7 @@ const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
               el.label === "Free meal" && !el.val ? null : (
                 <li
                   key={i}
-                  className="px-3 transition-all duration-300 truncate pointer-events-none cursor-pointer grid grid-cols-[125px_1fr]"
+                  className="px-3 el__flow truncate pointer-events-none cursor-pointer grid grid-cols-[125px_1fr]"
                 >
                   <span className="txt__01">{el.label}</span>
 

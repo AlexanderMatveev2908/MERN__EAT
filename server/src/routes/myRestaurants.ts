@@ -10,10 +10,11 @@ import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
 import {
   getMyRestaurants,
   getMySingleRestaurant,
-} from "../controllers/myRestaurants/getRest.js";
+} from "../controllers/myRestaurants/get.js";
 import { validatorMySingleRest } from "../middleware/myRestaurants/validatorMySingleRest.js";
 import {
   createRestaurant,
+  deleteRestaurant,
   updateMyRestaurant,
 } from "../controllers/myRestaurants/makeUpdateDelete.js";
 
@@ -41,10 +42,16 @@ router
   .route("/:restId")
   .patch(
     verifyAccessToken,
+    validatorMySingleRest,
     uploadMyRestaurants,
     validatorMyRestaurants,
     validateImagesUploaded,
     asyncWrapper(updateMyRestaurant)
+  )
+  .delete(
+    verifyAccessToken,
+    validatorMySingleRest,
+    asyncWrapper(deleteRestaurant)
   );
 
 export default router;

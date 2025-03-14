@@ -30,7 +30,7 @@ const DropEl: FC<PropsType> = ({ el, children }) => {
   };
 
   return (
-    <div className="w-full grid grid-cols-1 transition-all duration-300 relative px-3">
+    <div className="w-full grid grid-cols-1 el__flow relative px-3">
       <div
         onClick={() => {
           setIsOpen(!isOpen);
@@ -38,14 +38,14 @@ const DropEl: FC<PropsType> = ({ el, children }) => {
         }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`w-full flex justify-between items-center py-1 group cursor-pointer transition-all duration-300`}
+        className={`w-full flex justify-between items-center py-1 group cursor-pointer el__flow`}
       >
-        <div className=" transition-all duration-300 group-hover:text-orange-500 flex gap-3 items-center">
+        <div className=" el__flow group-hover:text-orange-500 flex gap-3 items-center">
           <el.icon className="w-[25px] h-[25px]" />
           <span className="txt__01">{el.label}</span>
         </div>
         <ChevronUp
-          className={`w-[35px] h-[35px] transition-all duration-300 group-hover:text-orange-500 ${
+          className={`w-[35px] h-[35px] el__flow group-hover:text-orange-500 ${
             hasBeenClicked || isOpen ? "rotate-180" : ""
           }`}
         />
@@ -68,7 +68,7 @@ const DropEl: FC<PropsType> = ({ el, children }) => {
           el?.vals?.map((val: string | number, i) => (
             <li
               key={i}
-              className="px-3 transition-all duration-300 truncate pointer-events-none cursor-pointer"
+              className="px-3 el__flow truncate pointer-events-none cursor-pointer"
             >
               <span className="txt__01">{val}</span>
             </li>

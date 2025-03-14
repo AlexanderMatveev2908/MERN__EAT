@@ -6,17 +6,20 @@ import { MyRestaurantsAddUpdateFormType } from "../../../types/myRestaurants";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
+  deleteRestaurantAPI,
   getInfoRestaurantAPI,
   updateRestaurantAPI,
 } from "../../../api/myRestaurants";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../config/constants/regex";
 import { formatTimeHmMh } from "../../../utils/formatTime";
-import { useToast } from "../../../hooks/useGlobal";
+import { usePopup, useToast } from "../../../hooks/useGlobal";
 import { prepareFormData } from "../../../utils/prepareFormDataRestaurants";
+import { PopupPayloadSetter } from "../../../types/popup";
 
 export const useUpdateRestaurant = () => {
   const { restId } = useParams();
+  const navigate = useNavigate();
 
   const canStay = REG_MONGO.test(restId ?? "");
 
@@ -24,6 +27,7 @@ export const useUpdateRestaurant = () => {
 
   const { handleErrAPI } = useHandleErr();
   const { showToastMsg } = useToast();
+  const { setPopup, popup } = usePopup();
 
   const formContext = useForm<MyRestaurantsAddUpdateFormType>({
     mode: "onChange",
@@ -46,8 +50,9 @@ export const useUpdateRestaurant = () => {
   });
 
   useEffect(() => {
-    if (isErrorInfo) handleErrAPI({ err: errorInfo });
-    if (isSuccessInfo) {
+    if (isErrorInfo) {
+      handleErrAPI({ err: errorInfo, push: true });
+    } else if (isSuccessInfo) {
       const { restaurant } = dataInfo ?? {};
 
       formContext.setValue("name", restaurant?.name ?? "");
@@ -102,5 +107,42 @@ export const useUpdateRestaurant = () => {
     }
   );
 
-  return { formContext, canStay, isPendingInfo, handleSave, isPendingUpdate };
+  const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
+    mutationFn: () => {
+      setPopup({ ...(popup as PopupPayloadSetter), isPending: true });
+
+      return deleteRestaurantAPI(restId ?? "");
+    },
+    onSuccess: () => {
+      showToastMsg("Restaurant deleted", "SUCCESS");
+      navigate("/my-restaurants", { replace: true });
+    },
+    onError: (err: any) => {
+      handleErrAPI({ err });
+    },
+    onSettled: () => setPopup(null),
+  });
+
+  const handleDelete = () => {
+    mutateDelete();
+  };
+
+  const handleClickToOpenPopup = () => {
+    setPopup({
+      txt: "delete this restaurant?",
+      redLabel: "Delete account",
+      isPending: isPendingDelete,
+      confirmAction: handleDelete,
+    });
+  };
+
+  return {
+    formContext,
+    canStay,
+    isPendingInfo,
+    handleSave,
+    isPendingUpdate,
+    isPendingDelete,
+    handleClickToOpenPopup,
+  };
 };

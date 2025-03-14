@@ -1,17 +1,17 @@
 /* BASIC BTN */
 .btn__with_shadow_container,
 .btn__with_shadow_container__shadow {
-  @apply transition-all duration-300;
+  @apply el__flow;
 }
 .btn__with_shadow_container {
   @apply relative min-w-full w-fit h-fit cursor-pointer disabled:opacity-50;
 }
 .btn__with_shadow_container__content,
 .btn__with_shadow_container__shadow {
-  @apply min-w-full min-h-full border-2 rounded-xl transition-all duration-300;
+  @apply min-w-full min-h-full border-2 rounded-xl el__flow;
 }
 .btn__with_shadow_container__content {
-  @apply z-10 flex justify-center items-center bg-[#111]  px-5 sm:px-5 py-1 sm:py-2 transition-all duration-300;
+  @apply z-10 flex justify-center items-center bg-[#111]  px-5 sm:px-5 py-1 sm:py-2 el__flow;
 }
 .btn__with_shadow_container__shadow {
   @apply -z-10 bg-[#111] absolute top-0 left-0;
@@ -37,7 +37,7 @@
 
 .content__btn,
 .btn_container__shadow {
-  @apply px-10 py-2 rounded-full transition-all duration-300 
+  @apply px-10 py-2 rounded-full el__flow 
   bg-neutral-950 relative overflow-hidden;
 }
 .content__btn::after {
@@ -54,7 +54,7 @@
 .btn__ref_1,
 .btn__ref_2 {
   @apply min-h-[500%] absolute rotate-[30deg] 
-  -top-1/2 transition-all duration-300 bg-white;
+  -top-1/2 el__flow bg-white;
 }
 .btn__ref_1 {
   @apply -left-full w-[10%];
@@ -75,7 +75,7 @@
 }
 
 .btn_container__shadow {
-  @apply absolute min-w-full min-h-full top-0 left-0 -z-10 transition-all duration-300;
+  @apply absolute min-w-full min-h-full top-0 left-0 -z-10 el__flow;
 }
 
 /* svg */
@@ -85,7 +85,7 @@
 .btn_container__svg_4,
 .btn_container__svg_5,
 .btn_container__svg_6 {
-  @apply absolute pointer-events-none transition-all duration-300 text-orange-500 z-50 scale-0 opacity-50;
+  @apply absolute pointer-events-none el__flow text-orange-500 z-50 scale-0 opacity-50;
 }
 .btn_container__svg_1 {
   @apply w-[20px] h-[20px] -top-[50%] -left-[10%];

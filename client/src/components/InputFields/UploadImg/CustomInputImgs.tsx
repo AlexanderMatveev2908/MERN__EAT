@@ -35,7 +35,7 @@ const CustomInputImgs: FC<PropsType> = ({ register, watch }) => {
               e?.currentTarget?.previousElementSibling as HTMLInputElement
             )?.click();
           }}
-          className="w-full flex items-center gap-3 group transition-all duration-300 hover:scale-110 hover:text-orange-500 pl-5 pr-14 py-2 border-[3px] border-orange-500 rounded-xl cursor-pointer justify-self-start"
+          className="w-full flex items-center gap-3 group el__flow hover:scale-110 hover:text-orange-500 pl-5 pr-14 py-2 border-[3px] border-orange-500 rounded-xl cursor-pointer justify-self-start"
         >
           <FaCloudUploadAlt className="h-[35px] w-[35px]" />
 

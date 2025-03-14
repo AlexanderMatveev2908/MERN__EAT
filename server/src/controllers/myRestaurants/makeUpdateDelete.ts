@@ -60,7 +60,7 @@ export const updateMyRestaurant = async (
 
     updatedImages = await uploadCloud(req.files as Express.Multer.File[]);
   } else {
-    const parsedImgs = JSON.parse(req.body.restaurantImages);
+    const parsedImgs = JSON.parse(req.body.restaurantImages ?? "[]");
 
     const reqIds = new Set(parsedImgs.map((el: ImageType) => el.public_id));
 
@@ -87,4 +87,22 @@ export const updateMyRestaurant = async (
   return res
     .status(200)
     .json({ msg: "Restaurant updated", success: true, restId: restaurant._id });
+};
+
+export const deleteRestaurant = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { user, restaurant } = await checkUserProperty(req, res);
+  if ([user, restaurant].some((el) => !el)) return;
+
+  const promises = restaurant.images.map(
+    async (img: ImageType) => await deleteCloud(img.public_id)
+  );
+
+  await Promise.all(promises);
+
+  await restaurant.deleteOne();
+
+  return res.status(200).json({ msg: "Restaurant deleted", success: true });
 };

@@ -19,7 +19,7 @@ const Footer: FC = () => {
             <div key={field.id} className="w-full flex flex-col items-start">
               <Link
                 to={field.path}
-                className="el__after_below txt__02 transition-all duration-300 hover:text-orange-500 opacity-50"
+                className="el__after_below txt__02 el__flow hover:text-orange-500 opacity-50"
               >
                 {field.label}
               </Link>
@@ -33,7 +33,7 @@ const Footer: FC = () => {
           <li key={field.id}>
             <a
               href={field.url}
-              className="grid max-w-fit grid-cols-[40px_1fr] items-end transition-all duration-300 el__after_below hover:text-orange-500"
+              className="grid max-w-fit grid-cols-[40px_1fr] items-end el__flow el__after_below hover:text-orange-500"
             >
               <field.svg className="w-[30px] h-[30px] " />
               <span className="txt__01">{field.label}</span>

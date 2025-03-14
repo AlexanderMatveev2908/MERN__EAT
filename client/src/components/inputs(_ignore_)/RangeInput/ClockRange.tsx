@@ -40,7 +40,7 @@
 //   }, [isFakeFocus, currVal]);
 
 //   return (
-//     <div className="w-full transition-all duration-300 focus__base flex border-2 border-orange-500 rounded-xl">
+//     <div className="w-full el__flow focus__base flex border-2 border-orange-500 rounded-xl">
 //       <div className="relative w-full p-5 grid grid-cols-1">
 //         <div className="w-full relative">
 //           <div

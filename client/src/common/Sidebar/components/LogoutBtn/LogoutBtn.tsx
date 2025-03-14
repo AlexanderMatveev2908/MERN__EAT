@@ -19,7 +19,7 @@ const LogoutBtn: FC<PropsType> = ({ handleLogout, isPending }) => {
     >
       <LogOut className="svg__sidebar" />
 
-      <span className="cursor-pointer txt__02 group-hover:text-orange-500 transition-all duration-300">
+      <span className="cursor-pointer txt__02 group-hover:text-orange-500 el__flow">
         Logout
       </span>
     </button>

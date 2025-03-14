@@ -16,7 +16,7 @@ const Toast: FC = () => {
   return (
     <div
       id="toast"
-      className={`top-5 right-5 fixed toast__i bg-[#111] rounded-xl text-[whitesmoke] min-w-3/4 sm:min-w-1/2 max-w-3/4 h-fit min-h-[75px] flex border-t-2 border-r-2 transition-all duration-300  ${
+      className={`top-5 right-5 fixed toast__i bg-[#111] rounded-xl text-[whitesmoke] min-w-3/4 sm:min-w-1/2 max-w-3/4 h-fit min-h-[75px] flex border-t-2 border-r-2 el__flow  ${
         type === "SUCCESS" ? "border-green-600" : "border-red-600"
       } 
       ${

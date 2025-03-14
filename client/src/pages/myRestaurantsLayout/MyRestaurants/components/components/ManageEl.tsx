@@ -23,7 +23,7 @@ const ManageEl: FC<PropsType> = ({ el }) => {
 
       <Link
         to="/"
-        className="txt__02 justify-self-end transition-all duration-300 cursor-pointer hover:text-orange-500 hover:scale-110 border-2 rounded-xl py-1 border-orange-500 w-full max-w-[120px] text-center"
+        className="txt__02 justify-self-end el__flow cursor-pointer hover:text-orange-500 hover:scale-110 border-2 rounded-xl py-1 border-orange-500 w-full max-w-[120px] text-center"
       >
         View
       </Link>

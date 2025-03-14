@@ -53,7 +53,7 @@ const Newsletter: FC = () => {
         <div className="w-full flex justify-start">
           <span
             onClick={handleRedirection}
-            className="txt__01 el__after_below cursor-pointer transition-all duration-300 hover:text-orange-500"
+            className="txt__01 el__after_below cursor-pointer el__flow hover:text-orange-500"
           >
             Send link to unsubscribe
           </span>
