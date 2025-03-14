@@ -18,7 +18,7 @@ const MyRestaurants: FC = () => {
           {...{ txt: "It seems you do not have any restaurants right now 🧐" }}
         />
       ) : (
-        <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center mt-8 gap-5 place-content-start items-start">
+        <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(325px,1fr))] justify-items-center mt-8 gap-5 place-content-start items-start">
           {restaurants?.map((rest) => (
             <RestaurantItem key={rest._id} {...{ rest }} />
           ))}
