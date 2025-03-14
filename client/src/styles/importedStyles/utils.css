@@ -1,0 +1,42 @@
+/* UTILS ELEMENTS  */
+
+.el__after_below {
+  @apply relative max-w-fit;
+}
+
+.el__after_below::after {
+  @apply absolute content-[""] -bottom-2 left-1/2 w-0 h-[3px] bg-orange-500 transition-all duration-300 -translate-x-1/2;
+}
+
+.el__after_below:hover::after {
+  @apply w-full;
+}
+
+.focus__base:focus,
+.focus__base:active {
+  @apply ring-2 ring-orange-400;
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
+}
+
+.el__sub_title_my_restaurants_form {
+  @apply w-full flex items-center gap-5 text-orange-500;
+}
+
+.el__flow {
+  @apply transition-all duration-300;
+}
+
+/* input */
+
+.input__base {
+  @apply w-full border-2 border-orange-500 rounded-full outline-none px-5 py-1 text-white transition-all duration-300;
+}
+.input__base:focus,
+.input__auth_field:focus {
+  @apply ring-2 ring-orange-400;
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
+}
+
+.input__auth_field {
+  @apply w-full border-2 border-orange-500 rounded-full outline-none px-5 pr-14 py-2 text-white transition-all duration-300;
+}

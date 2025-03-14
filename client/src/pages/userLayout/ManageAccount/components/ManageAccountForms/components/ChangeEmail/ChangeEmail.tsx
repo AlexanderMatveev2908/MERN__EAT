@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useChangeEmail } from "./useChangeEmail";
-import BaseFormField from "../../../../../../../components/InputFields/BaseFormField";
+import BaseFormField from "../../../../../../../components/inputFields/BaseFormField";
 import { changeEmailField } from "../../../../../../../config/fieldsArr/authFieldsUser";
 import { PropsForChildren } from "../../ManageAccountForms";
 import ButtonAnimated from "../../../../../../../components/buttons/ButtonAnimated";
