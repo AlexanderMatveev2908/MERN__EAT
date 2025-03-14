@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { useHandleErr } from "../../../hooks/useHandleErr";
 import { useScrollTop } from "../../../hooks/useScrollTop";
-import { MyRestaurantsAddUpdateFormType } from "../../../types/myRestaurants";
+import { MyRestaurantsAddUpdateFormType } from "../../../types/restAdmin";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {

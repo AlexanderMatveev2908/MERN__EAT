@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "./../../types/myRestaurants";
+import { MyRestaurantsAddUpdateFormType } from "../../types/restAdmin";
 import ContactForm from "./components/ContactForm/ContactForm";
 import OpenHours from "./components/OpenHours/OpenHours";
 import CatForm from "./components/CatForm/CatForm";

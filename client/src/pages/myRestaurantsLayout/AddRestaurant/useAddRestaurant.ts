@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "../../../types/myRestaurants";
+import { MyRestaurantsAddUpdateFormType } from "../../../types/restAdmin";
 import { useScrollTop } from "../../../hooks/useScrollTop";
 import { useEffect } from "react";
 import { prepareFormData } from "../../../utils/prepareFormDataRestaurants";

@@ -1,3 +1,4 @@
+import { RestAdminState, RestAdminVals } from "../../types/restAdmin";
 import {
   PopupActionTypes,
   PopupStateType,
@@ -18,6 +19,7 @@ export type RootStateType = {
   toastState: ToastStateType;
   userState: UserStateType;
   popupState: PopupStateType;
+  restAdminState: RestAdminState;
 };
 
 export type RootActionTypes =
@@ -29,4 +31,5 @@ export type RootValsType = {
   toastState: ToastValsType;
   userState: UserValsType;
   popupState: PopupValsType;
+  restAdminState: RestAdminVals;
 };

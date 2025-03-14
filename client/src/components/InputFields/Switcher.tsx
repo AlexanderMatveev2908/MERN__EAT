@@ -1,0 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FC } from "react";
+import { UseFormRegister, UseFormWatch } from "react-hook-form";
+import { FieldQuerySortType } from "../../config/fieldsArr/MyRestaurants/filterSort";
+
+type PropsType = {
+  el: FieldQuerySortType;
+  register: UseFormRegister<any>;
+  watch: UseFormWatch<any>;
+};
+
+const Switcher: FC<PropsType> = ({ register, el, watch }) => {
+  return (
+    <div className="w-full grid grid-cols-[100px_1fr]">
+      <span className="txt__01">{el.label}</span>
+      <label className="w-[100px] h-[40px] rounded-full check_swap__label relative cursor-pointer">
+        <input
+          value={el.field}
+          type="checkbox"
+          className="opacity-0"
+          {...register("searchVals")}
+        />
+        <span
+          className={`absolute w-[40px] h-[40px] top-0 left-0 rounded-full check_swap__swap scale-90 transition-all duration-500 ${
+            watch("searchVals").includes(el.field)
+              ? "translate-x-[60px]"
+              : "translate-x-0"
+          }`}
+          style={
+            {
+              "--color-swap": watch("searchVals").includes(el.field)
+                ? "#16A34A"
+                : "#DC2626",
+            } as React.CSSProperties
+          }
+        ></span>
+      </label>
+    </div>
+  );
+};
+export default Switcher;

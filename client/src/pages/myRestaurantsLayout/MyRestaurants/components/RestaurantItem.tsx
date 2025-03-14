@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { MyRestaurantType } from "../../../../types/myRestaurants";
+import { MyRestaurantType } from "../../../../types/restAdmin";
 import HeaderIDItem from "../../../../components/cardsEls/HeaderIDItem";
 import BasicCardAllUsers from "../../../../components/restaurants/BasicCardAllUsers/BasicCardAllUsers";
 import { managementMyRestaurantsFields } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
