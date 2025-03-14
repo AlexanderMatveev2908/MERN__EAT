@@ -21,7 +21,7 @@ const MoreSearch: FC<PropsType> = ({ searchFields, formContext }) => {
         className="w-full flex justify-between group cursor-pointer"
       >
         <span className="txt__02 group-hover:text-orange-500 el__flow">
-          Search by
+          Search by text
         </span>
 
         <ChevronDown
@@ -33,7 +33,9 @@ const MoreSearch: FC<PropsType> = ({ searchFields, formContext }) => {
 
       <div
         className={`w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 transition-all duration-300 ${
-          isOpen ? "max-h-[700px] opacity-100 pt-3" : "opacity-0 max-h-0 pt-0"
+          isOpen
+            ? "max-h-[700px] opacity-100 pointer-events-auto py-2"
+            : "opacity-0 max-h-0 pointer-events-none"
         }`}
       >
         {searchFields.map((el) => (

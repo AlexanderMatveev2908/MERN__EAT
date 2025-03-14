@@ -5,7 +5,10 @@ import NoLengthResult from "../../../components/NoLengthResult";
 import LoaderPageReact from "../../../components/loaders/LoaderPageReact/LoaderPageReact";
 import RestaurantItem from "./components/RestaurantItem";
 import SearchBar from "../../../common/SearchBar/SearchBar";
-import { myRestFieldsSearch } from "../../../config/fieldsArr/MyRestaurants/filterSort";
+import {
+  myRestAdminCategories,
+  myRestFieldsSearch,
+} from "../../../config/fieldsArr/MyRestaurants/filterSort";
 import { FormProvider } from "react-hook-form";
 
 const MyRestaurants: FC = () => {
@@ -17,7 +20,11 @@ const MyRestaurants: FC = () => {
       <span className="txt__04">My Restaurants</span>
       <FormProvider {...formContext}>
         <SearchBar
-          {...({ searchFields: myRestFieldsSearch, formContext } as any)}
+          {...({
+            searchFields: myRestFieldsSearch,
+            formContext,
+            catFields: myRestAdminCategories,
+          } as any)}
         />
       </FormProvider>
 
