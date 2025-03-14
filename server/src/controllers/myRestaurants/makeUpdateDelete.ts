@@ -32,6 +32,11 @@ export const createRestaurant = async (
     images: arrImages,
   });
 
+  if (!user.restaurants?.length) user.set({ restaurants: [newRestaurant._id] });
+  else user.restaurants.push(newRestaurant._id);
+
+  await user.save();
+
   return res.status(201).json({ success: true, restId: newRestaurant._id });
 };
 

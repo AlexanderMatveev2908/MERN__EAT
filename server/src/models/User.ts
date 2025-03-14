@@ -171,6 +171,23 @@ const UserSchema = new mongoose.Schema(
         },
       },
     },
+    restaurants: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Restaurant",
+      },
+    ],
+    cart: {
+      type: Schema.Types.ObjectId,
+      ref: "Cart",
+      default: null,
+    },
+    orders: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Order",
+      },
+    ],
   },
   { timestamps: true }
 );
