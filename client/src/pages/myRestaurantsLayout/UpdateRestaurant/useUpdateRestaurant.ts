@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getInfoRestaurantAPI } from "../../../api/myRestaurants";
 import { useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../config/constants/regex";
+import { formatTimeHmMh } from "../../../utils/formatTime";
 
 export const useUpdateRestaurant = () => {
   const { restId } = useParams();
@@ -58,7 +59,10 @@ export const useUpdateRestaurant = () => {
         formContext.setValue(`${key}` as any, restaurant?.delivery[key]);
       }
       for (const key in restaurant?.openHours) {
-        formContext.setValue(`${key}` as any, restaurant?.openHours[key]);
+        formContext.setValue(
+          `${key}` as any,
+          formatTimeHmMh(restaurant?.openHours[key])
+        );
       }
     }
   }, [
