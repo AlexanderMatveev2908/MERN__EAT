@@ -1,12 +1,13 @@
 import { FC } from "react";
 import { MyRestaurantType } from "../../../../types/myRestaurants";
-import HeaderIDItem from "./components/HeaderIDItem";
+import HeaderIDItem from "../../../../components/cardsEls/HeaderIDItem";
 import BasicCardAllUsers from "../../../../components/restaurants/BasicCardAllUsers/BasicCardAllUsers";
 import { managementMyRestaurantsFields } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
-import ManageEl from "./components/ManageEl";
+import ManageEl from "../../../../components/cardsEls/ManageEl";
 import { Link } from "react-router-dom";
-import HeaderNameImgItem from "./components/HeaderNameImgItem";
-import AvgRating from "./components/AvgRating";
+import AvgRating from "../../../../components/restaurants/AvgRating";
+import HeaderImgs from "../../../../components/cardsEls/HeaderImgs";
+import HeaderName from "../../../../components/cardsEls/HeaderName";
 
 type PropsType = {
   rest: MyRestaurantType;
@@ -14,11 +15,13 @@ type PropsType = {
 
 const RestaurantItem: FC<PropsType> = ({ rest }) => {
   return (
-    <div className="w-full grid grid-cols-1 border-2 rounded-xl border-orange-500 max-w-fit place-content-start justify-items-start items-start pt-1 pb-5">
+    <div className="w-full grid grid-cols-1 border-[3px] rounded-xl border-orange-500 max-w-[400px] place-content-start justify-items-start items-start pt-1 pb-5">
       <div className="w-full flex flex-col">
         <HeaderIDItem {...{ id: rest._id }} />
 
-        <HeaderNameImgItem {...{ name: rest.name, url: rest.images[0].url }} />
+        <HeaderImgs {...{ images: rest.images }}>
+          <HeaderName {...{ name: rest.name }} />
+        </HeaderImgs>
 
         <BasicCardAllUsers {...{ rest }} />
 
