@@ -2,7 +2,7 @@
 import { FC } from "react";
 import { Trash2 } from "lucide-react";
 import { UseFormSetValue, UseFormTrigger } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "../../../../types/myRestaurants";
+import { MyRestaurantsAddUpdateFormType } from "../../../../types/restAdmin";
 import { useShowImgToUpload } from "./useShowImgToUpload";
 
 export type PropsType = {

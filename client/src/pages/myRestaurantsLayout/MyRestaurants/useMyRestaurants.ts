@@ -3,11 +3,25 @@ import { getMyRestaurantsAPI } from "../../../api/myRestaurants";
 import { useEffect } from "react";
 import { useHandleErr } from "../../../hooks/useHandleErr";
 import { useScrollTop } from "../../../hooks/useScrollTop";
+import { useForm } from "react-hook-form";
+
+type FormSearchType = {
+  search: string;
+  searchVals: string[];
+};
 
 export const useMyRestaurants = () => {
   const { handleErrAPI } = useHandleErr();
 
   useScrollTop();
+
+  const formContext = useForm<FormSearchType>({
+    mode: "onChange",
+    defaultValues: { searchVals: ["name"] },
+  });
+
+  console.log(formContext.watch("searchVals"));
+  console.log(formContext.watch("search"));
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["myRestaurants"],
@@ -29,5 +43,6 @@ export const useMyRestaurants = () => {
     isPending,
     restaurants,
     totRestaurants,
+    formContext,
   };
 };

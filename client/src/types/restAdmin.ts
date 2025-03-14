@@ -61,3 +61,21 @@ export type MyRestaurantType = {
   avgRating: number;
   ordersCount: number;
 };
+
+export type RestAdminState = {
+  queries: {
+    categories: string[];
+    minRating: number;
+    maxRating: number;
+    minPriceRange: number;
+    maxPriceRange: number;
+  };
+  sorters: {
+    dishes: string;
+    orders: string;
+    reviews: string;
+    rating: string;
+  };
+};
+
+export type RestAdminVals = RestAdminState;

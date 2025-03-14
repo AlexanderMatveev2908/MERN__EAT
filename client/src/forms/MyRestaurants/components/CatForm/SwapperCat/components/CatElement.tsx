@@ -2,15 +2,21 @@
 import { FC } from "react";
 import { CatFormType } from "../../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { UseFormRegister } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "../../../../../../types/myRestaurants";
+import { MyRestaurantsAddUpdateFormType } from "../../../../../../types/restAdmin";
 
 type PropsType = {
   field: CatFormType;
   register: UseFormRegister<MyRestaurantsAddUpdateFormType>;
   valsChosen: string[];
+  customValidate?: (val: string[]) => boolean | string;
 };
 
-const CatElement: FC<PropsType> = ({ field, register, valsChosen }) => {
+const CatElement: FC<PropsType> = ({
+  field,
+  register,
+  valsChosen,
+  customValidate,
+}) => {
   const isIn = valsChosen?.includes?.(field.field);
 
   return (
@@ -24,11 +30,7 @@ const CatElement: FC<PropsType> = ({ field, register, valsChosen }) => {
         value={field.field}
         {...register("categories" as any, {
           validate: (val: string[]) =>
-            !val?.length
-              ? "You must chose at least one category for your restaurant"
-              : val?.length > 3
-              ? "You can chose up to 3 categories for your restaurant"
-              : true,
+            customValidate ? customValidate(val) : true,
         })}
         className="opacity-0 w-0 h-0"
       />

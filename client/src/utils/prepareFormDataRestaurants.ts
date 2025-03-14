@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MyRestaurantsAddUpdateFormType } from "../types/myRestaurants";
+import { MyRestaurantsAddUpdateFormType } from "../types/restAdmin";
 import { reverseFormaTimeHhMm } from "./formatTime";
 
 export const prepareFormData = (

@@ -1,6 +1,6 @@
 import { foodAppInstance } from "../config/constants/axiosInstance";
 import { ReturnAPIBasic } from "../types/API";
-import { MyRestaurantType } from "../types/myRestaurants";
+import { MyRestaurantType } from "../types/restAdmin";
 
 export const createRestaurantAPI = async (
   formData: FormData

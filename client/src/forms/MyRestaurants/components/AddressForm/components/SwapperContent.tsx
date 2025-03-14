@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
+import { MyRestaurantsAddUpdateFormType } from "../../../../../types/restAdmin";
 import {
   myRestaurantsAddress_0,
   myRestaurantsAddress_1,

@@ -5,7 +5,7 @@ import {
   totLenMyRestaurantsCat,
 } from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { UseFormReturn } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "../../../../../types/myRestaurants";
+import { MyRestaurantsAddUpdateFormType } from "../../../../../types/restAdmin";
 import { useSwapperCat } from "./useSwapperCat";
 import CatElement from "./components/CatElement";
 import ButtonsSwapper from "../../../../../components/ButtonsSwapper";
@@ -22,6 +22,13 @@ const SwapperCat: FC<PropsType> = ({ formContext }) => {
   } = formContext;
 
   const { propsBtns } = useSwapperCat();
+
+  const customValidate = (val: string[]) =>
+    !val?.length
+      ? "You must chose at least one category for your restaurant"
+      : val?.length > 3
+      ? "You can chose up to 3 categories for your restaurant"
+      : true;
 
   return (
     <div className="w-full flex flex-col gap-y-5">
@@ -44,7 +51,12 @@ const SwapperCat: FC<PropsType> = ({ formContext }) => {
               {arrEl.map((el) => (
                 <CatElement
                   key={el.id}
-                  {...{ register, field: el, valsChosen: watch("categories") }}
+                  {...{
+                    register,
+                    field: el,
+                    valsChosen: watch("categories"),
+                    customValidate,
+                  }}
                 />
               ))}
             </div>

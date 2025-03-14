@@ -8,7 +8,7 @@ import {
 } from "../../../config/fieldsArr/MyRestaurants/filterSort";
 import DropEl from "./components/DropEl";
 import { priceFormatter } from "../../../utils/priceFormatter";
-import { MyRestaurantType } from "../../../types/myRestaurants";
+import { MyRestaurantType } from "../../../types/restAdmin";
 import { ChevronDown } from "lucide-react";
 
 type PropsType = {

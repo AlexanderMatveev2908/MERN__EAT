@@ -10,6 +10,7 @@ import { IoRestaurant } from "react-icons/io5";
 import { FaClock, FaDoorClosed, FaDoorOpen } from "react-icons/fa";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { formatTimeHmMh } from "../../../utils/formatTime";
+import { myRestaurantsCat } from "./makeUpdate";
 
 export type FieldCheckboxSwapType = {
   id: string;
@@ -102,3 +103,39 @@ export const managementMyRestaurantsFields = (...params) => [
     val: params[1],
   },
 ];
+
+export type FieldQuerySortType = {
+  id: string;
+  field: string;
+  label: string;
+};
+
+const myRestFieldsArr = ["name", "country", "state", "city", "id"];
+
+export const myRestFieldsSearch = myRestFieldsArr.map((el) => ({
+  field: el,
+  id: genID(),
+  label: el[0].toUpperCase() + el.slice(1),
+}));
+
+export const myRestAdminCategories = myRestaurantsCat.map((el) => ({
+  field: el,
+  id: genID(),
+  label: el === "fast-food" ? "Fast-Food" : el[0].toUpperCase() + el.slice(1),
+}));
+
+export const myRestAdminNumericFieldsArr = [
+  { field: "minRating", label: "Min rating" },
+  { field: "maxRating", label: "Max rating" },
+  { field: "minPriceRange", label: "Min price" },
+  { field: "maxPriceRange", label: "Max price" },
+  { field: "limit", label: "Limit per page" },
+];
+
+export const myRestAdminNumericFields = myRestAdminNumericFieldsArr.map(
+  (el) => ({
+    ...el,
+    id: genID(),
+    place: `${el.label}...`,
+  })
+);
