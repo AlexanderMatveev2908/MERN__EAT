@@ -7,9 +7,17 @@ type PropsType = {
   el: FieldQuerySortType;
   register: UseFormRegister<any>;
   watch: UseFormWatch<any>;
+  customValidate?: (val: string[]) => any;
+  handleClick?: (val: string) => void;
 };
 
-const Switcher: FC<PropsType> = ({ register, el, watch }) => {
+const Switcher: FC<PropsType> = ({
+  register,
+  el,
+  watch,
+  customValidate,
+  handleClick,
+}) => {
   return (
     <div className="w-full grid grid-cols-[100px_1fr]">
       <span className="txt__01">{el.label}</span>
@@ -18,7 +26,11 @@ const Switcher: FC<PropsType> = ({ register, el, watch }) => {
           value={el.field}
           type="checkbox"
           className="opacity-0"
-          {...register("searchVals")}
+          {...register("searchVals", {
+            validate: (val: string[]) =>
+              customValidate ? customValidate(val) : true,
+          })}
+          onClick={() => handleClick?.(el.field)}
         />
         <span
           className={`absolute w-[40px] h-[40px] top-0 left-0 rounded-full check_swap__swap scale-90 transition-all duration-500 ${

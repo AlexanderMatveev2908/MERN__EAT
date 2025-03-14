@@ -12,7 +12,14 @@ type PropsType = {
 const MoreSearch: FC<PropsType> = ({ searchFields, formContext }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { register, watch } = formContext;
+  const { register, watch, setValue } = formContext;
+
+  const customValidate = (val: string[]) =>
+    val.includes("id") ? setValue("searchVals", ["id"]) : true;
+  const handleClick = (el: string) =>
+    watch("searchVals").includes("id") && watch("searchVals").length === 1
+      ? setValue("searchVals", [el])
+      : null;
 
   return (
     <div className="w-full grid grid-cols-1">
@@ -39,7 +46,16 @@ const MoreSearch: FC<PropsType> = ({ searchFields, formContext }) => {
         }`}
       >
         {searchFields.map((el) => (
-          <Switcher key={el.id} {...{ register, el, watch }} />
+          <Switcher
+            key={el.id}
+            {...{
+              register,
+              el,
+              watch,
+              customValidate,
+              handleClick,
+            }}
+          />
         ))}
       </div>
     </div>

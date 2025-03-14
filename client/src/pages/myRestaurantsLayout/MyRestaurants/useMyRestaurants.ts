@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 type FormSearchType = {
   search: string;
   searchVals: string[];
+  categories: string[];
 };
 
 export const useMyRestaurants = () => {
@@ -22,6 +23,7 @@ export const useMyRestaurants = () => {
 
   console.log(formContext.watch("searchVals"));
   console.log(formContext.watch("search"));
+  console.log(formContext.watch("categories"));
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["myRestaurants"],
