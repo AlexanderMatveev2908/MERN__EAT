@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import { MdDeliveryDining } from "react-icons/md";
 import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
 import { myRestaurantsDeliveryFields } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
-import FormFieldNoIcon from "../../../../components/InputFields/FormFieldNoIcon";
+import FormFieldNoIcon from "../../../../components/inputFields/FormFieldNoIcon";
 import { reverseFormaTimeHhMm } from "../../../../utils/formatTime";
 
 const Delivery: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {

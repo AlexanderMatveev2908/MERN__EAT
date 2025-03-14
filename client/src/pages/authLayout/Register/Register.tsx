@@ -1,7 +1,7 @@
 import { FC } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
 import AcceptTerms from "./components/AcceptTerms";
-import BaseFormField from "../../../components/InputFields/BaseFormField";
+import BaseFormField from "../../../components/inputFields/BaseFormField";
 import { useRegisterCustom } from "./useRegisterCustom";
 import PasswordLength from "../../../components/auth/PasswordLength";
 import PasswordChecker from "../../../components/auth/PasswordChecker";

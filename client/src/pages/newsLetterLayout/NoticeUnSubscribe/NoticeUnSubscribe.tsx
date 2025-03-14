@@ -1,7 +1,7 @@
 import { CircleCheckBig } from "lucide-react";
 import { FC } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
-import BaseFormField from "../../../components/InputFields/BaseFormField";
+import BaseFormField from "../../../components/inputFields/BaseFormField";
 import { emailField } from "../../../config/fieldsArr/authFieldsUser";
 import { Navigate } from "react-router-dom";
 import { useNoticeUnSubscribe } from "./useNoticeUnSubscribe";

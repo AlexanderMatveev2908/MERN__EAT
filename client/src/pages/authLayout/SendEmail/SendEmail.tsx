@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Navigate } from "react-router-dom";
 import { useSendEmail } from "./hooks/useSendEmail";
-import BaseFormField from "../../../components/InputFields/BaseFormField";
+import BaseFormField from "../../../components/inputFields/BaseFormField";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
 import { emailField } from "../../../config/fieldsArr/authFieldsUser";
 
