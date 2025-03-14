@@ -8,6 +8,7 @@ import SearchBar from "../../../common/SearchBar/SearchBar";
 import {
   myRestAdminCategories,
   myRestFieldsSearch,
+  priceRangeFields,
 } from "../../../config/fieldsArr/MyRestaurants/filterSort";
 import { FormProvider } from "react-hook-form";
 
@@ -22,8 +23,9 @@ const MyRestaurants: FC = () => {
         <SearchBar
           {...({
             searchFields: myRestFieldsSearch,
-            formContext,
             catFields: myRestAdminCategories,
+            priceFields: priceRangeFields,
+            formContext,
           } as any)}
         />
       </FormProvider>
