@@ -109,5 +109,11 @@ export const deleteRestaurant = async (
 
   await restaurant.deleteOne();
 
+  user.restaurants = user.restaurants.filter(
+    (restId: string) => restId + "" !== restaurant._id + ""
+  );
+
+  await user.save();
+
   return res.status(200).json({ msg: "Restaurant deleted", success: true });
 };
