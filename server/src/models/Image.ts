@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 
+export type ImageType = {
+  url: string;
+  public_id: string;
+};
+
 export const ImageSchema = new mongoose.Schema({
   url: {
     type: String,

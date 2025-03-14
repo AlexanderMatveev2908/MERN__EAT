@@ -14,3 +14,6 @@ export const unauthorizedErr = (res: Response, msg: string) =>
 
 export const forbiddenErr = (res: Response) =>
   baseErrResponse(res, 403, "User not allowed");
+
+export const notFoundErr = (res: Response) =>
+  baseErrResponse(res, 404, "Resource not found");

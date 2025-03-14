@@ -15,3 +15,6 @@ export const uploadCloud = (files: any): Promise<any> => {
 
   return Promise.all(promises);
 };
+
+export const deleteCloud = async (public_id: string) =>
+  await v2.uploader.destroy(public_id);
