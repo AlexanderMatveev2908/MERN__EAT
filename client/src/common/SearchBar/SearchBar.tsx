@@ -1,5 +1,8 @@
 import { FC } from "react";
-import { FieldQuerySortType } from "../../config/fieldsArr/MyRestaurants/filterSort";
+import {
+  FieldQuerySortType,
+  IconFormType,
+} from "../../config/fieldsArr/MyRestaurants/filterSort";
 import SearchField from "./components/SearchField";
 import { UseFormReturn } from "react-hook-form";
 import MoreQueries from "./components/MoreQueries/MoreQueries";
@@ -7,10 +10,16 @@ import MoreQueries from "./components/MoreQueries/MoreQueries";
 type PropsType = {
   searchFields: FieldQuerySortType[];
   catFields: FieldQuerySortType[];
+  priceFields: IconFormType[];
   formContext: UseFormReturn;
 };
 
-const SearchBar: FC<PropsType> = ({ searchFields, formContext, catFields }) => {
+const SearchBar: FC<PropsType> = ({
+  searchFields,
+  formContext,
+  catFields,
+  priceFields,
+}) => {
   const { register } = formContext;
 
   return (
@@ -18,7 +27,9 @@ const SearchBar: FC<PropsType> = ({ searchFields, formContext, catFields }) => {
       <div className="w-full grid grid-cols-1 gap-5">
         <SearchField {...{ register }} />
 
-        <MoreQueries {...{ formContext, searchFields, catFields }} />
+        <MoreQueries
+          {...{ formContext, searchFields, catFields, priceFields }}
+        />
       </div>
     </div>
   );

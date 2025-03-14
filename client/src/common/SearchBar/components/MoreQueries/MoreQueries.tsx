@@ -1,13 +1,18 @@
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { FieldQuerySortType } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
+import {
+  FieldQuerySortType,
+  IconFormType,
+} from "../../../../config/fieldsArr/MyRestaurants/filterSort";
 import MoreSearch from "./components/MoreSearch";
 import CatQuery from "./components/CatQuery";
 import DropHandler from "../DropHandler";
+import IconsQuery from "./components/IconsQuery";
 
 type PropsType = {
   searchFields: FieldQuerySortType[];
   catFields: FieldQuerySortType[];
+  priceFields: IconFormType[];
   formContext: UseFormReturn;
 };
 
@@ -15,6 +20,7 @@ const MoreQueries: FC<PropsType> = ({
   searchFields,
   formContext,
   catFields,
+  priceFields,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -39,6 +45,8 @@ const MoreQueries: FC<PropsType> = ({
         <MoreSearch {...{ formContext, searchFields }} />
 
         <CatQuery {...{ formContext, catFields }} />
+
+        <IconsQuery {...{ formContext, priceFields }} />
       </div>
     </div>
   );

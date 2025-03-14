@@ -7,10 +7,16 @@ import {
   MdOutlineRateReview,
 } from "react-icons/md";
 import { IoRestaurant } from "react-icons/io5";
-import { FaClock, FaDoorClosed, FaDoorOpen } from "react-icons/fa";
+import {
+  FaClock,
+  FaDollarSign,
+  FaDoorClosed,
+  FaDoorOpen,
+} from "react-icons/fa";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { formatTimeHmMh } from "../../../utils/formatTime";
 import { myRestaurantsCat } from "./makeUpdate";
+import { IconType } from "react-icons/lib";
 
 export type FieldCheckboxSwapType = {
   id: string;
@@ -124,9 +130,16 @@ export const myRestAdminCategories = myRestaurantsCat.map((el) => ({
   label: el === "fast-food" ? "Fast-Food" : el[0].toUpperCase() + el.slice(1),
 }));
 
-export const myRestAdminNumericFieldsArr = [
-  { field: "minRating", label: "Min rating" },
-  { field: "maxRating", label: "Max rating" },
-  { field: "minPriceRange", label: "Min price" },
-  { field: "maxPriceRange", label: "Max price" },
-];
+const priceRangeFieldsArr = ["0-19", "20-39", "40-59", "60-79", "80-100+"];
+
+export type IconFormType = {
+  el: string;
+  id: string;
+  icon: IconType;
+};
+
+export const priceRangeFields = priceRangeFieldsArr.map((el) => ({
+  el,
+  icon: FaDollarSign,
+  id: genID(),
+}));
