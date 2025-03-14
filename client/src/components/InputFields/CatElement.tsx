@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { CatFormType } from "../../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
+import { CatFormType } from "../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { UseFormRegister } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "../../../../../../types/restAdmin";
+import { MyRestaurantsAddUpdateFormType } from "../../types/restAdmin";
 
 type PropsType = {
   field: CatFormType;
