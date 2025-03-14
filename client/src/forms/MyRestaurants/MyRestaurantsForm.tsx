@@ -10,6 +10,7 @@ import ImagesRestaurant from "./components/ImagesRestaurant/ImagesRestaurant";
 import Delivery from "./components/Delivery/Delivery";
 import ButtonAnimated from "../../components/buttons/ButtonAnimated";
 import AddressForm from "./components/AddressForm/AddressForm";
+import { useLocation } from "react-router-dom";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
@@ -26,6 +27,8 @@ const MyRestaurantsForm: FC<PropsType> = ({
   handleSave,
   isPending,
 }) => {
+  const location = useLocation();
+
   return (
     <form
       onSubmit={handleSave as any}
@@ -48,7 +51,9 @@ const MyRestaurantsForm: FC<PropsType> = ({
       <div className="max-w-[300px] justify-center mt-10">
         <ButtonAnimated
           {...{
-            label: "Create Restaurant",
+            label: `${
+              location.pathname.includes("update") ? "Update" : "Create"
+            } Restaurant`,
             type: "submit",
             styleTxt: "txt__02",
             isPending,

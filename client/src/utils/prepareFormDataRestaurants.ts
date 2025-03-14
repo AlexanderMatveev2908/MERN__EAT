@@ -9,11 +9,14 @@ export const prepareFormData = (
 
   const { images, categories, ...primitiveVals } = data;
 
-  [...(images as any)].forEach((img) =>
-    images.every((img) => img instanceof File)
-      ? formData.append("restaurantsImages", img)
-      : formData.append("restaurantsImages", JSON.stringify(img))
-  );
+  const areFiles = [...images].every((img) => img instanceof File);
+
+  if (areFiles)
+    [...(images as any)].forEach((img) =>
+      formData.append("restaurantImages", img)
+    );
+  else formData.append("restaurantImages", JSON.stringify(images));
+
   categories.forEach((cat) => formData.append("categories", cat));
 
   for (const key in primitiveVals) {

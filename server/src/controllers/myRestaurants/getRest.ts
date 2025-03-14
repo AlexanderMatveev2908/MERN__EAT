@@ -75,10 +75,8 @@ export const getMySingleRestaurant = async (
   req: RequestWithUserId,
   res: Response
 ): Promise<any> => {
-  const result = await checkUserProperty(req, res);
-  if (!result) return;
-
-  const { user, restaurant } = result;
+  const { user, restaurant } = await checkUserProperty(req, res);
+  if ([user, restaurant].some((el) => !el)) return;
 
   return res.status(200).json({ success: true, restaurant });
 };

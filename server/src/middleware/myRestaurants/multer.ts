@@ -9,7 +9,7 @@ export const uploadMyRestaurants = multer({
   },
 }).fields([
   {
-    name: "restaurantsImages",
+    name: "restaurantImages",
     maxCount: 5,
   },
 ]);
