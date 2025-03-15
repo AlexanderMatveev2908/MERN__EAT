@@ -4,13 +4,15 @@ import SearchField from "./components/SearchField";
 import { UseFormReturn } from "react-hook-form";
 import FiltersSearchBar from "./components/Filters/FiltersSearchBar";
 import SortersSearchBar from "./components/Sorters/SortersSearchBar";
-import { CheckBoxFieldType } from "../../../core/config/fieldsArr/allFields/MyRestaurants/makeUpdate";
-import { SorterFieldType } from "../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
+import {
+  CheckBoxFieldType,
+  SorterFieldType,
+} from "../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
-  filters: SorterFieldType[];
+  filters: CheckBoxFieldType[];
   sorters: SorterFieldType[];
 };
 

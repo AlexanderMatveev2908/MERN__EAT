@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { CheckBoxFieldType } from "../../../core/config/fieldsArr/fields";
 import { UseFormRegister } from "react-hook-form";
+import { CheckBoxFieldType } from "../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   field: CheckBoxFieldType;

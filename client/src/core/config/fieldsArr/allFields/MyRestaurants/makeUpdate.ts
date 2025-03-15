@@ -10,28 +10,7 @@ import {
 } from "../../../constants/regex";
 import { genID } from "../../../../../utils/genID";
 import { userProfileFields_1, userProfileFields_2 } from "../userDetailsFields";
-import { IconType } from "react-icons/lib";
-
-export type FieldNoIconType = {
-  id: string;
-  label: string;
-  field: string;
-  reg: RegExp;
-  msg: string;
-  required: boolean;
-  type?: string;
-  place?: string;
-};
-
-export type CheckBoxFieldType = {
-  id: string;
-  field: string;
-  label: string;
-};
-
-export type RadioFieldType = Omit<CheckBoxFieldType, "label"> & {
-  icon: IconType;
-};
+import { CheckBoxFieldType, FieldNoIconType } from "../../typesFields";
 
 export const myRestaurantsName = {
   id: genID(),

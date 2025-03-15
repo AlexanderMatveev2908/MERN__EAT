@@ -3,7 +3,7 @@ import CheckBoxSwitcher from "../../../../../forms/inputFields/CheckBoxSwitcher"
 import { UseFormReturn } from "react-hook-form";
 import DropHandler from "../../DropHandler";
 import { CiTextAlignCenter } from "react-icons/ci";
-import { CheckBoxFieldType } from "../../../../../../core/config/fieldsArr/allFields/MyRestaurants/makeUpdate";
+import { CheckBoxFieldType } from "../../../../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];

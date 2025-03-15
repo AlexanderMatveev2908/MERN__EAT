@@ -1,8 +1,8 @@
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import RadioInput from "../../../../../forms/inputFields/RadioInput";
-import { SorterFieldType } from "../../../../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
 import { ChevronDown } from "lucide-react";
+import { SorterFieldType } from "../../../../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   sorter: SorterFieldType;

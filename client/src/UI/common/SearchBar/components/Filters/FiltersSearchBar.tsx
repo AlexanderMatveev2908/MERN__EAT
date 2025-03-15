@@ -2,15 +2,14 @@ import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import DropHandler from "../DropHandler";
 import { IoFilter } from "react-icons/io5";
-import { CheckBoxFieldType } from "../../../../../core/config/fieldsArr/allFields/MyRestaurants/makeUpdate";
 import FilterField from "./components/FilterField";
-import { SorterFieldType } from "../../../../../core/config/fieldsArr/fields";
 import TextFilter from "./components/TextFilter";
+import { CheckBoxFieldType } from "../../../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn;
-  filters: SorterFieldType[];
+  filters: CheckBoxFieldType[];
 };
 
 const FiltersSearchBar: FC<PropsType> = ({

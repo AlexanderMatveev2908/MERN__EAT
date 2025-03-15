@@ -16,19 +16,10 @@ import {
 } from "react-icons/fa";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { formatTimeHmMh } from "../../../../../utils/formatTime";
-import { myRestaurantsCat, RadioFieldType } from "./makeUpdate";
-import { IconType } from "react-icons/lib";
+import { myRestaurantsCat } from "./makeUpdate";
 import { GoCodeReview } from "react-icons/go";
 import { GiReceiveMoney } from "react-icons/gi";
 import { LuChefHat } from "react-icons/lu";
-
-export type SorterFieldType = {
-  id: string;
-  icon: IconType;
-  label: string;
-  field: string;
-  subFields: RadioFieldType[];
-};
 
 export const fieldsShowMyRestaurants = (...params) => [
   {
