@@ -23,6 +23,7 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { LuChefHat } from "react-icons/lu";
 
 export type SorterFieldType = {
+  id: string;
   icon: IconType;
   label: string;
   field: string;
@@ -163,13 +164,17 @@ export const myRestFilters = [
 ].map((el) => ({ ...el, id: genID() }));
 
 const sortersArr = [
-  { field: "rating", label: "Avg rating", icon: FaRegStar },
-  { field: "dishes", label: "No. of dishes", icon: IoRestaurant },
-  { field: "deliveryTime", label: "Delivery time", icon: MdDeliveryDining },
-  { field: "deliveryPrice", label: "Delivery price", icon: MdDeliveryDining },
-  { field: "reviews", label: "No. of reviews", icon: GoCodeReview },
-  { field: "orders", label: "No. of orders", icon: CiDeliveryTruck },
-  { field: "price", label: "Avg price dish", icon: GiReceiveMoney },
+  { field: "ratingSort", label: "Avg rating", icon: FaRegStar },
+  { field: "dishesSort", label: "No. of dishes", icon: IoRestaurant },
+  { field: "deliveryTimeSort", label: "Delivery time", icon: MdDeliveryDining },
+  {
+    field: "deliveryPriceSort",
+    label: "Delivery price",
+    icon: MdDeliveryDining,
+  },
+  { field: "reviewsSort", label: "No. of reviews", icon: GoCodeReview },
+  { field: "ordersSort", label: "No. of orders", icon: CiDeliveryTruck },
+  { field: "priceSort", label: "Avg price dish", icon: GiReceiveMoney },
 ];
 
 const fieldsUpAndDown = [
@@ -188,6 +193,5 @@ const fieldsUpAndDown = [
 export const myRestSorters = sortersArr.map((el) => ({
   ...el,
   id: genID(),
-  field: el.field + "Sort",
   subFields: [...fieldsUpAndDown],
 }));

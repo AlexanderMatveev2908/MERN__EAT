@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { FaSort } from "react-icons/fa";
 import DropHandler from "../DropHandler";
 import { UseFormReturn } from "react-hook-form";
 import SorterField from "./components/SorterField";
+import { SorterFieldType } from "../../../../../core/config/fieldsArr/fields";
 
 type PropsType = {
   formContext: UseFormReturn;
-  sorters: any;
+  sorters: SorterFieldType[];
 };
 
 const SortersSearchBar: FC<PropsType> = ({ formContext, sorters }) => {

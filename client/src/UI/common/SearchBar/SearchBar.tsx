@@ -10,8 +10,8 @@ import { SorterFieldType } from "../../../core/config/fieldsArr/allFields/MyRest
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
-  filters: any;
-  sorters: { [key: string]: SorterFieldType };
+  filters: SorterFieldType[];
+  sorters: SorterFieldType[];
 };
 
 const SearchBar: FC<PropsType> = ({
