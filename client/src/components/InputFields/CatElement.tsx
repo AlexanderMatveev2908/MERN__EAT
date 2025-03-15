@@ -2,13 +2,13 @@
 import { FC } from "react";
 import { CatFormType } from "../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { UseFormRegister } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "../../types/restAdmin";
 
 type PropsType = {
   field: CatFormType;
-  register: UseFormRegister<MyRestaurantsAddUpdateFormType>;
+  register: UseFormRegister<any>;
   valsChosen: string[];
   customValidate?: (val: string[]) => boolean | string;
+  currCategory?: string;
 };
 
 const CatElement: FC<PropsType> = ({
@@ -16,6 +16,7 @@ const CatElement: FC<PropsType> = ({
   register,
   valsChosen,
   customValidate,
+  currCategory,
 }) => {
   const isIn = valsChosen?.includes?.(field.field);
 
@@ -28,7 +29,7 @@ const CatElement: FC<PropsType> = ({
       <input
         type="checkbox"
         value={field.field}
-        {...register("categories" as any, {
+        {...register(currCategory ?? ("categories" as any), {
           validate: (val: string[]) =>
             customValidate ? customValidate(val) : true,
         })}

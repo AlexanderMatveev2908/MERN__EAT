@@ -1,18 +1,18 @@
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import {
-  FieldQuerySortType,
-  IconFormType,
-} from "../../../../config/fieldsArr/MyRestaurants/filterSort";
+import { FieldQuerySortType } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
 import MoreSearch from "./components/MoreSearch";
 import CatQuery from "./components/CatQuery";
 import DropHandler from "../DropHandler";
-import IconsQuery from "./components/IconsQuery";
+import RangePrice from "./components/RangePrice";
+import { CatFormType } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
+import RangeRating from "./components/RangeRating";
+import { IoFilter } from "react-icons/io5";
 
 type PropsType = {
   searchFields: FieldQuerySortType[];
   catFields: FieldQuerySortType[];
-  priceFields: IconFormType[];
+  priceFields: CatFormType[];
   formContext: UseFormReturn;
 };
 
@@ -28,7 +28,8 @@ const MoreQueries: FC<PropsType> = ({
     <div className="w-full grid grid-cols-1 gap-3">
       <DropHandler
         {...{
-          txt: "More queries 🤔?",
+          txt: "Filter by",
+          Icon: IoFilter,
           isOpen,
           setIsOpen,
           customStyle: "pb-1 border-b-[3px] border-orange-500",
@@ -46,7 +47,9 @@ const MoreQueries: FC<PropsType> = ({
 
         <CatQuery {...{ formContext, catFields }} />
 
-        <IconsQuery {...{ formContext, priceFields }} />
+        <RangePrice {...{ formContext, priceFields }} />
+
+        <RangeRating {...{ formContext }} />
       </div>
     </div>
   );

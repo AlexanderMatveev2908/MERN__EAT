@@ -9,6 +9,8 @@ type FormSearchType = {
   search: string;
   searchVals: string[];
   categories: string[];
+  priceRange: string[];
+  ratingRange: string[];
 };
 
 export const useMyRestaurants = () => {
@@ -21,9 +23,11 @@ export const useMyRestaurants = () => {
     defaultValues: { searchVals: ["name"] },
   });
 
-  console.log(formContext.watch("searchVals"));
-  console.log(formContext.watch("search"));
-  console.log(formContext.watch("categories"));
+  // console.log(formContext.watch("searchVals"));
+  // console.log(formContext.watch("search"));
+  // console.log(formContext.watch("categories"));
+  // console.log(formContext.watch("priceRange"));
+  console.log(formContext.watch("ratingRange"));
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["myRestaurants"],
