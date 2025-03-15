@@ -29,7 +29,7 @@ export const verifyAccount = (req, res) => __awaiter(void 0, void 0, void 0, fun
             expiry: null,
         };
         yield user.save();
-        return unauthorizedErr(res, isExpired ? "Token expired" : "Invalid token");
+        return unauthorizedErr(res, isExpired ? "VERIFY TOKEN EXPIRED" : "VERIFY TOKEN INVALID");
     }
     user.isVerified = true;
     user.tokens.verifyAccount = {
@@ -68,7 +68,7 @@ export const verifyRecoverPwd = (req, res) => __awaiter(void 0, void 0, void 0, 
             expiry: null,
         };
         yield user.save();
-        return unauthorizedErr(res, isExpired ? "Token expired" : "Invalid token");
+        return unauthorizedErr(res, isExpired ? "VERIFY TOKEN EXPIRED" : "VERIFY TOKEN INVALID");
     }
     return res.status(200).json({ success: true });
 });

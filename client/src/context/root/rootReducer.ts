@@ -1,4 +1,3 @@
-import { restAdmin } from "../reducers/restAdmin/restAdmin";
 import { popupReducer } from "../reducers/popup/popupReducer";
 import { toastReducer } from "../reducers/toast/toastReducer";
 import { userReducer } from "../reducers/user/userReducer";
@@ -11,5 +10,4 @@ export const rootReducer = (
   toastState: toastReducer(state.toastState, action),
   userState: userReducer(state.userState, action),
   popupState: popupReducer(state.popupState, action),
-  restAdminState: restAdmin(state.restAdminState, action),
 });

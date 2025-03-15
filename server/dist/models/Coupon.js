@@ -9,6 +9,25 @@ const CouponSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    categories: [
+        {
+            type: String,
+        },
+    ],
+    minCartPrice: {
+        type: Number,
+        required: true,
+    },
+    usedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null,
+    },
+    usedFor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+        default: null,
+    },
     expiryDate: {
         type: Date,
         required: true,

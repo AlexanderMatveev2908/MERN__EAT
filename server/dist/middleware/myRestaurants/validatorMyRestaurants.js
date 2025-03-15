@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, check } from "express-validator";
 import { REG_CITY, REG_COUNTRY, REG_EMAIL, REG_EST_TIME, REG_PHONE, REG_PRICE, REG_RESTAURANT_NAME, REG_STATE, REG_STREET, REG_WEB_URL, REG_ZIP, } from "../../constants/regex.js";
 import { badRequest } from "../../utils/baseErrResponse.js";
 import { handleValidator } from "../../utils/handleValidator.js";
@@ -7,6 +7,17 @@ export const validateFiles = (req, res, next) => {
         return badRequest(res);
     return next();
 };
+export const validateImagesUploaded = [
+    check("restaurantImages").custom((val, { req }) => {
+        var _a;
+        const imagesUploaded = JSON.parse((_a = req.body.restaurantImages) !== null && _a !== void 0 ? _a : "[]");
+        if ((!(imagesUploaded === null || imagesUploaded === void 0 ? void 0 : imagesUploaded.length) || !Array.isArray(imagesUploaded)) &&
+            !req.files)
+            throw new Error("No images uploaded");
+        return true;
+    }),
+    handleValidator(400),
+];
 export const validatorMyRestaurants = [
     body("name").matches(REG_RESTAURANT_NAME).withMessage("Invalid name format"),
     body("country").matches(REG_COUNTRY).withMessage("Invalid country format"),
@@ -20,11 +31,23 @@ export const validatorMyRestaurants = [
     body("openTime")
         .toInt()
         .isInt({ min: 0, max: 1439 })
-        .withMessage("Invalid open time format"),
+        .withMessage("Invalid open time format")
+        .custom((val, { req }) => {
+        const diff = (+req.body.closeTime - val) / 60;
+        if (diff > 0 && diff < 4)
+            throw new Error("Invalid close time");
+        return true;
+    }),
     body("closeTime")
         .toInt()
         .isInt({ min: 0, max: 1439 })
-        .withMessage("Invalid close time format"),
+        .withMessage("Invalid close time format")
+        .custom((val, { req }) => {
+        const diff = (val - +req.body.openTime) / 60;
+        if (diff > 0 && diff < 4)
+            throw new Error("Invalid open time");
+        return true;
+    }),
     body("categories")
         .isArray({ min: 1, max: 3 })
         .withMessage("Invalid categories format"),

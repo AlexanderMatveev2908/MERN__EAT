@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 const UserSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -121,6 +121,23 @@ const UserSchema = new mongoose.Schema({
             },
         },
     },
+    restaurants: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Restaurant",
+        },
+    ],
+    cart: {
+        type: Schema.Types.ObjectId,
+        ref: "Cart",
+        default: null,
+    },
+    orders: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Order",
+        },
+    ],
 }, { timestamps: true });
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 export default User;

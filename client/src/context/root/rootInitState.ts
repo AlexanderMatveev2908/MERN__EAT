@@ -1,4 +1,3 @@
-import { restAdminInitState } from "../initStates/restAdminInitState";
 import { popupInitState } from "../initStates/popupInitState";
 import { toastInitState } from "../initStates/toastInitState";
 import { userInitState } from "../initStates/userInitState";
@@ -8,5 +7,4 @@ export const rootInitState: RootStateType = {
   toastState: toastInitState,
   userState: userInitState,
   popupState: popupInitState,
-  restAdminState: restAdminInitState,
 };
