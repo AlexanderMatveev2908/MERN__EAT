@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { UseFormRegister, UseFormWatch } from "react-hook-form";
-import { FieldQuerySortType } from "../../config/fieldsArr/MyRestaurants/filterSort";
+import { CheckBoxFieldType } from "../../config/fieldsArr/MyRestaurants/makeUpdate";
 
 type PropsType = {
-  el: FieldQuerySortType;
+  el: CheckBoxFieldType;
   register: UseFormRegister<any>;
   watch: UseFormWatch<any>;
   customValidate?: (val: string[]) => any;

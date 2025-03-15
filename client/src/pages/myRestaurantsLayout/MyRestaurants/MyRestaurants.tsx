@@ -8,6 +8,7 @@ import SearchBar from "../../../common/SearchBar/SearchBar";
 import {
   myRestAdminCategories,
   myRestFieldsSearch,
+  myRestSorters,
   priceRangeFields,
 } from "../../../config/fieldsArr/MyRestaurants/filterSort";
 import { FormProvider } from "react-hook-form";
@@ -21,12 +22,13 @@ const MyRestaurants: FC = () => {
       <span className="txt__04">My Restaurants</span>
       <FormProvider {...formContext}>
         <SearchBar
-          {...({
+          {...{
             searchFields: myRestFieldsSearch,
             catFields: myRestAdminCategories,
             priceFields: priceRangeFields,
+            sortersObj: myRestSorters,
             formContext,
-          } as any)}
+          }}
         />
       </FormProvider>
 

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { CatFormType } from "../../config/fieldsArr/MyRestaurants/makeUpdate";
+import { CheckBoxFieldType } from "../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { UseFormRegister } from "react-hook-form";
 
 type PropsType = {
-  field: CatFormType;
+  field: CheckBoxFieldType;
   register: UseFormRegister<any>;
   valsChosen: string[];
   customValidate?: (val: string[]) => boolean | string;

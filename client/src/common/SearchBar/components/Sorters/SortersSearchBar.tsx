@@ -2,12 +2,14 @@ import { FC, useState } from "react";
 import { FaSort } from "react-icons/fa";
 import DropHandler from "../DropHandler";
 import { UseFormReturn } from "react-hook-form";
+import { SortersFieldsType } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
 
 type PropsType = {
   formContext: UseFormReturn;
+  sortersObj: SortersFieldsType;
 };
 
-const SortersSearchBar: FC<PropsType> = ({ formContext }) => {
+const SortersSearchBar: FC<PropsType> = ({ formContext, sortersObj }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

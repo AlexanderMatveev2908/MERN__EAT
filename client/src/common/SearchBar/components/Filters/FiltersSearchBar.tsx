@@ -1,18 +1,17 @@
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { FieldQuerySortType } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
-import MoreSearch from "./components/MoreSearch";
+import MoreSearch from "./components/TextFilter";
 import CatQuery from "./components/CatQuery";
 import DropHandler from "../DropHandler";
 import RangePrice from "./components/RangePrice";
-import { CatFormType } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
+import { CheckBoxFieldType } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import RangeRating from "./components/RangeRating";
 import { IoFilter } from "react-icons/io5";
 
 type PropsType = {
-  searchFields: FieldQuerySortType[];
-  catFields: FieldQuerySortType[];
-  priceFields: CatFormType[];
+  searchFields: CheckBoxFieldType[];
+  catFields: CheckBoxFieldType[];
+  priceFields: CheckBoxFieldType[];
   formContext: UseFormReturn;
 };
 
