@@ -5,14 +5,14 @@ import { UseFormReturn } from "react-hook-form";
 import { CheckBoxFieldType } from "../../config/fieldsArr/MyRestaurants/makeUpdate";
 import FiltersSearchBar from "./components/Filters/FiltersSearchBar";
 import SortersSearchBar from "./components/Sorters/SortersSearchBar";
-import { SortersFieldsType } from "../../config/fieldsArr/MyRestaurants/filterSort";
+import { SorterFieldType } from "../../config/fieldsArr/MyRestaurants/filterSort";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   catFields: CheckBoxFieldType[];
   priceFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
-  sortersObj: SortersFieldsType;
+  sortersObj: { [key: string]: SorterFieldType };
 };
 
 const SearchBar: FC<PropsType> = ({

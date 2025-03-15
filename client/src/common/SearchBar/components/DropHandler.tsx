@@ -32,7 +32,7 @@ const DropHandler: FC<PropsType> = ({
       </div>
 
       <ChevronDown
-        className={`w-[35px] h-[35px] group-hover:text-orange-500 el__flow ${
+        className={`w-[35px] h-[35px] justify-self-end group-hover:text-orange-500 el__flow ${
           isOpen ? "rotate-180" : ""
         }`}
       />

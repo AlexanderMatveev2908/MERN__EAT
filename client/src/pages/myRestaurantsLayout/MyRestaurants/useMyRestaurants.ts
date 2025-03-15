@@ -11,6 +11,11 @@ type FormSearchType = {
   categories: string[];
   priceRange: string[];
   ratingRange: string[];
+  ratingSort: string[];
+  deliverySort: string[];
+  reviewsSort: string[];
+  dishesSort: string[];
+  ordersSort: string[];
 };
 
 export const useMyRestaurants = () => {
@@ -27,7 +32,11 @@ export const useMyRestaurants = () => {
   // console.log(formContext.watch("search"));
   // console.log(formContext.watch("categories"));
   // console.log(formContext.watch("priceRange"));
-  console.log(formContext.watch("ratingRange"));
+  // console.log(formContext.watch("ratingRange"));
+  // console.log(formContext.watch("ratingSort"));
+  // console.log(formContext.watch("ordersSort"));
+  // console.log(formContext.watch("dishesSort"));
+  // console.log(formContext.watch("reviewsSort"));
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["myRestaurants"],
