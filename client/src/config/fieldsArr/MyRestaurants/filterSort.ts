@@ -7,16 +7,20 @@ import {
   MdOutlineRateReview,
 } from "react-icons/md";
 import { IoRestaurant } from "react-icons/io5";
-import { FaClock, FaDoorClosed, FaDoorOpen } from "react-icons/fa";
+import { FaClock, FaDoorClosed, FaDoorOpen, FaRegStar } from "react-icons/fa";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { formatTimeHmMh } from "../../../utils/formatTime";
-import { myRestaurantsCat } from "./makeUpdate";
+import { myRestaurantsCat, RadioFieldType } from "./makeUpdate";
+import { createSorters } from "../../../utils/createSorters";
+import { IconType } from "react-icons/lib";
+import { GoCodeReview } from "react-icons/go";
 
-export type FieldCheckboxSwapType = {
-  id: string;
-  field: string;
-  label: string;
-  icon: any;
+export type SortersFieldsType = {
+  sorters: {
+    label: string;
+    icon: IconType;
+    fields: RadioFieldType[];
+  }[];
 };
 
 export const fieldsShowMyRestaurants = (...params) => [
@@ -104,12 +108,6 @@ export const managementMyRestaurantsFields = (...params) => [
   },
 ];
 
-export type FieldQuerySortType = {
-  id: string;
-  field: string;
-  label: string;
-};
-
 const myRestFieldsArr = ["name", "country", "state", "city", "id"];
 
 export const myRestFieldsSearch = myRestFieldsArr.map((el) => ({
@@ -139,3 +137,13 @@ export const ratingRangeFields = ratingRangeFieldsArr.map((el) => ({
   id: genID(),
   label: `⭐ ${el}`,
 }));
+
+export const sorters = [
+  { field: "rating", icon: FaRegStar },
+  { field: "dishes", icon: IoRestaurant },
+  { field: "delivery", icon: MdDeliveryDining },
+  { field: "reviews", icon: GoCodeReview },
+  { field: "orders", icon: CiDeliveryTruck },
+];
+
+export const myRestSorters = createSorters(sorters);

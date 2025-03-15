@@ -10,6 +10,7 @@ import {
 } from "../../constants/regex";
 import { genID } from "../../../utils/genID";
 import { userProfileFields_1, userProfileFields_2 } from "../userDetailsFields";
+import { IconType } from "react-icons/lib";
 
 export type FieldNoIconType = {
   id: string;
@@ -20,6 +21,16 @@ export type FieldNoIconType = {
   required: boolean;
   type?: string;
   place?: string;
+};
+
+export type CheckBoxFieldType = {
+  id: string;
+  field: string;
+  label: string;
+};
+
+export type RadioFieldType = CheckBoxFieldType & {
+  icon: IconType;
 };
 
 export const myRestaurantsName = {
@@ -76,17 +87,7 @@ export const myRestaurantsContact = [
   },
 ];
 
-export type OpenCLoseFormType = {
-  id: string;
-  field: string;
-  label: string;
-  reg: RegExp;
-  required: true;
-  msg: string;
-  place: string;
-};
-
-export const myRestaurantsOpenCloseFields: OpenCLoseFormType[] = [
+export const myRestaurantsOpenCloseFields: FieldNoIconType[] = [
   {
     id: genID(),
     field: "openTime",
@@ -122,13 +123,7 @@ export const myRestaurantsCat = [
   "steakhouse",
 ];
 
-export type CatFormType = {
-  id: string;
-  field: string;
-  label: string;
-};
-
-export const myRestaurantsCatFields: CatFormType[] = myRestaurantsCat.map(
+export const myRestaurantsCatFields: CheckBoxFieldType[] = myRestaurantsCat.map(
   (el) => ({
     field: el,
     id: genID(),

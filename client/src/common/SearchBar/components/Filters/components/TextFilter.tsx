@@ -1,16 +1,16 @@
 import { FC, useState } from "react";
 import CheckBoxSwitcher from "../../../../../forms/inputFields/CheckBoxSwitcher";
-import { FieldQuerySortType } from "../../../../../config/fieldsArr/MyRestaurants/filterSort";
 import { UseFormReturn } from "react-hook-form";
 import DropHandler from "../../DropHandler";
 import { CiTextAlignCenter } from "react-icons/ci";
+import { CheckBoxFieldType } from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 
 type PropsType = {
-  searchFields: FieldQuerySortType[];
+  searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn;
 };
 
-const MoreSearch: FC<PropsType> = ({ searchFields, formContext }) => {
+const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { register, watch, setValue } = formContext;
@@ -56,4 +56,4 @@ const MoreSearch: FC<PropsType> = ({ searchFields, formContext }) => {
     </div>
   );
 };
-export default MoreSearch;
+export default TextFilter;

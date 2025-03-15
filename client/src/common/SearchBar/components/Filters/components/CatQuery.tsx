@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { FieldQuerySortType } from "../../../../../config/fieldsArr/MyRestaurants/filterSort";
 import CheckBox from "../../../../../forms/inputFields/CheckBox";
 import DropHandler from "../../DropHandler";
 import { LuChefHat } from "react-icons/lu";
+import { CheckBoxFieldType } from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 
 type PropsType = {
-  catFields: FieldQuerySortType[];
+  catFields: CheckBoxFieldType[];
   formContext: UseFormReturn;
 };
 

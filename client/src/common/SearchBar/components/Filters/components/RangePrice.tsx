@@ -3,12 +3,12 @@ import { FC, useState } from "react";
 import DropHandler from "../../DropHandler";
 import { UseFormReturn } from "react-hook-form";
 import CheckBox from "../../../../../forms/inputFields/CheckBox";
-import { CatFormType } from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
+import { CheckBoxFieldType } from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { GiReceiveMoney } from "react-icons/gi";
 
 type PropsType = {
   formContext: UseFormReturn;
-  priceFields: CatFormType[];
+  priceFields: CheckBoxFieldType[];
 };
 
 const RangePrice: FC<PropsType> = ({ formContext, priceFields }) => {

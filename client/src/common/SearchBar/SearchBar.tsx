@@ -1,16 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { FieldQuerySortType } from "../../config/fieldsArr/MyRestaurants/filterSort";
 import SearchField from "./components/SearchField";
 import { UseFormReturn } from "react-hook-form";
-import { CatFormType } from "../../config/fieldsArr/MyRestaurants/makeUpdate";
+import { CheckBoxFieldType } from "../../config/fieldsArr/MyRestaurants/makeUpdate";
 import FiltersSearchBar from "./components/Filters/FiltersSearchBar";
 import SortersSearchBar from "./components/Sorters/SortersSearchBar";
+import { SortersFieldsType } from "../../config/fieldsArr/MyRestaurants/filterSort";
 
 type PropsType = {
-  searchFields: FieldQuerySortType[];
-  catFields: FieldQuerySortType[];
-  priceFields: CatFormType[];
-  formContext: UseFormReturn;
+  searchFields: CheckBoxFieldType[];
+  catFields: CheckBoxFieldType[];
+  priceFields: CheckBoxFieldType[];
+  formContext: UseFormReturn<any>;
+  sortersObj: SortersFieldsType;
 };
 
 const SearchBar: FC<PropsType> = ({
@@ -18,6 +20,7 @@ const SearchBar: FC<PropsType> = ({
   formContext,
   catFields,
   priceFields,
+  sortersObj,
 }) => {
   const { register } = formContext;
 
@@ -30,7 +33,7 @@ const SearchBar: FC<PropsType> = ({
           {...{ formContext, searchFields, catFields, priceFields }}
         />
 
-        <SortersSearchBar {...{ formContext }} />
+        <SortersSearchBar {...{ formContext, sortersObj }} />
       </div>
     </div>
   );
