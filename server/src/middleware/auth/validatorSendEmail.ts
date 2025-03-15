@@ -1,5 +1,5 @@
 import { body, check } from "express-validator";
-import { REG_EMAIL } from "../../constants/regex.js";
+import { REG_EMAIL } from "../../config/constants/regex.js";
 import { handleValidator } from "../../utils/handleValidator.js";
 import { query } from "express";
 

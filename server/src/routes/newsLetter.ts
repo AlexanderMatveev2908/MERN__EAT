@@ -11,7 +11,7 @@ import {
 import { makeLimiter } from "../utils/makeLimiter.js";
 import { validatorToggleSubscribe } from "../middleware/newsLetter/validatorToggleSubscribe.js";
 import { validatorNewsLetterEmail } from "../middleware/newsLetter/validatorNewsLetterEmail.js";
-import { HOUR } from "../constants/time.js";
+import { HOUR } from "../config/constants/time.js";
 import { validatorUnsubscribeVerify } from "../middleware/newsLetter/validatorUnsubscribeVerify.js";
 
 const router = express();

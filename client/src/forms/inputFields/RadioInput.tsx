@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { UseFormRegister } from "react-hook-form";
-import { RadioFieldType } from "../../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
+import { RadioFieldType } from "../../config/fieldsArr/MyRestaurants/makeUpdate";
 
 type PropsType = {
   register: UseFormRegister<any>;
@@ -11,7 +11,7 @@ type PropsType = {
   handleChange: (val: string) => any;
 };
 
-const SubSorterField: FC<PropsType> = ({
+const RadioInput: FC<PropsType> = ({
   el,
   currSorter,
   register,
@@ -45,4 +45,4 @@ const SubSorterField: FC<PropsType> = ({
     </label>
   );
 };
-export default SubSorterField;
+export default RadioInput;

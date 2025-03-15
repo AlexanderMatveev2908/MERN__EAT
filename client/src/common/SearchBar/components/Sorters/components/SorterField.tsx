@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { SorterFieldType } from "../../../../../config/fieldsArr/MyRestaurants/filterSort";
 import { UseFormReturn } from "react-hook-form";
-import SubSorterField from "./components/SubSorterField";
+import RadioInput from "../../../../../forms/inputFields/RadioInput";
 
 type PropsType = {
   sorter: SorterFieldType;
@@ -30,7 +30,7 @@ const SorterField: FC<PropsType> = ({ formContext, sorter }) => {
 
       <div className="w-full grid grid-cols-2">
         {sorter.fields.map((el) => (
-          <SubSorterField
+          <RadioInput
             key={el.id}
             {...{
               el,
