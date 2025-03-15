@@ -7,7 +7,7 @@ import {
   REG_STREET,
   REG_ZIP,
 } from "../../constants/regex.ts";
-import { genID } from "../../../../utils/genID.ts";
+import { genID } from "../../../../utils/allUtils/genID.ts";
 
 export const userProfileFields_0 = [
   {

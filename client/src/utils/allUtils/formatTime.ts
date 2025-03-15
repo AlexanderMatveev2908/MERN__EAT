@@ -1,7 +1,7 @@
 import {
   REG_EST_TIME,
   REG_OPEN_CLOSE_TIME,
-} from "./../core/config/constants/regex";
+} from "../../core/config/constants/regex";
 
 export const formatTimeHmMh = (val: number) => {
   if (!REG_EST_TIME.test(val + "")) return "00:00";

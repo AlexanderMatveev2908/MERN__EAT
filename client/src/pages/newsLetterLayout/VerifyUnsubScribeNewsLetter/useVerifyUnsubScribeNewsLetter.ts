@@ -4,7 +4,10 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useToast } from "../../../core/hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
-import { isValidStr, validateStrWithArr } from "../../../utils/validateStr";
+import {
+  isValidStr,
+  validateStrWithArr,
+} from "../../../utils/allUtils/validateStr";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import {

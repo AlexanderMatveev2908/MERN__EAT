@@ -7,17 +7,18 @@ import { getMyRestaurantsAPI } from "../../../core/api/api";
 
 type FormSearchType = {
   search: string;
-  searchVals: string[];
+  searchVals: string[]; // the vals we decide to use to search a rest, like a text will be looked not only by name but also country
   categories: string[];
   priceRange: string[];
   ratingRange: string[];
+
   ratingSort: string[];
+  reviewsSort: string[];
+  priceSort: string[];
   deliveryTimeSort: string[];
   deliveryPriceSort: string[];
-  reviewsSort: string[];
   dishesSort: string[];
   ordersSort: string[];
-  priceSort: string[];
 };
 
 export const useMyRestaurants = () => {
@@ -27,10 +28,25 @@ export const useMyRestaurants = () => {
 
   useScrollTop();
 
+  const savedForm = sessionStorage.getItem("myRestaurantsForm");
+
   const formContext = useForm<FormSearchType>({
     mode: "onChange",
-    defaultValues: { searchVals: ["name"] },
+    defaultValues: savedForm
+      ? { ...JSON.parse(savedForm) }
+      : { searchVals: ["name"] },
   });
+
+  const handleSave = formContext.handleSubmit((formDataHook) => {
+    console.log(formDataHook);
+    sessionStorage.setItem("myRestaurantsForm", JSON.stringify(formDataHook));
+  });
+
+  const handleClear = () => {
+    sessionStorage.removeItem("myRestaurantsForm");
+
+    formContext.reset();
+  };
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["myRestaurants"],
@@ -55,5 +71,7 @@ export const useMyRestaurants = () => {
     formContext,
     currPage,
     setCurrPage,
+    handleSave,
+    handleClear,
   };
 };

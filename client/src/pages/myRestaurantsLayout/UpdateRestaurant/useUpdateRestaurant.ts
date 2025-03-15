@@ -12,10 +12,10 @@ import {
 } from "./../../../core/api/APICalls/myRestaurants";
 import { useNavigate, useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../core/config/constants/regex";
-import { formatTimeHmMh } from "../../../utils/formatTime";
 import { usePopup, useToast } from "../../../core/hooks/useGlobal";
-import { prepareFormData } from "../../../utils/prepareFormDataRestaurants";
+import { prepareFormData } from "../../../utils/allUtils/prepareFormDataRestaurants";
 import { PopupPayloadSetter } from "../../../types/allTypes/popup";
+import { formatTimeHmMh } from "../../../utils/utils";
 
 export const useUpdateRestaurant = () => {
   const { restId } = useParams();

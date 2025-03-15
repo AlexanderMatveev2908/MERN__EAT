@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useCreateTanStackSendEmail } from "./useCreateTanStackSendEmail";
 import { useScrollTop } from "../../../../core/hooks/useScrollTop";
-import { validateStrWithArr } from "../../../../utils/validateStr";
+import { validateStrWithArr } from "../../../../utils/allUtils/validateStr";
 import { sendUserEmailAPI } from "../../../../core/api/api";
 
 export type SendEmailFormType = {

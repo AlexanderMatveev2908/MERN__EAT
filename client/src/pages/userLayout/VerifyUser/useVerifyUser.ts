@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useToast } from "./../../../core/hooks/useGlobal";
 import { useHandleErr } from "./../../../core/hooks/useHandleErr";
-import { isValidStr } from "./../../../utils/validateStr";
+import { isValidStr } from "../../../utils/allUtils/validateStr";
 import { useMutation } from "@tanstack/react-query";
 import { verifyNewEmailAPI } from "./../../../core/api/api";
 import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";

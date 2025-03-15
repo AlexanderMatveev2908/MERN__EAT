@@ -9,7 +9,7 @@ import {
   SET_CURR_USER,
   SET_IS_LOGGED,
 } from "../actions/userActions";
-import { getInitialsName } from "../../../utils/getInitialsName";
+import { getInitialsName } from "../../../utils/utils";
 
 export const useUserVals = (
   userState: UserStateType,
