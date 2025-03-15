@@ -7,26 +7,23 @@ export const createSorters = (arr: any) => {
 
   for (let i = 0; i < arr.length; i++) {
     sortersObj[arr[i].field] = {
-      label: arr[i].field,
+      label: arr[i].field[0].toUpperCase() + arr[i].field.slice(1),
+      field: arr[i].field + "Sort",
       icon: arr[i].icon,
       fields: [
         {
           id: genID(),
-          label: arr[i].field,
           field: "asc",
           icon: FaSortAmountUp,
         },
         {
           id: genID(),
-          label: arr[i].field,
           field: "desc",
           icon: FaSortAmountUpAlt,
         },
       ],
     };
   }
-
-  console.log(sortersObj);
 
   return sortersObj;
 };

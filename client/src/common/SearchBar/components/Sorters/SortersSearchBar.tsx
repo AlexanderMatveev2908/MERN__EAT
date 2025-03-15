@@ -2,11 +2,12 @@ import { FC, useState } from "react";
 import { FaSort } from "react-icons/fa";
 import DropHandler from "../DropHandler";
 import { UseFormReturn } from "react-hook-form";
-import { SortersFieldsType } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
+import { SorterFieldType } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
+import SorterField from "./components/SorterField";
 
 type PropsType = {
   formContext: UseFormReturn;
-  sortersObj: SortersFieldsType;
+  sortersObj: { [key: string]: SorterFieldType };
 };
 
 const SortersSearchBar: FC<PropsType> = ({ formContext, sortersObj }) => {
@@ -25,12 +26,18 @@ const SortersSearchBar: FC<PropsType> = ({ formContext, sortersObj }) => {
       />
 
       <div
-        className={`w-full grid grid-cols-1 transition-all duration-300 gap-2 ${
+        className={`w-full grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-300 gap-2 ${
           isOpen
             ? "max-h-[2000px] opacity-100 pointer-events-auto"
             : "opacity-0 max-h-0 pointer-events-none"
         }`}
-      ></div>
+      >
+        <SorterField {...{ formContext, sorter: sortersObj.rating }} />
+        <SorterField {...{ formContext, sorter: sortersObj.reviews }} />
+        <SorterField {...{ formContext, sorter: sortersObj.delivery }} />
+        <SorterField {...{ formContext, sorter: sortersObj.dishes }} />
+        <SorterField {...{ formContext, sorter: sortersObj.orders }} />
+      </div>
     </div>
   );
 };

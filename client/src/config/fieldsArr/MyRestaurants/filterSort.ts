@@ -15,12 +15,11 @@ import { createSorters } from "../../../utils/createSorters";
 import { IconType } from "react-icons/lib";
 import { GoCodeReview } from "react-icons/go";
 
-export type SortersFieldsType = {
-  sorters: {
-    label: string;
-    icon: IconType;
-    fields: RadioFieldType[];
-  }[];
+export type SorterFieldType = {
+  icon: IconType;
+  label: string;
+  field: string;
+  fields: RadioFieldType[];
 };
 
 export const fieldsShowMyRestaurants = (...params) => [

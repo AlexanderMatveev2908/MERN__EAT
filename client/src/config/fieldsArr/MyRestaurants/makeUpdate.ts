@@ -29,7 +29,7 @@ export type CheckBoxFieldType = {
   label: string;
 };
 
-export type RadioFieldType = CheckBoxFieldType & {
+export type RadioFieldType = Omit<CheckBoxFieldType, "label"> & {
   icon: IconType;
 };
 

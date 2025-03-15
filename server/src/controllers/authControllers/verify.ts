@@ -37,7 +37,10 @@ export const verifyAccount = async (
 
     await user.save();
 
-    return unauthorizedErr(res, isExpired ? "Token expired" : "Invalid token");
+    return unauthorizedErr(
+      res,
+      isExpired ? "VERIFY TOKEN EXPIRED" : "VERIFY TOKEN INVALID"
+    );
   }
 
   user.isVerified = true;
@@ -95,7 +98,10 @@ export const verifyRecoverPwd = async (
 
     await user.save();
 
-    return unauthorizedErr(res, isExpired ? "Token expired" : "Invalid token");
+    return unauthorizedErr(
+      res,
+      isExpired ? "VERIFY TOKEN EXPIRED" : "VERIFY TOKEN INVALID"
+    );
   }
 
   return res.status(200).json({ success: true });

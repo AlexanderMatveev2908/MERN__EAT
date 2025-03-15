@@ -1,18 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCallback, useEffect } from "react";
-import { useGetTansCreated } from "./useGetTanVerify";
-import { useUser } from "../../../../hooks/useGlobal";
+import { useToast, useUser } from "../../../../hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../../config/constants/regex";
 import { isValidStr, validateStrWithArr } from "../../../../utils/validateStr";
 import { useScrollTop } from "../../../../hooks/useScrollTop";
+import { useCreateTanVerify } from "./useCreateTanVerify";
+import { recoverPwdAPI, verifyAccountAPI } from "../../../../api/auth";
 
 export const useVerify = () => {
-  const { isLogged } = useUser();
+  const { isLogged, setUserLogged } = useUser();
+  const { showToastMsg } = useToast();
 
   useScrollTop();
 
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const type = searchParams.get("type");
   const token = searchParams.get("token");
@@ -28,10 +30,31 @@ export const useVerify = () => {
   const canStay =
     [isTokenValid, isUserIdValid, isValidType].every((el) => !!el) && !isLogged;
 
-  const { mutateVerify, mutateRecover } = useGetTansCreated(
-    userId as string,
-    token as string
-  );
+  const handleSuccessVerifyAccount = (data) => {
+    setUserLogged(data.accessToken);
+
+    showToastMsg("Account Verified Successfully", "SUCCESS");
+    navigate("/", { replace: true });
+  };
+
+  const { mutate: mutateVerify } = useCreateTanVerify({
+    callAPI: ({ userId, token }) => verifyAccountAPI({ userId, token }),
+    successCB: (data) => handleSuccessVerifyAccount(data),
+  });
+
+  const handleSuccessVerifyRecoverPwd = () => {
+    showToastMsg("Email verified Successfully", "SUCCESS");
+
+    navigate(`/auth/recover-pwd?userId=${userId}&token=${token}`, {
+      state: { from: location.pathname },
+      replace: true,
+    });
+  };
+
+  const { mutate: mutateRecover } = useCreateTanVerify({
+    callAPI: ({ userId, token }) => recoverPwdAPI({ userId, token }),
+    successCB: () => handleSuccessVerifyRecoverPwd(),
+  });
 
   const handleGuest = useCallback(() => {
     if (!canStay) {
