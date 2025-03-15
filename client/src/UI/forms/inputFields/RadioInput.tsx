@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { UseFormRegister } from "react-hook-form";
-import { RadioFieldType } from "../../../core/config/fieldsArr/fields";
+import { RadioFieldType } from "../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   register: UseFormRegister<any>;
