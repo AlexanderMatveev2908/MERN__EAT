@@ -1,20 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CircleUser, Mail } from "lucide-react";
 import { REG_EMAIL, REG_NAME, REG_PWD } from "../../constants/regex";
 import { genID } from "../../../../utils/genID";
-
-export type AuthFieldUserType = {
-  id: string;
-  field: string;
-  label: string;
-  reg: RegExp;
-  msg: string;
-  svg: any;
-  type: string;
-  place?: string;
-};
-
-export type AuthPwdFieldType = Omit<AuthFieldUserType, "svg" | "type">;
 
 export const emailField = {
   id: genID(),

@@ -9,14 +9,6 @@ import {
 } from "../../constants/regex.ts";
 import { genID } from "../../../../utils/genID.ts";
 
-export type UserDetailsFieldType = {
-  id: string;
-  field: string;
-  label: string;
-  reg: RegExp;
-  msg: string;
-};
-
 export const userProfileFields_0 = [
   {
     id: genID(),

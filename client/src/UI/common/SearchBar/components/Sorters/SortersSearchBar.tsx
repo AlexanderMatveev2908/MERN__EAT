@@ -3,7 +3,7 @@ import { FaSort } from "react-icons/fa";
 import DropHandler from "../DropHandler";
 import { UseFormReturn } from "react-hook-form";
 import SorterField from "./components/SorterField";
-import { SorterFieldType } from "../../../../../core/config/fieldsArr/fields";
+import { SorterFieldType } from "../../../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   formContext: UseFormReturn;

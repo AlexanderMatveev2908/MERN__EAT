@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { FieldNoIconType } from "../../../core/config/fieldsArr/fields";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldNoIconType } from "../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   field: FieldNoIconType;

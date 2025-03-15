@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { UserProfileFormType } from "../hooks/UseProfileReducer/types";
 import { InputRefType } from "../hooks/useUserProfile";
-import { UserDetailsFieldType } from "../../../../core/config/fieldsArr/fields";
+import { UserDetailsFieldType } from "../../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   el: UserDetailsFieldType;

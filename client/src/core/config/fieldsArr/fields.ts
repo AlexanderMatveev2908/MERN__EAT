@@ -67,12 +67,3 @@ export {
   loggedUserFieldsDrop,
   nonLoggedUserFields,
 } from "./allFields/dropSideFields";
-
-export type { SorterFieldType } from "./allFields/MyRestaurants/filterSort";
-export type { FieldNoIconType } from "./allFields/MyRestaurants/makeUpdate";
-export type { CheckBoxFieldType } from "./allFields/MyRestaurants/makeUpdate";
-export type { RadioFieldType } from "./allFields/MyRestaurants/makeUpdate";
-export type { AuthFieldUserType } from "./allFields/authFieldsUser";
-export type { AuthPwdFieldType } from "./allFields/authFieldsUser";
-export type { SideDropFieldType } from "./allFields/dropSideFields";
-export type { UserDetailsFieldType } from "./allFields/userDetailsFields";

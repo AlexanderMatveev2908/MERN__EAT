@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   House,
   KeyRound,
@@ -10,14 +9,7 @@ import {
 } from "lucide-react";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { genID } from "../../../../utils/genID";
-
-export type SideDropFieldType = {
-  id: string;
-  path: string;
-  label: string;
-  svg: any; // can be also an icon, some svg from lucide icon are really cool, but when i do not find something i go on react icons to find them cause has bigger choice, generally i do not make nothing to complex that would not allow me to treat them in the same way for styling so is ok but if you need to implement something that requires only svg you should remove icons from arrays od els
-  from?: string;
-};
+import { SideDropFieldType } from "../typesFields";
 
 export const allUsersFields = [
   {
