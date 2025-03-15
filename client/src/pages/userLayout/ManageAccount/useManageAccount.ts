@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useScrollTop } from "./../../../hooks/useScrollTop";
-import { useToast, useUser } from "./../../../hooks/useGlobal";
-import { useHandleErr } from "./../../../hooks/useHandleErr";
+import { useScrollTop } from "./../../../core/hooks/useScrollTop";
+import { useToast, useUser } from "./../../../core/hooks/useGlobal";
+import { useHandleErr } from "./../../../core/hooks/useHandleErr";
 
 export type handleErrManageUserType = (err: any) => void;
 

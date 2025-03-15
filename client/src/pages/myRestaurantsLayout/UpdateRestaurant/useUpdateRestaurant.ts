@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import { useHandleErr } from "../../../hooks/useHandleErr";
-import { useScrollTop } from "../../../hooks/useScrollTop";
-import { MyRestaurantsAddUpdateFormType } from "../../../types/restAdmin";
+import { useHandleErr } from "../../../core/hooks/useHandleErr";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmin";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   deleteRestaurantAPI,
   getInfoRestaurantAPI,
   updateRestaurantAPI,
-} from "../../../api/myRestaurants";
+} from "./../../../core/api/APICalls/myRestaurants";
 import { useNavigate, useParams } from "react-router-dom";
-import { REG_MONGO } from "../../../config/constants/regex";
+import { REG_MONGO } from "../../../core/config/constants/regex";
 import { formatTimeHmMh } from "../../../utils/formatTime";
-import { usePopup, useToast } from "../../../hooks/useGlobal";
+import { usePopup, useToast } from "../../../core/hooks/useGlobal";
 import { prepareFormData } from "../../../utils/prepareFormDataRestaurants";
-import { PopupPayloadSetter } from "../../../types/popup";
+import { PopupPayloadSetter } from "../../../types/allTypes/popup";
 
 export const useUpdateRestaurant = () => {
   const { restId } = useParams();

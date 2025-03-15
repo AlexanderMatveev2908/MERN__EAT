@@ -1,4 +1,4 @@
-import { totLenUserDetails } from "../../../../../../config/fieldsArr/userDetailsFields";
+import { totLenUserDetails } from "../../../../../../core/config/fieldsArr/fields";
 import { UserProfileActions } from "../types";
 
 export const formReducer = (state, action) => {

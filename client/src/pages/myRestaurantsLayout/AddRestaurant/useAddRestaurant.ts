@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
-import { MyRestaurantsAddUpdateFormType } from "../../../types/restAdmin";
-import { useScrollTop } from "../../../hooks/useScrollTop";
+import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmin";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useEffect } from "react";
 import { prepareFormData } from "../../../utils/prepareFormDataRestaurants";
 import { useMutation } from "@tanstack/react-query";
-import { createRestaurantAPI } from "../../../api/myRestaurants";
-import { useToast } from "../../../hooks/useGlobal";
-import { useHandleErr } from "../../../hooks/useHandleErr";
-import { defaultValuesMyRest } from "../../../config/onlyDev/defVals";
+import { useToast } from "../../../core/hooks/useGlobal";
+import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { useNavigate } from "react-router-dom";
+import { defaultValuesMyRest } from "../../../core/config/onlyDev/defVals";
+import { createRestaurantAPI } from "../../../core/api/api";
 
 export const useAddRestaurant = () => {
   const navigate = useNavigate();

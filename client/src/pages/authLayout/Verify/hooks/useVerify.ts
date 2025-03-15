@@ -1,11 +1,11 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCallback, useEffect } from "react";
-import { useToast, useUser } from "../../../../hooks/useGlobal";
-import { REG_MONGO, REG_TOKEN } from "../../../../config/constants/regex";
 import { isValidStr, validateStrWithArr } from "../../../../utils/validateStr";
-import { useScrollTop } from "../../../../hooks/useScrollTop";
 import { useCreateTanVerify } from "./useCreateTanVerify";
-import { recoverPwdAPI, verifyAccountAPI } from "../../../../api/auth";
+import { useScrollTop } from "../../../../core/hooks/useScrollTop";
+import { useToast, useUser } from "../../../../core/hooks/useGlobal";
+import { REG_MONGO, REG_TOKEN } from "../../../../core/config/constants/regex";
+import { recoverPwdAPI, verifyAccountAPI } from "../../../../core/api/api";
 
 export const useVerify = () => {
   const { isLogged, setUserLogged } = useUser();

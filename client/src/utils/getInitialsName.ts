@@ -1,4 +1,4 @@
-import { CurrUserType } from "../types/userTypes";
+import { CurrUserType } from "../types/allTypes/userTypes";
 
 export const getInitialsName = (currUser: CurrUserType) =>
   currUser.firstName.slice(0, 1)?.toUpperCase() +

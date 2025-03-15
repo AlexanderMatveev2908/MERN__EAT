@@ -1,10 +1,7 @@
 import { FC } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import MainLayoutRoute from "./layouts/mainLayout/MainLayoutRoute";
 import NoticeEmail from "./pages/NoticeEmail/NoticeEmail";
-import { useApp } from "./hooks/useApp/useApp";
-import LayoutNewsLetterRoute from "./layouts/LayoutNewsLetterRoute";
 import Login from "./pages/authLayout/Login/Login";
 import Register from "./pages/authLayout/Register/Register";
 import SendEmail from "./pages/authLayout/SendEmail/SendEmail";
@@ -16,11 +13,14 @@ import NoticeUnSubscribe from "./pages/newsLetterLayout/NoticeUnSubscribe/Notice
 import ManageAccount from "./pages/userLayout/ManageAccount/ManageAccount";
 import VerifyUser from "./pages/userLayout/VerifyUser/VerifyUser";
 import AddRestaurant from "./pages/myRestaurantsLayout/AddRestaurant/AddRestaurant";
-import LayoutUserRoute from "./layouts/LayoutUserRoute";
-import LayoutMyRestaurantsRoute from "./layouts/LayoutMyRestaurantsRoute";
-import LayoutNonLoggedUserRoute from "./layouts/LayoutNonLoggedUserRoute";
 import MyRestaurants from "./pages/myRestaurantsLayout/MyRestaurants/MyRestaurants";
 import UpdateRestaurant from "./pages/myRestaurantsLayout/UpdateRestaurant/UpdateRestaurant";
+import { useApp } from "./core/hooks/useApp/useApp";
+import MainLayoutRoute from "./UI/layouts/mainLayout/MainLayoutRoute";
+import LayoutNonLoggedUserRoute from "./UI/layouts/LayoutNonLoggedUserRoute";
+import LayoutUserRoute from "./UI/layouts/LayoutUserRoute";
+import LayoutNewsLetterRoute from "./UI/layouts/LayoutNewsLetterRoute";
+import LayoutMyRestaurantsRoute from "./UI/layouts/LayoutMyRestaurantsRoute";
 
 const App: FC = () => {
   useApp();

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import LoaderPageReact from "../../../components/loaders/LoaderPageReact/LoaderPageReact";
+import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import { Navigate } from "react-router-dom";
 import { useVerifyUser } from "./useVerifyUser";
 

@@ -6,10 +6,10 @@ import {
 } from "./useManageAccountForms";
 import ChangePwd from "./components/ChangePwd/ChangePwd";
 import DeleteAccount from "./components/DeleteAccount/DeleteAccount";
-import { CurrUserType } from "../../../../../types/userTypes";
-import { ShowToastType } from "../../../../../types/toastTypes";
+import { CurrUserType } from "../../../../../types/allTypes/userTypes";
+import { ShowToastType } from "../../../../../types/allTypes/toastTypes";
 import { handleErrManageUserType } from "../../useManageAccount";
-import ButtonsSwapper from "../../../../../components/ButtonsSwapper";
+import ButtonsSwapper from "../../../../../UI/components/ButtonsSwapper";
 
 type PropsType = {
   currUser: CurrUserType | null;

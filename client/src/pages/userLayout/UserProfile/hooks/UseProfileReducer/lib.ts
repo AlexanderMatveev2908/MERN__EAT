@@ -3,7 +3,7 @@ import {
   allFields,
   fieldsDividedByArea,
   totLenUserDetails,
-} from "../../../../../config/fieldsArr/userDetailsFields";
+} from "../../../../../core/config/fieldsArr/fields.ts";
 import {
   UserDataFormType,
   UserProfileActions,

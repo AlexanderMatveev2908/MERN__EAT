@@ -4,7 +4,7 @@ import {
   userProfileFields_0,
   userProfileFields_1,
   userProfileFields_2,
-} from "../../../../config/fieldsArr/userDetailsFields.ts";
+} from "../../../../core/config/fieldsArr/fields";
 import { UserProfileFormType } from "../hooks/UseProfileReducer/types.ts";
 import { InputRefType } from "../hooks/useUserProfile.ts";
 

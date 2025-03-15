@@ -2,9 +2,9 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useCreateTanStackSendEmail } from "./useCreateTanStackSendEmail";
-import { sendUserEmailAPI } from "../../../../api/auth";
+import { useScrollTop } from "../../../../core/hooks/useScrollTop";
 import { validateStrWithArr } from "../../../../utils/validateStr";
-import { useScrollTop } from "../../../../hooks/useScrollTop";
+import { sendUserEmailAPI } from "../../../../core/api/api";
 
 export type SendEmailFormType = {
   email: string;

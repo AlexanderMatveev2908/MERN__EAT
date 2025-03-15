@@ -3,8 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 import { SendEmailFormType } from "./useSendEmail";
 import { useNavigate } from "react-router-dom";
 import { UseFormReset } from "react-hook-form";
-import { useToast } from "../../../../hooks/useGlobal";
-import { useHandleErr } from "../../../../hooks/useHandleErr";
+import { useHandleErr } from "../../../../core/hooks/useHandleErr";
+import { useToast } from "../../../../core/hooks/useGlobal";
 
 export const useCreateTanStackSendEmail = ({
   reset,

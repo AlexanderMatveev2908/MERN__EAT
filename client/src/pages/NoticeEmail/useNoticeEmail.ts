@@ -1,5 +1,5 @@
 import { useLocation, useSearchParams } from "react-router-dom";
-import { useScrollTop } from "./../../hooks/useScrollTop";
+import { useScrollTop } from "./../../core/hooks/useScrollTop";
 import { validateStrWithArr } from "./../../utils/validateStr";
 
 export const useNoticeEmail = () => {
