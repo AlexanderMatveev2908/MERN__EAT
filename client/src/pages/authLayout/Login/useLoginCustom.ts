@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useToast, useUser } from "./../../../hooks/useGlobal";
-import { useHandleErr } from "./../../../hooks/useHandleErr";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { loginUserAPI } from "./../../../api/auth";
-import { useScrollTop } from "./../../../hooks/useScrollTop";
+import { useToast, useUser } from "../../../core/hooks/useGlobal";
+import { useHandleErr } from "../../../core/hooks/useHandleErr";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { loginUserAPI } from "../../../core/api/api";
 
 export type LoginFormType = {
   email: string;

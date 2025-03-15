@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from "react";
-import { useScrollTop } from "../../../../hooks/useScrollTop";
+import { useScrollTop } from "../../../../core/hooks/useScrollTop";
 import { useProfileReducer } from "./UseProfileReducer/useProfileReducer";
 
 export type InputRefType = any;

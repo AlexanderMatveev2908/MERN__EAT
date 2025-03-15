@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
-import { useHandleErr } from "../../../../hooks/useHandleErr";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../../../../hooks/useGlobal";
+import { useToast } from "../../../../core/hooks/useGlobal";
+import { useHandleErr } from "../../../../core/hooks/useHandleErr";
 
 export const useCreateTanVerify = ({ callAPI, successCB }) => {
   const navigate = useNavigate();

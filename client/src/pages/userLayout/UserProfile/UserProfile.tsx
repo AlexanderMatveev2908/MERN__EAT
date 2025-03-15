@@ -2,7 +2,7 @@ import { FC } from "react";
 import { useUserProfile } from "./hooks/useUserProfile";
 import ButtonsForm from "./components/ButtonsForm";
 import FormUserProfile from "./components/FormUserProfile";
-import LoaderPageReact from "../../../components/loaders/LoaderPageReact/LoaderPageReact";
+import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 
 const UserProfile: FC = () => {
   const {

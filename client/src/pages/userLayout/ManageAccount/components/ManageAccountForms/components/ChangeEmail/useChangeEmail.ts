@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import { ChangeEmailFormType } from "./../../../../../../../types/userTypes";
+import { ChangeEmailFormType } from "../../../../../../../types/allTypes/userTypes";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { changeEmailAPI } from "./../../../../../../../api/user";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ShowToastType } from "./../../../../../../../types/toastTypes";
+import { ShowToastType } from "../../../../../../../types/allTypes/toastTypes";
 import { SetChildLoadingType } from "./../../ManageAccountForms";
 import { handleErrManageUserType } from "./../../../../useManageAccount";
+import { changeEmailAPI } from "../../../../../../../core/api/api";
 
 export const useChangeEmail = ({
   showToastMsg,

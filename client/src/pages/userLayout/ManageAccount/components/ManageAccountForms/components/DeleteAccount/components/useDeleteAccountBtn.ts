@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
-import { ShowToastType } from "./../../../../../../../../types/toastTypes";
+import { ShowToastType } from "../../../../../../../../types/allTypes/toastTypes";
 import { SetChildLoadingType } from "./../../../ManageAccountForms";
-import { deleteAccountAPI } from "./../../../../../../../../api/user";
 import { useNavigate } from "react-router-dom";
 import { handleErrManageUserType } from "./../../../../../useManageAccount";
-import { usePopup, useUser } from "./../../../../../../../../hooks/useGlobal";
-import { PopupPayloadSetter } from "../../../../../../../../types/popup";
+import { PopupPayloadSetter } from "../../../../../../../../types/allTypes/popup";
+import {
+  usePopup,
+  useUser,
+} from "../../../../../../../../core/hooks/useGlobal";
+import { deleteAccountAPI } from "../../../../../../../../core/api/api";
 
 export const useDeleteAccountBtn = ({
   showToastMsg,

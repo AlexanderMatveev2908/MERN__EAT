@@ -1,15 +1,15 @@
 import { FC } from "react";
-import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
+import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 import { Navigate } from "react-router-dom";
 import { useRecoverPwd } from "./useRecoverPwd";
-import PasswordLength from "../../../forms/inputFields/PasswordLength";
-import PasswordChecker from "../../../forms/inputFields/PasswordChecker";
+import PasswordLength from "../../../UI/forms/inputFields/PasswordLength";
+import PasswordChecker from "../../../UI/forms/inputFields/PasswordChecker";
+import BasePwdField from "../../../UI/forms/inputFields/BasePwdField";
+import GeneratePwd from "../../../UI/components/GeneratePwd/GeneratePwd";
 import {
   confirmPwdField,
   pwdFieldToCreate,
-} from "../../../config/fieldsArr/authFieldsUser";
-import BasePwdField from "../../../forms/inputFields/BasePwdField";
-import GeneratePwd from "../../../components/GeneratePwd/GeneratePwd";
+} from "../../../core/config/fieldsArr/fields";
 
 const RecoverPwd: FC = () => {
   const {

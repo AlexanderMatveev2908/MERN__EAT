@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { useHandleErr } from "./../../../hooks/useHandleErr";
-import { useToast, useUser } from "./../../../hooks/useGlobal";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { REG_MONGO, REG_TOKEN } from "../../../config/constants/regex";
-import { useChangeVisibilityPwd } from "./../../../hooks/useChangeVisibilityPwd";
 import { useMutation } from "@tanstack/react-query";
-import { changeRecoverPwdAPI } from "./../../../api/auth";
-import { useScrollTop } from "./../../../hooks/useScrollTop";
+import { useHandleErr } from "../../../core/hooks/useHandleErr";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useToast, useUser } from "../../../core/hooks/useGlobal";
+import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
+import { useChangeVisibilityPwd } from "../../../core/hooks/useChangeVisibilityPwd";
+import { changeRecoverPwdAPI } from "../../../core/api/api";
 
 type ChangePwdFormType = {
   password: string;

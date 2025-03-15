@@ -1,10 +1,10 @@
 import { CircleCheckBig } from "lucide-react";
 import { FC } from "react";
-import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
-import BaseFormField from "../../../forms/inputFields/BaseFormField";
-import { emailField } from "../../../config/fieldsArr/authFieldsUser";
+import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
+import BaseFormField from "../../../UI/forms/inputFields/BaseFormField";
 import { Navigate } from "react-router-dom";
 import { useNoticeUnSubscribe } from "./useNoticeUnSubscribe";
+import { emailField } from "../../../core/config/fieldsArr/fields";
 
 const NoticeUnSubscribe: FC = () => {
   const { canStay, success, register, errors, handleSubmitEmail, isPending } =

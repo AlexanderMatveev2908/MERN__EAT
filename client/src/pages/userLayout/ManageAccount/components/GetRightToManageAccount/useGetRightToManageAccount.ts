@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { GetRightManageAccountFormType } from "./../../../../../types/userTypes";
+import { GetRightManageAccountFormType } from "../../../../../types/allTypes/userTypes";
 import { useMutation } from "@tanstack/react-query";
-import { getRightManageAccountAPI } from "./../../../../../api/user";
-import { HandleErrType } from "../../../../../hooks/useHandleErr";
+import { HandleErrType } from "../../../../../core/hooks/useHandleErr";
+import { getRightManageAccountAPI } from "../../../../../core/api/api";
 
 export const useGetRightToManageAccount = ({
   setCanManageAccount,

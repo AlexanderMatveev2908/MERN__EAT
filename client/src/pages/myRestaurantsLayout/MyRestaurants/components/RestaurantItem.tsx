@@ -1,13 +1,13 @@
 import { FC } from "react";
-import { MyRestaurantType } from "../../../../types/restAdmin";
-import HeaderIDItem from "../../../../components/cardsEls/HeaderIDItem";
-import BasicCardAllUsers from "../../../../components/restaurants/BasicCardAllUsers/BasicCardAllUsers";
-import { managementMyRestaurantsFields } from "../../../../config/fieldsArr/MyRestaurants/filterSort";
-import ManageEl from "../../../../components/cardsEls/ManageEl";
+import { MyRestaurantType } from "../../../../types/allTypes/restAdmin";
+import HeaderIDItem from "../../../../UI/components/cardsEls/HeaderIDItem";
+import BasicCardAllUsers from "../../../../UI/components/restaurants/BasicCardAllUsers/BasicCardAllUsers";
+import ManageEl from "../../../../UI/components/cardsEls/ManageEl";
 import { Link } from "react-router-dom";
-import AvgRating from "../../../../components/restaurants/AvgRating";
-import HeaderImgs from "../../../../components/cardsEls/HeaderImgs";
-import HeaderName from "../../../../components/cardsEls/HeaderName";
+import AvgRating from "../../../../UI/components/restaurants/AvgRating";
+import HeaderImgs from "../../../../UI/components/cardsEls/HeaderImgs";
+import HeaderName from "../../../../UI/components/cardsEls/HeaderName";
+import { managementMyRestaurantsFields } from "../../../../core/config/fieldsArr/fields";
 
 type PropsType = {
   rest: MyRestaurantType;

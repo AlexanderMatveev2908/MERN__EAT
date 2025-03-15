@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import "./styles/index.css";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
-import GlobalProvider from "./context/global/GlobalProvider.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import GlobalProvider from "./core/context/global/GlobalProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {

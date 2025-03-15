@@ -1,16 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { useMyRestaurants } from "./useMyRestaurants";
-import NoLengthResult from "../../../components/NoLengthResult";
-import LoaderPageReact from "../../../components/loaders/LoaderPageReact/LoaderPageReact";
+import NoLengthResult from "../../../UI/components/NoLengthResult";
+import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import RestaurantItem from "./components/RestaurantItem";
-import SearchBar from "../../../common/SearchBar/SearchBar";
+import SearchBar from "../../../UI/common/SearchBar/SearchBar";
 import {
   myRestAdminCategories,
   myRestFieldsSearch,
   myRestSorters,
   priceRangeFields,
-} from "../../../config/fieldsArr/MyRestaurants/filterSort";
+} from "./../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
 import { FormProvider } from "react-hook-form";
 
 const MyRestaurants: FC = () => {

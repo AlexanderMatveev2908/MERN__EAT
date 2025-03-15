@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { ShowToastType } from "../../../../../../../../types/toastTypes";
+import { ShowToastType } from "../../../../../../../../types/allTypes/toastTypes";
 import { SetChildLoadingType } from "../../../ManageAccountForms";
 import { handleErrManageUserType } from "../../../../../useManageAccount";
 import { useDeleteAccountBtn } from "./useDeleteAccountBtn";
-import DeleteButton from "../../../../../../../../components/buttons/DeleteButton";
+import DeleteButton from "../../../../../../../../UI/components/buttons/DeleteButton";
 
 type PropsType = {
   showToastMsg: ShowToastType;

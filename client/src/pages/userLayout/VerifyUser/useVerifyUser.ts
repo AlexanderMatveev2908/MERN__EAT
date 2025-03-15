@@ -2,12 +2,12 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useEffect } from "react";
-import { useToast } from "./../../../hooks/useGlobal";
-import { useHandleErr } from "./../../../hooks/useHandleErr";
+import { useToast } from "./../../../core/hooks/useGlobal";
+import { useHandleErr } from "./../../../core/hooks/useHandleErr";
 import { isValidStr } from "./../../../utils/validateStr";
 import { useMutation } from "@tanstack/react-query";
-import { verifyNewEmailAPI } from "./../../../api/user";
-import { REG_MONGO, REG_TOKEN } from "../../../config/constants/regex";
+import { verifyNewEmailAPI } from "./../../../core/api/api";
+import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
 
 export const useVerifyUser = () => {
   const [searchParams] = useSearchParams();

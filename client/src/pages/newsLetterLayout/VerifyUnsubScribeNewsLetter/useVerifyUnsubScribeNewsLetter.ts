@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useToast } from "../../../core/hooks/useGlobal";
+import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
+import { isValidStr, validateStrWithArr } from "../../../utils/validateStr";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import {
   unSubScribeViaLinkLoggedAPI,
   unSubscribeViaLinkNonLoggedAPI,
-} from "../../../api/newsLetter";
-import { useEffect } from "react";
-import { useToast } from "../../../hooks/useGlobal";
-import { REG_MONGO, REG_TOKEN } from "../../../config/constants/regex";
-import { isValidStr, validateStrWithArr } from "../../../utils/validateStr";
-import { useScrollTop } from "../../../hooks/useScrollTop";
-import { useHandleErr } from "../../../hooks/useHandleErr";
+} from "../../../core/api/api";
 
 export const useVerifyUnsubScribeNewsLetter = () => {
   useScrollTop();

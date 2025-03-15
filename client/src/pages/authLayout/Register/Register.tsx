@@ -1,19 +1,19 @@
 import { FC } from "react";
-import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
+import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 import AcceptTerms from "./components/AcceptTerms";
-import BaseFormField from "../../../forms/inputFields/BaseFormField";
+import BaseFormField from "../../../UI/forms/inputFields/BaseFormField";
 import { useRegisterCustom } from "./useRegisterCustom";
-import PasswordLength from "../../../forms/inputFields/PasswordLength";
-import PasswordChecker from "../../../forms/inputFields/PasswordChecker";
-import SwitchForm from "../../../components/SwitchForm";
+import PasswordLength from "../../../UI/forms/inputFields/PasswordLength";
+import PasswordChecker from "../../../UI/forms/inputFields/PasswordChecker";
+import SwitchForm from "../../../UI/components/SwitchForm";
 import {
   confirmPwdField,
   emailField,
   nameFieldsArr,
   pwdFieldToCreate,
-} from "../../../config/fieldsArr/authFieldsUser";
-import BasePwdField from "../../../forms/inputFields/BasePwdField";
-import GeneratePwd from "../../../components/GeneratePwd/GeneratePwd";
+} from "../../../core/config/fieldsArr/fields.ts";
+import BasePwdField from "../../../UI/forms/inputFields/BasePwdField";
+import GeneratePwd from "../../../UI/components/GeneratePwd/GeneratePwd";
 
 const Register: FC = () => {
   const {

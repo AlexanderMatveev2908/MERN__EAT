@@ -1,13 +1,13 @@
 import { FC, useState } from "react";
-import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
-import BaseFormField from "../../../forms/inputFields/BaseFormField";
+import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
+import BaseFormField from "../../../UI/forms/inputFields/BaseFormField";
 import { useLoginCustom } from "./useLoginCustom";
-import SwitchForm from "../../../components/SwitchForm";
-import BasePwdField from "../../../forms/inputFields/BasePwdField";
+import SwitchForm from "../../../UI/components/SwitchForm";
+import BasePwdField from "../../../UI/forms/inputFields/BasePwdField";
 import {
   emailField,
   pwdFieldToAccess,
-} from "../../../config/fieldsArr/authFieldsUser";
+} from "../../../core/config/fieldsArr/allFields/authFieldsUser";
 
 const Login: FC = () => {
   const { register, errors, isPending, handleLoginUser } = useLoginCustom();

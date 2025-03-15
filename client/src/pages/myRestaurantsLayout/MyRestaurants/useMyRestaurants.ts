@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMyRestaurantsAPI } from "../../../api/myRestaurants";
 import { useEffect } from "react";
-import { useHandleErr } from "../../../hooks/useHandleErr";
-import { useScrollTop } from "../../../hooks/useScrollTop";
+import { useHandleErr } from "../../../core/hooks/useHandleErr";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useForm } from "react-hook-form";
+import { getMyRestaurantsAPI } from "../../../core/api/api";
 
 type FormSearchType = {
   search: string;

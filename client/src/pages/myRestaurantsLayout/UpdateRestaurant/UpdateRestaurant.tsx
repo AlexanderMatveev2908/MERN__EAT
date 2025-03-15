@@ -2,10 +2,10 @@
 import { FC } from "react";
 import { useUpdateRestaurant } from "./useUpdateRestaurant";
 import { FormProvider } from "react-hook-form";
-import MyRestaurantsForm from "../../../forms/MyRestaurants/MyRestaurantsForm";
+import MyRestaurantsForm from "../../../UI/forms/MyRestaurants/MyRestaurantsForm";
 import { Navigate } from "react-router-dom";
-import LoaderPageReact from "../../../components/loaders/LoaderPageReact/LoaderPageReact";
-import DeleteButton from "../../../components/buttons/DeleteButton";
+import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
+import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 
 const UpdateRestaurant: FC = () => {
   const {

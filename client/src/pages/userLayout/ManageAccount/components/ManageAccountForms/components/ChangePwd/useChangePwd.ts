@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
-import { ChangePwdFormTypeStep } from "../../../../../../../types/userTypes";
+import { ChangePwdFormTypeStep } from "../../../../../../../types/allTypes/userTypes";
 import { useState } from "react";
-import { useChangeVisibilityPwd } from "../../../../../../../hooks/useChangeVisibilityPwd";
 import { useMutation } from "@tanstack/react-query";
-import { changeOldPwdAPI } from "../../../../../../../api/user";
 import { useNavigate } from "react-router-dom";
-import { ShowToastType } from "../../../../../../../types/toastTypes";
+import { ShowToastType } from "../../../../../../../types/allTypes/toastTypes";
 import { handleErrManageUserType } from "../../../../useManageAccount";
 import { SetChildLoadingType } from "../../ManageAccountForms";
+import { useChangeVisibilityPwd } from "../../../../../../../core/hooks/useChangeVisibilityPwd";
+import { changeOldPwdAPI } from "../../../../../../../core/api/api";
 
 export const useChangePwd = ({
   showToastMsg,
