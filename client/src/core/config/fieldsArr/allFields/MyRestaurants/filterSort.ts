@@ -10,16 +10,17 @@ import { FaClock, FaDoorClosed, FaDoorOpen, FaRegStar } from "react-icons/fa";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { formatTimeHmMh } from "../../../../../utils/formatTime";
 import { myRestaurantsCat, RadioFieldType } from "./makeUpdate";
-import { createSorters } from "../../../../../utils/createSorters";
+import { createSorters } from "../../../../../utils/createFields";
 import { IconType } from "react-icons/lib";
 import { GoCodeReview } from "react-icons/go";
 import { GiReceiveMoney } from "react-icons/gi";
+import { LuChefHat } from "react-icons/lu";
 
 export type SorterFieldType = {
   icon: IconType;
   label: string;
   field: string;
-  fields: RadioFieldType[];
+  subFields: RadioFieldType[];
 };
 
 export const fieldsShowMyRestaurants = (...params) => [
@@ -137,13 +138,35 @@ export const ratingRangeFields = ratingRangeFieldsArr.map((el) => ({
   label: `⭐ ${el}`,
 }));
 
+export const myRestFilters = [
+  {
+    field: "categories",
+    label: "Category",
+    subFields: myRestAdminCategories,
+    icon: LuChefHat,
+  },
+  {
+    field: "priceRange",
+    label: "Avg price dish",
+    subFields: priceRangeFields,
+    icon: GiReceiveMoney,
+  },
+  {
+    field: "ratingRange",
+    label: "Avg rating",
+    subFields: ratingRangeFields,
+    icon: FaRegStar,
+  },
+].map((el) => ({ ...el, id: genID() }));
+
 const sorters = [
-  { field: "rating", icon: FaRegStar },
-  { field: "dishes", icon: IoRestaurant },
-  { field: "delivery", icon: MdDeliveryDining },
-  { field: "reviews", icon: GoCodeReview },
-  { field: "orders", icon: CiDeliveryTruck },
-  { field: "price", icon: GiReceiveMoney },
+  { field: "rating", label: "Avg rating", icon: FaRegStar },
+  { field: "dishes", label: "No. of dishes", icon: IoRestaurant },
+  { field: "deliveryTime", label: "Delivery time", icon: MdDeliveryDining },
+  { field: "deliveryPrice", label: "Delivery price", icon: MdDeliveryDining },
+  { field: "reviews", label: "No. of reviews", icon: GoCodeReview },
+  { field: "orders", label: "No. of orders", icon: CiDeliveryTruck },
+  { field: "price", label: "Avg price dish", icon: GiReceiveMoney },
 ];
 
 export const myRestSorters = createSorters(sorters);

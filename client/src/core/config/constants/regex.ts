@@ -21,3 +21,5 @@ export const REG_WEB_URL =
 export const REG_OPEN_CLOSE_TIME = /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
 export const REG_PRICE = /^\d+(\.\d{1,2})?$/;
 export const REG_EST_TIME = /^\d+$/;
+
+export const REG_SEARCH = /^[A-Za-zÀ-ÿ0-9\s,&`'-]*$/;

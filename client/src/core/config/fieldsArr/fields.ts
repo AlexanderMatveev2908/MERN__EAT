@@ -61,6 +61,7 @@ export {
   showMyRestaurantsDeliveryFields,
   showMyRestaurantsOpenHours,
   showMyRestaurantsOpenHoursFields,
+  myRestFilters,
 } from "./allFields/MyRestaurants/filterSort";
 
 export {

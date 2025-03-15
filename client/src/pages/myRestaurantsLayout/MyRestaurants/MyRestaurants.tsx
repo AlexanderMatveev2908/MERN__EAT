@@ -7,6 +7,7 @@ import SearchBar from "../../../UI/common/SearchBar/SearchBar";
 import {
   myRestAdminCategories,
   myRestFieldsSearch,
+  myRestFilters,
   myRestSorters,
   priceRangeFields,
 } from "./../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
@@ -33,6 +34,7 @@ const MyRestaurants: FC = () => {
             catFields: myRestAdminCategories,
             priceFields: priceRangeFields,
             sortersObj: myRestSorters,
+            filters: myRestFilters,
             formContext,
           }}
         />

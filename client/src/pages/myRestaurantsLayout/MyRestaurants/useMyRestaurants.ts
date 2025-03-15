@@ -12,7 +12,8 @@ type FormSearchType = {
   priceRange: string[];
   ratingRange: string[];
   ratingSort: string[];
-  deliverySort: string[];
+  deliveryTimeSort: string[];
+  deliveryPriceSort: string[];
   reviewsSort: string[];
   dishesSort: string[];
   ordersSort: string[];

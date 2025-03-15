@@ -26,9 +26,9 @@ const SorterField: FC<PropsType> = ({ formContext, sorter }) => {
     <div className="w-full grid grid-cols-1 gap-y-3">
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full grid items-center grid-cols-[100px_1fr] group cursor-pointer"
+        className="w-full grid items-center grid-cols-[1fr_50px] group cursor-pointer"
       >
-        <div className="w-full flex items-center gap-5">
+        <div className="w-full flex items-center gap-5 group-hover:text-orange-500 el__flow">
           {<sorter.icon className="min-w-[30px] min-h-[30px]" />}
 
           <span className="txt__02">{sorter.label}</span>
@@ -48,7 +48,7 @@ const SorterField: FC<PropsType> = ({ formContext, sorter }) => {
             : "opacity-0 max-h-0 pointer-events-none"
         }`}
       >
-        {sorter.fields.map((el, i) => (
+        {sorter.subFields.map((el, i) => (
           <RadioInput
             key={el.id}
             {...{

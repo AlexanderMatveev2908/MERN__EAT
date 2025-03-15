@@ -21,7 +21,7 @@ const RangePrice: FC<PropsType> = ({ formContext, priceFields }) => {
         {...{
           isOpen,
           setIsOpen,
-          txt: "Avg dish price",
+          txt: "Avg price dish",
           Icon: GiReceiveMoney,
         }}
       />

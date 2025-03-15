@@ -56,6 +56,7 @@ const SwapperCat: FC<PropsType> = ({ formContext }) => {
                     field: el,
                     valsChosen: watch("categories"),
                     customValidate,
+                    currCategory: "categories",
                   }}
                 />
               ))}

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FaSortAmountUp, FaSortAmountUpAlt } from "react-icons/fa";
+import { FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
 import { genID } from "./genID";
 
 export const createSorters = (arr: any) => {
@@ -7,10 +7,10 @@ export const createSorters = (arr: any) => {
 
   for (let i = 0; i < arr.length; i++) {
     sortersObj[arr[i].field] = {
-      label: arr[i].field[0].toUpperCase() + arr[i].field.slice(1),
+      label: arr[i]?.label,
       field: arr[i].field + "Sort",
       icon: arr[i].icon,
-      fields: [
+      subFields: [
         {
           id: genID(),
           field: "asc",
@@ -19,7 +19,7 @@ export const createSorters = (arr: any) => {
         {
           id: genID(),
           field: "desc",
-          icon: FaSortAmountUpAlt,
+          icon: FaSortAmountDown,
         },
       ],
     };
