@@ -61,14 +61,3 @@ export type MyRestaurantType = {
   avgRating: number;
   ordersCount: number;
 };
-
-export type RestAdminState = {
-  sorters: {
-    dishes: string;
-    orders: string;
-    reviews: string;
-    rating: string;
-  };
-};
-
-export type RestAdminVals = RestAdminState;

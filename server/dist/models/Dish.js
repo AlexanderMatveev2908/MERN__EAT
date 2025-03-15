@@ -1,25 +1,24 @@
 import mongoose from "mongoose";
 import { ImageSchema } from "./Image.js";
-const ReviewSchema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-    },
+const DishSchema = new mongoose.Schema({
     restaurant: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Restaurant",
         required: true,
     },
-    rating: {
+    name: {
+        type: String,
+        required: true,
+    },
+    price: {
         type: Number,
         required: true,
     },
-    comment: {
-        type: String,
+    quantity: {
+        type: Number,
         required: true,
     },
     images: [ImageSchema],
 }, { timestamps: true });
-const Review = mongoose.models.Review || mongoose.model("Review", ReviewSchema);
-export default Review;
+const Dish = mongoose.models.Dish || mongoose.model("Dish", DishSchema);
+export default Dish;

@@ -4,7 +4,6 @@ import { RootValsType } from "../context/root/rootTypes";
 import { ToastValsType } from "../types/toastTypes";
 import { UserValsType } from "../types/userTypes";
 import { PopupValsType } from "../types/popup";
-import { RestAdminVals } from "../types/restAdmin";
 
 const useGlobal = (): RootValsType => {
   const context = useContext(GlobalContext);
@@ -20,5 +19,3 @@ export const useToast = (): ToastValsType => useGlobal().toastState;
 export const useUser = (): UserValsType => useGlobal().userState;
 
 export const usePopup = (): PopupValsType => useGlobal().popupState;
-
-export const useRestAdmin = (): RestAdminVals => useGlobal().restAdminState;

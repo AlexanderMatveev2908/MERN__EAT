@@ -10,11 +10,9 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 export const formatMyRestaurantsBody = (req, userEmail, userPhone) => {
-    const { userId } = req;
     const _a = req.body, { estTimeDelivery, price, freeDeliveryPrice, openTime, closeTime, name, categories, phone, email, website } = _a, address = __rest(_a, ["estTimeDelivery", "price", "freeDeliveryPrice", "openTime", "closeTime", "name", "categories", "phone", "email", "website"]);
     //   mongoose automatically if we set a type for a val in schema it treats that value as type given
     return {
-        owner: userId,
         name,
         address,
         contact: {
