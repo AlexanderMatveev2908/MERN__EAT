@@ -63,10 +63,6 @@ export type MyRestaurantType = {
 };
 
 export type RestAdminState = {
-  queries: {
-    minPriceRange: number;
-    maxPriceRange: number;
-  };
   sorters: {
     dishes: string;
     orders: string;

@@ -3,6 +3,7 @@ import Switcher from "../../../../../components/inputFields/Switcher";
 import { FieldQuerySortType } from "../../../../../config/fieldsArr/MyRestaurants/filterSort";
 import { UseFormReturn } from "react-hook-form";
 import DropHandler from "../../DropHandler";
+import { CiTextAlignCenter } from "react-icons/ci";
 
 type PropsType = {
   searchFields: FieldQuerySortType[];
@@ -23,7 +24,14 @@ const MoreSearch: FC<PropsType> = ({ searchFields, formContext }) => {
 
   return (
     <div className="w-full grid grid-cols-1">
-      <DropHandler {...{ isOpen, setIsOpen, txt: "Search by text" }} />
+      <DropHandler
+        {...{
+          isOpen,
+          setIsOpen,
+          txt: "Text",
+          Icon: CiTextAlignCenter,
+        }}
+      />
 
       <div
         className={`w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 transition-all duration-300 ${

@@ -1,7 +1,7 @@
 import { FC } from "react";
 import {
   FieldQuerySortType,
-  IconFormType,
+  PseudoRangeFieldType,
 } from "../../config/fieldsArr/MyRestaurants/filterSort";
 import SearchField from "./components/SearchField";
 import { UseFormReturn } from "react-hook-form";
@@ -10,7 +10,7 @@ import MoreQueries from "./components/MoreQueries/MoreQueries";
 type PropsType = {
   searchFields: FieldQuerySortType[];
   catFields: FieldQuerySortType[];
-  priceFields: IconFormType[];
+  priceFields: PseudoRangeFieldType[];
   formContext: UseFormReturn;
 };
 

@@ -7,16 +7,10 @@ import {
   MdOutlineRateReview,
 } from "react-icons/md";
 import { IoRestaurant } from "react-icons/io5";
-import {
-  FaClock,
-  FaDollarSign,
-  FaDoorClosed,
-  FaDoorOpen,
-} from "react-icons/fa";
+import { FaClock, FaDoorClosed, FaDoorOpen } from "react-icons/fa";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { formatTimeHmMh } from "../../../utils/formatTime";
 import { myRestaurantsCat } from "./makeUpdate";
-import { IconType } from "react-icons/lib";
 
 export type FieldCheckboxSwapType = {
   id: string;
@@ -130,16 +124,18 @@ export const myRestAdminCategories = myRestaurantsCat.map((el) => ({
   label: el === "fast-food" ? "Fast-Food" : el[0].toUpperCase() + el.slice(1),
 }));
 
-const priceRangeFieldsArr = ["0-19", "20-39", "40-59", "60-79", "80-100+"];
+const priceRangeFieldsArr = ["0-19", "20-39", "40-59", "60-79", "80-100"];
 
-export type IconFormType = {
-  el: string;
-  id: string;
-  icon: IconType;
-};
-
-export const priceRangeFields = priceRangeFieldsArr.map((el) => ({
-  el,
-  icon: FaDollarSign,
+export const priceRangeFields = priceRangeFieldsArr.map((el, i, arg) => ({
+  field: el,
   id: genID(),
+  label: `$${el}${i === arg.length - 1 ? "+" : ""}`,
+}));
+
+const ratingRangeFieldsArr = ["0-1", "1.1-2", "2.1-3", "3.1-4", "4.1-5"];
+
+export const ratingRangeFields = ratingRangeFieldsArr.map((el) => ({
+  field: el,
+  id: genID(),
+  label: `⭐ ${el}`,
 }));

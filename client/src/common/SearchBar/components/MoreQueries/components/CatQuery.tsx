@@ -4,6 +4,7 @@ import { UseFormReturn } from "react-hook-form";
 import { FieldQuerySortType } from "../../../../../config/fieldsArr/MyRestaurants/filterSort";
 import CatElement from "../../../../../components/inputFields/CatElement";
 import DropHandler from "../../DropHandler";
+import { LuChefHat } from "react-icons/lu";
 
 type PropsType = {
   catFields: FieldQuerySortType[];
@@ -16,7 +17,9 @@ const CatQuery: FC<PropsType> = ({ formContext, catFields }) => {
 
   return (
     <div className="w-full grid grid-cols-1">
-      <DropHandler {...{ isOpen, setIsOpen, txt: "Search by category" }} />
+      <DropHandler
+        {...{ isOpen, setIsOpen, txt: "Category", Icon: LuChefHat }}
+      />
 
       <div
         className={`w-full grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 transition-all duration-300 ${
