@@ -1,3 +1,5 @@
+export { createURLParams } from "./allUtils/makeURLParams";
+
 export { getInitialsName } from "./allUtils/getInitialsName";
 export { prepareFormData } from "./allUtils/prepareFormDataRestaurants";
 export { priceFormatter } from "./allUtils/priceFormatter";

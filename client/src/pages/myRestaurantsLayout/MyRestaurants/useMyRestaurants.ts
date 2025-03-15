@@ -1,9 +1,26 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useForm } from "react-hook-form";
 import { getMyRestaurantsAPI } from "../../../core/api/api";
+import { createURLParams } from "../../../utils/utils";
+
+const valsMyRest = [
+  "search",
+  "searchVals",
+  "categories",
+  "priceRange",
+  "ratingRange",
+  "ratingSort",
+  "reviewsSort",
+  "priceSort",
+  "deliveryTimeSort",
+  "deliveryPriceSort",
+  "dishesSort",
+  "ordersSort",
+];
 
 type FormSearchType = {
   search: string;
@@ -37,19 +54,31 @@ export const useMyRestaurants = () => {
       : { searchVals: ["name"] },
   });
 
+  const formVals = formContext.getValues();
+
   const handleSave = formContext.handleSubmit((formDataHook) => {
-    console.log(formDataHook);
+    const params = createURLParams(formDataHook);
+    console.log(params);
     sessionStorage.setItem("myRestaurantsForm", JSON.stringify(formDataHook));
   });
 
   const handleClear = () => {
     sessionStorage.removeItem("myRestaurantsForm");
 
-    formContext.reset();
+    for (const key of valsMyRest) {
+      formContext.setValue(
+        key as any,
+        Array.isArray(savedForm?.[key])
+          ? []
+          : key === "searchVals"
+          ? ["name"]
+          : ""
+      );
+    }
   };
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
-    queryKey: ["myRestaurants"],
+    queryKey: ["myRestaurants", formVals],
     queryFn: getMyRestaurantsAPI,
   });
 
