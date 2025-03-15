@@ -20,8 +20,6 @@ const CheckBox: FC<PropsType> = ({
 }) => {
   const isIn = valsChosen?.includes?.(field.field);
 
-  console.log(isIn);
-
   return (
     <label
       className={`w-full flex items-center border-2 rounded-xl py-2 el__flow cursor-pointer ${

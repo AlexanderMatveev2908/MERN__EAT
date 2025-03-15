@@ -52,11 +52,8 @@ export {
 export {
   fieldsShowMyRestaurants,
   managementMyRestaurantsFields,
-  myRestAdminCategories,
   myRestFieldsSearch,
   myRestSorters,
-  priceRangeFields,
-  ratingRangeFields,
   showMyRestaurantsDelivery,
   showMyRestaurantsDeliveryFields,
   showMyRestaurantsOpenHours,

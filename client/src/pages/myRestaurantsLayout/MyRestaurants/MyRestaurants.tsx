@@ -5,11 +5,9 @@ import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/Load
 import RestaurantItem from "./components/RestaurantItem";
 import SearchBar from "../../../UI/common/SearchBar/SearchBar";
 import {
-  myRestAdminCategories,
   myRestFieldsSearch,
   myRestFilters,
   myRestSorters,
-  priceRangeFields,
 } from "./../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
 import { FormProvider } from "react-hook-form";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
@@ -31,9 +29,7 @@ const MyRestaurants: FC = () => {
         <SearchBar
           {...{
             searchFields: myRestFieldsSearch,
-            catFields: myRestAdminCategories,
-            priceFields: priceRangeFields,
-            sortersObj: myRestSorters,
+            sorters: myRestSorters,
             filters: myRestFilters,
             formContext,
           }}

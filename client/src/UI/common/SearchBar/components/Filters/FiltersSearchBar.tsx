@@ -2,18 +2,13 @@
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import MoreSearch from "./components/TextFilter";
-import CatQuery from "./components/CatQuery";
 import DropHandler from "../DropHandler";
-import RangePrice from "./components/RangePrice";
-import RangeRating from "./components/RangeRating";
 import { IoFilter } from "react-icons/io5";
 import { CheckBoxFieldType } from "../../../../../core/config/fieldsArr/allFields/MyRestaurants/makeUpdate";
 import FilterField from "./components/FilterField";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
-  catFields: CheckBoxFieldType[];
-  priceFields: CheckBoxFieldType[];
   formContext: UseFormReturn;
   filters: any;
 };
@@ -21,8 +16,6 @@ type PropsType = {
 const FiltersSearchBar: FC<PropsType> = ({
   searchFields,
   formContext,
-  catFields,
-  priceFields,
   filters,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,11 +44,6 @@ const FiltersSearchBar: FC<PropsType> = ({
         {filters.map((el) => (
           <FilterField key={el.id} {...{ field: el, formContext }} />
         ))}
-        {/* <CatQuery {...{ formContext, catFields }} />
-
-        <RangePrice {...{ formContext, priceFields }} />
-
-        <RangeRating {...{ formContext }} /> */}
       </div>
     </div>
   );

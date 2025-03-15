@@ -1,16 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { FaSort } from "react-icons/fa";
 import DropHandler from "../DropHandler";
 import { UseFormReturn } from "react-hook-form";
 import SorterField from "./components/SorterField";
-import { SorterFieldType } from "../../../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
 
 type PropsType = {
   formContext: UseFormReturn;
-  sortersObj: { [key: string]: SorterFieldType };
+  sorters: any;
 };
 
-const SortersSearchBar: FC<PropsType> = ({ formContext, sortersObj }) => {
+const SortersSearchBar: FC<PropsType> = ({ formContext, sorters }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -32,13 +32,9 @@ const SortersSearchBar: FC<PropsType> = ({ formContext, sortersObj }) => {
             : "opacity-0 max-h-0 pointer-events-none"
         }`}
       >
-        <SorterField {...{ formContext, sorter: sortersObj.rating }} />
-        <SorterField {...{ formContext, sorter: sortersObj.reviews }} />
-        <SorterField {...{ formContext, sorter: sortersObj.deliveryTime }} />
-        <SorterField {...{ formContext, sorter: sortersObj.deliveryPrice }} />
-        <SorterField {...{ formContext, sorter: sortersObj.dishes }} />
-        <SorterField {...{ formContext, sorter: sortersObj.orders }} />
-        <SorterField {...{ formContext, sorter: sortersObj.price }} />
+        {sorters.map((el) => (
+          <SorterField key={el.id} {...{ formContext, sorter: el }} />
+        ))}
       </div>
     </div>
   );
