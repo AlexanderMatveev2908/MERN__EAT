@@ -1,16 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import MoreSearch from "./components/TextFilter";
 import DropHandler from "../DropHandler";
 import { IoFilter } from "react-icons/io5";
 import { CheckBoxFieldType } from "../../../../../core/config/fieldsArr/allFields/MyRestaurants/makeUpdate";
 import FilterField from "./components/FilterField";
+import { SorterFieldType } from "../../../../../core/config/fieldsArr/fields";
+import TextFilter from "./components/TextFilter";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn;
-  filters: any;
+  filters: SorterFieldType[];
 };
 
 const FiltersSearchBar: FC<PropsType> = ({
@@ -39,7 +39,7 @@ const FiltersSearchBar: FC<PropsType> = ({
             : "opacity-0 max-h-0 pointer-events-none"
         }`}
       >
-        <MoreSearch {...{ formContext, searchFields }} />
+        <TextFilter {...{ formContext, searchFields }} />
 
         {filters.map((el) => (
           <FilterField key={el.id} {...{ field: el, formContext }} />
