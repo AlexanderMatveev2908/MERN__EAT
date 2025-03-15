@@ -1,20 +1,18 @@
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useBlockPages } from "./useBlockPages";
 
 export type PropsType = {
   totPages?: number;
-  // currPage?: number;
-  // setCurrPage?: (val: number) => void;
+  currPage: number;
+  setCurrPage: (val: number) => void;
 };
 
 const BlockPages: FC<PropsType> = ({
   totPages = 200,
-  // currPage,
-  // setCurrPage,
+  currPage,
+  setCurrPage,
 }) => {
-  const [currPage, setCurrPage] = useState<number>(1);
-
   const {
     handleNext,
     handlePrev,
@@ -29,7 +27,7 @@ const BlockPages: FC<PropsType> = ({
   });
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-[95%] flex flex-col items-center absolute bottom-10">
       <div className="w-full grid grid-cols-[50px_1fr_50px] items-center">
         <button
           disabled={isPrevDisabled}

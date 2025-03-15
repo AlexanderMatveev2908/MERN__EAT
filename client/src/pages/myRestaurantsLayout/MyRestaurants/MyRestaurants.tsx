@@ -11,13 +11,20 @@ import {
   priceRangeFields,
 } from "./../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
 import { FormProvider } from "react-hook-form";
+import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 
 const MyRestaurants: FC = () => {
-  const { isPending, restaurants, totRestaurants, formContext } =
-    useMyRestaurants();
+  const {
+    isPending,
+    restaurants,
+    totRestaurants,
+    formContext,
+    currPage,
+    setCurrPage,
+  } = useMyRestaurants();
 
   return (
-    <div className="w-full grid grid-cols-1 justify-items-center gap-5 ">
+    <div className="w-full grid grid-cols-1 justify-items-center gap-5">
       <span className="txt__04">My Restaurants</span>
       <FormProvider {...formContext}>
         <SearchBar
@@ -44,6 +51,8 @@ const MyRestaurants: FC = () => {
           ))}
         </div>
       )}
+
+      <BlockPages {...{ currPage, setCurrPage }} />
     </div>
   );
 };

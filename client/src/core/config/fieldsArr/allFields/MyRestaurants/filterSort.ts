@@ -13,6 +13,7 @@ import { myRestaurantsCat, RadioFieldType } from "./makeUpdate";
 import { createSorters } from "../../../../../utils/createSorters";
 import { IconType } from "react-icons/lib";
 import { GoCodeReview } from "react-icons/go";
+import { GiReceiveMoney } from "react-icons/gi";
 
 export type SorterFieldType = {
   icon: IconType;
@@ -142,6 +143,7 @@ const sorters = [
   { field: "delivery", icon: MdDeliveryDining },
   { field: "reviews", icon: GoCodeReview },
   { field: "orders", icon: CiDeliveryTruck },
+  { field: "price", icon: GiReceiveMoney },
 ];
 
 export const myRestSorters = createSorters(sorters);
