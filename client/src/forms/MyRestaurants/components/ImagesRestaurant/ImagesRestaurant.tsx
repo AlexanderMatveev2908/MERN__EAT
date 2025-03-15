@@ -2,8 +2,8 @@ import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FaImages } from "react-icons/fa";
 import { MyRestaurantsAddUpdateFormType } from "../../../../types/restAdmin";
-import ShowImgToUpload from "../../../../components/inputFields/UploadImg/ShowImgToUpload/ShowImgToUpload";
-import CustomInputImgs from "../../../../components/inputFields/UploadImg/CustomInputImgs";
+import ShowImgToUpload from "../../../inputFields/UploadImg/ShowImgToUpload/ShowImgToUpload";
+import CustomInputImgs from "../../../inputFields/UploadImg/CustomInputImgs";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;

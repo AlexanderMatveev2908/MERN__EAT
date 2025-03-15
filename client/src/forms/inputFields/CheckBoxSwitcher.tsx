@@ -11,7 +11,7 @@ type PropsType = {
   handleClick?: (val: string) => void;
 };
 
-const Switcher: FC<PropsType> = ({
+const CheckBoxSwitcher: FC<PropsType> = ({
   register,
   el,
   watch,
@@ -50,4 +50,4 @@ const Switcher: FC<PropsType> = ({
     </div>
   );
 };
-export default Switcher;
+export default CheckBoxSwitcher;

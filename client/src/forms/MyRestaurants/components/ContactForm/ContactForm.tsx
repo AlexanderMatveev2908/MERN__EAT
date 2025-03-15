@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { myRestaurantsContact } from "../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { MdConnectWithoutContact } from "react-icons/md";
-import FormFieldNoIcon from "../../../../components/inputFields/FormFieldNoIcon";
+import FormFieldNoIcon from "../../../inputFields/FormFieldNoIcon";
 import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
 
 const ContactForm: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import Switcher from "../../../../../components/inputFields/Switcher";
+import CheckBoxSwitcher from "../../../../../forms/inputFields/CheckBoxSwitcher";
 import { FieldQuerySortType } from "../../../../../config/fieldsArr/MyRestaurants/filterSort";
 import { UseFormReturn } from "react-hook-form";
 import DropHandler from "../../DropHandler";
@@ -41,7 +41,7 @@ const MoreSearch: FC<PropsType> = ({ searchFields, formContext }) => {
         }`}
       >
         {searchFields.map((el) => (
-          <Switcher
+          <CheckBoxSwitcher
             key={el.id}
             {...{
               register,

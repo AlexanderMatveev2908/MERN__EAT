@@ -1,19 +1,19 @@
 import { FC } from "react";
 import ButtonAnimated from "../../../components/buttons/ButtonAnimated";
 import AcceptTerms from "./components/AcceptTerms";
-import BaseFormField from "../../../components/inputFields/BaseFormField";
+import BaseFormField from "../../../forms/inputFields/BaseFormField";
 import { useRegisterCustom } from "./useRegisterCustom";
-import PasswordLength from "../../../components/auth/PasswordLength";
-import PasswordChecker from "../../../components/auth/PasswordChecker";
-import SwitchForm from "../../../components/auth/SwitchForm";
+import PasswordLength from "../../../forms/inputFields/PasswordLength";
+import PasswordChecker from "../../../forms/inputFields/PasswordChecker";
+import SwitchForm from "../../../components/SwitchForm";
 import {
   confirmPwdField,
   emailField,
   nameFieldsArr,
   pwdFieldToCreate,
 } from "../../../config/fieldsArr/authFieldsUser";
-import BasePwdField from "../../../components/auth/BasePwdField";
-import GeneratePwd from "../../../components/auth/GeneratePwd/GeneratePwd";
+import BasePwdField from "../../../forms/inputFields/BasePwdField";
+import GeneratePwd from "../../../components/GeneratePwd/GeneratePwd";
 
 const Register: FC = () => {
   const {
