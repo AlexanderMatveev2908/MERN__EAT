@@ -8,7 +8,7 @@ type PropsType = {
   register: UseFormRegister<any>;
   valsChosen: string[];
   customValidate?: (val: string[]) => boolean | string;
-  currCategory?: string;
+  currCategory: string;
 };
 
 const CheckBox: FC<PropsType> = ({
@@ -20,6 +20,8 @@ const CheckBox: FC<PropsType> = ({
 }) => {
   const isIn = valsChosen?.includes?.(field.field);
 
+  console.log(isIn);
+
   return (
     <label
       className={`w-full flex items-center border-2 rounded-xl py-2 el__flow cursor-pointer ${
@@ -29,7 +31,7 @@ const CheckBox: FC<PropsType> = ({
       <input
         type="checkbox"
         value={field.field}
-        {...register(currCategory ?? ("categories" as any), {
+        {...register(currCategory as string, {
           validate: (val: string[]) =>
             customValidate ? customValidate(val) : true,
         })}

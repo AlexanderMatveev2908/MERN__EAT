@@ -12,6 +12,7 @@ type PropsType = {
   catFields: CheckBoxFieldType[];
   priceFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
+  filters: any;
   sortersObj: { [key: string]: SorterFieldType };
 };
 
@@ -21,16 +22,26 @@ const SearchBar: FC<PropsType> = ({
   catFields,
   priceFields,
   sortersObj,
+  filters,
 }) => {
-  const { register } = formContext;
+  const {
+    register,
+    formState: { errors },
+  } = formContext;
 
   return (
     <div className="w-full max-w-[90%] border-[3px] border-orange-500 rounded-xl p-6">
       <div className="w-full grid grid-cols-1">
-        <SearchField {...{ register }} />
+        <SearchField {...{ register, errors }} />
 
         <FiltersSearchBar
-          {...{ formContext, searchFields, catFields, priceFields }}
+          {...{
+            formContext,
+            searchFields,
+            catFields,
+            priceFields,
+            filters,
+          }}
         />
 
         <SortersSearchBar {...{ formContext, sortersObj }} />
