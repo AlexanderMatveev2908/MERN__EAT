@@ -1,6 +1,6 @@
 import { CircleUser, Mail } from "lucide-react";
 import { REG_EMAIL, REG_NAME, REG_PWD } from "../../constants/regex";
-import { genID } from "../../../../utils/genID";
+import { genID } from "../../../../utils/allUtils/genID";
 
 export const emailField = {
   id: genID(),

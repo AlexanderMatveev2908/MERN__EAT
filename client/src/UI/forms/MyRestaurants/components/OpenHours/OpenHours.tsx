@@ -1,9 +1,9 @@
 import { FC, useEffect } from "react";
 import { FaRegClock } from "react-icons/fa";
-import { getDiffTime } from "../../../../../utils/formatTime";
 import { PropsTypeFormContextRestaurants } from "../../MyRestaurantsForm";
 import { myRestaurantsOpenCloseFields } from "../../../../../core/config/fieldsArr/fields";
 import FormFieldNoIcon from "../../../inputFields/FormFieldNoIcon";
+import { getDiffTime } from "../../../../../utils/utils";
 
 const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
   const {

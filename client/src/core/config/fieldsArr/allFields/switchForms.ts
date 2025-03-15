@@ -1,5 +1,5 @@
 import { KeyRound, LogIn, ShieldCheck, UserPen } from "lucide-react";
-import { genID } from "../../../../utils/genID";
+import { genID } from "../../../../utils/allUtils/genID";
 
 export const switchFormAuthLeft = [
   {

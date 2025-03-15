@@ -4,7 +4,7 @@ import hero_2 from "../../assets/hero_2.avif";
 // import hero_4 from "../../assets/hero_4.avif";
 import hero_5 from "../../assets/hero_5.avif";
 import hero_6 from "../../assets/hero_6.avif";
-import { genID } from "../../../../utils/genID";
+import { genID } from "../../../../utils/allUtils/genID";
 
 export const heroFieldsArr = [
   { id: genID(), img: hero },

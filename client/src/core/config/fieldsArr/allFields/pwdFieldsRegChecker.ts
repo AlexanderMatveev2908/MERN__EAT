@@ -1,4 +1,4 @@
-import { genID } from "../../../../utils/genID";
+import { genID } from "../../../../utils/allUtils/genID";
 
 export const REG_UPPERCASE = /(?=.*[A-Z])/;
 export const REG_LOWERCASE = /[a-z]+/;

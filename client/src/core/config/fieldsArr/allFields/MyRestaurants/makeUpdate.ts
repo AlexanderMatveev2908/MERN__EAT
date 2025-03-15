@@ -8,7 +8,7 @@ import {
   REG_RESTAURANT_NAME,
   REG_WEB_URL,
 } from "../../../constants/regex";
-import { genID } from "../../../../../utils/genID";
+import { genID } from "../../../../../utils/allUtils/genID";
 import { userProfileFields_1, userProfileFields_2 } from "../userDetailsFields";
 import { CheckBoxFieldType, FieldNoIconType } from "../../typesFields";
 

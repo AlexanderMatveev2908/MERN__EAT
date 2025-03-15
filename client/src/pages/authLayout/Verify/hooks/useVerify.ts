@@ -1,6 +1,9 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCallback, useEffect } from "react";
-import { isValidStr, validateStrWithArr } from "../../../../utils/validateStr";
+import {
+  isValidStr,
+  validateStrWithArr,
+} from "../../../../utils/allUtils/validateStr";
 import { useCreateTanVerify } from "./useCreateTanVerify";
 import { useScrollTop } from "../../../../core/hooks/useScrollTop";
 import { useToast, useUser } from "../../../../core/hooks/useGlobal";

@@ -5,7 +5,7 @@ import {
   loggedUserFieldsDrop,
   nonLoggedUserFields,
 } from "../../../core/config/fieldsArr/fields";
-import { makeConditionalStyleLocation } from "../../../utils/conditionalStyleLocation";
+import { makeConditionalStyleLocation } from "../../../utils/allUtils/conditionalStyleLocation";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 type PropsType = {

@@ -7,7 +7,7 @@ import {
   showMyRestaurantsOpenHoursFields,
 } from "../../../../core/config/fieldsArr/fields";
 import DropEl from "./components/DropEl";
-import { priceFormatter } from "../../../../utils/priceFormatter";
+import { priceFormatter } from "../../../../utils/allUtils/priceFormatter";
 import { MyRestaurantType } from "../../../../types/allTypes/restAdmin";
 import { ChevronDown } from "lucide-react";
 

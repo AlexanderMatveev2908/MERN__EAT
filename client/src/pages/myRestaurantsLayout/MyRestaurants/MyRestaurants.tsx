@@ -20,6 +20,8 @@ const MyRestaurants: FC = () => {
     formContext,
     currPage,
     setCurrPage,
+    handleSave,
+    handleClear,
   } = useMyRestaurants();
 
   return (
@@ -32,6 +34,8 @@ const MyRestaurants: FC = () => {
             sorters: myRestSorters,
             filters: myRestFilters,
             formContext,
+            handleSave,
+            handleClear,
           }}
         />
       </FormProvider>

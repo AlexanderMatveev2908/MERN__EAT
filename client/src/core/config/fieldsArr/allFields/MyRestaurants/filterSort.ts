@@ -1,5 +1,5 @@
 import { BiSolidDish, BiWorld } from "react-icons/bi";
-import { genID } from "../../../../../utils/genID";
+import { genID } from "../../../../../utils/allUtils/genID";
 import {
   MdConnectWithoutContact,
   MdDeliveryDining,
@@ -15,11 +15,11 @@ import {
   FaSortAmountUp,
 } from "react-icons/fa";
 import { CiDeliveryTruck } from "react-icons/ci";
-import { formatTimeHmMh } from "../../../../../utils/formatTime";
 import { myRestaurantsCat } from "./makeUpdate";
 import { GoCodeReview } from "react-icons/go";
 import { GiReceiveMoney } from "react-icons/gi";
 import { LuChefHat } from "react-icons/lu";
+import { formatTimeHmMh } from "../../../../../utils/utils";
 
 export const fieldsShowMyRestaurants = (...params) => [
   {
@@ -156,16 +156,16 @@ export const myRestFilters = [
 
 const sortersArr = [
   { field: "ratingSort", label: "Avg rating", icon: FaRegStar },
-  { field: "dishesSort", label: "No. of dishes", icon: IoRestaurant },
+  { field: "reviewsSort", label: "No. of reviews", icon: GoCodeReview },
+  { field: "priceSort", label: "Avg price dish", icon: GiReceiveMoney },
   { field: "deliveryTimeSort", label: "Delivery time", icon: MdDeliveryDining },
   {
     field: "deliveryPriceSort",
     label: "Delivery price",
     icon: MdDeliveryDining,
   },
-  { field: "reviewsSort", label: "No. of reviews", icon: GoCodeReview },
+  { field: "dishesSort", label: "No. of dishes", icon: IoRestaurant },
   { field: "ordersSort", label: "No. of orders", icon: CiDeliveryTruck },
-  { field: "priceSort", label: "Avg price dish", icon: GiReceiveMoney },
 ];
 
 const fieldsUpAndDown = [

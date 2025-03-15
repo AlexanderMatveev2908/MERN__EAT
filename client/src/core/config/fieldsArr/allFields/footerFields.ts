@@ -1,4 +1,4 @@
-import { genID } from "../../../../utils/genID";
+import { genID } from "../../../../utils/allUtils/genID";
 import { Github, Hotel } from "lucide-react";
 
 export const footerFieldsArr = [
