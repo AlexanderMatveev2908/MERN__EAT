@@ -26,7 +26,7 @@ const SortersSearchBar: FC<PropsType> = ({ formContext, sortersObj }) => {
       />
 
       <div
-        className={`w-full grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-300 gap-2 ${
+        className={`w-full items-start grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-300 gap-4 ${
           isOpen
             ? "max-h-[2000px] opacity-100 pointer-events-auto"
             : "opacity-0 max-h-0 pointer-events-none"
@@ -37,6 +37,7 @@ const SortersSearchBar: FC<PropsType> = ({ formContext, sortersObj }) => {
         <SorterField {...{ formContext, sorter: sortersObj.delivery }} />
         <SorterField {...{ formContext, sorter: sortersObj.dishes }} />
         <SorterField {...{ formContext, sorter: sortersObj.orders }} />
+        <SorterField {...{ formContext, sorter: sortersObj.price }} />
       </div>
     </div>
   );

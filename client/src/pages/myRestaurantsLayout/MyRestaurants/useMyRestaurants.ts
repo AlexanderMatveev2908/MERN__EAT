@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useForm } from "react-hook-form";
@@ -16,9 +16,12 @@ type FormSearchType = {
   reviewsSort: string[];
   dishesSort: string[];
   ordersSort: string[];
+  priceSort: string[];
 };
 
 export const useMyRestaurants = () => {
+  const [currPage, setCurrPage] = useState<number>(1);
+
   const { handleErrAPI } = useHandleErr();
 
   useScrollTop();
@@ -27,16 +30,6 @@ export const useMyRestaurants = () => {
     mode: "onChange",
     defaultValues: { searchVals: ["name"] },
   });
-
-  // console.log(formContext.watch("searchVals"));
-  // console.log(formContext.watch("search"));
-  // console.log(formContext.watch("categories"));
-  // console.log(formContext.watch("priceRange"));
-  // console.log(formContext.watch("ratingRange"));
-  // console.log(formContext.watch("ratingSort"));
-  // console.log(formContext.watch("ordersSort"));
-  // console.log(formContext.watch("dishesSort"));
-  // console.log(formContext.watch("reviewsSort"));
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["myRestaurants"],
@@ -59,5 +52,7 @@ export const useMyRestaurants = () => {
     restaurants,
     totRestaurants,
     formContext,
+    currPage,
+    setCurrPage,
   };
 };
