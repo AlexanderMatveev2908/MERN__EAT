@@ -6,11 +6,17 @@ import {
   MdOutlineRateReview,
 } from "react-icons/md";
 import { IoRestaurant } from "react-icons/io5";
-import { FaClock, FaDoorClosed, FaDoorOpen, FaRegStar } from "react-icons/fa";
+import {
+  FaClock,
+  FaDoorClosed,
+  FaDoorOpen,
+  FaRegStar,
+  FaSortAmountDown,
+  FaSortAmountUp,
+} from "react-icons/fa";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { formatTimeHmMh } from "../../../../../utils/formatTime";
 import { myRestaurantsCat, RadioFieldType } from "./makeUpdate";
-import { createSorters } from "../../../../../utils/createFields";
 import { IconType } from "react-icons/lib";
 import { GoCodeReview } from "react-icons/go";
 import { GiReceiveMoney } from "react-icons/gi";
@@ -109,30 +115,27 @@ export const managementMyRestaurantsFields = (...params) => [
 ];
 
 const myRestFieldsArr = ["name", "country", "state", "city", "id"];
-
 export const myRestFieldsSearch = myRestFieldsArr.map((el) => ({
   field: el,
   id: genID(),
   label: el[0].toUpperCase() + el.slice(1),
 }));
 
-export const myRestAdminCategories = myRestaurantsCat.map((el) => ({
+const myRestAdminCategories = myRestaurantsCat.map((el) => ({
   field: el,
   id: genID(),
   label: el === "fast-food" ? "Fast-Food" : el[0].toUpperCase() + el.slice(1),
 }));
 
 const priceRangeFieldsArr = ["0-19", "20-39", "40-59", "60-79", "80-100"];
-
-export const priceRangeFields = priceRangeFieldsArr.map((el, i, arg) => ({
+const priceRangeFields = priceRangeFieldsArr.map((el, i, arg) => ({
   field: el,
   id: genID(),
   label: `$${el}${i === arg.length - 1 ? "+" : ""}`,
 }));
 
 const ratingRangeFieldsArr = ["0-1", "1.1-2", "2.1-3", "3.1-4", "4.1-5"];
-
-export const ratingRangeFields = ratingRangeFieldsArr.map((el) => ({
+const ratingRangeFields = ratingRangeFieldsArr.map((el) => ({
   field: el,
   id: genID(),
   label: `⭐ ${el}`,
@@ -159,7 +162,7 @@ export const myRestFilters = [
   },
 ].map((el) => ({ ...el, id: genID() }));
 
-const sorters = [
+const sortersArr = [
   { field: "rating", label: "Avg rating", icon: FaRegStar },
   { field: "dishes", label: "No. of dishes", icon: IoRestaurant },
   { field: "deliveryTime", label: "Delivery time", icon: MdDeliveryDining },
@@ -169,4 +172,22 @@ const sorters = [
   { field: "price", label: "Avg price dish", icon: GiReceiveMoney },
 ];
 
-export const myRestSorters = createSorters(sorters);
+const fieldsUpAndDown = [
+  {
+    id: genID(),
+    field: "asc",
+    icon: FaSortAmountUp,
+  },
+  {
+    id: genID(),
+    field: "desc",
+    icon: FaSortAmountDown,
+  },
+];
+
+export const myRestSorters = sortersArr.map((el) => ({
+  ...el,
+  id: genID(),
+  field: el.field + "Sort",
+  subFields: [...fieldsUpAndDown],
+}));

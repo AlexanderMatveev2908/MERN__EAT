@@ -9,19 +9,15 @@ import { SorterFieldType } from "../../../core/config/fieldsArr/allFields/MyRest
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
-  catFields: CheckBoxFieldType[];
-  priceFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
   filters: any;
-  sortersObj: { [key: string]: SorterFieldType };
+  sorters: { [key: string]: SorterFieldType };
 };
 
 const SearchBar: FC<PropsType> = ({
   searchFields,
   formContext,
-  catFields,
-  priceFields,
-  sortersObj,
+  sorters,
   filters,
 }) => {
   const {
@@ -38,13 +34,11 @@ const SearchBar: FC<PropsType> = ({
           {...{
             formContext,
             searchFields,
-            catFields,
-            priceFields,
             filters,
           }}
         />
 
-        <SortersSearchBar {...{ formContext, sortersObj }} />
+        <SortersSearchBar {...{ formContext, sorters }} />
       </div>
     </div>
   );
