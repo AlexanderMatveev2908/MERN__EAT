@@ -7,7 +7,7 @@ import {
   REG_STATE,
   REG_STREET,
   REG_ZIP,
-} from "../../constants/regex.js";
+} from "../../config/constants/regex.js";
 import { handleValidator } from "../../utils/handleValidator.js";
 
 export const validatorProfileDetails = [

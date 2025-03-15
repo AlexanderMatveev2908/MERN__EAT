@@ -2,14 +2,14 @@ import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { JWTUserId } from "../middleware/general/verifyAccessToken.js";
 import { getKeys, makeKeys } from "./keys.js";
+import { CompactEncrypt, jwtDecrypt } from "jose";
 import {
   ACCESS_SIGN,
   EXPIRY_ACCESS,
-  GEN_EXPIRY_REFRESH,
-  GET_EXPIRY,
-  GET_SIGN,
-} from "../config/signs.js";
-import { CompactEncrypt, jwtDecrypt } from "jose";
+  genExpiryRefresh,
+  getExpiry,
+  getSign,
+} from "../config/tokensExpiry.js";
 
 export type ReturnTokenSHAType = {
   token: string;
@@ -23,11 +23,11 @@ export const genTokenSHA = (
   const token = crypto.randomBytes(64).toString("hex");
 
   const hashedToken = crypto
-    .createHmac("sha256", GET_SIGN(type)!)
+    .createHmac("sha256", getSign(type)!)
     .update(token)
     .digest("hex");
 
-  const expiryVerification = GET_EXPIRY(type);
+  const expiryVerification = getExpiry(type);
 
   return { token, hashedToken, expiryVerification: expiryVerification as Date };
 };
@@ -38,7 +38,7 @@ export const checkTokenSHA = (
   type: "auth" | "newsletter" | "manageAccount" | "verifyNewEmail"
 ): boolean => {
   const hashedInput = crypto
-    .createHmac("sha256", GET_SIGN(type)!)
+    .createHmac("sha256", getSign(type)!)
     .update(receivedToken)
     .digest("hex");
 
@@ -80,7 +80,7 @@ export const genTokenJWE = async (userId: string): Promise<any> => {
     .setProtectedHeader({ alg: "RSA-OAEP", enc: "A256GCM" })
     .encrypt(publicKey);
 
-  const expiry = GEN_EXPIRY_REFRESH();
+  const expiry = genExpiryRefresh();
 
   return { jwe, expiry };
 

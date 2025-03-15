@@ -18,7 +18,7 @@ import {
 } from "../controllers/authControllers/verify.js";
 import { recoverPwd } from "../controllers/authControllers/recoverPwd.js";
 import { validatorSendEmail } from "../middleware/auth/validatorSendEmail.js";
-import { HOUR } from "../constants/time.js";
+import { HOUR } from "../config/constants/time.js";
 
 const router = express();
 

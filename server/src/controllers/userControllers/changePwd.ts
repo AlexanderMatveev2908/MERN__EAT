@@ -9,7 +9,7 @@ import {
 } from "../../utils/baseErrResponse.js";
 import { checkTokenSHA } from "../../utils/token.js";
 import { checkPwdBcrypt, hashPwdBcrypt } from "../../utils/hashPwd.js";
-import { REG_PWD, REG_TOKEN } from "../../constants/regex.js";
+import { REG_PWD, REG_TOKEN } from "../../config/constants/regex.js";
 
 export const changeOldPwd = async (
   req: RequestWithUserId,
