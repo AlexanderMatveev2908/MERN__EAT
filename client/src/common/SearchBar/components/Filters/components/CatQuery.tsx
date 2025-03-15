@@ -2,7 +2,7 @@
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FieldQuerySortType } from "../../../../../config/fieldsArr/MyRestaurants/filterSort";
-import CatElement from "../../../../../components/inputFields/CatElement";
+import CheckBox from "../../../../../forms/inputFields/CheckBox";
 import DropHandler from "../../DropHandler";
 import { LuChefHat } from "react-icons/lu";
 
@@ -29,7 +29,7 @@ const CatQuery: FC<PropsType> = ({ formContext, catFields }) => {
         }`}
       >
         {catFields.map((el) => (
-          <CatElement
+          <CheckBox
             key={el.id}
             {...({
               register,

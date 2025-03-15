@@ -16,7 +16,7 @@ type PropsType = {
   formContext: UseFormReturn;
 };
 
-const MoreQueries: FC<PropsType> = ({
+const FiltersSearchBar: FC<PropsType> = ({
   searchFields,
   formContext,
   catFields,
@@ -25,7 +25,7 @@ const MoreQueries: FC<PropsType> = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-full grid grid-cols-1 gap-3">
+    <div className="w-full grid grid-cols-1 gap-3 mt-5">
       <DropHandler
         {...{
           txt: "Filter by",
@@ -37,7 +37,7 @@ const MoreQueries: FC<PropsType> = ({
       />
 
       <div
-        className={`w-full grid grid-cols-1 transition-all duration-300 gap-2 ${
+        className={`w-full grid grid-cols-1 pb-3 transition-all duration-300 gap-2 ${
           isOpen
             ? "max-h-[2000px] opacity-100 pointer-events-auto"
             : "opacity-0 max-h-0 pointer-events-none"
@@ -54,4 +54,4 @@ const MoreQueries: FC<PropsType> = ({
     </div>
   );
 };
-export default MoreQueries;
+export default FiltersSearchBar;

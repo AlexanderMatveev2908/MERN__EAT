@@ -2,8 +2,8 @@ import { UseFormReturn } from "react-hook-form";
 import DropHandler from "../../DropHandler";
 import { FC, useState } from "react";
 import { ratingRangeFields } from "../../../../../config/fieldsArr/MyRestaurants/filterSort";
-import CatElement from "../../../../../components/inputFields/CatElement";
 import { FaRegStar } from "react-icons/fa";
+import CheckBox from "../../../../../forms/inputFields/CheckBox";
 
 type PropsType = {
   formContext: UseFormReturn;
@@ -33,7 +33,7 @@ const RangeRating: FC<PropsType> = ({ formContext }) => {
         }`}
       >
         {ratingRangeFields.map((el) => (
-          <CatElement
+          <CheckBox
             key={el.id}
             {...{
               field: el,

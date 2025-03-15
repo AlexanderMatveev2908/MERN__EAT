@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { REG_PWD } from "../../../config/constants/regex";
+import { REG_PWD } from "../../config/constants/regex";
 
 export const useGeneratePwd = () => {
   const [strongPwd, setStrongPwd] = useState<string>("");

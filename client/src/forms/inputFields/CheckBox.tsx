@@ -11,7 +11,7 @@ type PropsType = {
   currCategory?: string;
 };
 
-const CatElement: FC<PropsType> = ({
+const CheckBox: FC<PropsType> = ({
   field,
   register,
   valsChosen,
@@ -46,4 +46,4 @@ const CatElement: FC<PropsType> = ({
     </label>
   );
 };
-export default CatElement;
+export default CheckBox;

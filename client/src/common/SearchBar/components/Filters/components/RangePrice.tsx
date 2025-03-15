@@ -2,7 +2,7 @@
 import { FC, useState } from "react";
 import DropHandler from "../../DropHandler";
 import { UseFormReturn } from "react-hook-form";
-import CatElement from "../../../../../components/inputFields/CatElement";
+import CheckBox from "../../../../../forms/inputFields/CheckBox";
 import { CatFormType } from "../../../../../config/fieldsArr/MyRestaurants/makeUpdate";
 import { GiReceiveMoney } from "react-icons/gi";
 
@@ -35,7 +35,7 @@ const RangePrice: FC<PropsType> = ({ formContext, priceFields }) => {
         }`}
       >
         {priceFields.map((el) => (
-          <CatElement
+          <CheckBox
             key={el.id}
             {...{
               field: el,
