@@ -8,7 +8,7 @@ type PropsType = {
   el: RadioFieldType;
   currSorter: string;
   currVals: string[];
-  handleChange: (val: string) => any;
+  handleChange: (val: string) => void;
   customStyle?: string;
 };
 

@@ -6,7 +6,7 @@ import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";
 type PropsType = {
   isPending: boolean;
   currUser: CurrUserType | null;
-  submitNewsLetter: (e: React.FormEvent<HTMLFormElement>) => void;
+  submitNewsLetter: () => void;
 };
 
 const LoggedNewsLetter: FC<PropsType> = ({

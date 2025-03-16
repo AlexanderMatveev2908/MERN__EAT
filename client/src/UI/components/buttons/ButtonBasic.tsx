@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
 
@@ -8,7 +7,7 @@ type PropsType = {
   type?: "button" | "submit" | "reset";
   styleTxt?: string;
   styleBtn?: string;
-  handleClick?: (params?: any) => void;
+  handleClick?: () => void;
   isPending?: boolean;
 };
 

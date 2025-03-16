@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useEffect } from "react";
@@ -8,6 +7,7 @@ import { isValidStr } from "../../../utils/allUtils/validateStr";
 import { useMutation } from "@tanstack/react-query";
 import { verifyNewEmailAPI } from "./../../../core/api/api";
 import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useVerifyUser = () => {
   const [searchParams] = useSearchParams();
@@ -31,7 +31,7 @@ export const useVerifyUser = () => {
       showToastMsg("New Email successfully verified!", "SUCCESS");
       navigate("/", { replace: true });
     },
-    onError: (err: any) => {
+    onError: (err: ErrFoodApp) => {
       handleErrAPI({ err, push: true });
     },
   });

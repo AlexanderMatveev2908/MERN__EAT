@@ -7,7 +7,7 @@ type PropsType = {
   el: UserDetailsFieldType;
   state: UserProfileFormType;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  inputRef: InputRefType;
+  inputRef: InputRefType | null;
 };
 
 const UserProfileField: FC<PropsType> = ({

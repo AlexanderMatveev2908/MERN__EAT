@@ -7,7 +7,6 @@ type PropsType = {
   el: CheckBoxFieldType;
   register: UseFormRegister<any>;
   watch: UseFormWatch<any>;
-  customValidate?: (val: string[]) => any;
   handleClick?: (val: string) => void;
 };
 
@@ -15,7 +14,6 @@ const CheckBoxSwitcher: FC<PropsType> = ({
   register,
   el,
   watch,
-  customValidate,
   handleClick,
 }) => {
   return (
@@ -26,10 +24,7 @@ const CheckBoxSwitcher: FC<PropsType> = ({
           value={el.field}
           type="checkbox"
           className="opacity-0"
-          {...register("searchVals", {
-            validate: (val: string[]) =>
-              customValidate ? customValidate(val) : true,
-          })}
+          {...register("searchVals")}
           onClick={() => handleClick?.(el.field)}
         />
         <span

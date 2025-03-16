@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useScrollTop } from "./../../../core/hooks/useScrollTop";
 import { useToast, useUser } from "./../../../core/hooks/useGlobal";
 import { useHandleErr } from "./../../../core/hooks/useHandleErr";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
-export type handleErrManageUserType = (err: any) => void;
+export type handleErrManageUserType = ({ err }: { err: ErrFoodApp }) => void;
 
 export const useManageAccount = () => {
   useScrollTop();
@@ -14,7 +14,7 @@ export const useManageAccount = () => {
   const { setCanManageAccount, canManageAccount, currUser, logoutUser } =
     useUser();
 
-  const handleErrManageUser = (err: any) => {
+  const handleErrManageUser = ({ err }: { err: ErrFoodApp }) => {
     const status = err?.response?.status;
     const url = err?.response?.config?.url;
     const msg = err?.response?.data?.msg || err.message;
@@ -27,7 +27,7 @@ export const useManageAccount = () => {
         handleErrAPI({ err });
       }
     } else {
-      if ([401, 429].includes(status)) {
+      if ([401, 429].includes(status ?? 400)) {
         setCanManageAccount(false);
       }
 

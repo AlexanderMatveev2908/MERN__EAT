@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import CheckBox from "../../../../../forms/inputFields/CheckBox";
 import DropHandler from "../../DropHandler";
+import { SearchFilterType } from "../../../../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
-  field: any;
+  field: SearchFilterType;
   formContext: UseFormReturn;
 };
 

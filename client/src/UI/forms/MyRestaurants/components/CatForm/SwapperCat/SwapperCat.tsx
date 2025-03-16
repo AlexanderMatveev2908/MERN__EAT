@@ -34,11 +34,14 @@ const SwapperCat: FC<PropsType> = ({ formContext }) => {
     <div className="w-full flex flex-col gap-y-5">
       <div className="w-full p-5 overflow-x-hidden">
         <div
-          className="grid lg:max-w-full lg:gap-x-10 lg:grid-cols-2 transition-all duration-500"
+          className="grid lg:max-w-full lg:gap-x-10 lg:grid-cols-2 transition-all duration-500 items-start"
           style={{
-            width: `${(myRestaurantsCatFields?.length / 6) * 100}%`,
+            width: `${Math.ceil(myRestaurantsCatFields?.length / 6) * 100}%`,
             gridTemplateColumns: `repeat(${totLenMyRestaurantsCat}, 1fr)`,
-            transform: `translateX(-${propsBtns.currForm * 50}%)`,
+            transform: `translateX(-${
+              propsBtns.currForm *
+              (100 / Math.ceil(myRestaurantsCatFields?.length / 6))
+            }%)`,
           }}
         >
           {arrCatByArea.map((arrEl, i) => (

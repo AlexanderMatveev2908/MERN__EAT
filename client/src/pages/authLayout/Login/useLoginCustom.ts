@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +6,7 @@ import { useToast, useUser } from "../../../core/hooks/useGlobal";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { loginUserAPI } from "../../../core/api/api";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export type LoginFormType = {
   email: string;
@@ -42,9 +42,9 @@ export const useLoginCustom = () => {
       showToastMsg("User logged in successfully", "SUCCESS");
       navigate("/");
     },
-    onError: (err: any) => {
-      if ([401, 403].includes(err?.response?.status))
-        showToastMsg(err?.response?.data?.msg, "ERROR");
+    onError: (err: ErrFoodApp) => {
+      if ([401, 403].includes(err?.response?.status ?? 400))
+        showToastMsg(err?.response?.data?.msg ?? "", "ERROR");
       else handleErrAPI({ err });
     },
   });

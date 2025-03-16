@@ -4,12 +4,15 @@ import DropHandler from "../DropHandler";
 import { IoFilter } from "react-icons/io5";
 import FilterField from "./components/FilterField";
 import TextFilter from "./components/TextFilter";
-import { CheckBoxFieldType } from "../../../../../core/config/fieldsArr/typesFields";
+import {
+  CheckBoxFieldType,
+  SearchFilterType,
+} from "../../../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn;
-  filters: CheckBoxFieldType[];
+  filters: SearchFilterType[];
 };
 
 const FiltersSearchBar: FC<PropsType> = ({

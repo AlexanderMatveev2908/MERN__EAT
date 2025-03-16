@@ -7,7 +7,7 @@ type PropsType = {
   register: UseFormRegister<any>;
   errors: FieldErrors;
   field: AuthFieldUserType;
-  custom?: (val: any) => any;
+  custom?: (val: string) => string | boolean;
 };
 
 const BaseFormField: FC<PropsType> = ({ register, errors, field, custom }) => {

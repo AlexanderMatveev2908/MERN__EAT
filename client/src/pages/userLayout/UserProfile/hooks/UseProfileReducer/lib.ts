@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   allFields,
   fieldsDividedByArea,
   totLenUserDetails,
 } from "../../../../../core/config/fieldsArr/fields.ts";
+import { UserDetailsFieldType } from "../../../../../core/config/fieldsArr/typesFields.ts";
 import {
   UserDataFormType,
   UserProfileActions,
@@ -11,7 +11,7 @@ import {
 } from "./types";
 
 export const getRespectiveVals = (
-  currFieldsArea: any[],
+  currFieldsArea: UserDetailsFieldType[],
   user: UserProfileFormType["user"]
 ) => {
   let obj;
@@ -25,7 +25,7 @@ export const getRespectiveVals = (
 };
 
 export const getRespectiveVals_2 = (
-  currFieldsArea: any[],
+  currFieldsArea: UserDetailsFieldType[],
   user: UserProfileFormType["user"]
 ) => {
   let respectiveVals;
@@ -44,7 +44,7 @@ export const getRespectiveVals_2 = (
 
 export const validateVals = (
   respectiveVals: { [key: string]: string },
-  currArea: any[]
+  currArea: UserDetailsFieldType[]
 ) => {
   let isCurrFormValid = true;
 
@@ -63,7 +63,7 @@ export const handleErr = (
   dispatch,
   name: string,
   value: string,
-  currField: any
+  currField: UserDetailsFieldType
 ) => {
   dispatch({
     type: UserProfileActions.SET_ERR,
@@ -113,7 +113,7 @@ export const handleChange = (
 ) => {
   const { name, value } = e.target;
 
-  const [currField] = allFields.filter((field) => field.field === name) as any;
+  const [currField] = allFields.filter((field) => field.field === name);
 
   cbErr(name, value, currField);
 

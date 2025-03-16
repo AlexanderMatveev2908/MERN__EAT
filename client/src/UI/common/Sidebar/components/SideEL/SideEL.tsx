@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { makeConditionalStyleLocation } from "../../../../../utils/allUtils/conditionalStyleLocation";
 import { SideDropFieldType } from "../../../../../core/config/fieldsArr/typesFields";
+import { Location } from "react-router-dom";
 
 type PropsType = {
   handleSideClick: (path: string, from?: string) => void;
   type: string | null;
-  location: any;
+  location: Location;
   el: SideDropFieldType;
 };
 

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { UseFormReset } from "react-hook-form";
 import { useHandleErr } from "../../../../core/hooks/useHandleErr";
 import { useToast } from "../../../../core/hooks/useGlobal";
+import { ErrFoodApp } from "../../../../types/allTypes/API";
 
 export const useCreateTanStackSendEmail = ({
   reset,
@@ -31,7 +32,7 @@ export const useCreateTanStackSendEmail = ({
         state: { from },
       });
     },
-    onError: (err: any) => {
+    onError: (err: ErrFoodApp) => {
       if (err?.response?.status === 403)
         showToastMsg(err?.response?.data?.msg, "ERROR");
       else handleErrAPI({ err });

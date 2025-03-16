@@ -2,15 +2,15 @@
 import { Eye, EyeOff } from "lucide-react";
 import { FC } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { AuthPwdFieldType } from "../../../core/config/fieldsArr/fields";
+import { AuthFieldUserType } from "../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   register: UseFormRegister<any>;
   errors: FieldErrors;
   isVisible: boolean;
   handleChangeVisibility: () => void;
-  field: AuthPwdFieldType;
-  custom?: (val: any) => any;
+  field: AuthFieldUserType;
+  custom?: (val: string) => string | boolean;
 };
 
 const BasePwdField: FC<PropsType> = ({

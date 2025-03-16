@@ -6,6 +6,7 @@ import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useForm } from "react-hook-form";
 import { getMyRestaurantsAPI } from "../../../core/api/api";
 import { createURLParams } from "../../../utils/utils";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 const valsMyRest = [
   "search",
@@ -84,7 +85,7 @@ export const useMyRestaurants = () => {
 
   useEffect(() => {
     if (isError) {
-      handleErrAPI({ err: error });
+      handleErrAPI({ err: error as ErrFoodApp });
     }
     if (isSuccess) {
       //

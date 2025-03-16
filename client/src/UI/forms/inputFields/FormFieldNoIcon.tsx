@@ -7,7 +7,7 @@ type PropsType = {
   field: FieldNoIconType;
   register: UseFormRegister<any>;
   errors: FieldErrors;
-  customValidate?: (val: any) => any;
+  customValidate?: (val: string) => string | boolean;
 };
 
 const FormFieldNoIcon: FC<PropsType> = ({

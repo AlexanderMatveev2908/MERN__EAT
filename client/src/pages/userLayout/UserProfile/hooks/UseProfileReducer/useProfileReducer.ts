@@ -18,6 +18,7 @@ import {
   getUserProfileDetailsAPI,
   updateUserProfileAPI,
 } from "../../../../../core/api/api";
+import { ErrFoodApp } from "../../../../../types/allTypes/API";
 
 export const useProfileReducer = () => {
   const { handleErrAPI } = useHandleErr();
@@ -55,7 +56,7 @@ export const useProfileReducer = () => {
 
   const handleSideEffectGetDetails = useCallback(() => {
     if (isError) {
-      handleErrAPI({ err: error });
+      handleErrAPI({ err: error as ErrFoodApp });
     } else if (isSuccess) {
       const { user: existingUserData = {} as any } =
         fetchedUserData ?? ({} as any);
@@ -71,7 +72,7 @@ export const useProfileReducer = () => {
   ]);
   const handleSideEffectsUpdateDetails = useCallback(async () => {
     if (isErrorUpdate) {
-      handleErrAPI({ err: errorUpdate });
+      handleErrAPI({ err: errorUpdate as ErrFoodApp });
     } else if (isSuccessUpdate) {
       showToastMsg("Profile updated successfully", "SUCCESS");
       await queryClient.invalidateQueries({

@@ -8,6 +8,7 @@ import { handleErrManageUserType } from "../../../../useManageAccount";
 import { SetChildLoadingType } from "../../ManageAccountForms";
 import { useChangeVisibilityPwd } from "../../../../../../../core/hooks/useChangeVisibilityPwd";
 import { changeOldPwdAPI } from "../../../../../../../core/api/api";
+import { ErrFoodApp } from "../../../../../../../types/allTypes/API";
 
 export const useChangePwd = ({
   showToastMsg,
@@ -55,8 +56,8 @@ export const useChangePwd = ({
       showToastMsg("Password changed successfully", "SUCCESS");
       navigate("/");
     },
-    onError: (err) => {
-      handleErrManageUser(err);
+    onError: (err: ErrFoodApp) => {
+      handleErrManageUser({ err });
     },
     onSettled: () => {
       setIsChildLoading(false);

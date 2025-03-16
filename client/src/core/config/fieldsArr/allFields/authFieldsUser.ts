@@ -1,8 +1,9 @@
 import { CircleUser, Mail } from "lucide-react";
 import { REG_EMAIL, REG_NAME, REG_PWD } from "../../constants/regex";
 import { genID } from "../../../../utils/allUtils/genID";
+import { AuthFieldUserType } from "../typesFields";
 
-export const emailField = {
+export const emailField: AuthFieldUserType = {
   id: genID(),
   field: "email",
   label: "Email",
@@ -12,13 +13,13 @@ export const emailField = {
   type: "email",
 };
 
-export const changeEmailField = {
+export const changeEmailField: AuthFieldUserType = {
   ...emailField,
   label: "New Email",
   field: "newEmail",
 };
 
-export const nameFieldsArr = [
+export const nameFieldsArr: AuthFieldUserType[] = [
   {
     id: genID(),
     field: "firstName",
@@ -39,7 +40,7 @@ export const nameFieldsArr = [
   },
 ];
 
-export const pwdFieldToAccess = {
+export const pwdFieldToAccess: AuthFieldUserType = {
   id: genID(),
   field: "password",
   label: "Password",
@@ -48,20 +49,20 @@ export const pwdFieldToAccess = {
   reg: /.*/,
 };
 
-export const pwdFieldToCreate = {
+export const pwdFieldToCreate: AuthFieldUserType = {
   ...pwdFieldToAccess,
   reg: REG_PWD,
   msg: `Password must follow this pattern ${/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/} 🧐`,
 };
 
-export const pwdFieldToChangeOldPwd = {
+export const pwdFieldToChangeOldPwd: AuthFieldUserType = {
   ...pwdFieldToCreate,
   label: "New Password",
   place: "Your new password",
   field: "newPassword",
 };
 
-export const confirmPwdField = {
+export const confirmPwdField: AuthFieldUserType = {
   id: genID(),
   field: "confirmPassword",
   label: "Confirm Password",

@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { Trash2 } from "lucide-react";
 import { UseFormSetValue, UseFormTrigger } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../../../types/allTypes/restAdmin";
 import { useShowImgToUpload } from "./useShowImgToUpload";
+import { ImageUploadedType } from "../../../../../types/types";
 
 export type PropsType = {
-  img: any;
+  img: ImageUploadedType | File;
   trigger: UseFormTrigger<MyRestaurantsAddUpdateFormType>;
-  images: any[];
+  images: ImageUploadedType[] | File[];
   setValue: UseFormSetValue<MyRestaurantsAddUpdateFormType>;
 };
 

@@ -16,6 +16,7 @@ import { usePopup, useToast } from "../../../core/hooks/useGlobal";
 import { prepareFormData } from "../../../utils/allUtils/prepareFormDataRestaurants";
 import { PopupPayloadSetter } from "../../../types/allTypes/popup";
 import { formatTimeHmMh } from "../../../utils/utils";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useUpdateRestaurant = () => {
   const { restId } = useParams();
@@ -51,7 +52,7 @@ export const useUpdateRestaurant = () => {
 
   useEffect(() => {
     if (isErrorInfo) {
-      handleErrAPI({ err: errorInfo, push: true });
+      handleErrAPI({ err: errorInfo as ErrFoodApp, push: true });
     } else if (isSuccessInfo) {
       const { restaurant } = dataInfo ?? {};
 
@@ -91,7 +92,7 @@ export const useUpdateRestaurant = () => {
     onSuccess: () => {
       showToastMsg("Restaurant updated", "SUCCESS");
     },
-    onError: (err: any) => {
+    onError: (err: ErrFoodApp) => {
       handleErrAPI({ err });
     },
   });
@@ -117,7 +118,7 @@ export const useUpdateRestaurant = () => {
       showToastMsg("Restaurant deleted", "SUCCESS");
       navigate("/my-restaurants", { replace: true });
     },
-    onError: (err: any) => {
+    onError: (err: ErrFoodApp) => {
       handleErrAPI({ err });
     },
     onSettled: () => setPopup(null),

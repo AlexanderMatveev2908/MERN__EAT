@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Trash2 } from "lucide-react";
 import { FC } from "react";
 
 type PropsType = {
-  handleDelete: (params: any) => void;
+  handleDelete: () => void;
   txt: string;
 };
 

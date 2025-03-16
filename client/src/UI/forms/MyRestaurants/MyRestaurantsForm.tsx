@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmin";
@@ -14,7 +13,7 @@ import { useLocation } from "react-router-dom";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
-  handleSave: (data: MyRestaurantsAddUpdateFormType) => void;
+  handleSave: () => void;
   isPending: boolean;
 };
 
@@ -31,7 +30,7 @@ const MyRestaurantsForm: FC<PropsType> = ({
 
   return (
     <form
-      onSubmit={handleSave as any}
+      onSubmit={handleSave}
       className="w-full grid grid-cols-1 justify-items-center gap-y-10"
     >
       <NameRestaurant {...{ formContext }} />

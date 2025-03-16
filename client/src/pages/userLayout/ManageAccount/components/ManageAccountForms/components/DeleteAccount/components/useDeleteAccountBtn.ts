@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
 import { ShowToastType } from "../../../../../../../../types/allTypes/toastTypes";
 import { SetChildLoadingType } from "./../../../ManageAccountForms";
@@ -10,6 +9,7 @@ import {
   useUser,
 } from "../../../../../../../../core/hooks/useGlobal";
 import { deleteAccountAPI } from "../../../../../../../../core/api/api";
+import { ErrFoodApp } from "../../../../../../../../types/allTypes/API";
 
 export const useDeleteAccountBtn = ({
   showToastMsg,
@@ -36,8 +36,8 @@ export const useDeleteAccountBtn = ({
       logoutUser();
       showToastMsg("Account deleted successfully", "SUCCESS");
     },
-    onError: (err: any) => {
-      handleErrManageUser(err);
+    onError: (err: ErrFoodApp) => {
+      handleErrManageUser({ err });
     },
     onSettled: () => {
       setPopup(null);

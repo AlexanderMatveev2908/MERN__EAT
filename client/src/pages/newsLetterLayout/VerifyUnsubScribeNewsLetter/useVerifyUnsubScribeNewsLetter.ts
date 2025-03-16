@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -14,6 +13,7 @@ import {
   unSubScribeViaLinkLoggedAPI,
   unSubscribeViaLinkNonLoggedAPI,
 } from "../../../core/api/api";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useVerifyUnsubScribeNewsLetter = () => {
   useScrollTop();
@@ -55,7 +55,7 @@ export const useVerifyUnsubScribeNewsLetter = () => {
       });
       showToastMsg("Subscription deleted successfully", "SUCCESS");
     },
-    onError: (err: any) => {
+    onError: (err: ErrFoodApp) => {
       if (err?.response?.status === 401) {
         navigate(`/newsletter/notice-unsubscribe-with-retry?success=false`, {
           state: { from: location.pathname },

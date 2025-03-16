@@ -9,6 +9,7 @@ import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { useNavigate } from "react-router-dom";
 import { defaultValuesMyRest } from "../../../core/config/onlyDev/defVals";
 import { createRestaurantAPI } from "../../../core/api/api";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useAddRestaurant = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export const useAddRestaurant = () => {
       showToastMsg("Restaurant created successfully", "SUCCESS");
       navigate("/my-restaurants");
     },
-    onError: (err) => {
+    onError: (err: ErrFoodApp) => {
       handleErrAPI({ err });
     },
   });

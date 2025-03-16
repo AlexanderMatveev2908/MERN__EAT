@@ -1,3 +1,4 @@
+import { AxiosError, AxiosResponse } from "axios";
 import { CurrUserType } from "./userTypes";
 
 export type ReturnAPIBasic =
@@ -24,3 +25,7 @@ export type ImageUploadedType = {
   url: string;
   public_id: string;
 };
+
+export interface ErrFoodApp extends AxiosError {
+  response?: AxiosResponse<{ msg: string; success: boolean }>;
+}

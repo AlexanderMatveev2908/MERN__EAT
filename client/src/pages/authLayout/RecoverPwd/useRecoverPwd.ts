@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -9,6 +8,7 @@ import { useToast, useUser } from "../../../core/hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
 import { useChangeVisibilityPwd } from "../../../core/hooks/useChangeVisibilityPwd";
 import { changeRecoverPwdAPI } from "../../../core/api/api";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 type ChangePwdFormType = {
   password: string;
@@ -75,7 +75,7 @@ export const useRecoverPwd = () => {
       showToastMsg("Password changed successfully", "SUCCESS");
       navigate("/", { replace: true });
     },
-    onError: (err: any) => {
+    onError: (err: ErrFoodApp) => {
       handleErrAPI({ err });
     },
   });
