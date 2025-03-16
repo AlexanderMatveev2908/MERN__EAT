@@ -1,6 +1,5 @@
+import { LucideIcon } from "lucide-react";
 import { IconType } from "react-icons/lib";
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export type BaseFieldType = {
   id: string;
@@ -18,9 +17,11 @@ export type FieldChecker = {
 export type AuthFieldUserType = BaseFieldType &
   FieldChecker & {
     place?: string;
-    svg?: any;
+    svg: LucideIcon;
     type?: string;
   };
+
+export type AuthFieldUserTypeNoSvg = Omit<AuthFieldUserType, "svg">;
 
 export type UserDetailsFieldType = BaseFieldType & FieldChecker;
 
@@ -30,7 +31,7 @@ export type PwdCheckerType = Omit<BaseFieldType, "field"> & FieldChecker;
 
 export type SideDropFieldType = Omit<BaseFieldType, "field"> & {
   path: string;
-  svg: any; // can be also an icon, some svg from lucide icon are really cool, but when i do not find something i go on react icons to find them cause has bigger choice, generally i do not make nothing to complex that would not allow me to treat them in the same way for styling so is ok but if you need to implement something that requires only svg you should remove icons from arrays od els
+  svg: LucideIcon | IconType; // can be also an icon, some svg from lucide icon are really cool, but when i do not find something i go on react icons to find them cause has bigger choice, generally i do not make nothing to complex that would not allow me to treat them in the same way for styling so is ok but if you need to implement something that requires only svg you should remove icons from arrays od els
   from?: string;
 };
 
@@ -43,7 +44,7 @@ export type FooterFieldType = Omit<BaseFieldType, "field"> & {
 // SWITCH FORM
 
 export type SwitchFormFieldType = Omit<BaseFieldType, "field"> & {
-  svg: any;
+  svg: LucideIcon;
   type: string;
 };
 
