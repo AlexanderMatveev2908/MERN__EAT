@@ -109,9 +109,9 @@ export const getMyRestaurants = async (
       },
     },
 
-    { $match: query ?? {} },
+    ...(query ? [{ $match: query }] : []),
     // make our operations of sorting before group cause after is not possible modifying their order
-    { $sort: sorter ?? { "restaurants.createdAt": -1 } },
+    ...(sorter ? [{ $sort: sorter }] : []),
     // after unwind we need an array of els again cause is easier to work with
     { $skip: skip },
     { $limit: limit },
@@ -127,6 +127,7 @@ export const getMyRestaurants = async (
   // most of cases $ is used for dynamic fields, to access property of obj and create new fields, in some way is similar with THIS in oop js
 
   const restaurants = result[0]?.restaurants;
+  const nHits = result[0]?.nHits;
 
   // console.log(restaurants);
   return res.status(200).json({
@@ -134,6 +135,7 @@ export const getMyRestaurants = async (
     restaurants,
     totDocuments,
     totPages,
+    nHits,
   });
 };
 

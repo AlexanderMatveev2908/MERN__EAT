@@ -1,5 +1,8 @@
 import { foodAppInstance } from "../../config/constants/axiosInstance";
-import { ReturnAPIBasic } from "../../../types/allTypes/API";
+import {
+  GetElsQueriedReturnType,
+  ReturnAPIBasic,
+} from "../../../types/allTypes/API";
 import { MyRestaurantType } from "../../../types/allTypes/restAdmin";
 
 export const createRestaurantAPI = async (
@@ -13,11 +16,7 @@ export const createRestaurantAPI = async (
 export const getMyRestaurantsAPI = async (
   params?: URLSearchParams
 ): Promise<
-  ReturnAPIBasic & {
-    totDocuments: number;
-    totPages: number;
-    restaurants: MyRestaurantType[];
-  }
+  ReturnAPIBasic & GetElsQueriedReturnType & { restaurants: MyRestaurantType[] }
 > => {
   const { data } = await foodAppInstance.get(`/my-restaurants?${params}`);
 
