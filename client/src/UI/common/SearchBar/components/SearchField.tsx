@@ -26,7 +26,7 @@ const SearchField: FC<PropsType> = ({ register, errors }) => {
           {...register("search", {
             pattern: {
               value: REG_SEARCH,
-              message: "Invalid search characters 🥸",
+              message: "Invalid search length or chars 🥸",
             },
           })}
         />

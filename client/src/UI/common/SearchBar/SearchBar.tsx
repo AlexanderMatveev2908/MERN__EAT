@@ -18,6 +18,7 @@ type PropsType = {
   sorters: SorterFieldType[];
   handleSave: () => void;
   handleClear: () => void;
+  isPending: boolean;
 };
 
 const SearchBar: FC<PropsType> = ({
@@ -27,6 +28,7 @@ const SearchBar: FC<PropsType> = ({
   filters,
   handleSave,
   handleClear,
+  isPending,
 }) => {
   const {
     register,
@@ -58,6 +60,7 @@ const SearchBar: FC<PropsType> = ({
               styleBtn: "text-green-600",
               styleTxt: "text-green-600 txt__02",
               handleClick: handleSave,
+              isPending,
             }}
           />
         </div>
@@ -70,6 +73,7 @@ const SearchBar: FC<PropsType> = ({
               styleBtn: "text-red-600",
               styleTxt: "text-red-600 txt__02",
               handleClick: handleClear,
+              isDisabled: isPending,
             }}
           />
         </div>

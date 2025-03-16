@@ -16,12 +16,13 @@ const MyRestaurants: FC = () => {
   const {
     isPending,
     restaurants,
-    totRestaurants,
+    totDocuments,
     formContext,
     currPage,
     setCurrPage,
     handleSave,
     handleClear,
+    totPages,
   } = useMyRestaurants();
 
   return (
@@ -36,25 +37,26 @@ const MyRestaurants: FC = () => {
             formContext,
             handleSave,
             handleClear,
+            isPending,
           }}
         />
       </FormProvider>
 
       {isPending ? (
         <LoaderPageReact />
-      ) : !totRestaurants ? (
+      ) : !totDocuments ? (
         <NoLengthResult
           {...{ txt: "It seems you do not have any restaurants right now 🧐" }}
         />
       ) : (
-        <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))] justify-items-center gap-10 place-content-start items-start mt-5">
+        <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center gap-10 place-content-start items-start mt-5">
           {restaurants?.map((rest) => (
             <RestaurantItem key={rest._id} {...{ rest }} />
           ))}
         </div>
       )}
 
-      <BlockPages {...{ currPage, setCurrPage }} />
+      <BlockPages {...{ currPage, setCurrPage, totPages }} />
     </div>
   );
 };

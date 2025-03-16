@@ -25,7 +25,7 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
 
         <BasicCardAllUsers {...{ rest }} />
 
-        <div className="w-full mt-3 ">
+        <div className="w-full mt-3 grid grid-cols-1 gap-y-3">
           {managementMyRestaurantsFields(
             rest.dishesCount,
             rest.ordersCount,
@@ -33,9 +33,9 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
           ).map((el) => (
             <ManageEl key={el.id} {...{ el }} />
           ))}
-        </div>
 
-        <AvgRating {...{ rating: rest.avgRating }} />
+          <AvgRating {...{ rating: rest.avgRating }} />
+        </div>
       </div>
 
       <div className="w-full max-w-fit justify-center justify-self-center flex mt-5">

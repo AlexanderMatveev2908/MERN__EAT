@@ -17,6 +17,8 @@ import {
   deleteRestaurant,
   updateMyRestaurant,
 } from "../controllers/myRestaurants/makeUpdateDelete.js";
+import { validateGetMyRestParams } from "../middleware/myRestaurants/validateGetMyRestParams.js";
+import { validatePagination } from "../middleware/general/validatePagination.js";
 
 const router = express();
 
@@ -29,7 +31,12 @@ router
     validateFiles,
     asyncWrapper(createRestaurant)
   )
-  .get(verifyAccessToken, asyncWrapper(getMyRestaurants));
+  .get(
+    verifyAccessToken,
+    validatePagination,
+    validateGetMyRestParams,
+    asyncWrapper(getMyRestaurants)
+  );
 
 router.get(
   "/info-restaurant/:restId",

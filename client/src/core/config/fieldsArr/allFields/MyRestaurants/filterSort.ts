@@ -8,6 +8,7 @@ import {
 import { IoRestaurant } from "react-icons/io5";
 import {
   FaClock,
+  FaDatabase,
   FaDoorClosed,
   FaDoorOpen,
   FaRegStar,
@@ -156,7 +157,31 @@ const ratingRangeFields: BaseFieldType[] = ratingRangeFieldsArr.map((el) => ({
   label: `⭐ ${el}`,
 }));
 
+const ordersFieldsArr: BaseFieldType[] = [
+  "pending",
+  "processing",
+  "shipped",
+  "delivered",
+  "cancelled",
+].map((el) => ({
+  field: el,
+  id: genID(),
+  label: el[0].toUpperCase() + el.slice(1),
+}));
+
 export const myRestFilters: SearchFilterType[] = [
+  {
+    field: "ordersState",
+    label: "Orders state",
+    subFields: ordersFieldsArr,
+    icon: FaDatabase,
+  },
+  {
+    field: "ratingRange",
+    label: "Avg rating",
+    subFields: ratingRangeFields,
+    icon: FaRegStar,
+  },
   {
     field: "categories",
     label: "Category",
@@ -169,26 +194,20 @@ export const myRestFilters: SearchFilterType[] = [
     subFields: priceRangeFields,
     icon: GiReceiveMoney,
   },
-  {
-    field: "ratingRange",
-    label: "Avg rating",
-    subFields: ratingRangeFields,
-    icon: FaRegStar,
-  },
 ].map((el) => ({ ...el, id: genID() }));
 
 const sortersArr: (Omit<BaseFieldType, "id"> & { icon: IconType })[] = [
   { field: "ratingSort", label: "Avg rating", icon: FaRegStar },
+  { field: "ordersSort", label: "No. of orders", icon: CiDeliveryTruck },
   { field: "reviewsSort", label: "No. of reviews", icon: GoCodeReview },
   { field: "priceSort", label: "Avg price dish", icon: GiReceiveMoney },
-  { field: "deliveryTimeSort", label: "Delivery time", icon: MdDeliveryDining },
-  {
-    field: "deliveryPriceSort",
-    label: "Delivery price",
-    icon: MdDeliveryDining,
-  },
   { field: "dishesSort", label: "No. of dishes", icon: IoRestaurant },
-  { field: "ordersSort", label: "No. of orders", icon: CiDeliveryTruck },
+  // { field: "deliveryTimeSort", label: "Delivery time", icon: MdDeliveryDining },
+  // {
+  //   field: "deliveryPriceSort",
+  //   label: "Delivery price",
+  //   icon: MdDeliveryDining,
+  // },
 ];
 
 const fieldsUpAndDown: RadioFieldType[] = [

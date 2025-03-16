@@ -12,21 +12,28 @@ type PropsType = {
 
 const ManageEl: FC<PropsType> = ({ el }) => {
   return (
-    <div className="w-full grid grid-cols-[120px_20px_1fr] gap-5 items-center py-1 px-3">
-      <div className="flex w-full items-center gap-3">
-        <el.icon className="min-w-[30px] min-h-[30px]" />
-        <span className="txt__01">{el.label}</span>
+    <Link
+      to="/"
+      className="w-[90%] justify-self-center grid grid-cols-[30px_1fr_1fr] gap-5 items-end px-3 border-2 rounded-xl border-orange-500 cursor-pointer el__flow group hover:scale-110 py-1"
+    >
+      <el.icon className="min-w-[30px] min-h-[30px] el__flow group-hover:text-orange-500" />
+      <span className="txt__01 el__flow group-hover:text-orange-500">
+        {el.label}
+      </span>
+
+      <div className="w-full flex items-end justify-end pr-3">
+        <span className="txt__02 el__flow group-hover:text-orange-500 ">
+          {el.val}
+        </span>
       </div>
-
-      <span className="txt__02 text-center justify-self-center">{el.val}</span>
-
+      {/* 
       <Link
         to="/"
         className="txt__02 justify-self-end el__flow cursor-pointer hover:text-orange-500 hover:scale-110 border-2 rounded-xl py-1 border-orange-500 w-full max-w-[120px] text-center"
       >
         View
-      </Link>
-    </div>
+      </Link> */}
+    </Link>
   );
 };
 export default ManageEl;
