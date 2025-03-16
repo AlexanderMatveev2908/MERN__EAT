@@ -7,6 +7,8 @@ import { makeQueriesMyRestaurants } from "../../utils/makeQueries/myRestaurants.
 import { makeSortersMyRestaurants } from "../../utils/makeSorters/myRestaurants.js";
 import Restaurant from "../../models/Restaurant.js";
 import { calcPagination } from "../../utils/calcPagination.js";
+import { makeOrdersStatusFields } from "../../utils/dbPipeline/myRestaurants.js";
+import { makeLookUp } from "../../utils/dbPipeline/general.js";
 
 export const getMyRestaurants = async (
   req: RequestWithUserId,
@@ -14,9 +16,9 @@ export const getMyRestaurants = async (
 ): Promise<any> => {
   const { userId } = req;
 
-  const { query } = makeQueriesMyRestaurants(req);
+  const query = makeQueriesMyRestaurants(req);
 
-  const { sorter } = makeSortersMyRestaurants(req);
+  const sorter = makeSortersMyRestaurants(req);
 
   const totDocuments = await Restaurant.countDocuments({
     owner: new mongoose.Types.ObjectId(userId),
@@ -39,14 +41,7 @@ export const getMyRestaurants = async (
     // with unwind we can process each el similar to a map in js
     { $unwind: "$restaurants" },
     // we add necessary fields here to not do it in frontend and get values already processed
-    {
-      $lookup: {
-        from: "dishes",
-        localField: "restaurants.dishes",
-        foreignField: "_id",
-        as: "restaurants.dishes",
-      },
-    },
+    makeLookUp("restaurants", "dishes"),
     {
       $set: {
         "restaurants.dishesCount": { $size: "$restaurants.dishes" },
@@ -67,72 +62,15 @@ export const getMyRestaurants = async (
       },
     },
 
-    {
-      $lookup: {
-        from: "orders",
-        localField: "restaurants.orders",
-        foreignField: "_id",
-        as: "restaurants.orders",
-      },
-    },
+    makeLookUp("restaurants", "orders"),
     {
       $set: {
         "restaurants.ordersCount": { $size: "$restaurants.orders" },
-        "restaurants.pendingOrders": {
-          $size: {
-            $filter: {
-              input: "$restaurants.orders",
-              as: "order",
-              cond: { $eq: ["$$order.status", "pending"] },
-            },
-          },
-        },
-        "restaurants.processingOrders": {
-          $size: {
-            $filter: {
-              input: "$restaurants.orders",
-              as: "order",
-              cond: { $eq: ["$$order.status", "processing"] },
-            },
-          },
-        },
-        "restaurants.shippedOrders": {
-          $size: {
-            $filter: {
-              input: "$restaurants.orders",
-              as: "order",
-              cond: { $eq: ["$$order.status", "shipped"] },
-            },
-          },
-        },
-        "restaurants.deliveredOrders": {
-          $size: {
-            $filter: {
-              input: "$restaurants.orders",
-              as: "order",
-              cond: { $eq: ["$$order.status", "delivered"] },
-            },
-          },
-        },
-        "restaurants.cancelledOrders": {
-          $size: {
-            $filter: {
-              input: "$restaurants.orders",
-              as: "order",
-              cond: { $eq: ["$$order.status", "cancelled"] },
-            },
-          },
-        },
+        ...makeOrdersStatusFields(),
       },
     },
-    {
-      $lookup: {
-        from: "reviews",
-        localField: "restaurants.reviews",
-        foreignField: "_id",
-        as: "restaurants.reviews",
-      },
-    },
+
+    makeLookUp("restaurants", "reviews"),
     {
       $set: {
         "restaurants.reviewsCount": { $size: "$restaurants.reviews" },
@@ -180,6 +118,8 @@ export const getMyRestaurants = async (
 
   const restaurants = result[0]?.restaurants;
   const nHits = result[0]?.nHits;
+
+  console.log(restaurants);
 
   // console.log(restaurants);
   return res.status(200).json({

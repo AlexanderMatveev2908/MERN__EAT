@@ -88,5 +88,5 @@ export const makeQueriesMyRestaurants = (req: Request) => {
       else query["$or"] = [...priceConditions];
   }
 
-  return { query: Object.keys(query ?? {}).length ? query : null };
+  return Object.keys(query ?? {}).length ? query : null;
 };

@@ -8,7 +8,7 @@ export const makeSortersMyRestaurants = (req: Request) => {
       val,
     }));
 
-  if (!sorters?.length) return { sorter: null };
+  if (!sorters?.length) return null;
 
   const sorter: any = {};
 
@@ -16,5 +16,5 @@ export const makeSortersMyRestaurants = (req: Request) => {
     sorter[`restaurants.${sort.key}`] = sort.val === "asc" ? 1 : -1;
   }
 
-  return { sorter: Object.keys(sorter ?? {}).length ? sorter : null };
+  return Object.keys(sorter ?? {}).length ? sorter : null;
 };
