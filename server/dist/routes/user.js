@@ -8,7 +8,7 @@ import { getRightManageAccount } from "../controllers/userControllers/manageAcco
 import { manageAccountLimiter } from "../middleware/user/limiterManageAccount.js";
 import { makeLimiter } from "../utils/makeLimiter.js";
 import { changeEmail, verifyChangeEmail, } from "../controllers/userControllers/modifyEmail.js";
-import { HOUR } from "../constants/time.js";
+import { HOUR } from "../config/constants/time.js";
 import { changeOldPwd } from "../controllers/userControllers/changePwd.js";
 import { validatorChangeEmail } from "../middleware/user/validatorChangeEmail.js";
 import { validatorVerifyNewEmail } from "../middleware/user/validatorVerifyNewEmail.js";

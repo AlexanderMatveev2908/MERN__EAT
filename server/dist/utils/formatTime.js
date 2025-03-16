@@ -1,4 +1,4 @@
-import { REG_EST_TIME, REG_OPEN_CLOSE_TIME } from "../constants/regex.js";
+import { REG_EST_TIME, REG_OPEN_CLOSE_TIME, } from "../config/constants/regex.js";
 export const formatTimeHmMh = (val) => {
     if (!REG_EST_TIME.test(val + ""))
         return "00:00";

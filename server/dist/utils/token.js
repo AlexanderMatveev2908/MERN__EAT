@@ -10,20 +10,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { getKeys, makeKeys } from "./keys.js";
-import { ACCESS_SIGN, EXPIRY_ACCESS, GEN_EXPIRY_REFRESH, GET_EXPIRY, GET_SIGN, } from "../config/signs.js";
 import { CompactEncrypt, jwtDecrypt } from "jose";
+import { ACCESS_SIGN, EXPIRY_ACCESS, genExpiryRefresh, getExpiry, getSign, } from "../config/tokensExpiry.js";
 export const genTokenSHA = (type) => {
     const token = crypto.randomBytes(64).toString("hex");
     const hashedToken = crypto
-        .createHmac("sha256", GET_SIGN(type))
+        .createHmac("sha256", getSign(type))
         .update(token)
         .digest("hex");
-    const expiryVerification = GET_EXPIRY(type);
+    const expiryVerification = getExpiry(type);
     return { token, hashedToken, expiryVerification: expiryVerification };
 };
 export const checkTokenSHA = (receivedToken, storedToken, type) => {
     const hashedInput = crypto
-        .createHmac("sha256", GET_SIGN(type))
+        .createHmac("sha256", getSign(type))
         .update(receivedToken)
         .digest("hex");
     return hashedInput === storedToken;
@@ -52,7 +52,7 @@ export const genTokenJWE = (userId) => __awaiter(void 0, void 0, void 0, functio
     const jwe = yield new CompactEncrypt(new TextEncoder().encode(JSON.stringify(payload)))
         .setProtectedHeader({ alg: "RSA-OAEP", enc: "A256GCM" })
         .encrypt(publicKey);
-    const expiry = GEN_EXPIRY_REFRESH();
+    const expiry = genExpiryRefresh();
     return { jwe, expiry };
     // payload is encrypted with shared symmetric key using A256GCM, the the shared symmetric key is encrypted using asymmetric public key with RSA-OAEP and can be decrypted only with private asymmetric key
 });

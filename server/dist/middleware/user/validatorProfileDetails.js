@@ -1,5 +1,5 @@
 import { body } from "express-validator";
-import { REG_CITY, REG_COUNTRY, REG_NAME, REG_PHONE, REG_STATE, REG_STREET, REG_ZIP, } from "../../constants/regex.js";
+import { REG_CITY, REG_COUNTRY, REG_NAME, REG_PHONE, REG_STATE, REG_STREET, REG_ZIP, } from "../../config/constants/regex.js";
 import { handleValidator } from "../../utils/handleValidator.js";
 export const validatorProfileDetails = [
     body("firstName").matches(REG_NAME).withMessage("invalid first name"),

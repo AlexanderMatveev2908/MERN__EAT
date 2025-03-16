@@ -173,13 +173,13 @@ const ordersFieldsArr: BaseFieldType[] = [
 
 export const myRestFilters: SearchFilterType[] = [
   {
-    field: "ordersState",
+    field: "ordersStatus",
     label: "Orders state",
     subFields: ordersFieldsArr,
     icon: FaDatabase,
   },
   {
-    field: "ratingRange",
+    field: "avgRatingRange",
     label: "Avg rating",
     subFields: ratingRangeFields,
     icon: FaRegStar,
@@ -191,7 +191,7 @@ export const myRestFilters: SearchFilterType[] = [
     icon: LuChefHat,
   },
   {
-    field: "priceRange",
+    field: "avgPriceRange",
     label: "Avg price dish",
     subFields: priceRangeFields,
     icon: GiReceiveMoney,
@@ -201,7 +201,7 @@ export const myRestFilters: SearchFilterType[] = [
 const sortersArr: (Omit<BaseFieldType, "id"> & { icon: IconType })[] = [
   { field: "createdAtSort", label: "Created at", icon: IoIosCreate },
   { field: "updatedAtSort", label: "Updated at", icon: GrDocumentUpdate },
-  { field: "ratingSort", label: "Avg rating", icon: FaRegStar },
+  { field: "avgRatingSort", label: "Avg rating", icon: FaRegStar },
   {
     field: "pendingOrdersSort",
     label: "Pending orders",
@@ -227,16 +227,22 @@ const sortersArr: (Omit<BaseFieldType, "id"> & { icon: IconType })[] = [
     label: "Cancelled orders",
     icon: FaDatabase,
   },
-  { field: "ordersSort", label: "No. of orders", icon: CiDeliveryTruck },
-  { field: "reviewsSort", label: "No. of reviews", icon: GoCodeReview },
-  { field: "priceSort", label: "Avg price dish", icon: GiReceiveMoney },
-  { field: "dishesSort", label: "No. of dishes", icon: IoRestaurant },
+  { field: "ordersCountSort", label: "No. of orders", icon: CiDeliveryTruck },
+  { field: "reviewCountsSort", label: "No. of reviews", icon: GoCodeReview },
+  { field: "avgPriceSort", label: "Avg price dish", icon: GiReceiveMoney },
+  { field: "dishesCountSort", label: "No. of dishes", icon: IoRestaurant },
   // { field: "deliveryTimeSort", label: "Delivery time", icon: MdDeliveryDining },
   // {
   //   field: "deliveryPriceSort",
   //   label: "Delivery price",
   //   icon: MdDeliveryDining,
   // },
+];
+
+export const fieldsFormMyRest = [
+  ...myRestFilters.map((el) => el.field),
+  ...sortersArr.map((el) => el.field),
+  "search",
 ];
 
 const fieldsUpAndDown: RadioFieldType[] = [
