@@ -6,11 +6,13 @@ import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
 import { getMyRestaurants, getMySingleRestaurant, } from "../controllers/myRestaurants/get.js";
 import { validatorMySingleRest } from "../middleware/myRestaurants/validatorMySingleRest.js";
 import { createRestaurant, deleteRestaurant, updateMyRestaurant, } from "../controllers/myRestaurants/makeUpdateDelete.js";
+import { validateGetMyRestParams } from "../middleware/myRestaurants/validateGetMyRestParams.js";
+import { validatePagination } from "../middleware/general/validatePagination.js";
 const router = express();
 router
     .route("/")
     .post(verifyAccessToken, uploadMyRestaurants, validatorMyRestaurants, validateFiles, asyncWrapper(createRestaurant))
-    .get(verifyAccessToken, asyncWrapper(getMyRestaurants));
+    .get(verifyAccessToken, validatePagination, validateGetMyRestParams, asyncWrapper(getMyRestaurants));
 router.get("/info-restaurant/:restId", verifyAccessToken, validatorMySingleRest, asyncWrapper(getMySingleRestaurant));
 router
     .route("/:restId")

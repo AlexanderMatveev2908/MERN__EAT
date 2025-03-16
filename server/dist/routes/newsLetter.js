@@ -5,7 +5,7 @@ import { sendEmailUnsubscribeRetry, subscribeNonLoggedUser, toggleUserNewsLetter
 import { makeLimiter } from "../utils/makeLimiter.js";
 import { validatorToggleSubscribe } from "../middleware/newsLetter/validatorToggleSubscribe.js";
 import { validatorNewsLetterEmail } from "../middleware/newsLetter/validatorNewsLetterEmail.js";
-import { HOUR } from "../constants/time.js";
+import { HOUR } from "../config/constants/time.js";
 import { validatorUnsubscribeVerify } from "../middleware/newsLetter/validatorUnsubscribeVerify.js";
 const router = express();
 // i know i exaggerate with length of names i use for var or urls, i only do my best to be clearest possible and do not realize in the moment i wrote them how long are

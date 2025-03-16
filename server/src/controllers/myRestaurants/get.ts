@@ -180,7 +180,6 @@ export const getMyRestaurants = async (
 
   const restaurants = result[0]?.restaurants;
   const nHits = result[0]?.nHits;
-  console.log(restaurants);
 
   // console.log(restaurants);
   return res.status(200).json({

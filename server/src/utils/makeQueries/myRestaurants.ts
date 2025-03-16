@@ -26,9 +26,9 @@ export const makeQueriesMyRestaurants = (req: Request) => {
     search,
     searchVals: valTarget,
     categories,
-    priceRange,
-    ratingRange,
-    ordersState,
+    avgPriceRange,
+    avgRatingRange,
+    ordersStatus,
   } = req.query;
 
   const query: any = {};
@@ -50,11 +50,11 @@ export const makeQueriesMyRestaurants = (req: Request) => {
       );
   }
 
-  if (ordersState)
+  if (ordersStatus)
     query["restaurants.orders"] = {
       $elemMatch: {
         status: {
-          $in: (ordersState as string)?.split(","),
+          $in: (ordersStatus as string)?.split(","),
         },
       },
     };
@@ -64,9 +64,9 @@ export const makeQueriesMyRestaurants = (req: Request) => {
       $in: (categories as string)?.split(","),
     };
 
-  if (ratingRange) {
+  if (avgRatingRange) {
     const ratingConditions = makeQueryRange(
-      ratingRange as string,
+      avgRatingRange as string,
       "restaurants.avgRating",
       5
     );
@@ -76,9 +76,9 @@ export const makeQueriesMyRestaurants = (req: Request) => {
       else query["$or"] = [...ratingConditions];
   }
 
-  if (priceRange) {
+  if (avgPriceRange) {
     const priceConditions = makeQueryRange(
-      priceRange as string,
+      avgPriceRange as string,
       "restaurants.avgPrice",
       100
     );

@@ -7,41 +7,21 @@ import { getMyRestaurantsAPI } from "../../../core/api/api";
 import { createURLParams } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
-
-const valsMyRest = [
-  "search",
-  "searchVals",
-  "categories",
-  "priceRange",
-  "ratingRange",
-
-  "ratingSort",
-  "reviewsSort",
-  "priceSort",
-  "dishesSort",
-  "ordersSort",
-  "createdAtSort",
-  "updatedAtSort",
-  "pendingOrdersSort",
-  "processingOrdersSort",
-  "shippedOrdersSort",
-  "deliveredOrdersSort",
-  "cancelledOrdersSort",
-];
+import { fieldsFormMyRest } from "../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
 
 type FormSearchType = {
   search: string;
   searchVals: string[]; // the vals we decide to use to search a rest, like a text will be looked not only by name but also country
   categories: string[];
-  ordersState: string[];
-  priceRange: string[];
-  ratingRange: string[];
+  ordersStatus: string[];
+  avgPriceRange: string[];
+  avgRatingRange: string[];
 
-  ratingSort: ["asc" | "desc"];
-  reviewsSort: ["asc" | "desc"];
-  priceSort: ["asc" | "desc"];
-  dishesSort: ["asc" | "desc"];
-  ordersSort: ["asc" | "desc"];
+  avgRatingSort: ["asc" | "desc"];
+  reviewsCountSort: ["asc" | "desc"];
+  avgPriceSort: ["asc" | "desc"];
+  dishesCountSort: ["asc" | "desc"];
+  ordersCountSort: ["asc" | "desc"];
   createdAtSort: ["asc" | "desc"];
   updatedAtSort: ["asc" | "desc"];
   pendingOrdersSort: ["asc" | "desc"];
@@ -89,7 +69,7 @@ export const useMyRestaurants = () => {
   const handleClear = () => {
     sessionStorage.removeItem("myRestaurantsForm");
 
-    for (const key of valsMyRest) {
+    for (const key of fieldsFormMyRest) {
       formContext.setValue(
         key as keyof FormSearchType,
         Array.isArray(savedForm?.[key])

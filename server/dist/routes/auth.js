@@ -11,7 +11,7 @@ import { sendEmailUser } from "../controllers/authControllers/sendEmail.js";
 import { verifyAccount, verifyRecoverPwd, } from "../controllers/authControllers/verify.js";
 import { recoverPwd } from "../controllers/authControllers/recoverPwd.js";
 import { validatorSendEmail } from "../middleware/auth/validatorSendEmail.js";
-import { HOUR } from "../constants/time.js";
+import { HOUR } from "../config/constants/time.js";
 const router = express();
 router.get("/refresh", asyncWrapper(refreshToken));
 router.post("/register", validatorRegister, asyncWrapper(registerUser));

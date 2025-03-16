@@ -1,5 +1,5 @@
 import { body, check } from "express-validator";
-import { REG_CITY, REG_COUNTRY, REG_EMAIL, REG_EST_TIME, REG_PHONE, REG_PRICE, REG_RESTAURANT_NAME, REG_STATE, REG_STREET, REG_WEB_URL, REG_ZIP, } from "../../constants/regex.js";
+import { REG_CITY, REG_COUNTRY, REG_EMAIL, REG_EST_TIME, REG_PHONE, REG_PRICE, REG_RESTAURANT_NAME, REG_STATE, REG_STREET, REG_WEB_URL, REG_ZIP, } from "../../config/constants/regex.js";
 import { badRequest } from "../../utils/baseErrResponse.js";
 import { handleValidator } from "../../utils/handleValidator.js";
 export const validateFiles = (req, res, next) => {
@@ -48,9 +48,11 @@ export const validatorMyRestaurants = [
             throw new Error("Invalid open time");
         return true;
     }),
-    body("categories")
-        .isArray({ min: 1, max: 3 })
-        .withMessage("Invalid categories format"),
+    body("categories").custom((val, { req }) => {
+        if (!val || (Array.isArray(val) && val.length > 3))
+            throw new Error("Invalid categories format");
+        return true;
+    }),
     body("estTimeDelivery").custom((val, { req }) => {
         const diff = +req.body.closeTime - +req.body.openTime;
         if (diff > 0 && diff < +val)
