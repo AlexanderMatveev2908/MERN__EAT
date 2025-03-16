@@ -4,10 +4,9 @@ import { Link } from "react-router-dom";
 
 type PropsType = {
   el: {
-    id: string;
-    label: string;
-    val: number;
     icon: IconType;
+    label: string;
+    val: string | number;
   };
 };
 

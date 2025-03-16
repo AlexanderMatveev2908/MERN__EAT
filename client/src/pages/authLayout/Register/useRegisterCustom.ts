@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
@@ -7,6 +6,7 @@ import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useChangeVisibilityPwd } from "../../../core/hooks/useChangeVisibilityPwd";
 import { useToast } from "../../../core/hooks/useGlobal";
 import { registerUserAPI } from "../../../core/api/api";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export type RegisterFormType = {
   firstName: string;
@@ -66,7 +66,7 @@ export const useRegisterCustom = () => {
         state: { from: location.pathname },
       });
     },
-    onError: (err: any) => {
+    onError: (err: ErrFoodApp) => {
       showToastMsg(err?.response?.data?.msg || err?.message, "ERROR");
     },
   });

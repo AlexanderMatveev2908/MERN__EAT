@@ -1,15 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChevronUp } from "lucide-react";
-import { FC, useRef, useState } from "react";
+import { FC, ReactNode, useRef, useState } from "react";
+import { IconType } from "react-icons/lib";
 
 type PropsType = {
   el: {
+    id: string;
     label: string;
-    vals?: string[];
-    icon: any;
-    subLabel?: string;
+    icon: IconType;
+    vals?: string[] | number[];
   };
-  children?: any;
+  children?: ReactNode;
 };
 
 const DropEl: FC<PropsType> = ({ el, children }) => {

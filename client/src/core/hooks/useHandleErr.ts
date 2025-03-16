@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate } from "react-router-dom";
 import { useToast, useUser } from "./useGlobal";
 import { useCallback } from "react";
+import { ErrFoodApp } from "../../types/allTypes/API";
 
 export type HandleErrType = ({
   err,
   push,
   toast,
 }: {
-  err: any;
+  err: ErrFoodApp;
   push?: boolean;
   toast?: boolean;
 }) => void;
@@ -24,7 +24,7 @@ export const useHandleErr = () => {
       push = false,
       toast = true,
     }: {
-      err: any;
+      err: ErrFoodApp;
       push?: boolean;
       toast?: boolean;
     }) => {
@@ -38,7 +38,7 @@ export const useHandleErr = () => {
         logoutUser();
         navigate("/", { replace: true });
         showToastMsg("SESSION EXPIRED", "ERROR");
-      } else if ([401, 403, 429].includes(status)) {
+      } else if ([401, 403, 429].includes(status ?? 400)) {
         navigate("/", { replace: true });
         showToastMsg(msg, "ERROR");
       } else {

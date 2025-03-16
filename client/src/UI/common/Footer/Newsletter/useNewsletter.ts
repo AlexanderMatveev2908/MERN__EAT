@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { CurrUserType } from "../../../../types/allTypes/userTypes";
@@ -9,6 +8,7 @@ import {
   newsLetterToggleLoggedAPI,
   subscribeNonLoggedUserAPI,
 } from "../../../../core/api/api";
+import { ErrFoodApp } from "../../../../types/allTypes/API";
 
 export type NewsLetterFormType = {
   email: string;
@@ -40,7 +40,7 @@ export const useNewsletter = () => {
           "SUCCESS"
         );
       },
-      onError: (err: any) => {
+      onError: (err: ErrFoodApp) => {
         showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
       },
     });
@@ -61,7 +61,7 @@ export const useNewsletter = () => {
         "SUCCESS"
       );
     },
-    onError: (err: any) => {
+    onError: (err: ErrFoodApp) => {
       if (err?.response?.status === 401) handleErrAPI({ err });
       else showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
     },

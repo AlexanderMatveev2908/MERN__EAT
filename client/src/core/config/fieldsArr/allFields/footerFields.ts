@@ -1,7 +1,8 @@
 import { genID } from "../../../../utils/allUtils/genID";
 import { Github, Hotel } from "lucide-react";
+import { FooterFieldType } from "../typesFields";
 
-export const footerFieldsArr = [
+export const footerFieldsArr: FooterFieldType[] = [
   {
     id: genID(),
     label: "About",

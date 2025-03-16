@@ -11,7 +11,7 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { genID } from "../../../../utils/allUtils/genID";
 import { SideDropFieldType } from "../typesFields";
 
-export const allUsersFields = [
+export const allUsersFields: SideDropFieldType[] = [
   {
     id: genID(),
     path: "/",
@@ -47,7 +47,10 @@ export const loggedUserFields: SideDropFieldType[] = [
   },
 ];
 
-export const loggedUserFieldsDrop = loggedUserFields.slice(0, 2);
+export const loggedUserFieldsDrop: SideDropFieldType[] = loggedUserFields.slice(
+  0,
+  2
+);
 
 export const nonLoggedUserFields: SideDropFieldType[] = [
   {

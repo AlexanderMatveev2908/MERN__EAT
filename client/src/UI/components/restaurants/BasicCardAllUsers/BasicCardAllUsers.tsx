@@ -81,7 +81,7 @@ const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
 
                   <span className="txt__01">
                     {el.label !== "Delivery time"
-                      ? priceFormatter(el.val)
+                      ? priceFormatter(el.val ?? 0)
                       : `${el.val} minutes`}
                   </span>
                 </li>

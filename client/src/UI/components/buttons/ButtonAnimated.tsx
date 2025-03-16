@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { Beef, Cookie, Fish, Ham, IceCreamCone, Pizza } from "lucide-react";
 import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
@@ -7,7 +6,7 @@ type PropsType = {
   label: string;
   type: "button" | "submit" | "reset";
   styleTxt?: string;
-  handleClick?: (...params: any) => void;
+  handleClick?: () => void;
   isDisabled?: boolean;
   isPending?: boolean;
 };

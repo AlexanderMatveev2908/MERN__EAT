@@ -4,6 +4,7 @@ import { useUser } from "../useGlobal";
 import { useEffect, useRef } from "react";
 import { useHandleErr } from "../useHandleErr";
 import { getUserInfoAPI, refreshTokenAPI } from "../../api/api";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useApp = () => {
   const { setCurrUser, isLogged, setUserLogged, logoutUser } = useUser();
@@ -31,7 +32,7 @@ export const useApp = () => {
   useEffect(() => {
     const handleSideEffects = () => {
       if (isError) {
-        handleErrAPI({ err: error });
+        handleErrAPI({ err: error as ErrFoodApp });
       } else if (isSuccess) {
         const { user = {} as any } = data ?? ({} as any);
         setCurrUser({ user });

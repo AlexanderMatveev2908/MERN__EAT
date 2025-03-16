@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
+import { ImageUploadedType } from "../../../../../types/types";
 import { PropsType } from "./ShowImgToUpload";
 
 export const useShowImgToUpload = ({
@@ -13,13 +12,13 @@ export const useShowImgToUpload = ({
       return file !== img;
     });
 
-    setValue("images", updatedFiles as any);
+    setValue("images", updatedFiles as File[]);
     trigger("images");
   };
 
   const handleRemoveExistingImgUploaded = () => {
-    const updatedImages = (images as any).filter(
-      (image) => image._id !== img._id
+    const updatedImages = (images as ImageUploadedType[]).filter((image) =>
+      img instanceof File ? true : image.public_id !== img?.public_id
     );
 
     setValue("images", updatedImages);

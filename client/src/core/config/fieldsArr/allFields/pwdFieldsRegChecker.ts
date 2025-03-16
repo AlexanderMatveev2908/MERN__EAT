@@ -1,11 +1,12 @@
 import { genID } from "../../../../utils/allUtils/genID";
+import { PwdCheckerType } from "../typesFields";
 
 export const REG_UPPERCASE = /(?=.*[A-Z])/;
 export const REG_LOWERCASE = /[a-z]+/;
 export const REG_NUMBER = /(?=.*\d)/;
 export const REG_SYMBOL = /(?=.*[\W_])/;
 
-export const passwordCheckerFieldsArr = [
+export const passwordCheckerFieldsArr: PwdCheckerType[] = [
   {
     id: genID(),
     msg: "Uppercase letters",

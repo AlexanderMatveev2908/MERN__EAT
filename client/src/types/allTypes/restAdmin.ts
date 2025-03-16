@@ -44,8 +44,8 @@ export type MyRestaurantType = {
   address: RestaurantAddressType;
   contact: RestaurantContactType;
   openHours: {
-    openTime: string;
-    closeTime: string;
+    openTime: number;
+    closeTime: number;
   };
   delivery: {
     estTimeDelivery: number;

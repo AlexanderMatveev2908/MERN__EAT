@@ -20,8 +20,21 @@ import { GoCodeReview } from "react-icons/go";
 import { GiReceiveMoney } from "react-icons/gi";
 import { LuChefHat } from "react-icons/lu";
 import { formatTimeHmMh } from "../../../../../utils/utils";
+import {
+  BaseFieldType,
+  RadioFieldType,
+  SearchFilterType,
+  ShowCardMyRestTypeSingleVal,
+  ShowCardMyRestTypeSingleValNoIcon,
+  ShowCardMyRestTypeWithIcon,
+  ShowOpenCloseTimeType,
+  SorterFieldType,
+} from "../../typesFields";
+import { IconType } from "react-icons/lib";
 
-export const fieldsShowMyRestaurants = (...params) => [
+export const fieldsShowMyRestaurants = (
+  ...params: string[][]
+): ShowCardMyRestTypeWithIcon[] => [
   {
     id: genID(),
     label: "Location",
@@ -48,7 +61,9 @@ export const showMyRestaurantsOpenHours = {
   icon: FaClock,
 };
 
-export const showMyRestaurantsOpenHoursFields = (...params) => [
+export const showMyRestaurantsOpenHoursFields = (
+  ...params: number[]
+): ShowOpenCloseTimeType[] => [
   {
     id: genID(),
     icon: FaDoorOpen,
@@ -67,7 +82,9 @@ export const showMyRestaurantsDelivery = {
   icon: MdDeliveryDining,
 };
 
-export const showMyRestaurantsDeliveryFields = (...params) => [
+export const showMyRestaurantsDeliveryFields = (
+  ...params: number[]
+): ShowCardMyRestTypeSingleValNoIcon[] => [
   {
     id: genID(),
     label: "Delivery time",
@@ -85,7 +102,9 @@ export const showMyRestaurantsDeliveryFields = (...params) => [
   },
 ];
 
-export const managementMyRestaurantsFields = (...params) => [
+export const managementMyRestaurantsFields = (
+  ...params: number[]
+): ShowCardMyRestTypeSingleVal[] => [
   {
     id: genID(),
     label: "Dishes",
@@ -107,33 +126,37 @@ export const managementMyRestaurantsFields = (...params) => [
 ];
 
 const myRestFieldsArr = ["name", "country", "state", "city", "id"];
-export const myRestFieldsSearch = myRestFieldsArr.map((el) => ({
-  field: el,
-  id: genID(),
-  label: el[0].toUpperCase() + el.slice(1),
-}));
+export const myRestFieldsSearch: BaseFieldType[] = myRestFieldsArr.map(
+  (el) => ({
+    field: el,
+    id: genID(),
+    label: el[0].toUpperCase() + el.slice(1),
+  })
+);
 
-const myRestAdminCategories = myRestaurantsCat.map((el) => ({
+const myRestAdminCategories: BaseFieldType[] = myRestaurantsCat.map((el) => ({
   field: el,
   id: genID(),
   label: el === "fast-food" ? "Fast-Food" : el[0].toUpperCase() + el.slice(1),
 }));
 
 const priceRangeFieldsArr = ["0-19", "20-39", "40-59", "60-79", "80-100"];
-const priceRangeFields = priceRangeFieldsArr.map((el, i, arg) => ({
-  field: el,
-  id: genID(),
-  label: `$${el}${i === arg.length - 1 ? "+" : ""}`,
-}));
+const priceRangeFields: BaseFieldType[] = priceRangeFieldsArr.map(
+  (el, i, arg) => ({
+    field: el,
+    id: genID(),
+    label: `$${el}${i === arg.length - 1 ? "+" : ""}`,
+  })
+);
 
 const ratingRangeFieldsArr = ["0-1", "1.1-2", "2.1-3", "3.1-4", "4.1-5"];
-const ratingRangeFields = ratingRangeFieldsArr.map((el) => ({
+const ratingRangeFields: BaseFieldType[] = ratingRangeFieldsArr.map((el) => ({
   field: el,
   id: genID(),
   label: `⭐ ${el}`,
 }));
 
-export const myRestFilters = [
+export const myRestFilters: SearchFilterType[] = [
   {
     field: "categories",
     label: "Category",
@@ -154,7 +177,7 @@ export const myRestFilters = [
   },
 ].map((el) => ({ ...el, id: genID() }));
 
-const sortersArr = [
+const sortersArr: (Omit<BaseFieldType, "id"> & { icon: IconType })[] = [
   { field: "ratingSort", label: "Avg rating", icon: FaRegStar },
   { field: "reviewsSort", label: "No. of reviews", icon: GoCodeReview },
   { field: "priceSort", label: "Avg price dish", icon: GiReceiveMoney },
@@ -168,7 +191,7 @@ const sortersArr = [
   { field: "ordersSort", label: "No. of orders", icon: CiDeliveryTruck },
 ];
 
-const fieldsUpAndDown = [
+const fieldsUpAndDown: RadioFieldType[] = [
   {
     id: genID(),
     field: "asc",
@@ -181,7 +204,7 @@ const fieldsUpAndDown = [
   },
 ];
 
-export const myRestSorters = sortersArr.map((el) => ({
+export const myRestSorters: SorterFieldType[] = sortersArr.map((el) => ({
   ...el,
   id: genID(),
   subFields: [...fieldsUpAndDown],

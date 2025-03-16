@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   REG_EMAIL,
   REG_EST_TIME,
@@ -12,7 +11,7 @@ import { genID } from "../../../../../utils/allUtils/genID";
 import { userProfileFields_1, userProfileFields_2 } from "../userDetailsFields";
 import { CheckBoxFieldType, FieldNoIconType } from "../../typesFields";
 
-export const myRestaurantsName = {
+export const myRestaurantsName: FieldNoIconType = {
   id: genID(),
   label: "Name",
   field: "name",
@@ -20,21 +19,21 @@ export const myRestaurantsName = {
   reg: REG_RESTAURANT_NAME,
   msg: "Restaurant name must be between 2 and 50 characters",
 };
-export const myRestaurantsAddress_0 = [
+export const myRestaurantsAddress_0: FieldNoIconType[] = [
   ...userProfileFields_1.map((el) => ({ ...el, required: true })),
 ];
 export const myRestaurantsAddress_1 = userProfileFields_2
   .filter((el) => el.field !== "phone")
   .map((el) => ({ ...el, required: true }));
 
-export const myRestaurantsAddressByArea = [
-  [...myRestaurantsAddress_0],
-  [...myRestaurantsAddress_1],
-];
+export const myRestaurantsAddressByArea: [
+  FieldNoIconType[],
+  FieldNoIconType[]
+] = [[...myRestaurantsAddress_0], [...myRestaurantsAddress_1]];
 
 export const totLenAddressMyRestaurants = 2;
 
-export const myRestaurantsContact = [
+export const myRestaurantsContact: FieldNoIconType[] = [
   {
     id: genID(),
     field: "email",
@@ -117,9 +116,9 @@ export const totLenMyRestaurantsCat = Math.ceil(
   myRestaurantsCatFields.length / 6
 );
 
-export const arrCatByArea: any[] = [];
+export const arrCatByArea: CheckBoxFieldType[][] = [];
 
-for (let i = 0; i < myRestaurantsCatFields?.length - 1; i++) {
+for (let i = 0; i < myRestaurantsCatFields?.length; i++) {
   if (i % 6 === 0) {
     arrCatByArea.push([...myRestaurantsCatFields.slice(i, i + 6)]);
   }
@@ -127,7 +126,7 @@ for (let i = 0; i < myRestaurantsCatFields?.length - 1; i++) {
 
 export const allowedImgs = 5;
 
-export const myRestaurantsDeliveryFields = [
+export const myRestaurantsDeliveryFields: FieldNoIconType[] = [
   {
     id: genID(),
     type: "number",

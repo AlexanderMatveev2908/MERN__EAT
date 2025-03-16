@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MyRestaurantsAddUpdateFormType } from "../../types/allTypes/restAdmin";
 import { reverseFormaTimeHhMm } from "./formatTime";
 
@@ -12,7 +11,7 @@ export const prepareFormData = (
   const areFiles = [...images].every((img) => img instanceof File);
 
   if (areFiles)
-    [...(images as any)].forEach((img) =>
+    [...(images as File[])].forEach((img) =>
       formData.append("restaurantImages", img)
     );
   else formData.append("restaurantImages", JSON.stringify(images));

@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import { useScrollTop } from "../../../../core/hooks/useScrollTop";
 import { useProfileReducer } from "./UseProfileReducer/useProfileReducer";
 
-export type InputRefType = any;
+export type InputRefType = RefObject<HTMLInputElement | null>;
 
 export const useUserProfile = () => {
-  const inputRef_0 = useRef<InputRefType>(null);
-  const inputRef_1 = useRef<InputRefType>(null);
-  const inputRef_2 = useRef<InputRefType>(null);
+  const inputRef_0 = useRef<HTMLInputElement | null>(null);
+  const inputRef_1 = useRef<HTMLInputElement | null>(null);
+  const inputRef_2 = useRef<HTMLInputElement | null>(null);
 
   const {
     state,
@@ -24,26 +23,26 @@ export const useUserProfile = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      inputRef_0.current?.focus();
+      if (inputRef_0.current) inputRef_0.current.focus();
     }, 500);
   }, []);
 
   useEffect(() => {
     if (state.currForm.curr === 0) {
       setTimeout(() => {
-        inputRef_0.current?.focus();
+        if (inputRef_0.current) inputRef_0.current?.focus();
       }, 600);
     }
 
     if (state.currForm.curr === 1) {
       setTimeout(() => {
-        inputRef_1.current?.focus();
+        if (inputRef_1.current) inputRef_1.current.focus();
       }, 600);
     }
 
     if (state.currForm.curr === 2) {
       setTimeout(() => {
-        inputRef_2.current?.focus();
+        if (inputRef_2.current) inputRef_2.current.focus();
       }, 600);
     }
   }, [state.currForm.curr]);

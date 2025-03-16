@@ -6,6 +6,7 @@ import FiltersSearchBar from "./components/Filters/FiltersSearchBar";
 import SortersSearchBar from "./components/Sorters/SortersSearchBar";
 import {
   CheckBoxFieldType,
+  SearchFilterType,
   SorterFieldType,
 } from "../../../core/config/fieldsArr/typesFields";
 import ButtonBasic from "../../components/buttons/ButtonBasic";
@@ -13,7 +14,7 @@ import ButtonBasic from "../../components/buttons/ButtonBasic";
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
-  filters: CheckBoxFieldType[];
+  filters: SearchFilterType[];
   sorters: SorterFieldType[];
   handleSave: () => void;
   handleClear: () => void;

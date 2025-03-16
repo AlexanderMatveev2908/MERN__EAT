@@ -1,7 +1,8 @@
 import { KeyRound, LogIn, ShieldCheck, UserPen } from "lucide-react";
 import { genID } from "../../../../utils/allUtils/genID";
+import { SwitchFormFieldType } from "../typesFields";
 
-export const switchFormAuthLeft = [
+export const switchFormAuthLeft: SwitchFormFieldType[] = [
   {
     id: genID(),
     label: "Forgot password",
@@ -16,7 +17,7 @@ export const switchFormAuthLeft = [
   },
 ];
 
-export const switchFormAuthRight = [
+export const switchFormAuthRight: SwitchFormFieldType[] = [
   {
     id: genID(),
     label: "Create account",

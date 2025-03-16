@@ -8,7 +8,7 @@ import { NewsLetterFormType } from "../useNewsletter";
 type PropsType = {
   isPending: boolean;
   currUser: CurrUserType | null;
-  submitNewsLetter: (e: React.FormEvent<HTMLFormElement>) => void;
+  submitNewsLetter: () => void;
   register: UseFormRegister<NewsLetterFormType>;
   errors: FieldErrors;
 };

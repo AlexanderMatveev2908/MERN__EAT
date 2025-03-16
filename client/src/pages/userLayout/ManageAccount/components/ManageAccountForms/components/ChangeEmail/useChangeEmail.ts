@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { ChangeEmailFormType } from "../../../../../../../types/allTypes/userTypes";
 import { useEffect } from "react";
@@ -8,6 +7,7 @@ import { ShowToastType } from "../../../../../../../types/allTypes/toastTypes";
 import { SetChildLoadingType } from "./../../ManageAccountForms";
 import { handleErrManageUserType } from "./../../../../useManageAccount";
 import { changeEmailAPI } from "../../../../../../../core/api/api";
+import { ErrFoodApp } from "../../../../../../../types/allTypes/API";
 
 export const useChangeEmail = ({
   showToastMsg,
@@ -43,8 +43,8 @@ export const useChangeEmail = ({
         state: { from: location.pathname },
       });
     },
-    onError: (err: any) => {
-      handleErrManageUser(err);
+    onError: (err: ErrFoodApp) => {
+      handleErrManageUser({ err });
     },
     onSettled: () => {
       setIsChildLoading(false);

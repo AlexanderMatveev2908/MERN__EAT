@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
 export const foodAppInstance = axios.create({
@@ -45,7 +44,7 @@ foodAppInstance.interceptors.response.use(
         originalReq.headers["Authorization"] = `Bearer ${data.accessToken}`;
 
         return foodAppInstance(originalReq);
-      } catch (err: any) {
+      } catch (err: unknown) {
         sessionStorage.removeItem("accessToken");
 
         return Promise.reject(err);

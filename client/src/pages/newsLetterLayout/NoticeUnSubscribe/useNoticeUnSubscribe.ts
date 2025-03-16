@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -6,6 +5,7 @@ import { useToast } from "./../../../core/hooks/useGlobal";
 import { useHandleErr } from "./../../../core/hooks/useHandleErr";
 import { useScrollTop } from "./../../../core/hooks/useScrollTop";
 import { sendEmailUnsubscribeAPI } from "../../../core/api/api";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 type UnsubscribeEmailFormType = {
   email: string;
@@ -44,7 +44,7 @@ export const useNoticeUnSubscribe = () => {
         state: { from: location.pathname },
       });
     },
-    onError: (err: any) => {
+    onError: (err: ErrFoodApp) => {
       handleErrAPI({ err });
     },
   });

@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { GetRightManageAccountFormType } from "../../../../../types/allTypes/userTypes";
 import { useMutation } from "@tanstack/react-query";
 import { HandleErrType } from "../../../../../core/hooks/useHandleErr";
 import { getRightManageAccountAPI } from "../../../../../core/api/api";
+import { ErrFoodApp } from "../../../../../types/allTypes/API";
 
 export const useGetRightToManageAccount = ({
   setCanManageAccount,
@@ -36,8 +36,8 @@ export const useGetRightToManageAccount = ({
       setCanManageAccount(data.manageAccountToken);
       closeToast();
     },
-    onError: (err: any) => {
-      handleErrManageUser(err);
+    onError: (err: ErrFoodApp) => {
+      handleErrManageUser({ err });
     },
   });
 

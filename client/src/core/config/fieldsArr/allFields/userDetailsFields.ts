@@ -8,8 +8,9 @@ import {
   REG_ZIP,
 } from "../../constants/regex.ts";
 import { genID } from "../../../../utils/allUtils/genID.ts";
+import { UserDetailsFieldType } from "../typesFields.ts";
 
-export const userProfileFields_0 = [
+export const userProfileFields_0: UserDetailsFieldType[] = [
   {
     id: genID(),
     field: "firstName",
@@ -26,7 +27,7 @@ export const userProfileFields_0 = [
   },
 ];
 
-export const userProfileFields_1 = [
+export const userProfileFields_1: UserDetailsFieldType[] = [
   {
     id: genID(),
     field: "country",
@@ -50,7 +51,7 @@ export const userProfileFields_1 = [
   },
 ];
 
-export const userProfileFields_2 = [
+export const userProfileFields_2: UserDetailsFieldType[] = [
   {
     id: genID(),
     field: "street",
@@ -74,13 +75,17 @@ export const userProfileFields_2 = [
   },
 ];
 
-export const allFields = [
+export const allFields: UserDetailsFieldType[] = [
   ...userProfileFields_0,
   ...userProfileFields_1,
   ...userProfileFields_2,
 ];
 
-export const fieldsDividedByArea = [
+export const fieldsDividedByArea: [
+  UserDetailsFieldType[],
+  UserDetailsFieldType[],
+  UserDetailsFieldType[]
+] = [
   [...userProfileFields_0],
   [...userProfileFields_1],
   [...userProfileFields_2],
