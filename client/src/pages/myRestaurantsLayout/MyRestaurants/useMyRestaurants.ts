@@ -14,13 +14,19 @@ const valsMyRest = [
   "categories",
   "priceRange",
   "ratingRange",
+
   "ratingSort",
   "reviewsSort",
   "priceSort",
-  "deliveryTimeSort",
-  "deliveryPriceSort",
   "dishesSort",
   "ordersSort",
+  "createdAtSort",
+  "updatedAtSort",
+  "pendingOrdersSort",
+  "processingOrdersSort",
+  "shippedOrdersSort",
+  "deliveredOrdersSort",
+  "cancelledOrdersSort",
 ];
 
 type FormSearchType = {
@@ -31,13 +37,18 @@ type FormSearchType = {
   priceRange: string[];
   ratingRange: string[];
 
-  ratingSort: string[];
-  reviewsSort: string[];
-  priceSort: string[];
-  dishesSort: string[];
-  ordersSort: string[];
-  createdAtSort: string[];
-  updatedAtSort: string[];
+  ratingSort: ["asc" | "desc"];
+  reviewsSort: ["asc" | "desc"];
+  priceSort: ["asc" | "desc"];
+  dishesSort: ["asc" | "desc"];
+  ordersSort: ["asc" | "desc"];
+  createdAtSort: ["asc" | "desc"];
+  updatedAtSort: ["asc" | "desc"];
+  pendingOrdersSort: ["asc" | "desc"];
+  processingOrdersSort: ["asc" | "desc"];
+  shippedOrdersSort: ["asc" | "desc"];
+  deliveredOrdersSort: ["asc" | "desc"];
+  cancelledOrdersSort: ["asc" | "desc"];
 
   page: number;
   limit: number;

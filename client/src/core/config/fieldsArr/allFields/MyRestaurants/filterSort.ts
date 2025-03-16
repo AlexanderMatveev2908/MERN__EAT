@@ -199,9 +199,34 @@ export const myRestFilters: SearchFilterType[] = [
 ].map((el) => ({ ...el, id: genID() }));
 
 const sortersArr: (Omit<BaseFieldType, "id"> & { icon: IconType })[] = [
-  { field: "createdAtSort", label: "Last created", icon: IoIosCreate },
-  { field: "updatedAtSort", label: "Last updated", icon: GrDocumentUpdate },
+  { field: "createdAtSort", label: "Created at", icon: IoIosCreate },
+  { field: "updatedAtSort", label: "Updated at", icon: GrDocumentUpdate },
   { field: "ratingSort", label: "Avg rating", icon: FaRegStar },
+  {
+    field: "pendingOrdersSort",
+    label: "Pending orders",
+    icon: FaDatabase,
+  },
+  {
+    field: "processingOrdersSort",
+    label: "Processing orders",
+    icon: FaDatabase,
+  },
+  {
+    field: "shippedOrdersSort",
+    label: "Shipped orders",
+    icon: FaDatabase,
+  },
+  {
+    field: "deliveredOrdersSort",
+    label: "Delivered orders",
+    icon: FaDatabase,
+  },
+  {
+    field: "cancelledOrdersSort",
+    label: "Cancelled orders",
+    icon: FaDatabase,
+  },
   { field: "ordersSort", label: "No. of orders", icon: CiDeliveryTruck },
   { field: "reviewsSort", label: "No. of reviews", icon: GoCodeReview },
   { field: "priceSort", label: "Avg price dish", icon: GiReceiveMoney },
