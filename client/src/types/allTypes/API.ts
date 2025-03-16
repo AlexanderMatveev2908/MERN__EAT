@@ -29,3 +29,9 @@ export type ImageUploadedType = {
 export interface ErrFoodApp extends AxiosError {
   response?: AxiosResponse<{ msg: string; success: boolean }>;
 }
+
+export type GetElsQueriedReturnType = {
+  totDocuments: number;
+  nHits: number;
+  totPages: number;
+};

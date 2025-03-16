@@ -36,6 +36,8 @@ type FormSearchType = {
   priceSort: string[];
   dishesSort: string[];
   ordersSort: string[];
+  createdAtSort: string[];
+  updatedAtSort: string[];
 
   page: number;
   limit: number;
@@ -106,7 +108,7 @@ export const useMyRestaurants = () => {
     }
   }, [handleErrAPI, isError, error, isSuccess, data]);
 
-  const { restaurants, totDocuments, totPages } = data ?? {};
+  const { restaurants, totDocuments, totPages, nHits } = data ?? {};
 
   return {
     isPending,
@@ -118,5 +120,6 @@ export const useMyRestaurants = () => {
     handleSave,
     handleClear,
     totPages,
+    nHits,
   };
 };

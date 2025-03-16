@@ -32,6 +32,8 @@ import {
   SorterFieldType,
 } from "../../typesFields";
 import { IconType } from "react-icons/lib";
+import { IoIosCreate } from "react-icons/io";
+import { GrDocumentUpdate } from "react-icons/gr";
 
 export const fieldsShowMyRestaurants = (
   ...params: string[][]
@@ -197,6 +199,8 @@ export const myRestFilters: SearchFilterType[] = [
 ].map((el) => ({ ...el, id: genID() }));
 
 const sortersArr: (Omit<BaseFieldType, "id"> & { icon: IconType })[] = [
+  { field: "createdAtSort", label: "Last created", icon: IoIosCreate },
+  { field: "updatedAtSort", label: "Last updated", icon: GrDocumentUpdate },
   { field: "ratingSort", label: "Avg rating", icon: FaRegStar },
   { field: "ordersSort", label: "No. of orders", icon: CiDeliveryTruck },
   { field: "reviewsSort", label: "No. of reviews", icon: GoCodeReview },

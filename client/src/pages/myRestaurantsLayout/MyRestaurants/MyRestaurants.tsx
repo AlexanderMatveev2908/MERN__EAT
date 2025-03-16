@@ -23,6 +23,7 @@ const MyRestaurants: FC = () => {
     handleSave,
     handleClear,
     totPages,
+    nHits,
   } = useMyRestaurants();
 
   return (
@@ -47,6 +48,12 @@ const MyRestaurants: FC = () => {
       ) : !totDocuments ? (
         <NoLengthResult
           {...{ txt: "It seems you do not have any restaurants right now 🧐" }}
+        />
+      ) : !nHits ? (
+        <NoLengthResult
+          {...{
+            txt: "We did not find any restaurants with the given search parameters 🧐",
+          }}
         />
       ) : (
         <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center gap-10 place-content-start items-start mt-5">
