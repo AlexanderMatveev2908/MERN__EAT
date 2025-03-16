@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
@@ -68,7 +67,7 @@ export const useMyRestaurants = () => {
 
     for (const key of valsMyRest) {
       formContext.setValue(
-        key as any,
+        key as keyof FormSearchType,
         Array.isArray(savedForm?.[key])
           ? []
           : key === "searchVals"

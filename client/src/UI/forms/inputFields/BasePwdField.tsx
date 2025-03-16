@@ -2,14 +2,14 @@
 import { Eye, EyeOff } from "lucide-react";
 import { FC } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { AuthFieldUserType } from "../../../core/config/fieldsArr/typesFields";
+import { AuthFieldUserTypeNoSvg } from "../../../core/config/fieldsArr/typesFields";
 
 type PropsType = {
   register: UseFormRegister<any>;
   errors: FieldErrors;
   isVisible: boolean;
   handleChangeVisibility: () => void;
-  field: AuthFieldUserType;
+  field: AuthFieldUserTypeNoSvg;
   custom?: (val: string) => string | boolean;
 };
 
