@@ -3,12 +3,26 @@ import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js
 import { checkUserProperty } from "../../utils/checkers/myRestaurants.js";
 import User from "../../models/User.js";
 import mongoose from "mongoose";
+import { makeQueriesMyRestaurants } from "../../utils/makeQueries/myRestaurants.js";
+import { makeSortersMyRestaurants } from "../../utils/makeSorters/myRestaurants.js";
+import Restaurant from "../../models/Restaurant.js";
+import { calcPagination } from "../../utils/calcPagination.js";
 
 export const getMyRestaurants = async (
   req: RequestWithUserId,
   res: Response
 ): Promise<any> => {
   const { userId } = req;
+
+  const { query } = makeQueriesMyRestaurants(req);
+
+  const { sorter } = makeSortersMyRestaurants(req);
+
+  const totDocuments = await Restaurant.countDocuments({
+    owner: new mongoose.Types.ObjectId(userId),
+  });
+
+  const { limit, skip, totPages } = calcPagination(req, totDocuments);
 
   const result = await User.aggregate([
     // search user restaurants by his id string converted to ObjectId for mongo
@@ -23,7 +37,7 @@ export const getMyRestaurants = async (
       },
     },
     // with unwind we can process each el similar to a map in js
-    { $unwind: "$restaurants" },
+    { $unwind: { path: "$restaurants", preserveNullAndEmptyArrays: true } },
     // we add necessary fields here to not do it in frontend and get values already processed
     {
       $lookup: {
@@ -34,8 +48,22 @@ export const getMyRestaurants = async (
       },
     },
     {
-      $addFields: {
+      $set: {
         "restaurants.dishesCount": { $size: "$restaurants.dishes" },
+        "restaurants.avgPrice": {
+          $ifNull: [
+            {
+              $avg: {
+                $map: {
+                  input: { $ifNull: ["$restaurants.dishes", []] },
+                  as: "dish",
+                  in: { $ifNull: ["$$dish.price", 0] },
+                },
+              },
+            },
+            0,
+          ],
+        },
       },
     },
 
@@ -48,7 +76,7 @@ export const getMyRestaurants = async (
       },
     },
     {
-      $addFields: {
+      $set: {
         "restaurants.ordersCount": { $size: "$restaurants.orders" },
       },
     },
@@ -62,54 +90,50 @@ export const getMyRestaurants = async (
       },
     },
     {
-      $addFields: {
+      $set: {
         "restaurants.reviewsCount": { $size: "$restaurants.reviews" },
+        "restaurants.avgRating": {
+          $ifNull: [
+            {
+              $avg: {
+                $map: {
+                  input: { $ifNull: ["$restaurants.reviews", []] },
+                  as: "review",
+                  in: { $ifNull: ["$$review.rating", 0] },
+                },
+              },
+            },
+            0,
+          ],
+        },
       },
     },
 
+    { $match: query ?? {} },
     // make our operations of sorting before group cause after is not possible modifying their order
-    { $sort: { "restaurants.createdAt": -1 } },
+    { $sort: sorter ?? { "restaurants.createdAt": -1 } },
     // after unwind we need an array of els again cause is easier to work with
+    { $skip: skip },
+    { $limit: limit },
     {
       $group: {
         _id: "$_id",
         restaurants: { $push: "$restaurants" },
+        nHits: { $sum: 1 },
       },
     },
     // facet runs multiples query in parallel so is pretty fast but they must be independent one by other
-    {
-      $facet: {
-        paginatedRes: [
-          {
-            $project: {
-              restaurants: 1,
-              _id: 0,
-            },
-          },
-        ],
-        // we will need it for pagination in frontend
-        totCount: [
-          {
-            $count: "count",
-          },
-        ],
-      },
-    },
   ]);
-  // most of cases $ is used for dynamic fields, to access property of obj and create new fields
+  // most of cases $ is used for dynamic fields, to access property of obj and create new fields, in some way is similar with THIS in oop js
 
-  const nHits = result[0]?.totCount?.[0]?.count;
-  const restaurants = result[0]?.paginatedRes?.[0]?.restaurants;
+  const restaurants = result[0]?.restaurants;
 
-  if (!nHits)
-    return res
-      .status(200)
-      .json({ success: true, restaurants: [], totRestaurants: 0 });
-
+  // console.log(restaurants);
   return res.status(200).json({
     success: true,
     restaurants,
-    totRestaurants: nHits,
+    totDocuments,
+    totPages,
   });
 };
 

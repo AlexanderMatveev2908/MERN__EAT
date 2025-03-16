@@ -10,10 +10,16 @@ export const createRestaurantAPI = async (
   return data;
 };
 
-export const getMyRestaurantsAPI = async (): Promise<
-  ReturnAPIBasic & { totRestaurants: number; restaurants: MyRestaurantType[] }
+export const getMyRestaurantsAPI = async (
+  params?: URLSearchParams
+): Promise<
+  ReturnAPIBasic & {
+    totDocuments: number;
+    totPages: number;
+    restaurants: MyRestaurantType[];
+  }
 > => {
-  const { data } = await foodAppInstance.get("/my-restaurants");
+  const { data } = await foodAppInstance.get(`/my-restaurants?${params}`);
 
   return data;
 };

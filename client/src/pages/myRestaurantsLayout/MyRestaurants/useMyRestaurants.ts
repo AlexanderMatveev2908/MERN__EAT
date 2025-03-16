@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { getMyRestaurantsAPI } from "../../../core/api/api";
 import { createURLParams } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
 
 const valsMyRest = [
   "search",
@@ -26,22 +27,27 @@ type FormSearchType = {
   search: string;
   searchVals: string[]; // the vals we decide to use to search a rest, like a text will be looked not only by name but also country
   categories: string[];
+  ordersState: string[];
   priceRange: string[];
   ratingRange: string[];
 
   ratingSort: string[];
   reviewsSort: string[];
   priceSort: string[];
-  deliveryTimeSort: string[];
-  deliveryPriceSort: string[];
   dishesSort: string[];
   ordersSort: string[];
+
+  page: number;
+  limit: number;
 };
 
 export const useMyRestaurants = () => {
+  const queryClient = useQueryClient();
+
   const [currPage, setCurrPage] = useState<number>(1);
 
   const { handleErrAPI } = useHandleErr();
+  const { limit } = useUpdateCardsLimit();
 
   useScrollTop();
 
@@ -54,12 +60,17 @@ export const useMyRestaurants = () => {
       : { searchVals: ["name"] },
   });
 
-  const formVals = formContext.getValues();
+  const formVals = formContext.watch();
+  formVals.page = currPage;
+  formVals.limit = limit;
 
   const handleSave = formContext.handleSubmit((formDataHook) => {
-    const params = createURLParams(formDataHook);
-    console.log(params);
+    formDataHook.limit = limit;
+    formDataHook.page = currPage;
+
     sessionStorage.setItem("myRestaurantsForm", JSON.stringify(formDataHook));
+
+    queryClient.resetQueries({ queryKey: ["myRestaurants"] });
   });
 
   const handleClear = () => {
@@ -75,11 +86,15 @@ export const useMyRestaurants = () => {
           : ""
       );
     }
+
+    formContext.trigger("search");
+
+    setCurrPage(1);
   };
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["myRestaurants", formVals],
-    queryFn: getMyRestaurantsAPI,
+    queryFn: () => getMyRestaurantsAPI(createURLParams(formVals)),
   });
 
   useEffect(() => {
@@ -91,16 +106,17 @@ export const useMyRestaurants = () => {
     }
   }, [handleErrAPI, isError, error, isSuccess, data]);
 
-  const { restaurants, totRestaurants } = data ?? {};
+  const { restaurants, totDocuments, totPages } = data ?? {};
 
   return {
     isPending,
     restaurants,
-    totRestaurants,
+    totDocuments,
     formContext,
     currPage,
     setCurrPage,
     handleSave,
     handleClear,
+    totPages,
   };
 };

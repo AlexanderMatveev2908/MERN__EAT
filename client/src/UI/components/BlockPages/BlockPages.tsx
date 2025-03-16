@@ -8,11 +8,7 @@ export type PropsType = {
   setCurrPage: (val: number) => void;
 };
 
-const BlockPages: FC<PropsType> = ({
-  totPages = 200,
-  currPage,
-  setCurrPage,
-}) => {
+const BlockPages: FC<PropsType> = ({ totPages = 0, currPage, setCurrPage }) => {
   const {
     handleNext,
     handlePrev,

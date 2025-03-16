@@ -7,14 +7,14 @@ type PropsType = {
   el: CheckBoxFieldType;
   register: UseFormRegister<any>;
   watch: UseFormWatch<any>;
-  handleClick?: (val: string) => void;
+  handleChange?: (val: string) => void;
 };
 
 const CheckBoxSwitcher: FC<PropsType> = ({
   register,
   el,
   watch,
-  handleClick,
+  handleChange,
 }) => {
   return (
     <div className="w-full grid grid-cols-[100px_1fr]">
@@ -25,7 +25,7 @@ const CheckBoxSwitcher: FC<PropsType> = ({
           type="checkbox"
           className="opacity-0"
           {...register("searchVals")}
-          onClick={() => handleClick?.(el.field)}
+          onChange={() => handleChange && handleChange(el.field)}
         />
         <span
           className={`absolute w-[40px] h-[40px] top-0 left-0 rounded-full check_swap__swap scale-90 transition-all duration-500 ${

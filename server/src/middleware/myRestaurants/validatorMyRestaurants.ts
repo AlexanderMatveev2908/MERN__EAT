@@ -83,9 +83,12 @@ export const validatorMyRestaurants = [
       return true;
     }),
 
-  body("categories")
-    .isArray({ min: 1, max: 3 })
-    .withMessage("Invalid categories format"),
+  body("categories").custom((val, { req }) => {
+    if (!val || (Array.isArray(val) && val.length > 3))
+      throw new Error("Invalid categories format");
+
+    return true;
+  }),
 
   body("estTimeDelivery").custom((val, { req }) => {
     const diff = +req.body.closeTime - +req.body.openTime;

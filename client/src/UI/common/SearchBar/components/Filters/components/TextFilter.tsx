@@ -15,12 +15,10 @@ const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
 
   const { register, watch, setValue } = formContext;
 
-  const handleClick = (el: string) =>
-    watch("searchVals").includes("id") && watch("searchVals").length === 1
-      ? setValue("searchVals", [el])
-      : !watch("searchVals").includes("id") && el === "id"
-      ? setValue("searchVals", ["id"])
-      : undefined;
+  const handleChange = (el: string) =>
+    watch("searchVals").includes(el)
+      ? setValue("searchVals", [], { shouldValidate: true })
+      : setValue("searchVals", [el], { shouldValidate: true });
 
   return (
     <div className="w-full grid grid-cols-1">
@@ -47,7 +45,7 @@ const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
               register,
               el,
               watch,
-              handleClick,
+              handleChange,
             }}
           />
         ))}
