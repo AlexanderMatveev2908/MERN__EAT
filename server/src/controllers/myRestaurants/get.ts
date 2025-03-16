@@ -37,7 +37,7 @@ export const getMyRestaurants = async (
       },
     },
     // with unwind we can process each el similar to a map in js
-    { $unwind: { path: "$restaurants", preserveNullAndEmptyArrays: true } },
+    { $unwind: "$restaurants" },
     // we add necessary fields here to not do it in frontend and get values already processed
     {
       $lookup: {
@@ -78,9 +78,53 @@ export const getMyRestaurants = async (
     {
       $set: {
         "restaurants.ordersCount": { $size: "$restaurants.orders" },
+        "restaurants.pendingOrders": {
+          $size: {
+            $filter: {
+              input: "$restaurants.orders",
+              as: "order",
+              cond: { $eq: ["$$order.status", "pending"] },
+            },
+          },
+        },
+        "restaurants.processingOrders": {
+          $size: {
+            $filter: {
+              input: "$restaurants.orders",
+              as: "order",
+              cond: { $eq: ["$$order.status", "processing"] },
+            },
+          },
+        },
+        "restaurants.shippedOrders": {
+          $size: {
+            $filter: {
+              input: "$restaurants.orders",
+              as: "order",
+              cond: { $eq: ["$$order.status", "shipped"] },
+            },
+          },
+        },
+        "restaurants.deliveredOrders": {
+          $size: {
+            $filter: {
+              input: "$restaurants.orders",
+              as: "order",
+              cond: { $eq: ["$$order.status", "delivered"] },
+            },
+          },
+        },
+        "restaurants.cancelledOrders": {
+          $size: {
+            $filter: {
+              input: "$restaurants.orders",
+              as: "order",
+              cond: { $eq: ["$$order.status", "cancelled"] },
+            },
+          },
+        },
       },
     },
-
     {
       $lookup: {
         from: "reviews",
@@ -122,12 +166,21 @@ export const getMyRestaurants = async (
         nHits: { $sum: 1 },
       },
     },
+    {
+      $project: {
+        _id: 0,
+        "restaurants.dishes": 0,
+        "restaurants.orders": 0,
+        "restaurants.reviews": 0,
+      },
+    },
     // facet runs multiples query in parallel so is pretty fast but they must be independent one by other
   ]);
   // most of cases $ is used for dynamic fields, to access property of obj and create new fields, in some way is similar with THIS in oop js
 
   const restaurants = result[0]?.restaurants;
   const nHits = result[0]?.nHits;
+  console.log(restaurants);
 
   // console.log(restaurants);
   return res.status(200).json({

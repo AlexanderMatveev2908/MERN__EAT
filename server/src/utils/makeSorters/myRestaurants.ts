@@ -9,6 +9,11 @@ export const makeSortersMyRestaurants = (req: Request) => {
     ordersSort,
     createdAtSort,
     updatedAtSort,
+    pendingOrdersSort,
+    processingOrdersSort,
+    shippedOrdersSort,
+    deliveredOrdersSort,
+    cancelledOrdersSort,
   } = req.query;
 
   const sorter: any = {};
@@ -19,6 +24,19 @@ export const makeSortersMyRestaurants = (req: Request) => {
     sorter["restaurants.updatedAt"] = updatedAtSort === "asc" ? 1 : -1;
   if (ratingSort)
     sorter["restaurants.avgRating"] = ratingSort === "asc" ? 1 : -1;
+  if (pendingOrdersSort)
+    sorter["restaurants.pendingOrders"] = pendingOrdersSort === "asc" ? 1 : -1;
+  if (processingOrdersSort)
+    sorter["restaurants.processingOrders"] =
+      processingOrdersSort === "asc" ? 1 : -1;
+  if (shippedOrdersSort)
+    sorter["restaurants.shippedOrders"] = shippedOrdersSort === "asc" ? 1 : -1;
+  if (deliveredOrdersSort)
+    sorter["restaurants.deliveredOrders"] =
+      deliveredOrdersSort === "asc" ? 1 : -1;
+  if (cancelledOrdersSort)
+    sorter["restaurants.cancelledOrders"] =
+      cancelledOrdersSort === "asc" ? 1 : -1;
   if (ordersSort)
     sorter["restaurants.ordersCount"] = ordersSort === "asc" ? 1 : -1;
   if (reviewsSort)
