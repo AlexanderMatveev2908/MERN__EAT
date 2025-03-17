@@ -14,11 +14,13 @@ import { makeQueriesMyRestaurants } from "../../utils/makeQueries/myRestaurants.
 import { makeSortersMyRestaurants } from "../../utils/makeSorters/myRestaurants.js";
 import Restaurant from "../../models/Restaurant.js";
 import { calcPagination } from "../../utils/calcPagination.js";
+import { makeOrdersStatusFields } from "../../utils/dbPipeline/myRestaurants.js";
+import { makeLookUp } from "../../utils/dbPipeline/general.js";
 export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const { userId } = req;
-    const { query } = makeQueriesMyRestaurants(req);
-    const { sorter } = makeSortersMyRestaurants(req);
+    const query = makeQueriesMyRestaurants(req);
+    const sorter = makeSortersMyRestaurants(req);
     const totDocuments = yield Restaurant.countDocuments({
         owner: new mongoose.Types.ObjectId(userId),
     });
@@ -38,14 +40,7 @@ export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, 
         // with unwind we can process each el similar to a map in js
         { $unwind: "$restaurants" },
         // we add necessary fields here to not do it in frontend and get values already processed
-        {
-            $lookup: {
-                from: "dishes",
-                localField: "restaurants.dishes",
-                foreignField: "_id",
-                as: "restaurants.dishes",
-            },
-        },
+        makeLookUp("restaurants", "dishes"),
         {
             $set: {
                 "restaurants.dishesCount": { $size: "$restaurants.dishes" },
@@ -65,72 +60,11 @@ export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, 
                 },
             },
         },
+        makeLookUp("restaurants", "orders"),
         {
-            $lookup: {
-                from: "orders",
-                localField: "restaurants.orders",
-                foreignField: "_id",
-                as: "restaurants.orders",
-            },
+            $set: Object.assign({ "restaurants.ordersCount": { $size: "$restaurants.orders" } }, makeOrdersStatusFields()),
         },
-        {
-            $set: {
-                "restaurants.ordersCount": { $size: "$restaurants.orders" },
-                "restaurants.pendingOrders": {
-                    $size: {
-                        $filter: {
-                            input: "$restaurants.orders",
-                            as: "order",
-                            cond: { $eq: ["$$order.status", "pending"] },
-                        },
-                    },
-                },
-                "restaurants.processingOrders": {
-                    $size: {
-                        $filter: {
-                            input: "$restaurants.orders",
-                            as: "order",
-                            cond: { $eq: ["$$order.status", "processing"] },
-                        },
-                    },
-                },
-                "restaurants.shippedOrders": {
-                    $size: {
-                        $filter: {
-                            input: "$restaurants.orders",
-                            as: "order",
-                            cond: { $eq: ["$$order.status", "shipped"] },
-                        },
-                    },
-                },
-                "restaurants.deliveredOrders": {
-                    $size: {
-                        $filter: {
-                            input: "$restaurants.orders",
-                            as: "order",
-                            cond: { $eq: ["$$order.status", "delivered"] },
-                        },
-                    },
-                },
-                "restaurants.cancelledOrders": {
-                    $size: {
-                        $filter: {
-                            input: "$restaurants.orders",
-                            as: "order",
-                            cond: { $eq: ["$$order.status", "cancelled"] },
-                        },
-                    },
-                },
-            },
-        },
-        {
-            $lookup: {
-                from: "reviews",
-                localField: "restaurants.reviews",
-                foreignField: "_id",
-                as: "restaurants.reviews",
-            },
-        },
+        makeLookUp("restaurants", "reviews"),
         {
             $set: {
                 "restaurants.reviewsCount": { $size: "$restaurants.reviews" },
@@ -176,6 +110,7 @@ export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, 
     // most of cases $ is used for dynamic fields, to access property of obj and create new fields, in some way is similar with THIS in oop js
     const restaurants = (_a = result[0]) === null || _a === void 0 ? void 0 : _a.restaurants;
     const nHits = (_b = result[0]) === null || _b === void 0 ? void 0 : _b.nHits;
+    console.log(restaurants);
     // console.log(restaurants);
     return res.status(200).json({
         success: true,
