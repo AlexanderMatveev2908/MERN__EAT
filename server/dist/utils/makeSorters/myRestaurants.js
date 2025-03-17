@@ -7,10 +7,10 @@ export const makeSortersMyRestaurants = (req) => {
         val,
     }));
     if (!(sorters === null || sorters === void 0 ? void 0 : sorters.length))
-        return { sorter: null };
+        return null;
     const sorter = {};
     for (const sort of sorters) {
         sorter[`restaurants.${sort.key}`] = sort.val === "asc" ? 1 : -1;
     }
-    return { sorter: Object.keys(sorter !== null && sorter !== void 0 ? sorter : {}).length ? sorter : null };
+    return Object.keys(sorter !== null && sorter !== void 0 ? sorter : {}).length ? sorter : null;
 };
