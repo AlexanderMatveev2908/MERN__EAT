@@ -1,15 +1,16 @@
 import { FC, useRef } from "react";
 import { useSidebar } from "./useSidebar";
 import { useLocation, useSearchParams } from "react-router-dom";
-import SideEL from "./components/SideEL/SideEL";
-import LogoutBtn from "./components/LogoutBtn/LogoutBtn";
 import { useUser } from "../../../core/hooks/useGlobal";
 import {
   allUsersFields,
   loggedUserFields,
   nonLoggedUserFields,
 } from "./../../../core/config/fieldsArr/fields";
-import UserEmail from "./components/UserEmail/UserEmail";
+import UserEmail from "./components/UserEmail";
+import SideEL from "./components/SideEL";
+import LogoutBtn from "./components/LogoutBtn";
+import DropAdmin from "./components/DropAdmin";
 
 type PropsType = {
   sideOpen: boolean;
@@ -51,19 +52,25 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
             <SideEL key={el.id} {...{ handleSideClick, type, location, el }} />
           ))}
 
-          {isLogged
-            ? loggedUserFields.map((el) => (
-                <SideEL
-                  key={el.id}
-                  {...{ handleSideClick, type, location, el }}
-                />
-              ))
-            : nonLoggedUserFields.map((el) => (
+          {isLogged ? (
+            <>
+              {loggedUserFields.map((el) => (
                 <SideEL
                   key={el.id}
                   {...{ handleSideClick, type, location, el }}
                 />
               ))}
+
+              <DropAdmin {...{ handleSideClick }} />
+            </>
+          ) : (
+            nonLoggedUserFields.map((el) => (
+              <SideEL
+                key={el.id}
+                {...{ handleSideClick, type, location, el }}
+              />
+            ))
+          )}
 
           {isLogged && <LogoutBtn {...{ isPending, handleLogout }} />}
         </div>

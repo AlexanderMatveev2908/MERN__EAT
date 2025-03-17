@@ -8,6 +8,7 @@ type PropsType = {
   txt: string;
   Icon: IconType;
   customStyle?: string;
+  customIconStyle?: string;
 };
 
 const DropHandlerIcon: FC<PropsType> = ({
@@ -16,6 +17,7 @@ const DropHandlerIcon: FC<PropsType> = ({
   txt,
   Icon,
   customStyle,
+  customIconStyle,
 }) => {
   return (
     <div
@@ -25,7 +27,11 @@ const DropHandlerIcon: FC<PropsType> = ({
       }`}
     >
       <div className="w-fit flex gap-5 items-center">
-        <Icon className="min-w-[30px] min-h-[30px] group-hover:text-orange-500 el__flow" />
+        <Icon
+          className={`${
+            customIconStyle ?? "min-w-[30px] min-h-[30px]"
+          } group-hover:text-orange-500 el__flow`}
+        />
         <span className="txt__02 group-hover:text-orange-500 el__flow">
           {txt}
         </span>

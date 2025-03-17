@@ -10,6 +10,10 @@ import {
 import { MdAdminPanelSettings } from "react-icons/md";
 import { genID } from "../../../../utils/allUtils/genID";
 import { SideDropFieldType } from "../typesFields";
+import { IoRestaurantSharp } from "react-icons/io5";
+import { FaDatabase } from "react-icons/fa";
+import { HiBuildingStorefront } from "react-icons/hi2";
+import { GoCodeReview } from "react-icons/go";
 
 export const allUsersFields: SideDropFieldType[] = [
   {
@@ -33,19 +37,40 @@ export const loggedUserFields: SideDropFieldType[] = [
     label: "Manage Account",
     svg: UserRoundPen,
   },
-  {
-    id: genID(),
-    path: "/my-restaurants/add-restaurant",
-    label: "Create restaurant",
-    svg: MdAdminPanelSettings,
-  },
+];
+
+export const fieldsAdmin: SideDropFieldType[] = [
   {
     id: genID(),
     path: "/my-restaurants",
     label: "My restaurants",
-    svg: MdAdminPanelSettings,
+    svg: IoRestaurantSharp,
+  },
+  {
+    id: genID(),
+    path: "/my-restaurants/add-restaurant",
+    label: "Create restaurant",
+    svg: HiBuildingStorefront,
+  },
+  {
+    id: genID(),
+    path: "/manage-orders",
+    label: "Manage orders",
+    svg: FaDatabase,
+  },
+  {
+    id: genID(),
+    path: "/users-reviews",
+    label: "Users reviews",
+    svg: GoCodeReview,
   },
 ];
+
+export const fieldAdminDrop = {
+  id: genID(),
+  label: "Admin menu",
+  icon: MdAdminPanelSettings,
+};
 
 export const loggedUserFieldsDrop: SideDropFieldType[] = loggedUserFields.slice(
   0,

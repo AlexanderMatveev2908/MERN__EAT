@@ -1,6 +1,6 @@
 import { LogOut } from "lucide-react";
 import { FC } from "react";
-import SpinnerBtnReact from "../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
+import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   handleLogout: () => void;
