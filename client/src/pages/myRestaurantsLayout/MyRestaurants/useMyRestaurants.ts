@@ -7,33 +7,12 @@ import { createURLParams } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
 import { fieldsFormMyRest } from "../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
-
-type FormSearchType = {
-  search: string;
-  searchVals: string[]; // the vals we decide to use to search a rest, like a text will be looked not only by name but also country
-  categories: string[];
-  ordersStatus: string[];
-  avgPriceRange: string[];
-  avgRatingRange: string[];
-
-  avgRatingSort: ["asc" | "desc"];
-  reviewsCountSort: ["asc" | "desc"];
-  avgPriceSort: ["asc" | "desc"];
-  dishesCountSort: ["asc" | "desc"];
-  ordersCountSort: ["asc" | "desc"];
-  createdAtSort: ["asc" | "desc"];
-  updatedAtSort: ["asc" | "desc"];
-  pendingOrdersSort: ["asc" | "desc"];
-  processingOrdersSort: ["asc" | "desc"];
-  shippedOrdersSort: ["asc" | "desc"];
-  deliveredOrdersSort: ["asc" | "desc"];
-  cancelledOrdersSort: ["asc" | "desc"];
-
-  page: number;
-  limit: number;
-};
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { FormSearchType } from "../../../types/allTypes/restAdmin";
 
 export const useMyRestaurants = () => {
+  useScrollTop();
+
   const queryClient = useQueryClient();
 
   const [currPage, setCurrPage] = useState<number>(1);
@@ -98,10 +77,6 @@ export const useMyRestaurants = () => {
   }, [handleErrAPI, isError, error, isSuccess, data, limit]);
 
   const { restaurants, totDocuments, totPages, nHits } = data ?? {};
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [currPage]);
 
   return {
     isPending,
