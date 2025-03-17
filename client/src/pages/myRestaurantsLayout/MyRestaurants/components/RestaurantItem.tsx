@@ -8,10 +8,12 @@ import DropElStatic from "../../../../UI/components/cardsEls/DropElStatic";
 import {
   makeSubFieldsOrders,
   makeSubFieldsReviews,
+  showFieldDishes,
   showFieldOrders,
   showFieldReviews,
 } from "../../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
 import PieceCardAllUsers from "../../../../UI/components/restaurants/PieceCardAllUsers";
+import { priceFormatter } from "../../../../utils/utils";
 
 type PropsType = {
   rest: MyRestaurantType;
@@ -27,9 +29,9 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
           <HeaderName {...{ name: rest.name }} />
         </HeaderImgs>
 
-        <PieceCardAllUsers {...{ rest }} />
-
         <div className="w-full grid grid-cols-1">
+          <PieceCardAllUsers {...{ rest }} />
+
           <DropElStatic {...{ el: showFieldOrders }}>
             {makeSubFieldsOrders(
               rest.pendingOrders,
@@ -91,6 +93,24 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
               <span className="txt__01">Avg rating</span>
 
               <span className="txt__02 justify-self-end">{rest.avgRating}</span>
+            </li>
+          </DropElStatic>
+
+          <DropElStatic {...{ el: showFieldDishes }}>
+            <li className="w-full grid grid-cols-[1fr_50px] items-center pr-3">
+              <span className="txt__01">Dishes count</span>
+
+              <span className="txt__02 justify-self-end">
+                {rest.dishesCount}
+              </span>
+            </li>
+
+            <li className="w-full grid grid-cols-[1fr_50px] items-center pr-3">
+              <span className="txt__01">Avg price</span>
+
+              <span className="txt__02 justify-self-end">
+                {priceFormatter({ price: rest.avgPrice })}
+              </span>
             </li>
           </DropElStatic>
         </div>

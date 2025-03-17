@@ -9,6 +9,8 @@ export type BaseFieldType = {
 
 export type BaseFieldShowType = Omit<BaseFieldType, "field">;
 
+export type BaseFieldShowIcon = BaseFieldShowType & { icon: IconType };
+
 export type FieldChecker = {
   reg: RegExp;
   msg: string;

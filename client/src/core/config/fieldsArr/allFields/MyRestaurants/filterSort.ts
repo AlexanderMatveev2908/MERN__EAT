@@ -22,6 +22,7 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { LuChefHat } from "react-icons/lu";
 import { formatTimeHmMh } from "../../../../../utils/utils";
 import {
+  BaseFieldShowIcon,
   BaseFieldShowType,
   BaseFieldType,
   RadioFieldType,
@@ -59,9 +60,7 @@ export const fieldsShowMyRestaurants = (
   },
 ];
 
-export const showMyRestaurantsOpenHours: BaseFieldShowType & {
-  icon: IconType;
-} = {
+export const showMyRestaurantsOpenHours: BaseFieldShowIcon = {
   id: genID(),
   label: "Open Hours",
   icon: FaClock,
@@ -82,9 +81,7 @@ export const showMyRestaurantsOpenHoursFields = (
   },
 ];
 
-export const showMyRestaurantsDelivery: BaseFieldShowType & {
-  icon: IconType;
-} = {
+export const showMyRestaurantsDelivery: BaseFieldShowIcon = {
   id: genID(),
   label: "Delivery",
   icon: MdDeliveryDining,
@@ -110,15 +107,6 @@ export const showMyRestaurantsDeliveryFields = (
   },
 ];
 
-export const showDishesCountField = (val: number) => [
-  {
-    id: genID(),
-    label: "Dishes",
-    icon: BiSolidDish,
-    val,
-  },
-];
-
 export const makeSubFieldsOrders = (
   ...params: number[]
 ): (BaseFieldShowType & { val: number })[] =>
@@ -130,24 +118,36 @@ export const makeSubFieldsOrders = (
     })
   );
 
-export const showFieldOrders = {
+export const showFieldOrders: BaseFieldShowIcon = {
   id: genID(),
   icon: CiDeliveryTruck,
   label: "Orders",
 };
 
-export const showFieldReviews = {
+export const showFieldReviews: BaseFieldShowIcon = {
   id: genID(),
   label: "Reviews",
   icon: MdOutlineRateReview,
 };
 
-export const makeSubFieldsReviews = (...params: number[]) =>
+export const makeSubFieldsReviews = (
+  ...params: number[]
+): {
+  id: string;
+  val: number;
+  stars: IconType[];
+}[] =>
   Array.from({ length: 5 }).map((_, i) => ({
     id: genID(),
     val: params[i],
     stars: processRatingBackend(i + 1),
   }));
+
+export const showFieldDishes: BaseFieldShowIcon = {
+  id: genID(),
+  label: "Dishes",
+  icon: BiSolidDish,
+};
 
 const myRestFieldsArr = ["name", "country", "state", "city", "id"];
 export const myRestFieldsSearch: BaseFieldType[] = myRestFieldsArr.map(

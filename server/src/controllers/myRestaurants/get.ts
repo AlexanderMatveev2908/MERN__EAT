@@ -141,9 +141,6 @@ export const getMyRestaurants = async (
   const nHits = result?.[0]?.count?.[0]?.nHits;
   const totPages = Math.ceil((nHits ?? 0) / limit);
 
-  console.log(restaurants);
-
-  // console.log(restaurants);
   return res.status(200).json({
     success: true,
     restaurants,
