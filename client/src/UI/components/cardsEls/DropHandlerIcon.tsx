@@ -6,16 +6,16 @@ type PropsType = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   txt: string;
-  customStyle?: string;
   Icon: IconType;
+  customStyle?: string;
 };
 
-const DropHandler: FC<PropsType> = ({
+const DropHandlerIcon: FC<PropsType> = ({
   isOpen,
   setIsOpen,
   txt,
-  customStyle,
   Icon,
+  customStyle,
 }) => {
   return (
     <div
@@ -39,4 +39,4 @@ const DropHandler: FC<PropsType> = ({
     </div>
   );
 };
-export default DropHandler;
+export default DropHandlerIcon;

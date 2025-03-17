@@ -1,7 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useForm } from "react-hook-form";
 import { getMyRestaurantsAPI } from "../../../core/api/api";
 import { createURLParams } from "../../../utils/utils";
@@ -38,11 +37,10 @@ export const useMyRestaurants = () => {
   const queryClient = useQueryClient();
 
   const [currPage, setCurrPage] = useState<number>(1);
+  const [limit, setLimit] = useState(6);
 
   const { handleErrAPI } = useHandleErr();
-  const { limit } = useUpdateCardsLimit();
-
-  useScrollTop();
+  useUpdateCardsLimit(limit, setLimit);
 
   const savedForm = sessionStorage.getItem("myRestaurantsForm");
 
@@ -95,11 +93,15 @@ export const useMyRestaurants = () => {
       handleErrAPI({ err: error as ErrFoodApp });
     }
     if (isSuccess) {
-      //
+      if (data?.nHits < limit) setCurrPage(1);
     }
-  }, [handleErrAPI, isError, error, isSuccess, data]);
+  }, [handleErrAPI, isError, error, isSuccess, data, limit]);
 
   const { restaurants, totDocuments, totPages, nHits } = data ?? {};
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currPage]);
 
   return {
     isPending,

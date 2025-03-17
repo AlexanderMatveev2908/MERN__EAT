@@ -7,6 +7,8 @@ export type BaseFieldType = {
   label: string;
 };
 
+export type BaseFieldShowType = Omit<BaseFieldType, "field">;
+
 export type FieldChecker = {
   reg: RegExp;
   msg: string;
@@ -25,11 +27,11 @@ export type AuthFieldUserTypeNoSvg = Omit<AuthFieldUserType, "svg">;
 
 export type UserDetailsFieldType = BaseFieldType & FieldChecker;
 
-export type PwdCheckerType = Omit<BaseFieldType, "field"> & FieldChecker;
+export type PwdCheckerType = BaseFieldShowType & FieldChecker;
 
 // SIDELINK
 
-export type SideDropFieldType = Omit<BaseFieldType, "field"> & {
+export type SideDropFieldType = BaseFieldShowType & {
   path: string;
   svg: LucideIcon | IconType; // can be also an icon, some svg from lucide icon are really cool, but when i do not find something i go on react icons to find them cause has bigger choice, generally i do not make nothing to complex that would not allow me to treat them in the same way for styling so is ok but if you need to implement something that requires only svg you should remove icons from arrays od els
   from?: string;
@@ -37,43 +39,41 @@ export type SideDropFieldType = Omit<BaseFieldType, "field"> & {
 
 // FOOTER
 
-export type FooterFieldType = Omit<BaseFieldType, "field"> & {
+export type FooterFieldType = BaseFieldShowType & {
   path: string;
 };
 
 // SWITCH FORM
 
-export type SwitchFormFieldType = Omit<BaseFieldType, "field"> & {
+export type SwitchFormFieldType = BaseFieldShowType & {
   svg: LucideIcon;
   type: string;
 };
 
 // MY REST CARDS
 
-export type ShowCardMyRestTypeWithIcon = {
+type ShowCardBase = {
   id: string;
   label: string;
+};
+
+export type ShowCardMyRestArrValsIcon = ShowCardBase & {
   icon: IconType;
-  vals: string[];
+  vals: string[] | number[];
 };
 
-export type ShowCardMyRestTypeSingleVal = Omit<
-  ShowCardMyRestTypeWithIcon,
-  "vals"
-> & {
-  val: number;
-  icon?: IconType;
+export type ShowCardMyRestArrVals = ShowCardBase & {
+  vals: string[] | number[];
 };
 
-export type ShowCardMyRestTypeSingleValNoIcon = Omit<
-  ShowCardMyRestTypeSingleVal,
-  "icon"
->;
-
-export type ShowOpenCloseTimeType = {
+export type ShowCardMyRestTypeIcon = {
   id: string;
   icon: IconType;
   val: string;
+};
+
+export type ShowCardMyRestType = ShowCardBase & {
+  val: string | number;
 };
 
 // FORM INPUTS

@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import { FaSort } from "react-icons/fa";
-import DropHandler from "../DropHandler";
 import { UseFormReturn } from "react-hook-form";
 import SorterField from "./components/SorterField";
 import { SorterFieldType } from "../../../../../core/config/fieldsArr/typesFields";
+import DropHandlerIcon from "../../../../components/cardsEls/DropHandlerIcon";
 
 type PropsType = {
   formContext: UseFormReturn;
@@ -15,7 +15,7 @@ const SortersSearchBar: FC<PropsType> = ({ formContext, sorters }) => {
 
   return (
     <div className="w-full grid grid-cols-1 gap-3">
-      <DropHandler
+      <DropHandlerIcon
         {...{
           txt: "Sort by",
           Icon: FaSort,

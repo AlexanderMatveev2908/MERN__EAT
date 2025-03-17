@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
-import DropHandler from "../DropHandler";
 import { IoFilter } from "react-icons/io5";
 import FilterField from "./components/FilterField";
 import TextFilter from "./components/TextFilter";
@@ -8,6 +7,7 @@ import {
   CheckBoxFieldType,
   SearchFilterType,
 } from "../../../../../core/config/fieldsArr/typesFields";
+import DropHandlerIcon from "../../../../components/cardsEls/DropHandlerIcon";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
@@ -24,7 +24,7 @@ const FiltersSearchBar: FC<PropsType> = ({
 
   return (
     <div className="w-full grid grid-cols-1 gap-3 mt-5">
-      <DropHandler
+      <DropHandlerIcon
         {...{
           txt: "Filter by",
           Icon: IoFilter,

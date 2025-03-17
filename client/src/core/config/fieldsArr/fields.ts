@@ -51,7 +51,6 @@ export {
 
 export {
   fieldsShowMyRestaurants,
-  managementMyRestaurantsFields,
   myRestFieldsSearch,
   myRestSorters,
   showMyRestaurantsDelivery,

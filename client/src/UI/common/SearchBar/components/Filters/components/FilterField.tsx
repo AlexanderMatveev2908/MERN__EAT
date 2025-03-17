@@ -1,8 +1,8 @@
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import CheckBox from "../../../../../forms/inputFields/CheckBox";
-import DropHandler from "../../DropHandler";
 import { SearchFilterType } from "../../../../../../core/config/fieldsArr/typesFields";
+import DropHandlerIcon from "../../../../../components/cardsEls/DropHandlerIcon";
 
 type PropsType = {
   field: SearchFilterType;
@@ -15,7 +15,7 @@ const FilterField: FC<PropsType> = ({ formContext, field }) => {
 
   return (
     <div className="w-full grid grid-cols-1">
-      <DropHandler
+      <DropHandlerIcon
         {...{ isOpen, setIsOpen, txt: field.label, Icon: field.icon }}
       />
 

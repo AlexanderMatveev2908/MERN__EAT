@@ -53,11 +53,25 @@ export type MyRestaurantType = {
     freeDeliveryPrice: number;
   };
   categories: string[];
+
   dishes?: DishType[];
-  orders: OrderType[];
-  reviews: ReviewType[];
+  orders?: OrderType[];
+  reviews?: ReviewType[];
+
   dishesCount: number;
+
+  pendingOrders: number;
+  processingOrders: number;
+  shippedOrders: number;
+  deliveredOrders: number;
+  cancelledOrders: number;
+  ordersCount: number;
+
+  rating_1: number;
+  rating_2: number;
+  rating_3: number;
+  rating_4: number;
+  rating_5: number;
   reviewsCount: number;
   avgRating: number;
-  ordersCount: number;
 };
