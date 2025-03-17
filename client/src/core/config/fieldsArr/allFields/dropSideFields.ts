@@ -7,13 +7,14 @@ import {
   UserPen,
   UserRoundPen,
 } from "lucide-react";
-import { MdAdminPanelSettings } from "react-icons/md";
+import { MdAdminPanelSettings, MdOutlineMenuBook } from "react-icons/md";
 import { genID } from "../../../../utils/allUtils/genID";
 import { SideDropFieldType } from "../typesFields";
 import { IoRestaurantSharp } from "react-icons/io5";
 import { FaDatabase } from "react-icons/fa";
 import { HiBuildingStorefront } from "react-icons/hi2";
 import { GoCodeReview } from "react-icons/go";
+import { IoIosCreate } from "react-icons/io";
 
 export const allUsersFields: SideDropFieldType[] = [
   {
@@ -51,6 +52,18 @@ export const fieldsAdmin: SideDropFieldType[] = [
     path: "/my-restaurants/add-restaurant",
     label: "Create restaurant",
     svg: HiBuildingStorefront,
+  },
+  {
+    id: genID(),
+    path: "/my-dishes",
+    label: "My dishes",
+    svg: MdOutlineMenuBook,
+  },
+  {
+    id: genID(),
+    path: "/my-dishes/add-dish",
+    label: "Create dish",
+    svg: IoIosCreate,
   },
   {
     id: genID(),

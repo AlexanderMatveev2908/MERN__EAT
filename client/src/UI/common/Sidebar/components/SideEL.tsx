@@ -15,7 +15,7 @@ const SideEL: FC<PropsType> = ({ handleSideClick, type, location, el }) => {
     <button
       key={el.id}
       onClick={() => handleSideClick(el.path, el?.from)}
-      className={`ml-3 w-full cursor-pointer flex gap-3 group max-w-fit items-center el__after_below sideLink ${makeConditionalStyleLocation(
+      className={`w-full cursor-pointer flex gap-3 group max-w-fit items-center el__after_below sideLink ${makeConditionalStyleLocation(
         { location, el, type }
       )}`}
     >

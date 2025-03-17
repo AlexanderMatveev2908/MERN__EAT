@@ -8,8 +8,9 @@ type PropsType = {
 };
 
 const ImgSlider: FC<PropsType> = ({ images }) => {
-  const { activeIndx, handleNext, handlePrev, setBtnClicked, translateVal } =
-    useImgSlider({ images });
+  const { activeIndx, handleNext, handlePrev, setBtnClicked } = useImgSlider({
+    images,
+  });
   return (
     <div className="pad__page w-full pt-5 flex flex-col justify-center">
       <div className="w-full flex items-center relative">
@@ -23,21 +24,19 @@ const ImgSlider: FC<PropsType> = ({ images }) => {
           <ChevronLeft className="h-[50px] w-[50px] text-orange-500 btn__pseudo hover:scale-120" />
         </button>
 
-        <div className="w-full flex justify-items-start overflow-x-auto hide_scrollbar snap-mandatory snap-x p-6 border-2 border-orange-500 rounded-xl gap-[5%]">
+        <div className="flex w-full overflow-hidden border-2 border-orange-500 p-6 rounded-xl gap-[10%]">
           {images.map((el) => (
             <div
-              key={el.id}
-              className="min-h-[200px] max-h-[200px] min-w-[200px] max-w-[200px] sm:min-h-[400px] sm:max-h-[400px] sm:min-w-[400px] sm:max-w-[400px]  snap-center object-cover rounded-xl transition-all duration-500 overflow-hidden"
+              key={el?.public_id ?? el.id}
+              className="min-w-[200px] h-[200px] sm:min-w-[350px] sm:h-[350px] rounded-xl transition-all duration-500 overflow-hidden"
               style={{
-                transform: `translateX(-${
-                  activeIndx * translateVal + activeIndx * 10
-                }%)`,
+                transform: `translateX(-${activeIndx * 100}%`,
               }}
             >
               <img
-                src={el.img}
+                src={el?.url ?? el.img}
                 alt="burger_hero"
-                className="w-full object-cover h-fit "
+                className="min-w-full object-cover h-full "
               />
             </div>
           ))}
