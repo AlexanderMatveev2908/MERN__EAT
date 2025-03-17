@@ -10,6 +10,7 @@ import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
 import {
   getMyRestaurants,
   getMySingleRestaurant,
+  getMySingleRestaurantInfoToUpdate,
 } from "../controllers/myRestaurants/get.js";
 import { validatorMySingleRest } from "../middleware/myRestaurants/validatorMySingleRest.js";
 import {
@@ -42,11 +43,16 @@ router.get(
   "/info-restaurant/:restId",
   verifyAccessToken,
   validatorMySingleRest,
-  asyncWrapper(getMySingleRestaurant)
+  asyncWrapper(getMySingleRestaurantInfoToUpdate)
 );
 
 router
   .route("/:restId")
+  .get(
+    verifyAccessToken,
+    validatorMySingleRest,
+    asyncWrapper(getMySingleRestaurant)
+  )
   .patch(
     verifyAccessToken,
     validatorMySingleRest,

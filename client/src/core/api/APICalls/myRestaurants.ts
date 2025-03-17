@@ -23,7 +23,9 @@ export const getMyRestaurantsAPI = async (
   return data;
 };
 
-export const getInfoRestaurantAPI = async (id: string) => {
+export const getInfoRestaurantAPI = async (
+  id: string
+): Promise<ReturnAPIBasic & MyRestaurantType> => {
   const { data } = await foodAppInstance.get(
     `/my-restaurants/info-restaurant/${id}`
   );
@@ -46,8 +48,18 @@ export const updateRestaurantAPI = async ({
   return data;
 };
 
-export const deleteRestaurantAPI = async (id: string) => {
+export const deleteRestaurantAPI = async (
+  id: string
+): Promise<ReturnAPIBasic> => {
   const { data } = await foodAppInstance.delete(`/my-restaurants/${id}`);
+
+  return data;
+};
+
+export const getMySingleRestAPI = async (
+  id: string
+): Promise<ReturnAPIBasic & MyRestaurantType> => {
+  const { data } = await foodAppInstance.get(`/my-restaurants/${id}`);
 
   return data;
 };

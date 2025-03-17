@@ -8,7 +8,7 @@ export const validateGetMyRestParams = [
       : true
   ),
   check("search").custom((val, { req }) =>
-    val && !req?.query?.searchVals ? Promise.reject("Bad request 1") : true
+    val && !req?.query?.searchVals ? Promise.reject("Bad request") : true
   ),
 
   check().custom((_, { req }) => {
