@@ -22,29 +22,17 @@ export const useUserProfile = () => {
   useScrollTop();
 
   useEffect(() => {
-    setTimeout(() => {
-      if (inputRef_0.current) inputRef_0.current.focus();
-    }, 500);
-  }, []);
+    const makeFocus = () => {
+      const refs = [inputRef_0, inputRef_1, inputRef_2];
 
-  useEffect(() => {
-    if (state.currForm.curr === 0) {
-      setTimeout(() => {
-        if (inputRef_0.current) inputRef_0.current?.focus();
-      }, 600);
-    }
+      const i = state.currForm.curr;
+      if (refs[i].current)
+        setTimeout(() => {
+          refs[i].current?.focus();
+        }, 600);
+    };
 
-    if (state.currForm.curr === 1) {
-      setTimeout(() => {
-        if (inputRef_1.current) inputRef_1.current.focus();
-      }, 600);
-    }
-
-    if (state.currForm.curr === 2) {
-      setTimeout(() => {
-        if (inputRef_2.current) inputRef_2.current.focus();
-      }, 600);
-    }
+    makeFocus();
   }, [state.currForm.curr]);
 
   const { isPrevDisabled, isNextDisabled, curr } = state.currForm;

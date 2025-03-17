@@ -2,7 +2,8 @@ import { FC } from "react";
 import { ShowToastType } from "../../../../../../../types/allTypes/toastTypes";
 import { SetChildLoadingType } from "../../ManageAccountForms";
 import { handleErrManageUserType } from "../../../../useManageAccount";
-import DeleteAccountBtn from "./components/DeleteAccountBtn";
+import DeleteButton from "../../../../../../../UI/components/buttons/DeleteButton";
+import { useDeleteAccount } from "./useDeleteAccount";
 
 type PropsType = {
   showToastMsg: ShowToastType;
@@ -15,6 +16,11 @@ const DeleteAccount: FC<PropsType> = ({
   setIsChildLoading,
   handleErrManageUser,
 }) => {
+  const { handleSubmitDeleteAccount } = useDeleteAccount({
+    showToastMsg,
+    setIsChildLoading,
+    handleErrManageUser,
+  });
   return (
     <div className="w-full grid grid-cols-1 justify-items-center gap-y-5 py-5 pb-10 px-5 sm:px-10">
       <span className="txt__03">Delete Account</span>
@@ -28,13 +34,11 @@ const DeleteAccount: FC<PropsType> = ({
         </span>
       </div>
 
-      <DeleteAccountBtn
-        {...{
-          showToastMsg,
-          setIsChildLoading,
-          handleErrManageUser,
-        }}
-      />
+      <div className="w-full flex justify-center mt-14">
+        <DeleteButton
+          {...{ handleDelete: handleSubmitDeleteAccount, txt: "Account" }}
+        />
+      </div>
     </div>
   );
 };

@@ -1,17 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
-import { ShowToastType } from "../../../../../../../../types/allTypes/toastTypes";
-import { SetChildLoadingType } from "./../../../ManageAccountForms";
+import { ShowToastType } from "../../../../../../../types/allTypes/toastTypes";
+import { SetChildLoadingType } from "../../ManageAccountForms";
 import { useNavigate } from "react-router-dom";
-import { handleErrManageUserType } from "./../../../../../useManageAccount";
-import { PopupPayloadSetter } from "../../../../../../../../types/allTypes/popup";
-import {
-  usePopup,
-  useUser,
-} from "../../../../../../../../core/hooks/useGlobal";
-import { deleteAccountAPI } from "../../../../../../../../core/api/api";
-import { ErrFoodApp } from "../../../../../../../../types/allTypes/API";
+import { handleErrManageUserType } from "../../../../useManageAccount";
+import { PopupPayloadSetter } from "../../../../../../../types/allTypes/popup";
+import { usePopup, useUser } from "../../../../../../../core/hooks/useGlobal";
+import { deleteAccountAPI } from "../../../../../../../core/api/api";
+import { ErrFoodApp } from "../../../../../../../types/allTypes/API";
 
-export const useDeleteAccountBtn = ({
+export const useDeleteAccount = ({
   showToastMsg,
   setIsChildLoading,
   handleErrManageUser,

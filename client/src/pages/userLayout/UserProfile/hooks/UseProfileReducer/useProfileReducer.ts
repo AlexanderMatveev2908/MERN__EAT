@@ -70,6 +70,7 @@ export const useProfileReducer = () => {
     handleErrAPI,
     setDetailsFieldsHigher,
   ]);
+
   const handleSideEffectsUpdateDetails = useCallback(async () => {
     if (isErrorUpdate) {
       handleErrAPI({ err: errorUpdate as ErrFoodApp });
