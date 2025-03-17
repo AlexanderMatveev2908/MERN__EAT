@@ -59,6 +59,7 @@ export type MyRestaurantType = {
   reviews?: ReviewType[];
 
   dishesCount: number;
+  avgPrice: number;
 
   pendingOrders: number;
   processingOrders: number;
