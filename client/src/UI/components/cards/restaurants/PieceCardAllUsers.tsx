@@ -57,7 +57,7 @@ const PieceCardAllUsers: FC<PropsType> = ({ rest }) => {
           ).map((el, i) => (
             <li
               key={i}
-              className="px-3 el__flow truncate pointer-events-none cursor-pointer flex items-center gap-3"
+              className="px-3 el__flow overflow-x-auto hide_scrollbar pointer-events-none cursor-pointer flex items-center gap-3"
             >
               <el.icon className="w-[25px] h-[25px]" />
 
@@ -72,7 +72,7 @@ const PieceCardAllUsers: FC<PropsType> = ({ rest }) => {
               el.label === "Free meal" && !el.val ? null : (
                 <li
                   key={i}
-                  className="px-3 el__flow truncate pointer-events-none cursor-pointer grid grid-cols-[125px_1fr]"
+                  className="px-3 el__flow overflow-x-auto hide_scrollbar  cursor-pointer grid grid-cols-[125px_1fr]"
                 >
                   <span className="txt__01">{el.label}</span>
 

@@ -24,11 +24,12 @@ const DropElAbsolute: FC<PropsType> = ({ el, children }) => {
           txt: el.label,
           Icon: el.icon,
           customStyle: "px-3",
+          customIconStyle: "min-w-[25px] min-h-[25px]",
         }}
       />
 
       <ul
-        className={`w-[80%] right-0 max-h-fit grid py-1 border-2 border-orange-500 rounded-xl bg-[#111] transition-all duration-500 absolute  ${
+        className={`w-[80%] right-0 max-h-fit grid py-1 border-2 border-orange-500 rounded-xl bg-[#111] transition-all duration-500 absolute ${
           ["Categories", "Open Hours"].includes(el.label)
             ? "grid-cols-2"
             : " grid-cols-1 gap-1"
@@ -42,7 +43,7 @@ const DropElAbsolute: FC<PropsType> = ({ el, children }) => {
           el?.vals?.map((val: string | number, i) => (
             <li
               key={i}
-              className="px-3 el__flow truncate pointer-events-none cursor-pointer"
+              className="px-3 el__flow hide_scrollbar overflow-x-auto"
             >
               <span className="txt__01">{val}</span>
             </li>

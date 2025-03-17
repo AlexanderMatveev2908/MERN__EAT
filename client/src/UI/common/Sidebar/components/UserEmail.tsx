@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { CircleUserRound } from "lucide-react";
-import { CurrUserType } from "../../../../../types/allTypes/userTypes";
+import { CurrUserType } from "../../../../types/types";
 
 type PropsType = {
   currUser: CurrUserType;

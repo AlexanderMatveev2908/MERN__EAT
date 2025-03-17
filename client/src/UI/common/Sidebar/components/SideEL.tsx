@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { makeConditionalStyleLocation } from "../../../../../utils/allUtils/conditionalStyleLocation";
-import { SideDropFieldType } from "../../../../../core/config/fieldsArr/typesFields";
+import { makeConditionalStyleLocation } from "../../../../utils/allUtils/conditionalStyleLocation";
+import { SideDropFieldType } from "../../../../core/config/fieldsArr/typesFields";
 import { Location } from "react-router-dom";
 
 type PropsType = {
