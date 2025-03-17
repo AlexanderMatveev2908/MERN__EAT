@@ -1,3 +1,16 @@
+export {
+  fieldsShowMyRestaurants,
+  makeSubFieldsOrders,
+  makeSubFieldsReviews,
+  showFieldDishes,
+  showFieldOrders,
+  showFieldReviews,
+  showMyRestaurantsDelivery,
+  showMyRestaurantsDeliveryFields,
+  showMyRestaurantsOpenHours,
+  showMyRestaurantsOpenHoursFields,
+} from "./allFields/MyRestaurants/show";
+
 export { switchFormAuthRight } from "./allFields/switchForms";
 
 export {
@@ -50,14 +63,9 @@ export {
 } from "./allFields/MyRestaurants/makeUpdate";
 
 export {
-  fieldsShowMyRestaurants,
-  myRestFieldsSearch,
   myRestSorters,
-  showMyRestaurantsDelivery,
-  showMyRestaurantsDeliveryFields,
-  showMyRestaurantsOpenHours,
-  showMyRestaurantsOpenHoursFields,
   myRestFilters,
+  myRestFieldsSearch,
 } from "./allFields/MyRestaurants/filterSort";
 
 export {

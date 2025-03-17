@@ -37,6 +37,31 @@ export type MyRestaurantsAddUpdateFormType = {
   RestaurantContactType &
   DeliveryType;
 
+export type FormSearchType = {
+  search: string;
+  searchVals: string[];
+  categories: string[];
+  ordersStatus: string[];
+  avgPriceRange: string[];
+  avgRatingRange: string[];
+
+  avgRatingSort: ["asc" | "desc"];
+  reviewsCountSort: ["asc" | "desc"];
+  avgPriceSort: ["asc" | "desc"];
+  dishesCountSort: ["asc" | "desc"];
+  ordersCountSort: ["asc" | "desc"];
+  createdAtSort: ["asc" | "desc"];
+  updatedAtSort: ["asc" | "desc"];
+  pendingOrdersSort: ["asc" | "desc"];
+  processingOrdersSort: ["asc" | "desc"];
+  shippedOrdersSort: ["asc" | "desc"];
+  deliveredOrdersSort: ["asc" | "desc"];
+  cancelledOrdersSort: ["asc" | "desc"];
+
+  page: number;
+  limit: number;
+};
+
 export type MyRestaurantType = {
   _id: string;
   name: string;
