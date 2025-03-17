@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { MyRestaurantType } from "../../../../types/allTypes/restAdmin";
-import HeaderIDItem from "../../../../UI/components/cardsEls/HeaderIDItem";
+import HeaderIDItem from "../../../../UI/components/cards/HeaderIDItem";
 import { Link } from "react-router-dom";
-import HeaderImgs from "../../../../UI/components/cardsEls/HeaderImgs";
-import HeaderName from "../../../../UI/components/cardsEls/HeaderName";
-import PieceCardAllUsers from "../../../../UI/components/restaurants/PieceCardAllUsers";
+import HeaderImgs from "../../../../UI/components/cards/HeaderImgs";
+import HeaderName from "../../../../UI/components/cards/HeaderName";
 import PieceCardAdmin from "./PieceCardAdmin";
+import PieceCardAllUsers from "../../../../UI/components/cards/restaurants/PieceCardAllUsers";
 
 type PropsType = {
   rest: MyRestaurantType;

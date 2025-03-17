@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import CheckBox from "../../../../../forms/inputFields/CheckBox";
 import { SearchFilterType } from "../../../../../../core/config/fieldsArr/typesFields";
-import DropHandlerIcon from "../../../../../components/cardsEls/DropHandlerIcon";
+import DropHandlerIcon from "../../../../../components/cards/DropHandlerIcon";
 
 type PropsType = {
   field: SearchFilterType;
