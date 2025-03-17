@@ -7,7 +7,7 @@ import {
   showFieldReviews,
 } from "../../../../core/config/fieldsArr/fields";
 import { MyRestaurantType } from "../../../../types/types";
-import DropElStatic from "../../../../UI/components/cardsEls/DropElStatic";
+import DropElStatic from "../../../../UI/components/cards/DropElStatic";
 import { priceFormatter } from "../../../../utils/utils";
 
 type PropsType = {

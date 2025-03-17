@@ -5,12 +5,12 @@ import {
   showMyRestaurantsDeliveryFields,
   showMyRestaurantsOpenHours,
   showMyRestaurantsOpenHoursFields,
-} from "../../../core/config/fieldsArr/fields";
-import { priceFormatter } from "../../../utils/allUtils/priceFormatter";
-import { MyRestaurantType } from "../../../types/allTypes/restAdmin";
+} from "../../../../core/config/fieldsArr/fields.ts";
+import { priceFormatter } from "../../../../utils/allUtils/priceFormatter";
+import { MyRestaurantType } from "../../../../types/allTypes/restAdmin";
 import { HiBuildingStorefront } from "react-icons/hi2";
-import DropHandlerIcon from "../cardsEls/DropHandlerIcon";
-import DropElAbsolute from "../cardsEls/DropElAbsolute";
+import DropHandlerIcon from "../../cards/DropHandlerIcon";
+import DropElAbsolute from "../../cards/DropElAbsolute";
 
 type PropsType = {
   rest: MyRestaurantType;
