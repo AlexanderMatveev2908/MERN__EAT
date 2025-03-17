@@ -24,3 +24,5 @@ export const REG_PRICE = /^\d+(\.\d{1,2})?$/;
 export const REG_EST_TIME = /^\d+$/;
 
 export const REG_SEARCH = /^[A-Za-zÀ-ÿ0-9\s,&!`'-]*$/;
+
+export const REG_QTY = /^\d*$/;

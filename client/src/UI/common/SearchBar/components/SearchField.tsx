@@ -17,7 +17,7 @@ const SearchField: FC<PropsType> = ({ register, errors, watch }) => {
     ? "your restaurant"
     : "";
 
-  const currValue = watch("searchVals")[0];
+  const currValue = watch("searchVals")[0] ?? "";
 
   return (
     <div className="w-full flex flex-col gap-3">

@@ -67,7 +67,7 @@ const ordersFieldsArr: BaseFieldType[] = [
 export const myRestFilters: SearchFilterType[] = [
   {
     field: "ordersStatus",
-    label: "Orders state",
+    label: "Orders status",
     subFields: ordersFieldsArr,
     icon: FaDatabase,
   },
@@ -132,12 +132,6 @@ const sortersArr: (Omit<BaseFieldType, "id"> & { icon: IconType })[] = [
   // },
 ];
 
-export const fieldsFormMyRest = [
-  ...myRestFilters.map((el) => el.field),
-  ...sortersArr.map((el) => el.field),
-  "search",
-];
-
 const fieldsUpAndDown: RadioFieldType[] = [
   {
     id: genID(),
@@ -156,3 +150,9 @@ export const myRestSorters: SorterFieldType[] = sortersArr.map((el) => ({
   id: genID(),
   subFields: [...fieldsUpAndDown],
 }));
+
+export const fieldsFormMyRest = [
+  ...myRestFilters.map((el) => el.field),
+  ...sortersArr.map((el) => el.field),
+  "search",
+];

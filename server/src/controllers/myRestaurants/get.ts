@@ -12,6 +12,7 @@ import {
   makeReviewsCountFields,
 } from "../../utils/dbPipeline/myRestaurants.js";
 import { makeLookUp } from "../../utils/dbPipeline/general.js";
+import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
 
 export const getMyRestaurants = async (
   req: RequestWithUserId,
@@ -26,6 +27,9 @@ export const getMyRestaurants = async (
   const totDocuments = await Restaurant.countDocuments({
     owner: new mongoose.Types.ObjectId(userId),
   });
+
+  if (!totDocuments)
+    return res.status(200).json({ restaurants: [], totDocuments: 0 });
 
   const { limit, skip } = calcPagination(req);
 
@@ -150,12 +154,50 @@ export const getMyRestaurants = async (
   });
 };
 
-export const getMySingleRestaurant = async (
+export const getMySingleRestaurantInfoToUpdate = async (
   req: RequestWithUserId,
   res: Response
 ): Promise<any> => {
   const { user, restaurant } = await checkUserProperty(req, res);
   if ([user, restaurant].some((el) => !el)) return;
+
+  return res.status(200).json({ success: true, restaurant });
+};
+
+export const getMySingleRestaurant = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+  const { restId } = req.params;
+
+  const hasDocuments = await Restaurant.countDocuments({
+    owner: new mongoose.Types.ObjectId(userId),
+  });
+
+  if (!hasDocuments) return badRequest(res);
+
+  const result = await Restaurant.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(restId),
+        owner: new mongoose.Types.ObjectId(userId),
+      },
+    },
+
+    {
+      $lookup: {
+        from: "dishes",
+        localField: "dishes",
+        foreignField: "_id",
+        as: "dishes",
+      },
+    },
+  ]);
+
+  const restaurant = result?.[0];
+
+  if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
 
   return res.status(200).json({ success: true, restaurant });
 };
