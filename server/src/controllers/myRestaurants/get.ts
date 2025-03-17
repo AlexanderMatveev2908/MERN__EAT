@@ -5,9 +5,12 @@ import User from "../../models/User.js";
 import mongoose from "mongoose";
 import { makeQueriesMyRestaurants } from "../../utils/makeQueries/myRestaurants.js";
 import { makeSortersMyRestaurants } from "../../utils/makeSorters/myRestaurants.js";
-import Restaurant from "../../models/Restaurant.js";
+import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
 import { calcPagination } from "../../utils/calcPagination.js";
-import { makeOrdersStatusFields } from "../../utils/dbPipeline/myRestaurants.js";
+import {
+  makeOrdersStatusFields,
+  makeReviewsCountFields,
+} from "../../utils/dbPipeline/myRestaurants.js";
 import { makeLookUp } from "../../utils/dbPipeline/general.js";
 
 export const getMyRestaurants = async (
@@ -24,7 +27,7 @@ export const getMyRestaurants = async (
     owner: new mongoose.Types.ObjectId(userId),
   });
 
-  const { limit, skip, totPages } = calcPagination(req, totDocuments);
+  const { limit, skip } = calcPagination(req);
 
   const result = await User.aggregate([
     // search user restaurants by his id string converted to ObjectId for mongo
@@ -74,6 +77,7 @@ export const getMyRestaurants = async (
     {
       $set: {
         "restaurants.reviewsCount": { $size: "$restaurants.reviews" },
+        ...makeReviewsCountFields(),
         "restaurants.avgRating": {
           $ifNull: [
             {
@@ -95,29 +99,47 @@ export const getMyRestaurants = async (
     // make our operations of sorting before group cause after is not possible modifying their order
     ...(sorter ? [{ $sort: sorter }] : []),
     // after unwind we need an array of els again cause is easier to work with
-    { $skip: skip },
-    { $limit: limit },
+
     {
-      $group: {
-        _id: "$_id",
-        restaurants: { $push: "$restaurants" },
-        nHits: { $sum: 1 },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        "restaurants.dishes": 0,
-        "restaurants.orders": 0,
-        "restaurants.reviews": 0,
+      $facet: {
+        count: [
+          {
+            $group: {
+              _id: null,
+              nHits: { $sum: 1 },
+            },
+          },
+        ],
+
+        paginatedRes: [
+          { $skip: skip },
+          { $limit: limit },
+
+          {
+            $group: {
+              _id: null,
+              restaurants: { $push: "$restaurants" },
+            },
+          },
+
+          {
+            $project: {
+              _id: 0,
+              "restaurants.dishes": 0,
+              "restaurants.orders": 0,
+              "restaurants.reviews": 0,
+            },
+          },
+        ],
       },
     },
     // facet runs multiples query in parallel so is pretty fast but they must be independent one by other
   ]);
   // most of cases $ is used for dynamic fields, to access property of obj and create new fields, in some way is similar with THIS in oop js
 
-  const restaurants = result[0]?.restaurants;
-  const nHits = result[0]?.nHits;
+  const restaurants: RestaurantType[] = result[0]?.paginatedRes[0]?.restaurants;
+  const nHits = result?.[0]?.count?.[0]?.nHits;
+  const totPages = Math.ceil((nHits ?? 0) / limit);
 
   console.log(restaurants);
 

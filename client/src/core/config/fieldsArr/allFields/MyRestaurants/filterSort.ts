@@ -22,22 +22,23 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { LuChefHat } from "react-icons/lu";
 import { formatTimeHmMh } from "../../../../../utils/utils";
 import {
+  BaseFieldShowType,
   BaseFieldType,
   RadioFieldType,
   SearchFilterType,
-  ShowCardMyRestTypeSingleVal,
-  ShowCardMyRestTypeSingleValNoIcon,
-  ShowCardMyRestTypeWithIcon,
-  ShowOpenCloseTimeType,
+  ShowCardMyRestArrValsIcon,
+  ShowCardMyRestType,
+  ShowCardMyRestTypeIcon,
   SorterFieldType,
 } from "../../typesFields";
 import { IconType } from "react-icons/lib";
 import { IoIosCreate } from "react-icons/io";
 import { GrDocumentUpdate } from "react-icons/gr";
+import { processRatingBackend } from "../../../../../utils/allUtils/conditionalStyleLocation";
 
 export const fieldsShowMyRestaurants = (
   ...params: string[][]
-): ShowCardMyRestTypeWithIcon[] => [
+): ShowCardMyRestArrValsIcon[] => [
   {
     id: genID(),
     label: "Location",
@@ -58,7 +59,9 @@ export const fieldsShowMyRestaurants = (
   },
 ];
 
-export const showMyRestaurantsOpenHours = {
+export const showMyRestaurantsOpenHours: BaseFieldShowType & {
+  icon: IconType;
+} = {
   id: genID(),
   label: "Open Hours",
   icon: FaClock,
@@ -66,7 +69,7 @@ export const showMyRestaurantsOpenHours = {
 
 export const showMyRestaurantsOpenHoursFields = (
   ...params: number[]
-): ShowOpenCloseTimeType[] => [
+): ShowCardMyRestTypeIcon[] => [
   {
     id: genID(),
     icon: FaDoorOpen,
@@ -79,7 +82,9 @@ export const showMyRestaurantsOpenHoursFields = (
   },
 ];
 
-export const showMyRestaurantsDelivery = {
+export const showMyRestaurantsDelivery: BaseFieldShowType & {
+  icon: IconType;
+} = {
   id: genID(),
   label: "Delivery",
   icon: MdDeliveryDining,
@@ -87,7 +92,7 @@ export const showMyRestaurantsDelivery = {
 
 export const showMyRestaurantsDeliveryFields = (
   ...params: number[]
-): ShowCardMyRestTypeSingleValNoIcon[] => [
+): ShowCardMyRestType[] => [
   {
     id: genID(),
     label: "Delivery time",
@@ -105,28 +110,44 @@ export const showMyRestaurantsDeliveryFields = (
   },
 ];
 
-export const managementMyRestaurantsFields = (
-  ...params: number[]
-): ShowCardMyRestTypeSingleVal[] => [
+export const showDishesCountField = (val: number) => [
   {
     id: genID(),
     label: "Dishes",
     icon: BiSolidDish,
-    val: params[0],
-  },
-  {
-    id: genID(),
-    label: "Orders",
-    icon: CiDeliveryTruck,
-    val: params[2],
-  },
-  {
-    id: genID(),
-    label: "Reviews",
-    icon: MdOutlineRateReview,
-    val: params[1],
+    val,
   },
 ];
+
+export const makeSubFieldsOrders = (
+  ...params: number[]
+): (BaseFieldShowType & { val: number })[] =>
+  ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"].map(
+    (el, i) => ({
+      id: genID(),
+      label: el,
+      val: params[i],
+    })
+  );
+
+export const showFieldOrders = {
+  id: genID(),
+  icon: CiDeliveryTruck,
+  label: "Orders",
+};
+
+export const showFieldReviews = {
+  id: genID(),
+  label: "Reviews",
+  icon: MdOutlineRateReview,
+};
+
+export const makeSubFieldsReviews = (...params: number[]) =>
+  Array.from({ length: 5 }).map((_, i) => ({
+    id: genID(),
+    val: params[i],
+    stars: processRatingBackend(i + 1),
+  }));
 
 const myRestFieldsArr = ["name", "country", "state", "city", "id"];
 export const myRestFieldsSearch: BaseFieldType[] = myRestFieldsArr.map(

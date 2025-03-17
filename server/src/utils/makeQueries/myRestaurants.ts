@@ -35,7 +35,7 @@ export const makeQueriesMyRestaurants = (req: Request) => {
 
   if (search && valTarget && REG_SEARCH.test((search as string) ?? "")) {
     if (valTarget === "name")
-      query[`restaurants.${valTarget}`] = {
+      query[`restaurants.name`] = {
         $regex: `.*${search as string}.*`,
         $options: "i",
       };

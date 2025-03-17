@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import CheckBoxSwitcher from "../../../../../forms/inputFields/CheckBoxSwitcher";
 import { UseFormReturn } from "react-hook-form";
-import DropHandler from "../../DropHandler";
 import { CiTextAlignCenter } from "react-icons/ci";
 import { CheckBoxFieldType } from "../../../../../../core/config/fieldsArr/typesFields";
+import DropHandlerIcon from "../../../../../components/cardsEls/DropHandlerIcon";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
@@ -22,7 +22,7 @@ const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
 
   return (
     <div className="w-full grid grid-cols-1">
-      <DropHandler
+      <DropHandlerIcon
         {...{
           isOpen,
           setIsOpen,

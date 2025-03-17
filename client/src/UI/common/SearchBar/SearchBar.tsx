@@ -38,7 +38,7 @@ const SearchBar: FC<PropsType> = ({
   return (
     <form className="w-full max-w-[90%] border-[3px] border-orange-500 rounded-xl p-6">
       <div className="w-full grid grid-cols-1">
-        <SearchField {...{ register, errors }} />
+        <SearchField {...{ register, errors, watch: formContext.watch }} />
 
         <FiltersSearchBar
           {...{
@@ -52,7 +52,7 @@ const SearchBar: FC<PropsType> = ({
       </div>
 
       <div className="w-full grid grid-cols-2 mt-5">
-        <div className="w-full max-w-[200px] justify-self-center">
+        <div className="sm:w-full justify-self-start w-[30vw] sm:max-w-[200px] sm:justify-self-center">
           <ButtonBasic
             {...{
               type: "submit",
@@ -65,7 +65,7 @@ const SearchBar: FC<PropsType> = ({
           />
         </div>
 
-        <div className="w-full max-w-[200px] justify-self-center">
+        <div className="sm:w-full justify-self-end w-[30vw] sm:max-w-[200px] sm:justify-self-center">
           <ButtonBasic
             {...{
               type: "button",

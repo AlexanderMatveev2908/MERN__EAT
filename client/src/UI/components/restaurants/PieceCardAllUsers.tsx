@@ -5,39 +5,36 @@ import {
   showMyRestaurantsDeliveryFields,
   showMyRestaurantsOpenHours,
   showMyRestaurantsOpenHoursFields,
-} from "../../../../core/config/fieldsArr/fields";
-import DropEl from "./components/DropEl";
-import { priceFormatter } from "../../../../utils/allUtils/priceFormatter";
-import { MyRestaurantType } from "../../../../types/allTypes/restAdmin";
-import { ChevronDown } from "lucide-react";
+} from "../../../core/config/fieldsArr/fields";
+import { priceFormatter } from "../../../utils/allUtils/priceFormatter";
+import { MyRestaurantType } from "../../../types/allTypes/restAdmin";
+import { HiBuildingStorefront } from "react-icons/hi2";
+import DropHandlerIcon from "../cardsEls/DropHandlerIcon";
+import DropElAbsolute from "../cardsEls/DropElAbsolute";
 
 type PropsType = {
   rest: MyRestaurantType;
 };
 
-const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
+const PieceCardAllUsers: FC<PropsType> = ({ rest }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <div
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between border-b-2 border-orange-500 group cursor-pointer items-center px-3 py-1"
-      >
-        <span className="txt__02 el__flow group-hover:text-orange-500">
-          Details
-        </span>
+      <DropHandlerIcon
+        {...{
+          isOpen,
+          setIsOpen,
+          txt: "Details",
+          Icon: HiBuildingStorefront,
+          customStyle: "px-3 border-b-2 border-orange-500 py-1",
+        }}
+      />
 
-        <ChevronDown
-          className={`min-w-[40px] min-h-[40px] el__flow group-hover:text-orange-500 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
-      </div>
       <div
-        className={`w-full el__flow grid grid-cols-1 gap-1 ${
+        className={`w-full el__flow grid grid-cols-1 gap-3 ${
           isOpen
-            ? "opacity-100 max-h-[500px] pointer-events-auto"
+            ? "opacity-100 max-h-[500px] pointer-events-auto pt-3"
             : "opacity-0 max-h-0 pointer-events-none"
         }`}
       >
@@ -46,7 +43,7 @@ const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
           Object.values(rest.contact),
           rest.categories
         ).map((el, i) => (
-          <DropEl
+          <DropElAbsolute
             key={i}
             {...{
               el,
@@ -54,7 +51,7 @@ const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
           />
         ))}
 
-        <DropEl {...{ el: showMyRestaurantsOpenHours }}>
+        <DropElAbsolute {...{ el: showMyRestaurantsOpenHours }}>
           {showMyRestaurantsOpenHoursFields(
             ...Object.values(rest.openHours)
           ).map((el, i) => (
@@ -67,9 +64,9 @@ const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
               <span className="txt__01">{el.val}</span>
             </li>
           ))}
-        </DropEl>
+        </DropElAbsolute>
 
-        <DropEl {...{ el: showMyRestaurantsDelivery }}>
+        <DropElAbsolute {...{ el: showMyRestaurantsDelivery }}>
           {showMyRestaurantsDeliveryFields(...Object.values(rest.delivery)).map(
             (el, i) =>
               el.label === "Free meal" && !el.val ? null : (
@@ -81,15 +78,15 @@ const BasicCardAllUsers: FC<PropsType> = ({ rest }) => {
 
                   <span className="txt__01">
                     {el.label !== "Delivery time"
-                      ? priceFormatter(el.val ?? 0)
+                      ? priceFormatter((el.val as number) ?? 0)
                       : `${el.val} minutes`}
                   </span>
                 </li>
               )
           )}
-        </DropEl>
+        </DropElAbsolute>
       </div>
     </>
   );
 };
-export default BasicCardAllUsers;
+export default PieceCardAllUsers;

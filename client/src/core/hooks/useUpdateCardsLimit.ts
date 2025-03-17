@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect } from "react";
 import { tailwindBreak } from "../config/constants/breakpoints";
 
-export const useUpdateCardsLimit = () => {
-  const [limit, setLimit] = useState(5);
-
+export const useUpdateCardsLimit = (
+  limit: number,
+  setLimit: React.Dispatch<SetStateAction<number>>
+) => {
   useEffect(() => {
     const updateLimit = () => {
       const w = window.innerWidth;
@@ -20,7 +21,7 @@ export const useUpdateCardsLimit = () => {
     return () => {
       window.removeEventListener("resize", updateLimit);
     };
-  }, [limit]);
+  }, [limit, setLimit]);
 
   return { limit };
 };

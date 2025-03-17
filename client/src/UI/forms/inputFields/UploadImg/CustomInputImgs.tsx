@@ -15,7 +15,7 @@ const CustomInputImgs: FC<PropsType> = ({ register, watch }) => {
         <input
           type="file"
           multiple
-          className="opacity-0 absolute"
+          className="opacity-0 absolute outline-none"
           {...register("images", {
             validate: () => {
               const images = watch("images");
