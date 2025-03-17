@@ -16,6 +16,7 @@ import Restaurant from "../../models/Restaurant.js";
 import { calcPagination } from "../../utils/calcPagination.js";
 import { makeOrdersStatusFields, makeReviewsCountFields, } from "../../utils/dbPipeline/myRestaurants.js";
 import { makeLookUp } from "../../utils/dbPipeline/general.js";
+import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
 export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e;
     const { userId } = req;
@@ -24,6 +25,8 @@ export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, 
     const totDocuments = yield Restaurant.countDocuments({
         owner: new mongoose.Types.ObjectId(userId),
     });
+    if (!totDocuments)
+        return res.status(200).json({ restaurants: [], totDocuments: 0 });
     const { limit, skip } = calcPagination(req);
     const result = yield User.aggregate([
         // search user restaurants by his id string converted to ObjectId for mongo
@@ -129,9 +132,38 @@ export const getMyRestaurants = (req, res) => __awaiter(void 0, void 0, void 0, 
         nHits,
     });
 });
-export const getMySingleRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+export const getMySingleRestaurantInfoToUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { user, restaurant } = yield checkUserProperty(req, res);
     if ([user, restaurant].some((el) => !el))
         return;
+    return res.status(200).json({ success: true, restaurant });
+});
+export const getMySingleRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req;
+    const { restId } = req.params;
+    const hasDocuments = yield Restaurant.countDocuments({
+        owner: new mongoose.Types.ObjectId(userId),
+    });
+    if (!hasDocuments)
+        return badRequest(res);
+    const result = yield Restaurant.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(restId),
+                owner: new mongoose.Types.ObjectId(userId),
+            },
+        },
+        {
+            $lookup: {
+                from: "dishes",
+                localField: "dishes",
+                foreignField: "_id",
+                as: "dishes",
+            },
+        },
+    ]);
+    const restaurant = result === null || result === void 0 ? void 0 : result[0];
+    if (!restaurant)
+        return baseErrResponse(res, 404, "Restaurant not found");
     return res.status(200).json({ success: true, restaurant });
 });

@@ -25,7 +25,7 @@ export const getMyRestaurantsAPI = async (
 
 export const getInfoRestaurantAPI = async (
   id: string
-): Promise<ReturnAPIBasic & MyRestaurantType> => {
+): Promise<ReturnAPIBasic & { restaurant: MyRestaurantType }> => {
   const { data } = await foodAppInstance.get(
     `/my-restaurants/info-restaurant/${id}`
   );

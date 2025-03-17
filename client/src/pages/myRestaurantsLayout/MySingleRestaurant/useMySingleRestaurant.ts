@@ -23,8 +23,8 @@ export const useMySingleRestaurant = () => {
 
   const handleSideEffects = useCallback(() => {
     if (isError) handleErrAPI({ err: error as ErrFoodApp });
-    else if (isSuccess) console.log(data);
-  }, [isError, handleErrAPI, error, isSuccess, data]);
+    else if (isSuccess) console.log("");
+  }, [isError, handleErrAPI, error, isSuccess]);
 
   useEffect(() => {
     handleSideEffects();
