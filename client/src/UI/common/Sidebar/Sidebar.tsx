@@ -42,10 +42,12 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
       <div
         ref={sideRef}
         className={`${
-          sideOpen ? "translate-x-0" : "translate-x-full"
+          sideOpen
+            ? "translate-x-0 overflow-y-auto hide_scrollbar pb-[50px]"
+            : "translate-x-full"
         } sidebar__content sidebar__i_content`}
       >
-        <div className="w-full grid grid-cols-1 justify-items-start gap-5 pt-4">
+        <div className="w-full grid grid-cols-1 justify-items-start gap-5 px-3">
           {currUser && <UserEmail {...{ currUser }} />}
 
           {allUsersFields.map((el) => (

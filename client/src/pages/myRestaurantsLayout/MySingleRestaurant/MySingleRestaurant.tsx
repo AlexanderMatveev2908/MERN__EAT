@@ -3,8 +3,8 @@ import { useMySingleRestaurant } from "./useMySingleRestaurant";
 import { Navigate } from "react-router-dom";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import NoLengthResult from "../../../UI/components/NoLengthResult";
-
-import DropOptions from "./components/DropOptions";
+import DropOptionsBusiness from "./components/DropOptionsBusiness";
+import ImgSlider from "../../../UI/components/ImgSlider/ImgSlider";
 
 const MySingleRestaurant: FC = () => {
   const {
@@ -26,14 +26,9 @@ const MySingleRestaurant: FC = () => {
     <div className="w-full grid grid-cols-1 justify-items-center">
       <span className="txt__04">{rest.name}</span>
 
-      <DropOptions {...{ restId }} />
+      <DropOptionsBusiness {...{ restId }} />
 
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit animi
-        aut laudantium? Maxime praesentium veniam quis voluptatum, aspernatur
-        velit nostrum expedita corporis nobis similique illum, libero ratione
-        rem sunt numquam!
-      </p>
+      <ImgSlider {...{ images: rest.images }} />
     </div>
   );
 };

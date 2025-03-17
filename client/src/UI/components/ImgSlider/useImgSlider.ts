@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { tailwindBreak } from "../../../core/config/constants/breakpoints";
 import { ImageUploadedType } from "../../../types/types";
 
 export const useImgSlider = ({
@@ -9,26 +8,6 @@ export const useImgSlider = ({
 }) => {
   const [activeIndx, setActiveIdx] = useState<number>(0);
   const [btnClicked, setBtnClicked] = useState<boolean>(false);
-  const [translateVal, setTranslateVal] = useState<number>(100);
-
-  useEffect(() => {
-    const updateTranslateVal = () =>
-      window.innerWidth > tailwindBreak.xl
-        ? setTranslateVal(50)
-        : window.innerWidth > tailwindBreak.lg
-        ? setTranslateVal(60)
-        : window.innerWidth > tailwindBreak.md
-        ? setTranslateVal(70)
-        : window.innerWidth > tailwindBreak.sm
-        ? setTranslateVal(90)
-        : setTranslateVal(90);
-
-    updateTranslateVal();
-
-    window.addEventListener("resize", updateTranslateVal);
-
-    return () => window.removeEventListener("resize", updateTranslateVal);
-  }, []);
 
   const handleNext = useCallback(() => {
     if (activeIndx === images.length - 1) setActiveIdx(0);
@@ -50,5 +29,5 @@ export const useImgSlider = ({
     return () => clearInterval(interval);
   }, [btnClicked, handleNext]);
 
-  return { activeIndx, handleNext, handlePrev, setBtnClicked, translateVal };
+  return { activeIndx, handleNext, handlePrev, setBtnClicked };
 };

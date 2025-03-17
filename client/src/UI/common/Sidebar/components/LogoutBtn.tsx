@@ -9,13 +9,13 @@ type PropsType = {
 
 const LogoutBtn: FC<PropsType> = ({ handleLogout, isPending }) => {
   return isPending ? (
-    <div className="ml-3">
+    <div className="">
       <SpinnerBtnReact />
     </div>
   ) : (
     <button
       onClick={handleLogout}
-      className="ml-3 w-full flex gap-3 group max-w-fit items-center el__after_below"
+      className="w-full flex gap-3 group max-w-fit items-center el__after_below"
     >
       <LogOut className="svg__sidebar" />
 

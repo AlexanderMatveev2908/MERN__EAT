@@ -8,7 +8,7 @@ type PropsType = {
   restId: string | undefined;
 };
 
-const DropOptions: FC<PropsType> = ({ restId }) => {
+const DropOptionsBusiness: FC<PropsType> = ({ restId }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="w-full grid grid-cols-1 mt-5 relative">
@@ -27,7 +27,7 @@ const DropOptions: FC<PropsType> = ({ restId }) => {
         </div>
 
         <ul
-          className={`w-fit grid grid-cols-1 el__flow gap-6 pl-1 ${
+          className={`w-full grid grid-cols-1 el__flow pl-1 gap-6 ${
             isOpen
               ? "opacity-100 pointer-events-auto max-h-[500px] pb-4"
               : "opacity-0 pointer-events-none max-h-0"
@@ -36,7 +36,7 @@ const DropOptions: FC<PropsType> = ({ restId }) => {
           {makeLinksMyRestPage(restId ?? "").map((el) => (
             <li
               key={el.id}
-              className="w-fit flex items-center gap-3 group el__flow cursor-pointer el__after_below first:pt-4"
+              className="w-full flex items-center gap-3 group el__flow cursor-pointer first:pt-4 hover:text-orange-500 el__after_below"
             >
               <Link to={el.path} className="w-full flex items-center gap-3">
                 {
@@ -54,4 +54,4 @@ const DropOptions: FC<PropsType> = ({ restId }) => {
     </div>
   );
 };
-export default DropOptions;
+export default DropOptionsBusiness;

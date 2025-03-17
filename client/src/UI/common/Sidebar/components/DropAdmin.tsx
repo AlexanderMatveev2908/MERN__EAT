@@ -20,7 +20,7 @@ const DropAdmin: FC<PropsType> = ({ handleSideClick }) => {
   const type = searchParams.get("type");
 
   return (
-    <div className="w-full grid grid-cols-1 px-3">
+    <div className="w-full grid grid-cols-1">
       <DropHandlerIcon
         {...{
           txt: fieldAdminDrop.label,
@@ -31,7 +31,7 @@ const DropAdmin: FC<PropsType> = ({ handleSideClick }) => {
         }}
       />
       <div
-        className={`w-full grid grid-cols-1 el__flow gap-5 ${
+        className={`w-full grid grid-cols-1 el__flow gap-6 ${
           isOpen
             ? "max-h-[500px] opacity-100 pointer-events-auto pt-3"
             : "max-h-0 opacity-0 pointer-events-none"
