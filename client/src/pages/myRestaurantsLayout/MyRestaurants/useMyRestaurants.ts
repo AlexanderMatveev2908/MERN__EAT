@@ -1,7 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
-import { useForm } from "react-hook-form";
 import { getMyRestaurantsAPI } from "../../../core/api/api";
 import { createURLParams } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
@@ -9,6 +8,7 @@ import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
 import { fieldsFormMyRest } from "../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { FormSearchType } from "../../../types/allTypes/restAdmin";
+import { useFormsCustom } from "../../../core/hooks/useGlobal";
 
 export const useMyRestaurants = () => {
   useScrollTop();
@@ -21,14 +21,7 @@ export const useMyRestaurants = () => {
   const { handleErrAPI } = useHandleErr();
   useUpdateCardsLimit(limit, setLimit);
 
-  const savedForm = sessionStorage.getItem("myRestaurantsForm");
-
-  const formContext = useForm<FormSearchType>({
-    mode: "onChange",
-    defaultValues: savedForm
-      ? { ...JSON.parse(savedForm) }
-      : { searchVals: ["name"] },
-  });
+  const { formContextMyRestaurants: formContext } = useFormsCustom();
 
   const formVals = formContext.watch();
   formVals.page = currPage;
@@ -49,7 +42,7 @@ export const useMyRestaurants = () => {
     for (const key of fieldsFormMyRest) {
       formContext.setValue(
         key as keyof FormSearchType,
-        Array.isArray(savedForm?.[key])
+        Array.isArray(formContext.getValues(key as keyof FormSearchType))
           ? []
           : key === "searchVals"
           ? ["name"]

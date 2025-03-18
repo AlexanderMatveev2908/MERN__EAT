@@ -19,3 +19,5 @@ export const useToast = (): ToastValsType => useGlobal().toastState;
 export const useUser = (): UserValsType => useGlobal().userState;
 
 export const usePopup = (): PopupValsType => useGlobal().popupState;
+
+export const useFormsCustom = () => useGlobal().formsState;

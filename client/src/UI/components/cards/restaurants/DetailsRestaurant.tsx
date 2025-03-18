@@ -6,8 +6,8 @@ import {
   showMyRestaurantsOpenHours,
   showMyRestaurantsOpenHoursFields,
 } from "../../../../core/config/fieldsArr/fields.ts";
-import { priceFormatter } from "../../../../utils/allUtils/priceFormatter";
-import { MyRestaurantType } from "../../../../types/allTypes/restAdmin";
+import { priceFormatter } from "../../../../utils/allUtils/priceFormatter.ts";
+import { MyRestaurantType } from "../../../../types/allTypes/restAdmin.ts";
 import { HiBuildingStorefront } from "react-icons/hi2";
 import DropHandlerIcon from "../../DropHandlerIcon.tsx";
 import DropElAbsolute from "../../DropElAbsolute.tsx";
@@ -16,7 +16,7 @@ type PropsType = {
   rest: MyRestaurantType;
 };
 
-const PieceCardAllUsers: FC<PropsType> = ({ rest }) => {
+const DetailsRestaurant: FC<PropsType> = ({ rest }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -92,4 +92,4 @@ const PieceCardAllUsers: FC<PropsType> = ({ rest }) => {
     </>
   );
 };
-export default PieceCardAllUsers;
+export default DetailsRestaurant;

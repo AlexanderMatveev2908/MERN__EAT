@@ -18,7 +18,7 @@ const DropElStatic: FC<PropsType> = ({ el, children, cols, pad }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="w-full">
+    <div className="w-full grid grid-cols-1 items-start">
       <DropHandlerIcon
         {...{
           isOpen,
@@ -29,7 +29,7 @@ const DropElStatic: FC<PropsType> = ({ el, children, cols, pad }) => {
         }}
       />
       <ul
-        className={`w-full el__flow grid gap-1 gap-2 ${
+        className={`w-full el__flow grid gap-1 gap-2 items-start ${
           cols ? "grid-cols-2" : "grid-cols-1"
         } ${pad ? "px-3" : ""} ${
           isOpen
