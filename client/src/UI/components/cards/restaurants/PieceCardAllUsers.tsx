@@ -9,8 +9,8 @@ import {
 import { priceFormatter } from "../../../../utils/allUtils/priceFormatter";
 import { MyRestaurantType } from "../../../../types/allTypes/restAdmin";
 import { HiBuildingStorefront } from "react-icons/hi2";
-import DropHandlerIcon from "../../cards/DropHandlerIcon";
-import DropElAbsolute from "../../cards/DropElAbsolute";
+import DropHandlerIcon from "../../DropHandlerIcon.tsx";
+import DropElAbsolute from "../../DropElAbsolute.tsx";
 
 type PropsType = {
   rest: MyRestaurantType;

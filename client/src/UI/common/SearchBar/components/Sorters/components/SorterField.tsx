@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import RadioInput from "../../../../../forms/inputFields/RadioInput";
 import { SorterFieldType } from "../../../../../../core/config/fieldsArr/typesFields";
-import DropHandlerIcon from "../../../../../components/cards/DropHandlerIcon";
+import DropHandlerIcon from "../../../../../components/DropHandlerIcon";
 
 type PropsType = {
   sorter: SorterFieldType;

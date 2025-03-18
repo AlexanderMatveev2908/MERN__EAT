@@ -7,8 +7,8 @@ import {
   showFieldReviews,
 } from "../../../../core/config/fieldsArr/fields";
 import { MyRestaurantType } from "../../../../types/types";
-import DropElStatic from "../../../../UI/components/cards/DropElStatic";
 import { priceFormatter } from "../../../../utils/utils";
+import DropElStatic from "../../../../UI/components/DropElStatic";
 
 type PropsType = {
   rest: MyRestaurantType;
@@ -17,17 +17,11 @@ type PropsType = {
 const PieceCardAdmin: FC<PropsType> = ({ rest }) => {
   return (
     <>
-      <DropElStatic {...{ el: showFieldOrders }}>
-        {makeSubFieldsOrders(
-          rest.pendingOrders,
-          rest.processingOrders,
-          rest.shippedOrders,
-          rest.deliveredOrders,
-          rest.cancelledOrders
-        ).map((el) => (
+      <DropElStatic {...{ el: showFieldOrders, pad: true }}>
+        {makeSubFieldsOrders(...rest.ordersByStatus).map((el) => (
           <li
             key={el.id}
-            className="w-full grid grid-cols-[120px_1fr] items-center pr-3"
+            className="w-full grid grid-cols-[1fr_50px] items-center pr-3"
           >
             <span className="txt__01">{el.label}</span>
 
@@ -35,22 +29,15 @@ const PieceCardAdmin: FC<PropsType> = ({ rest }) => {
           </li>
         ))}
 
-        <li className="w-full grid grid-cols-[120px_1fr] items-center pr-3">
+        <li className="w-full grid grid-cols-[1fr_50px] items-center pr-3">
           <span className="txt__01">Orders count</span>
 
           <span className="txt__02 justify-self-end">{rest.ordersCount}</span>
         </li>
       </DropElStatic>
 
-      <DropElStatic {...{ el: showFieldReviews }}>
-        {makeSubFieldsReviews(
-          rest.rating_1,
-          rest.rating_2,
-          rest.rating_3,
-          rest.rating_3,
-          rest.rating_4,
-          rest.rating_5
-        ).map((el) => (
+      <DropElStatic {...{ el: showFieldReviews, pad: true }}>
+        {makeSubFieldsReviews(...rest.reviewsByRating).map((el) => (
           <li
             key={el.id}
             className="w-full grid grid-cols-[1fr_50px] items-center pr-3"
@@ -65,19 +52,20 @@ const PieceCardAdmin: FC<PropsType> = ({ rest }) => {
           </li>
         ))}
 
-        <li className="w-full grid grid-cols-2 pr-3 items-center">
+        <li className="w-full grid grid-cols-[1fr_50px] pr-3 items-center">
           <span className="txt__01">Reviews count</span>
 
           <span className="txt__02 justify-self-end">{rest.reviewsCount}</span>
         </li>
-        <li className="w-full grid grid-cols-2 pr-3 items-center">
+
+        <li className="w-full grid grid-cols-[1fr_50px] pr-3 items-center">
           <span className="txt__01">Avg rating</span>
 
           <span className="txt__02 justify-self-end">{rest.avgRating}</span>
         </li>
       </DropElStatic>
 
-      <DropElStatic {...{ el: showFieldDishes }}>
+      <DropElStatic {...{ el: showFieldDishes, pad: true }}>
         <li className="w-full grid grid-cols-[1fr_50px] items-center pr-3">
           <span className="txt__01">Dishes count</span>
 
