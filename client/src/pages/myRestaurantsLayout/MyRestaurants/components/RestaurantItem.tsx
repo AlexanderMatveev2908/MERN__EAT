@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import HeaderImgs from "../../../../UI/components/cards/HeaderImgs";
 import HeaderName from "../../../../UI/components/cards/HeaderName";
 import PieceCardAdmin from "./PieceCardAdmin";
-import PieceCardAllUsers from "../../../../UI/components/cards/restaurants/PieceCardAllUsers";
+import DetailsRestaurant from "../../../../UI/components/cards/restaurants/DetailsRestaurant";
 
 type PropsType = {
   rest: MyRestaurantType;
@@ -22,7 +22,7 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
         </HeaderImgs>
 
         <div className="w-full grid grid-cols-1">
-          <PieceCardAllUsers {...{ rest }} />
+          <DetailsRestaurant {...{ rest }} />
 
           <PieceCardAdmin {...{ rest }} />
         </div>

@@ -3,14 +3,13 @@ import { MyRestaurantType } from "../../../../types/types";
 import DropElStatic from "../../DropElStatic";
 import {
   fieldsShowMyRestaurants,
-  makeSubFieldsOrders,
-  showFieldOrders,
   showMyRestaurantsDelivery,
   showMyRestaurantsDeliveryFields,
   showMyRestaurantsOpenHours,
   showMyRestaurantsOpenHoursFields,
 } from "../../../../core/config/fieldsArr/fields";
 import { priceFormatter } from "../../../../utils/utils";
+import PieceCardAdmin from "../../../../pages/myRestaurantsLayout/MyRestaurants/components/PieceCardAdmin";
 
 type PropsType = {
   rest: MyRestaurantType;
@@ -18,7 +17,7 @@ type PropsType = {
 
 const PieceCardRestaurantPageAllUsers: FC<PropsType> = ({ rest }) => {
   return (
-    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-6">
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-3 items-start gap-x-6">
       {fieldsShowMyRestaurants(
         Object.values(rest.address),
         Object.values(rest.contact),
@@ -68,7 +67,7 @@ const PieceCardRestaurantPageAllUsers: FC<PropsType> = ({ rest }) => {
         )}
       </DropElStatic>
 
-      <DropElStatic {...{ el: showFieldOrders }}></DropElStatic>
+      <PieceCardAdmin {...{ rest }} />
     </div>
   );
 };

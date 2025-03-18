@@ -15,7 +15,7 @@ export const useMySingleRestaurant = () => {
   const { restId } = useParams();
   const canStay = REG_MONGO.test(restId ?? "");
 
-  const { data, isPending, isSuccess, isError, error } = useQuery({
+  const { data, isPending, isError, error } = useQuery({
     queryKey: ["mySingleRestaurant", restId],
     queryFn: () => getMySingleRestAPI(restId ?? ""),
     enabled: canStay,
@@ -23,8 +23,7 @@ export const useMySingleRestaurant = () => {
 
   const handleSideEffects = useCallback(() => {
     if (isError) handleErrAPI({ err: error as ErrFoodApp });
-    else if (isSuccess) console.log("");
-  }, [isError, handleErrAPI, error, isSuccess]);
+  }, [isError, handleErrAPI, error]);
 
   useEffect(() => {
     handleSideEffects();

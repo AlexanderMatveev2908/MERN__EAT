@@ -1,3 +1,4 @@
+import { UseFormReturn } from "react-hook-form";
 import {
   PopupActionTypes,
   PopupStateType,
@@ -13,6 +14,7 @@ import {
   UserStateType,
   UserValsType,
 } from "../../../types/allTypes/userTypes";
+import { FormSearchType } from "../../../types/allTypes/restAdmin";
 
 export type RootStateType = {
   toastState: ToastStateType;
@@ -29,4 +31,7 @@ export type RootValsType = {
   toastState: ToastValsType;
   userState: UserValsType;
   popupState: PopupValsType;
+  formsState: {
+    formContextMyRestaurants: UseFormReturn<FormSearchType>;
+  };
 };
