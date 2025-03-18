@@ -62,6 +62,15 @@ export type FormSearchType = {
   limit: number;
 };
 
+export type DynamicFieldRating = {
+  rating: string;
+  count: number;
+};
+export type DynamicFieldOrder = {
+  status: string;
+  count: number;
+};
+
 export type MyRestaurantType = {
   _id: string;
   name: string;
@@ -86,18 +95,11 @@ export type MyRestaurantType = {
   dishesCount: number;
   avgPrice: number;
 
-  pendingOrders: number;
-  processingOrders: number;
-  shippedOrders: number;
-  deliveredOrders: number;
-  cancelledOrders: number;
+  ordersByStatus: DynamicFieldOrder[];
+
   ordersCount: number;
 
-  rating_1: number;
-  rating_2: number;
-  rating_3: number;
-  rating_4: number;
-  rating_5: number;
+  reviewsByRating: DynamicFieldRating[];
   reviewsCount: number;
   avgRating: number;
 };

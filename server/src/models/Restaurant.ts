@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 import { ImageSchema } from "./Image.js";
 
+export type DynamicFieldRating = {
+  rating: string;
+  count: number;
+};
+
+export type DynamicFieldOrder = {
+  status: string;
+  count: number;
+};
+
 export type RestaurantType = {
   owner: string[];
   name: string;
@@ -30,9 +40,19 @@ export type RestaurantType = {
     url: string;
     public_id: string;
   }[];
+
   dishes: string[];
+  dishesCount?: number;
+  avgPrice?: number;
+
   orders: string[];
+  ordersCount?: number;
+  ordersByStatus: DynamicFieldOrder[];
+
   reviews: string[];
+  reviewsCount?: number;
+  avgRating?: number;
+  reviewsByRating: DynamicFieldRating[];
 };
 
 const RestaurantSchema = new mongoose.Schema(

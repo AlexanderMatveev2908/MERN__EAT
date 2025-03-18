@@ -14,10 +14,13 @@ import {
   MdOutlineRateReview,
 } from "react-icons/md";
 import { CiDeliveryTruck } from "react-icons/ci";
-import { FaClock, FaDatabase, FaDoorClosed, FaDoorOpen } from "react-icons/fa";
-import { IoCreate, IoRestaurant, IoRestaurantSharp } from "react-icons/io5";
+import { FaClock, FaDoorClosed, FaDoorOpen } from "react-icons/fa";
+import { IoRestaurant } from "react-icons/io5";
 import { BiSolidDish, BiWorld } from "react-icons/bi";
-import { GrUpdate } from "react-icons/gr";
+import {
+  DynamicFieldOrder,
+  DynamicFieldRating,
+} from "../../../../../types/allTypes/restAdmin";
 
 export const fieldsShowMyRestaurants = (
   ...params: string[][]
@@ -90,13 +93,13 @@ export const showMyRestaurantsDeliveryFields = (
 ];
 
 export const makeSubFieldsOrders = (
-  ...params: number[]
+  ...params: DynamicFieldOrder[]
 ): (BaseFieldShowType & { val: number })[] =>
   ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"].map(
     (el, i) => ({
       id: genID(),
       label: el,
-      val: params[i],
+      val: params[i].count,
     })
   );
 
@@ -113,7 +116,7 @@ export const showFieldReviews: BaseFieldShowIcon = {
 };
 
 export const makeSubFieldsReviews = (
-  ...params: number[]
+  ...params: DynamicFieldRating[]
 ): {
   id: string;
   val: number;
@@ -121,7 +124,7 @@ export const makeSubFieldsReviews = (
 }[] =>
   Array.from({ length: 5 }).map((_, i) => ({
     id: genID(),
-    val: params[i],
+    val: params[i].count,
     stars: processRatingBackend(i + 1),
   }));
 
@@ -130,30 +133,3 @@ export const showFieldDishes: BaseFieldShowIcon = {
   label: "Dishes",
   icon: BiSolidDish,
 };
-
-export const makeLinksMyRestPage = (restId: string) =>
-  [
-    {
-      label: "Update",
-      path: `/my-restaurants/update/${restId}`,
-      icon: GrUpdate,
-    },
-    {
-      label: "Add dish",
-      path: `/my-dishes/add-dish`,
-      icon: IoCreate,
-    },
-    {
-      label: "My dishes",
-      path: `/my-dishes?restId=${restId}`,
-      icon: IoRestaurantSharp,
-    },
-    {
-      label: "My orders",
-      path: `/my-orders?restId=${restId}`,
-      icon: FaDatabase,
-    },
-  ].map((el) => ({
-    ...el,
-    id: genID(),
-  }));

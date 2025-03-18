@@ -7,7 +7,7 @@ import {
   CheckBoxFieldType,
   SearchFilterType,
 } from "../../../../../core/config/fieldsArr/typesFields";
-import DropHandlerIcon from "../../../../components/cards/DropHandlerIcon";
+import DropHandlerIcon from "../../../../components/DropHandlerIcon";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];

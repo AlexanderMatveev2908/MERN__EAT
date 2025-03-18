@@ -5,6 +5,7 @@ import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/Load
 import NoLengthResult from "../../../UI/components/NoLengthResult";
 import DropOptionsBusiness from "./components/DropOptionsBusiness";
 import ImgSlider from "../../../UI/components/ImgSlider/ImgSlider";
+import PieceCardRestaurantPageAllUsers from "../../../UI/components/cards/restaurants/PieceCardRestaurantPageAllUsers";
 
 const MySingleRestaurant: FC = () => {
   const {
@@ -23,12 +24,14 @@ const MySingleRestaurant: FC = () => {
       {...{ txt: "It seems we did not find any restaurant 🧐" }}
     />
   ) : (
-    <div className="w-full grid grid-cols-1 justify-items-center">
-      <span className="txt__04">{rest.name}</span>
+    <div className="w-full grid grid-cols-1 justify-items-center gap-5">
+      <span className="txt__05 truncate max-w-full">{rest.name}</span>
 
       <DropOptionsBusiness {...{ restId }} />
 
       <ImgSlider {...{ images: rest.images }} />
+
+      <PieceCardRestaurantPageAllUsers {...{ rest }} />
     </div>
   );
 };

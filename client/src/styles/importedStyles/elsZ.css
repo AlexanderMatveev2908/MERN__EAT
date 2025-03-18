@@ -4,6 +4,10 @@
   z-index: 100;
 }
 
+.my_restaurant_drop__i {
+  z-index: 200;
+}
+
 .sidebar__i_bg {
   z-index: 500;
 }

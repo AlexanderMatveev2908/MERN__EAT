@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import DropHandlerIcon from "../../../components/cards/DropHandlerIcon";
+import DropHandlerIcon from "../../../components/DropHandlerIcon";
 import {
   fieldAdminDrop,
   fieldsAdmin,

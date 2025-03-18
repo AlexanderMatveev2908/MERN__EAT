@@ -14,7 +14,6 @@ import { IoRestaurantSharp } from "react-icons/io5";
 import { FaDatabase } from "react-icons/fa";
 import { HiBuildingStorefront } from "react-icons/hi2";
 import { GoCodeReview } from "react-icons/go";
-import { IoIosCreate } from "react-icons/io";
 
 export const allUsersFields: SideDropFieldType[] = [
   {
@@ -58,12 +57,6 @@ export const fieldsAdmin: SideDropFieldType[] = [
     path: "/my-dishes",
     label: "My dishes",
     svg: MdOutlineMenuBook,
-  },
-  {
-    id: genID(),
-    path: "/my-dishes/add-dish",
-    label: "Create dish",
-    svg: IoIosCreate,
   },
   {
     id: genID(),

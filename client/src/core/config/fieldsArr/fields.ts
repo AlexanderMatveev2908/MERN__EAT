@@ -1,3 +1,5 @@
+export { makeLinksMyRestPage } from "./allFields/MySingleRestaurant/show";
+
 export {
   fieldsShowMyRestaurants,
   makeSubFieldsOrders,
