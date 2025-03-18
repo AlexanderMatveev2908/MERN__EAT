@@ -14,7 +14,7 @@ export const makeLinksMyRestPage = (restId: string) =>
     },
     {
       label: "Add dish",
-      path: `/my-dishes/add-dish/${restId}`,
+      path: `/my-dishes/add-dish`,
       icon: IoCreate,
     },
     {

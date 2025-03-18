@@ -5,6 +5,7 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import GlobalProvider from "./core/context/global/GlobalProvider";
+import { StrictMode } from "react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,15 +20,15 @@ const queryClient = new QueryClient({
 });
 
 createRoot(document.getElementById("root")!).render(
-  // <StrictMode>
-  <BrowserRouter>
-    {/* <Auth0ProviderComponent> */}
-    <QueryClientProvider client={queryClient}>
-      <GlobalProvider>
-        <App />
-      </GlobalProvider>
-      {/* </Auth0ProviderComponent> */}
-    </QueryClientProvider>
-  </BrowserRouter>
-  // </StrictMode>
+  <StrictMode>
+    <BrowserRouter>
+      {/* <Auth0ProviderComponent> */}
+      <QueryClientProvider client={queryClient}>
+        <GlobalProvider>
+          <App />
+        </GlobalProvider>
+        {/* </Auth0ProviderComponent> */}
+      </QueryClientProvider>
+    </BrowserRouter>
+  </StrictMode>
 );

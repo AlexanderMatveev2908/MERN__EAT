@@ -1,21 +1,18 @@
 import { ImageUploadedType } from "./API";
 
 export type DishMenuFormType = {
+  restaurant: string;
   name: string;
   quantity: number;
   price: number;
-  discount: number;
-  description: string;
-  images: File[];
+  images: File[] | ImageUploadedType[];
 };
 
 export type DishType = {
   _id: string;
   restaurant: string;
   name: string;
-  images: ImageUploadedType;
-  description: string;
+  images: ImageUploadedType[];
   price: number;
-  discount: number;
   quantity: number;
 };

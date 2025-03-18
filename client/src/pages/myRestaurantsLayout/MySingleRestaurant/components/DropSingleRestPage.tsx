@@ -8,7 +8,7 @@ type PropsType = {
   restId: string | undefined;
 };
 
-const DropOptionsBusiness: FC<PropsType> = ({ restId }) => {
+const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="w-full grid grid-cols-1 relative my_restaurant_drop__i">
@@ -54,4 +54,4 @@ const DropOptionsBusiness: FC<PropsType> = ({ restId }) => {
     </div>
   );
 };
-export default DropOptionsBusiness;
+export default DropSingleRestPage;
