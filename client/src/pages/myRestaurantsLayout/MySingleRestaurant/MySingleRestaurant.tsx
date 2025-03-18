@@ -5,7 +5,9 @@ import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/Load
 import NoLengthResult from "../../../UI/components/NoLengthResult";
 import DropOptionsBusiness from "./components/DropOptionsBusiness";
 import ImgSlider from "../../../UI/components/ImgSlider/ImgSlider";
-import PieceCardRestaurantPageAllUsers from "../../../UI/components/cards/restaurants/PieceCardRestaurantPageAllUsers";
+import DetailsRestaurantAdmin from "../../../UI/components/cards/restaurants/DetailsRestaurantAdmin";
+import DetailsRestaurantUser from "../../../UI/components/cards/restaurants/DetailsRestaurantUser";
+import DropElStatic from "../../../UI/components/DropElStatic";
 
 const MySingleRestaurant: FC = () => {
   const {
@@ -31,7 +33,11 @@ const MySingleRestaurant: FC = () => {
 
       <ImgSlider {...{ images: rest.images }} />
 
-      <PieceCardRestaurantPageAllUsers {...{ rest }} />
+      <div className="w-full grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-3 gap-x-6 items-start">
+        <DetailsRestaurantUser {...{ rest, Container: DropElStatic }} />
+
+        <DetailsRestaurantAdmin {...{ rest }} />
+      </div>
     </div>
   );
 };

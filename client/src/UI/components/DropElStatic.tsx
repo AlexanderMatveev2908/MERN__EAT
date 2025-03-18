@@ -10,11 +10,9 @@ type PropsType = {
     vals?: string[] | number[];
   };
   children?: ReactNode;
-  cols?: boolean;
-  pad?: boolean;
 };
 
-const DropElStatic: FC<PropsType> = ({ el, children, cols, pad }) => {
+const DropElStatic: FC<PropsType> = ({ el, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -29,22 +27,21 @@ const DropElStatic: FC<PropsType> = ({ el, children, cols, pad }) => {
         }}
       />
       <ul
-        className={`w-full el__flow grid gap-1 gap-2 items-start ${
-          cols ? "grid-cols-2" : "grid-cols-1"
-        } ${pad ? "px-3" : ""} ${
+        className={`w-full el__flow grid gap-1 gap-2 items-start px-3 ${
           isOpen
             ? "opacity-100 max-h-[500px] pointer-events-auto pt-2"
             : "opacity-0 max-h-0 pointer-events-none"
+        } ${
+          ["Categories", "Open Hours"].includes(el.label)
+            ? "grid-cols-2"
+            : "grid-cols-1"
         }`}
       >
         {children
           ? children
           : el?.vals?.length
           ? el?.vals.map((val, i) => (
-              <li
-                key={i}
-                className="px-3 el__flow hide_scrollbar overflow-x-auto"
-              >
+              <li key={i} className="el__flow hide_scrollbar overflow-x-auto">
                 <span className="txt__01">{val}</span>
               </li>
             ))
