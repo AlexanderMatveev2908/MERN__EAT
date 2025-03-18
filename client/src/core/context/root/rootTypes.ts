@@ -28,12 +28,14 @@ export type RootActionTypes =
   | UserActionTypes
   | PopupActionTypes;
 
+export type FormsCtxType = {
+  formContextMyRestaurants: UseFormReturn<FormSearchType>;
+  formContextMyDishesAddItem: UseFormReturn<DishMenuFormType>;
+};
+
 export type RootValsType = {
   toastState: ToastValsType;
   userState: UserValsType;
   popupState: PopupValsType;
-  formsState: {
-    formContextMyRestaurants: UseFormReturn<FormSearchType>;
-    formContextMyDishesAddItem: UseFormReturn<DishMenuFormType>;
-  };
+  formsState: FormsCtxType;
 };

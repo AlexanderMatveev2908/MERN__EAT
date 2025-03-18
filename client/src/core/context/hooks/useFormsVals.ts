@@ -13,6 +13,10 @@ export const useFormsVals = () => {
 
   const formContextMyDishesAddItem = useForm<DishMenuFormType>({
     mode: "onChange",
+    defaultValues: {
+      restaurant: "",
+      items: [{ name: "", price: "", quantity: "", images: [] }],
+    },
   });
 
   return { formContextMyRestaurants, formContextMyDishesAddItem };

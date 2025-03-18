@@ -3,6 +3,7 @@ import { FC, useState } from "react";
 import DropHandlerIcon from "../../../../UI/components/DropHandlerIcon";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { makeLinksMyRestPage } from "../../../../core/config/fieldsArr/fields";
+import { useFormsCustom } from "../../../../core/hooks/useGlobal";
 
 type PropsType = {
   restId: string | undefined;
@@ -10,6 +11,12 @@ type PropsType = {
 
 const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { formContextMyDishesAddItem } = useFormsCustom();
+
+  const handleDishClick = () =>
+    formContextMyDishesAddItem.setValue("restaurant", restId ?? "");
+
   return (
     <div className="w-full grid grid-cols-1 relative my_restaurant_drop__i">
       <div className="h-[50px]"></div>
@@ -36,6 +43,9 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
           {makeLinksMyRestPage(restId ?? "").map((el) => (
             <li
               key={el.id}
+              onClick={() =>
+                el.label === "Add dish" ? handleDishClick() : null
+              }
               className="w-full flex items-center gap-3 group el__flow cursor-pointer first:pt-4 hover:text-orange-500 el__after_below"
             >
               <Link to={el.path} className="w-full flex items-center gap-3">

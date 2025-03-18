@@ -1,6 +1,6 @@
 import { LuChefHat } from "react-icons/lu";
 import { genID } from "../../../../../utils/utils";
-import { REG_PRICE, REG_QTY } from "../../../constants/regex";
+import { REG_PRICE, REG_QTY_SEARCH } from "../../../constants/regex";
 import {
   BaseFieldType,
   FieldNoIconType,
@@ -52,13 +52,13 @@ export const myDishesFieldsNumericSearch: FieldNoIconType[] = [
   {
     field: "minQuantity",
     label: "Min quantity",
-    reg: REG_QTY,
+    reg: REG_QTY_SEARCH,
     msg: "Quantity must be a prime number without decimals",
   },
   {
     field: "maxQuantity",
     label: "Max quantity",
-    reg: REG_QTY,
+    reg: REG_QTY_SEARCH,
     msg: "Quantity must be a prime number without decimals",
   },
 ].map((el) => ({ ...el, id: genID(), required: false }));
