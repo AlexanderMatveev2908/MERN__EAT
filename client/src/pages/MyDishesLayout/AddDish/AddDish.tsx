@@ -10,6 +10,7 @@ const AddDish = () => {
     formContextMyDishesAddItem: formContext,
     dataIds,
     isSuccessIds,
+    handleSave,
   } = useAddDish();
 
   return isPendingIds ? (
@@ -20,7 +21,12 @@ const AddDish = () => {
       {isSuccessIds && dataIds?.infoRestaurants?.length ? (
         <FormProvider {...formContext}>
           <MyDishesForm
-            {...{ formContext, restInfo: dataIds.infoRestaurants }}
+            {...{
+              formContext,
+              restInfo: dataIds.infoRestaurants,
+              handleSave,
+              isPending: false,
+            }}
           />
         </FormProvider>
       ) : (

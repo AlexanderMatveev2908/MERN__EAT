@@ -37,5 +37,15 @@ export const useAddDish = () => {
       }, 500);
   }, [formContextMyDishesAddItem]);
 
-  return { isPendingIds, formContextMyDishesAddItem, dataIds, isSuccessIds };
+  const handleSave = formContextMyDishesAddItem.handleSubmit((formData) =>
+    console.log(formData)
+  );
+
+  return {
+    isPendingIds,
+    formContextMyDishesAddItem,
+    dataIds,
+    isSuccessIds,
+    handleSave,
+  };
 };

@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
-import DropHandlerIcon from "../../../components/DropHandlerIcon";
+import DropHandlerIcon from "../../../../components/DropHandlerIcon";
 import { MdAdminPanelSettings } from "react-icons/md";
-import { DishMenuFormType } from "../../../../types/types";
+import { DishMenuFormType } from "../../../../../types/types";
 import { UseFormReturn } from "react-hook-form";
-import { ReturnIdsAPI } from "../../../../core/api/APICalls/myDishes";
+import { ReturnIdsAPI } from "../../../../../core/api/APICalls/myDishes";
 
 type PropsType = {
   formContext: UseFormReturn<DishMenuFormType>;
@@ -24,14 +24,13 @@ const RestaurantSelect: FC<PropsType> = ({ formContext, restInfo }) => {
 
   return (
     <div className="w-full grid grid-cols-1 relative my_restaurant_drop__i">
-      <div className="w-full flex items-center h-[50px]">
-        {errors?.restaurant?.message && (
-          <span className="txt__01 justify-self-start self-center text-red-600">
-            {errors.restaurant.message as string}
-          </span>
-        )}
-      </div>
-      <div className="h-[50px]"></div>
+      <div className="h-[60px] sm:h-[50px]"></div>
+
+      {errors?.restaurant?.message && (
+        <span className="txt__01 -mt-5 sm:mt-0 justify-self-end self-center text-red-600 pt-5">
+          {errors.restaurant.message as string}
+        </span>
+      )}
 
       <input
         type="hidden"
@@ -44,7 +43,7 @@ const RestaurantSelect: FC<PropsType> = ({ formContext, restInfo }) => {
         })}
       />
 
-      <div className="border-2 border-orange-500 rounded-xl w-fit justify-self-end py-2 px-3 absolute z-10 bg-[#111]">
+      <div className="border-2 border-orange-500 rounded-xl w-fit justify-self-end py-1 sm:py-2 px-1 sm:px-3 absolute z-10 bg-[#111]">
         <div className="w-full ">
           <DropHandlerIcon
             {...{
@@ -57,7 +56,7 @@ const RestaurantSelect: FC<PropsType> = ({ formContext, restInfo }) => {
         </div>
 
         <ul
-          className={`w-full grid grid-cols-1 el__flow pl-1 gap-4 overflow-x-scroll hide_scrollbar ${
+          className={`w-full grid grid-cols-1 el__flow pl-1 gap-2 sm:gap-4 overflow-x-scroll hide_scrollbar ${
             isOpen
               ? "opacity-100 pointer-events-auto max-h-[250px] pb-4"
               : "opacity-0 pointer-events-none max-h-0"
@@ -71,7 +70,7 @@ const RestaurantSelect: FC<PropsType> = ({ formContext, restInfo }) => {
                 })
               }
               key={el._id}
-              className={`grid w-full grid-cols-1 border-2 first:mt-3 rounded-xl py-2 px-3 cursor-pointer el__flow ${
+              className={`grid w-full grid-cols-1 border-2 first:mt-3 rounded-xl py-1 sm:py-2 px-2 sm:px-3 cursor-pointer el__flow ${
                 isChosen(el._id)
                   ? "border-orange-500 text-orange-500"
                   : "border-[#333]"
