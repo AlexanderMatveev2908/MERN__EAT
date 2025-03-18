@@ -2,8 +2,8 @@ import { FC } from "react";
 import { useMySingleRestaurant } from "./useMySingleRestaurant";
 import { Navigate } from "react-router-dom";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
-import NoLengthResult from "../../../UI/components/NoLengthResult";
-import DropOptionsBusiness from "./components/DropOptionsBusiness";
+import ErrEmoji from "../../../UI/components/ErrEmoji";
+import DropSingleRestPage from "./components/DropSingleRestPage";
 import ImgSlider from "../../../UI/components/ImgSlider/ImgSlider";
 import DetailsRestaurantAdmin from "../../../UI/components/cards/restaurants/DetailsRestaurantAdmin";
 import DetailsRestaurantUser from "../../../UI/components/cards/restaurants/DetailsRestaurantUser";
@@ -22,14 +22,12 @@ const MySingleRestaurant: FC = () => {
   ) : isPending ? (
     <LoaderPageReact />
   ) : !Object.keys(rest ?? {}).length ? (
-    <NoLengthResult
-      {...{ txt: "It seems we did not find any restaurant 🧐" }}
-    />
+    <ErrEmoji {...{ txt: "It seems we did not find any restaurant 🧐" }} />
   ) : (
     <div className="w-full grid grid-cols-1 justify-items-center gap-5">
-      <span className="txt__05 truncate max-w-full">{rest.name}</span>
+      <span className="txt__04 truncate max-w-full">{rest.name}</span>
 
-      <DropOptionsBusiness {...{ restId }} />
+      <DropSingleRestPage {...{ restId }} />
 
       <ImgSlider {...{ images: rest.images }} />
 

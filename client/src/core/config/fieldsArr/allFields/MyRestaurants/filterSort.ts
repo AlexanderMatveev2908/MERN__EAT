@@ -132,14 +132,12 @@ const sortersArr: (Omit<BaseFieldType, "id"> & { icon: IconType })[] = [
   // },
 ];
 
-const fieldsUpAndDown: RadioFieldType[] = [
+const fieldsUpAndDown: Omit<RadioFieldType, "id">[] = [
   {
-    id: genID(),
     field: "asc",
     icon: FaSortAmountUp,
   },
   {
-    id: genID(),
     field: "desc",
     icon: FaSortAmountDown,
   },
@@ -148,7 +146,7 @@ const fieldsUpAndDown: RadioFieldType[] = [
 export const myRestSorters: SorterFieldType[] = sortersArr.map((el) => ({
   ...el,
   id: genID(),
-  subFields: [...fieldsUpAndDown],
+  subFields: [...fieldsUpAndDown.map((el) => ({ ...el, id: genID() }))],
 }));
 
 export const fieldsFormMyRest = [

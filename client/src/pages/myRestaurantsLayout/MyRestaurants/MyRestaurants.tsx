@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useMyRestaurants } from "./useMyRestaurants";
-import NoLengthResult from "../../../UI/components/NoLengthResult";
+import ErrEmoji from "../../../UI/components/ErrEmoji";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import RestaurantItem from "./components/RestaurantItem";
 import SearchBar from "../../../UI/common/SearchBar/SearchBar";
@@ -46,11 +46,11 @@ const MyRestaurants: FC = () => {
       {isPending ? (
         <LoaderPageReact />
       ) : !totDocuments ? (
-        <NoLengthResult
+        <ErrEmoji
           {...{ txt: "It seems you do not have any restaurants right now 🧐" }}
         />
       ) : !nHits ? (
-        <NoLengthResult
+        <ErrEmoji
           {...{
             txt: "We did not find any restaurants with the given search parameters 🧐",
           }}

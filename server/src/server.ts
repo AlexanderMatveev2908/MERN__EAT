@@ -15,6 +15,7 @@ import { isDev } from "./config/currMode.js";
 import { connectCloudinary } from "./config/cloud.js";
 import myRestaurantsRouter from "./routes/myRestaurants.js";
 import { helmetMid } from "./middleware/general/helmet.js";
+import routerMyDishes from "./routes/myDishes.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -36,6 +37,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/newsletter", newsLetterRouter);
 app.use("/api/v1/my-restaurants", myRestaurantsRouter);
+app.use("/api/v1/my-dishes", routerMyDishes);
 
 if (!isDev) {
   app.use(express.static(path.join(__dirname, "../../client/dist")));
