@@ -1,6 +1,7 @@
 import { fieldsMyDishesForm } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
 import { useFormsCustom } from "../../../core/hooks/useGlobal";
 import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
+import { createURLParams } from "../../../utils/utils";
 
 export const useMyDishes = () => {
   const { formContextMyDishesSearch } = useFormsCustom();
@@ -9,6 +10,8 @@ export const useMyDishes = () => {
 
   const handleSave = handleSubmit((formDatHook) => {
     sessionStorage.setItem("myDishesForm", JSON.stringify(formDatHook));
+
+    const dataToSend = createURLParams(formDatHook);
 
     console.log(formDatHook);
   });

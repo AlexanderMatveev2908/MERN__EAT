@@ -20,8 +20,8 @@ const CardToSearchStats: FC<PropsType> = ({ formContext }) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const minPrice = watch("minPrice");
-  const maxPrice = watch("maxPrice");
+  const minPrice = +watch("minPrice");
+  const maxPrice = +watch("maxPrice");
 
   useEffect(() => {
     if (minPrice <= maxPrice) {
@@ -31,16 +31,16 @@ const CardToSearchStats: FC<PropsType> = ({ formContext }) => {
   }, [trigger, minPrice, maxPrice]);
 
   const customValidateMinPrice = (val: string) =>
-    (+watch("maxPrice") || 0) < +val
+    maxPrice && maxPrice < +val
       ? "With max price fewer than min one you will get no results"
       : true;
   const customValidateMaxPrice = (val: string) =>
-    (+watch("minPrice") || 0) > +val
+    minPrice > +val
       ? "With min price greater than max one you will get no results"
       : true;
 
-  const minQty = watch("minQuantity");
-  const maxQty = watch("maxQuantity");
+  const minQty = +watch("minQuantity");
+  const maxQty = +watch("maxQuantity");
 
   useEffect(() => {
     if (minQty <= maxQty) {
@@ -50,11 +50,11 @@ const CardToSearchStats: FC<PropsType> = ({ formContext }) => {
   }, [trigger, minQty, maxQty]);
 
   const validateMinQty = (val: string) =>
-    (+watch("maxQuantity") || 0) < +val
+    maxQty && maxQty < +val
       ? "With max quantity fewer than min one you will get no results"
       : true;
   const validateMaxQty = (val: string) =>
-    (+watch("minQuantity") || 0) > +val
+    minQty > +val
       ? "With min quantity greater than max one you will get no results"
       : true;
 
