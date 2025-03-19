@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmin";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useEffect } from "react";
-import { prepareFormData } from "../../../utils/allUtils/prepareFormDataRestaurants";
+import { prepareFormDataMyRest } from "../../../utils/allUtils/prepareFormData";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "../../../core/hooks/useGlobal";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
@@ -48,7 +48,7 @@ export const useAddRestaurant = () => {
       //   console.log(key, val);
       // }
 
-      const formData = prepareFormData(data);
+      const formData = prepareFormDataMyRest(data);
 
       mutate(formData);
     }

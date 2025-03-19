@@ -1,7 +1,7 @@
 import { MyRestaurantsAddUpdateFormType } from "../../types/allTypes/restAdmin";
 import { reverseFormaTimeHhMm } from "./formatTime";
 
-export const prepareFormData = (
+export const prepareFormDataMyRest = (
   data: MyRestaurantsAddUpdateFormType
 ): FormData => {
   const formData = new FormData();
@@ -31,6 +31,29 @@ export const prepareFormData = (
           primitiveVals[key as keyof MyRestaurantsAddUpdateFormType]
         );
     }
+  }
+
+  return formData;
+};
+
+export const prepareFormDataMyDishes = (formDataHook) => {
+  const formData = new FormData();
+
+  let i = 0;
+
+  while (i < formDataHook.items.length) {
+    const { images, ...primitiveVals } = formDataHook.items[i];
+    const areFiles = [...images].every((el) => el instanceof File);
+    if (images?.length && areFiles)
+      [...images].forEach((img) => {
+        formData.append(`images_${i}`, img);
+      });
+    else formData.append(`images_${i}`, JSON.stringify(images));
+    for (const key in primitiveVals) {
+      formData.append(`dishes[${i}][${key}]`, primitiveVals[key]);
+    }
+
+    i++;
   }
 
   return formData;

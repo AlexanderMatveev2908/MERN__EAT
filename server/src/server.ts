@@ -16,6 +16,8 @@ import { connectCloudinary } from "./config/cloud.js";
 import myRestaurantsRouter from "./routes/myRestaurants.js";
 import { helmetMid } from "./middleware/general/helmet.js";
 import routerMyDishes from "./routes/myDishes.js";
+import proxyRouter from "./routes/proxy.js";
+import { asyncWrapper } from "./middleware/general/asyncWrapper.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -25,9 +27,9 @@ const __dirname = path.dirname(__filename);
 
 app.set("trust proxy", 1);
 app.use(helmetMid);
+app.use(corsMiddleware);
 app.use(xss());
 app.use(mongoSanitize());
-app.use(corsMiddleware);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,6 +40,8 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/newsletter", newsLetterRouter);
 app.use("/api/v1/my-restaurants", myRestaurantsRouter);
 app.use("/api/v1/my-dishes", routerMyDishes);
+
+if (isDev) app.use("/api/v1/proxy", asyncWrapper(proxyRouter));
 
 if (!isDev) {
   app.use(express.static(path.join(__dirname, "../../client/dist")));

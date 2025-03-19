@@ -13,7 +13,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import { usePopup, useToast } from "../../../core/hooks/useGlobal";
-import { prepareFormData } from "../../../utils/allUtils/prepareFormDataRestaurants";
+import { prepareFormDataMyRest } from "../../../utils/allUtils/prepareFormData";
 import { PopupPayloadSetter } from "../../../types/allTypes/popup";
 import { formatTimeHmMh } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
@@ -99,7 +99,7 @@ export const useUpdateRestaurant = () => {
 
   const handleSave = formContext.handleSubmit(
     (data: MyRestaurantsAddUpdateFormType) => {
-      const formData = prepareFormData(data);
+      const formData = prepareFormDataMyRest(data);
       // for (const [key, val] of prepareFormData(data).entries()) {
       //   console.log(key, val);
       // }

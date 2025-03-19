@@ -10,3 +10,18 @@ export const getRestaurantIdsAPI = async (): Promise<
 
   return data;
 };
+
+export const createDishesAPI = async ({
+  restId,
+  form,
+}: {
+  restId: string;
+  form: FormData;
+}): Promise<ReturnAPIBasic> => {
+  const { data } = await foodAppInstance.post(
+    `/my-dishes?restId=${restId}`,
+    form
+  );
+
+  return data;
+};

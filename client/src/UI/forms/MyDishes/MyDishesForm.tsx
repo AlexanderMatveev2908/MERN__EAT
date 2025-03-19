@@ -76,7 +76,7 @@ const MyDishesForm: FC<PropsType> = ({
         />
       ))}
 
-      <div className="w-full max-w-[250px] justify-self-center mt-5">
+      <div className="w-full max-w-[250px] justify-self-center justify-center flex mt-5">
         <ButtonAnimated
           {...{
             label: "Create",
@@ -87,17 +87,19 @@ const MyDishesForm: FC<PropsType> = ({
         />
       </div>
 
-      <div className="w-full max-w-[150px] justify-self-start">
-        <ButtonBasic
-          {...{
-            type: "button",
-            label: "Add",
-            styleTxt: "txt__02",
-            handleClick: handleAddForm,
-            isDisabled,
-          }}
-        />
-      </div>
+      {fields?.length <= 20 && (
+        <div className="w-full max-w-[150px] justify-self-start">
+          <ButtonBasic
+            {...{
+              type: "button",
+              label: "Add",
+              styleTxt: "txt__02",
+              handleClick: handleAddForm,
+              isDisabled: isPending || isDisabled,
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };
