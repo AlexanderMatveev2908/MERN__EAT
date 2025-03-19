@@ -24,7 +24,7 @@ const MyDishesForm: FC<PropsType> = ({
 
   const { control, watch } = formContext;
 
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
   });
@@ -57,6 +57,12 @@ const MyDishesForm: FC<PropsType> = ({
       quantity: "",
       images: [],
     });
+
+    setIsDisabled(true);
+  };
+
+  const removeForm = (indexForm: number) => {
+    if (fields.length > 1) remove(indexForm);
   };
 
   return (
@@ -64,7 +70,10 @@ const MyDishesForm: FC<PropsType> = ({
       <RestaurantSelect {...{ restInfo, formContext }} />
 
       {fields.map((_, indexForm) => (
-        <SubForm key={indexForm} {...{ formContext, restInfo, indexForm }} />
+        <SubForm
+          key={indexForm}
+          {...{ formContext, restInfo, indexForm, removeForm }}
+        />
       ))}
 
       <div className="w-full max-w-[250px] justify-self-center mt-5">
@@ -78,11 +87,12 @@ const MyDishesForm: FC<PropsType> = ({
         />
       </div>
 
-      <div className="w-full max-w-[200px] justify-self-start">
+      <div className="w-full max-w-[150px] justify-self-start">
         <ButtonBasic
           {...{
             type: "button",
-            label: "One more",
+            label: "Add",
+            styleTxt: "txt__02",
             handleClick: handleAddForm,
             isDisabled,
           }}
