@@ -28,7 +28,10 @@ const UpdateRestaurant: FC = () => {
 
         <div className="w-full flex justify-end">
           <DeleteButton
-            {...{ txt: "Restaurant", handleDelete: handleClickToOpenPopup }}
+            {...{
+              txt: "Delete restaurant",
+              handleDelete: handleClickToOpenPopup,
+            }}
           />
         </div>
 

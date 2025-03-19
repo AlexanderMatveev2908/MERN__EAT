@@ -36,7 +36,10 @@ const DeleteAccount: FC<PropsType> = ({
 
       <div className="w-full flex justify-center mt-14">
         <DeleteButton
-          {...{ handleDelete: handleSubmitDeleteAccount, txt: "Account" }}
+          {...{
+            handleDelete: handleSubmitDeleteAccount,
+            txt: "Delete account",
+          }}
         />
       </div>
     </div>
