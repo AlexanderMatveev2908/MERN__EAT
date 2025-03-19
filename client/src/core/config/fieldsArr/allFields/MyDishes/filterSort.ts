@@ -6,11 +6,11 @@ import {
   FieldNoIconType,
   RadioFieldType,
   SearchFilterType,
+  SorterFieldType,
 } from "../../typesFields";
 import { myRestaurantsCat } from "../MyRestaurants/makeUpdate";
 import { IoIosCreate } from "react-icons/io";
 import { GrDocumentUpdate } from "react-icons/gr";
-import { IconType } from "react-icons/lib";
 import { GiReceiveMoney } from "react-icons/gi";
 import { FaDatabase, FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
 
@@ -61,7 +61,7 @@ export const myDishesFieldsNumericSearch: FieldNoIconType[] = [
     reg: REG_QTY_SEARCH,
     msg: "Quantity must be a prime number without decimals",
   },
-].map((el) => ({ ...el, id: genID(), required: false }));
+].map((el) => ({ ...el, id: genID(), required: false, type: "number" }));
 
 const myDishesSubFieldsArr: BaseFieldType[] = myRestaurantsCat.map((el) => ({
   field: el,
@@ -70,13 +70,15 @@ const myDishesSubFieldsArr: BaseFieldType[] = myRestaurantsCat.map((el) => ({
   type: "number",
 }));
 
-export const myDishesFilters: SearchFilterType = {
-  id: genID(),
-  field: "categories",
-  label: "Category",
-  subFields: myDishesSubFieldsArr,
-  icon: LuChefHat,
-};
+export const myDishesFilters: SearchFilterType[] = [
+  {
+    id: genID(),
+    field: "categories",
+    label: "Category",
+    subFields: myDishesSubFieldsArr,
+    icon: LuChefHat,
+  },
+];
 
 const fieldsUpAndDown: Omit<RadioFieldType, "id">[] = [
   {
@@ -89,9 +91,7 @@ const fieldsUpAndDown: Omit<RadioFieldType, "id">[] = [
   },
 ];
 
-export const sortersMyDishesFields: (Omit<BaseFieldType, "id"> & {
-  icon: IconType;
-})[] = [
+export const sortersMyDishesFields: SorterFieldType[] = [
   { field: "createdAtSort", label: "Created at", icon: IoIosCreate },
   { field: "updatedAtSort", label: "Updated at", icon: GrDocumentUpdate },
   { field: "price", label: "Price", icon: GiReceiveMoney },
@@ -101,3 +101,10 @@ export const sortersMyDishesFields: (Omit<BaseFieldType, "id"> & {
   id: genID(),
   subFields: [...fieldsUpAndDown.map((el) => ({ ...el, id: genID() }))],
 }));
+
+export const fieldsMyDishesForm = [
+  ...myDishesFieldsNumericSearch.map((el) => el.field),
+  ...myDishesFilters.map((el) => el.field),
+  ...sortersMyDishesFields.map((el) => el.field),
+  "search",
+];

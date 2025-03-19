@@ -8,6 +8,8 @@ import {
   SearchFilterType,
 } from "../../../../../core/config/fieldsArr/typesFields";
 import DropHandlerIcon from "../../../../components/DropHandlerIcon";
+import CardToSearchStats from "./components/CardToSearchStats";
+import { useLocation } from "react-router-dom";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
@@ -21,6 +23,8 @@ const FiltersSearchBar: FC<PropsType> = ({
   filters,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const location = useLocation();
 
   return (
     <div className="w-full grid grid-cols-1 gap-3 mt-5">
@@ -42,6 +46,10 @@ const FiltersSearchBar: FC<PropsType> = ({
         }`}
       >
         <TextFilter {...{ formContext, searchFields }} />
+
+        {/^\/(my-dishes).*/.test(location.pathname) && (
+          <CardToSearchStats {...{ formContext }} />
+        )}
 
         {!!filters?.length &&
           filters.map((el) => (
