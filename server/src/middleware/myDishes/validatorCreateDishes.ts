@@ -56,7 +56,7 @@ export const validatorCreateDishes = [
 
     if (!errors.isEmpty()) {
       for (const file of req.uploadedFiles) {
-        fs.unlinkSync(file.path);
+        if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
       }
 
       return res

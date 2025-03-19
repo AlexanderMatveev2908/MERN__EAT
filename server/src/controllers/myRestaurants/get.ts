@@ -9,6 +9,7 @@ import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
 import { calcPagination } from "../../utils/calcPagination.js";
 import {
   countRatingVars,
+  makeAvgMyRest,
   makeOrdersStatusFields,
   makeReviewsCountFields,
   statusVars,
@@ -57,20 +58,11 @@ export const getMyRestaurants = async (
       $set: {
         // we add necessary fields here to not do it in frontend and get values already processed
         "restaurants.dishesCount": { $size: "$restaurants.dishes" },
-        "restaurants.avgPrice": {
-          $ifNull: [
-            {
-              $avg: {
-                $map: {
-                  input: { $ifNull: ["$restaurants.dishes", []] },
-                  as: "dish",
-                  in: { $ifNull: ["$$dish.price", 0] },
-                },
-              },
-            },
-            0,
-          ],
-        },
+        "restaurants.avgPrice": makeAvgMyRest("$restaurants.dishes", ".price"),
+        "restaurants.avgQuantity": makeAvgMyRest(
+          "$restaurants.dishes",
+          ".quantity"
+        ),
       },
     },
 
@@ -87,20 +79,10 @@ export const getMyRestaurants = async (
       $set: {
         "restaurants.reviewsCount": { $size: "$restaurants.reviews" },
         ...makeReviewsCountFields(),
-        "restaurants.avgRating": {
-          $ifNull: [
-            {
-              $avg: {
-                $map: {
-                  input: { $ifNull: ["$restaurants.reviews", []] },
-                  as: "review",
-                  in: { $ifNull: ["$$review.rating", 0] },
-                },
-              },
-            },
-            0,
-          ],
-        },
+        "restaurants.avgRating": makeAvgMyRest(
+          "$restaurants.reviews",
+          ".rating"
+        ),
       },
     },
 

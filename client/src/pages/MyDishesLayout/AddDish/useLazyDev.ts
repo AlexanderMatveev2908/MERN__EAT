@@ -45,6 +45,7 @@ export const useLazyDev = ({ setValue }) => {
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["urls", urls],
     queryFn: getImagesProxyAPI,
+    enabled: import.meta.env.VITE_NODE_ENV === "development",
   });
 
   useEffect(() => {

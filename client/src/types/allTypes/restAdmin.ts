@@ -94,6 +94,7 @@ export type MyRestaurantType = {
 
   dishesCount: number;
   avgPrice: number;
+  avgQuantity: number;
 
   ordersByStatus: DynamicFieldOrder[];
 

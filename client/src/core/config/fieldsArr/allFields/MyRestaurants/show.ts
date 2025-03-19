@@ -1,6 +1,10 @@
 import { IconType } from "react-icons/lib";
 import { processRatingBackend } from "../../../../../utils/allUtils/conditionalStyleLocation";
-import { formatTimeHmMh, genID } from "../../../../../utils/utils";
+import {
+  formatTimeHmMh,
+  genID,
+  priceFormatter,
+} from "../../../../../utils/utils";
 import {
   BaseFieldShowIcon,
   BaseFieldShowType,
@@ -133,3 +137,18 @@ export const showFieldDishes: BaseFieldShowIcon = {
   label: "Dishes",
   icon: BiSolidDish,
 };
+
+export const makeShowPriceFieldsMyRest = (...params: number[]) => [
+  {
+    label: "Avg price",
+    field: priceFormatter({ price: params[0] }),
+  },
+  {
+    label: "Avg quantity",
+    field: params[1],
+  },
+  {
+    label: "Dishes count",
+    field: params[2],
+  },
+];
