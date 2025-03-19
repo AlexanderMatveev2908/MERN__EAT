@@ -14,8 +14,6 @@ const AddDish = () => {
     isPending,
   } = useAddDish();
 
-  console.log(formContext.watch());
-
   return isPendingIds ? (
     <LoaderPageReact />
   ) : (

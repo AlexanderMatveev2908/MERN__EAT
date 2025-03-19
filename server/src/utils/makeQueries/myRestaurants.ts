@@ -32,8 +32,6 @@ export const makeQueriesMyRestaurants = (req: Request) => {
     ordersStatus,
   } = req.query;
 
-  console.log(req.query);
-
   const query: any = {};
 
   if (search && valTarget && REG_SEARCH.test((search as string) ?? "")) {

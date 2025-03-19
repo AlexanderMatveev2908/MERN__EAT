@@ -27,11 +27,17 @@ export const useFormsVals = () => {
     },
   });
 
+  const savedFormMyDishes = sessionStorage.getItem("myDishesForm");
+
   const formContextMyDishesSearch = useForm<SearchMyDishesFormType>({
     mode: "onChange",
-    defaultValues: {
-      searchVals: ["name"],
-    },
+    defaultValues: savedFormMyDishes
+      ? {
+          ...JSON.parse(savedFormMyDishes),
+        }
+      : {
+          searchVals: ["name"],
+        },
   });
 
   return {
