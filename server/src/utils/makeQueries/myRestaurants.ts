@@ -28,8 +28,11 @@ export const makeQueriesMyRestaurants = (req: Request) => {
     categories,
     avgPriceRange,
     avgRatingRange,
+    avgQuantityRange,
     ordersStatus,
   } = req.query;
+
+  console.log(req.query);
 
   const query: any = {};
 
@@ -86,6 +89,18 @@ export const makeQueriesMyRestaurants = (req: Request) => {
     if (priceConditions?.length)
       if (query["$or"]) query["$or"] = [...query["$or"], ...priceConditions];
       else query["$or"] = [...priceConditions];
+  }
+
+  if (avgQuantityRange) {
+    const quantityConditions = makeQueryRange(
+      avgQuantityRange as string,
+      "restaurants.avgQuantity",
+      100
+    );
+
+    if (quantityConditions?.length)
+      if (query["$or"]) query["$or"] = [...query["$or"], ...quantityConditions];
+      else query["$or"] = [...quantityConditions];
   }
 
   return Object.keys(query ?? {}).length ? query : null;

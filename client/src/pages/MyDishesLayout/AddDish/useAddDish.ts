@@ -75,11 +75,13 @@ export const useAddDish = () => {
   });
 
   return {
-    isPendingIds,
+    isPendingIds:
+      isPendingIds ||
+      (import.meta.env.VITE_NODE_ENV === "development" ? isDevPending : false),
     formContextMyDishesAddItem,
     dataIds,
     isSuccessIds,
     handleSave,
-    isPending: isPending || isDevPending,
+    isPending,
   };
 };

@@ -55,3 +55,18 @@ export const makeReviewsCountFields = () => ({
     },
   },
 });
+
+export const makeAvgMyRest = (field: string, subField?: string) => ({
+  $ifNull: [
+    {
+      $avg: {
+        $map: {
+          input: { $ifNull: [field, []] },
+          as: "el",
+          in: { $ifNull: [`$$el${subField ?? ""}`, 0] },
+        },
+      },
+    },
+    0,
+  ],
+});
