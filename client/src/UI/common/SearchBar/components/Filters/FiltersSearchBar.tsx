@@ -43,9 +43,10 @@ const FiltersSearchBar: FC<PropsType> = ({
       >
         <TextFilter {...{ formContext, searchFields }} />
 
-        {filters.map((el) => (
-          <FilterField key={el.id} {...{ field: el, formContext }} />
-        ))}
+        {!!filters?.length &&
+          filters.map((el) => (
+            <FilterField key={el.id} {...{ field: el, formContext }} />
+          ))}
       </div>
     </div>
   );

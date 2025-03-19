@@ -16,6 +16,7 @@ import {
 } from "../../../types/allTypes/userTypes";
 import { FormSearchType } from "../../../types/allTypes/restAdmin";
 import { DishMenuFormType } from "../../../types/types";
+import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
 
 export type RootStateType = {
   toastState: ToastStateType;
@@ -31,6 +32,7 @@ export type RootActionTypes =
 export type FormsCtxType = {
   formContextMyRestaurants: UseFormReturn<FormSearchType>;
   formContextMyDishesAddItem: UseFormReturn<DishMenuFormType>;
+  formContextMyDishesSearch: UseFormReturn<SearchMyDishesFormType>;
 };
 
 export type RootValsType = {

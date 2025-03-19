@@ -12,6 +12,23 @@ export type DishMenuFormType = {
   items: DishFormItemType[];
 };
 
+export type SearchMyDishesFormType = {
+  search: string;
+  searchVals: string[];
+
+  minPrice: string;
+  maxPrice: string;
+  minQuantity: string;
+  maxQuantity: string;
+
+  categories: string[];
+
+  createdAtSort: ["asc" | "desc"];
+  updatedAtSort: ["asc" | "desc"];
+  avgPriceSort: ["asc" | "desc"];
+  avgQuantitySort: ["asc" | "desc"];
+};
+
 export type DishType = {
   _id: string;
   restaurant: string;

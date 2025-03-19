@@ -1,5 +1,5 @@
 import { ImageUploadedType } from "./API";
-import { DishType } from "./dishes";
+import { DishType } from "./myDishes";
 import { OrderType } from "./orders";
 import { ReviewType } from "./reviews";
 
@@ -43,12 +43,14 @@ export type FormSearchType = {
   categories: string[];
   ordersStatus: string[];
   avgPriceRange: string[];
+  avgQuantityRange: string[];
   avgRatingRange: string[];
 
   avgRatingSort: ["asc" | "desc"];
   reviewsCountSort: ["asc" | "desc"];
   avgPriceSort: ["asc" | "desc"];
   dishesCountSort: ["asc" | "desc"];
+  avgQuantitySort: ["asc" | "desc"];
   ordersCountSort: ["asc" | "desc"];
   createdAtSort: ["asc" | "desc"];
   updatedAtSort: ["asc" | "desc"];

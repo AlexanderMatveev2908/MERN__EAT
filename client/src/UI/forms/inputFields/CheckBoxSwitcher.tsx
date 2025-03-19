@@ -16,6 +16,9 @@ const CheckBoxSwitcher: FC<PropsType> = ({
   watch,
   handleChange,
 }) => {
+  const wtc = watch("searchVals");
+  const arrToCheck = Array.isArray(wtc) ? wtc : [];
+
   return (
     <div className="w-full grid grid-cols-[100px_1fr]">
       <span className="txt__01">{el.label}</span>
@@ -29,13 +32,13 @@ const CheckBoxSwitcher: FC<PropsType> = ({
         />
         <span
           className={`absolute w-[40px] h-[40px] top-0 left-0 rounded-full check_swap__swap scale-90 transition-all duration-500 ${
-            watch("searchVals").includes(el.field)
+            arrToCheck.includes(el.field)
               ? "translate-x-[60px]"
               : "translate-x-0"
           }`}
           style={
             {
-              "--color-swap": watch("searchVals").includes(el.field)
+              "--color-swap": arrToCheck.includes(el.field)
                 ? "#16A34A"
                 : "#DC2626",
             } as React.CSSProperties

@@ -33,18 +33,37 @@ export const useAddDish = () => {
     queryFn: getRestaurantIdsAPI,
   });
 
+  const { fields, append } = useFieldArray({
+    control: formContextMyDishesAddItem.control,
+    name: "items",
+  });
+
   const handleSideEffectsGetIds = useCallback(() => {
-    if (isErrorIds) handleErrAPI({ err: errorIds as ErrFoodApp });
-  }, [isErrorIds, errorIds, handleErrAPI]);
+    if (isErrorIds) {
+      handleErrAPI({ err: errorIds as ErrFoodApp });
+    } else if (isSuccessIds) {
+      if (!fields?.length)
+        setTimeout(() => {
+          append({
+            name: "",
+            price: "",
+            quantity: "",
+            images: [],
+          });
+        }, 0);
+    }
+  }, [
+    isErrorIds,
+    errorIds,
+    handleErrAPI,
+    isSuccessIds,
+    append,
+    fields?.length,
+  ]);
 
   useEffect(() => {
     handleSideEffectsGetIds();
   }, [handleSideEffectsGetIds]);
-
-  const { fields } = useFieldArray({
-    control: formContextMyDishesAddItem.control,
-    name: "items",
-  });
 
   useEffect(() => {
     if (formContextMyDishesAddItem?.setFocus)

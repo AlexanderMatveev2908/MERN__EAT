@@ -16,7 +16,7 @@ const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
   const { register, watch, setValue } = formContext;
 
   const handleChange = (el: string) =>
-    watch("searchVals").includes(el)
+    (watch("searchVals") || []).includes(el)
       ? setValue("searchVals", [], { shouldValidate: true })
       : setValue("searchVals", [el], { shouldValidate: true });
 
@@ -38,17 +38,18 @@ const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
             : "opacity-0 max-h-0 pointer-events-none"
         }`}
       >
-        {searchFields.map((el) => (
-          <CheckBoxSwitcher
-            key={el.id}
-            {...{
-              register,
-              el,
-              watch,
-              handleChange,
-            }}
-          />
-        ))}
+        {!!searchFields?.length &&
+          searchFields.map((el) => (
+            <CheckBoxSwitcher
+              key={el.id}
+              {...{
+                register,
+                el,
+                watch,
+                handleChange,
+              }}
+            />
+          ))}
       </div>
     </div>
   );

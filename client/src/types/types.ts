@@ -6,7 +6,7 @@ export type {
   ImageUploadedType,
 } from "./allTypes/API";
 
-export type { DishMenuFormType, DishType } from "./allTypes/dishes.ts";
+export type { DishMenuFormType, DishType } from "./allTypes/myDishes.ts";
 
 export type { OrderType } from "./allTypes/orders.ts";
 

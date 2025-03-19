@@ -3,7 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 import { DishMenuFormType } from "../../../../../types/types";
 import { FC } from "react";
 import { myDishesNumericFields } from "../../../../../core/config/fieldsArr/allFields/MyDishes/makeUpdate";
-import FieldMultipleForms from "../../../inputFields/MultiplesForms/FieldMultipleForms";
+import FormFieldNoIcon from "../../../inputFields/FormFieldNoIcon";
 
 type PropsType = {
   formContext: UseFormReturn<DishMenuFormType>;
@@ -30,7 +30,7 @@ const NumericFields: FC<PropsType> = ({ formContext, indexForm }) => {
 
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-5">
         {myDishesNumericFields.map((el) => (
-          <FieldMultipleForms
+          <FormFieldNoIcon
             key={el.id}
             {...{
               field: { ...el, field: `items.${indexForm}.${el.field}` },

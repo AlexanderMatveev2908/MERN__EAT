@@ -2,8 +2,8 @@ import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FaImages } from "react-icons/fa";
 import { DishMenuFormType } from "../../../../../types/types";
-import CustomUploadMultiplesForms from "../../../inputFields/MultiplesForms/ImgUploadMultiplesForms/CustomUploadMultiplesForms";
-import ImgUploadMultiplesForms from "../../../inputFields/MultiplesForms/ImgUploadMultiplesForms/ImgUploadMultiplesForms";
+import ShowImgToUpload from "../../../inputFields/UploadImg/ShowImgToUpload/ShowImgToUpload";
+import CustomInputImgs from "./../../../inputFields/UploadImg/CustomInputImgs";
 
 type PropsType = {
   formContext: UseFormReturn<DishMenuFormType>;
@@ -36,7 +36,7 @@ const ImagesField: FC<PropsType> = ({ formContext, indexForm }) => {
       >
         {!!images?.length &&
           [...images].map((_, i) => (
-            <ImgUploadMultiplesForms
+            <ShowImgToUpload
               key={i}
               {...{
                 img: images[i],
@@ -48,7 +48,7 @@ const ImagesField: FC<PropsType> = ({ formContext, indexForm }) => {
           ))}
       </div>
 
-      <CustomUploadMultiplesForms {...{ register, watch, indexForm }} />
+      <CustomInputImgs {...{ register, watch, indexForm }} />
 
       {errors?.items?.[indexForm]?.images && (
         <span className="txt__01 text-red-600">

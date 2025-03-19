@@ -2,18 +2,20 @@ import { ImageUploadedType } from "../../../../../types/types";
 import { PropsType } from "./ShowImgToUpload";
 
 export const useShowImgToUpload = ({
-  trigger,
+  indexForm,
   setValue,
   images,
   img,
 }: PropsType) => {
+  const val =
+    indexForm || indexForm === 0 ? `items.${indexForm}.images` : "images";
+
   const handleRemoveExistingFile = () => {
     const updatedFiles = [...images].filter((file) => {
       return file !== img;
     });
 
-    setValue("images", updatedFiles as File[]);
-    trigger("images");
+    setValue(val, updatedFiles as File[], { shouldValidate: true });
   };
 
   const handleRemoveExistingImgUploaded = () => {
@@ -21,8 +23,7 @@ export const useShowImgToUpload = ({
       img instanceof File ? true : image.public_id !== img?.public_id
     );
 
-    setValue("images", updatedImages);
-    trigger("images");
+    setValue(val, updatedImages, { shouldValidate: true });
   };
 
   return {

@@ -1,4 +1,4 @@
-import { DishType } from "./dishes";
+import { DishType } from "./myDishes";
 import { UserAddressType } from "./userTypes";
 
 export type OrderType = {

@@ -32,9 +32,10 @@ const SortersSearchBar: FC<PropsType> = ({ formContext, sorters }) => {
             : "opacity-0 max-h-0 pointer-events-none"
         }`}
       >
-        {sorters.map((el) => (
-          <SorterField key={el.id} {...{ formContext, sorter: el }} />
-        ))}
+        {!!sorters?.length &&
+          sorters.map((el) => (
+            <SorterField key={el.id} {...{ formContext, sorter: el }} />
+          ))}
       </div>
     </div>
   );
