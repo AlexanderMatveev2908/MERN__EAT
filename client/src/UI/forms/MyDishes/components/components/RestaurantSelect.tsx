@@ -33,7 +33,7 @@ const RestaurantSelect: FC<PropsType> = ({ formContext, restInfo }) => {
       )}
 
       <input
-        type="hidden"
+        type="text"
         {...register("restaurant", {
           required: {
             value: true,
@@ -41,6 +41,7 @@ const RestaurantSelect: FC<PropsType> = ({ formContext, restInfo }) => {
               "We need to know to which restaurant you want to add dish 🧐",
           },
         })}
+        className="opacity-0 pointer-events-none"
       />
 
       <div className="border-2 border-orange-500 rounded-xl w-fit justify-self-end py-1 sm:py-2 px-1 sm:px-3 absolute z-10 bg-[#111]">
