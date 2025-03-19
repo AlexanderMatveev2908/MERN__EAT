@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { FormSearchType } from "../../../types/allTypes/restAdmin";
 import { DishMenuFormType } from "../../../types/types";
+import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
 
 export const useFormsVals = () => {
   const savedForm = sessionStorage.getItem("myRestaurantsForm");
@@ -13,7 +14,29 @@ export const useFormsVals = () => {
 
   const formContextMyDishesAddItem = useForm<DishMenuFormType>({
     mode: "onChange",
+    defaultValues: {
+      restaurant: "",
+      items: [
+        {
+          name: "",
+          quantity: "",
+          price: "",
+          images: [],
+        },
+      ],
+    },
   });
 
-  return { formContextMyRestaurants, formContextMyDishesAddItem };
+  const formContextMyDishesSearch = useForm<SearchMyDishesFormType>({
+    mode: "onChange",
+    defaultValues: {
+      searchVals: ["name"],
+    },
+  });
+
+  return {
+    formContextMyRestaurants,
+    formContextMyDishesAddItem,
+    formContextMyDishesSearch,
+  };
 };

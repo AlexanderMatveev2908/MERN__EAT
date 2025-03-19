@@ -8,6 +8,7 @@ type PropsType = {
   register: UseFormRegister<any>;
   errors: FieldErrors;
   customValidate?: (val: string) => string | boolean;
+  indexForm?: number;
 };
 
 const FormFieldNoIcon: FC<PropsType> = ({
@@ -15,7 +16,13 @@ const FormFieldNoIcon: FC<PropsType> = ({
   register,
   errors,
   customValidate,
+  indexForm,
 }) => {
+  const errToShow =
+    indexForm || indexForm === 0
+      ? errors?.items?.[indexForm]?.[field.field.split(".").pop()]?.message
+      : errors?.[field.field]?.message;
+
   return (
     <div className="max-w-full w-full grid grid-cols-1 gap-y-3 justify-items-start">
       <label className="w-full flex flex-col gap-y-2 justify-start">
@@ -33,10 +40,8 @@ const FormFieldNoIcon: FC<PropsType> = ({
         />
       </label>
 
-      {errors?.[field.field]?.message && (
-        <span className="txt__01 text-red-600">
-          {errors[field.field]?.message as string}
-        </span>
+      {errToShow && (
+        <span className="txt__01 text-red-600">{errToShow as string}</span>
       )}
     </div>
   );

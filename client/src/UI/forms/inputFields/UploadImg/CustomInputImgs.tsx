@@ -6,9 +6,13 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 type PropsType = {
   register: UseFormRegister<any>;
   watch: UseFormWatch<any>;
+  indexForm?: number;
 };
 
-const CustomInputImgs: FC<PropsType> = ({ register, watch }) => {
+const CustomInputImgs: FC<PropsType> = ({ register, watch, indexForm }) => {
+  const val =
+    indexForm || indexForm === 0 ? `items.${indexForm}.images` : "images";
+
   return (
     <div className="w-full grid ">
       <label className="w-fit grid relative">
@@ -16,9 +20,9 @@ const CustomInputImgs: FC<PropsType> = ({ register, watch }) => {
           type="file"
           multiple
           className="opacity-0 absolute outline-none"
-          {...register("images", {
+          {...register(val, {
             validate: () => {
-              const images = watch("images");
+              const images = watch(val);
 
               if (!images?.length) return "You should upload at least one img";
               if (images?.length > 5) return "You can upload up to 5 images";

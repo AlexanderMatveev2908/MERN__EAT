@@ -3,7 +3,7 @@ import { myDishesNameForm } from "../../../../../core/config/fieldsArr/allFields
 import { DishMenuFormType } from "../../../../../types/types";
 import { FC } from "react";
 import { MdDriveFileRenameOutline } from "react-icons/md";
-import FieldMultipleForms from "../../../inputFields/MultiplesForms/FieldMultipleForms";
+import FormFieldNoIcon from "../../../inputFields/FormFieldNoIcon";
 
 type PropsType = {
   formContext: UseFormReturn<DishMenuFormType>;
@@ -23,7 +23,7 @@ const NameDish: FC<PropsType> = ({ formContext, indexForm }) => {
         Dish name
       </span>
       <div className="w-full grid grid-cols-1 sm:grid-cols-2">
-        <FieldMultipleForms
+        <FormFieldNoIcon
           {...{
             field: { ...myDishesNameForm, field: `items.${indexForm}.name` },
             register,

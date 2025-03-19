@@ -1,24 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { Trash2 } from "lucide-react";
-import { UseFormSetValue, UseFormTrigger } from "react-hook-form";
+import { UseFormSetValue } from "react-hook-form";
 import { useShowImgToUpload } from "./useShowImgToUpload";
 import { ImageUploadedType } from "../../../../../types/types";
 
 export type PropsType = {
   img: ImageUploadedType | File;
-  trigger: UseFormTrigger<any>;
   images: ImageUploadedType[] | File[];
   setValue: UseFormSetValue<any>;
+  indexForm?: number;
 };
 
-const ShowImgToUpload: FC<PropsType> = ({ img, trigger, images, setValue }) => {
+const ShowImgToUpload: FC<PropsType> = ({
+  img,
+  images,
+  setValue,
+  indexForm,
+}) => {
   const { handleRemoveExistingFile, handleRemoveExistingImgUploaded } =
     useShowImgToUpload({
       img,
-      trigger,
       images,
       setValue,
+      indexForm,
     });
 
   return (

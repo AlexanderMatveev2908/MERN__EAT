@@ -20,12 +20,12 @@ export const myDishesFieldsSearch: BaseFieldType[] = [
     label: "Name",
   },
   {
-    field: "restaurantName",
-    label: "Restaurant name",
-  },
-  {
     field: "id",
     label: "Id",
+  },
+  {
+    field: "restaurantName",
+    label: "Restaurant name",
   },
   {
     field: "restaurantId",

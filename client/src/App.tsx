@@ -24,6 +24,7 @@ import LayoutMyRestaurantsRoute from "./UI/layouts/LayoutMyRestaurantsRoute";
 import MySingleRestaurant from "./pages/myRestaurantsLayout/MySingleRestaurant/MySingleRestaurant";
 import LayoutMyDishes from "./UI/layouts/LayoutMyDishes";
 import AddDish from "./pages/MyDishesLayout/AddDish/AddDish";
+import MyDishes from "./pages/MyDishesLayout/MyDishes/MyDishes";
 
 const App: FC = () => {
   useApp();
@@ -70,6 +71,7 @@ const App: FC = () => {
         </Route>
 
         <Route path="my-dishes" element={<LayoutMyDishes />}>
+          <Route index element={<MyDishes />} />
           <Route path="add-dish" element={<AddDish />} />
         </Route>
       </Route>
