@@ -39,3 +39,10 @@ export const getRestaurantIds = async (
 
   return res.status(200).json({ success: true, infoRestaurants: ids });
 };
+
+export const getMyDishes = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+};
