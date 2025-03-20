@@ -8,7 +8,7 @@ const AddDish = () => {
   const {
     isPendingIds,
     formContextMyDishesAddItem: formContext,
-    dataIds,
+    restInfo,
     isSuccessIds,
     handleSave,
     isPending,
@@ -19,12 +19,12 @@ const AddDish = () => {
   ) : (
     <div className="w-full grid grid-cols-1 gap-5 justify-items-center">
       <span className="txt__04">Add Dish</span>
-      {isSuccessIds && dataIds?.infoRestaurants?.length ? (
+      {isSuccessIds && restInfo?.length ? (
         <FormProvider {...formContext}>
           <MyDishesForm
             {...{
               formContext,
-              restInfo: dataIds.infoRestaurants,
+              restInfo,
               handleSave,
               isPending,
             }}

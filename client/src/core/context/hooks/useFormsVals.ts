@@ -30,8 +30,11 @@ export const useFormsVals = () => {
           },
   });
 
-  const savedFormMyDishes = sessionStorage.getItem("myDishesForm");
+  const formContextMyDishesUpdate = useForm<DishMenuFormType>({
+    mode: "onChange",
+  });
 
+  const savedFormMyDishes = sessionStorage.getItem("myDishesForm");
   const formContextMyDishesSearch = useForm<SearchMyDishesFormType>({
     mode: "onChange",
     defaultValues: savedFormMyDishes
@@ -47,5 +50,6 @@ export const useFormsVals = () => {
     formContextMyRestaurants,
     formContextMyDishesAddItem,
     formContextMyDishesSearch,
+    formContextMyDishesUpdate,
   };
 };

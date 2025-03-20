@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export const makeLookUp = (
   mainCollection: string,
   collectionLooked: string
@@ -9,3 +11,5 @@ export const makeLookUp = (
     as: `${mainCollection}.${collectionLooked}`,
   },
 });
+
+export const makeMongoId = (str: string) => new mongoose.Types.ObjectId(str);

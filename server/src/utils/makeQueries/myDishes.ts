@@ -57,8 +57,8 @@ export const makeQueryMyDishes = (req: Request) => {
   ].filter((el) => !!el);
 
   if (dishFilters.length) {
-    if (!queryObj?.["$or"]?.length) queryObj["$or"] = dishFilters;
-    else queryObj["$or"] = [...queryObj["$or"], ...dishFilters];
+    if (!queryObj?.["$and"]?.length) queryObj["$or"] = dishFilters;
+    else queryObj["$and"] = [...queryObj["$or"], ...dishFilters];
   }
 
   return Object.keys(queryObj).length ? queryObj : null;

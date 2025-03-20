@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
 import fs from "fs";
-import { uploadCloudStorage } from "../../utils/cloud.js";
+import { deleteCloud, uploadCloudStorage } from "../../utils/cloud.js";
 import Restaurant from "../../models/Restaurant.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
 import mongoose from "mongoose";
@@ -60,4 +60,34 @@ export const createDishes = async (req: any, res: Response): Promise<any> => {
     success: true,
     restId: existingRestaurant._id,
   });
+};
+
+export const deleteDish = async (req: any, res: Response): Promise<any> => {
+  const { userId } = req;
+  const { dishId } = req.params;
+
+  const restaurant = await Restaurant.findOne({
+    owner: makeMongoId(userId),
+  });
+  if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
+
+  const dish = await Dish.findOne({
+    _id: makeMongoId(dishId),
+    restaurant: restaurant._id,
+  });
+  if (!dish) return baseErrResponse(res, 404, "Dish not found");
+
+  let i = 0;
+  do {
+    await deleteCloud(dish.images[i].public_id);
+    i++;
+  } while (i < dish.images.length);
+
+  const result = await Dish.findOneAndDelete({
+    _id: makeMongoId(dishId),
+    restaurant: restaurant._id,
+  });
+
+  if (result) return res.status(204).end();
+  else return baseErrResponse(res, 404, "Dish not found");
 };
