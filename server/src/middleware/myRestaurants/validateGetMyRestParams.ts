@@ -1,5 +1,6 @@
 import { check } from "express-validator";
 import { handleValidator } from "../../utils/handleValidator.js";
+import { REG_MONGO, REG_SEARCH } from "../../config/constants/regex.js";
 
 export const validateGetMyRestParams = [
   check().custom((_, { req }) => {
@@ -14,7 +15,11 @@ export const validateGetMyRestParams = [
       : true
   ),
   check("search").custom((val, { req }) =>
-    val && !req?.query?.searchVals ? Promise.reject("Bad request") : true
+    !REG_SEARCH.test(val) ||
+    (val && !req?.query?.searchVals) ||
+    (req.query?.searchVals === "id" && !REG_MONGO.test(val))
+      ? Promise.reject("Bad request")
+      : true
   ),
 
   check().custom((_, { req }) => {
