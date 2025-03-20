@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { REG_MONGO } from "../../config/constants/regex.js";
+
 import mongoose from "mongoose";
 
 export const makeQueryMyDishes = (req: Request) => {
@@ -13,65 +13,53 @@ export const makeQueryMyDishes = (req: Request) => {
     categories,
   } = req.query;
 
-  console.log(req.query);
-
   const queryObj: any = {};
 
   if (categories)
-    queryObj["restaurantCategories"] = {
+    queryObj["restaurant_categories"] = {
       $in: (categories as string).split(","),
     };
 
   if (search && searchTarget) {
     switch (searchTarget) {
       case "restaurantName":
-        queryObj["restaurantName"] = {
+        queryObj["restaurant_name"] = {
           $regex: `.*${search}.*`,
           $options: "i",
         };
         break;
 
       case "restaurantId":
-        queryObj["restaurantId"] = new mongoose.Types.ObjectId(
+        queryObj["restaurant_id"] = new mongoose.Types.ObjectId(
           search as string
         );
         break;
 
       default:
-        queryObj["restaurants.dishes"] = {
-          $elemMatch: {
-            $or: [
-              searchTarget === "name"
-                ? { name: { $regex: `.*${search}.*`, $options: "i" } }
-                : null,
-              searchTarget === "id"
-                ? { _id: new mongoose.Types.ObjectId(search as string) }
-                : null,
-            ].filter((el) => !!el),
-          },
-        };
+        if (searchTarget === "name")
+          queryObj["dishes.name"] = { $regex: `.*${search}.*`, $options: "i" };
+        else if (searchTarget === "id")
+          queryObj["dishes._id"] = new mongoose.Types.ObjectId(
+            search as string
+          );
         break;
     }
   }
 
   const dishFilters = [
-    minQuantity ? { quantity: { $lte: +minQuantity } } : null,
-    maxQuantity ? { quantity: { $gte: +maxQuantity } } : null,
-    minPrice ? { price: { $lte: +minPrice } } : null,
-    maxPrice ? { price: { $gte: +maxPrice } } : null,
+    minQuantity ? { "dishes.quantity": { $gte: +minQuantity } } : null,
+
+    maxQuantity ? { "dishes.quantity": { $lte: +maxQuantity } } : null,
+
+    minPrice ? { "dishes.price": { $gte: +minPrice } } : null,
+
+    maxPrice ? { "dishes.price": { $lte: +maxPrice } } : null,
   ].filter((el) => !!el);
 
-  let queryDishes;
-  if (dishFilters.length)
-    queryDishes = {
-      $elemMatch: {
-        $or: [...dishFilters],
-      },
-    };
-
-  if (!queryObj?.["restaurants.dishes"])
-    queryObj["restaurants.dishes"] = queryDishes;
-  else queryObj["restaurants.dishes"]["$elemMatch"]["$or"].push(...dishFilters);
+  if (dishFilters.length) {
+    if (!queryObj?.["$or"]?.length) queryObj["$or"] = dishFilters;
+    else queryObj["$or"] = [...queryObj["$or"], ...dishFilters];
+  }
 
   return Object.keys(queryObj).length ? queryObj : null;
 };

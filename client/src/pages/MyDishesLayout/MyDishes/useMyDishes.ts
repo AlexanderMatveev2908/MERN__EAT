@@ -4,13 +4,19 @@ import { useFormsCustom } from "../../../core/hooks/useGlobal";
 import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
 import { createURLParamsMyDishes } from "../../../utils/allUtils/makeURLParams";
 import { getMyDishesAPI } from "../../../core/api/APICalls/myDishes";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
 
 export const useMyDishes = () => {
   const { formContextMyDishesSearch } = useFormsCustom();
   const { handleErrAPI } = useHandleErr();
+
+  const [currPage, setCurrPage] = useState<number>(1);
+  const [limit, setLimit] = useState(6);
+
+  useUpdateCardsLimit(limit, setLimit);
 
   const queryClient = useQueryClient();
 
@@ -45,6 +51,8 @@ export const useMyDishes = () => {
   };
 
   const formDataSearch = watch();
+  formDataSearch.page = currPage + "";
+  formDataSearch.limit = limit + "";
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["myDishesSearch", formDataSearch],
@@ -60,10 +68,17 @@ export const useMyDishes = () => {
     }
   }, [isSuccess, isError, data, handleErrAPI, error]);
 
+  const { totPages, totDocuments, nHits } = data ?? {};
+
   return {
     formContextMyDishesSearch,
     handleSave,
     handleClear,
     isPending,
+    currPage,
+    setCurrPage,
+    totPages,
+    totDocuments,
+    nHits,
   };
 };

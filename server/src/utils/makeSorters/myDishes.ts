@@ -13,7 +13,7 @@ export const makeSortersMyDishes = (req: Request) => {
   const sorter: any = {};
 
   for (const sort of sorters) {
-    sorter[`restaurants.dishes.${sort.key}`] = sort.val === "asc" ? 1 : -1;
+    sorter[`dishes.${sort.key}`] = sort.val === "asc" ? 1 : -1;
   }
 
   return Object.keys(sorter ?? {}).length ? sorter : null;

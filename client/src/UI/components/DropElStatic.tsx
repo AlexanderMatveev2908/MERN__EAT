@@ -1,6 +1,8 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import { IconType } from "react-icons/lib";
 import DropHandlerIcon from "./DropHandlerIcon";
+import { useLocation } from "react-router-dom";
+import { tailwindBreak } from "../../core/config/constants/breakpoints";
 
 type PropsType = {
   el: {
@@ -14,6 +16,22 @@ type PropsType = {
 
 const DropElStatic: FC<PropsType> = ({ el, children }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const updateSize = () =>
+      /^\/(my-restaurants)\/[a-f0-9]{24}/.test(location.pathname) &&
+      window.innerWidth > tailwindBreak.sm
+        ? setIsOpen(true)
+        : null;
+
+    updateSize();
+
+    document.addEventListener("resize", updateSize);
+
+    return () => document.removeEventListener("resize", updateSize);
+  }, [location.pathname]);
 
   return (
     <div className="w-full grid grid-cols-1 items-start">

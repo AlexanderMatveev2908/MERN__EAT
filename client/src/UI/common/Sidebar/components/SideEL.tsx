@@ -8,16 +8,23 @@ type PropsType = {
   type: string | null;
   location: Location;
   el: SideDropFieldType;
+  customStyle?: string;
 };
 
-const SideEL: FC<PropsType> = ({ handleSideClick, type, location, el }) => {
+const SideEL: FC<PropsType> = ({
+  handleSideClick,
+  type,
+  location,
+  el,
+  customStyle,
+}) => {
   return (
     <button
       key={el.id}
       onClick={() => handleSideClick(el.path, el?.from)}
-      className={`w-full cursor-pointer flex gap-3 group max-w-fit items-center el__after_below sideLink ${makeConditionalStyleLocation(
-        { location, el, type }
-      )}`}
+      className={`w-full cursor-pointer flex gap-3 group max-w-fit items-center el__after_below sideLink ${
+        customStyle ?? ""
+      } ${makeConditionalStyleLocation({ location, el, type })}`}
     >
       <el.svg className="svg__sidebar" />
 

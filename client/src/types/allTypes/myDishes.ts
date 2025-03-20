@@ -27,11 +27,16 @@ export type SearchMyDishesFormType = {
   updatedAtSort: ["asc" | "desc"];
   avgPriceSort: ["asc" | "desc"];
   avgQuantitySort: ["asc" | "desc"];
+
+  page: string;
+  limit: string;
 };
 
 export type DishType = {
   _id: string;
   restaurant: string;
+  restaurantName: string;
+  categories: string[];
   name: string;
   images: ImageUploadedType[];
   price: number;
