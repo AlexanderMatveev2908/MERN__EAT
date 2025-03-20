@@ -8,6 +8,8 @@ import {
   sortersMyDishesFields,
 } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
+import BlockPages from "../../../UI/components/BlockPages/BlockPages";
+import ErrEmoji from "../../../UI/components/ErrEmoji";
 
 const MyDishes: FC = () => {
   const {
@@ -15,6 +17,11 @@ const MyDishes: FC = () => {
     handleSave,
     handleClear,
     isPending,
+    currPage,
+    setCurrPage,
+    totPages,
+    totDocuments,
+    nHits,
   } = useMyDishes();
 
   return (
@@ -35,7 +42,19 @@ const MyDishes: FC = () => {
         />
       </FormProvider>
 
-      {isPending ? <LoaderPageReact /> : null}
+      {isPending ? (
+        <LoaderPageReact />
+      ) : !totDocuments ? (
+        <ErrEmoji
+          {...{ txt: "It seems you do not have any dish created 🧐" }}
+        />
+      ) : !nHits ? (
+        <ErrEmoji
+          {...{ txt: "We did not found nothing with your search inputs 🥸" }}
+        />
+      ) : null}
+
+      <BlockPages {...{ currPage, setCurrPage, totPages }} />
     </div>
   );
 };

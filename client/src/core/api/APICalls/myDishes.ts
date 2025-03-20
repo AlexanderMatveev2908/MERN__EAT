@@ -1,4 +1,5 @@
-import { ReturnAPIBasic } from "../../../types/types";
+import { GetElsQueriedReturnType } from "../../../types/allTypes/API";
+import { DishType, ReturnAPIBasic } from "../../../types/types";
 import { foodAppInstance } from "../../config/constants/axiosInstance";
 
 export type ReturnIdsAPI = { _id: string; name: string };
@@ -26,7 +27,9 @@ export const createDishesAPI = async ({
   return data;
 };
 
-export const getMyDishesAPI = async (params: URLSearchParams) => {
+export const getMyDishesAPI = async (
+  params: URLSearchParams
+): Promise<ReturnAPIBasic & GetElsQueriedReturnType & { dishes: DishType }> => {
   const { data } = await foodAppInstance.get(`/my-dishes?${params}`);
 
   return data;

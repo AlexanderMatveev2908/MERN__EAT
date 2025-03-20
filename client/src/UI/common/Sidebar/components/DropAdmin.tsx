@@ -37,8 +37,17 @@ const DropAdmin: FC<PropsType> = ({ handleSideClick }) => {
             : "max-h-0 opacity-0 pointer-events-none"
         }`}
       >
-        {fieldsAdmin.map((el) => (
-          <SideEL key={el.id} {...{ el, location, type, handleSideClick }} />
+        {fieldsAdmin.map((el, i) => (
+          <SideEL
+            key={el.id}
+            {...{
+              el,
+              location,
+              type,
+              handleSideClick,
+              customStyle: !i ? "pt-2" : undefined,
+            }}
+          />
         ))}
       </div>
     </div>

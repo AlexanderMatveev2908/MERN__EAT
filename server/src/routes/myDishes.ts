@@ -13,6 +13,7 @@ import { validateFiles } from "../middleware/myRestaurants/validatorMyRestaurant
 import { createDishes } from "../controllers/MyDishesControllers/createUpdate.js";
 import { uploadMyDishes } from "../middleware/myDishes/multer.js";
 import { validatorSearchDishes } from "../middleware/myDishes/validatorSearchDishes.js";
+import { validatePagination } from "../middleware/general/validatePagination.js";
 
 const router = express();
 
@@ -24,7 +25,12 @@ router.get(
 
 router
   .route("/")
-  .get(verifyAccessToken, validatorSearchDishes, asyncWrapper(getMyDishes))
+  .get(
+    verifyAccessToken,
+    validatePagination,
+    validatorSearchDishes,
+    asyncWrapper(getMyDishes)
+  )
   .post(
     verifyAccessToken,
     uploadMyDishes,
