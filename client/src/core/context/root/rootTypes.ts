@@ -32,6 +32,7 @@ export type RootActionTypes =
 export type FormsCtxType = {
   formContextMyRestaurants: UseFormReturn<FormSearchType>;
   formContextMyDishesAddItem: UseFormReturn<DishMenuFormType>;
+  formContextMyDishesUpdate: UseFormReturn<DishMenuFormType>;
   formContextMyDishesSearch: UseFormReturn<SearchMyDishesFormType>;
 };
 

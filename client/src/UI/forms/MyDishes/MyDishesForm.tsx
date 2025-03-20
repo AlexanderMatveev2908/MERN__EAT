@@ -7,6 +7,7 @@ import ButtonAnimated from "../../components/buttons/ButtonAnimated";
 import ButtonBasic from "../../components/buttons/ButtonBasic";
 import SubForm from "./components/SubForm";
 import { myDishesFormItem } from "../../../core/config/fieldsArr/allFields/MyDishes/makeUpdate";
+import { useLocation } from "react-router-dom";
 
 type PropsType = {
   formContext: UseFormReturn<DishMenuFormType>;
@@ -21,9 +22,9 @@ const MyDishesForm: FC<PropsType> = ({
   restInfo,
 }) => {
   const [isDisabled, setIsDisabled] = useState(true);
+  const location = useLocation();
 
   const { control, watch } = formContext;
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
@@ -79,7 +80,8 @@ const MyDishesForm: FC<PropsType> = ({
       <div className="w-full max-w-[250px] justify-self-center justify-center flex mt-5">
         <ButtonAnimated
           {...{
-            label: "Create",
+            label:
+              location.pathname === "/my-dishes/add-dish" ? "Create" : "Update",
             type: "submit",
             handleClick: handleSave,
             isPending,
@@ -87,19 +89,20 @@ const MyDishesForm: FC<PropsType> = ({
         />
       </div>
 
-      {fields?.length <= 20 && (
-        <div className="w-full max-w-[150px] justify-self-start">
-          <ButtonBasic
-            {...{
-              type: "button",
-              label: "Add",
-              styleTxt: "txt__02",
-              handleClick: handleAddForm,
-              isDisabled: isPending || isDisabled,
-            }}
-          />
-        </div>
-      )}
+      {/^\/(my-dishes)\/(add-dish)/.test(location.pathname) &&
+        fields?.length <= 20 && (
+          <div className="w-full max-w-[150px] justify-self-start">
+            <ButtonBasic
+              {...{
+                type: "button",
+                label: "Add",
+                styleTxt: "txt__02",
+                handleClick: handleAddForm,
+                isDisabled: isPending || isDisabled,
+              }}
+            />
+          </div>
+        )}
     </div>
   );
 };

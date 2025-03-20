@@ -5,8 +5,11 @@ import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js
 import { makeQueryMyDishes } from "../../utils/makeQueries/myDishes.js";
 import { makeSortersMyDishes } from "../../utils/makeSorters/myDishes.js";
 import Restaurant from "../../models/Restaurant.js";
-import { makeLookUp } from "../../utils/dbPipeline/general.js";
 import { calcPagination } from "../../utils/calcPagination.js";
+import Dish from "../../models/Dish.js";
+import { makeMongoId } from "../../utils/dbPipeline/general.js";
+import { REG_MONGO } from "../../config/constants/regex.js";
+import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
 
 export const getRestaurantIds = async (
   req: RequestWithUserId,
@@ -155,5 +158,63 @@ export const getMyDishes = async (
     totPages,
     totDocuments,
     nHits,
+  });
+};
+
+export const getInfoDishForm = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+  const { dishId } = req?.params;
+
+  const result = await Restaurant.aggregate([
+    {
+      $match: {
+        owner: makeMongoId(userId!),
+      },
+    },
+
+    {
+      $lookup: {
+        from: "dishes",
+        localField: "dishes",
+        foreignField: "_id",
+        as: "dishes",
+      },
+    },
+
+    {
+      $unwind: "$dishes",
+    },
+
+    {
+      $set: {
+        "dishes.restaurantName": "$name",
+      },
+    },
+
+    {
+      $match: {
+        "dishes._id": makeMongoId(dishId as string),
+      },
+    },
+
+    {
+      $group: {
+        _id: null,
+        dish: { $first: "$dishes" },
+      },
+    },
+  ]);
+
+  const { dish: { restaurantName, ...dish } = {} } = result?.[0] ?? {};
+
+  if (!dish) return baseErrResponse(res, 404, "Dish not found");
+
+  return res.status(200).json({
+    success: true,
+    dish,
+    restaurantName,
   });
 };

@@ -1,17 +1,15 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
-import {
-  createDishesAPI,
-  getRestaurantIdsAPI,
-} from "../../../core/api/APICalls/myDishes";
+import { createDishesAPI } from "../../../core/api/APICalls/myDishes";
 import { useFormsCustom, useToast } from "../../../core/hooks/useGlobal";
 import { useFieldArray } from "react-hook-form";
 import { prepareFormDataMyDishes } from "../../../utils/allUtils/prepareFormData";
 import { useLazyDev } from "./useLazyDev";
 import { useNavigate } from "react-router-dom";
+import { useGetRestaurantsIds } from "../../../core/hooks/useGetRestaurantsIds";
 
 export const useAddDish = () => {
   useScrollTop();
@@ -26,31 +24,12 @@ export const useAddDish = () => {
     setValue: formContextMyDishesAddItem.setValue,
   });
 
-  const {
-    data: dataIds,
-    isPending: isPendingIds,
-    isSuccess: isSuccessIds,
-    isError: isErrorIds,
-    error: errorIds,
-  } = useQuery({
-    queryKey: ["restaurantIds"],
-    queryFn: getRestaurantIdsAPI,
-  });
+  const { isPendingIds, restInfo, isSuccessIds } = useGetRestaurantsIds();
 
   const { fields } = useFieldArray({
     control: formContextMyDishesAddItem.control,
     name: "items",
   });
-
-  const handleSideEffectsGetIds = useCallback(() => {
-    if (isErrorIds) {
-      handleErrAPI({ err: errorIds as ErrFoodApp });
-    }
-  }, [isErrorIds, errorIds, handleErrAPI]);
-
-  useEffect(() => {
-    handleSideEffectsGetIds();
-  }, [handleSideEffectsGetIds]);
 
   useEffect(() => {
     if (formContextMyDishesAddItem?.setFocus)
@@ -90,7 +69,7 @@ export const useAddDish = () => {
       isPendingIds ||
       (import.meta.env.VITE_NODE_ENV === "development" ? isDevPending : false),
     formContextMyDishesAddItem,
-    dataIds,
+    restInfo,
     isSuccessIds,
     handleSave,
     isPending,

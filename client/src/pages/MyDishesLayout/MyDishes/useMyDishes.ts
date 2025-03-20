@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 
 export const useMyDishes = () => {
   const { formContextMyDishesSearch } = useFormsCustom();
@@ -16,6 +17,8 @@ export const useMyDishes = () => {
 
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState(6);
+
+  useScrollTop();
 
   useUpdateCardsLimit(limit, setLimit);
 

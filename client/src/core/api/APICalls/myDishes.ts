@@ -36,3 +36,18 @@ export const getMyDishesAPI = async (
 
   return data;
 };
+
+export const getInfoMyDishAPI = async (
+  id: string
+): Promise<ReturnAPIBasic & { dish: DishType; restaurantName: string }> => {
+  const { data } = await foodAppInstance.get(`/my-dishes/info-dish/${id}`);
+
+  return data;
+};
+
+export const deleteDishAPI = async (id: string) => {
+  const { data } = await foodAppInstance.delete(`/my-dishes/${id}`);
+
+  console.log(data);
+  return data;
+};

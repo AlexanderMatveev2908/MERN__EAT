@@ -25,6 +25,7 @@ import MySingleRestaurant from "./pages/myRestaurantsLayout/MySingleRestaurant/M
 import LayoutMyDishes from "./UI/layouts/LayoutMyDishes";
 import AddDish from "./pages/MyDishesLayout/AddDish/AddDish";
 import MyDishes from "./pages/MyDishesLayout/MyDishes/MyDishes";
+import UpdateDish from "./pages/MyDishesLayout/UpdateDish/UpdateDish";
 
 const App: FC = () => {
   useApp();
@@ -65,7 +66,6 @@ const App: FC = () => {
         <Route path="my-restaurants" element={<LayoutMyRestaurantsRoute />}>
           <Route index element={<MyRestaurants />} />
           <Route path=":restId" element={<MySingleRestaurant />} />
-
           <Route path="add-restaurant" element={<AddRestaurant />} />
           <Route path="update/:restId" element={<UpdateRestaurant />} />
         </Route>
@@ -73,6 +73,7 @@ const App: FC = () => {
         <Route path="my-dishes" element={<LayoutMyDishes />}>
           <Route index element={<MyDishes />} />
           <Route path="add-dish" element={<AddDish />} />
+          <Route path="update/:dishId" element={<UpdateDish />} />
         </Route>
       </Route>
 
