@@ -25,3 +25,9 @@ export const createDishesAPI = async ({
 
   return data;
 };
+
+export const getMyDishesAPI = async (params: URLSearchParams) => {
+  const { data } = await foodAppInstance.get(`/my-dishes?${params}`);
+
+  return data;
+};

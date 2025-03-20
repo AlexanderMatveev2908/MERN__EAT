@@ -94,8 +94,8 @@ const fieldsUpAndDown: Omit<RadioFieldType, "id">[] = [
 export const sortersMyDishesFields: SorterFieldType[] = [
   { field: "createdAtSort", label: "Created at", icon: IoIosCreate },
   { field: "updatedAtSort", label: "Updated at", icon: GrDocumentUpdate },
-  { field: "price", label: "Price", icon: GiReceiveMoney },
-  { field: "quantity", label: "Quantity", icon: FaDatabase },
+  { field: "priceSort", label: "Price", icon: GiReceiveMoney },
+  { field: "quantitySort", label: "Quantity", icon: FaDatabase },
 ].map((el) => ({
   ...el,
   id: genID(),

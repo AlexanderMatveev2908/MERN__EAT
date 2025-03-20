@@ -45,4 +45,8 @@ export const getMyDishes = async (
   res: Response
 ): Promise<any> => {
   const { userId } = req;
+
+  console.log(req.query);
+
+  return res.status(200).json({ success: true });
 };

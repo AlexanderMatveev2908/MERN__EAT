@@ -7,12 +7,14 @@ import {
   myDishesFilters,
   sortersMyDishesFields,
 } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
+import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 
 const MyDishes: FC = () => {
   const {
     formContextMyDishesSearch: formContext,
     handleSave,
     handleClear,
+    isPending,
   } = useMyDishes();
 
   return (
@@ -32,6 +34,8 @@ const MyDishes: FC = () => {
           }}
         />
       </FormProvider>
+
+      {isPending ? <LoaderPageReact /> : null}
     </div>
   );
 };
