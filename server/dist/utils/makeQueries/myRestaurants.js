@@ -1,4 +1,3 @@
-import { REG_SEARCH } from "../../config/constants/regex.js";
 import mongoose from "mongoose";
 const makeQueryRange = (rangeVal, rangeName, limit) => {
     const ranges = rangeVal === null || rangeVal === void 0 ? void 0 : rangeVal.split(",");
@@ -13,11 +12,19 @@ const makeQueryRange = (rangeVal, rangeName, limit) => {
     }
     return conditions;
 };
+const checkQueryConditions = (query, conditions) => {
+    if (conditions === null || conditions === void 0 ? void 0 : conditions.length) {
+        if (query["$or"])
+            query["$or"] = [...query["$or"], ...conditions];
+        else
+            query["$or"] = [...conditions];
+    }
+};
 export const makeQueriesMyRestaurants = (req) => {
-    var _a, _b;
-    const { search, searchVals: valTarget, categories, avgPriceRange, avgRatingRange, ordersStatus, } = req.query;
+    var _a;
+    const { search, searchVals: valTarget, categories, avgPriceRange, avgRatingRange, avgQuantityRange, ordersStatus, } = req.query;
     const query = {};
-    if (search && valTarget && REG_SEARCH.test((_a = search) !== null && _a !== void 0 ? _a : "")) {
+    if (search && valTarget) {
         if (valTarget === "name")
             query[`restaurants.name`] = {
                 $regex: `.*${search}.*`,
@@ -30,7 +37,7 @@ export const makeQueriesMyRestaurants = (req) => {
             };
         }
         else if (valTarget === "id")
-            query[`restaurants._id`] = new mongoose.Types.ObjectId((_b = search) !== null && _b !== void 0 ? _b : "");
+            query[`restaurants._id`] = new mongoose.Types.ObjectId((_a = search) !== null && _a !== void 0 ? _a : "");
     }
     if (ordersStatus)
         query["restaurants.orders"] = {
@@ -46,19 +53,15 @@ export const makeQueriesMyRestaurants = (req) => {
         };
     if (avgRatingRange) {
         const ratingConditions = makeQueryRange(avgRatingRange, "restaurants.avgRating", 5);
-        if (ratingConditions === null || ratingConditions === void 0 ? void 0 : ratingConditions.length)
-            if (query["$or"])
-                query["$or"] = [...query["$or"], ...ratingConditions];
-            else
-                query["$or"] = [...ratingConditions];
+        checkQueryConditions(query, ratingConditions);
     }
     if (avgPriceRange) {
         const priceConditions = makeQueryRange(avgPriceRange, "restaurants.avgPrice", 100);
-        if (priceConditions === null || priceConditions === void 0 ? void 0 : priceConditions.length)
-            if (query["$or"])
-                query["$or"] = [...query["$or"], ...priceConditions];
-            else
-                query["$or"] = [...priceConditions];
+        checkQueryConditions(query, priceConditions);
+    }
+    if (avgQuantityRange) {
+        const quantityConditions = makeQueryRange(avgQuantityRange, "restaurants.avgQuantity", 100);
+        checkQueryConditions(query, quantityConditions);
     }
     return Object.keys(query !== null && query !== void 0 ? query : {}).length ? query : null;
 };

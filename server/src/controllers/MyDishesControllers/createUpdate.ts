@@ -26,7 +26,6 @@ export const createDishes = async (req: any, res: Response): Promise<any> => {
     return baseErrResponse(res, 404, "Restaurant not found");
   }
 
-  // console.log(req.uploadedFiles);
   const arrFiles = Object.entries(files).map(([key, val]) => ({
     [key]: val,
   }));
@@ -35,8 +34,6 @@ export const createDishes = async (req: any, res: Response): Promise<any> => {
     return images;
   });
   const dataImages = await Promise.all(arrReturnedPromises);
-  // console.log(dataImages);
-  // console.log(form);
 
   const promisesDishes = form.dishes.map(async (el: any, i: number) => {
     const newDish = await Dish.create({
@@ -58,5 +55,9 @@ export const createDishes = async (req: any, res: Response): Promise<any> => {
     ];
   await existingRestaurant.save();
 
-  return res.status(200).json({ message: "Dish created successfully" });
+  return res.status(200).json({
+    message: "Dish created successfully",
+    success: true,
+    restId: existingRestaurant._id,
+  });
 };

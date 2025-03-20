@@ -51,8 +51,6 @@ export const getMyDishes = async (
 ): Promise<any> => {
   const { userId } = req;
 
-  // console.log(req.query);
-
   const queryObj = makeQueryMyDishes(req);
   const sorterObj = makeSortersMyDishes(req);
   const { restaurant_name, restaurant_id, restaurant_categories, ...rest } =

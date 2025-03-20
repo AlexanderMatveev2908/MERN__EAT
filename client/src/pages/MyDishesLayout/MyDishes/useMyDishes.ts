@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fieldsMyDishesForm } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
 import { useFormsCustom } from "../../../core/hooks/useGlobal";
@@ -60,15 +61,12 @@ export const useMyDishes = () => {
   });
 
   useEffect(() => {
-    if (isSuccess) {
-      console.log(data);
-    }
     if (isError) {
       handleErrAPI({ err: error as ErrFoodApp });
     }
   }, [isSuccess, isError, data, handleErrAPI, error]);
 
-  const { totPages, totDocuments, nHits } = data ?? {};
+  const { totPages, totDocuments, nHits, dishes } = data ?? ({} as any);
 
   return {
     formContextMyDishesSearch,
@@ -80,5 +78,6 @@ export const useMyDishes = () => {
     totPages,
     totDocuments,
     nHits,
+    dishes,
   };
 };

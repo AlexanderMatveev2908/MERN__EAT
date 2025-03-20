@@ -8,11 +8,9 @@ import {
 } from "../../config/constants/regex.js";
 
 export const validatorSearchDishes = [
-  // check().custom((_, { req }) => {
-  //   console.log(req.query);
-
-  //   return true;
-  // }),
+  check().custom((_, { req }) => {
+    return true;
+  }),
 
   check("searchVals").custom((val, { req }) =>
     (val || "").split(",").length > 1 || (val && !req.query?.search)

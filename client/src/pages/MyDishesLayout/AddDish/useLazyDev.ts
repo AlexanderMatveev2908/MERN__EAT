@@ -51,16 +51,16 @@ export const useLazyDev = ({ setValue }) => {
   useEffect(() => {
     if (isError) {
       showToastMsg("Error", "ERROR");
-      console.log(error);
     } else if (isSuccess) {
       showToastMsg("Success", "SUCCESS");
       const files = data.base64Imgs.map((el, i) => base64ToFile(el, i));
+
       setValue(
         "items",
         Array.from({ length: 5 }).map((_, i) => ({
-          name: `name${i}`,
-          price: `${i}`,
-          quantity: `${i}`,
+          name: `name${i + ""}`,
+          price: `${i + ""}`,
+          quantity: `${i + ""}`,
           images: [...files],
         }))
       );

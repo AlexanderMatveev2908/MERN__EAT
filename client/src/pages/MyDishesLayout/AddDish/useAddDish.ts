@@ -11,12 +11,16 @@ import { useFormsCustom, useToast } from "../../../core/hooks/useGlobal";
 import { useFieldArray } from "react-hook-form";
 import { prepareFormDataMyDishes } from "../../../utils/allUtils/prepareFormData";
 import { useLazyDev } from "./useLazyDev";
+import { useNavigate } from "react-router-dom";
 
 export const useAddDish = () => {
   useScrollTop();
   const { handleErrAPI } = useHandleErr();
-  const { formContextMyDishesAddItem } = useFormsCustom();
+  const { formContextMyDishesAddItem, formContextMyDishesSearch } =
+    useFormsCustom();
   const { showToastMsg } = useToast();
+
+  const navigate = useNavigate();
 
   const { isPending: isDevPending } = useLazyDev({
     setValue: formContextMyDishesAddItem.setValue,
@@ -33,7 +37,7 @@ export const useAddDish = () => {
     queryFn: getRestaurantIdsAPI,
   });
 
-  const { fields, append } = useFieldArray({
+  const { fields } = useFieldArray({
     control: formContextMyDishesAddItem.control,
     name: "items",
   });
@@ -41,25 +45,8 @@ export const useAddDish = () => {
   const handleSideEffectsGetIds = useCallback(() => {
     if (isErrorIds) {
       handleErrAPI({ err: errorIds as ErrFoodApp });
-    } else if (isSuccessIds) {
-      if (!fields?.length)
-        setTimeout(() => {
-          append({
-            name: "",
-            price: "",
-            quantity: "",
-            images: [],
-          });
-        }, 0);
     }
-  }, [
-    isErrorIds,
-    errorIds,
-    handleErrAPI,
-    isSuccessIds,
-    append,
-    fields?.length,
-  ]);
+  }, [isErrorIds, errorIds, handleErrAPI]);
 
   useEffect(() => {
     handleSideEffectsGetIds();
@@ -75,11 +62,20 @@ export const useAddDish = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: ({ form, restId }: { form: FormData; restId: string }) =>
       createDishesAPI({ form, restId }),
-    onSuccess: () =>
+    onSuccess: (data) => {
       showToastMsg(
         `Dish${fields.length > 1 ? "es" : ""} created successfully`,
         "SUCCESS"
-      ),
+      );
+
+      const { setValue } = formContextMyDishesSearch;
+
+      setValue("searchVals", ["restaurantId"]);
+      setValue("search", data.restId);
+      setValue("createdAtSort", ["desc"]);
+
+      navigate(`/my-dishes`);
+    },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });
 
@@ -87,10 +83,6 @@ export const useAddDish = () => {
     const formData = prepareFormDataMyDishes(formDataHook);
 
     mutate({ form: formData, restId: formDataHook.restaurant });
-
-    // for (const pair of formData.entries()) {
-    //   console.log(pair[0], pair[1]);
-    // }
   });
 
   return {
