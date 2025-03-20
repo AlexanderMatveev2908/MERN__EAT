@@ -1,24 +1,28 @@
 import { check } from "express-validator";
 import { handleValidator } from "../../utils/handleValidator.js";
+import { REG_PRICE, REG_QTY } from "../../config/constants/regex.js";
 
 export const validatorSearchDishes = [
-  check("searchVals").custom(
-    (val, { req }) => val.split(",").length > 1 || (val && !req.query?.search)
-  )
-    ? Promise.reject("Bad request searchVals")
-    : true,
+  check("searchVals").custom((val, { req }) =>
+    (val || "").split(",").length > 1 || (val && !req.query?.search)
+      ? Promise.reject("Bad request searchVals")
+      : true
+  ),
 
-  check("search").custom((val, { req }) => val && !req.query?.searchVals)
-    ? Promise.reject("Bad request search")
-    : true,
+  check("search").custom((val, { req }) =>
+    val && !req.query?.searchVals ? Promise.reject("Bad request search") : true
+  ),
 
   check().custom((_, { req }) =>
     Object.entries(req?.query ?? {}).some(
-      ([key, val]) => key.includes("Sort") && !["asc", "desc"].includes(val)
+      ([key, val]) =>
+        (key.includes("Sort") && !["asc", "desc"].includes(val)) ||
+        (["minPrice", "maxPrice"].includes(key) && !REG_PRICE.test(val)) ||
+        (["minQUantity", "maxQuantity"].includes(key) && !REG_QTY.test(val))
     )
-  )
-    ? Promise.reject("Bad request sort")
-    : true,
+      ? Promise.reject("Bad request")
+      : true
+  ),
 
   check("minPrice").custom((val, { req }) =>
     +req.query?.maxPrice && +val > +req.query?.maxPrice
