@@ -10,15 +10,17 @@ import {
   validateFilesStorage,
   validatorCreateDishes,
 } from "../middleware/myDishes/validatorCreateDishes.js";
-import { validateFiles } from "../middleware/myRestaurants/validatorMyRestaurants.js";
 import {
   createDishes,
   deleteDish,
+  updateDish,
 } from "../controllers/MyDishesControllers/createUpdate.js";
 import { uploadMyDishes } from "../middleware/myDishes/multer.js";
 import { validatorSearchDishes } from "../middleware/myDishes/validatorSearchDishes.js";
 import { validatePagination } from "../middleware/general/validatePagination.js";
 import { validateParams } from "../middleware/myDishes/validateParams.js";
+import { validatorUpdateDish } from "../middleware/myDishes/validatorUpdateDish.js";
+import { updateDishesUpload } from "../middleware/myDishes/multerUpdate.js";
 
 const router = express();
 
@@ -53,6 +55,12 @@ router.get(
 
 router
   .route("/:dishId")
-  .delete(verifyAccessToken, validateParams, asyncWrapper(deleteDish));
+  .delete(verifyAccessToken, validateParams, asyncWrapper(deleteDish))
+  .put(
+    verifyAccessToken,
+    updateDishesUpload,
+    validatorUpdateDish,
+    asyncWrapper(updateDish)
+  );
 
 export default router;

@@ -48,6 +48,17 @@ export const getInfoMyDishAPI = async (
 export const deleteDishAPI = async (id: string) => {
   const { data } = await foodAppInstance.delete(`/my-dishes/${id}`);
 
-  console.log(data);
+  return data;
+};
+
+export const updateDishAPI = async ({
+  formData,
+  id,
+}: {
+  formData: FormData;
+  id: string;
+}): Promise<ReturnAPIBasic & { dishId: string }> => {
+  const { data } = await foodAppInstance.put(`/my-dishes/${id}`, formData);
+
   return data;
 };

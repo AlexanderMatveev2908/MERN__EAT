@@ -1,7 +1,10 @@
 import { Response } from "express";
-import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
 import fs from "fs";
-import { deleteCloud, uploadCloudStorage } from "../../utils/cloud.js";
+import {
+  deleteCloud,
+  uploadCloudStorage,
+  uploadUpdateDish,
+} from "../../utils/cloud.js";
 import Restaurant from "../../models/Restaurant.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
 import mongoose from "mongoose";
@@ -46,13 +49,11 @@ export const createDishes = async (req: any, res: Response): Promise<any> => {
   });
 
   const arrIdsDishes = await Promise.all(promisesDishes);
+
   if (!existingRestaurant.dishes?.length)
     existingRestaurant.dishes = arrIdsDishes;
   else
-    existingRestaurant.dishes = [
-      ...existingRestaurant.myDishesFieldsSearch,
-      ...arrIdsDishes,
-    ];
+    existingRestaurant.dishes = [...existingRestaurant.dishes, ...arrIdsDishes];
   await existingRestaurant.save();
 
   return res.status(200).json({
@@ -90,4 +91,53 @@ export const deleteDish = async (req: any, res: Response): Promise<any> => {
 
   if (result) return res.status(204).end();
   else return baseErrResponse(res, 404, "Dish not found");
+};
+
+export const updateDish = async (req: any, res: Response): Promise<any> => {
+  const { userId } = req;
+  const { dishId } = req.params;
+
+  const restaurant = await Restaurant.findOne({ owner: makeMongoId(userId) });
+  if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
+
+  const dish = await Dish.findOne({
+    _id: makeMongoId(dishId),
+    restaurant: restaurant._id,
+  });
+  if (!dish) return baseErrResponse(res, 404, "Dish not found");
+
+  let updatedImages;
+  if (!JSON.parse(req.body?.images ?? "[]").length) {
+    const promises = dish.images.map(
+      async (el: any) => await deleteCloud(el.public_id)
+    );
+
+    await Promise.all(promises);
+
+    updatedImages = await uploadUpdateDish(req.files as Express.Multer.File[]);
+  } else {
+    const parsed = JSON.parse(req.body.images ?? "[]");
+    const parsedSet = new Set(parsed.map((el: any) => el.public_id));
+
+    const imagesToDelete = dish.images.filter((el: any) => !parsedSet.has(el));
+
+    const promises = imagesToDelete.map(
+      async (el: any) => await deleteCloud(el.public_id)
+    );
+    await Promise.all(promises);
+
+    updatedImages = parsed;
+  }
+
+  dish.set({
+    ...req.body,
+    images: updatedImages,
+  });
+  await dish.save();
+
+  return res.status(200).json({
+    message: "Dish updated successfully",
+    success: true,
+    dishId: dish._id,
+  });
 };

@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fieldsMyDishesForm } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
 import { useFormsCustom } from "../../../core/hooks/useGlobal";
-import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
 import { createURLParamsMyDishes } from "../../../utils/allUtils/makeURLParams";
 import { getMyDishesAPI } from "../../../core/api/APICalls/myDishes";
 import { useEffect, useState } from "react";
@@ -24,8 +22,7 @@ export const useMyDishes = () => {
 
   const queryClient = useQueryClient();
 
-  const { setValue, getValues, handleSubmit, watch, trigger } =
-    formContextMyDishesSearch;
+  const { reset, handleSubmit, watch, trigger } = formContextMyDishesSearch;
 
   const handleSave = handleSubmit((formDatHook) => {
     sessionStorage.setItem("myDishesForm", JSON.stringify(formDatHook));
@@ -36,20 +33,34 @@ export const useMyDishes = () => {
   const handleClear = () => {
     sessionStorage.removeItem("myDishesForm");
 
-    let i = 0;
-    do {
-      const currField = fieldsMyDishesForm[i];
+    reset({
+      search: "",
+      searchVals: ["name"],
+      categories: [],
+      priceSort: [],
+      quantitySort: [],
+      minPrice: "",
+      maxPrice: "",
+      minQuantity: "",
+      maxQuantity: "",
+      createdAtSort: [],
+      updatedAtSort: [],
+    });
 
-      setValue(
-        currField as keyof SearchMyDishesFormType,
-        Array.isArray(getValues(currField as keyof SearchMyDishesFormType))
-          ? []
-          : currField === "searchVals"
-          ? ["name"]
-          : ""
-      );
-      i++;
-    } while (i < fieldsMyDishesForm.length);
+    // let i = 0;
+    // do {
+    //   const currField = fieldsMyDishesForm[i];
+
+    //   setValue(
+    //     currField as keyof SearchMyDishesFormType,
+    //     Array.isArray(getValues(currField as keyof SearchMyDishesFormType))
+    //       ? []
+    //       : currField === "searchVals"
+    //       ? ["name"]
+    //       : ""
+    //   );
+    //   i++;
+    // } while (i < fieldsMyDishesForm.length);
 
     trigger();
   };

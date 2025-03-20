@@ -25,8 +25,8 @@ export type SearchMyDishesFormType = {
 
   createdAtSort: ["asc" | "desc"];
   updatedAtSort: ["asc" | "desc"];
-  avgPriceSort: ["asc" | "desc"];
-  avgQuantitySort: ["asc" | "desc"];
+  priceSort: [];
+  quantitySort: [];
 
   page: string;
   limit: string;

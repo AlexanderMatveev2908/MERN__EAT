@@ -36,3 +36,18 @@ export const uploadCloudStorage = (files: any) => {
 
   return Promise.all(promises);
 };
+
+export const uploadUpdateDish = (files: any): Promise<any> => {
+  const promises = files.map(async (file: any) => {
+    const b64 = file.buffer.toString("base64");
+    const dataURI = "data:" + file.mimetype + ";base64," + b64;
+
+    const res = await v2.uploader.upload(dataURI, {
+      resource_type: "auto",
+      folder: "dishes",
+    });
+    return { public_id: res.public_id, url: res.secure_url };
+  });
+
+  return Promise.all(promises);
+};

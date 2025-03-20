@@ -34,7 +34,8 @@ export const validatorCreateDishes = [
   check("dishes").custom((valArr, { req }) => {
     for (const dish of valArr) {
       if (!REG_DISH_NAME.test(dish.name)) throw new Error("invalid dish name");
-      if (!REG_PRICE.test(dish.price)) throw new Error("invalid price");
+      if (!REG_PRICE.test(dish.price) && +dish.price > 0.01)
+        throw new Error("invalid price");
       if (!REG_QTY.test(dish.quantity)) throw new Error("invalid quantity");
     }
 

@@ -58,3 +58,24 @@ export const prepareFormDataMyDishes = (formDataHook) => {
 
   return formData;
 };
+
+export const prepareFormDataMyDishUpdate = (formDataHook) => {
+  const formData = new FormData();
+
+  const { images, ...primitiveVals } = formDataHook.items[0];
+
+  const areFiles = [...images].every((el) => el instanceof File);
+  if (images?.length && areFiles)
+    [...images].forEach((img) => {
+      formData.append(`images`, img);
+    });
+  else formData.append(`images`, JSON.stringify(images));
+
+  for (const key in primitiveVals) {
+    formData.append(key, primitiveVals[key]);
+  }
+
+  formData.append("restaurant", formDataHook.restaurant);
+
+  return formData;
+};

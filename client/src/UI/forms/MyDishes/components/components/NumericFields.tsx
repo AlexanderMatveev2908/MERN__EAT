@@ -15,6 +15,10 @@ const NumericFields: FC<PropsType> = ({ formContext, indexForm }) => {
     register,
     formState: { errors },
   } = formContext;
+
+  const customValidatePrice = (val: string) =>
+    +val < 0.01 ? "Price must up greater than $0.01" : true;
+
   return (
     <div className="w-full grid grid-cols-1 gap-5">
       <div className="txt__03 flex flex-wrap items-center gap-5 text-orange-500">
@@ -37,6 +41,8 @@ const NumericFields: FC<PropsType> = ({ formContext, indexForm }) => {
               register,
               errors,
               indexForm,
+              customValidate:
+                el.field === "price" ? customValidatePrice : undefined,
             }}
           />
         ))}
