@@ -2,6 +2,8 @@ import { Response } from "express";
 import User from "../../models/User.js";
 import mongoose from "mongoose";
 import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
+import { makeQueryMyDishes } from "../../utils/makeQueries/myDishes.js";
+import { makeSortersMyDishes } from "../../utils/makeSorters/myDishes.js";
 
 export const getRestaurantIds = async (
   req: RequestWithUserId,
@@ -46,7 +48,15 @@ export const getMyDishes = async (
 ): Promise<any> => {
   const { userId } = req;
 
+  // console.log(req.query);
+
   console.log(req.query);
+
+  const queryObj = makeQueryMyDishes(req);
+  const sorterObj = makeSortersMyDishes(req);
+
+  // console.log(queryObj?.["restaurants.dishes"]?.["$elemMatch"]?.["$or"]);
+  // console.log(sorterObj);
 
   return res.status(200).json({ success: true });
 };

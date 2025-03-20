@@ -2,6 +2,12 @@ import { check } from "express-validator";
 import { handleValidator } from "../../utils/handleValidator.js";
 
 export const validateGetMyRestParams = [
+  check().custom((_, { req }) => {
+    console.log(req.query);
+
+    return true;
+  }),
+
   check("searchVals").custom((val, { req }) =>
     val?.split(",").length > 1 || (val && !req?.query?.search)
       ? Promise.reject("Bad request")

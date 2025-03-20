@@ -14,7 +14,7 @@ export const useMyDishes = () => {
 
   const queryClient = useQueryClient();
 
-  const { setValue, getValues, handleSubmit, watch } =
+  const { setValue, getValues, handleSubmit, watch, trigger } =
     formContextMyDishesSearch;
 
   const handleSave = handleSubmit((formDatHook) => {
@@ -40,12 +40,14 @@ export const useMyDishes = () => {
       );
       i++;
     } while (i < fieldsMyDishesForm.length);
+
+    trigger();
   };
 
   const formDataSearch = watch();
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
-    queryKey: ["myDIshesSearch", formDataSearch],
+    queryKey: ["myDishesSearch", formDataSearch],
     queryFn: () => getMyDishesAPI(createURLParamsMyDishes(formDataSearch)),
   });
 
