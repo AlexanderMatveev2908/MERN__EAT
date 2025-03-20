@@ -117,5 +117,9 @@ export const validatorMyRestaurants = [
       return true;
     }),
 
+  check().custom((_, { req }) => {
+    return true;
+  }),
+
   handleValidator(400),
 ];
