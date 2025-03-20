@@ -1,13 +1,37 @@
-import { REG_PRICE, REG_QTY } from "../../core/config/constants/regex";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  REG_MONGO,
+  REG_PRICE,
+  REG_QTY,
+  REG_SEARCH,
+} from "../../core/config/constants/regex";
+import { SearchMyDishesFormType } from "../../types/allTypes/myDishes";
+
+const genericCheck = (
+  pair: [string, any],
+  formDataHook: SearchMyDishesFormType
+) => {
+  if (!pair[1]) return false;
+
+  if (["search", "searchVals"].includes(pair[0])) {
+    if (
+      !formDataHook.searchVals?.length ||
+      !formDataHook.search ||
+      !REG_SEARCH.test(formDataHook.search) ||
+      (["id", "restaurantId"].includes(formDataHook.searchVals?.[0]) &&
+        !REG_MONGO.test(formDataHook.search))
+    )
+      return false;
+  }
+
+  return true;
+};
 
 export const createURLParams = (formDataHook) => {
   const params = new URLSearchParams();
 
   for (const pair of Object.entries(formDataHook ?? {})) {
-    if (!pair[1]) continue;
-
-    if (pair[0] === "search" && !formDataHook.searchVals?.length) continue;
-    if (pair[0] === "searchVals" && !formDataHook.search) continue;
+    if (!genericCheck(pair, formDataHook)) continue;
 
     if (Array.isArray(pair[1])) {
       if (pair[1]?.length) params.append(pair[0], pair[1].join(","));
@@ -26,11 +50,7 @@ export const createURLParamsMyDishes = (formDataHook) => {
   for (const pair of Object.entries(formDataHook ?? {})) {
     if (!pair[1]) continue;
 
-    if (
-      (pair[0] === "search" && !formDataHook.searchVals?.length) ||
-      (pair[0] === "searchVals" && !formDataHook.search)
-    )
-      continue;
+    if (!genericCheck(pair, formDataHook)) continue;
 
     if (Array.isArray(pair[1])) {
       if (pair[1]?.length) params.append(pair[0], pair[1].join(", "));

@@ -4,7 +4,6 @@ import { checkUserProperty } from "../../utils/checkers/myRestaurants.js";
 import User from "../../models/User.js";
 import mongoose, { HydratedDocument } from "mongoose";
 import { makeQueriesMyRestaurants } from "../../utils/makeQueries/myRestaurants.js";
-import { makeSortersMyRestaurants } from "../../utils/makeSorters/myRestaurants.js";
 import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
 import { calcPagination } from "../../utils/calcPagination.js";
 import {
@@ -19,6 +18,7 @@ import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
 import Dish from "../../models/Dish.js";
 import Order from "../../models/Order.js";
 import Review from "../../models/Review.js";
+import { makeSortersMyRest } from "../../utils/makeSorters/myRest.js";
 
 export const getMyRestaurants = async (
   req: RequestWithUserId,
@@ -28,7 +28,7 @@ export const getMyRestaurants = async (
 
   const query = makeQueriesMyRestaurants(req);
 
-  const sorter = makeSortersMyRestaurants(req);
+  const sorter = makeSortersMyRest(req);
 
   const totDocuments = await Restaurant.countDocuments({
     owner: new mongoose.Types.ObjectId(userId),

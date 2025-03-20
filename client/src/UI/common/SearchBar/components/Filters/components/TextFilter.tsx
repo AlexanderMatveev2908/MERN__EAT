@@ -4,6 +4,7 @@ import { UseFormReturn } from "react-hook-form";
 import { CiTextAlignCenter } from "react-icons/ci";
 import { CheckBoxFieldType } from "../../../../../../core/config/fieldsArr/typesFields";
 import DropHandlerIcon from "../../../../../components/DropHandlerIcon";
+import { REG_MONGO } from "../../../../../../core/config/constants/regex";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
@@ -13,12 +14,16 @@ type PropsType = {
 const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { register, watch, setValue } = formContext;
+  const { register, watch, setValue, setError } = formContext;
 
-  const handleChange = (el: string) =>
-    (watch("searchVals") || []).includes(el)
-      ? setValue("searchVals", [], { shouldValidate: true })
-      : setValue("searchVals", [el], { shouldValidate: true });
+  const handleChange = (el: string) => {
+    if ((watch("searchVals") || []).includes(el))
+      setValue("searchVals", [], { shouldValidate: true });
+    else setValue("searchVals", [el], { shouldValidate: true });
+
+    if (["id", "restaurantId"].includes(el) && !REG_MONGO.test(watch("search")))
+      setError("search", { message: "Invalid Mongo ID" });
+  };
 
   return (
     <div className="w-full grid grid-cols-1">

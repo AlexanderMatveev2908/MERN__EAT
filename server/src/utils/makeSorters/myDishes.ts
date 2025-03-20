@@ -1,6 +1,6 @@
 import { Request } from "express";
 
-export const makeSortersMyRestaurants = (req: Request) => {
+export const makeSortersMyDishes = (req: Request) => {
   const sorters = Object.entries(req.query ?? {})
     .filter(([key, _]) => key.includes("Sort"))
     .map(([key, val]) => ({
@@ -13,7 +13,7 @@ export const makeSortersMyRestaurants = (req: Request) => {
   const sorter: any = {};
 
   for (const sort of sorters) {
-    sorter[`restaurants.${sort.key}`] = sort.val === "asc" ? 1 : -1;
+    sorter[`restaurants.dishes.${sort.key}`] = sort.val === "asc" ? 1 : -1;
   }
 
   return Object.keys(sorter ?? {}).length ? sorter : null;
