@@ -10,6 +10,7 @@ import {
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
+import MyDishesItem from "./components/MyDishesItem";
 
 const MyDishes: FC = () => {
   const {
@@ -22,6 +23,7 @@ const MyDishes: FC = () => {
     totPages,
     totDocuments,
     nHits,
+    dishes,
   } = useMyDishes();
 
   return (
@@ -52,8 +54,15 @@ const MyDishes: FC = () => {
         <ErrEmoji
           {...{ txt: "We did not found nothing with your search inputs 🥸" }}
         />
-      ) : null}
-
+      ) : (
+        dishes && (
+          <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center gap-10 place-content-start items-start mt-5">
+            {dishes.map((el) => (
+              <MyDishesItem key={el._id} {...{ dish: el }} />
+            ))}
+          </div>
+        )
+      )}
       <BlockPages {...{ currPage, setCurrPage, totPages }} />
     </div>
   );

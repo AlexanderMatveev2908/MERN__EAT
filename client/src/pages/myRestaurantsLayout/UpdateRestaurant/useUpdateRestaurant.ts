@@ -89,8 +89,9 @@ export const useUpdateRestaurant = () => {
   const { mutate, isPending: isPendingUpdate } = useMutation({
     mutationFn: ({ id, formData }: { id: string; formData: FormData }) =>
       updateRestaurantAPI({ id, formData }),
-    onSuccess: () => {
+    onSuccess: (data) => {
       showToastMsg("Restaurant updated", "SUCCESS");
+      navigate(`/my-restaurants/${data?.restId}`);
     },
     onError: (err: ErrFoodApp) => {
       handleErrAPI({ err });
@@ -100,9 +101,6 @@ export const useUpdateRestaurant = () => {
   const handleSave = formContext.handleSubmit(
     (data: MyRestaurantsAddUpdateFormType) => {
       const formData = prepareFormDataMyRest(data);
-      // for (const [key, val] of prepareFormData(data).entries()) {
-      //   console.log(key, val);
-      // }
 
       mutate({ id: restId ?? "", formData });
     }

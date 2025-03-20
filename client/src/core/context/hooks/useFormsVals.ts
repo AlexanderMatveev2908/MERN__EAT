@@ -14,17 +14,20 @@ export const useFormsVals = () => {
 
   const formContextMyDishesAddItem = useForm<DishMenuFormType>({
     mode: "onChange",
-    defaultValues: {
-      restaurant: "",
-      items: [
-        {
-          name: "",
-          quantity: "",
-          price: "",
-          images: [],
-        },
-      ],
-    },
+    defaultValues:
+      import.meta.env.VITE_NODE_ENV === "development"
+        ? undefined
+        : {
+            restaurant: "",
+            items: [
+              {
+                name: "",
+                quantity: "",
+                price: "",
+                images: [],
+              },
+            ],
+          },
   });
 
   const savedFormMyDishes = sessionStorage.getItem("myDishesForm");

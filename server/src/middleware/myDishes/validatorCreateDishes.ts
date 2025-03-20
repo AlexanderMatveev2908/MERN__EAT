@@ -22,9 +22,7 @@ export const validateFilesStorage = (
     if (!file?.length) hasEnoughFiles = false;
     len++;
   }
-  // console.log(len);
-  // console.log(hasEnoughFiles);
-  // console.log(totDishes);
+
   if (len !== totDishes || !hasEnoughFiles) return badRequest(res);
 
   return next();
@@ -43,16 +41,8 @@ export const validatorCreateDishes = [
     return true;
   }),
 
-  // check("name.*").matches(REG_DISH_NAME).withMessage("invalid dish name"),
-
-  // check("price.*").matches(REG_PRICE).withMessage("invalid price"),
-
-  // check("quantity.*").matches(REG_QTY).withMessage("invalid quantity"),
-
   (req: any, res: Response, next: NextFunction): any => {
     const errors = validationResult(req);
-
-    // console.log(errors);
 
     if (!errors.isEmpty()) {
       for (const file of req.uploadedFiles) {

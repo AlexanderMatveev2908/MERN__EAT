@@ -39,7 +39,7 @@ export const updateRestaurantAPI = async ({
 }: {
   id: string;
   formData: FormData;
-}): Promise<ReturnAPIBasic> => {
+}): Promise<ReturnAPIBasic & { restId: string }> => {
   const { data } = await foodAppInstance.patch(
     `/my-restaurants/${id}`,
     formData

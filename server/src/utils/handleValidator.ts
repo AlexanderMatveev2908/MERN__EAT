@@ -6,8 +6,6 @@ export const handleValidator =
   (req: Request, res: Response, next: NextFunction): any => {
     const errors = validationResult(req);
 
-    // console.log(errors);
-
     if (!errors.isEmpty()) {
       if (status === 400)
         return res

@@ -18,7 +18,7 @@ export const createDishesAPI = async ({
 }: {
   restId: string;
   form: FormData;
-}): Promise<ReturnAPIBasic> => {
+}): Promise<ReturnAPIBasic & { restId: string }> => {
   const { data } = await foodAppInstance.post(
     `/my-dishes?restId=${restId}`,
     form
@@ -29,7 +29,9 @@ export const createDishesAPI = async ({
 
 export const getMyDishesAPI = async (
   params: URLSearchParams
-): Promise<ReturnAPIBasic & GetElsQueriedReturnType & { dishes: DishType }> => {
+): Promise<
+  ReturnAPIBasic & GetElsQueriedReturnType & { dishes: DishType }[]
+> => {
   const { data } = await foodAppInstance.get(`/my-dishes?${params}`);
 
   return data;
