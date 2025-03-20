@@ -1,5 +1,4 @@
 import { Request } from "express";
-import { REG_SEARCH } from "../../config/constants/regex.js";
 import mongoose from "mongoose";
 
 const makeQueryRange = (
@@ -21,6 +20,13 @@ const makeQueryRange = (
   return conditions;
 };
 
+const checkQueryConditions = (query: any, conditions: any) => {
+  if (conditions?.length) {
+    if (query["$or"]) query["$or"] = [...query["$or"], ...conditions];
+    else query["$or"] = [...conditions];
+  }
+};
+
 export const makeQueriesMyRestaurants = (req: Request) => {
   const {
     search,
@@ -34,7 +40,7 @@ export const makeQueriesMyRestaurants = (req: Request) => {
 
   const query: any = {};
 
-  if (search && valTarget && REG_SEARCH.test((search as string) ?? "")) {
+  if (search && valTarget) {
     if (valTarget === "name")
       query[`restaurants.name`] = {
         $regex: `.*${search as string}.*`,
@@ -72,9 +78,7 @@ export const makeQueriesMyRestaurants = (req: Request) => {
       5
     );
 
-    if (ratingConditions?.length)
-      if (query["$or"]) query["$or"] = [...query["$or"], ...ratingConditions];
-      else query["$or"] = [...ratingConditions];
+    checkQueryConditions(query, ratingConditions);
   }
 
   if (avgPriceRange) {
@@ -84,9 +88,7 @@ export const makeQueriesMyRestaurants = (req: Request) => {
       100
     );
 
-    if (priceConditions?.length)
-      if (query["$or"]) query["$or"] = [...query["$or"], ...priceConditions];
-      else query["$or"] = [...priceConditions];
+    checkQueryConditions(query, priceConditions);
   }
 
   if (avgQuantityRange) {
@@ -96,9 +98,7 @@ export const makeQueriesMyRestaurants = (req: Request) => {
       100
     );
 
-    if (quantityConditions?.length)
-      if (query["$or"]) query["$or"] = [...query["$or"], ...quantityConditions];
-      else query["$or"] = [...quantityConditions];
+    checkQueryConditions(query, quantityConditions);
   }
 
   return Object.keys(query ?? {}).length ? query : null;

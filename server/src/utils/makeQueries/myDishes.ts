@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { REG_MONGO, REG_SEARCH } from "../../config/constants/regex.js";
+import { REG_MONGO } from "../../config/constants/regex.js";
 import mongoose from "mongoose";
 
 export const makeQueryMyDishes = (req: Request) => {
@@ -22,7 +22,7 @@ export const makeQueryMyDishes = (req: Request) => {
       $in: (categories as string).split(","),
     };
 
-  if (search && REG_SEARCH.test(search as string) && searchTarget) {
+  if (search && searchTarget) {
     switch (searchTarget) {
       case "restaurantName":
         queryObj["restaurantName"] = {
@@ -32,9 +32,9 @@ export const makeQueryMyDishes = (req: Request) => {
         break;
 
       case "restaurantId":
-        queryObj["restaurantId"] = REG_MONGO.test(search as string)
-          ? new mongoose.Types.ObjectId(search as string)
-          : null;
+        queryObj["restaurantId"] = new mongoose.Types.ObjectId(
+          search as string
+        );
         break;
 
       default:
@@ -44,7 +44,7 @@ export const makeQueryMyDishes = (req: Request) => {
               searchTarget === "name"
                 ? { name: { $regex: `.*${search}.*`, $options: "i" } }
                 : null,
-              searchTarget === "id" && REG_MONGO.test(search as string)
+              searchTarget === "id"
                 ? { _id: new mongoose.Types.ObjectId(search as string) }
                 : null,
             ].filter((el) => !!el),

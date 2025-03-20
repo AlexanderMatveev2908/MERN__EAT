@@ -1,6 +1,7 @@
 import { check } from "express-validator";
 import { handleValidator } from "../../utils/handleValidator.js";
 import {
+  REG_MONGO,
   REG_PRICE,
   REG_QTY,
   REG_SEARCH,
@@ -20,7 +21,10 @@ export const validatorSearchDishes = [
   ),
 
   check("search").custom((val, { req }) =>
-    !REG_SEARCH.test(val) || (val && !req.query?.searchVals)
+    !REG_SEARCH.test(val) ||
+    (val && !req.query?.searchVals) ||
+    (["id", "restaurantId"].includes(req.query?.searchVals) &&
+      !REG_MONGO.test(val))
       ? Promise.reject("Bad request search")
       : true
   ),
