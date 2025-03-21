@@ -24,7 +24,7 @@ const Delivery: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
       reverseFormaTimeHhMm(watch("closeTime")) -
       reverseFormaTimeHhMm(watch("openTime"));
 
-    return diff < +val
+    return diff > 0 && diff < +val
       ? "Delivery time can not take more than your business activity"
       : !+val
       ? "Delivery time can not be 0"

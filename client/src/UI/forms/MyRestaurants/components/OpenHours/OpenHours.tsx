@@ -30,14 +30,17 @@ const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
 
   const customValidateClose = (val: string) => {
     const res = getDiffTime(val, watch("openTime"));
-    if (res < 4) return "You must keep open at least 4 hours (part-time)";
+    if (res > 0 && res < 4)
+      return "You must keep open at least 4 hours (part-time)";
 
     return true;
   };
 
   const customValidateOpen = (val: string) => {
     const res = getDiffTime(watch("closeTime"), val);
-    if (res < 4) return "You must keep open at least 4 hours (part-time)";
+
+    if (res > 0 && res < 4)
+      return "You must keep open at least 4 hours (part-time)";
 
     return true;
   };
