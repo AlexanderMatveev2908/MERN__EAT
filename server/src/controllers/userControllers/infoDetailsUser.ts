@@ -3,6 +3,8 @@ import User from "../../models/User.js";
 import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
 import mongoose from "mongoose";
 import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
+import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
+import { makeMongoId } from "../../utils/dbPipeline/general.js";
 
 export const getUserInfo = async (
   req: Request,
@@ -55,11 +57,23 @@ export const updateProfileDetails = async (
   const user = await User.findById(userId);
   if (!user) return userNotFound(res);
 
-  await User.findByIdAndUpdate(
-    userId,
-    { $set: { firstName, lastName, address } }
-    // { new: true, select: "firstName lastName address -_id" }
-  );
+  const restaurantsUser: RestaurantType[] = await Restaurant.find({
+    owner: makeMongoId(userId ?? ""),
+    "contact.phone": user.address.phone,
+  });
+
+  if (restaurantsUser.length) {
+    const promises = restaurantsUser.map(
+      async (el) =>
+        await Restaurant.findByIdAndUpdate(el._id, {
+          $set: { "contact.phone": address.phone },
+        })
+    );
+    await Promise.all(promises);
+  }
+  await User.findByIdAndUpdate(userId, {
+    $set: { firstName, lastName, address },
+  });
 
   return res.status(200).json({ success: true });
 };

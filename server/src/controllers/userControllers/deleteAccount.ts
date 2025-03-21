@@ -3,6 +3,11 @@ import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js
 import User from "../../models/User.js";
 import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
 import { checkTokenSHA } from "../../utils/token.js";
+import Restaurant from "../../models/Restaurant.js";
+import { deleteCloud } from "../../utils/cloud.js";
+import { ImageType } from "../../models/Image.js";
+import { DishType } from "../../models/Dish.js";
+import { HydratedDocument } from "mongoose";
 
 export const deleteAccount = async (
   req: RequestWithUserId,
@@ -33,6 +38,35 @@ export const deleteAccount = async (
     await user.save();
 
     return unauthorizedErr(res, isExpired ? "Token expired" : "Invalid Token");
+  }
+
+  const restaurants = await Restaurant.find({
+    owner: user._id,
+  }).populate("dishes");
+
+  if (restaurants?.length) {
+    const promises = restaurants.map(async (el) => {
+      if (el?.dishes?.length) {
+        const promisesDishesImages = el.dishes
+          .map(async (dish: HydratedDocument<DishType>) =>
+            dish.images.map(async (img) => await deleteCloud(img.public_id))
+          )
+          .flat(Infinity);
+        const promisesDishes = el.dishes.map(
+          async (dish: HydratedDocument<DishType>) => await dish.deleteOne()
+        );
+
+        await Promise.all([...promisesDishesImages, promisesDishes]);
+      }
+      const promisesRestaurantImages = el.images.map(
+        async (img: ImageType) => await deleteCloud(img.public_id)
+      );
+      await Promise.all(promisesRestaurantImages);
+
+      await el.deleteOne();
+    });
+
+    await Promise.all(promises);
   }
 
   const result = await User.deleteOne({ _id: userId });

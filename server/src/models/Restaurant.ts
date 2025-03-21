@@ -12,6 +12,7 @@ export type DynamicFieldOrder = {
 };
 
 export type RestaurantType = {
+  _id: string;
   owner: string[];
   name: string;
   address: {
