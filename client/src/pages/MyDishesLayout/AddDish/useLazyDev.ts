@@ -52,7 +52,6 @@ export const useLazyDev = ({ setValue }) => {
     if (isError) {
       showToastMsg("Error", "ERROR");
     } else if (isSuccess) {
-      showToastMsg("Success", "SUCCESS");
       const files = data.base64Imgs.map((el, i) => base64ToFile(el, i));
 
       setValue(

@@ -18,6 +18,7 @@ import { helmetMid } from "./middleware/general/helmet.js";
 import routerMyDishes from "./routes/myDishes.js";
 import proxyRouter from "./routes/proxy.js";
 import { asyncWrapper } from "./middleware/general/asyncWrapper.js";
+import { verifyAccessToken } from "./middleware/general/verifyAccessToken.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -38,8 +39,8 @@ app.use(cookieParser());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/newsletter", newsLetterRouter);
-app.use("/api/v1/my-restaurants", myRestaurantsRouter);
-app.use("/api/v1/my-dishes", routerMyDishes);
+app.use("/api/v1/my-restaurants", verifyAccessToken, myRestaurantsRouter);
+app.use("/api/v1/my-dishes", verifyAccessToken, routerMyDishes);
 
 if (isDev) app.use("/api/v1/proxy", asyncWrapper(proxyRouter));
 

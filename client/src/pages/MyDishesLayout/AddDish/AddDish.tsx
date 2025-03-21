@@ -7,7 +7,7 @@ import ErrEmoji from "../../../UI/components/ErrEmoji";
 const AddDish = () => {
   const {
     isPendingIds,
-    formContextMyDishesAddItem: formContext,
+    formContext,
     restInfo,
     isSuccessIds,
     handleSave,

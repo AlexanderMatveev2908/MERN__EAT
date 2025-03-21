@@ -23,13 +23,13 @@ export type SearchMyDishesFormType = {
 
   categories: string[];
 
-  createdAtSort: ["asc" | "desc"];
-  updatedAtSort: ["asc" | "desc"];
+  createdAtSort: string[];
+  updatedAtSort: string[];
   priceSort: [];
   quantitySort: [];
 
   page: string;
-  limit: string;
+  limit?: string;
 };
 
 export type DishType = {

@@ -62,3 +62,11 @@ export const updateDishAPI = async ({
 
   return data;
 };
+
+export const bulkDeleteMyDishesAPI = async (ids: string[]): Promise<void> => {
+  const { data } = await foodAppInstance.delete("/my-dishes/bulk-delete", {
+    data: { ids },
+  });
+
+  return data;
+};

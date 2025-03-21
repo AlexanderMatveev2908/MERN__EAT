@@ -14,29 +14,29 @@ import { useGetRestaurantsIds } from "../../../core/hooks/useGetRestaurantsIds";
 export const useAddDish = () => {
   useScrollTop();
   const { handleErrAPI } = useHandleErr();
-  const { formContextMyDishesAddItem, formContextMyDishesSearch } =
+  const { formContextMyDishesAddItem: formContext, formContextMyDishesSearch } =
     useFormsCustom();
   const { showToastMsg } = useToast();
 
   const navigate = useNavigate();
 
   const { isPending: isDevPending } = useLazyDev({
-    setValue: formContextMyDishesAddItem.setValue,
+    setValue: formContext.setValue,
   });
 
   const { isPendingIds, restInfo, isSuccessIds } = useGetRestaurantsIds();
 
   const { fields } = useFieldArray({
-    control: formContextMyDishesAddItem.control,
+    control: formContext.control,
     name: "items",
   });
 
   useEffect(() => {
-    if (formContextMyDishesAddItem?.setFocus)
+    if (formContext?.setFocus)
       setTimeout(() => {
-        formContextMyDishesAddItem.setFocus(`items.${fields.length - 1}`);
+        formContext.setFocus(`items.${fields.length - 1}`);
       }, 500);
-  }, [formContextMyDishesAddItem, fields.length]);
+  }, [formContext, fields.length]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: ({ form, restId }: { form: FormData; restId: string }) =>
@@ -46,6 +46,18 @@ export const useAddDish = () => {
         `Dish${fields.length > 1 ? "es" : ""} created successfully`,
         "SUCCESS"
       );
+
+      formContext.reset({
+        restaurant: "",
+        items: [
+          {
+            name: "",
+            price: "",
+            quantity: "",
+            images: [],
+          },
+        ],
+      });
 
       const { setValue } = formContextMyDishesSearch;
 
@@ -58,7 +70,7 @@ export const useAddDish = () => {
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });
 
-  const handleSave = formContextMyDishesAddItem.handleSubmit((formDataHook) => {
+  const handleSave = formContext.handleSubmit((formDataHook) => {
     const formData = prepareFormDataMyDishes(formDataHook);
 
     mutate({ form: formData, restId: formDataHook.restaurant });
@@ -68,7 +80,7 @@ export const useAddDish = () => {
     isPendingIds:
       isPendingIds ||
       (import.meta.env.VITE_NODE_ENV === "development" ? isDevPending : false),
-    formContextMyDishesAddItem,
+    formContext,
     restInfo,
     isSuccessIds,
     handleSave,

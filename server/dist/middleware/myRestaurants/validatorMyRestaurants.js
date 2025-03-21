@@ -71,5 +71,8 @@ export const validatorMyRestaurants = [
             throw new Error("Invalid free delivery price format");
         return true;
     }),
+    check().custom((_, { req }) => {
+        return true;
+    }),
     handleValidator(400),
 ];

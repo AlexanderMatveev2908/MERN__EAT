@@ -2,10 +2,9 @@ import { check } from "express-validator";
 import { handleValidator } from "../../utils/handleValidator.js";
 import { REG_MONGO, REG_PRICE, REG_QTY, REG_SEARCH, } from "../../config/constants/regex.js";
 export const validatorSearchDishes = [
-    // check().custom((_, { req }) => {
-    //   console.log(req.query);
-    //   return true;
-    // }),
+    check().custom((_, { req }) => {
+        return true;
+    }),
     check("searchVals").custom((val, { req }) => {
         var _a;
         return (val || "").split(",").length > 1 || (val && !((_a = req.query) === null || _a === void 0 ? void 0 : _a.search))

@@ -5,9 +5,8 @@ import { getMyRestaurantsAPI } from "../../../core/api/api";
 import { createURLParams } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
-import { fieldsFormMyRest } from "../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
+import { defaultValuesMyRestSearch } from "../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
-import { FormSearchType } from "../../../types/allTypes/restAdmin";
 import { useFormsCustom } from "../../../core/hooks/useGlobal";
 
 export const useMyRestaurants = () => {
@@ -24,12 +23,11 @@ export const useMyRestaurants = () => {
   const { formContextMyRestaurants: formContext } = useFormsCustom();
 
   const formVals = formContext.watch();
-  formVals.page = currPage;
-  formVals.limit = limit;
+  formVals.page = currPage + "";
+  formVals.limit = limit + "";
 
   const handleSave = formContext.handleSubmit((formDataHook) => {
-    formDataHook.limit = limit;
-    formDataHook.page = currPage;
+    formDataHook.page = currPage + "";
 
     sessionStorage.setItem("myRestaurantsForm", JSON.stringify(formDataHook));
 
@@ -39,16 +37,7 @@ export const useMyRestaurants = () => {
   const handleClear = () => {
     sessionStorage.removeItem("myRestaurantsForm");
 
-    for (const key of fieldsFormMyRest) {
-      formContext.setValue(
-        key as keyof FormSearchType,
-        Array.isArray(formContext.getValues(key as keyof FormSearchType))
-          ? []
-          : key === "searchVals"
-          ? ["name"]
-          : ""
-      );
-    }
+    formContext.reset(defaultValuesMyRestSearch);
 
     formContext.trigger("search");
 
