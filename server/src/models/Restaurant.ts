@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 import { ImageSchema } from "./Image.js";
 
 export type DynamicFieldRating = {
@@ -41,7 +41,7 @@ export type RestaurantType = {
     public_id: string;
   }[];
 
-  dishes: string[];
+  dishes: ObjectId[];
   dishesCount?: number;
   avgPrice?: number;
 

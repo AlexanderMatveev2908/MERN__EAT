@@ -24,6 +24,9 @@ import { makeQueryMyDishes } from "../../utils/makeQueries/myDishes.js";
 import { makeSortersMyDishes } from "../../utils/makeSorters/myDishes.js";
 import Restaurant from "../../models/Restaurant.js";
 import { calcPagination } from "../../utils/calcPagination.js";
+import Dish from "../../models/Dish.js";
+import { makeMongoId } from "../../utils/dbPipeline/general.js";
+import { baseErrResponse } from "../../utils/baseErrResponse.js";
 export const getRestaurantIds = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
     const ids = yield User.aggregate([
@@ -57,7 +60,6 @@ export const getRestaurantIds = (req, res) => __awaiter(void 0, void 0, void 0, 
 export const getMyDishes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f;
     const { userId } = req;
-    // console.log(req.query);
     const queryObj = makeQueryMyDishes(req);
     const sorterObj = makeSortersMyDishes(req);
     const _g = queryObj !== null && queryObj !== void 0 ? queryObj : {}, { restaurant_name, restaurant_id, restaurant_categories } = _g, rest = __rest(_g, ["restaurant_name", "restaurant_id", "restaurant_categories"]);
@@ -69,7 +71,13 @@ export const getMyDishes = (req, res) => __awaiter(void 0, void 0, void 0, funct
             $match: Object.assign({}, rest),
         }
         : null;
-    const totDocuments = yield Restaurant.countDocuments(queryRestaurant.$match);
+    const restaurantsUser = Restaurant.find({
+        owner: makeMongoId(userId),
+    });
+    const idsRestaurants = (yield restaurantsUser).map((el) => el._id);
+    const totDocuments = yield Dish.countDocuments({
+        restaurant: { $in: idsRestaurants },
+    });
     if (!totDocuments)
         return res.status(200).json({
             msg: "User does not have dishes",
@@ -127,7 +135,7 @@ export const getMyDishes = (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(200).json({
             success: true,
             dishes: [],
-            totDocuments: 0,
+            totDocuments,
             totPages: 0,
             nHits: 0,
         });
@@ -139,5 +147,52 @@ export const getMyDishes = (req, res) => __awaiter(void 0, void 0, void 0, funct
         totPages,
         totDocuments,
         nHits,
+    });
+});
+export const getInfoDishForm = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const { userId } = req;
+    const { dishId } = req === null || req === void 0 ? void 0 : req.params;
+    const result = yield Restaurant.aggregate([
+        {
+            $match: {
+                owner: makeMongoId(userId),
+            },
+        },
+        {
+            $lookup: {
+                from: "dishes",
+                localField: "dishes",
+                foreignField: "_id",
+                as: "dishes",
+            },
+        },
+        {
+            $unwind: "$dishes",
+        },
+        {
+            $set: {
+                "dishes.restaurantName": "$name",
+            },
+        },
+        {
+            $match: {
+                "dishes._id": makeMongoId(dishId),
+            },
+        },
+        {
+            $group: {
+                _id: null,
+                dish: { $first: "$dishes" },
+            },
+        },
+    ]);
+    const _b = ((_a = result === null || result === void 0 ? void 0 : result[0]) !== null && _a !== void 0 ? _a : {}).dish, _c = _b === void 0 ? {} : _b, { restaurantName } = _c, dish = __rest(_c, ["restaurantName"]);
+    if (!dish)
+        return baseErrResponse(res, 404, "Dish not found");
+    return res.status(200).json({
+        success: true,
+        dish,
+        restaurantName,
     });
 });

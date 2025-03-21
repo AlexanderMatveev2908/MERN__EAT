@@ -67,6 +67,7 @@ export const getMyDishes = async (
       ...(restaurant_categories ? { categories: restaurant_categories } : {}),
     },
   };
+
   const queryDishes = Object.values(rest).every((val) => val)
     ? {
         $match: {
@@ -75,7 +76,14 @@ export const getMyDishes = async (
       }
     : null;
 
-  const totDocuments = await Restaurant.countDocuments(queryRestaurant.$match);
+  const restaurantsUser = Restaurant.find({
+    owner: makeMongoId(userId as string),
+  });
+  const idsRestaurants = (await restaurantsUser).map((el) => el._id);
+
+  const totDocuments = await Dish.countDocuments({
+    restaurant: { $in: idsRestaurants },
+  });
 
   if (!totDocuments)
     return res.status(200).json({
@@ -144,7 +152,7 @@ export const getMyDishes = async (
     return res.status(200).json({
       success: true,
       dishes: [],
-      totDocuments: 0,
+      totDocuments,
       totPages: 0,
       nHits: 0,
     });

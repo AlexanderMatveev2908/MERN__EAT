@@ -1,5 +1,5 @@
 export const errMiddleware = (err, _, res, __) => {
-    console.log(err.message);
+    console.log(err);
     return res.status(err.status || 500).json({
         success: false,
         msg: "Oops! Our server decided to take a coffee break ☕. Try again later!",

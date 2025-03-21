@@ -20,6 +20,7 @@ import {
 import { IconType } from "react-icons/lib";
 import { IoIosCreate } from "react-icons/io";
 import { GrDocumentUpdate } from "react-icons/gr";
+import { FormSearchType } from "../../../../../types/allTypes/restAdmin";
 
 const myRestFieldsArr = ["name", "country", "state", "city", "id"];
 export const myRestFieldsSearch: BaseFieldType[] = myRestFieldsArr.map(
@@ -178,3 +179,29 @@ export const fieldsFormMyRest = [
   ...sortersArr.map((el) => el.field),
   "search",
 ];
+
+export const defaultValuesMyRestSearch: FormSearchType = {
+  search: "",
+  searchVals: ["name"],
+  categories: [],
+  ordersStatus: [],
+  avgPriceRange: [],
+  avgQuantityRange: [],
+  avgRatingRange: [],
+
+  avgRatingSort: [],
+  reviewsCountSort: [],
+  avgPriceSort: [],
+  dishesCountSort: [],
+  avgQuantitySort: [],
+  ordersCountSort: [],
+  createdAtSort: [],
+  updatedAtSort: [],
+  pendingOrdersSort: [],
+  processingOrdersSort: [],
+  shippedOrdersSort: [],
+  deliveredOrdersSort: [],
+  cancelledOrdersSort: [],
+
+  page: "1",
+};

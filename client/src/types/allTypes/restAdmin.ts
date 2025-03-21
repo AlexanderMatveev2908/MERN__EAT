@@ -46,22 +46,22 @@ export type FormSearchType = {
   avgQuantityRange: string[];
   avgRatingRange: string[];
 
-  avgRatingSort: ["asc" | "desc"];
-  reviewsCountSort: ["asc" | "desc"];
-  avgPriceSort: ["asc" | "desc"];
-  dishesCountSort: ["asc" | "desc"];
-  avgQuantitySort: ["asc" | "desc"];
-  ordersCountSort: ["asc" | "desc"];
-  createdAtSort: ["asc" | "desc"];
-  updatedAtSort: ["asc" | "desc"];
-  pendingOrdersSort: ["asc" | "desc"];
-  processingOrdersSort: ["asc" | "desc"];
-  shippedOrdersSort: ["asc" | "desc"];
-  deliveredOrdersSort: ["asc" | "desc"];
-  cancelledOrdersSort: ["asc" | "desc"];
+  avgRatingSort: ["asc" | "desc"] | [];
+  reviewsCountSort: ["asc" | "desc"] | [];
+  avgPriceSort: ["asc" | "desc"] | [];
+  dishesCountSort: ["asc" | "desc"] | [];
+  avgQuantitySort: ["asc" | "desc"] | [];
+  ordersCountSort: ["asc" | "desc"] | [];
+  createdAtSort: ["asc" | "desc"] | [];
+  updatedAtSort: ["asc" | "desc"] | [];
+  pendingOrdersSort: ["asc" | "desc"] | [];
+  processingOrdersSort: ["asc" | "desc"] | [];
+  shippedOrdersSort: ["asc" | "desc"] | [];
+  deliveredOrdersSort: ["asc" | "desc"] | [];
+  cancelledOrdersSort: ["asc" | "desc"] | [];
 
-  page: number;
-  limit: number;
+  page: string;
+  limit?: string;
 };
 
 export type DynamicFieldRating = {

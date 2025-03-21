@@ -33,10 +33,10 @@ export const makeQueryMyDishes = (req) => {
         maxPrice ? { "dishes.price": { $lte: +maxPrice } } : null,
     ].filter((el) => !!el);
     if (dishFilters.length) {
-        if (!((_a = queryObj === null || queryObj === void 0 ? void 0 : queryObj["$or"]) === null || _a === void 0 ? void 0 : _a.length))
-            queryObj["$or"] = dishFilters;
+        if (!((_a = queryObj === null || queryObj === void 0 ? void 0 : queryObj["$and"]) === null || _a === void 0 ? void 0 : _a.length))
+            queryObj["$and"] = dishFilters;
         else
-            queryObj["$or"] = [...queryObj["$or"], ...dishFilters];
+            queryObj["$and"] = [...queryObj["$and"], ...dishFilters];
     }
     return Object.keys(queryObj).length ? queryObj : null;
 };

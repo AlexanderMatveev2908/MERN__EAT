@@ -1,5 +1,4 @@
 import express from "express";
-import { verifyAccessToken } from "../middleware/general/verifyAccessToken.js";
 import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
 import {
   getInfoDishForm,
@@ -11,6 +10,7 @@ import {
   validatorCreateDishes,
 } from "../middleware/myDishes/validatorCreateDishes.js";
 import {
+  bulkDelete,
   createDishes,
   deleteDish,
   updateDish,
@@ -21,46 +21,29 @@ import { validatePagination } from "../middleware/general/validatePagination.js"
 import { validateParams } from "../middleware/myDishes/validateParams.js";
 import { validatorUpdateDish } from "../middleware/myDishes/validatorUpdateDish.js";
 import { updateDishesUpload } from "../middleware/myDishes/multerUpdate.js";
+import { validateArrIds } from "../middleware/myDishes/validateArrIds.js";
 
 const router = express();
 
-router.get(
-  "/restaurant-ids",
-  verifyAccessToken,
-  asyncWrapper(getRestaurantIds)
-);
+router.get("/restaurant-ids", asyncWrapper(getRestaurantIds));
 
 router
   .route("/")
-  .get(
-    verifyAccessToken,
-    validatePagination,
-    validatorSearchDishes,
-    asyncWrapper(getMyDishes)
-  )
+  .get(validatePagination, validatorSearchDishes, asyncWrapper(getMyDishes))
   .post(
-    verifyAccessToken,
     uploadMyDishes,
     validateFilesStorage,
     validatorCreateDishes,
     asyncWrapper(createDishes)
   );
 
-router.get(
-  "/info-dish/:dishId",
-  verifyAccessToken,
-  validateParams,
-  asyncWrapper(getInfoDishForm)
-);
+router.delete("/bulk-delete", validateArrIds, asyncWrapper(bulkDelete));
+
+router.get("/info-dish/:dishId", validateParams, asyncWrapper(getInfoDishForm));
 
 router
   .route("/:dishId")
-  .delete(verifyAccessToken, validateParams, asyncWrapper(deleteDish))
-  .put(
-    verifyAccessToken,
-    updateDishesUpload,
-    validatorUpdateDish,
-    asyncWrapper(updateDish)
-  );
+  .delete(validateParams, asyncWrapper(deleteDish))
+  .put(updateDishesUpload, validatorUpdateDish, asyncWrapper(updateDish));
 
 export default router;

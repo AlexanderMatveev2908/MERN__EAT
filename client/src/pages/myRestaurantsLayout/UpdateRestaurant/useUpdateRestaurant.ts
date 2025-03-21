@@ -129,7 +129,7 @@ export const useUpdateRestaurant = () => {
   const handleClickToOpenPopup = () => {
     setPopup({
       txt: "delete this restaurant?",
-      redLabel: "Delete account",
+      redLabel: "Delete restaurant",
       isPending: isPendingDelete,
       confirmAction: handleDelete,
     });

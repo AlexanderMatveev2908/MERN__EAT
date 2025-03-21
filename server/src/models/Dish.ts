@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
-import { ImageSchema } from "./Image.js";
+import { ImageSchema, ImageType } from "./Image.js";
+
+export type DishType = {
+  _id: string;
+  restaurant: string;
+  restaurantName: string;
+  categories: string[];
+  name: string;
+  images: ImageType[];
+  price: number;
+  quantity: number;
+};
 
 const DishSchema = new mongoose.Schema(
   {

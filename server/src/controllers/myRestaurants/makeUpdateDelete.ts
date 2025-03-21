@@ -7,6 +7,7 @@ import { formatMyRestaurantsBody } from "../../utils/getValsMyRestaurantFromBody
 import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
 import { checkUserProperty } from "../../utils/checkers/myRestaurants.js";
 import { ImageType } from "../../models/Image.js";
+import Dish from "../../models/Dish.js";
 
 export const createRestaurant = async (
   req: RequestWithUserId,
@@ -106,6 +107,28 @@ export const deleteRestaurant = async (
   );
 
   await Promise.all(promises);
+
+  const idsDishes = restaurant?.dishes?.length
+    ? restaurant.dishes.map((dish: any) => dish._id)
+    : [];
+  const resultDishes = await Dish.find({
+    _id: { $in: idsDishes },
+  });
+  if (resultDishes.length) {
+    const idsImages = resultDishes.flatMap((dish) =>
+      dish.images.map((img: any) => img.public_id)
+    );
+    const promises = idsImages.map(
+      async (img: string) => await deleteCloud(img)
+    );
+    await Promise.all(promises);
+
+    const resultDeleted = await Dish.deleteMany({
+      _id: { $in: idsDishes },
+    });
+    if (!resultDeleted.deletedCount)
+      return baseErrResponse(res, 500, "Error deleting dishes");
+  }
 
   await restaurant.deleteOne();
 

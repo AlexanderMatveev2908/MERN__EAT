@@ -36,3 +36,15 @@ export const uploadCloudStorage = (files) => {
     }));
     return Promise.all(promises);
 };
+export const uploadUpdateDish = (files) => {
+    const promises = files.map((file) => __awaiter(void 0, void 0, void 0, function* () {
+        const b64 = file.buffer.toString("base64");
+        const dataURI = "data:" + file.mimetype + ";base64," + b64;
+        const res = yield v2.uploader.upload(dataURI, {
+            resource_type: "auto",
+            folder: "dishes",
+        });
+        return { public_id: res.public_id, url: res.secure_url };
+    }));
+    return Promise.all(promises);
+};

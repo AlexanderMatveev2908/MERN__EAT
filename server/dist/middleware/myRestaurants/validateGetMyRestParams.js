@@ -3,7 +3,6 @@ import { handleValidator } from "../../utils/handleValidator.js";
 import { REG_MONGO, REG_SEARCH } from "../../config/constants/regex.js";
 export const validateGetMyRestParams = [
     check().custom((_, { req }) => {
-        // console.log(req.query);
         return true;
     }),
     check("searchVals").custom((val, { req }) => {

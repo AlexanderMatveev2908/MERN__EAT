@@ -55,7 +55,6 @@ export const useUpdateDish = () => {
       if (isErrorInfo) {
         handleErrAPI({ err: errorInfo as ErrFoodApp });
       } else if (isSuccessInfo && Object.keys(dataInfo ?? {}).length) {
-        console.log(dataInfo);
         const {
           dish: {
             name = "",

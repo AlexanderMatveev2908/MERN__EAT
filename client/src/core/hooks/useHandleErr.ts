@@ -39,6 +39,9 @@ export const useHandleErr = () => {
         navigate("/", { replace: true });
         showToastMsg("SESSION EXPIRED", "ERROR");
       } else if ([401, 403, 429].includes(status ?? 400)) {
+        if (["USER DOES NOT EXIST", "USER NOT VERIFIED"].includes(msg))
+          logoutUser();
+
         navigate("/", { replace: true });
         showToastMsg(msg, "ERROR");
       } else {

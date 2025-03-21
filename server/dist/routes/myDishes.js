@@ -1,16 +1,25 @@
 import express from "express";
-import { verifyAccessToken } from "../middleware/general/verifyAccessToken.js";
 import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
-import { getMyDishes, getRestaurantIds, } from "../controllers/MyDishesControllers/get.js";
+import { getInfoDishForm, getMyDishes, getRestaurantIds, } from "../controllers/MyDishesControllers/get.js";
 import { validateFilesStorage, validatorCreateDishes, } from "../middleware/myDishes/validatorCreateDishes.js";
-import { createDishes } from "../controllers/MyDishesControllers/createUpdate.js";
+import { bulkDelete, createDishes, deleteDish, updateDish, } from "../controllers/MyDishesControllers/createUpdate.js";
 import { uploadMyDishes } from "../middleware/myDishes/multer.js";
 import { validatorSearchDishes } from "../middleware/myDishes/validatorSearchDishes.js";
 import { validatePagination } from "../middleware/general/validatePagination.js";
+import { validateParams } from "../middleware/myDishes/validateParams.js";
+import { validatorUpdateDish } from "../middleware/myDishes/validatorUpdateDish.js";
+import { updateDishesUpload } from "../middleware/myDishes/multerUpdate.js";
+import { validateArrIds } from "../middleware/myDishes/validateArrIds.js";
 const router = express();
-router.get("/restaurant-ids", verifyAccessToken, asyncWrapper(getRestaurantIds));
+router.get("/restaurant-ids", asyncWrapper(getRestaurantIds));
 router
     .route("/")
-    .get(verifyAccessToken, validatePagination, validatorSearchDishes, asyncWrapper(getMyDishes))
-    .post(verifyAccessToken, uploadMyDishes, validateFilesStorage, validatorCreateDishes, asyncWrapper(createDishes));
+    .get(validatePagination, validatorSearchDishes, asyncWrapper(getMyDishes))
+    .post(uploadMyDishes, validateFilesStorage, validatorCreateDishes, asyncWrapper(createDishes));
+router.delete("/bulk-delete", validateArrIds, asyncWrapper(bulkDelete));
+router.get("/info-dish/:dishId", validateParams, asyncWrapper(getInfoDishForm));
+router
+    .route("/:dishId")
+    .delete(validateParams, asyncWrapper(deleteDish))
+    .put(updateDishesUpload, validatorUpdateDish, asyncWrapper(updateDish));
 export default router;

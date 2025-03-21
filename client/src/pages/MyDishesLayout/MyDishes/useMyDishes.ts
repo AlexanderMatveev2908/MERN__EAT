@@ -1,30 +1,40 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useFormsCustom } from "../../../core/hooks/useGlobal";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useFormsCustom,
+  usePopup,
+  useToast,
+} from "../../../core/hooks/useGlobal";
 import { createURLParamsMyDishes } from "../../../utils/allUtils/makeURLParams";
-import { getMyDishesAPI } from "../../../core/api/APICalls/myDishes";
+import {
+  bulkDeleteMyDishesAPI,
+  getMyDishesAPI,
+} from "../../../core/api/APICalls/myDishes";
 import { useEffect, useState } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { defaultValuesMyDishesSearch } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
 
 export const useMyDishes = () => {
-  const { formContextMyDishesSearch } = useFormsCustom();
-  const { handleErrAPI } = useHandleErr();
-
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState(6);
-
-  useScrollTop();
-
-  useUpdateCardsLimit(limit, setLimit);
+  const [selected, setSelected] = useState<string[]>([]);
 
   const queryClient = useQueryClient();
+
+  const { formContextMyDishesSearch } = useFormsCustom();
+  const { handleErrAPI } = useHandleErr();
+  useScrollTop();
+  useUpdateCardsLimit(limit, setLimit);
+  const { popup, setPopup } = usePopup();
+  const { showToastMsg } = useToast();
 
   const { reset, handleSubmit, watch, trigger } = formContextMyDishesSearch;
 
   const handleSave = handleSubmit((formDatHook) => {
+    formDatHook.page = currPage + "";
     sessionStorage.setItem("myDishesForm", JSON.stringify(formDatHook));
 
     queryClient.resetQueries({ queryKey: ["myDishesSearch"] });
@@ -33,19 +43,7 @@ export const useMyDishes = () => {
   const handleClear = () => {
     sessionStorage.removeItem("myDishesForm");
 
-    reset({
-      search: "",
-      searchVals: ["name"],
-      categories: [],
-      priceSort: [],
-      quantitySort: [],
-      minPrice: "",
-      maxPrice: "",
-      minQuantity: "",
-      maxQuantity: "",
-      createdAtSort: [],
-      updatedAtSort: [],
-    });
+    reset(defaultValuesMyDishesSearch);
 
     // let i = 0;
     // do {
@@ -80,18 +78,50 @@ export const useMyDishes = () => {
     }
   }, [isSuccess, isError, data, handleErrAPI, error]);
 
-  const { totPages, totDocuments, nHits, dishes } = data ?? ({} as any);
+  const toggleSelected = (val: string) =>
+    setSelected((prev) =>
+      prev.includes(val) ? prev.filter((el) => el !== val) : [...prev, val]
+    );
+  const clearSelected = () => setSelected([]);
+
+  const { mutate, isPending: isPendingDelete } = useMutation({
+    mutationFn: () => {
+      setPopup({
+        ...popup,
+        isPending: true,
+      } as any);
+
+      return bulkDeleteMyDishesAPI(selected);
+    },
+    onSuccess: () => {
+      showToastMsg("Dishes Deleted successfully", "SUCCESS");
+
+      setSelected([]);
+
+      queryClient.resetQueries({ queryKey: ["myDishesSearch"] });
+    },
+    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
+    onSettled: () => setPopup(null),
+  });
+
+  const handleDeletePopup = () => mutate();
+  const handleOpenPopup = () =>
+    setPopup({
+      txt: `delete ${selected.length} dish${selected.length > 1 ? "es" : ""} ?`,
+      greenLabel: "I changes idea",
+      redLabel: "Delete dishes",
+      confirmAction: handleDeletePopup,
+      isPending: isPendingDelete,
+    });
 
   return {
     formContextMyDishesSearch,
-    handleSave,
-    handleClear,
-    isPending,
-    currPage,
-    setCurrPage,
-    totPages,
-    totDocuments,
-    nHits,
-    dishes,
+    propsForm: { handleSave, handleClear, isPending },
+    propsBlockPages: { currPage, setCurrPage, totPages: data?.totPages },
+    data,
+    toggleSelected,
+    selected,
+    handleOpenPopup,
+    clearSelected,
   };
 };

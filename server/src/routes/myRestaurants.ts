@@ -1,5 +1,4 @@
 import express from "express";
-import { verifyAccessToken } from "../middleware/general/verifyAccessToken.js";
 import { uploadMyRestaurants } from "../middleware/myRestaurants/multer.js";
 import {
   validateFiles,
@@ -26,14 +25,12 @@ const router = express();
 router
   .route("/")
   .post(
-    verifyAccessToken,
     uploadMyRestaurants,
     validatorMyRestaurants,
     validateFiles,
     asyncWrapper(createRestaurant)
   )
   .get(
-    verifyAccessToken,
     validatePagination,
     validateGetMyRestParams,
     asyncWrapper(getMyRestaurants)
@@ -41,30 +38,20 @@ router
 
 router.get(
   "/info-restaurant/:restId",
-  verifyAccessToken,
   validatorMySingleRest,
   asyncWrapper(getMySingleRestaurantInfoToUpdate)
 );
 
 router
   .route("/:restId")
-  .get(
-    verifyAccessToken,
-    validatorMySingleRest,
-    asyncWrapper(getMySingleRestaurant)
-  )
+  .get(validatorMySingleRest, asyncWrapper(getMySingleRestaurant))
   .patch(
-    verifyAccessToken,
     validatorMySingleRest,
     uploadMyRestaurants,
     validatorMyRestaurants,
     validateImagesUploaded,
     asyncWrapper(updateMyRestaurant)
   )
-  .delete(
-    verifyAccessToken,
-    validatorMySingleRest,
-    asyncWrapper(deleteRestaurant)
-  );
+  .delete(validatorMySingleRest, asyncWrapper(deleteRestaurant));
 
 export default router;

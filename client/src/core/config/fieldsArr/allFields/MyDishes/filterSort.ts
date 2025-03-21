@@ -13,6 +13,7 @@ import { IoIosCreate } from "react-icons/io";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { GiReceiveMoney } from "react-icons/gi";
 import { FaDatabase, FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
+import { SearchMyDishesFormType } from "../../../../../types/allTypes/myDishes";
 
 export const myDishesFieldsSearch: BaseFieldType[] = [
   {
@@ -108,3 +109,18 @@ export const fieldsMyDishesForm = [
   ...sortersMyDishesFields.map((el) => el.field),
   "search",
 ];
+
+export const defaultValuesMyDishesSearch: SearchMyDishesFormType = {
+  search: "",
+  searchVals: ["name"],
+  categories: [],
+  minPrice: "",
+  maxPrice: "",
+  minQuantity: "",
+  maxQuantity: "",
+  priceSort: [],
+  quantitySort: [],
+  createdAtSort: [],
+  updatedAtSort: [],
+  page: "1",
+};
