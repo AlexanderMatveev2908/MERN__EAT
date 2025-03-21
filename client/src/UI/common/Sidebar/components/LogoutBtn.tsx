@@ -9,7 +9,7 @@ type PropsType = {
 
 const LogoutBtn: FC<PropsType> = ({ handleLogout, isPending }) => {
   return isPending ? (
-    <div className="">
+    <div className="mt-[10px]">
       <SpinnerBtnReact />
     </div>
   ) : (

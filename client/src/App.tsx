@@ -26,6 +26,7 @@ import LayoutMyDishes from "./UI/layouts/LayoutMyDishes";
 import AddDish from "./pages/MyDishesLayout/AddDish/AddDish";
 import MyDishes from "./pages/MyDishesLayout/MyDishes/MyDishes";
 import UpdateDish from "./pages/MyDishesLayout/UpdateDish/UpdateDish";
+import TestLoader from "./pages/TestLoader/TestLoader";
 
 const App: FC = () => {
   useApp();
@@ -75,6 +76,8 @@ const App: FC = () => {
           <Route path="add-dish" element={<AddDish />} />
           <Route path="update/:dishId" element={<UpdateDish />} />
         </Route>
+
+        <Route path="test-loader" element={<TestLoader />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

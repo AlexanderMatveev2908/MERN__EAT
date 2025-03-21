@@ -11,7 +11,7 @@ const DropLogged: FC = () => {
     <DropDownHeader {...{ isLogged: true }}>
       {isPending ? (
         <div className="h-[50px] w-full flex items-center justify-start pl-5">
-          <SpinnerBtnReact {...{ sizeGiven: 25 }} />
+          <SpinnerBtnReact />
         </div>
       ) : (
         <button

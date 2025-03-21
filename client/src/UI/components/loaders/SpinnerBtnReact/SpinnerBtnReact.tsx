@@ -1,17 +1,10 @@
-import { PulseLoader } from "react-spinners";
-import { useUpdateSizeLoaderBtn } from "./useUpdateSizeLoaderBtn";
 import { FC } from "react";
+import SpinnerBtn from "./SpinnerBtn";
 
-type PropsType = {
-  sizeGiven?: number;
-};
-
-const SpinnerBtnReact: FC<PropsType> = ({ sizeGiven }) => {
-  const { size } = useUpdateSizeLoaderBtn();
-
+const SpinnerBtnReact: FC = () => {
   return (
-    <div className="w-full flex max-w-fit">
-      <PulseLoader color="#f97316" size={sizeGiven ?? size} />
+    <div className="w-full flex justify-self-center">
+      <SpinnerBtn />
     </div>
   );
 };
