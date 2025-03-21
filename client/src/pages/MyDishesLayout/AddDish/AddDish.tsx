@@ -31,7 +31,7 @@ const AddDish = () => {
           />
         </FormProvider>
       ) : (
-        <ErrEmoji {...{ txt: "We did not any restaurant from your list 🧐" }} />
+        <ErrEmoji {...{ txt: "We did not any restaurant 🧐" }} />
       )}
     </div>
   );

@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { useMyRestaurants } from "./useMyRestaurants";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import RestaurantItem from "./components/RestaurantItem";
 import SearchBar from "../../../UI/common/SearchBar/SearchBar";
@@ -11,20 +10,20 @@ import {
 } from "./../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
 import { FormProvider } from "react-hook-form";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
+import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 
 const MyRestaurants: FC = () => {
   const {
     isPending,
-    restaurants,
-    totDocuments,
     formContext,
     currPage,
     setCurrPage,
     handleSave,
     handleClear,
-    totPages,
-    nHits,
+    data,
   } = useMyRestaurants();
+
+  const { restaurants, totDocuments = 0, totPages = 0, nHits = 0 } = data ?? {};
 
   return (
     <div className="w-full grid grid-cols-1 justify-items-center gap-5">
@@ -43,18 +42,10 @@ const MyRestaurants: FC = () => {
         />
       </FormProvider>
 
+      <ShowNumberHits {...{ isPending, nHits: nHits, totDocuments }} />
+
       {isPending ? (
         <LoaderPageReact />
-      ) : !totDocuments ? (
-        <ErrEmoji
-          {...{ txt: "It seems you do not have any restaurants right now 🧐" }}
-        />
-      ) : !nHits ? (
-        <ErrEmoji
-          {...{
-            txt: "We did not find any restaurants with the given search parameters 🧐",
-          }}
-        />
       ) : (
         <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center gap-10 place-content-start items-start mt-5">
           {restaurants?.map((rest) => (

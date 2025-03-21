@@ -19,6 +19,8 @@ export const changeEmail = async (
 
   const user = await User.findById(userId);
   if (!user) return userNotFound(res);
+  const existingUser = await User.findOne({ email: newEmail });
+  if (existingUser) return baseErrResponse(res, 400, "Email already in use");
   if (user.email === newEmail) return badRequest(res);
   if (!user.tokens.manageAccount?.hashed)
     return unauthorizedErr(res, "Verification token not emitted");

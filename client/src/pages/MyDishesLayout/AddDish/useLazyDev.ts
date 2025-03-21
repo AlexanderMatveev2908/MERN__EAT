@@ -56,9 +56,9 @@ export const useLazyDev = ({ setValue }) => {
 
       setValue(
         "items",
-        Array.from({ length: 5 }).map((_, i) => ({
+        Array.from({ length: 20 }).map((_, i) => ({
           name: `name${i + ""}`,
-          price: `${i + ""}`,
+          price: `${i + 1 + ""}`,
           quantity: `${i + ""}`,
           images: [...files],
         }))

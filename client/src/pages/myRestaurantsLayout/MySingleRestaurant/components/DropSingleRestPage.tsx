@@ -12,7 +12,15 @@ type PropsType = {
 const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { formContextMyDishesAddItem } = useFormsCustom();
+  const { formContextMyDishesAddItem, formContextMyDishesSearch } =
+    useFormsCustom();
+
+  const handleSearchDishesClick = () => {
+    const { setValue } = formContextMyDishesSearch;
+
+    setValue("searchVals", ["restaurantId"]);
+    setValue("search", restId ?? "");
+  };
 
   const handleDishClick = () =>
     formContextMyDishesAddItem.setValue("restaurant", restId ?? "");
@@ -44,7 +52,11 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
             <li
               key={el.id}
               onClick={() =>
-                el.label === "Add dish" ? handleDishClick() : null
+                el.label === "Add dish"
+                  ? handleDishClick()
+                  : el.label === "My dishes"
+                  ? handleSearchDishesClick()
+                  : null
               }
               className="w-full flex items-center gap-3 group el__flow cursor-pointer first:pt-4 hover:text-orange-500 el__after_below"
             >

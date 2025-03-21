@@ -58,18 +58,13 @@ export const useMyRestaurants = () => {
     }
   }, [handleErrAPI, isError, error, isSuccess, data, limit]);
 
-  const { restaurants, totDocuments, totPages, nHits } = data ?? {};
-
   return {
     isPending,
-    restaurants,
-    totDocuments,
     formContext,
     currPage,
     setCurrPage,
     handleSave,
     handleClear,
-    totPages,
-    nHits,
+    data,
   };
 };
