@@ -29,6 +29,7 @@ const FormFieldNoIcon: FC<PropsType> = ({
         <span className="txt__02">{field.label}</span>
 
         <input
+          step={field?.type === "number" ? "any" : undefined}
           type={field?.type ?? "text"}
           {...register(field.field, {
             required: field?.required ? `${field.label} is required` : false,
