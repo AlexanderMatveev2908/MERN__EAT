@@ -10,9 +10,9 @@ import {
 } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
 import MyDishesItem from "./components/MyDishesItem";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
+import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 
 const MyDishes: FC = () => {
   const {
@@ -44,6 +44,10 @@ const MyDishes: FC = () => {
         />
       </FormProvider>
 
+      <ShowNumberHits
+        {...{ nHits, totDocuments, isPending: propsForm.isPending }}
+      />
+
       {!!selected?.length && (
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 mt-3 px-3 gap-4 justify-items-start sm:justify-items-center">
           <div className="w-full flex gap-5 border-2 border-red-600 rounded-xl py-2 px-4 pr-6 max-w-fit items-center">
@@ -65,14 +69,6 @@ const MyDishes: FC = () => {
 
       {propsForm.isPending ? (
         <LoaderPageReact />
-      ) : !totDocuments ? (
-        <ErrEmoji
-          {...{ txt: "It seems you do not have any dish created 🧐" }}
-        />
-      ) : !nHits ? (
-        <ErrEmoji
-          {...{ txt: "We did not found nothing with your search inputs 🥸" }}
-        />
       ) : (
         dishes && (
           <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center gap-10 place-content-start items-start mt-5">

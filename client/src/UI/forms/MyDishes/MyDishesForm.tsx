@@ -63,7 +63,10 @@ const MyDishesForm: FC<PropsType> = ({
   };
 
   const removeForm = (indexForm: number) => {
-    if (fields.length > 1) remove(indexForm);
+    if (fields.length > 1) {
+      remove(indexForm);
+      setIsDisabled(false);
+    }
   };
 
   return (
@@ -90,7 +93,7 @@ const MyDishesForm: FC<PropsType> = ({
       </div>
 
       {/^\/(my-dishes)\/(add-dish)/.test(location.pathname) &&
-        fields?.length <= 20 && (
+        fields?.length < 20 && (
           <div className="w-full max-w-[150px] justify-self-start">
             <ButtonBasic
               {...{

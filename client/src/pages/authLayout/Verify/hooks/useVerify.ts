@@ -49,7 +49,7 @@ export const useVerify = () => {
     showToastMsg("Email verified Successfully", "SUCCESS");
 
     navigate(`/auth/recover-pwd?userId=${userId}&token=${token}`, {
-      state: { from: location.pathname },
+      state: { from: "/auth/verify" },
       replace: true,
     });
   };

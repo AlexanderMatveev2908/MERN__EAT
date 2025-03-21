@@ -21,7 +21,7 @@ export const useRecoverPwd = () => {
 
   const { handleErrAPI } = useHandleErr();
   const { showToastMsg } = useToast();
-  const { setUserLogged, isLogged } = useUser();
+  const { setUserLogged } = useUser();
 
   useScrollTop();
 
@@ -36,10 +36,9 @@ export const useRecoverPwd = () => {
   const isTokenValid = REG_TOKEN.test(token ?? "");
 
   const canStay =
-    location?.state?.from === "/auth/verify" &&
-    isUserIdValid &&
-    isTokenValid &&
-    !isLogged;
+    location?.state?.from === "/auth/verify" && isUserIdValid && isTokenValid;
+
+  console.log(location.state.from);
 
   const { handleChangePwdVisibility, handleChangeConfirmPwdVisibility } =
     useChangeVisibilityPwd({

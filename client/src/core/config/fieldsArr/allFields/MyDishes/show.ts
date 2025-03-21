@@ -1,5 +1,5 @@
 import { IoMdRestaurant } from "react-icons/io";
-import { genID } from "../../../../../utils/utils";
+import { genID, priceFormatter } from "../../../../../utils/utils";
 import { FaDatabase, FaMoneyBillAlt } from "react-icons/fa";
 
 export const showMyDishesInfoRest = (...params: string[]) =>
@@ -28,7 +28,7 @@ export const showNumericValsMyDish = (...params: number[]) =>
   [
     {
       label: "Price",
-      val: params[0],
+      val: priceFormatter({ price: params[0] }),
       icon: FaMoneyBillAlt,
     },
     {
