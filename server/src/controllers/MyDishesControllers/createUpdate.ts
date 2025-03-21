@@ -241,8 +241,10 @@ export const bulkDelete = async (req: any, res: Response): Promise<any> => {
     )
     .flat(Infinity);
 
-  const promises = publicIdImgs.map(async (el: any) => await deleteCloud(el));
-  await Promise.all(promises);
+  const promisesDishesImages = publicIdImgs.map(
+    async (el: any) => await deleteCloud(el)
+  );
+  await Promise.all(promisesDishesImages);
 
   let i = 0;
   do {
