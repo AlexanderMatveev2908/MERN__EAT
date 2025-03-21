@@ -7,7 +7,6 @@ import { createDishesAPI } from "../../../core/api/APICalls/myDishes";
 import { useFormsCustom, useToast } from "../../../core/hooks/useGlobal";
 import { useFieldArray } from "react-hook-form";
 import { prepareFormDataMyDishes } from "../../../utils/allUtils/prepareFormData";
-import { useLazyDev } from "./useLazyDev";
 import { useNavigate } from "react-router-dom";
 import { useGetRestaurantsIds } from "../../../core/hooks/useGetRestaurantsIds";
 
@@ -20,9 +19,9 @@ export const useAddDish = () => {
 
   const navigate = useNavigate();
 
-  const { isPending: isDevPending } = useLazyDev({
-    setValue: formContext.setValue,
-  });
+  // const { isPending: isDevPending } = useLazyDev({
+  //   setValue: formContext.setValue,
+  // });
 
   const { isPendingIds, restInfo, isSuccessIds } = useGetRestaurantsIds();
 
@@ -77,9 +76,9 @@ export const useAddDish = () => {
   });
 
   return {
-    isPendingIds:
-      isPendingIds ||
-      (import.meta.env.VITE_NODE_ENV === "development" ? isDevPending : false),
+    isPendingIds,
+    // isPendingIds ||
+    // (import.meta.env.VITE_NODE_ENV === "development" ? isDevPending : false),
     formContext,
     restInfo,
     isSuccessIds,
