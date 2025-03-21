@@ -34,7 +34,7 @@ export const validatorMyRestaurants = [
         .withMessage("Invalid open time format")
         .custom((val, { req }) => {
         const diff = (+req.body.closeTime - val) / 60;
-        if (diff > 0 && diff < 4)
+        if (diff < 4)
             throw new Error("Invalid close time");
         return true;
     }),
@@ -44,7 +44,7 @@ export const validatorMyRestaurants = [
         .withMessage("Invalid close time format")
         .custom((val, { req }) => {
         const diff = (val - +req.body.openTime) / 60;
-        if (diff > 0 && diff < 4)
+        if (diff < 4)
             throw new Error("Invalid open time");
         return true;
     }),
@@ -55,7 +55,9 @@ export const validatorMyRestaurants = [
     }),
     body("estTimeDelivery").custom((val, { req }) => {
         const diff = +req.body.closeTime - +req.body.openTime;
-        if (diff > 0 && diff < +val)
+        if (diff < +val)
+            throw new Error("Invalid est time delivery request");
+        if (!+val)
             throw new Error("Invalid est time delivery request");
         if (!REG_EST_TIME.test(val))
             throw new Error("Invalid est time delivery format");
