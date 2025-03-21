@@ -61,5 +61,8 @@ export const makeQueryMyDishes = (req: Request) => {
     else queryObj["$and"] = [...queryObj["$and"], ...dishFilters];
   }
 
+  // const { restaurant_name, restaurant_id, restaurant_categories, ...rest } =
+  //   queryObj;
+
   return Object.keys(queryObj).length ? queryObj : null;
 };

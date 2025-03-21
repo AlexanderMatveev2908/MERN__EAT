@@ -104,7 +104,7 @@ export const deleteDish = async (req: any, res: Response): Promise<any> => {
   )[0];
 
   currRestaurant.dishes =
-    currRestaurant?.dishes?.length > 1
+    currRestaurant.dishes.length > 1
       ? currRestaurant.dishes.filter((id: any) => !id.equals(dish._id))
       : [];
 
@@ -125,7 +125,6 @@ export const updateDish = async (req: any, res: Response): Promise<any> => {
     _id: makeMongoId(dishId),
     restaurant: { $in: restaurants.map((el) => el._id) },
   });
-
   if (!dish) return baseErrResponse(res, 404, "Dish not found");
 
   let updatedImages;
@@ -173,7 +172,7 @@ export const updateDish = async (req: any, res: Response): Promise<any> => {
     if (!newRestaurant)
       return baseErrResponse(res, 404, "Restaurant not found");
 
-    newRestaurant.dishes = newRestaurant.dishes.length
+    newRestaurant.dishes = newRestaurant.dishes?.length
       ? [...newRestaurant.dishes, dish._id]
       : [dish._id];
     await newRestaurant.save();
@@ -197,6 +196,7 @@ export const updateDish = async (req: any, res: Response): Promise<any> => {
 export const bulkDelete = async (req: any, res: Response): Promise<any> => {
   const { userId } = req;
   const { ids } = req.body;
+  // here these are ids that i send from frontend after i use an array state to keep track of them
 
   const result = await Restaurant.aggregate([
     {
@@ -225,6 +225,7 @@ export const bulkDelete = async (req: any, res: Response): Promise<any> => {
     {
       $group: {
         _id: "$_id",
+        //  here id id not id of dish but of document parent, the restaurant that has arr opf ref ids dishes
         dishes: { $push: "$dishes" },
       },
     },
