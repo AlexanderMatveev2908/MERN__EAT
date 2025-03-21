@@ -9,6 +9,7 @@ import {
 } from "../../utils/baseErrResponse.js";
 import { checkTokenSHA, genTokenSHA } from "../../utils/token.js";
 import { sendEmailChangeAccountEmail } from "../../utils/mail.js";
+import Restaurant from "../../models/Restaurant.js";
 
 export const changeEmail = async (
   req: RequestWithUserId,
@@ -102,6 +103,19 @@ export const verifyChangeEmail = async (
       401,
       !isMatch ? "Invalid token" : "Expired token"
     );
+  }
+
+  const restaurants = await Restaurant.find({
+    owner: user._id,
+    "contact.email": user.email,
+  });
+
+  if (restaurants.length) {
+    const promises = restaurants.map(async (el) => {
+      el.contact.email = user.tempNewEmail;
+      await el.save();
+    });
+    await Promise.all(promises);
   }
 
   user.email = user.tempNewEmail;
