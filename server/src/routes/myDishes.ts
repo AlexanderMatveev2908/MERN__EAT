@@ -13,6 +13,7 @@ import {
   bulkDelete,
   createDishes,
   deleteDish,
+  deleteQueriesResults,
   updateDish,
 } from "../controllers/MyDishesControllers/createUpdate.js";
 import { uploadMyDishes } from "../middleware/myDishes/multer.js";
@@ -38,6 +39,11 @@ router
   );
 
 router.delete("/bulk-delete", validateArrIds, asyncWrapper(bulkDelete));
+router.delete(
+  "/bulk-delete-query",
+  validatorSearchDishes,
+  asyncWrapper(deleteQueriesResults)
+);
 
 router.get("/info-dish/:dishId", validateParams, asyncWrapper(getInfoDishForm));
 

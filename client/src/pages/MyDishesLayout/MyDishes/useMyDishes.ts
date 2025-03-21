@@ -8,6 +8,7 @@ import {
 import { createURLParamsMyDishes } from "../../../utils/allUtils/makeURLParams";
 import {
   bulkDeleteMyDishesAPI,
+  bulkDeleteQueryAPI,
   getMyDishesAPI,
 } from "../../../core/api/APICalls/myDishes";
 import { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { defaultValuesMyDishesSearch } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
+import { DishType } from "../../../types/types";
 
 export const useMyDishes = () => {
   const [currPage, setCurrPage] = useState<number>(1);
@@ -114,6 +116,38 @@ export const useMyDishes = () => {
       isPending: isPendingDelete,
     });
 
+  const { mutate: mutateBulkQuery, isPending: isPendingBulkQuery } =
+    useMutation({
+      mutationFn: () => {
+        setPopup({
+          ...popup,
+          isPending: true,
+        } as any);
+
+        return bulkDeleteQueryAPI(createURLParamsMyDishes(formDataSearch));
+      },
+      onSuccess: () => {
+        showToastMsg("Dishes Deleted successfully", "SUCCESS");
+        setSelected([]);
+        queryClient.resetQueries({ queryKey: ["myDishesSearch"] });
+      },
+      onError: (err: ErrFoodApp) => handleErrAPI({ err }),
+      onSettled: () => setPopup(null),
+    });
+
+  const handleDeleteBulkQuery = () => mutateBulkQuery();
+
+  const handleOpenPopupBulkQuery = () => {
+    if (data?.dishes?.length)
+      setSelected(data.dishes.map((el: DishType) => el._id));
+    setPopup({
+      txt: `delete all dishes that match query ?`,
+      redLabel: "Delete dishes",
+      confirmAction: handleDeleteBulkQuery,
+      isPending: isPendingBulkQuery,
+    });
+  };
+
   return {
     formContextMyDishesSearch,
     propsForm: { handleSave, handleClear, isPending },
@@ -123,5 +157,6 @@ export const useMyDishes = () => {
     selected,
     handleOpenPopup,
     clearSelected,
+    handleOpenPopupBulkQuery,
   };
 };

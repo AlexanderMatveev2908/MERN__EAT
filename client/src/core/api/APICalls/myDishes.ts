@@ -30,7 +30,7 @@ export const createDishesAPI = async ({
 export const getMyDishesAPI = async (
   params: URLSearchParams
 ): Promise<
-  ReturnAPIBasic & GetElsQueriedReturnType & { dishes: DishType }[]
+  ReturnAPIBasic & GetElsQueriedReturnType & { dishes: DishType[] }
 > => {
   const { data } = await foodAppInstance.get(`/my-dishes?${params}`);
 
@@ -67,6 +67,14 @@ export const bulkDeleteMyDishesAPI = async (ids: string[]): Promise<void> => {
   const { data } = await foodAppInstance.delete("/my-dishes/bulk-delete", {
     data: { ids },
   });
+
+  return data;
+};
+
+export const bulkDeleteQueryAPI = async (params: URLSearchParams) => {
+  const { data } = await foodAppInstance.delete(
+    `/my-dishes/bulk-delete-query?${params}`
+  );
 
   return data;
 };
