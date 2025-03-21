@@ -24,6 +24,7 @@ const MyDishes: FC = () => {
     selected,
     handleOpenPopup,
     clearSelected,
+    handleOpenPopupBulkQuery,
   } = useMyDishes();
 
   const { totDocuments, nHits, dishes } = data ?? ({} as any);
@@ -63,6 +64,13 @@ const MyDishes: FC = () => {
 
           <DeleteButton
             {...{ txt: "Delete selected", handleDelete: handleOpenPopup }}
+          />
+
+          <DeleteButton
+            {...{
+              txt: "Delete results searched",
+              handleDelete: handleOpenPopupBulkQuery,
+            }}
           />
         </div>
       )}
