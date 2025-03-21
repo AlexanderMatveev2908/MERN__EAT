@@ -44,6 +44,7 @@ export type RestaurantType = {
   dishes: ObjectId[];
   dishesCount?: number;
   avgPrice?: number;
+  avgQuantity?: number;
 
   orders: string[];
   ordersCount?: number;

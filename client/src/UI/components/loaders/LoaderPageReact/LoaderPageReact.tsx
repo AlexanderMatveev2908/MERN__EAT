@@ -1,12 +1,18 @@
 import { FC } from "react";
-import { GridLoader } from "react-spinners";
-import { useUpdateSizeLoaderPage } from "./useUpdateSizeLoader";
+import Spinner from "./Spinner/Spinner";
 
-const LoaderPageReact: FC = () => {
-  const { size } = useUpdateSizeLoaderPage();
+type PropsType = {
+  pad?: string;
+};
+
+const LoaderPageReact: FC<PropsType> = ({ pad }) => {
   return (
-    <div className="w-full h-[50vh] sm:h-[75vh] flex justify-center items-center">
-      <GridLoader color="#f97316" size={size} />
+    <div
+      className={`w-full flex justify-center items-center ${
+        pad ?? "pt-[20vw] lg:pt-[12.5vw]"
+      }`}
+    >
+      <Spinner />
     </div>
   );
 };

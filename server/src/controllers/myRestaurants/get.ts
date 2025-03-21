@@ -15,7 +15,7 @@ import {
 } from "../../utils/dbPipeline/myRestaurants.js";
 import { makeLookUp } from "../../utils/dbPipeline/general.js";
 import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
-import Dish from "../../models/Dish.js";
+import Dish, { DishType } from "../../models/Dish.js";
 import Order from "../../models/Order.js";
 import Review from "../../models/Review.js";
 import { makeSortersMyRest } from "../../utils/makeSorters/myRest.js";
@@ -163,7 +163,6 @@ export const getMySingleRestaurant = async (
 
   if (!hasDocuments) return badRequest(res);
 
-  await Dish.find({});
   await Order.find({});
   await Review.find({});
 
@@ -182,6 +181,12 @@ export const getMySingleRestaurant = async (
   restaurant.avgPrice = restaurant.dishesCount
     ? restaurant.dishes?.reduce((acc: any, curr: any) => acc + curr.price, 0) /
       restaurant.dishesCount
+    : 0;
+  restaurant.avgQuantity = restaurant.dishesCount
+    ? restaurant.dishes?.reduce(
+        (acc: number, curr: any) => acc + curr.quantity,
+        0
+      ) / restaurant.dishesCount
     : 0;
 
   let i = 0;
