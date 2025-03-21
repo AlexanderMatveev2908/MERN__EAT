@@ -18,6 +18,9 @@ export const changeEmail = (req, res) => __awaiter(void 0, void 0, void 0, funct
     const user = yield User.findById(userId);
     if (!user)
         return userNotFound(res);
+    const existingUser = yield User.findOne({ email: newEmail });
+    if (existingUser)
+        return baseErrResponse(res, 400, "Email already in use");
     if (user.email === newEmail)
         return badRequest(res);
     if (!((_a = user.tokens.manageAccount) === null || _a === void 0 ? void 0 : _a.hashed))

@@ -2,7 +2,7 @@ import express from "express";
 import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
 import { getInfoDishForm, getMyDishes, getRestaurantIds, } from "../controllers/MyDishesControllers/get.js";
 import { validateFilesStorage, validatorCreateDishes, } from "../middleware/myDishes/validatorCreateDishes.js";
-import { bulkDelete, createDishes, deleteDish, updateDish, } from "../controllers/MyDishesControllers/createUpdate.js";
+import { bulkDelete, createDishes, deleteDish, deleteQueriesResults, updateDish, } from "../controllers/MyDishesControllers/createUpdate.js";
 import { uploadMyDishes } from "../middleware/myDishes/multer.js";
 import { validatorSearchDishes } from "../middleware/myDishes/validatorSearchDishes.js";
 import { validatePagination } from "../middleware/general/validatePagination.js";
@@ -17,6 +17,7 @@ router
     .get(validatePagination, validatorSearchDishes, asyncWrapper(getMyDishes))
     .post(uploadMyDishes, validateFilesStorage, validatorCreateDishes, asyncWrapper(createDishes));
 router.delete("/bulk-delete", validateArrIds, asyncWrapper(bulkDelete));
+router.delete("/bulk-delete-query", validatorSearchDishes, asyncWrapper(deleteQueriesResults));
 router.get("/info-dish/:dishId", validateParams, asyncWrapper(getInfoDishForm));
 router
     .route("/:dishId")

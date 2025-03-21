@@ -24,6 +24,7 @@ import Restaurant from "../../models/Restaurant.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
 import mongoose from "mongoose";
 import Dish from "../../models/Dish.js";
+import { makeQueryMyDishes } from "../../utils/makeQueries/myDishes.js";
 const makeMongoId = (id) => new mongoose.Types.ObjectId(id);
 export const createDishes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -210,5 +211,59 @@ export const bulkDelete = (req, res) => __awaiter(void 0, void 0, void 0, functi
         yield restaurant.save();
         i++;
     } while (i < result.length);
+    return res.status(204).end();
+});
+export const deleteQueriesResults = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req;
+    const restaurants = yield Restaurant.countDocuments({
+        owner: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
+    });
+    if (!restaurants)
+        return baseErrResponse(res, 404, "Restaurants not found ");
+    const queryObj = makeQueryMyDishes(req);
+    const _a = queryObj !== null && queryObj !== void 0 ? queryObj : {}, { restaurant_name, restaurant_id, restaurant_categories } = _a, rest = __rest(_a, ["restaurant_name", "restaurant_id", "restaurant_categories"]);
+    const queryRestaurant = {
+        $match: Object.assign(Object.assign(Object.assign({ owner: new mongoose.Types.ObjectId(userId) }, (restaurant_name ? { name: restaurant_name } : {})), (restaurant_id ? { _id: restaurant_id } : {})), (restaurant_categories ? { categories: restaurant_categories } : {})),
+    };
+    const queryDishes = Object.values(rest).every((val) => val)
+        ? {
+            $match: Object.assign({}, rest),
+        }
+        : null;
+    const result = yield Restaurant.aggregate([
+        queryRestaurant,
+        {
+            $lookup: {
+                from: "dishes",
+                localField: "dishes",
+                foreignField: "_id",
+                as: "dishes",
+            },
+        },
+        { $unwind: "$dishes" },
+        ...(queryDishes ? [queryDishes] : []),
+        {
+            $group: {
+                _id: "$_id",
+                count: { $sum: 1 },
+                dishes: { $push: "$dishes" },
+            },
+        },
+    ]);
+    if (!(result === null || result === void 0 ? void 0 : result.length))
+        return baseErrResponse(res, 404, "Dishes not found");
+    const publicIdImages = result
+        .map((obj) => obj.dishes.map((dish) => dish.images.map((img) => img.public_id)))
+        .flat(Infinity);
+    const promisesCloud = publicIdImages.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(el); }));
+    yield Promise.all(promisesCloud);
+    const promises = result.map((obj) => __awaiter(void 0, void 0, void 0, function* () {
+        const idsDishes = obj.dishes.map((el) => el._id);
+        yield Dish.deleteMany({ _id: { $in: idsDishes } });
+        const restaurant = yield Restaurant.findById(obj._id);
+        restaurant.dishes = restaurant.dishes.filter((el) => !idsDishes.includes(el));
+        yield restaurant.save();
+    }));
+    yield Promise.all(promises);
     return res.status(204).end();
 });
