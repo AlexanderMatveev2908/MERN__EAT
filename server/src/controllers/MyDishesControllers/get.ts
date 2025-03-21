@@ -56,25 +56,16 @@ export const getMyDishes = async (
 
   const queryObj = makeQueryMyDishes(req);
   const sorterObj = makeSortersMyDishes(req);
-  const { restaurant_name, restaurant_id, restaurant_categories, ...rest } =
-    queryObj ?? {};
+  const { queryRestaurant, queryDishes } = queryObj ?? {};
 
-  const queryRestaurant: any = {
-    $match: {
-      owner: new mongoose.Types.ObjectId(userId),
-      ...(restaurant_name ? { name: restaurant_name } : {}),
-      ...(restaurant_id ? { _id: restaurant_id } : {}),
-      ...(restaurant_categories ? { categories: restaurant_categories } : {}),
-    },
-  };
-
-  const queryDishes = Object.values(rest).every((val) => val)
+  queryRestaurant.$match = Object.keys(queryRestaurant ?? {}).length
     ? {
-        $match: {
-          ...rest,
-        },
+        ...queryRestaurant.$match,
+        owner: makeMongoId(userId ?? ""),
       }
-    : null;
+    : {
+        owner: makeMongoId(userId ?? ""),
+      };
 
   const restaurantsUser = Restaurant.find({
     owner: makeMongoId(userId as string),
