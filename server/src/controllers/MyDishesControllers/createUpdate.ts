@@ -73,14 +73,15 @@ export const deleteDish = async (req: any, res: Response): Promise<any> => {
   const { userId } = req;
   const { dishId } = req.params;
 
-  const restaurant = await Restaurant.findOne({
+  const restaurantsUser = await Restaurant.find({
     owner: makeMongoId(userId),
   });
-  if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
+  if (!restaurantsUser.length)
+    return baseErrResponse(res, 404, "Restaurant not found");
 
   const dish = await Dish.findOne({
     _id: makeMongoId(dishId),
-    restaurant: restaurant._id,
+    restaurant: { $in: restaurantsUser.map((el) => el._id) },
   });
   if (!dish) return baseErrResponse(res, 404, "Dish not found");
 
@@ -92,16 +93,20 @@ export const deleteDish = async (req: any, res: Response): Promise<any> => {
 
   const result = await Dish.findOneAndDelete({
     _id: makeMongoId(dishId),
-    restaurant: restaurant._id,
+    restaurant: dish.restaurant,
   });
   if (!result) return baseErrResponse(res, 404, "Dish not found");
 
-  restaurant.dishes =
-    restaurant.dishes?.length > 1
-      ? restaurant.dishes.filter((id: any) => !id.equals(dish._id))
+  const currRestaurant = restaurantsUser.filter(
+    (el) => el._id + "" === dish.restaurant + ""
+  )[0];
+
+  currRestaurant.dishes =
+    currRestaurant?.dishes?.length > 1
+      ? currRestaurant.dishes.filter((id: any) => !id.equals(dish._id))
       : [];
 
-  await restaurant.save();
+  await currRestaurant.save();
 
   return res.status(204).end();
 };

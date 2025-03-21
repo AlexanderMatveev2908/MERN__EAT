@@ -75,14 +75,14 @@ export const deleteDish = (req, res) => __awaiter(void 0, void 0, void 0, functi
     var _a;
     const { userId } = req;
     const { dishId } = req.params;
-    const restaurant = yield Restaurant.findOne({
+    const restaurantsUser = yield Restaurant.find({
         owner: makeMongoId(userId),
     });
-    if (!restaurant)
+    if (!restaurantsUser.length)
         return baseErrResponse(res, 404, "Restaurant not found");
     const dish = yield Dish.findOne({
         _id: makeMongoId(dishId),
-        restaurant: restaurant._id,
+        restaurant: { $in: restaurantsUser.map((el) => el._id) },
     });
     if (!dish)
         return baseErrResponse(res, 404, "Dish not found");
@@ -93,15 +93,16 @@ export const deleteDish = (req, res) => __awaiter(void 0, void 0, void 0, functi
     } while (i < dish.images.length);
     const result = yield Dish.findOneAndDelete({
         _id: makeMongoId(dishId),
-        restaurant: restaurant._id,
+        restaurant: dish.restaurant,
     });
     if (!result)
         return baseErrResponse(res, 404, "Dish not found");
-    restaurant.dishes =
-        ((_a = restaurant.dishes) === null || _a === void 0 ? void 0 : _a.length) > 1
-            ? restaurant.dishes.filter((id) => !id.equals(dish._id))
+    const currRestaurant = restaurantsUser.filter((el) => el._id + "" === dish.restaurant + "")[0];
+    currRestaurant.dishes =
+        ((_a = currRestaurant === null || currRestaurant === void 0 ? void 0 : currRestaurant.dishes) === null || _a === void 0 ? void 0 : _a.length) > 1
+            ? currRestaurant.dishes.filter((id) => !id.equals(dish._id))
             : [];
-    yield restaurant.save();
+    yield currRestaurant.save();
     return res.status(204).end();
 });
 export const updateDish = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

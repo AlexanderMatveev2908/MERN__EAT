@@ -47,6 +47,14 @@ export const useAddDish = () => {
         "SUCCESS"
       );
 
+      const { setValue } = formContextMyDishesSearch;
+
+      setValue("searchVals", ["restaurantId"]);
+      setValue("search", data.restId);
+      setValue("createdAtSort", ["desc"]);
+
+      navigate(`/my-dishes`);
+
       formContext.reset({
         restaurant: "",
         items: [
@@ -58,14 +66,6 @@ export const useAddDish = () => {
           },
         ],
       });
-
-      const { setValue } = formContextMyDishesSearch;
-
-      setValue("searchVals", ["restaurantId"]);
-      setValue("search", data.restId);
-      setValue("createdAtSort", ["desc"]);
-
-      navigate(`/my-dishes`);
     },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });
