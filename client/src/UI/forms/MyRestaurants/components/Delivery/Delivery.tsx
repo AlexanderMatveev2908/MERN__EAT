@@ -31,7 +31,7 @@ const Delivery: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
       : true;
   };
   const customValidateDeliveryFree = (val: string) =>
-    !watch("price") && val
+    !+watch("price") && val
       ? "You can not set a free delivery without a delivery charge"
       : true;
 
