@@ -16,7 +16,6 @@ import { calcPagination } from "../../utils/calcPagination.js";
 import { countRatingVars, makeAvgMyRest, makeOrdersStatusFields, makeReviewsCountFields, statusVars, } from "../../utils/dbPipeline/myRestaurants.js";
 import { makeLookUp } from "../../utils/dbPipeline/general.js";
 import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
-import Dish from "../../models/Dish.js";
 import Order from "../../models/Order.js";
 import Review from "../../models/Review.js";
 import { makeSortersMyRest } from "../../utils/makeSorters/myRest.js";
@@ -116,7 +115,7 @@ export const getMySingleRestaurantInfoToUpdate = (req, res) => __awaiter(void 0,
     return res.status(200).json({ success: true, restaurant });
 });
 export const getMySingleRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d, _e, _f, _g;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     const { userId } = req;
     const { restId } = req.params;
     const hasDocuments = yield Restaurant.countDocuments({
@@ -124,7 +123,6 @@ export const getMySingleRestaurant = (req, res) => __awaiter(void 0, void 0, voi
     });
     if (!hasDocuments)
         return badRequest(res);
-    yield Dish.find({});
     yield Order.find({});
     yield Review.find({});
     const restaurant = (yield Restaurant.findOne({
@@ -142,32 +140,35 @@ export const getMySingleRestaurant = (req, res) => __awaiter(void 0, void 0, voi
         ? ((_b = restaurant.dishes) === null || _b === void 0 ? void 0 : _b.reduce((acc, curr) => acc + curr.price, 0)) /
             restaurant.dishesCount
         : 0;
+    restaurant.avgQuantity = restaurant.dishesCount
+        ? ((_c = restaurant.dishes) === null || _c === void 0 ? void 0 : _c.reduce((acc, curr) => acc + curr.quantity, 0)) / restaurant.dishesCount
+        : 0;
     let i = 0;
-    restaurant.ordersCount = (_c = restaurant.orders) === null || _c === void 0 ? void 0 : _c.length;
+    restaurant.ordersCount = (_d = restaurant.orders) === null || _d === void 0 ? void 0 : _d.length;
     restaurant.ordersByStatus = [];
     while (i < statusVars.length) {
         restaurant.ordersByStatus.push({
             status: `${statusVars[i]}`,
             count: restaurant.ordersCount
-                ? (_d = restaurant.orders) === null || _d === void 0 ? void 0 : _d.filter((order) => order.status === statusVars[i]).length
+                ? (_e = restaurant.orders) === null || _e === void 0 ? void 0 : _e.filter((order) => order.status === statusVars[i]).length
                 : 0,
         });
         i++;
     }
     i = 0;
-    restaurant.reviewsCount = (_e = restaurant.reviews) === null || _e === void 0 ? void 0 : _e.length;
+    restaurant.reviewsCount = (_f = restaurant.reviews) === null || _f === void 0 ? void 0 : _f.length;
     restaurant.reviewsByRating = [];
     while (i < countRatingVars.length) {
         restaurant.reviewsByRating.push({
             rating: `rating_${countRatingVars[i]}`,
             count: restaurant.reviewsCount
-                ? (_f = restaurant.reviews) === null || _f === void 0 ? void 0 : _f.filter((review) => review.rating === countRatingVars[countRatingVars[i]]).length
+                ? (_g = restaurant.reviews) === null || _g === void 0 ? void 0 : _g.filter((review) => review.rating === countRatingVars[countRatingVars[i]]).length
                 : 0,
         });
         i++;
     }
     restaurant.avgRating = restaurant.reviewsCount
-        ? ((_g = restaurant.reviews) === null || _g === void 0 ? void 0 : _g.reduce((acc, curr) => acc + curr.rating, 0)) / restaurant.reviewsCount
+        ? ((_h = restaurant.reviews) === null || _h === void 0 ? void 0 : _h.reduce((acc, curr) => acc + curr.rating, 0)) / restaurant.reviewsCount
         : 0;
     return res.status(200).json({ success: true, restaurant });
 });

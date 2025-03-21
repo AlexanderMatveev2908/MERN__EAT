@@ -97,9 +97,6 @@ export const useUpdateDish = () => {
     onSuccess: (data) => {
       showToastMsg("Dish updated successfully", "SUCCESS");
 
-      // i use this from bigger scope
-      reset();
-
       // these below smaller scope
       const { setValue } = formContextMyDishesSearch;
 
@@ -108,6 +105,9 @@ export const useUpdateDish = () => {
       setValue("updatedAtSort", ["desc"]);
 
       navigate("/my-dishes", { replace: true });
+
+      // i use this from bigger scope
+      reset();
     },
     onError: (err: ErrFoodApp) => {
       handleErrAPI({ err });
