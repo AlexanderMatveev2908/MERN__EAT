@@ -1,11 +1,15 @@
 import { LogOut } from "lucide-react";
 import { FC } from "react";
-import { useDropLogged } from "./useDropLogged";
-import SpinnerBtnReact from "../../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
-import DropDownHeader from "../../../../components/DropDownHeader/DropDownHeader";
+import SpinnerBtnReact from "../../../components/loaders/SpinnerBtnReact/SpinnerBtnReact";
+import DropDownHeader from "../../../components/DropDownHeader/DropDownHeader";
+import { useLogout } from "../../../../core/hooks/useLogout";
 
 const DropLogged: FC = () => {
-  const { handleDropLogout, isPending } = useDropLogged();
+  const { mutate, isPending } = useLogout();
+
+  const handleDropLogout = () => {
+    mutate();
+  };
 
   return (
     <DropDownHeader {...{ isLogged: true }}>

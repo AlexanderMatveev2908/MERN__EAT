@@ -1,7 +1,7 @@
 import { Menu, X } from "lucide-react";
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
-import DropLogged from "./components/DropLogged/DropLogged";
+import DropLogged from "./components/DropLogged";
 import DropNonLogged from "./components/DropNonLogged";
 import { useUser } from "../../../core/hooks/useGlobal";
 

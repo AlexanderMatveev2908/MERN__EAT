@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { REG_MONGO, REG_SEARCH } from "../../../../core/config/constants/regex";
 
 type PropsType = {
-  formContext: UseFormReturn;
+  formContext: UseFormReturn<any>;
 };
 
 const SearchField: FC<PropsType> = ({ formContext }) => {

@@ -11,6 +11,20 @@ import {
 } from "../../../core/config/fieldsArr/typesFields";
 import ButtonBasic from "../../components/buttons/ButtonBasic";
 
+// export type FormContextSearchBar =
+//   | UseFormReturn<SearchMyDishesFormType>
+//   | UseFormReturn<MyRestaurantsAddUpdateFormType>;
+
+// type PropsType<T extends FieldValues> = {
+//   searchFields: CheckBoxFieldType[];
+//   formContext: UseFormReturn<T>;
+//   filters: SearchFilterType[];
+//   sorters: SorterFieldType[];
+//   handleSave: () => void;
+//   handleClear: () => void;
+//   isPending: boolean;
+// };
+
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;

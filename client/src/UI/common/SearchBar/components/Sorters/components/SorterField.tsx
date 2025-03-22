@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import RadioInput from "../../../../../forms/inputFields/RadioInput";
@@ -6,7 +7,7 @@ import DropHandlerIcon from "../../../../../components/DropHandlerIcon";
 
 type PropsType = {
   sorter: SorterFieldType;
-  formContext: UseFormReturn;
+  formContext: UseFormReturn<any>;
 };
 
 const SorterField: FC<PropsType> = ({ formContext, sorter }) => {

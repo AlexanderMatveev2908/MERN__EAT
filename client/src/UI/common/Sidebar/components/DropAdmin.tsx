@@ -30,6 +30,7 @@ const DropAdmin: FC<PropsType> = ({ handleSideClick }) => {
           customIconStyle: "min-w-[40px] min-h-[40px]",
         }}
       />
+
       <div
         className={`w-full grid grid-cols-1 el__flow gap-6 pl-5 ${
           isOpen
