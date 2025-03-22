@@ -17,10 +17,7 @@ export const useManageAccountForms = () => {
 
   return {
     currForm,
-    handlePrev,
-    handleNext,
-    isPrevDisabled,
-    isNextDisabled,
+    propsBtns: { handlePrev, handleNext, isPrevDisabled, isNextDisabled },
     isChildLoading,
     setIsChildLoading,
   };

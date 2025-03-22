@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useToast } from "../../../core/hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
 import {
@@ -15,6 +15,8 @@ import {
 import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useVerifyUnsubScribeNewsLetter = () => {
+  const isVerifyingRef = useRef<boolean>(false);
+
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -68,7 +70,12 @@ export const useVerifyUnsubScribeNewsLetter = () => {
 
   useEffect(() => {
     if (canStay) {
-      mutate();
+      if (isVerifyingRef.current) {
+        return;
+      } else {
+        isVerifyingRef.current = true;
+        mutate();
+      }
     }
   }, [canStay, mutate]);
 

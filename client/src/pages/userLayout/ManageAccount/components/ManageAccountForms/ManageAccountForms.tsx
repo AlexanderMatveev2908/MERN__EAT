@@ -30,15 +30,8 @@ const ManageAccountForms: FC<PropsType> = ({
   handleErrManageUser,
   setCanManageAccount,
 }) => {
-  const {
-    currForm,
-    handlePrev,
-    handleNext,
-    isPrevDisabled,
-    isNextDisabled,
-    isChildLoading,
-    setIsChildLoading,
-  } = useManageAccountForms();
+  const { currForm, propsBtns, isChildLoading, setIsChildLoading } =
+    useManageAccountForms();
 
   return (
     <div className="w-full grid grid-cols-1 justify-items-center gap-y-10 max-w-[600px]">
@@ -90,10 +83,7 @@ const ManageAccountForms: FC<PropsType> = ({
           currForm,
           totLen: totLenManageAccountForms,
           bothDisabled: isChildLoading,
-          isPrevDisabled,
-          isNextDisabled,
-          handlePrev,
-          handleNext,
+          ...propsBtns,
         }}
       />
     </div>

@@ -29,8 +29,8 @@ export const useDeleteAccount = ({
       return deleteAccountAPI(manageAccountToken);
     },
     onSuccess: () => {
-      navigate("/", { replace: true });
       logoutUser();
+      navigate("/", { replace: true });
       showToastMsg("Account deleted successfully", "SUCCESS");
     },
     onError: (err: ErrFoodApp) => {
