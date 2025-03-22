@@ -33,8 +33,7 @@ const FormUserProfile: FC<PropsTYpe> = ({
               state,
               handleChange,
               el,
-              inputRef:
-                state.currForm.curr === 0 && i === 0 ? inputRef_0 : null,
+              inputRef: state.currForm.curr === 0 && !i ? inputRef_0 : null,
             }}
           />
         ))}
@@ -48,8 +47,7 @@ const FormUserProfile: FC<PropsTYpe> = ({
               state,
               handleChange,
               el,
-              inputRef:
-                state.currForm.curr === 1 && i === 0 ? inputRef_1 : null,
+              inputRef: state.currForm.curr === 1 && !i ? inputRef_1 : null,
             }}
           />
         ))}
@@ -63,8 +61,7 @@ const FormUserProfile: FC<PropsTYpe> = ({
               state,
               handleChange,
               el,
-              inputRef:
-                state.currForm.curr === 2 && i === 0 ? inputRef_2 : null,
+              inputRef: state.currForm.curr === 2 && !i ? inputRef_2 : null,
             }}
           />
         ))}
