@@ -8,7 +8,10 @@ import {
 } from "../../../../core/config/fieldsArr/fields";
 import { MyRestaurantType } from "../../../../types/types";
 import DropElStatic from "../../DropElStatic";
-import { makeShowPriceFieldsMyRest } from "../../../../core/config/fieldsArr/allFields/MyRestaurants/show";
+import {
+  makeShowPriceFieldsMyRest,
+  showBasicFieldsRating,
+} from "../../../../core/config/fieldsArr/allFields/MyRestaurants/show";
 
 type PropsType = {
   rest: MyRestaurantType;
@@ -52,17 +55,13 @@ const DetailsRestaurantAdmin: FC<PropsType> = ({ rest }) => {
           </li>
         ))}
 
-        <li className="w-full grid grid-cols-[1fr_50px] items-center">
-          <span className="txt__01">Reviews count</span>
+        {showBasicFieldsRating(rest.avgRating, rest.reviewsCount).map((el) => (
+          <li className="w-full grid grid-cols-[1fr_50px] items-center">
+            <span className="txt__01">{el.label}</span>
 
-          <span className="txt__02 justify-self-end">{rest.reviewsCount}</span>
-        </li>
-
-        <li className="w-full grid grid-cols-[1fr_50px] items-center">
-          <span className="txt__01">Avg rating</span>
-
-          <span className="txt__02 justify-self-end">{rest.avgRating}</span>
-        </li>
+            <span className="txt__02 justify-self-end">{el.field}</span>
+          </li>
+        ))}
       </DropElStatic>
 
       <DropElStatic {...{ el: showFieldDishes }}>

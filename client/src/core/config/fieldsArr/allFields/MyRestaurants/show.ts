@@ -152,3 +152,18 @@ export const makeShowPriceFieldsMyRest = (...params: number[]) => [
     field: params[2],
   },
 ];
+
+export const showBasicFieldsRating = (...params: number[]) =>
+  [
+    {
+      label: "Avg rating",
+      field: params[0],
+    },
+    {
+      label: "Reviews count",
+      field: params[1],
+    },
+  ].map((el) => ({
+    ...el,
+    id: genID(),
+  }));
