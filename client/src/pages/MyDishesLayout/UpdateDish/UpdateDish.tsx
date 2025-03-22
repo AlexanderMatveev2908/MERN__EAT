@@ -16,7 +16,7 @@ const UpdateDish: FC = () => {
     handleSave,
     isPendingPage,
     restInfo,
-    isSuccessIds,
+    isSuccess,
     canStay,
     handleOpenPopup,
     isPending,
@@ -26,17 +26,19 @@ const UpdateDish: FC = () => {
     <div className="w-full grid grid-cols-1 gap-5 justify-items-center">
       <span className="txt__04">Update Dish</span>
 
-      <div className="justify-self-start">
-        <DeleteButton
-          {...{ txt: "Delete Dish", handleDelete: handleOpenPopup }}
-        />
-      </div>
+      {isSuccess && !!restInfo?.length && (
+        <div className="justify-self-start">
+          <DeleteButton
+            {...{ txt: "Delete Dish", handleDelete: handleOpenPopup }}
+          />
+        </div>
+      )}
 
       {!canStay ? (
         <Navigate to="/" replace />
       ) : isPendingPage ? (
         <LoaderPageReact />
-      ) : isSuccessIds && restInfo?.length ? (
+      ) : isSuccess && restInfo?.length ? (
         <FormProvider {...formContext}>
           <MyDishesForm
             {...{
@@ -48,7 +50,11 @@ const UpdateDish: FC = () => {
           />
         </FormProvider>
       ) : (
-        <ErrEmoji {...{ txt: "We did not any restaurant 🧐" }} />
+        <ErrEmoji
+          {...{
+            txt: "We did not any any dish 🤔",
+          }}
+        />
       )}
     </div>
   );
