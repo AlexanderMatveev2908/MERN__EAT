@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { CiDatabase } from "react-icons/ci";
+import TooltipEL from "../TooltipEL";
 
 type PropsType = {
   id: string;
@@ -14,8 +15,8 @@ const HeaderIDItem: FC<PropsType> = ({ id }) => {
         <span className="txt__02 ">ID:</span>
       </div>
 
-      <div className="w-full flex justify-start items-center overflow-x-auto hide_scrollbar">
-        <span className="txt__01">{id}</span>
+      <div className="w-full flex justify-start">
+        <TooltipEL {...{ txt: id, label: "Id" }} />
       </div>
     </div>
   );

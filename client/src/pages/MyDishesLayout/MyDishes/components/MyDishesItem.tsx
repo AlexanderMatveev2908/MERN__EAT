@@ -6,7 +6,6 @@ import HeaderName from "../../../../UI/components/cards/HeaderName";
 import DropHandlerIcon from "../../../../UI/components/DropHandlerIcon";
 import {
   showCatRestMyDishes,
-  showMyDishesInfoRest,
   showNumericValsMyDish,
 } from "../../../../core/config/fieldsArr/allFields/MyDishes/show";
 import DropElAbsolute from "../../../../UI/components/DropElAbsolute";
@@ -14,6 +13,9 @@ import { HiBuildingStorefront } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import { RxUpdate } from "react-icons/rx";
 import DeleteButton from "../../../../UI/components/buttons/DeleteButton";
+import { IoIosRestaurant } from "react-icons/io";
+import { FaDatabase } from "react-icons/fa";
+import TooltipEL from "../../../../UI/components/TooltipEL";
 
 type PropsType = {
   dish: DishType;
@@ -56,19 +58,26 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
                 : "opacity-0 max-h-0 pointer-events-none"
             }`}
           >
-            {showMyDishesInfoRest(dish.restaurantName, dish.restaurant).map(
-              (el) => (
-                <li key={el.id} className="w-full grid grid-cols-[80px_1fr]">
-                  <span className="txt__01 overflow-x-auto hide_scrollbar">
-                    {el.label}
-                  </span>
+            <li className="w-full grid grid-cols-[80px_1fr]">
+              <div className="w-full flex gap-5 justify-start items-center">
+                <IoIosRestaurant className="min-w-[30px] min-h-[30px]" />
+                <span className="txt__01">Name</span>
+              </div>
 
-                  <span className="txt__01 overflow-x-auto hide_scrollbar p-1 pl-3 border-2 border-orange-500 rounded-xl">
-                    {el.val}
-                  </span>
-                </li>
-              )
-            )}
+              <span className="txt__01 justify-self-end">{dish.name}</span>
+            </li>
+
+            <li className="w-full grid grid-cols-[80px_1fr]">
+              <div className="w-full flex gap-5 justify-start items-center">
+                <FaDatabase className="min-w-[30px] min-h-[30px]" />
+                <span className="txt__01">Id</span>
+              </div>
+
+              <div className="flex w-full justify-end">
+                <TooltipEL {...{ txt: dish.restaurant, label: "Id" }} />
+              </div>
+            </li>
+
             <div className="-mx-3">
               <DropElAbsolute
                 {...{ el: showCatRestMyDishes(dish.categories) }}
