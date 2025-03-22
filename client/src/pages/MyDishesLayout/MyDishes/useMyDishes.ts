@@ -14,7 +14,7 @@ import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { defaultValuesMyDishesSearch } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
 import { DishType } from "../../../types/types";
-import { useCreateTanMyDishes } from "./useCreateTanMyDIshes";
+import { useCreateTanMyDishes } from "./useCreateTanMyDishes";
 
 export const useMyDishes = () => {
   const [currPage, setCurrPage] = useState<number>(1);

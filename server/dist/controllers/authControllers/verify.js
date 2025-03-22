@@ -48,7 +48,7 @@ export const verifyAccount = (req, res) => __awaiter(void 0, void 0, void 0, fun
         secure: isDev,
         expires: expiry,
     });
-    return res.status(200).json({ accessToken, success: true });
+    return res.status(200).json({ success: true, accessToken });
 });
 export const verifyRecoverPwd = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e;

@@ -11,6 +11,7 @@ import User from "../../models/User.js";
 import { badRequest, baseErrResponse, unauthorizedErr, userNotFound, } from "../../utils/baseErrResponse.js";
 import { checkTokenSHA, genTokenSHA } from "../../utils/token.js";
 import { sendEmailChangeAccountEmail } from "../../utils/mail.js";
+import Restaurant from "../../models/Restaurant.js";
 export const changeEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
     const { userId } = req;
@@ -65,6 +66,17 @@ export const verifyChangeEmail = (req, res) => __awaiter(void 0, void 0, void 0,
         };
         yield user.save();
         return baseErrResponse(res, 401, !isMatch ? "Invalid token" : "Expired token");
+    }
+    const restaurants = yield Restaurant.find({
+        owner: user._id,
+        "contact.email": user.email,
+    });
+    if (restaurants.length) {
+        const promises = restaurants.map((el) => __awaiter(void 0, void 0, void 0, function* () {
+            el.contact.email = user.tempNewEmail;
+            yield el.save();
+        }));
+        yield Promise.all(promises);
     }
     user.email = user.tempNewEmail;
     user.tempNewEmail = null;
