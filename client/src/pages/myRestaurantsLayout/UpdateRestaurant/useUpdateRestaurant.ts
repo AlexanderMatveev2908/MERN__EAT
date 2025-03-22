@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmin";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -22,8 +21,6 @@ export const useUpdateRestaurant = () => {
   const navigate = useNavigate();
 
   const canStay = REG_MONGO.test(restId ?? "");
-
-  useScrollTop();
 
   const { handleErrAPI } = useHandleErr();
   const { showToastMsg } = useToast();

@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { defaultValuesMyDishesSearch } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
 import { DishType } from "../../../types/types";
 import { useCreateTanMyDishes } from "./useCreateTanMyDishes";
@@ -23,7 +22,6 @@ export const useMyDishes = () => {
 
   const queryClient = useQueryClient();
 
-  useScrollTop();
   useUpdateCardsLimit(limit, setLimit);
   const { formContextMyDishesSearch } = useFormsCustom();
   const { handleErrAPI } = useHandleErr();

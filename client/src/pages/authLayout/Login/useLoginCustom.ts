@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useToast, useUser } from "../../../core/hooks/useGlobal";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { loginUserAPI } from "../../../core/api/api";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 
@@ -17,8 +16,6 @@ export const useLoginCustom = () => {
   const { setUserLogged } = useUser();
   const { showToastMsg } = useToast();
   const { handleErrAPI } = useHandleErr();
-
-  useScrollTop();
 
   const navigate = useNavigate();
 

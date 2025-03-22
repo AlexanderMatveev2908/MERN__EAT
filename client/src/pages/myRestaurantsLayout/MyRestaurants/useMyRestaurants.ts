@@ -6,12 +6,9 @@ import { createURLParams } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useUpdateCardsLimit } from "../../../core/hooks/useUpdateCardsLimit";
 import { defaultValuesMyRestSearch } from "../../../core/config/fieldsArr/allFields/MyRestaurants/filterSort";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useFormsCustom } from "../../../core/hooks/useGlobal";
 
 export const useMyRestaurants = () => {
-  useScrollTop();
-
   const queryClient = useQueryClient();
 
   const [currPage, setCurrPage] = useState<number>(1);

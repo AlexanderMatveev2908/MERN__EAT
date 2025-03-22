@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useEffect } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
@@ -11,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { useGetRestaurantsIds } from "../../../core/hooks/useGetRestaurantsIds";
 
 export const useAddDish = () => {
-  useScrollTop();
   const { handleErrAPI } = useHandleErr();
   const { formContextMyDishesAddItem: formContext, formContextMyDishesSearch } =
     useFormsCustom();

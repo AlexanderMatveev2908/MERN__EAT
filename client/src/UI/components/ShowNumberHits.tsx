@@ -24,16 +24,14 @@ const ShowNumberHits: FC<PropsType> = ({ nHits, totDocuments, isPending }) => {
           <div className="w-full flex gap-5 items-center mt-[25px]">
             <PartyPopper className="min-w-[35px] min-h-[35px]" />
             <div className="w-fit flex gap-2 items-center">
-              <span className="txt__04">{nHits} </span>
+              <span className="txt__04">{nHits}&nbsp;</span>
 
               <span className="txt__03">Result{nHits > 1 ? "s" : ""}</span>
             </div>
           </div>
         ) : (
           <div className="w-full flex justify-self-center justify-center items-center mt-[50px]">
-            <span className="txt__03">
-              Number results = Number(new String()) 🥸
-            </span>
+            <span className="txt__03">Results = Number(new String()) 🥸</span>
           </div>
         )
       ) : (

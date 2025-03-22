@@ -5,7 +5,6 @@ import {
   validateStrWithArr,
 } from "../../../../utils/allUtils/validateStr";
 import { useCreateTanVerify } from "./useCreateTanVerify";
-import { useScrollTop } from "../../../../core/hooks/useScrollTop";
 import { useToast, useUser } from "../../../../core/hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../../core/config/constants/regex";
 import { recoverPwdAPI, verifyAccountAPI } from "../../../../core/api/api";
@@ -15,8 +14,6 @@ export const useVerify = () => {
 
   const { isLogged, setUserLogged } = useUser();
   const { showToastMsg } = useToast();
-
-  useScrollTop();
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();

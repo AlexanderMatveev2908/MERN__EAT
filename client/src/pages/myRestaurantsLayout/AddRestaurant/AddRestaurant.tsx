@@ -2,8 +2,11 @@ import { FC } from "react";
 import { useAddRestaurant } from "./useAddRestaurant";
 import { FormProvider } from "react-hook-form";
 import MyRestaurantsForm from "../../../UI/forms/MyRestaurants/MyRestaurantsForm";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 
 const AddRestaurant: FC = () => {
+  useScrollTop();
+
   const { formContext, handleSave, isPending } = useAddRestaurant();
 
   return (

@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmin";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useEffect } from "react";
 import { prepareFormDataMyRest } from "../../../utils/allUtils/prepareFormData";
 import { useMutation } from "@tanstack/react-query";
@@ -24,8 +23,6 @@ export const useAddRestaurant = () => {
         ? { ...defaultValuesMyRest }
         : {},
   });
-
-  useScrollTop();
 
   useEffect(() => {
     formContext.setFocus("name");

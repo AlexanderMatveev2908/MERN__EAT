@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "./../../../core/hooks/useGlobal";
 import { useHandleErr } from "./../../../core/hooks/useHandleErr";
-import { useScrollTop } from "./../../../core/hooks/useScrollTop";
 import { sendEmailUnsubscribeAPI } from "../../../core/api/api";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 
@@ -14,8 +13,6 @@ type UnsubscribeEmailFormType = {
 export const useNoticeUnSubscribe = () => {
   const { showToastMsg } = useToast();
   const { handleErrAPI } = useHandleErr();
-
-  useScrollTop();
 
   const [searchParams] = useSearchParams();
   const location = useLocation();

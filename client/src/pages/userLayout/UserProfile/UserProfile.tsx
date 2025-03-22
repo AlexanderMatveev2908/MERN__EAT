@@ -3,22 +3,20 @@ import { useUserProfile } from "./hooks/useUserProfile";
 import ButtonsForm from "./components/ButtonsForm";
 import FormUserProfile from "./components/FormUserProfile";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 
 const UserProfile: FC = () => {
+  useScrollTop();
+
   const {
-    isPrevDisabled,
-    isNextDisabled,
-    handleNext,
-    handlePrev,
+    propsBtns,
     curr,
     state,
     handleChange,
     isPending,
     isPendingUpdate,
     handleSubmit,
-    inputRef_0,
-    inputRef_1,
-    inputRef_2,
+    refs,
   } = useUserProfile();
 
   return (
@@ -41,9 +39,7 @@ const UserProfile: FC = () => {
                 {...{
                   state,
                   handleChange,
-                  inputRef_0,
-                  inputRef_1,
-                  inputRef_2,
+                  ...refs,
                 }}
               />
             </div>
@@ -51,10 +47,7 @@ const UserProfile: FC = () => {
 
           <ButtonsForm
             {...{
-              isPrevDisabled,
-              isNextDisabled,
-              handlePrev,
-              handleNext,
+              ...propsBtns,
               curr,
               isPendingUpdate,
             }}

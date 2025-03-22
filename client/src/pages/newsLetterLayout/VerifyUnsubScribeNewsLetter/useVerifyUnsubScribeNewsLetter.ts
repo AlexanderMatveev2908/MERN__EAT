@@ -7,7 +7,6 @@ import {
   isValidStr,
   validateStrWithArr,
 } from "../../../utils/allUtils/validateStr";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import {
   unSubScribeViaLinkLoggedAPI,
@@ -16,8 +15,6 @@ import {
 import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useVerifyUnsubScribeNewsLetter = () => {
-  useScrollTop();
-
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();

@@ -6,8 +6,11 @@ import ErrEmoji from "../../../UI/components/ErrEmoji";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import { Navigate } from "react-router-dom";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 
 const UpdateDish: FC = () => {
+  useScrollTop();
+
   const {
     formContext,
     handleSave,

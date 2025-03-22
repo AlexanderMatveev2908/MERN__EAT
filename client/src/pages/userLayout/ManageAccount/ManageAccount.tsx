@@ -2,8 +2,11 @@ import { FC } from "react";
 import { useManageAccount } from "./useManageAccount";
 import GetRightToManageAccount from "./components/GetRightToManageAccount/GetRightToManageAccount";
 import ManageAccountForms from "./components/ManageAccountForms/ManageAccountForms";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 
 const ManageAccount: FC = () => {
+  useScrollTop();
+
   const {
     showToastMsg,
     canManageAccount,

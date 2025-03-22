@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { useChangeVisibilityPwd } from "../../../core/hooks/useChangeVisibilityPwd";
 import { useToast } from "../../../core/hooks/useGlobal";
 import { registerUserAPI } from "../../../core/api/api";
@@ -20,8 +19,6 @@ export type RegisterFormType = {
 export const useRegisterCustom = () => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
-
-  useScrollTop();
 
   const navigate = useNavigate();
   const location = useLocation();
