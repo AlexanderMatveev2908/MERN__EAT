@@ -8,4 +8,16 @@ export default defineConfig({
   server: {
     port: 3001,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (id.includes("node_modules")) {
+            if (id.includes("react")) return "vendor-react";
+            return "vendor";
+          }
+        },
+      },
+    },
+  },
 });

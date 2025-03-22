@@ -21,6 +21,8 @@ var __rest = (this && this.__rest) || function (s, e) {
 import User from "../../models/User.js";
 import mongoose from "mongoose";
 import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
+import Restaurant from "../../models/Restaurant.js";
+import { makeMongoId } from "../../utils/dbPipeline/general.js";
 export const getUserInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
     if (!userId)
@@ -56,8 +58,20 @@ export const updateProfileDetails = (req, res) => __awaiter(void 0, void 0, void
     const user = yield User.findById(userId);
     if (!user)
         return userNotFound(res);
-    yield User.findByIdAndUpdate(userId, { $set: { firstName, lastName, address } }
-    // { new: true, select: "firstName lastName address -_id" }
-    );
+    const restaurantsUser = yield Restaurant.find({
+        owner: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
+        "contact.phone": user.address.phone,
+    });
+    if (restaurantsUser.length) {
+        const promises = restaurantsUser.map((el) => __awaiter(void 0, void 0, void 0, function* () {
+            return yield Restaurant.findByIdAndUpdate(el._id, {
+                $set: { "contact.phone": address.phone },
+            });
+        }));
+        yield Promise.all(promises);
+    }
+    yield User.findByIdAndUpdate(userId, {
+        $set: { firstName, lastName, address },
+    });
     return res.status(200).json({ success: true });
 });

@@ -62,15 +62,11 @@ export const getMyDishes = (req, res) => __awaiter(void 0, void 0, void 0, funct
     const { userId } = req;
     const queryObj = makeQueryMyDishes(req);
     const sorterObj = makeSortersMyDishes(req);
-    const _g = queryObj !== null && queryObj !== void 0 ? queryObj : {}, { restaurant_name, restaurant_id, restaurant_categories } = _g, rest = __rest(_g, ["restaurant_name", "restaurant_id", "restaurant_categories"]);
-    const queryRestaurant = {
-        $match: Object.assign(Object.assign(Object.assign({ owner: new mongoose.Types.ObjectId(userId) }, (restaurant_name ? { name: restaurant_name } : {})), (restaurant_id ? { _id: restaurant_id } : {})), (restaurant_categories ? { categories: restaurant_categories } : {})),
+    const { queryRestaurant, queryDishes } = queryObj !== null && queryObj !== void 0 ? queryObj : {};
+    queryRestaurant.$match = Object.keys(queryRestaurant !== null && queryRestaurant !== void 0 ? queryRestaurant : {}).length
+        ? Object.assign(Object.assign({}, queryRestaurant.$match), { owner: makeMongoId(userId !== null && userId !== void 0 ? userId : "") }) : {
+        owner: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
     };
-    const queryDishes = Object.values(rest).every((val) => val)
-        ? {
-            $match: Object.assign({}, rest),
-        }
-        : null;
     const restaurantsUser = Restaurant.find({
         owner: makeMongoId(userId),
     });

@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import User from "../../models/User.js";
 import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
 import { checkTokenSHA } from "../../utils/token.js";
+import Restaurant from "../../models/Restaurant.js";
+import { deleteCloud } from "../../utils/cloud.js";
 export const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
     const { userId } = req;
@@ -28,6 +30,25 @@ export const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, fun
         };
         yield user.save();
         return unauthorizedErr(res, isExpired ? "Token expired" : "Invalid Token");
+    }
+    const restaurants = yield Restaurant.find({
+        owner: user._id,
+    }).populate("dishes");
+    if (restaurants === null || restaurants === void 0 ? void 0 : restaurants.length) {
+        const promises = restaurants.map((el) => __awaiter(void 0, void 0, void 0, function* () {
+            var _a;
+            if ((_a = el === null || el === void 0 ? void 0 : el.dishes) === null || _a === void 0 ? void 0 : _a.length) {
+                const promisesDishesImages = el.dishes
+                    .map((dish) => __awaiter(void 0, void 0, void 0, function* () { return dish.images.map((img) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(img.public_id); })); }))
+                    .flat(Infinity);
+                const promisesDishes = el.dishes.map((dish) => __awaiter(void 0, void 0, void 0, function* () { return yield dish.deleteOne(); }));
+                yield Promise.all([...promisesDishesImages, promisesDishes]);
+            }
+            const promisesRestaurantImages = el.images.map((img) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(img.public_id); }));
+            yield Promise.all(promisesRestaurantImages);
+            yield el.deleteOne();
+        }));
+        yield Promise.all(promises);
     }
     const result = yield User.deleteOne({ _id: userId });
     if ((result === null || result === void 0 ? void 0 : result.deletedCount) !== 1) {
