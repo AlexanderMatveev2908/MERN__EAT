@@ -1,7 +1,6 @@
 import { FC } from "react";
 import {
   arrCatByArea,
-  myRestaurantsCatFields,
   totLenMyRestaurantsCat,
 } from "../../../../../../core/config/fieldsArr/fields";
 import { UseFormReturn } from "react-hook-form";
@@ -35,12 +34,13 @@ const SwapperCat: FC<PropsType> = ({ formContext }) => {
       <div className="w-full p-5 overflow-x-hidden">
         <div
           className="grid lg:max-w-full lg:gap-x-10 lg:grid-cols-2 transition-all duration-500 items-start"
+          // only after lg i show cat without swapper all together, so after lg i hide swapper swapper btns and make grid-cols-2
           style={{
-            width: `${Math.ceil(myRestaurantsCatFields?.length / 6) * 100}%`,
+            width: `${Math.ceil(totLenMyRestaurantsCat) * 100}%`,
             gridTemplateColumns: `repeat(${totLenMyRestaurantsCat}, 1fr)`,
+            //  here tot len is not all fields , is all fields / 6 (the max i decided is ok to show together), so for 12 tot len is 2
             transform: `translateX(-${
-              propsBtns.currForm *
-              (100 / Math.ceil(myRestaurantsCatFields?.length / 6))
+              propsBtns.currForm * (100 / Math.ceil(totLenMyRestaurantsCat))
             }%)`,
           }}
         >
@@ -51,6 +51,7 @@ const SwapperCat: FC<PropsType> = ({ formContext }) => {
                 propsBtns.currForm !== i ? "opacity-0" : "opacity-100"
               }`}
             >
+              {/* child will always have 2 cols ether sm or lg cause till not strings chosen fit ok */}
               {arrEl.map((el) => (
                 <CheckBox
                   key={el.id}
