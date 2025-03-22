@@ -56,7 +56,10 @@ const DetailsRestaurantAdmin: FC<PropsType> = ({ rest }) => {
         ))}
 
         {showBasicFieldsRating(rest.avgRating, rest.reviewsCount).map((el) => (
-          <li className="w-full grid grid-cols-[1fr_50px] items-center">
+          <li
+            key={el.id}
+            className="w-full grid grid-cols-[1fr_50px] items-center"
+          >
             <span className="txt__01">{el.label}</span>
 
             <span className="txt__02 justify-self-end">{el.field}</span>
