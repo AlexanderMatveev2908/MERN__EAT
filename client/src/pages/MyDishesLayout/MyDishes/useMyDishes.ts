@@ -23,6 +23,7 @@ export const useMyDishes = () => {
   const queryClient = useQueryClient();
 
   useUpdateCardsLimit(limit, setLimit);
+
   const { formContextMyDishesSearch } = useFormsCustom();
   const { handleErrAPI } = useHandleErr();
   const { setPopup } = usePopup();
@@ -85,7 +86,7 @@ export const useMyDishes = () => {
     if (data?.dishes?.length)
       setSelected(data.dishes.map((el: DishType) => el._id));
     setPopup({
-      txt: `delete all dishes that match query ?`,
+      txt: `delete all dishes that match query (${data?.nHits}) ?`,
       redLabel: "Delete dishes",
       confirmAction: handleDeleteBulkQuery,
       isPending: isPendingBulkQuery,

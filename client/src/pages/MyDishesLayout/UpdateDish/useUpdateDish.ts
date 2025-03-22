@@ -133,6 +133,7 @@ export const useUpdateDish = () => {
       setValue("search", dataInfo?.dish?.restaurant ?? "");
 
       navigate("/my-dishes", { replace: true });
+      // here i reset curr from not the one above where i will pugh user to see results
       reset();
     },
     onError: (err: ErrFoodApp) => {
