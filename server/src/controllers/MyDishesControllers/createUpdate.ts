@@ -257,10 +257,10 @@ export const bulkDelete = async (req: any, res: Response): Promise<any> => {
 
     const dishesIdsToDelete = new Set(
       // here i mean dishes already deleted in their collection but not as ref from point of view of restaurant
-      result[i].dishes.map((el: any) => el._id)
+      result[i].dishes.map((el: any) => el._id + "")
     );
     restaurant.dishes = restaurant.dishes.filter(
-      (el: any) => !dishesIdsToDelete.has(el)
+      (el: any) => !dishesIdsToDelete.has(el + "")
     );
 
     await restaurant.save();
@@ -339,8 +339,10 @@ export const deleteQueriesResults = async (
     await Dish.deleteMany({ _id: { $in: idsDishes } });
 
     const restaurant = await Restaurant.findById(obj._id);
+    //  i  do not use populate cause i will works with ref ids
     restaurant.dishes = restaurant.dishes.filter(
-      (el: ObjectId) => !idsDishes.includes(el)
+      (currIdRef: ObjectId) =>
+        !idsDishes.some((idDeleted: any) => idDeleted.equals(currIdRef))
     );
     await restaurant.save();
   });
