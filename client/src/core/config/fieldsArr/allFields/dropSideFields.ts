@@ -37,6 +37,12 @@ export const loggedUserFields: SideDropFieldType[] = [
     label: "Manage Account",
     svg: UserRoundPen,
   },
+  {
+    id: genID(),
+    path: "/search",
+    label: "Restaurants",
+    svg: IoRestaurantSharp,
+  },
 ];
 
 export const fieldsAdmin: SideDropFieldType[] = [

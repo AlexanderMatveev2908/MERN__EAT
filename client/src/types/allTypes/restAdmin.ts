@@ -60,7 +60,7 @@ export type FormSearchType = {
   deliveredOrdersSort: ["asc" | "desc"] | [];
   cancelledOrdersSort: ["asc" | "desc"] | [];
 
-  page: string;
+  page?: string;
   limit?: string;
 };
 

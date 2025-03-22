@@ -20,9 +20,9 @@ const CheckBoxSwitcher: FC<PropsType> = ({
   const arrToCheck = Array.isArray(wtc) ? wtc : [];
 
   return (
-    <div className="w-full grid grid-cols-[1fr_100px]">
+    <div className="w-full grid grid-cols-[100px_1fr] items-center">
       <span className="txt__01">{el.label}</span>
-      <label className="w-[100px] h-[40px] rounded-full check_swap__label justify-self-end relative cursor-pointer">
+      <label className="w-[100px] h-[40px] rounded-full check_swap__label justify-self-start relative cursor-pointer">
         <input
           value={el.field}
           type="checkbox"
