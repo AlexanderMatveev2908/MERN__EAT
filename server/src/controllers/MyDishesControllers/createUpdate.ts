@@ -7,11 +7,9 @@ import {
 } from "../../utils/cloud.js";
 import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
-import mongoose, { HydratedDocument, ObjectId } from "mongoose";
-import Dish, { DishType } from "../../models/Dish.js";
+import mongoose, { HydratedDocument } from "mongoose";
+import Dish from "../../models/Dish.js";
 import { ImageType } from "../../models/Image.js";
-import { makeQueryMyDishes } from "../../utils/makeQueries/myDishes.js";
-import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
 
 const makeMongoId = (id: string) => new mongoose.Types.ObjectId(id);
 
@@ -37,7 +35,7 @@ export const createDishes = async (req: any, res: Response): Promise<any> => {
   }));
   // form an obj of files provided by multer i create an array for each dish that keeps an array of files relative to dish
   const arrReturnedPromises = arrFiles.map(async (dishFiles, i) => {
-    // each array will be uploaded by block, upload cloud storage map all files tye same way and return Promise.all
+    // each array will be uploaded by block, upload cloud storage map all files and return Promise.all
     const images = await uploadCloudStorage(dishFiles[`images_${i}` as any]);
     return images;
   });
