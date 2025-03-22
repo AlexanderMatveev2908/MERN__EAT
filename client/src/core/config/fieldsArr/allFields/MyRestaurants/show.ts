@@ -145,7 +145,7 @@ export const makeShowPriceFieldsMyRest = (...params: number[]) => [
   },
   {
     label: "Avg quantity",
-    field: params[1],
+    field: params[1].toFixed(0),
   },
   {
     label: "Dishes count",

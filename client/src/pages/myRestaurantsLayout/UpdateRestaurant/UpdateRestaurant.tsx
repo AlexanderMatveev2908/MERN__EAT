@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import ErrEmoji from "../../../UI/components/ErrEmoji";
 
 const UpdateRestaurant: FC = () => {
   useScrollTop();
@@ -18,12 +19,15 @@ const UpdateRestaurant: FC = () => {
     handleSave,
     isPendingUpdate,
     handleClickToOpenPopup,
+    isErrorInfo,
   } = useUpdateRestaurant();
 
   return !canStay ? (
     <Navigate to="/" replace />
   ) : isPendingInfo ? (
     <LoaderPageReact />
+  ) : isErrorInfo ? (
+    <ErrEmoji {...{ txt: "We did not find any restaurant 🤔" }} />
   ) : (
     <FormProvider {...formContext}>
       <div className="w-full grid grid-cols-1 justify-items-center gap-y-5">

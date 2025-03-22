@@ -159,7 +159,7 @@ export const useUpdateDish = () => {
     handleSave,
     isPendingPage: isPendingIds || isPendingInfo,
     restInfo,
-    isSuccessIds,
+    isSuccess: isSuccessIds && isSuccessInfo,
     canStay,
     handleOpenPopup,
     isPending,

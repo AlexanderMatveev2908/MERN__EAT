@@ -47,7 +47,7 @@ export const useUpdateRestaurant = () => {
 
   useEffect(() => {
     if (isErrorInfo) {
-      handleErrAPI({ err: errorInfo as ErrFoodApp, push: true });
+      handleErrAPI({ err: errorInfo as ErrFoodApp });
     } else if (isSuccessInfo) {
       const { restaurant } = dataInfo ?? {};
 
@@ -110,5 +110,6 @@ export const useUpdateRestaurant = () => {
     handleSave,
     isPendingUpdate,
     handleClickToOpenPopup,
+    isErrorInfo,
   };
 };

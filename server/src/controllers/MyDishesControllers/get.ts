@@ -8,8 +8,7 @@ import Restaurant from "../../models/Restaurant.js";
 import { calcPagination } from "../../utils/calcPagination.js";
 import Dish from "../../models/Dish.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
-import { REG_MONGO } from "../../config/constants/regex.js";
-import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
+import { baseErrResponse } from "../../utils/baseErrResponse.js";
 
 export const getRestaurantIds = async (
   req: RequestWithUserId,
@@ -42,7 +41,7 @@ export const getRestaurantIds = async (
 
   if (!ids?.length)
     return res
-      .status(200)
+      .status(404)
       .json({ success: false, msg: "User does not have restaurants" });
 
   return res.status(200).json({ success: true, infoRestaurants: ids });
@@ -209,7 +208,8 @@ export const getInfoDishForm = async (
 
   const { dish: { restaurantName, ...dish } = {} } = result?.[0] ?? {};
 
-  if (!dish) return baseErrResponse(res, 404, "Dish not found");
+  if (!Object.keys(dish ?? {}).length)
+    return baseErrResponse(res, 404, "Dish not found");
 
   return res.status(200).json({
     success: true,

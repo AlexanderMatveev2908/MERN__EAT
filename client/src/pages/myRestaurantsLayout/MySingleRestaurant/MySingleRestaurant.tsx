@@ -25,7 +25,7 @@ const MySingleRestaurant: FC = () => {
   ) : isPending ? (
     <LoaderPageReact />
   ) : !Object.keys(rest ?? {}).length ? (
-    <ErrEmoji {...{ txt: "It seems we did not find any restaurant 🧐" }} />
+    <ErrEmoji {...{ txt: "It seems we did not find any restaurant 🤔" }} />
   ) : (
     <div className="w-full grid grid-cols-1 justify-items-center gap-5">
       <span className="txt__04 truncate max-w-full">{rest.name}</span>
