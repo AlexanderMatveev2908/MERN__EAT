@@ -7,7 +7,7 @@ export const defaultValuesMyRest = {
   zipCode: "12345",
   email: "",
   phone: "",
-  website: "http://www.example.com",
+  website: "http://example.com",
   estTimeDelivery: "30",
   price: "10",
   freeDeliveryPrice: "50",
