@@ -22,13 +22,18 @@ export const useApp = () => {
       if (isLogged) logoutUser();
     },
   });
+  useEffect(() => {
+    if (!isLogged && attemptRef?.current < 3) {
+      attemptRef.current += 1;
+      mutate();
+    }
+  }, [isLogged, mutate]);
 
   const { data, isSuccess, isError, error } = useQuery({
     queryKey: ["currUser", isLogged],
     queryFn: getUserInfoAPI,
     enabled: isLogged,
   });
-
   useEffect(() => {
     const handleSideEffects = () => {
       if (isError) {
@@ -40,12 +45,14 @@ export const useApp = () => {
     };
 
     handleSideEffects();
-  }, [isError, isSuccess, handleErrAPI, error, setCurrUser, data, logoutUser]);
-
-  useEffect(() => {
-    if (!isLogged && attemptRef?.current < 3) {
-      attemptRef.current += 1;
-      mutate();
-    }
-  }, [isLogged, mutate]);
+  }, [
+    isError,
+    isSuccess,
+    handleErrAPI,
+    error,
+    setCurrUser,
+    data,
+    logoutUser,
+    isLogged,
+  ]);
 };

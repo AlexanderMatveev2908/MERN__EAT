@@ -66,7 +66,7 @@ export const verifyAccount = async (
     expires: expiry,
   });
 
-  return res.status(200).json({ accessToken, success: true });
+  return res.status(200).json({ success: true, accessToken });
 };
 
 export const verifyRecoverPwd = async (

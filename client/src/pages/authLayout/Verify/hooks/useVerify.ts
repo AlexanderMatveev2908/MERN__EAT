@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   isValidStr,
   validateStrWithArr,
@@ -11,6 +11,8 @@ import { REG_MONGO, REG_TOKEN } from "../../../../core/config/constants/regex";
 import { recoverPwdAPI, verifyAccountAPI } from "../../../../core/api/api";
 
 export const useVerify = () => {
+  const isVerifyingRef = useRef(false);
+
   const { isLogged, setUserLogged } = useUser();
   const { showToastMsg } = useToast();
 
@@ -35,11 +37,9 @@ export const useVerify = () => {
 
   const handleSuccessVerifyAccount = (data) => {
     setUserLogged(data.accessToken);
-
     showToastMsg("Account Verified Successfully", "SUCCESS");
     navigate("/", { replace: true });
   };
-
   const { mutate: mutateVerify } = useCreateTanVerify({
     callAPI: ({ userId, token }) => verifyAccountAPI({ userId, token }),
     successCB: (data) => handleSuccessVerifyAccount(data),
@@ -47,33 +47,35 @@ export const useVerify = () => {
 
   const handleSuccessVerifyRecoverPwd = () => {
     showToastMsg("Email verified Successfully", "SUCCESS");
-
     navigate(`/auth/recover-pwd?userId=${userId}&token=${token}`, {
       state: { from: "/auth/verify" },
       replace: true,
     });
   };
-
   const { mutate: mutateRecover } = useCreateTanVerify({
     callAPI: ({ userId, token }) => recoverPwdAPI({ userId, token }),
     successCB: () => handleSuccessVerifyRecoverPwd(),
   });
 
   const handleGuest = useCallback(() => {
-    if (!canStay) {
+    if (isVerifyingRef.current) {
       return;
-    } else if (type === "verify-account") {
-      mutateVerify({
-        userId: userId as string,
-        token: token as string,
-      });
-    } else if (type === "recover-pwd") {
-      mutateRecover({
-        userId: userId as string,
-        token: token as string,
-      });
+    } else {
+      isVerifyingRef.current = true;
+      if (type === "verify-account") {
+        mutateVerify({
+          userId: userId as string,
+          token: token as string,
+        });
+        console.log("run");
+      } else if (type === "recover-pwd") {
+        mutateRecover({
+          userId: userId as string,
+          token: token as string,
+        });
+      }
     }
-  }, [canStay, mutateVerify, mutateRecover, type, token, userId]);
+  }, [mutateVerify, mutateRecover, type, token, userId]);
 
   useEffect(() => {
     handleGuest();
