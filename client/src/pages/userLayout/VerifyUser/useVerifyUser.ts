@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useToast } from "./../../../core/hooks/useGlobal";
 import { useHandleErr } from "./../../../core/hooks/useHandleErr";
 import { isValidStr } from "../../../utils/allUtils/validateStr";
@@ -10,6 +10,7 @@ import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useVerifyUser = () => {
+  const isVerifyingRef = useRef<boolean>(false);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -37,7 +38,14 @@ export const useVerifyUser = () => {
   });
 
   useEffect(() => {
-    if (canStay) mutate({ token: token ?? "", userId: userId ?? "" });
+    if (canStay) {
+      if (isVerifyingRef.current) {
+        return;
+      } else {
+        isVerifyingRef.current = true;
+        mutate({ token: token ?? "", userId: userId ?? "" });
+      }
+    }
   }, [canStay, mutate, token, userId]);
 
   return { canStay };

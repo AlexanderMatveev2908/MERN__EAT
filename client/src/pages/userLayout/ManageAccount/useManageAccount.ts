@@ -24,7 +24,7 @@ export const useManageAccount = () => {
         handleErrAPI({ err });
       }
     } else {
-      if ([401, 429].includes(status ?? 400)) {
+      if ([401, 429].includes(status ?? 500)) {
         setCanManageAccount(false);
       }
 
