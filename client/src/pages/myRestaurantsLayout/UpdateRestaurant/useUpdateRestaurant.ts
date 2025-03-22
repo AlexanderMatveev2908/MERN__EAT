@@ -6,17 +6,16 @@ import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmi
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-  deleteRestaurantAPI,
   getInfoRestaurantAPI,
   updateRestaurantAPI,
 } from "./../../../core/api/APICalls/myRestaurants";
 import { useNavigate, useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../core/config/constants/regex";
-import { usePopup, useToast } from "../../../core/hooks/useGlobal";
+import { useToast } from "../../../core/hooks/useGlobal";
 import { prepareFormDataMyRest } from "../../../utils/allUtils/prepareFormData";
-import { PopupPayloadSetter } from "../../../types/allTypes/popup";
 import { formatTimeHmMh } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useDeleteRestaurant } from "../../../core/hooks/useDeleteRestaurant";
 
 export const useUpdateRestaurant = () => {
   const { restId } = useParams();
@@ -28,7 +27,6 @@ export const useUpdateRestaurant = () => {
 
   const { handleErrAPI } = useHandleErr();
   const { showToastMsg } = useToast();
-  const { setPopup, popup } = usePopup();
 
   const formContext = useForm<MyRestaurantsAddUpdateFormType>({
     mode: "onChange",
@@ -106,34 +104,7 @@ export const useUpdateRestaurant = () => {
     }
   );
 
-  const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
-    mutationFn: () => {
-      setPopup({ ...(popup as PopupPayloadSetter), isPending: true });
-
-      return deleteRestaurantAPI(restId ?? "");
-    },
-    onSuccess: () => {
-      showToastMsg("Restaurant deleted", "SUCCESS");
-      navigate("/my-restaurants", { replace: true });
-    },
-    onError: (err: ErrFoodApp) => {
-      handleErrAPI({ err });
-    },
-    onSettled: () => setPopup(null),
-  });
-
-  const handleDelete = () => {
-    mutateDelete();
-  };
-
-  const handleClickToOpenPopup = () => {
-    setPopup({
-      txt: "delete this restaurant?",
-      redLabel: "Delete restaurant",
-      isPending: isPendingDelete,
-      confirmAction: handleDelete,
-    });
-  };
+  const { handleClickToOpenPopup } = useDeleteRestaurant();
 
   return {
     formContext,
@@ -141,7 +112,6 @@ export const useUpdateRestaurant = () => {
     isPendingInfo,
     handleSave,
     isPendingUpdate,
-    isPendingDelete,
     handleClickToOpenPopup,
   };
 };
