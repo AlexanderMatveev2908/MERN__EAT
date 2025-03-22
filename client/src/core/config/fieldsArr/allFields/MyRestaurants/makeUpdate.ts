@@ -10,6 +10,7 @@ import {
 import { genID } from "../../../../../utils/allUtils/genID";
 import { userProfileFields_1, userProfileFields_2 } from "../userDetailsFields";
 import { CheckBoxFieldType, FieldNoIconType } from "../../typesFields";
+import { categoriesAPP, categoriesAppFields } from "../filtersSorters";
 
 export const myRestaurantsName: FieldNoIconType = {
   id: genID(),
@@ -86,41 +87,13 @@ export const myRestaurantsOpenCloseFields: FieldNoIconType[] = [
   },
 ];
 
-export const myRestaurantsCat = [
-  "italian",
-  "chinese",
-  "japanese",
-  "mexican",
-  "indian",
-  "french",
-  "mediterranean",
-  "fast-food",
-  "vegetarian",
-  "vegan",
-  "seafood",
-  "steakhouse",
-];
-
-export const myRestaurantsCatFields: CheckBoxFieldType[] = myRestaurantsCat.map(
-  (el) => ({
-    field: el,
-    id: genID(),
-    label:
-      el === "fast-food"
-        ? "Fast-Food"
-        : el.charAt(0).toUpperCase() + el.slice(1),
-  })
-);
-
-export const totLenMyRestaurantsCat = Math.ceil(
-  myRestaurantsCatFields.length / 6
-);
+export const totLenMyRestaurantsCat = Math.ceil(categoriesAPP.length / 6);
 
 export const arrCatByArea: CheckBoxFieldType[][] = [];
 
-for (let i = 0; i < myRestaurantsCatFields?.length; i++) {
+for (let i = 0; i < categoriesAppFields?.length; i++) {
   if (i % 6 === 0) {
-    arrCatByArea.push([...myRestaurantsCatFields.slice(i, i + 6)]);
+    arrCatByArea.push([...categoriesAppFields.slice(i, i + 6)]);
   }
 }
 

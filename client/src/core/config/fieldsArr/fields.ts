@@ -54,8 +54,6 @@ export {
   myRestaurantsAddress_0,
   myRestaurantsAddress_1,
   myRestaurantsAddressByArea,
-  myRestaurantsCat,
-  myRestaurantsCatFields,
   myRestaurantsContact,
   myRestaurantsDeliveryFields,
   myRestaurantsName,

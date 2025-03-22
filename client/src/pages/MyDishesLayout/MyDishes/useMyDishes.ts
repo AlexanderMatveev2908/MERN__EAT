@@ -38,6 +38,7 @@ export const useMyDishes = () => {
   const handleClear = () => {
     sessionStorage.removeItem("myDishesForm");
     reset(defaultValuesMyDishesSearch);
+    setCurrPage(1);
     trigger();
   };
 

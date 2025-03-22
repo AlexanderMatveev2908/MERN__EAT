@@ -26,7 +26,7 @@ const SortersSearchBar: FC<PropsType> = ({ formContext, sorters }) => {
       />
 
       <div
-        className={`w-full items-start grid sm:grid-cols-[repeat(auto-fit,minmax(250px,1fr))] transition-all duration-300 gap-4 ${
+        className={`w-full items-start grid sm:grid-cols-[repeat(auto-fit,minmax(300px,1fr))] transition-all duration-300 gap-4 ${
           isOpen
             ? "max-h-[2000px] opacity-100 pointer-events-auto"
             : "opacity-0 max-h-0 pointer-events-none"

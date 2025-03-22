@@ -4,16 +4,15 @@ import { REG_PRICE, REG_QTY_SEARCH } from "../../../constants/regex";
 import {
   BaseFieldType,
   FieldNoIconType,
-  RadioFieldType,
   SearchFilterType,
   SorterFieldType,
 } from "../../typesFields";
-import { myRestaurantsCat } from "../MyRestaurants/makeUpdate";
 import { IoIosCreate } from "react-icons/io";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { GiReceiveMoney } from "react-icons/gi";
-import { FaDatabase, FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
+import { FaDatabase } from "react-icons/fa";
 import { SearchMyDishesFormType } from "../../../../../types/allTypes/myDishes";
+import { categoriesAppFields, fieldsUpAndDown } from "../filtersSorters";
 
 export const myDishesFieldsSearch: BaseFieldType[] = [
   {
@@ -64,31 +63,13 @@ export const myDishesFieldsNumericSearch: FieldNoIconType[] = [
   },
 ].map((el) => ({ ...el, id: genID(), required: false, type: "number" }));
 
-const myDishesSubFieldsArr: BaseFieldType[] = myRestaurantsCat.map((el) => ({
-  field: el,
-  id: genID(),
-  label: el === "fast-food" ? "Fast-Food" : el[0].toUpperCase() + el.slice(1),
-  type: "number",
-}));
-
 export const myDishesFilters: SearchFilterType[] = [
   {
     id: genID(),
     field: "categories",
     label: "Category",
-    subFields: myDishesSubFieldsArr,
+    subFields: [...categoriesAppFields],
     icon: LuChefHat,
-  },
-];
-
-const fieldsUpAndDown: Omit<RadioFieldType, "id">[] = [
-  {
-    field: "asc",
-    icon: FaSortAmountUp,
-  },
-  {
-    field: "desc",
-    icon: FaSortAmountDown,
   },
 ];
 
@@ -122,5 +103,4 @@ export const defaultValuesMyDishesSearch: SearchMyDishesFormType = {
   quantitySort: [],
   createdAtSort: [],
   updatedAtSort: [],
-  page: "1",
 };

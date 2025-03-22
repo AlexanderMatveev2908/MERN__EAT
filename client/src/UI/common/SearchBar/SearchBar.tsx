@@ -44,7 +44,7 @@ const SearchBar: FC<PropsType> = ({
   handleClear,
   isPending,
 }) => {
-  return (
+  return !formContext ? null : (
     <form className="w-full max-w-[90%] border-[3px] border-orange-500 rounded-xl p-6">
       <div className="w-full grid grid-cols-1">
         <SearchField {...{ formContext }} />

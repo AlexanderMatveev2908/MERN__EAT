@@ -1,19 +1,12 @@
 import { genID } from "../../../../../utils/allUtils/genID";
 import { IoRestaurant } from "react-icons/io5";
-import {
-  FaDatabase,
-  FaRegStar,
-  FaSortAmountDown,
-  FaSortAmountUp,
-} from "react-icons/fa";
+import { FaDatabase, FaRegStar } from "react-icons/fa";
 import { CiDeliveryTruck } from "react-icons/ci";
-import { myRestaurantsCat } from "./makeUpdate";
 import { GoCodeReview } from "react-icons/go";
 import { GiReceiveMoney } from "react-icons/gi";
 import { LuChefHat } from "react-icons/lu";
 import {
   BaseFieldType,
-  RadioFieldType,
   SearchFilterType,
   SorterFieldType,
 } from "../../typesFields";
@@ -21,6 +14,12 @@ import { IconType } from "react-icons/lib";
 import { IoIosCreate } from "react-icons/io";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { FormSearchType } from "../../../../../types/allTypes/restAdmin";
+import {
+  categoriesAppFields,
+  fieldsUpAndDown,
+  priceRangeFields,
+  ratingRangeFields,
+} from "../filtersSorters";
 
 const myRestFieldsArr = ["name", "country", "state", "city", "id"];
 export const myRestFieldsSearch: BaseFieldType[] = myRestFieldsArr.map(
@@ -30,28 +29,6 @@ export const myRestFieldsSearch: BaseFieldType[] = myRestFieldsArr.map(
     label: el[0].toUpperCase() + el.slice(1),
   })
 );
-
-const myRestAdminCategories: BaseFieldType[] = myRestaurantsCat.map((el) => ({
-  field: el,
-  id: genID(),
-  label: el === "fast-food" ? "Fast-Food" : el[0].toUpperCase() + el.slice(1),
-}));
-
-const priceRangeFieldsArr = ["0-19", "20-39", "40-59", "60-79", "80-100"];
-const priceRangeFields: BaseFieldType[] = priceRangeFieldsArr.map(
-  (el, i, arg) => ({
-    field: el,
-    id: genID(),
-    label: `$${el}${i === arg.length - 1 ? "+" : ""}`,
-  })
-);
-
-const ratingRangeFieldsArr = ["0-1", "1.1-2", "2.1-3", "3.1-4", "4.1-5"];
-const ratingRangeFields: BaseFieldType[] = ratingRangeFieldsArr.map((el) => ({
-  field: el,
-  id: genID(),
-  label: `⭐ ${el}`,
-}));
 
 const ordersFieldsArr: BaseFieldType[] = [
   "pending",
@@ -92,19 +69,19 @@ export const myRestFilters: SearchFilterType[] = [
   {
     field: "avgRatingRange",
     label: "Avg rating",
-    subFields: ratingRangeFields,
+    subFields: [...ratingRangeFields],
     icon: FaRegStar,
   },
   {
     field: "categories",
     label: "Category",
-    subFields: myRestAdminCategories,
+    subFields: [...categoriesAppFields],
     icon: LuChefHat,
   },
   {
     field: "avgPriceRange",
     label: "Avg price dish",
-    subFields: priceRangeFields,
+    subFields: [...priceRangeFields],
     icon: GiReceiveMoney,
   },
   {
@@ -149,23 +126,6 @@ const sortersArr: (Omit<BaseFieldType, "id"> & { icon: IconType })[] = [
   { field: "avgPriceSort", label: "Avg price dish", icon: GiReceiveMoney },
   { field: "avgQuantitySort", label: "Avg quantity dish", icon: FaDatabase },
   { field: "dishesCountSort", label: "No. of dishes", icon: IoRestaurant },
-  // { field: "deliveryTimeSort", label: "Delivery time", icon: MdDeliveryDining },
-  // {
-  //   field: "deliveryPriceSort",
-  //   label: "Delivery price",
-  //   icon: MdDeliveryDining,
-  // },
-];
-
-const fieldsUpAndDown: Omit<RadioFieldType, "id">[] = [
-  {
-    field: "asc",
-    icon: FaSortAmountUp,
-  },
-  {
-    field: "desc",
-    icon: FaSortAmountDown,
-  },
 ];
 
 export const myRestSorters: SorterFieldType[] = sortersArr.map((el) => ({
@@ -202,6 +162,4 @@ export const defaultValuesMyRestSearch: FormSearchType = {
   shippedOrdersSort: [],
   deliveredOrdersSort: [],
   cancelledOrdersSort: [],
-
-  page: "1",
 };

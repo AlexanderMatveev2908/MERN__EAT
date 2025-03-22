@@ -28,7 +28,7 @@ export type SearchMyDishesFormType = {
   priceSort: [];
   quantitySort: [];
 
-  page: string;
+  page?: string;
   limit?: string;
 };
 
