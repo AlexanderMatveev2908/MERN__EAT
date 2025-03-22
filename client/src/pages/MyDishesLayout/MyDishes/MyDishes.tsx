@@ -79,7 +79,7 @@ const MyDishes: FC = () => {
         <LoaderPageReact />
       ) : (
         dishes && (
-          <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] justify-items-center gap-10 place-content-start items-start mt-5">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))] justify-items-center gap-10 mt-5">
             {dishes.map((el) => (
               <MyDishesItem
                 key={el._id}
