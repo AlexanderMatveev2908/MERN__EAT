@@ -1,11 +1,11 @@
 import { FC, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../../common/Header/Header";
-import Popup from "../../common/Popup/Popup";
+import Popup from "../../common/Popup";
 import Toast from "../../common/Toast/Toast";
-import Hero from "../../common/Hero/Hero";
 import Footer from "../../common/Footer/Footer";
 import Sidebar from "../../common/Sidebar/Sidebar";
+import Hero from "../../common/Hero";
 
 type PropsType = {
   children: React.ReactNode;

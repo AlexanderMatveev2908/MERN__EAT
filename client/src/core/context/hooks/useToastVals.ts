@@ -19,7 +19,7 @@ export const useToastVals = (
           type: SET_IS_TOAST,
           payload: { isToast: true, msg, type },
         });
-      }, 250);
+      }, 0);
     },
     [dispatch]
   );

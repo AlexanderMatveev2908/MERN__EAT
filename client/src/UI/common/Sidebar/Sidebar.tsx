@@ -1,6 +1,5 @@
-import { FC, useRef } from "react";
-import { useSidebar } from "./useSidebar";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { FC, useEffect, useRef } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useUser } from "../../../core/hooks/useGlobal";
 import {
   allUsersFields,
@@ -11,6 +10,7 @@ import UserEmail from "./components/UserEmail";
 import SideEL from "./components/SideEL";
 import LogoutBtn from "./components/LogoutBtn";
 import DropAdmin from "./components/DropAdmin";
+import { useLogout } from "../../../core/hooks/useLogout";
 
 type PropsType = {
   sideOpen: boolean;
@@ -19,17 +19,36 @@ type PropsType = {
 
 const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
   const sideRef = useRef<HTMLDivElement | null>(null);
+
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const type = searchParams.get("type");
 
   const { isLogged, currUser } = useUser();
 
-  const { isPending, handleLogout, handleSideClick } = useSidebar({
-    sideRef,
-    setSideOpen,
-  });
+  useEffect(() => {
+    const closeSide = (e: MouseEvent) => {
+      if (!sideRef.current?.contains(e.target as Node)) {
+        setSideOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", closeSide);
+
+    return () => {
+      document.removeEventListener("mousedown", closeSide);
+    };
+  }, [setSideOpen, sideRef]);
+
+  const { mutate, isPending } = useLogout();
+  const handleLogout = () => mutate();
+
+  const handleSideClick = (path: string, from?: string) => {
+    navigate(path, from ? { state: { from } } : undefined);
+    setSideOpen(false);
+  };
 
   return (
     <>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import CheckBoxSwitcher from "../../../../../forms/inputFields/CheckBoxSwitcher";
 import { UseFormReturn } from "react-hook-form";
@@ -8,7 +9,7 @@ import { REG_MONGO } from "../../../../../../core/config/constants/regex";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
-  formContext: UseFormReturn;
+  formContext: UseFormReturn<any>;
 };
 
 const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {

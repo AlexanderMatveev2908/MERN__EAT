@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { heroFieldsArr } from "../../../core/config/fieldsArr/fields";
-import ImgSlider from "../../components/ImgSlider/ImgSlider";
+import ImgSlider from "../components/ImgSlider/ImgSlider";
+import { heroFieldsArr } from "../../core/config/fieldsArr/fields";
 
 const Hero: FC = () => {
   return <ImgSlider {...{ images: heroFieldsArr }} />;

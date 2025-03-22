@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { CurrUserType } from "../../../../../types/allTypes/userTypes";
 import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";
-// import { CurrUserType } from "../../../../../types/userTypes";
 
 type PropsType = {
   isPending: boolean;

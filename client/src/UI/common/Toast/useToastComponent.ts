@@ -26,7 +26,7 @@ export const useToastComponent = () => {
   }, [closeToast, isToast]);
 
   useEffect(() => {
-    if (toastRef.current) {
+    if (isToast && toastRef.current) {
       toastRef.current.classList.remove("toast__container_after");
 
       requestAnimationFrame(() =>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { IoFilter } from "react-icons/io5";
@@ -13,7 +14,7 @@ import { useLocation } from "react-router-dom";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
-  formContext: UseFormReturn;
+  formContext: UseFormReturn<any>;
   filters: SearchFilterType[];
 };
 
