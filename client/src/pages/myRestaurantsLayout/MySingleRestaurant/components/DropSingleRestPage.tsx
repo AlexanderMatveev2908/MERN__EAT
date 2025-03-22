@@ -4,6 +4,7 @@ import DropHandlerIcon from "../../../../UI/components/DropHandlerIcon";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { makeLinksMyRestPage } from "../../../../core/config/fieldsArr/fields";
 import { useFormsCustom } from "../../../../core/hooks/useGlobal";
+import { useDeleteRestaurant } from "../../../../core/hooks/useDeleteRestaurant";
 
 type PropsType = {
   restId: string | undefined;
@@ -17,13 +18,14 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
 
   const handleSearchDishesClick = () => {
     const { setValue } = formContextMyDishesSearch;
-
     setValue("searchVals", ["restaurantId"]);
     setValue("search", restId ?? "");
   };
 
   const handleDishClick = () =>
     formContextMyDishesAddItem.setValue("restaurant", restId ?? "");
+
+  const { handleClickToOpenPopup } = useDeleteRestaurant();
 
   return (
     <div className="w-full grid grid-cols-1 relative my_restaurant_drop__i">
@@ -56,19 +58,29 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
                   ? handleDishClick()
                   : el.label === "My dishes"
                   ? handleSearchDishesClick()
+                  : el.label === "Delete"
+                  ? handleClickToOpenPopup()
                   : null
               }
               className="w-full flex items-center gap-3 group el__flow cursor-pointer first:pt-4 hover:text-orange-500 el__after_below"
             >
-              <Link to={el.path} className="w-full flex items-center gap-3">
-                {
+              {el.label === "Delete" ? (
+                <div className="w-full flex items-center gap-3">
                   <el.icon className="min-w-[25px] min-h-[25px] group-hover:text-orange-500 el__flow" />
-                }
 
-                <span className="txt__02 group-hover:text-orange-500 el__flow ">
-                  {el.label}
-                </span>
-              </Link>
+                  <span className="txt__02 group-hover:text-orange-500 el__flow ">
+                    {el.label}
+                  </span>
+                </div>
+              ) : (
+                <Link to={el.path} className="w-full flex items-center gap-3">
+                  <el.icon className="min-w-[25px] min-h-[25px] group-hover:text-orange-500 el__flow" />
+
+                  <span className="txt__02 group-hover:text-orange-500 el__flow ">
+                    {el.label}
+                  </span>
+                </Link>
+              )}
             </li>
           ))}
         </ul>
