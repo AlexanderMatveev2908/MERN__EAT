@@ -87,6 +87,8 @@ export const useBlockPages = ({ totPages }: { totPages: number }) => {
     handlePrevInterval,
     handleNextInterval,
     clearIntervalHandler,
+    blockSize,
+    currBlock,
   };
 };
 
