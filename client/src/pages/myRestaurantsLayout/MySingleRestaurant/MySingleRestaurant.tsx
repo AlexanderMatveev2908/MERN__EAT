@@ -8,8 +8,11 @@ import ImgSlider from "../../../UI/components/ImgSlider/ImgSlider";
 import DetailsRestaurantAdmin from "../../../UI/components/cards/restaurants/DetailsRestaurantAdmin";
 import DetailsRestaurantUser from "../../../UI/components/cards/restaurants/DetailsRestaurantUser";
 import DropElStatic from "../../../UI/components/DropElStatic";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 
 const MySingleRestaurant: FC = () => {
+  useScrollTop();
+
   const {
     canStay,
     isPending,

@@ -1,4 +1,3 @@
-import { useScrollTop } from "./../../../core/hooks/useScrollTop";
 import { useToast, useUser } from "./../../../core/hooks/useGlobal";
 import { useHandleErr } from "./../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
@@ -6,8 +5,6 @@ import { ErrFoodApp } from "../../../types/allTypes/API";
 export type handleErrManageUserType = ({ err }: { err: ErrFoodApp }) => void;
 
 export const useManageAccount = () => {
-  useScrollTop();
-
   const { showToastMsg, closeToast } = useToast();
   const { handleErrAPI } = useHandleErr();
 

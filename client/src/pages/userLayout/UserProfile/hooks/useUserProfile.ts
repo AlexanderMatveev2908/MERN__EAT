@@ -1,5 +1,4 @@
 import { RefObject, useEffect, useRef } from "react";
-import { useScrollTop } from "../../../../core/hooks/useScrollTop";
 import { useProfileReducer } from "./UseProfileReducer/useProfileReducer";
 
 export type InputRefType = RefObject<HTMLInputElement | null>;
@@ -19,8 +18,6 @@ export const useUserProfile = () => {
     handleSubmit,
   } = useProfileReducer();
 
-  useScrollTop();
-
   useEffect(() => {
     const makeFocus = () => {
       const refs = [inputRef_0, inputRef_1, inputRef_2];
@@ -38,18 +35,13 @@ export const useUserProfile = () => {
   const { isPrevDisabled, isNextDisabled, curr } = state.currForm;
 
   return {
-    isPrevDisabled,
-    isNextDisabled,
-    handleNext,
-    handlePrev,
+    propsBtns: { isPrevDisabled, isNextDisabled, handleNext, handlePrev },
     curr,
     state,
     handleChange,
     isPending,
     isPendingUpdate,
     handleSubmit,
-    inputRef_0,
-    inputRef_1,
-    inputRef_2,
+    refs: { inputRef_0, inputRef_1, inputRef_2 },
   };
 };

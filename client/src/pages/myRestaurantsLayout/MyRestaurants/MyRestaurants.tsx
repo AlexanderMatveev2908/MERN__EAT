@@ -11,8 +11,11 @@ import {
 import { FormProvider } from "react-hook-form";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 
 const MyRestaurants: FC = () => {
+  useScrollTop();
+
   const {
     isPending,
     formContext,

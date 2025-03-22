@@ -16,7 +16,6 @@ import {
 import { useEffect } from "react";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import { prepareFormDataMyDishUpdate } from "../../../utils/allUtils/prepareFormData";
 
 export const useUpdateDish = () => {
@@ -25,8 +24,6 @@ export const useUpdateDish = () => {
   const { handleErrAPI } = useHandleErr();
   const { showToastMsg } = useToast();
   const { setPopup, popup } = usePopup();
-
-  useScrollTop();
 
   const { setValue, reset } = formContext;
 
@@ -119,7 +116,7 @@ export const useUpdateDish = () => {
     mutateUpdate({ formData, id: dishId ?? "" });
   });
 
-  const { mutate, isPending: isPendingDelete } = useMutation({
+  const { mutate: mutateDelete, isPending: isPendingDelete } = useMutation({
     mutationFn: () => {
       setPopup({
         ...popup,
@@ -129,8 +126,14 @@ export const useUpdateDish = () => {
     },
     onSuccess: () => {
       showToastMsg("Dish deleted successfully", "SUCCESS");
-      reset();
+
+      const { setValue } = formContextMyDishesSearch;
+
+      setValue("searchVals", ["restaurantId"]);
+      setValue("search", dataInfo?.dish?.restaurant ?? "");
+
       navigate("/my-dishes", { replace: true });
+      reset();
     },
     onError: (err: ErrFoodApp) => {
       handleErrAPI({ err });
@@ -139,7 +142,7 @@ export const useUpdateDish = () => {
   });
 
   const handleDeletePopup = () => {
-    mutate();
+    mutateDelete();
   };
   const handleOpenPopup = () => {
     setPopup({

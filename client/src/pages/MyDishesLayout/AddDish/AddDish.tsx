@@ -3,8 +3,11 @@ import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/Load
 import { useAddDish } from "./useAddDish";
 import MyDishesForm from "../../../UI/forms/MyDishes/MyDishesForm";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 
 const AddDish = () => {
+  useScrollTop();
+
   const {
     isPendingIds,
     formContext,

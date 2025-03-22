@@ -8,8 +8,11 @@ import {
   emailField,
   pwdFieldToAccess,
 } from "../../../core/config/fieldsArr/allFields/authFieldsUser";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 
 const Login: FC = () => {
+  useScrollTop();
+
   const { register, errors, isPending, handleLoginUser } = useLoginCustom();
   const [isPwdVisible, setIsPwdVisible] = useState(false);
 

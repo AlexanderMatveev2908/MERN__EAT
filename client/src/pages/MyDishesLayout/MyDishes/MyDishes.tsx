@@ -13,8 +13,11 @@ import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import MyDishesItem from "./components/MyDishesItem";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 
 const MyDishes: FC = () => {
+  useScrollTop();
+
   const {
     formContextMyDishesSearch: formContext,
     propsForm,
