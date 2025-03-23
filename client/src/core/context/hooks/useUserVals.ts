@@ -11,14 +11,26 @@ import {
 } from "../actions/userActions";
 import { getInitialsName } from "../../../utils/utils";
 
+const currentKeysToCleanStorage = [
+  "myRestaurantsSearch",
+  "myDishesSearch",
+  "searchAllUsersRest",
+  "accessToken",
+  "manageAccountToken",
+  "initName",
+];
+
 export const useUserVals = (
   userState: UserStateType,
   dispatch: React.Dispatch<UserActionTypes>
 ) => {
   const setUserLogged = useCallback(
     (val?: string | boolean) => {
-      if (!val) sessionStorage.removeItem("accessToken");
-      else sessionStorage.setItem("accessToken", val as string);
+      if (!val) {
+        sessionStorage.removeItem("accessToken");
+      } else {
+        sessionStorage.setItem("accessToken", val as string);
+      }
 
       dispatch({ type: SET_IS_LOGGED, payload: !!val });
     },
@@ -53,9 +65,11 @@ export const useUserVals = (
   );
 
   const logoutUser = useCallback(() => {
-    sessionStorage.removeItem("accessToken");
-    sessionStorage.removeItem("manageAccountToken");
-    sessionStorage.removeItem("initName");
+    let i = 0;
+    do {
+      sessionStorage.removeItem(currentKeysToCleanStorage[i]);
+      i++;
+    } while (i < currentKeysToCleanStorage.length);
 
     dispatch({ type: SET_IS_LOGGED, payload: false });
     dispatch({ type: SET_CURR_USER, payload: null });

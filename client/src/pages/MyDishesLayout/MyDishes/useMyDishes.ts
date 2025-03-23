@@ -60,7 +60,7 @@ export const useMyDishes = () => {
     if (data?.dishes?.length)
       setSelected(data.dishes.map((el: DishType) => el._id));
     setPopup({
-      txt: `delete all dishes that match query (${data?.nHits}) ?`,
+      txt: `delete ${data?.nHits} dish${data?.nHits > 1 ? "es" : ""} ?`,
       redLabel: "Delete dishes",
       confirmAction: handleDeleteBulkQuery,
       isPending: isPendingBulkQuery,

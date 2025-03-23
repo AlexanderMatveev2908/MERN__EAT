@@ -14,7 +14,7 @@ export const validatorUpdateDish = [
   check("quantity").toInt().isInt().withMessage("invalid quantity"),
 
   check().custom((_, { req }) =>
-    !req.body?.images && !req?.files?.length
+    !JSON.parse(req.body?.images || "[]").length && !req?.files?.length
       ? Promise.reject("Invalid images")
       : true
   ),
