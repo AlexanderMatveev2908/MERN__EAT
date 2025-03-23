@@ -58,7 +58,7 @@ const SearchFieldMultiple: FC<PropsType> = ({ formContext, i, searchVal }) => {
       <label className="w-full grid grid-cols-1 justify-items-start gap-2 relative">
         <input
           type="text"
-          placeholder={`Search a ${target} ${label ? `by ${label}` : ""}...`}
+          placeholder={`Search a ${target}${label ? ` by ${label}` : ""}...`}
           className="focus__base el__flow outline-none border-2 border-orange-500 rounded-full w-full px-5 pr-14 py-2 txt__01"
           {...register(valToRegister, {
             pattern: {
