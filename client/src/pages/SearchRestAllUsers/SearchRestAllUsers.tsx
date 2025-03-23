@@ -9,11 +9,13 @@ import {
 import { useSearch } from "./useSearch";
 import { FormProvider } from "react-hook-form";
 import BlockPages from "../../UI/components/BlockPages/BlockPages";
+import LoaderPageReact from "../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 
-const Search: FC = () => {
+const SearchRestAllUsers: FC = () => {
   useScrollTop();
 
-  const { formContext, handleSave, handleClear, propsBlock } = useSearch();
+  const { formContext, handleSave, handleClear, propsBlock, isPending } =
+    useSearch();
 
   return (
     <div className="w-full grid grid-cols-1 justify-items-center gap-5">
@@ -31,8 +33,10 @@ const Search: FC = () => {
         />
       </FormProvider>
 
+      {isPending ? <LoaderPageReact /> : null}
+
       <BlockPages {...{ ...propsBlock }} />
     </div>
   );
 };
-export default Search;
+export default SearchRestAllUsers;

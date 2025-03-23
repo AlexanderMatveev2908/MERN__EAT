@@ -22,8 +22,8 @@ const makeQueryRange = (
 
 const checkQueryConditions = (query: any, conditions: any) => {
   if (conditions?.length) {
-    if (query["$or"]) query["$or"] = [...query["$or"], ...conditions];
-    else query["$or"] = [...conditions];
+    if (query["$and"]) query["$and"] = [...query["$and"], ...conditions];
+    else query["$and"] = [...conditions];
   }
 };
 

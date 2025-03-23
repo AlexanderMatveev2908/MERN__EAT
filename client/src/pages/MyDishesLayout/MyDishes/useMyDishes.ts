@@ -54,7 +54,10 @@ export const useMyDishes = () => {
     if (isError) {
       handleErrAPI({ err: error as ErrFoodApp });
     }
-  }, [isSuccess, isError, data, handleErrAPI, error]);
+    if (isSuccess) {
+      if (data?.nHits < limit) setCurrPage(1);
+    }
+  }, [isSuccess, isError, data, handleErrAPI, error, limit]);
 
   const toggleSelected = (val: string) =>
     setSelected((prev) =>

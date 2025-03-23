@@ -1,3 +1,5 @@
+import { MyRestaurantType } from "./restAdmin";
+
 export type SearchFormType = {
   search: string;
   searchVals: string[];
@@ -13,3 +15,8 @@ export type SearchFormType = {
   page?: string;
   limit?: string;
 };
+
+export type RestaurantAllUsers = Omit<
+  MyRestaurantType,
+  "ordersByStatus" | "ordersCount"
+>;

@@ -19,6 +19,7 @@ import routerMyDishes from "./routes/myDishes.js";
 import proxyRouter from "./routes/proxy.js";
 import { asyncWrapper } from "./middleware/general/asyncWrapper.js";
 import { verifyAccessToken } from "./middleware/general/verifyAccessToken.js";
+import searchRouter from "./routes/search.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -41,6 +42,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/newsletter", newsLetterRouter);
 app.use("/api/v1/my-restaurants", verifyAccessToken, myRestaurantsRouter);
 app.use("/api/v1/my-dishes", verifyAccessToken, routerMyDishes);
+app.use("/api/v1/search", searchRouter);
 
 if (isDev) app.use("/api/v1/proxy", asyncWrapper(proxyRouter));
 

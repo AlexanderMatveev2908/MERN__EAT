@@ -3,12 +3,12 @@ import User from "../../models/User.js";
 import mongoose from "mongoose";
 import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
 import { makeQueryMyDishes } from "../../utils/makeQueries/myDishes.js";
-import { makeSortersMyDishes } from "../../utils/makeSorters/myDishes.js";
 import Restaurant from "../../models/Restaurant.js";
 import { calcPagination } from "../../utils/calcPagination.js";
 import Dish from "../../models/Dish.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
+import { makeSorters } from "../../utils/makeSorters/general.js";
 
 export const getRestaurantIds = async (
   req: RequestWithUserId,
@@ -54,7 +54,7 @@ export const getMyDishes = async (
   const { userId } = req;
 
   const queryObj = makeQueryMyDishes(req);
-  const sorterObj = makeSortersMyDishes(req);
+  const sorterObj = makeSorters(req, "dishes.");
   const { queryRestaurant, queryDishes } = queryObj ?? {};
 
   queryRestaurant.$match = Object.keys(queryRestaurant ?? {}).length

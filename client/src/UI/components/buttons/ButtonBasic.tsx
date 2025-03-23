@@ -27,7 +27,7 @@ const ButtonBasic: FC<PropsType> = ({
       disabled={isDisabled}
       onClick={handleClick}
       type={type}
-      className="btn__with_shadow_container group"
+      className="btn__with_shadow_container group outline-none"
     >
       <div
         className={`${

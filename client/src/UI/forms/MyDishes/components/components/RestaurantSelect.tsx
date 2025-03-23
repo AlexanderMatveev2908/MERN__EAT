@@ -65,11 +65,12 @@ const RestaurantSelect: FC<PropsType> = ({ formContext, restInfo }) => {
         >
           {restInfo?.map((el) => (
             <li
-              onClick={() =>
+              onClick={() => {
                 setValue("restaurant", isChosen(el._id) ? "" : el._id, {
                   shouldValidate: true,
-                })
-              }
+                });
+                setIsOpen(false);
+              }}
               key={el._id}
               className={`grid w-full grid-cols-1 border-2 first:mt-3 rounded-xl py-1 sm:py-2 px-2 sm:px-3 cursor-pointer el__flow ${
                 isChosen(el._id)
