@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { badRequest } from "../utils/baseErrResponse.js";
+import { badRequest } from "../../utils/baseErrResponse.js";
 import axios from "axios";
 
 const router = express.Router();

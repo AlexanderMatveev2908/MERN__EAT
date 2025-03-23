@@ -1,0 +1,18 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+import Restaurant from "../models/Restaurant.js";
+export const updateRest = () => __awaiter(void 0, void 0, void 0, function* () {
+    const rest = yield Restaurant.findById("67dd5666537f1a7c2103ee43");
+    const randomRest = yield Restaurant.findById("67dec23c33223dc5e44d3799");
+    rest.images = [
+        ...randomRest.images.map((el) => (Object.assign(Object.assign({}, el), { _id: rest._id }))),
+    ];
+    yield rest.save();
+});

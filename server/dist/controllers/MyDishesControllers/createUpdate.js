@@ -47,7 +47,7 @@ export const createDishes = (req, res) => __awaiter(void 0, void 0, void 0, func
     }));
     // form an obj of files provided by multer i create an array for each dish that keeps an array of files relative to dish
     const arrReturnedPromises = arrFiles.map((dishFiles, i) => __awaiter(void 0, void 0, void 0, function* () {
-        // each array will be uploaded by block, upload cloud storage map all files tye same way and return Promise.all
+        // each array will be uploaded by block, upload cloud storage map all files and return Promise.all
         const images = yield uploadCloudStorage(dishFiles[`images_${i}`]);
         return images;
     }));

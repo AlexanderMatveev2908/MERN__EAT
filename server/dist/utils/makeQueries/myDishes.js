@@ -14,6 +14,7 @@ export const makeQueryMyDishes = (req) => {
     var _a;
     const { search, searchVals: searchTarget, minPrice, maxPrice, minQuantity, maxQuantity, categories, } = req.query;
     const queryObj = {};
+    // i used _ for fields of document parent cause at beginning i was thinking to another ways to do thing, anyway they are though to be destructured at the end, they are not used on dishes but on restaurants and need to be distinguish and not mixed
     if (categories)
         queryObj["restaurant_categories"] = {
             $in: categories.split(","),
@@ -53,7 +54,7 @@ export const makeQueryMyDishes = (req) => {
     const queryRestaurant = {
         $match: Object.assign(Object.assign(Object.assign({}, (restaurant_name ? { name: restaurant_name } : {})), (restaurant_id ? { _id: restaurant_id } : {})), (restaurant_categories ? { categories: restaurant_categories } : {})),
     };
-    const queryDishes = Object.values(rest).every((val) => val)
+    const queryDishes = Object.keys(rest).length
         ? {
             $match: Object.assign({}, rest),
         }
