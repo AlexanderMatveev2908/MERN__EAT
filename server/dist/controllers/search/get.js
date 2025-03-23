@@ -56,18 +56,16 @@ export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void
         { $unwind: { path: "$reviews", preserveNullAndEmptyArrays: true } },
         {
             $set: Object.assign({ deliveryTime: "$delivery.estTimeDelivery", deliveryPrice: "$delivery.price" }, (REG_MONGO.test(userId !== null && userId !== void 0 ? userId : "")
-                ? [
-                    {
-                        isAdmin: {
-                            $cond: {
-                                if: { $eq: [makeMongoId(userId !== null && userId !== void 0 ? userId : ""), "$owner"] },
-                                then: true,
-                                else: false,
-                            },
+                ? {
+                    isAdmin: {
+                        $cond: {
+                            if: { $eq: [makeMongoId(userId !== null && userId !== void 0 ? userId : ""), "$owner"] },
+                            then: true,
+                            else: false,
                         },
                     },
-                ]
-                : [])),
+                }
+                : {})),
         },
         //  to practice as more as possible with aggregations i tried to make for each controller i need a new one,
         // here to prevent document from being counted for each unwind subDocument i need to group them before make calc nHits and calc pagination or there will be duplicated of a rest as many subDocuments of each parent document

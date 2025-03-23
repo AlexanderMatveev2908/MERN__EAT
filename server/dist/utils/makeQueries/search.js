@@ -21,13 +21,21 @@ const makeQueryRange_v_2 = (queryObj, vals, rangeName, limit) => {
     } while (i < ranges.length);
 };
 export const makeQuerySearchAllUsers = (req) => {
-    const { search, searchVals, categories, avgRatingRange, avgPriceRange } = req.query;
+    const { categories, avgRatingRange, avgPriceRange } = req.query;
     const queryObj = {};
-    if (searchVals)
-        queryObj[`restaurant.${searchVals}`] = {
-            $regex: `.*${search}.*`,
-            $options: "i",
-        };
+    for (const key of ["country", "state", "city"]) {
+        if (req.query[key])
+            queryObj[`restaurant.address.${key}`] = {
+                $regex: `.*${req.query[key]}.*`,
+                $options: "i",
+            };
+        if (req.query["name"]) {
+            queryObj[`restaurant.name`] = {
+                $regex: `.*${req.query["name"]}.*`,
+                $options: "i",
+            };
+        }
+    }
     if (categories)
         queryObj[`restaurant.categories`] = {
             $in: categories === null || categories === void 0 ? void 0 : categories.split(","),
