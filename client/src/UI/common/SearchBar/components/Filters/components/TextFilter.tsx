@@ -10,6 +10,9 @@ import { REG_MONGO } from "../../../../../../core/config/constants/regex";
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
+  // append: UseFieldArrayAppend<any> | undefined;
+  // remove: UseFieldArrayRemove | undefined;
+  // fields;
 };
 
 const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
@@ -17,10 +20,25 @@ const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
 
   const { register, watch, setValue, setError } = formContext;
 
+  console.log(watch());
+
   const handleChange = (el: string) => {
-    if ((watch("searchVals") || []).includes(el))
+    if ((watch("searchVals") || []).includes(el)) {
+      // if (remove) {
+      //   const eqId = fields?.filter((field) => field?.searchVal === el)?.[0]
+      //     ?.id;
+      //   remove(eqId);
+
+      //   setValue(
+      //     "searchVals",
+      //     watch("searchVals").filter((el) => el !== el)
+      //   );
+      // } else
       setValue("searchVals", [], { shouldValidate: true });
-    else setValue("searchVals", [el], { shouldValidate: true });
+    } else {
+      // if (append) append({ searchVal: el, search: "" });
+      setValue("searchVals", [el], { shouldValidate: true });
+    }
 
     if (["id", "restaurantId"].includes(el) && !REG_MONGO.test(watch("search")))
       setError("search", { message: "Invalid Mongo ID" });

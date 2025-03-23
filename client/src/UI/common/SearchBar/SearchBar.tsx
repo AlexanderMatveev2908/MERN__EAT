@@ -44,9 +44,44 @@ const SearchBar: FC<PropsType> = ({
   handleClear,
   isPending,
 }) => {
+  // const hasAppendedFirst = useRef(false);
+  // const path = useLocation().pathname;
+
+  // const { control, watch } = formContext;
+
+  // const { fields, append, remove } = useFieldArray({
+  //   control,
+  //   name: "items",
+  // });
+
+  // const searchValEquivalent = watch("searchVals");
+
+  // useEffect(() => {
+  //   if (
+  //     !fields.length &&
+  //     fields.length + 1 < 2 &&
+  //     !hasAppendedFirst.current &&
+  //     path === "/search"
+  //   ) {
+  //     hasAppendedFirst.current = true;
+  //     append({ search: "", searchVal: "name" });
+  //   }
+  // }, [fields, path, append]);
+
   return !formContext ? null : (
     <form className="w-full max-w-[90%] border-[3px] border-orange-500 rounded-xl p-6">
       <div className="w-full grid grid-cols-1">
+        {/* {path !== "/search" ? (
+          <SearchField {...{ formContext }} />
+        ) : (
+          fields.map((_, i) => (
+            <SearchFieldMultiple
+              {...{ formContext, i, searchVal: searchValEquivalent?.[i] }}
+              key={i}
+            />
+          ))
+        )} */}
+
         <SearchField {...{ formContext }} />
 
         <FiltersSearchBar
@@ -91,3 +126,19 @@ const SearchBar: FC<PropsType> = ({
   );
 };
 export default SearchBar;
+
+/*
+
+     <div className="w-full grid grid-cols-1 gap-4 relative pb-6">
+            {fields.map((_, i) => (
+              <SearchFieldMultiple
+                {...{ formContext, i, searchVal: searchValEquivalent?.[i] }}
+                key={i}
+              />
+            ))}
+            <button className="absolute border-2 border-orange-500 rounded-xl bg-[#000] flex w-fit gap-5 items-center top-1/2 p-1 group el__flow hover:scale-110 cursor-pointer">
+              <FaPlus className="icon__base group-hover:text-orange-500 el__flow" />
+            </button>
+          </div>
+
+          */

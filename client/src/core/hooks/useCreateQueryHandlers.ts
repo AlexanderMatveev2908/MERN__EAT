@@ -69,7 +69,7 @@ export const useCreateQueryHandlers = ({
       handleErrAPI({ err: error as ErrFoodApp });
     }
     if (isSuccess) {
-      console.log(data);
+      // console.log(data);
       if (data?.nHits < limit) setCurrPage(1);
     }
   }, [isError, isSuccess, error, handleErrAPI, data, limit, setCurrPage]);
