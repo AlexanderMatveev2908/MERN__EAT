@@ -16,6 +16,9 @@ type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
   filters: SearchFilterType[];
+  // append: UseFieldArrayAppend<any> | undefined;
+  // remove: UseFieldArrayRemove | undefined;
+  // fields: any;
 };
 
 const FiltersSearchBar: FC<PropsType> = ({
