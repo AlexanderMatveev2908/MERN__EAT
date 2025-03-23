@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { defaultValuesMyRest } from "../../../core/config/onlyDev/defVals";
 import { createRestaurantAPI } from "../../../core/api/api";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { isDev } from "../../../core/config/constants/environment";
 
 export const useAddRestaurant = () => {
   const navigate = useNavigate();
@@ -18,10 +19,7 @@ export const useAddRestaurant = () => {
 
   const formContext = useForm<MyRestaurantsAddUpdateFormType>({
     mode: "onChange",
-    defaultValues:
-      import.meta.env.VITE_NODE_ENV === "development"
-        ? { ...defaultValuesMyRest }
-        : {},
+    defaultValues: isDev ? { ...defaultValuesMyRest } : {},
   });
 
   useEffect(() => {

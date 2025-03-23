@@ -8,7 +8,7 @@ export const useCreateTanMyDishes = ({
   cbMutation,
   setSelected,
 }: {
-  cbMutation: (params: string[] | URLSearchParams) => Promise<void>;
+  cbMutation: () => Promise<void>;
   setSelected: (val: string[]) => void;
 }) => {
   const queryClient = useQueryClient();
@@ -18,13 +18,13 @@ export const useCreateTanMyDishes = ({
   const { handleErrAPI } = useHandleErr();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (params: string[] | URLSearchParams) => {
+    mutationFn: () => {
       setPopup({
         ...popup,
         isPending: true,
       } as any);
 
-      return cbMutation(params);
+      return cbMutation();
     },
     onSuccess: () => {
       showToastMsg("Dishes Deleted successfully", "SUCCESS");
@@ -35,5 +35,7 @@ export const useCreateTanMyDishes = ({
     onSettled: () => setPopup(null),
   });
 
-  return { mutate, isPending };
+  const handleDelete = () => mutate();
+
+  return { handleDelete, isPending };
 };
