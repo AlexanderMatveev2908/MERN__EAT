@@ -1,18 +1,18 @@
 import express from "express";
-import { verifyAccessToken } from "../middleware/general/verifyAccessToken.js";
-import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
+import { verifyAccessToken } from "../../middleware/general/verifyAccessToken.js";
+import { asyncWrapper } from "../../middleware/general/asyncWrapper.js";
 import {
   sendEmailUnsubscribeRetry,
   subscribeNonLoggedUser,
   toggleUserNewsLetter,
   unsubScribeNewsLetterViaEmailLinkLogged,
   unsubScribeNewsLetterViaEmailLinkNonLogged,
-} from "../controllers/newsLetterControllers.js";
-import { makeLimiter } from "../utils/makeLimiter.js";
-import { validatorToggleSubscribe } from "../middleware/newsLetter/validatorToggleSubscribe.js";
-import { validatorNewsLetterEmail } from "../middleware/newsLetter/validatorNewsLetterEmail.js";
-import { HOUR } from "../config/constants/time.js";
-import { validatorUnsubscribeVerify } from "../middleware/newsLetter/validatorUnsubscribeVerify.js";
+} from "../../controllers/newsLetterControllers.js";
+import { makeLimiter } from "../../utils/makeLimiter.js";
+import { validatorToggleSubscribe } from "../../middleware/newsLetter/validatorToggleSubscribe.js";
+import { validatorNewsLetterEmail } from "../../middleware/newsLetter/validatorNewsLetterEmail.js";
+import { HOUR } from "../../config/constants/time.js";
+import { validatorUnsubscribeVerify } from "../../middleware/newsLetter/validatorUnsubscribeVerify.js";
 
 const router = express();
 

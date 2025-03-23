@@ -14,10 +14,10 @@ const makeQueryRange = (rangeVal, rangeName, limit) => {
 };
 const checkQueryConditions = (query, conditions) => {
     if (conditions === null || conditions === void 0 ? void 0 : conditions.length) {
-        if (query["$or"])
-            query["$or"] = [...query["$or"], ...conditions];
+        if (query["$and"])
+            query["$and"] = [...query["$and"], ...conditions];
         else
-            query["$or"] = [...conditions];
+            query["$and"] = [...conditions];
     }
 };
 export const makeQueriesMyRestaurants = (req) => {

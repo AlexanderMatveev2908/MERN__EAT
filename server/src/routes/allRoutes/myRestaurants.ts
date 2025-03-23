@@ -1,24 +1,24 @@
 import express from "express";
-import { uploadMyRestaurants } from "../middleware/myRestaurants/multer.js";
+import { uploadMyRestaurants } from "../../middleware/myRestaurants/multer.js";
 import {
   validateFiles,
   validateImagesUploaded,
   validatorMyRestaurants,
-} from "../middleware/myRestaurants/validatorMyRestaurants.js";
-import { asyncWrapper } from "../middleware/general/asyncWrapper.js";
+} from "../../middleware/myRestaurants/validatorMyRestaurants.js";
+import { asyncWrapper } from "../../middleware/general/asyncWrapper.js";
 import {
   getMyRestaurants,
   getMySingleRestaurant,
   getMySingleRestaurantInfoToUpdate,
-} from "../controllers/myRestaurants/get.js";
-import { validatorMySingleRest } from "../middleware/myRestaurants/validatorMySingleRest.js";
+} from "../../controllers/myRestaurants/get.js";
+import { validatorMySingleRest } from "../../middleware/myRestaurants/validatorMySingleRest.js";
 import {
   createRestaurant,
   deleteRestaurant,
   updateMyRestaurant,
-} from "../controllers/myRestaurants/makeUpdateDelete.js";
-import { validateGetMyRestParams } from "../middleware/myRestaurants/validateGetMyRestParams.js";
-import { validatePagination } from "../middleware/general/validatePagination.js";
+} from "../../controllers/myRestaurants/makeUpdateDelete.js";
+import { validateGetMyRestParams } from "../../middleware/myRestaurants/validateGetMyRestParams.js";
+import { validatePagination } from "../../middleware/general/validatePagination.js";
 
 const router = express();
 

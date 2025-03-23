@@ -21,12 +21,12 @@ var __rest = (this && this.__rest) || function (s, e) {
 import User from "../../models/User.js";
 import mongoose from "mongoose";
 import { makeQueryMyDishes } from "../../utils/makeQueries/myDishes.js";
-import { makeSortersMyDishes } from "../../utils/makeSorters/myDishes.js";
 import Restaurant from "../../models/Restaurant.js";
 import { calcPagination } from "../../utils/calcPagination.js";
 import Dish from "../../models/Dish.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
+import { makeSorters } from "../../utils/makeSorters/general.js";
 export const getRestaurantIds = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
     const ids = yield User.aggregate([
@@ -53,7 +53,7 @@ export const getRestaurantIds = (req, res) => __awaiter(void 0, void 0, void 0, 
     ]);
     if (!(ids === null || ids === void 0 ? void 0 : ids.length))
         return res
-            .status(200)
+            .status(404)
             .json({ success: false, msg: "User does not have restaurants" });
     return res.status(200).json({ success: true, infoRestaurants: ids });
 });
@@ -61,7 +61,7 @@ export const getMyDishes = (req, res) => __awaiter(void 0, void 0, void 0, funct
     var _a, _b, _c, _d, _e, _f;
     const { userId } = req;
     const queryObj = makeQueryMyDishes(req);
-    const sorterObj = makeSortersMyDishes(req);
+    const sorterObj = makeSorters(req, "dishes.");
     const { queryRestaurant, queryDishes } = queryObj !== null && queryObj !== void 0 ? queryObj : {};
     queryRestaurant.$match = Object.keys(queryRestaurant !== null && queryRestaurant !== void 0 ? queryRestaurant : {}).length
         ? Object.assign(Object.assign({}, queryRestaurant.$match), { owner: makeMongoId(userId !== null && userId !== void 0 ? userId : "") }) : {
@@ -184,7 +184,7 @@ export const getInfoDishForm = (req, res) => __awaiter(void 0, void 0, void 0, f
         },
     ]);
     const _b = ((_a = result === null || result === void 0 ? void 0 : result[0]) !== null && _a !== void 0 ? _a : {}).dish, _c = _b === void 0 ? {} : _b, { restaurantName } = _c, dish = __rest(_c, ["restaurantName"]);
-    if (!dish)
+    if (!Object.keys(dish !== null && dish !== void 0 ? dish : {}).length)
         return baseErrResponse(res, 404, "Dish not found");
     return res.status(200).json({
         success: true,
