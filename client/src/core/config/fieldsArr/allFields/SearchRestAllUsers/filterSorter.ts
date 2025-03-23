@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FaMoneyBillWave, FaMoneyBillWaveAlt, FaRegStar } from "react-icons/fa";
 import { genID } from "../../../../../utils/utils";
 import {
@@ -58,8 +59,9 @@ export const searchRestAllUsersSorters = [
   subFields: [...fieldsUpAndDown.map((el) => ({ ...el, id: genID() }))],
 }));
 
-export const defaultValsSearchAllUsers: SearchFormType = {
-  search: "",
+export const defaultValsSearchAllUsers: Omit<SearchFormType, "search"> & {
+  items: any;
+} = {
   searchVals: ["name"],
 
   categories: [],
@@ -70,6 +72,13 @@ export const defaultValsSearchAllUsers: SearchFormType = {
   avgPriceSort: [],
   deliveryTimeSort: [],
   deliveryPriceSort: [],
+
+  items: [
+    {
+      searchVal: "name",
+      search: "",
+    },
+  ],
 
   page: "1",
 };
