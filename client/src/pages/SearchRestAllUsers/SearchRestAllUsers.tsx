@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC } from "react";
 import { useScrollTop } from "../../core/hooks/useScrollTop";
 import {
-  defaultValsSearchAllUsers,
   searchRestAllUsersFilters,
   searchRestAllUsersSorters,
   searchRestFieldsSearch,
@@ -17,63 +16,30 @@ import { useFormsCustom } from "../../core/hooks/useGlobal";
 import { RestaurantAllUsers } from "../../types/allTypes/search";
 import SearchRestItem from "./components/SearchRestItem";
 import SearchBar_v_2 from "../../UI/common/SearchBar/SearchBar_v_2";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useUpdateCardsLimit } from "../../core/hooks/useUpdateCardsLimit";
 import { getRestAllUSersAPI } from "../../core/api/APICalls/searchAllUsers";
-import { useHandleErr } from "../../core/hooks/useHandleErr";
 import { createURLParamsMultipleSearch } from "../../utils/allUtils/makeURLParams";
+import { useCreateQueryHandlers } from "../../core/hooks/useCreateQueryHandlers";
 
 const SearchRestAllUsers: FC = () => {
-  const [currPage, setCurrPage] = useState<number>(1);
-  const [limit, setLimit] = useState(6);
-
-  const queryClient = useQueryClient();
+  useScrollTop();
 
   const { formContextSearchRestAllUsers: formContext } = useFormsCustom();
-  const { handleErrAPI } = useHandleErr();
 
-  useScrollTop();
-  useUpdateCardsLimit(limit, setLimit);
-
-  const { handleSubmit, reset, trigger, watch } = formContext;
-
-  const handleSave = handleSubmit((formDatHook) => {
-    formDatHook.page = currPage + "";
-    sessionStorage.setItem("searchAllUsersRest", JSON.stringify(formDatHook));
-    queryClient.resetQueries({ queryKey: ["searchAllUsersRest"] });
+  const {
+    handleSave,
+    handleClear,
+    propsBlock,
+    data,
+    isPending,
+    isError,
+    error,
+    isSuccess,
+  } = useCreateQueryHandlers({
+    formCtx: formContext,
+    key: "searchAllUsersRest",
+    cbAPI: getRestAllUSersAPI,
+    cbProcessForm: createURLParamsMultipleSearch,
   });
-
-  const handleClear = () => {
-    sessionStorage.removeItem("searchAllUsersRest");
-    reset(defaultValsSearchAllUsers);
-    setCurrPage(1);
-    trigger();
-
-    queryClient.resetQueries({ queryKey: ["searchAllUsersRest"] });
-  };
-
-  const formVals = watch();
-  formVals.page = currPage + "";
-  formVals.limit = limit + "";
-
-  const { data, isPending, isSuccess, isError, error } = useQuery({
-    queryKey: ["searchAllUsersRest", formVals],
-    queryFn: () => getRestAllUSersAPI(createURLParamsMultipleSearch(formVals)),
-  });
-
-  const handleSideEffects = useCallback(() => {
-    if (isError) {
-      handleErrAPI({ err: error as ErrFoodApp });
-    }
-    if (isSuccess) {
-      // console.log(data);
-      if (data?.nHits < limit) setCurrPage(1);
-    }
-  }, [isError, isSuccess, error, handleErrAPI, data, limit, setCurrPage]);
-
-  useEffect(() => {
-    handleSideEffects();
-  }, [handleSideEffects]);
 
   const { totDocuments, nHits, totPages, restaurants } = data ?? ({} as any);
 
@@ -109,7 +75,7 @@ const SearchRestAllUsers: FC = () => {
         )
       )}
 
-      <BlockPages {...{ currPage, setCurrPage, totPages }} />
+      <BlockPages {...{ ...propsBlock, totPages }} />
     </div>
   );
 };

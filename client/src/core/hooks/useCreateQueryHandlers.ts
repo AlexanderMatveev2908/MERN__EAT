@@ -15,10 +15,12 @@ export const useCreateQueryHandlers = ({
   formCtx,
   key,
   cbAPI,
+  cbProcessForm,
 }: {
   formCtx: UseFormReturn<any>;
   key: string;
   cbAPI: (params: URLSearchParams) => Promise<any>;
+  cbProcessForm?: (formVals: any) => URLSearchParams;
 }) => {
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState(6);
@@ -59,7 +61,10 @@ export const useCreateQueryHandlers = ({
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: [key, formVals],
-    queryFn: () => cbAPI(createURLParams(formVals)),
+    queryFn: () =>
+      cbAPI(
+        cbProcessForm ? cbProcessForm(formVals) : createURLParams(formVals)
+      ),
   });
 
   const { handleErrAPI } = useHandleErr();
