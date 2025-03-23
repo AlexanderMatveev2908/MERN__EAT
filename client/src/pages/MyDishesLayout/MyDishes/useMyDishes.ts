@@ -107,5 +107,8 @@ export const useMyDishes = () => {
     handleOpenPopup,
     clearSelected,
     handleOpenPopupBulkQuery,
+    isError,
+    error,
+    isSuccess,
   };
 };

@@ -14,6 +14,8 @@ import MyDishesItem from "./components/MyDishesItem";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import ErrEmoji from "../../../UI/components/ErrEmoji";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 const MyDishes: FC = () => {
   useScrollTop();
@@ -28,6 +30,9 @@ const MyDishes: FC = () => {
     handleOpenPopup,
     clearSelected,
     handleOpenPopupBulkQuery,
+    isError,
+    error,
+    isSuccess,
   } = useMyDishes();
 
   const { totDocuments, nHits, dishes } = data ?? ({} as any);
@@ -48,9 +53,11 @@ const MyDishes: FC = () => {
         />
       </FormProvider>
 
-      <ShowNumberHits
-        {...{ nHits, totDocuments, isPending: propsForm.isPending }}
-      />
+      {isSuccess && (
+        <ShowNumberHits
+          {...{ nHits, totDocuments, isPending: propsForm.isPending }}
+        />
+      )}
 
       {!!selected?.length && (
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 mt-3 px-3 gap-4 justify-items-start sm:justify-items-center">
@@ -80,17 +87,17 @@ const MyDishes: FC = () => {
 
       {propsForm.isPending ? (
         <LoaderPageReact />
+      ) : isError ? (
+        <ErrEmoji {...{ err: (error as ErrFoodApp)?.response?.data?.msg }} />
       ) : (
-        dishes && (
-          <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))] justify-items-center gap-10 mt-5 items-start">
-            {dishes.map((el) => (
-              <MyDishesItem
-                key={el._id}
-                {...{ dish: el, toggleSelected, selected }}
-              />
-            ))}
-          </div>
-        )
+        <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))] justify-items-center gap-10 mt-5 items-start">
+          {dishes.map((el) => (
+            <MyDishesItem
+              key={el._id}
+              {...{ dish: el, toggleSelected, selected }}
+            />
+          ))}
+        </div>
       )}
       <BlockPages {...{ ...propsBlockPages }} />
     </div>

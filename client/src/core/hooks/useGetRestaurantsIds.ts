@@ -30,6 +30,8 @@ export const useGetRestaurantsIds = () => {
   return {
     isPendingIds,
     restInfo: dataIds?.infoRestaurants,
-    isSuccessIds,
+    isSuccessIds: isSuccessIds && dataIds?.infoRestaurants?.length,
+    isErrorIds,
+    errorIds,
   };
 };

@@ -7,6 +7,8 @@ import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/Load
 import { Navigate } from "react-router-dom";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { ErrFoodApp } from "../../../types/allTypes/API";
+import { ReturnIdsAPI } from "../../../core/api/APICalls/myDishes";
 
 const UpdateDish: FC = () => {
   useScrollTop();
@@ -20,13 +22,14 @@ const UpdateDish: FC = () => {
     canStay,
     handleOpenPopup,
     isPending,
+    errorInfo,
   } = useUpdateDish();
 
   return (
     <div className="w-full grid grid-cols-1 gap-5 justify-items-center">
       <span className="txt__04">Update Dish</span>
 
-      {isSuccess && !!restInfo?.length && (
+      {isSuccess && (
         <div className="justify-self-start">
           <DeleteButton
             {...{ txt: "Delete Dish", handleDelete: handleOpenPopup }}
@@ -38,13 +41,13 @@ const UpdateDish: FC = () => {
         <Navigate to="/" replace />
       ) : isPendingPage ? (
         <LoaderPageReact />
-      ) : isSuccess && restInfo?.length ? (
+      ) : isSuccess ? (
         <FormProvider {...formContext}>
           <MyDishesForm
             {...{
               formContext,
               handleSave,
-              restInfo: restInfo,
+              restInfo: restInfo as ReturnIdsAPI[],
               isPending,
             }}
           />
@@ -52,7 +55,7 @@ const UpdateDish: FC = () => {
       ) : (
         <ErrEmoji
           {...{
-            txt: "We did not any any dish 🤔",
+            err: (errorInfo as ErrFoodApp)?.response?.data?.msg,
           }}
         />
       )}
