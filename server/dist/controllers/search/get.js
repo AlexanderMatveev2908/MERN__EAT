@@ -12,6 +12,7 @@ import { makeSorters } from "../../utils/makeSorters/general.js";
 import { calcPagination } from "../../utils/calcPagination.js";
 import Restaurant from "../../models/Restaurant.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
+import { REG_MONGO } from "../../config/constants/regex.js";
 export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f;
     const { userId } = req;
@@ -54,17 +55,19 @@ export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void
         { $unwind: { path: "$dishes", preserveNullAndEmptyArrays: true } },
         { $unwind: { path: "$reviews", preserveNullAndEmptyArrays: true } },
         {
-            $set: {
-                deliveryTime: "$delivery.estTimeDelivery",
-                deliveryPrice: "$delivery.price",
-                isAdmin: {
-                    $cond: {
-                        if: { $eq: [makeMongoId(userId !== null && userId !== void 0 ? userId : ""), "$owner"] },
-                        then: true,
-                        else: false,
+            $set: Object.assign({ deliveryTime: "$delivery.estTimeDelivery", deliveryPrice: "$delivery.price" }, (REG_MONGO.test(userId !== null && userId !== void 0 ? userId : "")
+                ? [
+                    {
+                        isAdmin: {
+                            $cond: {
+                                if: { $eq: [makeMongoId(userId !== null && userId !== void 0 ? userId : ""), "$owner"] },
+                                then: true,
+                                else: false,
+                            },
+                        },
                     },
-                },
-            },
+                ]
+                : [])),
         },
         //  to practice as more as possible with aggregations i tried to make for each controller i need a new one,
         // here to prevent document from being counted for each unwind subDocument i need to group them before make calc nHits and calc pagination or there will be duplicated of a rest as many subDocuments of each parent document
