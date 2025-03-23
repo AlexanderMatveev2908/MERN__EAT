@@ -70,4 +70,6 @@ export const defaultValsSearchAllUsers: SearchFormType = {
   avgPriceSort: [],
   deliveryTimeSort: [],
   deliveryPriceSort: [],
+
+  page: "1",
 };
