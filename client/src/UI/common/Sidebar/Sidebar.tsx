@@ -1,16 +1,17 @@
 import { FC, useEffect, useRef } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "../../../core/hooks/useGlobal";
 import {
   allUsersFields,
   loggedUserFields,
-  nonLoggedUserFields,
 } from "./../../../core/config/fieldsArr/fields";
 import UserEmail from "./components/UserEmail";
 import SideEL from "./components/SideEL";
 import LogoutBtn from "./components/LogoutBtn";
 import DropAdmin from "./components/DropAdmin";
 import { useLogout } from "../../../core/hooks/useLogout";
+import { homeFieldSide } from "../../../core/config/fieldsArr/allFields/dropSideFields";
+import DropAccount from "./components/DropAccount";
 
 type PropsType = {
   sideOpen: boolean;
@@ -20,11 +21,7 @@ type PropsType = {
 const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
   const sideRef = useRef<HTMLDivElement | null>(null);
 
-  const location = useLocation();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  const type = searchParams.get("type");
 
   const { isLogged, currUser } = useUser();
 
@@ -64,33 +61,26 @@ const Sidebar: FC<PropsType> = ({ sideOpen, setSideOpen }) => {
           sideOpen
             ? "translate-x-0 overflow-y-auto hide_scrollbar pb-[50px]"
             : "translate-x-full"
-        } sidebar__content sidebar__i_content`}
+        } sidebar__content sidebar__i_content ${isLogged ? "" : "pt-6"}`}
       >
         <div className="w-full grid grid-cols-1 justify-items-start gap-5 px-3">
           {currUser && <UserEmail {...{ currUser }} />}
 
+          <SideEL {...{ el: homeFieldSide, handleSideClick }} />
+
+          {isLogged &&
+            loggedUserFields.map((el) => (
+              <SideEL key={el.id} {...{ handleSideClick, el }} />
+            ))}
+
           {allUsersFields.map((el) => (
-            <SideEL key={el.id} {...{ handleSideClick, type, location, el }} />
+            <SideEL key={el.id} {...{ handleSideClick, el }} />
           ))}
 
           {isLogged ? (
-            <>
-              {loggedUserFields.map((el) => (
-                <SideEL
-                  key={el.id}
-                  {...{ handleSideClick, type, location, el }}
-                />
-              ))}
-
-              <DropAdmin {...{ handleSideClick }} />
-            </>
+            <DropAdmin {...{ handleSideClick }} />
           ) : (
-            nonLoggedUserFields.map((el) => (
-              <SideEL
-                key={el.id}
-                {...{ handleSideClick, type, location, el }}
-              />
-            ))
+            <DropAccount {...{ handleSideClick }} />
           )}
 
           {isLogged && <LogoutBtn {...{ isPending, handleLogout }} />}

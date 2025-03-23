@@ -19,4 +19,6 @@ export type SearchFormType = {
 export type RestaurantAllUsers = Omit<
   MyRestaurantType,
   "ordersByStatus" | "ordersCount"
->;
+> & {
+  isAdmin: boolean;
+};

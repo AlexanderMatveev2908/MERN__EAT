@@ -1,23 +1,19 @@
 import { FC } from "react";
 import { makeConditionalStyleLocation } from "../../../../utils/allUtils/conditionalStyleLocation";
 import { SideDropFieldType } from "../../../../core/config/fieldsArr/typesFields";
-import { Location } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 type PropsType = {
   handleSideClick: (path: string, from?: string) => void;
-  type: string | null;
-  location: Location;
   el: SideDropFieldType;
   customStyle?: string;
 };
 
-const SideEL: FC<PropsType> = ({
-  handleSideClick,
-  type,
-  location,
-  el,
-  customStyle,
-}) => {
+const SideEL: FC<PropsType> = ({ handleSideClick, el, customStyle }) => {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const type = searchParams.get("type");
+
   return (
     <button
       key={el.id}

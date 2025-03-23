@@ -11,6 +11,7 @@ import { makeQuerySearchAllUsers } from "../../utils/makeQueries/search.js";
 import { makeSorters } from "../../utils/makeSorters/general.js";
 import { calcPagination } from "../../utils/calcPagination.js";
 import Restaurant from "../../models/Restaurant.js";
+import { makeMongoId } from "../../utils/dbPipeline/general.js";
 export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f;
     const { userId } = req;
@@ -56,6 +57,13 @@ export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void
             $set: {
                 deliveryTime: "$delivery.estTimeDelivery",
                 deliveryPrice: "$delivery.price",
+                isAdmin: {
+                    $cond: {
+                        if: { $eq: [makeMongoId(userId !== null && userId !== void 0 ? userId : ""), "$owner"] },
+                        then: true,
+                        else: false,
+                    },
+                },
             },
         },
         //  to practice as more as possible with aggregations i tried to make for each controller i need a new one,
@@ -84,6 +92,7 @@ export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void
                         {
                             avgPrice: "$avgPrice",
                             avgRating: "$avgRating",
+                            isAdmin: "$isAdmin",
                         },
                     ],
                 },
