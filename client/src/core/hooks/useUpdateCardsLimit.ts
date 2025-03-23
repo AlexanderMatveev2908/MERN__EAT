@@ -9,8 +9,8 @@ export const useUpdateCardsLimit = (
     const updateLimit = () => {
       const w = window.innerWidth;
 
-      if (w > tailwindBreak.xl) setLimit(12);
-      else if (w > tailwindBreak.lg) setLimit(9);
+      if (w > tailwindBreak._2xl) setLimit(12);
+      else if (w > 1380) setLimit(9);
       else setLimit(6);
     };
 
