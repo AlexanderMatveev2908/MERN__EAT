@@ -33,11 +33,8 @@ export const useMyRestaurants = () => {
 
   const handleClear = () => {
     sessionStorage.removeItem("myRestaurantsForm");
-
     formContext.reset(defaultValuesMyRestSearch);
-
     formContext.trigger("search");
-
     setCurrPage(1);
   };
 
