@@ -1,10 +1,10 @@
 import axios from "axios";
+import { isDev } from "./environment";
 
 export const foodAppInstance = axios.create({
-  baseURL:
-    import.meta.env.VITE_NODE_ENV === "development"
-      ? import.meta.env.VITE_BACK_URL_DEV
-      : import.meta.env.VITE_BACK_URL,
+  baseURL: isDev
+    ? import.meta.env.VITE_BACK_URL_DEV
+    : import.meta.env.VITE_BACK_URL,
   withCredentials: true,
 });
 

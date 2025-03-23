@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useToast } from "../../../core/hooks/useGlobal";
 import { foodAppInstance } from "../../../core/config/constants/axiosInstance";
 import { useEffect } from "react";
+import { isDev } from "../../../core/config/constants/environment";
 
 const urls = [
   "https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg",
@@ -39,13 +40,13 @@ const base64ToFile = (base64Str, currIndex) => {
   });
 };
 
-export const useLazyDev = ({ setValue }) => {
+export const useLazyDev = ({ setValue, reset }) => {
   const { showToastMsg } = useToast();
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["urls", urls],
     queryFn: getImagesProxyAPI,
-    enabled: import.meta.env.VITE_NODE_ENV === "development",
+    enabled: isDev,
   });
 
   useEffect(() => {
@@ -54,17 +55,19 @@ export const useLazyDev = ({ setValue }) => {
     } else if (isSuccess) {
       const files = data.base64Imgs.map((el, i) => base64ToFile(el, i));
 
-      setValue(
-        "items",
-        Array.from({ length: 1 }).map((_, i) => ({
-          name: `name${i + ""}`,
-          price: `${i + 1 + ""}`,
-          quantity: `${i + ""}`,
-          images: [...files],
-        }))
-      );
+      reset({
+        restaurant: "",
+        items: [
+          ...Array.from({ length: 10 }).map((_, i) => ({
+            name: `f_${i + 1 + ""}`,
+            price: `${"20"}`,
+            quantity: `${"100"}`,
+            images: [...files],
+          })),
+        ],
+      });
     }
-  }, [isSuccess, isError, error, data, showToastMsg, setValue]);
+  }, [isSuccess, isError, error, data, showToastMsg, setValue, reset]);
 
   return {
     isPending,

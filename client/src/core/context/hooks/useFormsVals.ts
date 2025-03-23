@@ -3,6 +3,7 @@ import { FormSearchType } from "../../../types/allTypes/restAdmin";
 import { DishMenuFormType } from "../../../types/types";
 import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
 import { SearchFormType } from "../../../types/allTypes/search";
+import { isDev } from "../../config/constants/environment";
 
 export const useFormsVals = () => {
   const savedForm = sessionStorage.getItem("myRestaurantsSearch");
@@ -15,30 +16,19 @@ export const useFormsVals = () => {
 
   const formContextMyDishesAddItem = useForm<DishMenuFormType>({
     mode: "onChange",
-    defaultValues: {
-      restaurant: "",
-      items: [
-        {
-          name: "",
-          quantity: "",
-          price: "",
-          images: [],
+    defaultValues: isDev
+      ? undefined
+      : {
+          restaurant: "",
+          items: [
+            {
+              name: "",
+              quantity: "",
+              price: "",
+              images: [],
+            },
+          ],
         },
-      ],
-    },
-    // import.meta.env.VITE_NODE_ENV === "development"
-    //   ? undefined
-    //   : {
-    //       restaurant: "",
-    //       items: [
-    //         {
-    //           name: "",
-    //           quantity: "",
-    //           price: "",
-    //           images: [],
-    //         },
-    //       ],
-    //     },
   });
 
   const formContextMyDishesUpdate = useForm<DishMenuFormType>({

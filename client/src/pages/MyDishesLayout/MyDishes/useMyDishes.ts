@@ -35,10 +35,12 @@ export const useMyDishes = () => {
     );
   const clearSelected = () => setSelected([]);
 
-  const { mutate: mutateSelected, isPending: isPendingSelected } =
-    useCreateTanMyDishes({ cbMutation: bulkDeleteMyDishesAPI, setSelected });
+  const { handleDelete: handleDeletePopup, isPending: isPendingSelected } =
+    useCreateTanMyDishes({
+      cbMutation: () => bulkDeleteMyDishesAPI(selected),
+      setSelected,
+    });
 
-  const handleDeletePopup = () => mutateSelected(selected);
   const handleOpenPopup = () =>
     setPopup({
       txt: `delete ${selected.length} dish${selected.length > 1 ? "es" : ""} ?`,
@@ -48,14 +50,12 @@ export const useMyDishes = () => {
       isPending: isPendingSelected,
     });
 
-  const { mutate: mutateBulkQuery, isPending: isPendingBulkQuery } =
+  const { handleDelete: handleDeleteBulkQuery, isPending: isPendingBulkQuery } =
     useCreateTanMyDishes({
-      cbMutation: bulkDeleteQueryAPI,
+      cbMutation: () => bulkDeleteQueryAPI(createURLParamsMyDishes(formVals)),
       setSelected,
     });
 
-  const handleDeleteBulkQuery = () =>
-    mutateBulkQuery(createURLParamsMyDishes(formVals));
   const handleOpenPopupBulkQuery = () => {
     if (data?.dishes?.length)
       setSelected(data.dishes.map((el: DishType) => el._id));
