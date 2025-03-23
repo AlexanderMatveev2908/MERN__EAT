@@ -5,7 +5,7 @@ import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
 import { SearchFormType } from "../../../types/allTypes/search";
 
 export const useFormsVals = () => {
-  const savedForm = sessionStorage.getItem("myRestaurantsForm");
+  const savedForm = sessionStorage.getItem("myRestaurantsSearch");
   const formContextMyRestaurants = useForm<FormSearchType>({
     mode: "onChange",
     defaultValues: savedForm
@@ -45,7 +45,7 @@ export const useFormsVals = () => {
     mode: "onChange",
   });
 
-  const savedFormMyDishes = sessionStorage.getItem("myDishesForm");
+  const savedFormMyDishes = sessionStorage.getItem("myDishesSearch");
   const formContextMyDishesSearch = useForm<SearchMyDishesFormType>({
     mode: "onChange",
     defaultValues: savedFormMyDishes
@@ -57,7 +57,7 @@ export const useFormsVals = () => {
         },
   });
 
-  const savedFormSearch = sessionStorage.getItem("searchRest");
+  const savedFormSearch = sessionStorage.getItem("searchAllUsersRest");
   const formContextSearchRestAllUsers = useForm<SearchFormType>({
     mode: "onChange",
     defaultValues: savedFormSearch

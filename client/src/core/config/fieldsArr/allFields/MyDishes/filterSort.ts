@@ -103,4 +103,6 @@ export const defaultValuesMyDishesSearch: SearchMyDishesFormType = {
   quantitySort: [],
   createdAtSort: [],
   updatedAtSort: [],
+
+  page: "1",
 };

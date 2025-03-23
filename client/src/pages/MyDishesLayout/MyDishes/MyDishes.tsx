@@ -21,18 +21,22 @@ const MyDishes: FC = () => {
   useScrollTop();
 
   const {
-    formContextMyDishesSearch: formContext,
     propsForm,
-    propsBlockPages,
+    propsBlock,
+
     data,
+
     toggleSelected,
     selected,
-    handleOpenPopup,
     clearSelected,
+
+    handleOpenPopup,
     handleOpenPopupBulkQuery,
+
     isError,
     error,
     isSuccess,
+    isPending,
   } = useMyDishes();
 
   const { totDocuments, nHits, dishes } = data ?? ({} as any);
@@ -41,11 +45,10 @@ const MyDishes: FC = () => {
     <div className="w-full grid grid-cols-1 justify-items-center gap-5">
       <span className="txt__04">My Dishes</span>
 
-      <FormProvider {...formContext}>
+      <FormProvider {...propsForm.formContext}>
         <SearchBar
           {...{
             ...propsForm,
-            formContext,
             searchFields: myDishesFieldsSearch,
             filters: myDishesFilters,
             sorters: sortersMyDishesFields,
@@ -85,21 +88,23 @@ const MyDishes: FC = () => {
         </div>
       )}
 
-      {propsForm.isPending ? (
+      {isPending ? (
         <LoaderPageReact />
       ) : isError ? (
         <ErrEmoji {...{ err: (error as ErrFoodApp)?.response?.data?.msg }} />
       ) : (
-        <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))] justify-items-center gap-10 mt-5 items-start">
-          {dishes.map((el) => (
-            <MyDishesItem
-              key={el._id}
-              {...{ dish: el, toggleSelected, selected }}
-            />
-          ))}
-        </div>
+        !!dishes?.length && (
+          <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))] justify-items-center gap-10 mt-5 items-start">
+            {dishes.map((el) => (
+              <MyDishesItem
+                key={el._id}
+                {...{ dish: el, toggleSelected, selected }}
+              />
+            ))}
+          </div>
+        )
       )}
-      <BlockPages {...{ ...propsBlockPages }} />
+      <BlockPages {...{ ...propsBlock, totPages: data?.totPages }} />
     </div>
   );
 };

@@ -162,4 +162,6 @@ export const defaultValuesMyRestSearch: FormSearchType = {
   shippedOrdersSort: [],
   deliveredOrdersSort: [],
   cancelledOrdersSort: [],
+
+  page: "1",
 };
