@@ -20,6 +20,7 @@ import { get__dirname } from "./utils/calcPath.js";
 const app = express();
 const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
 app.set("trust proxy", 1);
+console.log(get__dirname());
 app.use("/", router);
 if (!isDev) {
     app.use(express.static(path.join(get__dirname(), "../../client/dist")));

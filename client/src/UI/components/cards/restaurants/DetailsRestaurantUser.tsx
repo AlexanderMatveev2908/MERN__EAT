@@ -9,6 +9,7 @@ import {
 import { priceFormatter } from "../../../../utils/allUtils/priceFormatter.ts";
 import { IconType } from "react-icons/lib";
 import { RestaurantAllUsers } from "../../../../types/allTypes/search.ts";
+import { MyRestaurantType } from "../../../../types/types.ts";
 
 type PropsContainer = {
   el: {
@@ -21,7 +22,7 @@ type PropsContainer = {
 };
 
 type PropsType = {
-  rest: RestaurantAllUsers;
+  rest: RestaurantAllUsers | MyRestaurantType;
   Container: FC<PropsContainer>;
 };
 

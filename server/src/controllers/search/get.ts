@@ -4,6 +4,7 @@ import { makeQuerySearchAllUsers } from "../../utils/makeQueries/search.js";
 import { makeSorters } from "../../utils/makeSorters/general.js";
 import { calcPagination } from "../../utils/calcPagination.js";
 import Restaurant from "../../models/Restaurant.js";
+import { makeMongoId } from "../../utils/dbPipeline/general.js";
 
 export const getRestaurantsSearchAllUsers = async (
   req: RequestWithUserId,
@@ -58,6 +59,13 @@ export const getRestaurantsSearchAllUsers = async (
       $set: {
         deliveryTime: "$delivery.estTimeDelivery",
         deliveryPrice: "$delivery.price",
+        isAdmin: {
+          $cond: {
+            if: { $eq: [makeMongoId(userId ?? ""), "$owner"] },
+            then: true,
+            else: false,
+          },
+        },
       },
     },
 
@@ -89,6 +97,7 @@ export const getRestaurantsSearchAllUsers = async (
             {
               avgPrice: "$avgPrice",
               avgRating: "$avgRating",
+              isAdmin: "$isAdmin",
             },
           ],
         },

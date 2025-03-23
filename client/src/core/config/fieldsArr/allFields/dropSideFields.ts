@@ -14,16 +14,27 @@ import { IoCreate, IoRestaurantSharp } from "react-icons/io5";
 import { FaDatabase } from "react-icons/fa";
 import { HiBuildingStorefront } from "react-icons/hi2";
 import { GoCodeReview } from "react-icons/go";
+import { RiAccountCircleLine } from "react-icons/ri";
 
+// i want home to be always up above all
+export const homeFieldSide = {
+  id: genID(),
+  path: "/",
+  label: "Home",
+  svg: House,
+};
+
+// all users will see these
 export const allUsersFields: SideDropFieldType[] = [
   {
     id: genID(),
-    path: "/",
-    label: "Home",
-    svg: House,
+    path: "/search",
+    label: "Restaurants",
+    svg: IoRestaurantSharp,
   },
 ];
 
+//  fields that all logged users have by default for management account and details location for futures creations of restaurant of purchases
 export const loggedUserFields: SideDropFieldType[] = [
   {
     id: genID(),
@@ -37,14 +48,9 @@ export const loggedUserFields: SideDropFieldType[] = [
     label: "Manage Account",
     svg: UserRoundPen,
   },
-  {
-    id: genID(),
-    path: "/search",
-    label: "Restaurants",
-    svg: IoRestaurantSharp,
-  },
 ];
 
+// fields management restaurants
 export const fieldsAdmin: SideDropFieldType[] = [
   {
     id: genID(),
@@ -84,17 +90,26 @@ export const fieldsAdmin: SideDropFieldType[] = [
   },
 ];
 
+// make it just for habit, but not really need except for the id that is required in types of props for tsc
 export const fieldAdminDrop = {
   id: genID(),
   label: "Admin menu",
   icon: MdAdminPanelSettings,
 };
 
+//  these are fields used only oin dropdown , i show just a couple to not make it too long
 export const loggedUserFieldsDrop: SideDropFieldType[] = loggedUserFields.slice(
   0,
   2
 );
 
+export const fieldAccountDrop = {
+  id: genID(),
+  label: "Account",
+  icon: RiAccountCircleLine,
+};
+
+//  fields about actions to log recover pwd ecc
 export const nonLoggedUserFields: SideDropFieldType[] = [
   {
     id: genID(),
