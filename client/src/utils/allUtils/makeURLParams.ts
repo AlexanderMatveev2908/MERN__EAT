@@ -84,3 +84,31 @@ export const createURLParamsMyDishes = (formDataHook) => {
   }
   return params;
 };
+
+export const createURLParamsMultipleSearch = (
+  formDataHook: any
+): URLSearchParams => {
+  const params = new URLSearchParams();
+
+  for (const pair of Object.entries(formDataHook)) {
+    if (!pair[1]) continue;
+    if (Array.isArray(pair[1]) && !pair[1].length) continue;
+    if (pair[0] === "searchVals") continue;
+
+    if (pair[0] === ("items" as any)) {
+      for (const item of pair[1] as any) {
+        if (
+          item.search &&
+          REG_SEARCH.test(item.search) &&
+          formDataHook.searchVals?.length
+        ) {
+          params.append(item.searchVal, item.search);
+        }
+      }
+    } else {
+      params.append(pair[0], pair[1] as string);
+    }
+  }
+
+  return params;
+};

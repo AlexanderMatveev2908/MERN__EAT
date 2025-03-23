@@ -30,16 +30,24 @@ const makeQueryRange_v_2 = (
 };
 
 export const makeQuerySearchAllUsers = (req: Request) => {
-  const { search, searchVals, categories, avgRatingRange, avgPriceRange } =
-    req.query;
+  const { categories, avgRatingRange, avgPriceRange } = req.query;
 
   const queryObj: any = {};
 
-  if (searchVals)
-    queryObj[`restaurant.${searchVals}`] = {
-      $regex: `.*${search}.*`,
-      $options: "i",
-    };
+  for (const key of ["country", "state", "city"]) {
+    if (req.query[key])
+      queryObj[`restaurant.address.${key}`] = {
+        $regex: `.*${req.query[key]}.*`,
+        $options: "i",
+      };
+
+    if (req.query["name"]) {
+      queryObj[`restaurant.name`] = {
+        $regex: `.*${req.query["name"]}.*`,
+        $options: "i",
+      };
+    }
+  }
 
   if (categories)
     queryObj[`restaurant.categories`] = {

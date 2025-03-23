@@ -1,31 +1,58 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useState } from "react";
-import CheckBoxSwitcher from "../../../../../forms/inputFields/CheckBoxSwitcher";
-import { UseFormReturn } from "react-hook-form";
+import { FC, useEffect, useState } from "react";
+import {
+  UseFieldArrayAppend,
+  UseFieldArrayRemove,
+  UseFormReturn,
+} from "react-hook-form";
+import { CheckBoxFieldType } from "../../../../core/config/fieldsArr/typesFields";
+import DropHandlerIcon from "../../../components/DropHandlerIcon";
 import { CiTextAlignCenter } from "react-icons/ci";
-import { CheckBoxFieldType } from "../../../../../../core/config/fieldsArr/typesFields";
-import DropHandlerIcon from "../../../../../components/DropHandlerIcon";
-import { REG_MONGO } from "../../../../../../core/config/constants/regex";
+import CheckBoxSwitcher from "../../../forms/inputFields/CheckBoxSwitcher";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
+  append: UseFieldArrayAppend<any>;
+  remove: UseFieldArrayRemove;
 };
 
-const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
+const TextFilter_v_2: FC<PropsType> = ({
+  searchFields,
+  formContext,
+  append,
+  remove,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { register, watch, setValue, setError } = formContext;
+  const { register, watch, setValue } = formContext;
+
+  console.log(watch());
+
+  useEffect(() => {
+    const subscription = watch((vals) => {
+      if (vals.items?.length && !vals.searchVals?.length) {
+        setValue(
+          "searchVals",
+          vals.items.map((el: any) => el.searchVal)
+        );
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [setValue, watch]);
 
   const handleChange = (el: string) => {
     if ((watch("searchVals") || []).includes(el)) {
-      setValue("searchVals", [], { shouldValidate: true });
-    } else {
-      setValue("searchVals", [el], { shouldValidate: true });
-    }
+      remove(watch("searchVals").findIndex((val: string) => val === el));
 
-    if (["id", "restaurantId"].includes(el) && !REG_MONGO.test(watch("search")))
-      setError("search", { message: "Invalid Mongo ID" });
+      setValue(
+        "searchVals",
+        watch("searchVals").filter((val) => val !== el)
+      );
+    } else {
+      append({ searchVal: el, search: "" });
+    }
   };
 
   return (
@@ -62,4 +89,4 @@ const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
     </div>
   );
 };
-export default TextFilter;
+export default TextFilter_v_2;

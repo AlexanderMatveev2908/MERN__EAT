@@ -1,27 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { IoFilter } from "react-icons/io5";
 import FilterField from "./components/FilterField";
-import TextFilter from "./components/TextFilter";
-import {
-  CheckBoxFieldType,
-  SearchFilterType,
-} from "../../../../../core/config/fieldsArr/typesFields";
+import { SearchFilterType } from "../../../../../core/config/fieldsArr/typesFields";
 import DropHandlerIcon from "../../../../components/DropHandlerIcon";
 import CardToSearchStats from "./components/CardToSearchStats";
 import { useLocation } from "react-router-dom";
 
 type PropsType = {
-  searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
   filters: SearchFilterType[];
+  children: ReactNode;
 };
 
-const FiltersSearchBar: FC<PropsType> = ({
-  searchFields,
+const FiltersSearchBar_v_2: FC<PropsType> = ({
   formContext,
   filters,
+  children,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -46,7 +42,7 @@ const FiltersSearchBar: FC<PropsType> = ({
             : "opacity-0 max-h-0 pointer-events-none"
         }`}
       >
-        <TextFilter {...{ formContext, searchFields }} />
+        {children}
 
         {/^\/(my-dishes).*/.test(location.pathname) && (
           <CardToSearchStats {...{ formContext }} />
@@ -60,4 +56,4 @@ const FiltersSearchBar: FC<PropsType> = ({
     </div>
   );
 };
-export default FiltersSearchBar;
+export default FiltersSearchBar_v_2;
