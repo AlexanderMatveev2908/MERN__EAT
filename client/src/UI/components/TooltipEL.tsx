@@ -42,9 +42,11 @@ const TooltipEL: FC<PropsType> = ({ txt, label }) => {
         type="button"
         ref={elToCpyRef}
         onClick={handleCopyId}
-        className="txt__01 el__flow cursor-pointer hover:text-orange-500 outline-none"
+        className="el__flow cursor-pointer hover:text-orange-500 outline-none"
       >
-        <span className="overflow-auto static block hide_scrollbar">{txt}</span>
+        <div className="hide_scrollbar overflow-x-auto">
+          <span className="txt__01">{txt}</span>
+        </div>
       </button>
 
       <span

@@ -36,7 +36,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 .card__el {
-  @apply border-[3px] rounded-xl py-1 pb-5 min-w-full sm:min-w-[350px] sm:max-w-[350px] justify-self-center;
+  @apply border-[3px] rounded-xl py-1 pb-5 min-w-full max-w-full sm:min-w-[350px] sm:max-w-[350px] justify-self-center;
 }
 
 /* GENERAL */
