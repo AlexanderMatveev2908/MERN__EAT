@@ -7,8 +7,8 @@ import {
   showMyRestaurantsOpenHoursFields,
 } from "../../../../core/config/fieldsArr/fields.ts";
 import { priceFormatter } from "../../../../utils/allUtils/priceFormatter.ts";
-import { MyRestaurantType } from "../../../../types/allTypes/restAdmin.ts";
 import { IconType } from "react-icons/lib";
+import { RestaurantAllUsers } from "../../../../types/allTypes/search.ts";
 
 type PropsContainer = {
   el: {
@@ -21,7 +21,7 @@ type PropsContainer = {
 };
 
 type PropsType = {
-  rest: MyRestaurantType;
+  rest: RestaurantAllUsers;
   Container: FC<PropsContainer>;
 };
 
@@ -62,11 +62,11 @@ const DetailsRestaurantUser: FC<PropsType> = ({ rest, Container }) => {
             el.label === "Free meal" && !el.val ? null : (
               <li
                 key={i}
-                className="el__flow overflow-x-auto hide_scrollbar  cursor-pointer grid grid-cols-[150px_1fr]"
+                className="el__flow cursor-pointer grid grid-cols-[150px_1fr]"
               >
                 <span className="txt__01">{el.label}</span>
 
-                <span className="txt__01 justify-self-end">
+                <span className="txt__01 justify-self-end max-w-full overflow-x-auto text-nowrap hide_scrollbar ">
                   {el.label !== "Delivery time"
                     ? priceFormatter({
                         price: el.val as number,
