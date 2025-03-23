@@ -11,7 +11,7 @@ import { myRestFieldsSearch } from "../../../../core/config/fieldsArr/fields";
 type PropsType = {
   formContext: UseFormReturn<any>;
   i?: number;
-  searchVal: undefined | string;
+  searchVal?: string;
 };
 
 const SearchFieldMultiple: FC<PropsType> = ({ formContext, i, searchVal }) => {
