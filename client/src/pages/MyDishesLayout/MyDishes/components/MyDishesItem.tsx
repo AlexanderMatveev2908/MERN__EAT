@@ -27,7 +27,7 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div
-      className={`border-[3px] border-orange-500 rounded-xl py-1 pb-3 max-w-[300px] sm:max-w-[350px] justify-self-center ${
+      className={`card__el ${
         selected.includes(dish._id)
           ? "border-red-600 opacity-50 scale-105"
           : "border-orange-500"
@@ -60,7 +60,7 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
           >
             <li className="w-full grid grid-cols-[80px_1fr]">
               <div className="w-full flex gap-5 justify-start items-center">
-                <IoIosRestaurant className="min-w-[30px] min-h-[30px]" />
+                <IoIosRestaurant className="icon__base" />
                 <span className="txt__01">Name</span>
               </div>
 
@@ -69,7 +69,7 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
 
             <li className="w-full grid grid-cols-[80px_1fr]">
               <div className="w-full flex gap-5 justify-start items-center">
-                <FaDatabase className="min-w-[30px] min-h-[30px]" />
+                <FaDatabase className="icon__base" />
                 <span className="txt__01">Id</span>
               </div>
 
@@ -92,7 +92,7 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
                 className="w-full grid grid-cols-[80px_1fr] first:pt-2"
               >
                 <div className="w-full flex gap-5 items-center">
-                  <el.icon className="min-w-[30px] min-h-[30px]" />
+                  <el.icon className="icon__base" />
 
                   <span className="txt__01">{el.label}</span>
                 </div>
@@ -109,7 +109,7 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
           to={`/my-dishes/update/${dish._id}`}
           className="el__flow el__after_below txt__02 justify-self-center w-fit flex gap-3 group cursor-pointer"
         >
-          <RxUpdate className="min-w-[30px] min-h-[30px] el__flow group-hover:text-orange-500" />
+          <RxUpdate className="icon__base el__flow group-hover:text-orange-500" />
 
           <span className="el__flow txt__02 group-hover:text-orange-500">
             Update

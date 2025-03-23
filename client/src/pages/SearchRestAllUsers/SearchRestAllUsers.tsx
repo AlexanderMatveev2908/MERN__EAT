@@ -15,6 +15,8 @@ import { ErrFoodApp } from "../../types/allTypes/API";
 import { useCreateQueryHandlers } from "../../core/hooks/useCreateQueryHandlers";
 import { getRestAllUSersAPI } from "../../core/api/APICalls/searchAllUsers";
 import { useFormsCustom } from "../../core/hooks/useGlobal";
+import { RestaurantAllUsers } from "../../types/allTypes/search";
+import SearchRestItem from "./components/SearchRestItem";
 
 const SearchRestAllUsers: FC = () => {
   useScrollTop();
@@ -59,7 +61,15 @@ const SearchRestAllUsers: FC = () => {
         <LoaderPageReact />
       ) : isError ? (
         <ErrEmoji {...{ err: (error as ErrFoodApp)?.response?.data?.msg }} />
-      ) : null}
+      ) : (
+        !!restaurants?.length && (
+          <div className="container__cards">
+            {restaurants.map((el: RestaurantAllUsers) => (
+              <SearchRestItem key={el._id} {...{ rest: el }} />
+            ))}
+          </div>
+        )
+      )}
 
       <BlockPages {...{ ...propsBlock, totPages }} />
     </div>

@@ -39,7 +39,7 @@ const RadioInput: FC<PropsType> = ({
 
       {
         <el.icon
-          className={`min-w-[30px] min-h-[30px] el__flow pointer-events-none ${
+          className={`icon__base el__flow pointer-events-none ${
             (currVals || []).includes(el.field) ? "text-orange-500" : ""
           }`}
         />

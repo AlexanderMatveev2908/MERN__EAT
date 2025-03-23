@@ -18,7 +18,7 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-[3px] border-orange-500 rounded-xl py-1 pb-5 max-w-[300px] sm:max-w-[350px] justify-self-center">
+    <div className="card__el border-orange-500">
       <div className="w-full flex flex-col">
         <HeaderIDItem {...{ id: rest._id }} />
 

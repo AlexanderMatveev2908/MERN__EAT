@@ -29,7 +29,7 @@ const DropHandlerIcon: FC<PropsType> = ({
       <div className="w-fit flex gap-5 items-center">
         <Icon
           className={`${
-            customIconStyle ?? "min-w-[30px] min-h-[30px]"
+            customIconStyle ?? "icon__base"
           } group-hover:text-orange-500 el__flow`}
         />
         <span className="txt__02 group-hover:text-orange-500 el__flow">

@@ -20,6 +20,7 @@ import proxyRouter from "./routes/proxy.js";
 import { asyncWrapper } from "./middleware/general/asyncWrapper.js";
 import { verifyAccessToken } from "./middleware/general/verifyAccessToken.js";
 import searchRouter from "./routes/search.js";
+import { updateRest } from "./stuff/makeOpDb.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;

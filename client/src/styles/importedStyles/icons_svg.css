@@ -19,3 +19,7 @@
 .svg__sidebar {
   @apply w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer;
 }
+
+.icon__base {
+  @apply min-w-[30px] min-h-[30px];
+}
