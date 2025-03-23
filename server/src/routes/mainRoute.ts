@@ -15,6 +15,7 @@ import { helmetMid } from "../middleware/general/helmet.js";
 import xss from "xss-clean";
 import cookieParser from "cookie-parser";
 import mongoSanitize from "express-mongo-sanitize";
+import { logQuery } from "../middleware/onlyDev/logQuery.js";
 
 const router = express.Router();
 
@@ -26,6 +27,8 @@ router.use(mongoSanitize());
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 router.use(cookieParser());
+
+router.use(logQuery);
 
 router.use("/api/v1/auth", authRouter);
 router.use("/api/v1/user", userRouter);

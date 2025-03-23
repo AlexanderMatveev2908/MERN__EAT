@@ -64,7 +64,6 @@ export const useVerify = () => {
           userId: userId as string,
           token: token as string,
         });
-        console.log("run");
       } else if (type === "recover-pwd") {
         mutateRecover({
           userId: userId as string,

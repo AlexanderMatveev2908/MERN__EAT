@@ -38,9 +38,15 @@ export type FormsCtxType = {
   formContextSearchRestAllUsers: UseFormReturn<SearchFormType>;
 };
 
+export type SideVals = {
+  isOpenSide: boolean;
+  setIsOpenSide: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 export type RootValsType = {
   toastState: ToastValsType;
   userState: UserValsType;
   popupState: PopupValsType;
+  sideState: SideVals;
   formsState: FormsCtxType;
 };

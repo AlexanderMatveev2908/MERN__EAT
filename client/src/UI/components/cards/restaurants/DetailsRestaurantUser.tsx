@@ -73,7 +73,7 @@ const DetailsRestaurantUser: FC<PropsType> = ({ rest, Container }) => {
                         price: el.val as number,
                         showStr: true,
                       })
-                    : `${el.val} minutes`}
+                    : `${el.val} minute${(el.val as number) > 1 ? "s" : ""}`}
                 </span>
               </li>
             )

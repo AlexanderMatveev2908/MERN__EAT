@@ -61,18 +61,16 @@ export const getRestaurantsSearchAllUsers = async (
         deliveryTime: "$delivery.estTimeDelivery",
         deliveryPrice: "$delivery.price",
         ...(REG_MONGO.test(userId ?? "")
-          ? [
-              {
-                isAdmin: {
-                  $cond: {
-                    if: { $eq: [makeMongoId(userId ?? ""), "$owner"] },
-                    then: true,
-                    else: false,
-                  },
+          ? {
+              isAdmin: {
+                $cond: {
+                  if: { $eq: [makeMongoId(userId ?? ""), "$owner"] },
+                  then: true,
+                  else: false,
                 },
               },
-            ]
-          : []),
+            }
+          : {}),
       },
     },
 

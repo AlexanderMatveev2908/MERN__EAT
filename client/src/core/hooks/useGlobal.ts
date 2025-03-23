@@ -1,6 +1,10 @@
 import { useContext } from "react";
 import { GlobalContext } from "../context/global/GlobalContext";
-import { FormsCtxType, RootValsType } from "../context/root/rootTypes";
+import {
+  FormsCtxType,
+  RootValsType,
+  SideVals,
+} from "../context/root/rootTypes";
 import { ToastValsType } from "../../types/allTypes/toastTypes";
 import { UserValsType } from "../../types/allTypes/userTypes";
 import { PopupValsType } from "../../types/allTypes/popup";
@@ -21,3 +25,5 @@ export const useUser = (): UserValsType => useGlobal().userState;
 export const usePopup = (): PopupValsType => useGlobal().popupState;
 
 export const useFormsCustom = (): FormsCtxType => useGlobal().formsState;
+
+export const useSidebar = (): SideVals => useGlobal().sideState;

@@ -6,6 +6,7 @@ import { RootValsType } from "./rootTypes";
 import { useUserVals } from "../hooks/useUserVals";
 import { usePopupVals } from "../hooks/usePopupVals";
 import { useFormsVals } from "../hooks/useFormsVals";
+import { useSidebarVals } from "../hooks/useSidebarVals";
 
 export const useRootVals = (): RootValsType => {
   const [state, dispatch] = useReducer(rootReducer, rootInitState);
@@ -13,6 +14,7 @@ export const useRootVals = (): RootValsType => {
   const toastVals = useToastVals(state.toastState, dispatch);
   const userVals = useUserVals(state.userState, dispatch);
   const popupVals = usePopupVals(state.popupState, dispatch);
+  const sideVals = useSidebarVals();
 
   const formContexts = useFormsVals();
 
@@ -25,6 +27,9 @@ export const useRootVals = (): RootValsType => {
     },
     popupState: {
       ...popupVals,
+    },
+    sideState: {
+      ...sideVals,
     },
 
     formsState: {

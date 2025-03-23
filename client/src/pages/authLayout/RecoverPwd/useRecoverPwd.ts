@@ -35,8 +35,6 @@ export const useRecoverPwd = () => {
   const canStay =
     location?.state?.from === "/auth/verify" && isUserIdValid && isTokenValid;
 
-  console.log(location.state.from);
-
   const { handleChangePwdVisibility, handleChangeConfirmPwdVisibility } =
     useChangeVisibilityPwd({
       isPwdVisible,

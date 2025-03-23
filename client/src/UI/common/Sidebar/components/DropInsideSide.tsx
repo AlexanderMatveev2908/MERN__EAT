@@ -1,22 +1,33 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import SideEL from "./SideEL";
-import { nonLoggedUserFields } from "../../../../core/config/fieldsArr/fields";
 import DropHandlerIcon from "../../../components/DropHandlerIcon";
-import { fieldAccountDrop } from "../../../../core/config/fieldsArr/allFields/dropSideFields";
+import {
+  BaseFieldShowIcon,
+  SideDropFieldType,
+} from "../../../../core/config/fieldsArr/typesFields";
+import { useSidebar } from "../../../../core/hooks/useGlobal";
 
 type PropsType = {
   handleSideClick: (path: string, from?: string) => void;
+  el: BaseFieldShowIcon;
+  fields: SideDropFieldType[];
 };
 
-const DropAccount: FC<PropsType> = ({ handleSideClick }) => {
+const DropInsideSide: FC<PropsType> = ({ handleSideClick, el, fields }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { isOpenSide } = useSidebar();
+
+  useEffect(() => {
+    if (!isOpenSide) setIsOpen(false);
+  }, [isOpenSide]);
 
   return (
     <div className="w-full grid grid-cols-1">
       <DropHandlerIcon
         {...{
-          txt: fieldAccountDrop.label,
-          Icon: fieldAccountDrop.icon,
+          txt: el.label,
+          Icon: el.icon,
           isOpen,
           setIsOpen,
           customIconStyle: "min-w-[40px] min-h-[40px]",
@@ -30,7 +41,7 @@ const DropAccount: FC<PropsType> = ({ handleSideClick }) => {
             : "max-h-0 opacity-0 pointer-events-none"
         }`}
       >
-        {nonLoggedUserFields.map((el, i) => (
+        {fields.map((el, i) => (
           <SideEL
             key={el.id}
             {...{
@@ -44,4 +55,4 @@ const DropAccount: FC<PropsType> = ({ handleSideClick }) => {
     </div>
   );
 };
-export default DropAccount;
+export default DropInsideSide;

@@ -13,8 +13,6 @@ const port = process.env.PORT ?? 3000;
 
 app.set("trust proxy", 1);
 
-console.log(get__dirname());
-
 app.use("/", router);
 
 if (!isDev) {

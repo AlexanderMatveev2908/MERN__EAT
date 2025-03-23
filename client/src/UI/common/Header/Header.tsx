@@ -3,15 +3,11 @@ import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import DropLogged from "./components/DropLogged";
 import DropNonLogged from "./components/DropNonLogged";
-import { useUser } from "../../../core/hooks/useGlobal";
+import { useSidebar, useUser } from "../../../core/hooks/useGlobal";
 
-type PropsType = {
-  setSideOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  sideOpen?: boolean;
-};
-
-const Header: FC<PropsType> = ({ setSideOpen, sideOpen }) => {
+const Header: FC = () => {
   const { isLogged } = useUser();
+  const { isOpenSide, setIsOpenSide } = useSidebar();
 
   const location = useLocation();
   const needSideBar = location.pathname !== "/notice-email-sent";
@@ -26,16 +22,16 @@ const Header: FC<PropsType> = ({ setSideOpen, sideOpen }) => {
         {needSideBar && (
           <div className="flex w-full gap-5 items-center justify-end">
             {isLogged ? <DropLogged /> : <DropNonLogged />}
-            {sideOpen ? (
+            {isOpenSide ? (
               <div
-                onClick={() => setSideOpen?.(false)}
+                onClick={() => setIsOpenSide?.(false)}
                 className="max-w-fit justify-self-end group flex items-center"
               >
                 <X className="svg__header" />
               </div>
             ) : (
               <div
-                onClick={() => setSideOpen?.(true)}
+                onClick={() => setIsOpenSide?.(true)}
                 className="max-w-fit justify-self-end group flex items-center"
               >
                 <Menu className="svg__header" />

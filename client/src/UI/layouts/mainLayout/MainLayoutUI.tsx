@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../../common/Header/Header";
 import Popup from "../../common/Popup";
@@ -12,13 +12,12 @@ type PropsType = {
 };
 
 const MainLayoutUI: FC<PropsType> = ({ children }) => {
-  const [sideOpen, setSideOpen] = useState<boolean>(false);
   const location = useLocation();
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center">
-      <Header {...{ setSideOpen, sideOpen }} />
-      <Sidebar {...{ sideOpen, setSideOpen }} />
+      <Header />
+      <Sidebar />
 
       <Popup />
 
