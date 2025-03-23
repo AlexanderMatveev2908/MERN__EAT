@@ -38,7 +38,7 @@ const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
       />
 
       <div
-        className={`w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5 transition-all duration-300 ${
+        className={`w-full grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5 transition-all duration-300 ${
           isOpen
             ? "max-h-[700px] opacity-100 pointer-events-auto py-2"
             : "opacity-0 max-h-0 pointer-events-none"
