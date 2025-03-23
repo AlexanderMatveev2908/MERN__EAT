@@ -4,6 +4,8 @@ import { useAddDish } from "./useAddDish";
 import MyDishesForm from "../../../UI/forms/MyDishes/MyDishesForm";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { ErrFoodApp } from "../../../types/allTypes/API";
+import { ReturnIdsAPI } from "../../../core/api/APICalls/myDishes";
 
 const AddDish = () => {
   useScrollTop();
@@ -15,6 +17,7 @@ const AddDish = () => {
     isSuccessIds,
     handleSave,
     isPending,
+    errorIds,
   } = useAddDish();
 
   return isPendingIds ? (
@@ -22,19 +25,19 @@ const AddDish = () => {
   ) : (
     <div className="w-full grid grid-cols-1 gap-5 justify-items-center">
       <span className="txt__04">Add Dish</span>
-      {isSuccessIds && restInfo?.length ? (
+      {isSuccessIds ? (
         <FormProvider {...formContext}>
           <MyDishesForm
             {...{
               formContext,
-              restInfo,
+              restInfo: restInfo as ReturnIdsAPI[],
               handleSave,
               isPending,
             }}
           />
         </FormProvider>
       ) : (
-        <ErrEmoji {...{ txt: "We did not found any restaurant 🤔" }} />
+        <ErrEmoji {...{ err: (errorIds as ErrFoodApp)?.response?.data?.msg }} />
       )}
     </div>
   );

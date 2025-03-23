@@ -111,5 +111,8 @@ export const useUpdateRestaurant = () => {
     isPendingUpdate,
     handleClickToOpenPopup,
     isErrorInfo,
+    isSuccessInfo:
+      isSuccessInfo && Object.keys(dataInfo?.restaurant ?? {}).length,
+    errorInfo,
   };
 };

@@ -12,6 +12,8 @@ import { FormProvider } from "react-hook-form";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import ErrEmoji from "../../../UI/components/ErrEmoji";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 const MyRestaurants: FC = () => {
   useScrollTop();
@@ -24,6 +26,8 @@ const MyRestaurants: FC = () => {
     handleSave,
     handleClear,
     data,
+    isError,
+    error,
   } = useMyRestaurants();
 
   const { restaurants, totDocuments = 0, totPages = 0, nHits = 0 } = data ?? {};
@@ -49,6 +53,8 @@ const MyRestaurants: FC = () => {
 
       {isPending ? (
         <LoaderPageReact />
+      ) : isError ? (
+        <ErrEmoji {...{ err: (error as ErrFoodApp)?.response?.data?.msg }} />
       ) : (
         <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))] justify-items-center gap-10 mt-5 items-start">
           {restaurants?.map((rest) => (

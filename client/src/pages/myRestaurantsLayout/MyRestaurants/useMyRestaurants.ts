@@ -60,5 +60,7 @@ export const useMyRestaurants = () => {
     handleSave,
     handleClear,
     data,
+    isError,
+    error,
   };
 };

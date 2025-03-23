@@ -62,5 +62,9 @@ export const useSearch = () => {
     handleSave,
     handleClear,
     isPending,
+    data,
+    isError,
+    error,
+    isSuccess,
   };
 };

@@ -21,7 +21,8 @@ export const useAddDish = () => {
   //   setValue: formContext.setValue,
   // });
 
-  const { isPendingIds, restInfo, isSuccessIds } = useGetRestaurantsIds();
+  const { isPendingIds, restInfo, isSuccessIds, isErrorIds, errorIds } =
+    useGetRestaurantsIds();
 
   const { fields } = useFieldArray({
     control: formContext.control,
@@ -82,5 +83,7 @@ export const useAddDish = () => {
     isSuccessIds,
     handleSave,
     isPending,
+    isErrorIds,
+    errorIds,
   };
 };

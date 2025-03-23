@@ -10,12 +10,26 @@ import { useSearch } from "./useSearch";
 import { FormProvider } from "react-hook-form";
 import BlockPages from "../../UI/components/BlockPages/BlockPages";
 import LoaderPageReact from "../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
+import ShowNumberHits from "../../UI/components/ShowNumberHits";
+import ErrEmoji from "../../UI/components/ErrEmoji";
+import { ErrFoodApp } from "../../types/allTypes/API";
 
 const SearchRestAllUsers: FC = () => {
   useScrollTop();
 
-  const { formContext, handleSave, handleClear, propsBlock, isPending } =
-    useSearch();
+  const {
+    formContext,
+    handleSave,
+    handleClear,
+    propsBlock,
+    isPending,
+    data,
+    isError,
+    error,
+    isSuccess,
+  } = useSearch();
+
+  const { totDocuments, nHits, totPages, restaurants } = data ?? {};
 
   return (
     <div className="w-full grid grid-cols-1 justify-items-center gap-5">
@@ -33,7 +47,13 @@ const SearchRestAllUsers: FC = () => {
         />
       </FormProvider>
 
-      {isPending ? <LoaderPageReact /> : null}
+      {isSuccess && <ShowNumberHits {...{ nHits, totDocuments, isPending }} />}
+
+      {isPending ? (
+        <LoaderPageReact />
+      ) : isError ? (
+        <ErrEmoji {...{ err: (error as ErrFoodApp)?.response?.data?.msg }} />
+      ) : null}
 
       <BlockPages {...{ ...propsBlock }} />
     </div>

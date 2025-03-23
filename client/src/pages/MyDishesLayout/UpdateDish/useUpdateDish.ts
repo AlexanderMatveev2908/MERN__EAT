@@ -160,9 +160,11 @@ export const useUpdateDish = () => {
     handleSave,
     isPendingPage: isPendingIds || isPendingInfo,
     restInfo,
-    isSuccess: isSuccessIds && isSuccessInfo,
+    isSuccess:
+      isSuccessIds && isSuccessInfo && Object.keys(dataInfo?.dish ?? {}).length,
     canStay,
     handleOpenPopup,
     isPending,
+    errorInfo,
   };
 };

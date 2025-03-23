@@ -13,7 +13,7 @@ export const useMySingleRestaurant = () => {
   const { restId } = useParams();
   const canStay = REG_MONGO.test(restId ?? "");
 
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isPending, isError, error, isSuccess } = useQuery({
     queryKey: ["mySingleRestaurant", restId],
     queryFn: () => getMySingleRestAPI(restId ?? ""),
     enabled: canStay,
@@ -29,5 +29,14 @@ export const useMySingleRestaurant = () => {
 
   const { restaurant, success } = data ?? ({} as any);
 
-  return { canStay, isPending, restaurant, success, restId };
+  return {
+    canStay,
+    isPending,
+    restaurant,
+    success,
+    restId,
+    isError,
+    error,
+    isSuccess: isSuccess && Object.keys(restaurant ?? {}).length,
+  };
 };

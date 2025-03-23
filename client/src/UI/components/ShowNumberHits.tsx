@@ -3,8 +3,8 @@ import { FC } from "react";
 import { useLocation } from "react-router-dom";
 
 type PropsType = {
-  nHits: number;
-  totDocuments: number;
+  nHits?: number;
+  totDocuments?: number;
   isPending: boolean;
 };
 

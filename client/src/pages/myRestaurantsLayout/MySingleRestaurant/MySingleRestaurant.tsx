@@ -9,6 +9,7 @@ import DetailsRestaurantAdmin from "../../../UI/components/cards/restaurants/Det
 import DetailsRestaurantUser from "../../../UI/components/cards/restaurants/DetailsRestaurantUser";
 import DropElStatic from "../../../UI/components/DropElStatic";
 import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 const MySingleRestaurant: FC = () => {
   useScrollTop();
@@ -18,15 +19,15 @@ const MySingleRestaurant: FC = () => {
     isPending,
     restaurant: rest,
     restId,
+    error,
+    isSuccess,
   } = useMySingleRestaurant();
 
   return !canStay ? (
     <Navigate to="/" replace />
   ) : isPending ? (
     <LoaderPageReact />
-  ) : !Object.keys(rest ?? {}).length ? (
-    <ErrEmoji {...{ txt: "It seems we did not find any restaurant 🤔" }} />
-  ) : (
+  ) : isSuccess ? (
     <div className="w-full grid grid-cols-1 justify-items-center gap-5">
       <span className="txt__04 truncate max-w-full">{rest.name}</span>
 
@@ -40,6 +41,8 @@ const MySingleRestaurant: FC = () => {
         <DetailsRestaurantAdmin {...{ rest }} />
       </div>
     </div>
+  ) : (
+    <ErrEmoji {...{ err: (error as ErrFoodApp)?.response?.data?.msg }} />
   );
 };
 export default MySingleRestaurant;
