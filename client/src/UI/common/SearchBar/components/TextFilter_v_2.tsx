@@ -27,8 +27,6 @@ const TextFilter_v_2: FC<PropsType> = ({
 
   const { register, watch, setValue } = formContext;
 
-  console.log(watch());
-
   useEffect(() => {
     const subscription = watch((vals) => {
       if (vals.items?.length && !vals.searchVals?.length) {
@@ -42,15 +40,19 @@ const TextFilter_v_2: FC<PropsType> = ({
     return () => subscription.unsubscribe();
   }, [setValue, watch]);
 
+  const searchValsArr = watch("searchVals");
+
   const handleChange = (el: string) => {
-    if ((watch("searchVals") || []).includes(el)) {
-      remove(watch("searchVals").findIndex((val: string) => val === el));
+    if ((searchValsArr ?? []).includes(el)) {
+      //  here i can use index of searchVals cause i attributed to the field items in items a certain value based on index of searchVals so i can be based on it index to manage append remove operations on fields arr
+      remove(searchValsArr.findIndex((val: string) => val === el));
 
       setValue(
         "searchVals",
         watch("searchVals").filter((val) => val !== el)
       );
     } else {
+      setValue("searchVals", [...searchValsArr, el]);
       append({ searchVal: el, search: "" });
     }
   };
