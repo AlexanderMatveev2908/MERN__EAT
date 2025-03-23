@@ -15,7 +15,9 @@ const HeaderIDItem: FC<PropsType> = ({ id }) => {
         <span className="txt__02">ID:</span>
       </div>
 
-      <TooltipEL {...{ txt: id, label: "Id" }} />
+      <div className="w-full flex items-center">
+        <TooltipEL {...{ txt: id, label: "Id" }} />
+      </div>
     </div>
   );
 };
