@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, SetStateAction, useEffect, useRef } from "react";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import SortersSearchBar from "./components/Sorters/SortersSearchBar";
 import {
@@ -21,6 +21,8 @@ type PropsType = {
   handleSave: () => void;
   handleClear: () => void;
   isPending: boolean;
+  closeAllDrop: boolean;
+  setCloseAllDrop: React.Dispatch<SetStateAction<boolean>>;
 };
 
 const SearchBar_v_2: FC<PropsType> = ({
@@ -31,27 +33,35 @@ const SearchBar_v_2: FC<PropsType> = ({
   handleSave,
   handleClear,
   isPending,
+  closeAllDrop,
+  setCloseAllDrop,
 }) => {
   const clearRef = useRef<HTMLDivElement | null>(null);
+  const searchRef = useRef<HTMLDivElement | null>(null);
   const hasAppendedFirst = useRef(false);
-  const [closeAllDrop, setCloseAllDrop] = useState(false);
+
   const path = useLocation().pathname;
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (clearRef.current && clearRef.current.contains(event.target as Node)) {
+    const handleClickReset = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (
+        (clearRef.current || searchRef.current) &&
+        (clearRef?.current?.contains(target) ||
+          searchRef?.current?.contains(target))
+      ) {
         setCloseAllDrop(true);
       } else {
         setCloseAllDrop(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickReset);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickReset);
     };
-  }, []);
+  }, [setCloseAllDrop]);
 
   const { control } = formContext;
 
@@ -108,7 +118,10 @@ const SearchBar_v_2: FC<PropsType> = ({
       </div>
 
       <div className="w-full grid grid-cols-2 mt-5">
-        <div className="sm:w-full justify-self-start w-[30vw] sm:max-w-[200px] sm:justify-self-center">
+        <div
+          ref={searchRef}
+          className="sm:w-full justify-self-start w-[30vw] sm:max-w-[200px] sm:justify-self-center"
+        >
           <ButtonBasic
             {...{
               type: "submit",
