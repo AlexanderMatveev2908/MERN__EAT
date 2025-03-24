@@ -33,6 +33,7 @@ type PropsType = {
   handleSave: () => void;
   handleClear: () => void;
   isPending: boolean;
+  closeAllDrop: boolean;
 };
 
 const SearchBar: FC<PropsType> = ({
@@ -43,6 +44,7 @@ const SearchBar: FC<PropsType> = ({
   handleSave,
   handleClear,
   isPending,
+  closeAllDrop,
 }) => {
   return !formContext ? null : (
     <form className="w-full max-w-[90%] border-[3px] border-orange-500 rounded-xl p-6">
@@ -54,10 +56,11 @@ const SearchBar: FC<PropsType> = ({
             formContext,
             searchFields,
             filters,
+            closeAllDrop,
           }}
         />
 
-        <SortersSearchBar {...{ formContext, sorters }} />
+        <SortersSearchBar {...{ formContext, sorters, closeAllDrop }} />
       </div>
 
       <div className="w-full grid grid-cols-2 mt-5">
@@ -91,19 +94,3 @@ const SearchBar: FC<PropsType> = ({
   );
 };
 export default SearchBar;
-
-/*
-
-     <div className="w-full grid grid-cols-1 gap-4 relative pb-6">
-            {fields.map((_, i) => (
-              <SearchFieldMultiple
-                {...{ formContext, i, searchVal: searchValEquivalent?.[i] }}
-                key={i}
-              />
-            ))}
-            <button className="absolute border-2 border-orange-500 rounded-xl bg-[#000] flex w-fit gap-5 items-center top-1/2 p-1 group el__flow hover:scale-110 cursor-pointer">
-              <FaPlus className="icon__base group-hover:text-orange-500 el__flow" />
-            </button>
-          </div>
-
-          */

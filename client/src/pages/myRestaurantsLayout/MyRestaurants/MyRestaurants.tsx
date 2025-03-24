@@ -31,6 +31,7 @@ const MyRestaurants: FC = () => {
     isError,
     error,
     isSuccess,
+    closeAllDrop,
   } = useCreateQueryHandlers({
     formCtx: formContext,
     key: "myRestaurantsSearch",
@@ -52,6 +53,7 @@ const MyRestaurants: FC = () => {
             handleSave,
             handleClear,
             isPending,
+            closeAllDrop,
           }}
         />
       </FormProvider>

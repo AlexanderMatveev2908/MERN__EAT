@@ -8,9 +8,10 @@ import FormFieldNoIcon from "../../../../../forms/inputFields/FormFieldNoIcon";
 
 type PropsType = {
   formContext: UseFormReturn<any>;
+  closeAllDrop?: boolean;
 };
 
-const CardToSearchStats: FC<PropsType> = ({ formContext }) => {
+const CardToSearchStats: FC<PropsType> = ({ formContext, closeAllDrop }) => {
   const {
     register,
     formState: { errors },
@@ -66,6 +67,7 @@ const CardToSearchStats: FC<PropsType> = ({ formContext }) => {
           setIsOpen,
           txt: "Stats",
           Icon: IoIosStats,
+          closeAllDrop,
         }}
       />
       <div

@@ -24,6 +24,7 @@ export const useCreateQueryHandlers = ({
 }) => {
   const [currPage, setCurrPage] = useState<number>(1);
   const [limit, setLimit] = useState(5);
+  const [closeAllDrop, setCloseAllDrop] = useState(false);
 
   const path = useLocation().pathname;
 
@@ -90,8 +91,18 @@ export const useCreateQueryHandlers = ({
     limit,
     propsBlock: {
       currPage,
-      setCurrPage,
+      setCurrPage: (val: number) => {
+        setCloseAllDrop(true);
+        setCurrPage(val);
+
+        window.scrollTo({
+          top: 200,
+          behavior: "smooth",
+        });
+      },
     },
+    closeAllDrop,
+    setCloseAllDrop,
 
     data,
     isSuccess,
