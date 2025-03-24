@@ -1,16 +1,14 @@
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import { ImageUploadedType } from "../../../types/allTypes/API";
 
 type PropsType = {
   images: ImageUploadedType[];
-  children?: ReactNode;
 };
 
-const HeaderImgs: FC<PropsType> = ({ images, children }) => {
+const HeaderImgs: FC<PropsType> = ({ images }) => {
   return (
-    <div className="w-full flex justify-center relative mb-1">
-      {children ?? null}
-      <div className="w-full overflow-x-auto hide_scrollbar snap-x snap-mandatory flex gap-4 px-5 mt-16">
+    <div className="w-full flex justify-center">
+      <div className="w-full overflow-x-auto hide_scrollbar snap-x snap-mandatory flex gap-4 p-4">
         {images.map((el) => (
           <div
             key={el.public_id}

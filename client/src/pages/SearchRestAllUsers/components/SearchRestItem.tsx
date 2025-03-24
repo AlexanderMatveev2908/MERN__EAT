@@ -2,10 +2,10 @@ import { FC } from "react";
 import { RestaurantAllUsers } from "../../../types/allTypes/search";
 import DetailsRestaurantUser from "../../../UI/components/cards/restaurants/DetailsRestaurantUser";
 import DropElAbsolute from "../../../UI/components/DropElAbsolute";
-import HeaderName from "../../../UI/components/cards/HeaderName";
-import HeaderImgs from "../../../UI/components/cards/HeaderImgs";
 import { Link } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
+import HeaderName from "../../../UI/components/cards/HeaderName";
+import HeaderImgs from "../../../UI/components/cards/HeaderImgs";
 
 type PropsType = {
   rest: RestaurantAllUsers;
@@ -14,6 +14,7 @@ type PropsType = {
 const SearchRestItem: FC<PropsType> = ({ rest }) => {
   return (
     <div className="card__el border-orange-500 relative">
+      {/* IF USER OWN RESTAURANT CAN GO DO PAGE THAT SHOWS ORDERS COUNT AND OTHER SPECIAL INFO */}
       {rest.isAdmin && (
         <Link
           to={`/my-restaurants/${rest._id}`}
@@ -27,16 +28,18 @@ const SearchRestItem: FC<PropsType> = ({ rest }) => {
         </Link>
       )}
 
-      <HeaderImgs {...{ images: rest.images }}>
-        <HeaderName {...{ name: rest.name }} />
-      </HeaderImgs>
+      <HeaderName {...{ name: rest.name }} />
 
-      <div className="w-full grid grid-cols-1">
-        <div
-          className="pt-3 w-full el__flow grid grid-cols-1 gap-3
-          "
-        >
-          <DetailsRestaurantUser {...{ rest, Container: DropElAbsolute }} />
+      {/* after small for users i split card in two */}
+      <div className="sm:grid grid-cols-2 place-items-center place-content-center">
+        <div className="flex w-full sm:w-[90%] sm:h-[90%] sm:py-3 items-center sm:border-2 border-orange-500 rounded-xl">
+          <HeaderImgs {...{ images: rest.images }} />
+        </div>
+
+        <div className="w-full grid grid-cols-1">
+          <div className="pt-3 w-full el__flow grid grid-cols-1 gap-3">
+            <DetailsRestaurantUser {...{ rest, Container: DropElAbsolute }} />
+          </div>
         </div>
       </div>
 

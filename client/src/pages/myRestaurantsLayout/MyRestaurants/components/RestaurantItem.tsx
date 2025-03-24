@@ -2,13 +2,12 @@ import { FC, useState } from "react";
 import { MyRestaurantType } from "../../../../types/allTypes/restAdmin";
 import HeaderIDItem from "../../../../UI/components/cards/HeaderIDItem";
 import { Link } from "react-router-dom";
-import HeaderImgs from "../../../../UI/components/cards/HeaderImgs";
-import HeaderName from "../../../../UI/components/cards/HeaderName";
 import DropElAbsolute from "../../../../UI/components/DropElAbsolute";
 import DetailsRestaurantAdmin from "../../../../UI/components/cards/restaurants/DetailsRestaurantAdmin";
 import DetailsRestaurantUser from "../../../../UI/components/cards/restaurants/DetailsRestaurantUser";
 import { HiBuildingStorefront } from "react-icons/hi2";
 import DropHandlerIcon from "../../../../UI/components/DropHandlerIcon";
+import HeaderCard from "../../../../UI/components/cards/HeaderCard";
 
 type PropsType = {
   rest: MyRestaurantType;
@@ -22,9 +21,7 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
       <div className="w-full flex flex-col">
         <HeaderIDItem {...{ id: rest._id }} />
 
-        <HeaderImgs {...{ images: rest.images }}>
-          <HeaderName {...{ name: rest.name }} />
-        </HeaderImgs>
+        <HeaderCard {...{ images: rest.images, name: rest.name }} />
 
         <div className="w-full grid grid-cols-1">
           <DropHandlerIcon

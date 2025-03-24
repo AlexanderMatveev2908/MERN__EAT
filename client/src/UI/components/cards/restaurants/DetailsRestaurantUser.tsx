@@ -63,7 +63,7 @@ const DetailsRestaurantUser: FC<PropsType> = ({ rest, Container }) => {
             el.label === "Free meal" && !el.val ? null : (
               <li
                 key={i}
-                className="el__flow cursor-pointer grid grid-cols-[150px_1fr]"
+                className="el__flow cursor-pointer grid grid-cols-[120px_1fr]"
               >
                 <span className="txt__01">{el.label}</span>
 
