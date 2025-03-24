@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { CurrUserType } from "../../../../types/allTypes/userTypes";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useToast, useUser } from "../../../../core/hooks/useGlobal";
 import { useHandleErr } from "../../../../core/hooks/useHandleErr";
@@ -15,9 +14,10 @@ export type NewsLetterFormType = {
 };
 
 export const useNewsletter = () => {
-  const { isLogged, currUser, setCurrUser } = useUser();
+  const { isLogged, currUser } = useUser();
   const { showToastMsg } = useToast();
   const { handleErrAPI } = useHandleErr();
+  const queryClient = useQueryClient();
 
   const navigate = useNavigate();
 
@@ -52,11 +52,11 @@ export const useNewsletter = () => {
   const { mutate: mutateLogged, isPending: isPendingLogged } = useMutation({
     mutationFn: ({ type }: { type: "subscribe" | "unsubscribe" }) =>
       newsLetterToggleLoggedAPI({ type }),
-    onSuccess: (data) => {
-      setCurrUser({ user: data?.user as CurrUserType | null });
+    onSuccess: () => {
+      queryClient.resetQueries({ queryKey: ["currUser"] });
       showToastMsg(
         `You have ${
-          data?.user?.hasSubscribedToNewsletter ? "subscribed" : "unsubscribed"
+          currUser?.hasSubscribedToNewsletter ? "unsubscribed" : "subscribed"
         } to our newsletter successfully`,
         "SUCCESS"
       );

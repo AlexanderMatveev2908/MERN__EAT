@@ -4,13 +4,14 @@ import { useEffect, useRef } from "react";
 import { useToast } from "./../../../core/hooks/useGlobal";
 import { useHandleErr } from "./../../../core/hooks/useHandleErr";
 import { isValidStr } from "../../../utils/allUtils/validateStr";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { verifyNewEmailAPI } from "./../../../core/api/api";
 import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useVerifyUser = () => {
   const isVerifyingRef = useRef<boolean>(false);
+  const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -30,6 +31,8 @@ export const useVerifyUser = () => {
       verifyNewEmailAPI(params),
     onSuccess: () => {
       showToastMsg("New Email successfully verified!", "SUCCESS");
+
+      queryClient.resetQueries({ queryKey: ["currUser"] });
       navigate("/", { replace: true });
     },
     onError: (err: ErrFoodApp) => {
