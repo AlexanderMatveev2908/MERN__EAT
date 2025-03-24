@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { RestaurantAllUsers } from "../../../types/allTypes/search";
-import DetailsRestaurantUser from "../../../UI/components/cards/restaurants/DetailsRestaurantUser";
-import DropElAbsolute from "../../../UI/components/DropElAbsolute";
+import { RestaurantAllUsers } from "../../../../types/allTypes/search";
+import DetailsRestaurantUser from "../../../../UI/components/cards/restaurants/DetailsRestaurantUser";
+import DropElAbsolute from "../../../../UI/components/DropElAbsolute";
 import { Link } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
-import HeaderName from "../../../UI/components/cards/HeaderName";
-import HeaderImgs from "../../../UI/components/cards/HeaderImgs";
+import HeaderName from "../../../../UI/components/cards/HeaderName";
+import HeaderImgs from "../../../../UI/components/cards/HeaderImgs";
 
 type PropsType = {
   rest: RestaurantAllUsers;

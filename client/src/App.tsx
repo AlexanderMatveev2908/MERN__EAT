@@ -26,7 +26,8 @@ import LayoutMyDishes from "./UI/layouts/LayoutMyDishes";
 import AddDish from "./pages/MyDishesLayout/AddDish/AddDish";
 import MyDishes from "./pages/MyDishesLayout/MyDishes/MyDishes";
 import UpdateDish from "./pages/MyDishesLayout/UpdateDish/UpdateDish";
-import SearchRestAllUsers from "./pages/SearchRestAllUsers/SearchRestAllUsers";
+import LayoutSearchRoute from "./UI/layouts/LayoutSearchRoute";
+import SearchRestAllUsers from "./pages/SearchLayout/SearchRestAllUsers/SearchRestAllUsers";
 
 const App: FC = () => {
   useApp();
@@ -77,7 +78,9 @@ const App: FC = () => {
           <Route path="update/:dishId" element={<UpdateDish />} />
         </Route>
 
-        <Route path="search" element={<SearchRestAllUsers />} />
+        <Route path="search" element={<LayoutSearchRoute />}>
+          <Route path="" element={<SearchRestAllUsers />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
