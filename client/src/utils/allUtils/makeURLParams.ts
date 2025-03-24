@@ -2,7 +2,7 @@
 import {
   REG_MONGO,
   REG_PRICE,
-  REG_QTY,
+  REG_QTY_SEARCH,
   REG_SEARCH,
 } from "../../core/config/constants/regex";
 import { SearchMyDishesFormType } from "../../types/allTypes/myDishes";
@@ -59,24 +59,24 @@ export const createURLParamsMyDishes = (formDataHook) => {
         if (!REG_PRICE.test((pair[1] as string) ?? "")) continue;
 
         if (
-          ([formDataHook.minPrice, formDataHook.maPrice].every((el) => !!el) &&
-            pair[0] === "minPrice" &&
-            +pair[1] > +formDataHook.maxPrice) ||
-          (pair[0] === "maxPrice" && +pair[1] < formDataHook.minPrice)
+          formDataHook?.minPrice &&
+          formDataHook?.maxPrice &&
+          ((pair[0] === "minPrice" && +pair[1] > +formDataHook.maxPrice) ||
+            (pair[0] === "maxPrice" && +pair[1] < formDataHook.minPrice))
         )
           continue;
       }
       if (["minQuantity", "maxQuantity"].includes(pair[0])) {
-        if (!REG_QTY.test((pair[1] as string) ?? ""))
-          if (
-            ([formDataHook.minQuantity, formDataHook.maxQuantity].every(
-              (el) => !!el
-            ) &&
-              pair[0] === "minQuantity" &&
-              +pair[1] > +formDataHook.maxQuantity) ||
-            (pair[0] === "maxQuantity" && +pair[1] < +formDataHook.minQuantity)
-          )
-            continue;
+        if (!REG_QTY_SEARCH.test((pair[1] as string) ?? "")) continue;
+
+        if (
+          formDataHook?.minQuantity &&
+          formDataHook?.maxQuantity &&
+          ((pair[0] === "minQuantity" &&
+            +pair[1] > +formDataHook.maxQuantity) ||
+            (pair[0] === "maxQuantity" && +pair[1] < +formDataHook.minQuantity))
+        )
+          continue;
       }
 
       params.append(pair[0], pair[1] as string);

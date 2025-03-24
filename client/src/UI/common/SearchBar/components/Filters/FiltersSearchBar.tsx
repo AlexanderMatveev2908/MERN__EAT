@@ -13,9 +13,9 @@ import CardToSearchStats from "./components/CardToSearchStats";
 import { useLocation } from "react-router-dom";
 
 type PropsType = {
-  searchFields: CheckBoxFieldType[];
+  searchFields?: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
-  filters: SearchFilterType[];
+  filters?: SearchFilterType[];
   closeAllDrop: boolean;
 };
 
@@ -49,9 +49,12 @@ const FiltersSearchBar: FC<PropsType> = ({
             : "opacity-0 max-h-0 pointer-events-none"
         }`}
       >
-        <TextFilter {...{ formContext, searchFields, closeAllDrop }} />
+        {!!searchFields?.length && (
+          <TextFilter {...{ formContext, searchFields, closeAllDrop }} />
+        )}
 
-        {/^\/(my-dishes).*/.test(location.pathname) && (
+        {(/^\/(my-dishes).*/.test(location.pathname) ||
+          /^\/search\/[a-f0-9]{24}$/.test(location.pathname)) && (
           <CardToSearchStats {...{ formContext, closeAllDrop }} />
         )}
 

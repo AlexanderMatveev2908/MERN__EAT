@@ -2,6 +2,7 @@ import { PartyPopper } from "lucide-react";
 import { FC } from "react";
 import { useLocation } from "react-router-dom";
 import { getTargetConfig } from "../../core/hooks/useUpdatePlace";
+import { REG_PATH_SEARCH_DISHES } from "../../core/config/constants/regex";
 
 type PropsType = {
   nHits?: number;
@@ -25,6 +26,8 @@ const ShowNumberHits: FC<PropsType> = ({
       ? "dishes"
       : path === "/my-restaurants"
       ? "restaurants"
+      : REG_PATH_SEARCH_DISHES.test(path)
+      ? "dishes"
       : null;
 
   const { arrToCheck } = getTargetConfig(path);
@@ -66,6 +69,8 @@ const ShowNumberHits: FC<PropsType> = ({
           <span className="txt__03">
             {path === "/search"
               ? "Good news, there are not restaurants available so you could be the first that could create one ✌🏼"
+              : REG_PATH_SEARCH_DISHES.test(path)
+              ? "This restaurant does not have dishes right now, they are strategically preparing 🧐"
               : `You have Number(Array().fill()+Array().fill()) ${target} 🥸`}
           </span>
         </div>

@@ -26,9 +26,9 @@ import ButtonBasic from "../../components/buttons/ButtonBasic";
 // };
 
 type PropsType = {
-  searchFields: CheckBoxFieldType[];
+  searchFields?: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
-  filters: SearchFilterType[];
+  filters?: SearchFilterType[];
   sorters: SorterFieldType[];
   handleSave: () => void;
   handleClear: () => void;

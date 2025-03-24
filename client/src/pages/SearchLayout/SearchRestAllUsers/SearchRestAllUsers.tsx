@@ -82,7 +82,7 @@ const SearchRestAllUsers: FC = () => {
       {isPending ? (
         <LoaderPageReact />
       ) : isError ? (
-        <ErrEmoji {...{ err: (error as ErrFoodApp)?.response?.data?.msg }} />
+        <ErrEmoji {...{ err: error as ErrFoodApp }} />
       ) : (
         !!restaurants?.length && (
           <div className="container__cards">

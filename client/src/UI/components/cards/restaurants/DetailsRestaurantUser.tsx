@@ -60,6 +60,7 @@ const DetailsRestaurantUser: FC<PropsType> = ({ rest, Container }) => {
       <Container {...{ el: showMyRestaurantsDelivery }}>
         {showMyRestaurantsDeliveryFields(...Object.values(rest.delivery)).map(
           (el, i) =>
+            //  if no data about free meal no need to show it as $0.00 cause implicit
             el.label === "Free meal" && !el.val ? null : (
               <li
                 key={i}
@@ -68,8 +69,9 @@ const DetailsRestaurantUser: FC<PropsType> = ({ rest, Container }) => {
                 <span className="txt__01">{el.label}</span>
 
                 <span className="txt__01 justify-self-end max-w-full overflow-x-auto text-nowrap hide_scrollbar ">
-                  {el.label !== "Delivery time"
-                    ? priceFormatter({
+                  {el.label !== "Time"
+                    ? //  for time used proper time formatter
+                      priceFormatter({
                         price: el.val as number,
                         showStr: true,
                       })

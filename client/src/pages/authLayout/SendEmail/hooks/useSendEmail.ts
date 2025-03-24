@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useCreateTanStackSendEmail } from "./useCreateTanStackSendEmail";
-import { validateStrWithArr } from "../../../../utils/allUtils/validateStr";
+import { validateStrWithArr } from "../../../../utils/allUtils/validateData";
 import { sendUserEmailAPI } from "../../../../core/api/api";
 
 export type SendEmailFormType = {

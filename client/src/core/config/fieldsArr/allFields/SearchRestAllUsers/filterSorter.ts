@@ -11,6 +11,10 @@ import { LuChefHat } from "react-icons/lu";
 import { BaseFieldType } from "../../typesFields";
 import { MdDeliveryDining } from "react-icons/md";
 import { SearchFormType } from "../../../../../types/allTypes/search";
+import {
+  myDishesFieldsNumericSearch,
+  sortersMyDishesFields,
+} from "../MyDishes/filterSort";
 
 const searchRest = ["name", "country", "state", "city"];
 
@@ -81,4 +85,30 @@ export const defaultValsSearchAllUsers: Omit<SearchFormType, "search"> & {
   ],
 
   page: "1",
+};
+
+export const numericFieldsSearch = myDishesFieldsNumericSearch.map((el) => ({
+  ...el,
+  id: genID(),
+}));
+
+export const searchDishesSorters = sortersMyDishesFields
+  .filter((el) =>
+    ["priceSort", "createdAtSort", "updatedAtSort"].includes(el.field)
+  )
+  .map((el) => ({
+    ...el,
+    id: genID(),
+    subFields: [...fieldsUpAndDown.map((subEl) => ({ ...subEl, id: genID() }))],
+  }));
+
+export const defaultValuesSearchDishesAsUser = {
+  minPrice: "",
+  maxPrice: "",
+  minQuantity: "",
+  maxQuantity: "",
+
+  priceSort: [],
+  createdAtSort: [],
+  updateAtSort: [],
 };

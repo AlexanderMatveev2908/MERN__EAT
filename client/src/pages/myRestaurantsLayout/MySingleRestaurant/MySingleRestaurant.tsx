@@ -42,7 +42,7 @@ const MySingleRestaurant: FC = () => {
       </div>
     </div>
   ) : (
-    <ErrEmoji {...{ err: (error as ErrFoodApp)?.response?.data?.msg }} />
+    <ErrEmoji {...{ err: error as ErrFoodApp }} />
   );
 };
 export default MySingleRestaurant;

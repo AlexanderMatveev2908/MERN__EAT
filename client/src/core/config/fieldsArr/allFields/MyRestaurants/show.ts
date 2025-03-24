@@ -81,7 +81,7 @@ export const showMyRestaurantsDeliveryFields = (
 ): ShowCardMyRestType[] => [
   {
     id: genID(),
-    label: "Delivery time",
+    label: "Time",
     val: params[0],
   },
   {

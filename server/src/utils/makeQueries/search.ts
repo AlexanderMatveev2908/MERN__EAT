@@ -3,7 +3,7 @@ import { query, Request } from "express";
 const makeQueryRange_v_2 = (
   queryObj: any,
   vals: string,
-  rangeName: string,
+  keyName: string,
   limit: number
 ) => {
   const ranges = vals.split(",");
@@ -15,11 +15,10 @@ const makeQueryRange_v_2 = (
     if ([min, max].some((v) => isNaN(+v))) continue;
 
     const conditions: any = [];
-    if (max === limit)
-      conditions.push({ [`restaurant.${rangeName}`]: { $gte: min } });
+    if (max === limit) conditions.push({ [`${keyName}`]: { $gte: min } });
     else
       conditions.push({
-        [`restaurant.${rangeName}`]: { $gte: min, $lte: max },
+        [`${keyName}`]: { $gte: min, $lte: max },
       });
 
     if (queryObj?.$and?.length) queryObj.$and.push(...conditions);
@@ -55,9 +54,39 @@ export const makeQuerySearchAllUsers = (req: Request) => {
     };
 
   if (avgPriceRange)
-    makeQueryRange_v_2(queryObj, avgPriceRange as string, "avgPrice", 100);
+    makeQueryRange_v_2(
+      queryObj,
+      avgPriceRange as string,
+      "restaurant.avgPrice",
+      100
+    );
   if (avgPriceRange)
-    makeQueryRange_v_2(queryObj, avgRatingRange as string, "avgRating", 5);
+    makeQueryRange_v_2(
+      queryObj,
+      avgRatingRange as string,
+      "restaurant.avgRating",
+      5
+    );
+
+  return Object.keys(queryObj).length ? queryObj : null;
+};
+
+export const makeQuerySearchDishes = (req: Request) => {
+  const { minPrice, maxPrice, minQuantity, maxQuantity } = req.query;
+
+  const queryObj: any = {};
+
+  const numericFilters = [
+    minPrice ? { "dishes.price": { $gte: +minPrice } } : null,
+
+    maxPrice ? { "dishes.price": { $lte: +maxPrice } } : null,
+
+    minQuantity ? { "dishes.quantity": { $gte: +minQuantity } } : null,
+
+    maxQuantity ? { "dishes.quantity": { $lte: +maxQuantity } } : null,
+  ].filter((el) => !!el);
+
+  if (numericFilters.length) queryObj["$and"] = numericFilters;
 
   return Object.keys(queryObj).length ? queryObj : null;
 };

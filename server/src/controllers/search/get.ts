@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
 import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
-import { makeQuerySearchAllUsers } from "../../utils/makeQueries/search.js";
+import {
+  makeQuerySearchAllUsers,
+  makeQuerySearchDishes,
+} from "../../utils/makeQueries/search.js";
 import { makeSorters } from "../../utils/makeSorters/general.js";
 import { calcPagination } from "../../utils/calcPagination.js";
-import Restaurant from "../../models/Restaurant.js";
+import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 import { REG_MONGO } from "../../config/constants/regex.js";
+import { baseErrResponse } from "../../utils/baseErrResponse.js";
 
 export const getRestaurantsSearchAllUsers = async (
   req: RequestWithUserId,
@@ -163,4 +167,50 @@ export const getRestaurantsSearchAllUsers = async (
     nHits,
     restaurants,
   });
+};
+
+export const getRestaurantAsUser = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+  const { restId } = req.params;
+
+  const restaurant: any = await Restaurant.findById(restId).lean();
+  if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
+
+  restaurant.isAdmin = REG_MONGO.test(userId ?? "")
+    ? restaurant.owner === userId
+    : false;
+
+  return res.status(200).json({
+    msg: "ok",
+    success: true,
+    restaurant,
+  });
+};
+
+export const getDishesRestaurant = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { restId } = req.params;
+
+  const queryObj = makeQuerySearchDishes(req);
+  const sorter = makeSorters(req, "dishes.");
+
+  const result = await Restaurant.aggregate([
+    { $match: { _id: makeMongoId(restId ?? "") } },
+
+    {
+      $lookup: {
+        from: "dishes",
+        localField: "dishes",
+        foreignField: "_id",
+        as: "dishes",
+      },
+    },
+  ]);
+
+  return res.status(200).json({ success: true });
 };

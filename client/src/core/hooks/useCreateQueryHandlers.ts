@@ -6,10 +6,14 @@ import { UseFormReturn } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import { defaultValuesMyRestSearch } from "../config/fieldsArr/allFields/MyRestaurants/filterSort";
 import { defaultValuesMyDishesSearch } from "../config/fieldsArr/allFields/MyDishes/filterSort";
-import { defaultValsSearchAllUsers } from "../config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
+import {
+  defaultValsSearchAllUsers,
+  defaultValuesSearchDishesAsUser,
+} from "../config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { createURLParams } from "../../utils/utils";
 import { useHandleErr } from "./useHandleErr";
 import { ErrFoodApp } from "../../types/allTypes/API";
+import { REG_PATH_SEARCH_DISHES } from "../config/constants/regex";
 
 export const useCreateQueryHandlers = ({
   formCtx,
@@ -19,7 +23,7 @@ export const useCreateQueryHandlers = ({
 }: {
   formCtx: UseFormReturn<any>;
   key: string;
-  cbAPI: (params: URLSearchParams) => Promise<any>;
+  cbAPI: (params: URLSearchParams, extra?: string) => Promise<any>;
   cbProcessForm?: (formVals: any) => URLSearchParams;
 }) => {
   const [currPage, setCurrPage] = useState<number>(1);
@@ -40,6 +44,8 @@ export const useCreateQueryHandlers = ({
       ? defaultValuesMyDishesSearch
       : path === "/search"
       ? defaultValsSearchAllUsers
+      : REG_PATH_SEARCH_DISHES.test(path)
+      ? defaultValuesSearchDishesAsUser
       : {};
 
   const handleSave = handleSubmit((formDatHook) => {

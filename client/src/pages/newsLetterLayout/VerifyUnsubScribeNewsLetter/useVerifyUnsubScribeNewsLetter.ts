@@ -6,7 +6,7 @@ import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
 import {
   isValidStr,
   validateStrWithArr,
-} from "../../../utils/allUtils/validateStr";
+} from "../../../utils/allUtils/validateData";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import {
   unSubScribeViaLinkLoggedAPI,

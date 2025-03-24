@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from "react";
 import {
   isValidStr,
   validateStrWithArr,
-} from "../../../../utils/allUtils/validateStr";
+} from "../../../../utils/allUtils/validateData";
 import { useCreateTanVerify } from "./useCreateTanVerify";
 import { useToast, useUser } from "../../../../core/hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../../core/config/constants/regex";

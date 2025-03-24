@@ -2,7 +2,10 @@ import { useForm } from "react-hook-form";
 import { FormSearchType } from "../../../types/allTypes/restAdmin";
 import { DishMenuFormType } from "../../../types/types";
 import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
-import { SearchFormType } from "../../../types/allTypes/search";
+import {
+  SearchDishesFormType,
+  SearchFormType,
+} from "../../../types/allTypes/search";
 import { isDev } from "../../config/constants/environment";
 
 export const useFormsVals = () => {
@@ -59,11 +62,16 @@ export const useFormsVals = () => {
         },
   });
 
+  const formContextSearchDishesAllUSers = useForm<SearchDishesFormType>({
+    mode: "onChange",
+  });
+
   return {
     formContextMyRestaurants,
     formContextMyDishesAddItem,
     formContextMyDishesSearch,
     formContextMyDishesUpdate,
     formContextSearchRestAllUsers,
+    formContextSearchDishesAllUSers,
   };
 };

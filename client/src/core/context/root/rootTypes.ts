@@ -17,7 +17,10 @@ import {
 import { FormSearchType } from "../../../types/allTypes/restAdmin";
 import { DishMenuFormType } from "../../../types/types";
 import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
-import { SearchFormType } from "../../../types/allTypes/search";
+import {
+  SearchDishesFormType,
+  SearchFormType,
+} from "../../../types/allTypes/search";
 
 export type RootStateType = {
   toastState: ToastStateType;
@@ -36,6 +39,7 @@ export type FormsCtxType = {
   formContextMyDishesUpdate: UseFormReturn<DishMenuFormType>;
   formContextMyDishesSearch: UseFormReturn<SearchMyDishesFormType>;
   formContextSearchRestAllUsers: UseFormReturn<SearchFormType>;
+  formContextSearchDishesAllUSers: UseFormReturn<SearchDishesFormType>;
 };
 
 export type SideVals = {
