@@ -1,78 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
 import { REG_SEARCH } from "../../../../core/config/constants/regex";
-import { searchRestFieldsSearch } from "../../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
-import { myDishesFieldsSearch } from "../../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
-import { myRestFieldsSearch } from "../../../../core/config/fieldsArr/fields";
-import { tailwindBreak } from "../../../../core/config/constants/breakpoints";
+import { useUpdatePlace } from "../../../../core/hooks/useUpdatePlace";
 
 type PropsType = {
   formContext: UseFormReturn<any>;
   i?: number;
-  searchVal?: {
+  fieldHook?: {
     searchVal: string;
     search: string;
   };
 };
 
-const SearchFieldMultiple: FC<PropsType> = ({ formContext, i, searchVal }) => {
-  const path = useLocation().pathname;
-  const [place, setPlace] = useState("");
-
+const SearchFieldMultiple: FC<PropsType> = ({ formContext, i, fieldHook }) => {
   const {
     register,
     formState: { errors },
   } = formContext;
 
-  let target;
-  let arrToCheck;
-  switch (path) {
-    case "/search":
-      target = "restaurant";
-      arrToCheck = searchRestFieldsSearch;
-      break;
-    case "/my-restaurants":
-      target = "restaurant";
-      arrToCheck = myRestFieldsSearch;
-      break;
-    case "/my-dishes":
-      target = "dish";
-      arrToCheck = myDishesFieldsSearch;
-      break;
-    default:
-      target = "";
-      arrToCheck = [];
-  }
-
   const valToRegister = i || i === 0 ? `items.${i}.search` : "search";
-
   const errToWatch =
     i || i === 0
       ? errors?.items?.[i]?.search?.message
       : errors?.search?.message;
 
-  const label = arrToCheck
-    .filter((el) => el.field === searchVal?.searchVal)?.[0]
-    ?.label?.toLowerCase();
+  const { place } = useUpdatePlace({
+    customFilter: (arr) =>
+      arr
+        .filter((el) => el.field === fieldHook?.searchVal)?.[0]
+        ?.label?.toLowerCase(),
+  });
 
-  useEffect(() => {
-    const updatePlace = () => {
-      const w = window.innerWidth;
-
-      if (w > tailwindBreak.sm)
-        setPlace(`Search a ${target}${label ? ` by ${label}` : ""}...`);
-      else setPlace(`${label[0].toUpperCase() + label.slice(1)}...`);
-    };
-
-    updatePlace();
-
-    window.addEventListener("resize", updatePlace);
-
-    return () => window.removeEventListener("resize", updatePlace);
-  }, [target, label]);
   return (
     <div className="w-full flex flex-col gap-3">
       <label className="w-full grid grid-cols-1 justify-items-start gap-2 relative">
