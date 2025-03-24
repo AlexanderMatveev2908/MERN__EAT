@@ -11,7 +11,10 @@ import { myRestFieldsSearch } from "../../../../core/config/fieldsArr/fields";
 type PropsType = {
   formContext: UseFormReturn<any>;
   i?: number;
-  searchVal?: string;
+  searchVal?: {
+    searchVal: string;
+    search: string;
+  };
 };
 
 const SearchFieldMultiple: FC<PropsType> = ({ formContext, i, searchVal }) => {
@@ -50,7 +53,7 @@ const SearchFieldMultiple: FC<PropsType> = ({ formContext, i, searchVal }) => {
       : errors?.search?.message;
 
   const label = arrToCheck
-    .filter((el) => el.field === searchVal)?.[0]
+    .filter((el) => el.field === searchVal?.searchVal)?.[0]
     ?.label?.toLowerCase();
 
   return (

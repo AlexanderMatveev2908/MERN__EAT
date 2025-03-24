@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import SortersSearchBar from "./components/Sorters/SortersSearchBar";
 import {
@@ -32,17 +32,33 @@ const SearchBar_v_2: FC<PropsType> = ({
   handleClear,
   isPending,
 }) => {
+  const clearRef = useRef<HTMLDivElement | null>(null);
   const hasAppendedFirst = useRef(false);
+  const [closeAllDrop, setCloseAllDrop] = useState(false);
   const path = useLocation().pathname;
 
-  const { control, watch } = formContext;
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (clearRef.current && clearRef.current.contains(event.target as Node)) {
+        setCloseAllDrop(true);
+      } else {
+        setCloseAllDrop(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const { control } = formContext;
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
   });
-
-  const possibleSearchEq = watch("searchVals");
 
   useEffect(() => {
     if (
@@ -62,7 +78,7 @@ const SearchBar_v_2: FC<PropsType> = ({
         <div className="w-full grid grid-cols-1 gap-4">
           {fields.map((_, i) => (
             <SearchFieldMultiple
-              {...{ formContext, i, searchVal: possibleSearchEq?.[i] }}
+              {...{ formContext, i, searchVal: fields?.[i] as any }}
               key={i}
             />
           ))}
@@ -73,12 +89,22 @@ const SearchBar_v_2: FC<PropsType> = ({
             formContext,
             searchFields,
             filters,
+            closeAllDrop,
           }}
         >
-          <TextFilter_v_2 {...{ append, remove, formContext, searchFields }} />
+          <TextFilter_v_2
+            {...{
+              append,
+              remove,
+              fields,
+              formContext,
+              searchFields,
+              closeAllDrop,
+            }}
+          />
         </FiltersSearchBar_v_2>
 
-        <SortersSearchBar {...{ formContext, sorters }} />
+        <SortersSearchBar {...{ formContext, sorters, closeAllDrop }} />
       </div>
 
       <div className="w-full grid grid-cols-2 mt-5">
@@ -95,7 +121,10 @@ const SearchBar_v_2: FC<PropsType> = ({
           />
         </div>
 
-        <div className="sm:w-full justify-self-end w-[30vw] sm:max-w-[200px] sm:justify-self-center">
+        <div
+          ref={clearRef}
+          className="sm:w-full justify-self-end w-[30vw] sm:max-w-[200px] sm:justify-self-center"
+        >
           <ButtonBasic
             {...{
               type: "button",

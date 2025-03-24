@@ -8,9 +8,14 @@ import DropHandlerIcon from "../../../../components/DropHandlerIcon";
 type PropsType = {
   formContext: UseFormReturn;
   sorters: SorterFieldType[];
+  closeAllDrop?: boolean;
 };
 
-const SortersSearchBar: FC<PropsType> = ({ formContext, sorters }) => {
+const SortersSearchBar: FC<PropsType> = ({
+  formContext,
+  sorters,
+  closeAllDrop,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -21,6 +26,7 @@ const SortersSearchBar: FC<PropsType> = ({ formContext, sorters }) => {
           Icon: FaSort,
           isOpen,
           setIsOpen,
+          closeAllDrop,
           customStyle: "pb-1 border-b-[3px] border-orange-500",
         }}
       />
@@ -34,7 +40,10 @@ const SortersSearchBar: FC<PropsType> = ({ formContext, sorters }) => {
       >
         {!!sorters?.length &&
           sorters.map((el) => (
-            <SorterField key={el.id} {...{ formContext, sorter: el }} />
+            <SorterField
+              key={el.id}
+              {...{ formContext, sorter: el, closeAllDrop }}
+            />
           ))}
       </div>
     </div>

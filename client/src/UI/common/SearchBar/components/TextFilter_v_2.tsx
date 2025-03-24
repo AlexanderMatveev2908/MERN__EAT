@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import {
   UseFieldArrayAppend,
   UseFieldArrayRemove,
@@ -15,6 +15,8 @@ type PropsType = {
   formContext: UseFormReturn<any>;
   append: UseFieldArrayAppend<any>;
   remove: UseFieldArrayRemove;
+  fields: any;
+  closeAllDrop?: boolean;
 };
 
 const TextFilter_v_2: FC<PropsType> = ({
@@ -22,35 +24,37 @@ const TextFilter_v_2: FC<PropsType> = ({
   formContext,
   append,
   remove,
+  fields,
+  closeAllDrop,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { register, watch, setValue } = formContext;
 
-  useEffect(() => {
-    const subscription = watch((vals) => {
-      if (vals.items?.length && !vals.searchVals?.length) {
-        setValue(
-          "searchVals",
-          vals.items.map((el: any) => el.searchVal)
-        );
-      }
-    });
+  // useEffect(() => {
+  //   const subscription = watch((vals) => {
+  //     if (vals.items?.length && !vals.searchVals?.length) {
+  //       setValue(
+  //         "searchVals",
+  //         vals.items.map((el: any) => el.searchVal)
+  //       );
+  //     }
+  //   });
 
-    return () => subscription.unsubscribe();
-  }, [setValue, watch]);
+  //   return () => subscription.unsubscribe();
+  // }, [setValue, watch]);
 
   const searchValsArr = watch("searchVals");
 
   const handleChange = (el: string) => {
     if ((searchValsArr ?? []).includes(el)) {
       //  here i can use index of searchVals cause i attributed to the field items in items a certain value based on index of searchVals so i can be based on it index to manage append remove operations on fields arr
-      remove(searchValsArr.findIndex((val: string) => val === el));
-
       setValue(
         "searchVals",
         watch("searchVals").filter((val) => val !== el)
       );
+
+      remove(fields.findIndex((field) => field.searchVal === el));
     } else {
       setValue("searchVals", [...searchValsArr, el]);
       append({ searchVal: el, search: "" });
@@ -65,6 +69,7 @@ const TextFilter_v_2: FC<PropsType> = ({
           setIsOpen,
           txt: "Text",
           Icon: CiTextAlignCenter,
+          closeAllDrop,
         }}
       />
 

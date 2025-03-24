@@ -12,12 +12,14 @@ type PropsType = {
   formContext: UseFormReturn<any>;
   filters: SearchFilterType[];
   children: ReactNode;
+  closeAllDrop?: boolean;
 };
 
 const FiltersSearchBar_v_2: FC<PropsType> = ({
   formContext,
   filters,
   children,
+  closeAllDrop,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,6 +33,7 @@ const FiltersSearchBar_v_2: FC<PropsType> = ({
           Icon: IoFilter,
           isOpen,
           setIsOpen,
+          closeAllDrop,
           customStyle: "pb-1 border-b-[3px] border-orange-500",
         }}
       />
@@ -50,7 +53,10 @@ const FiltersSearchBar_v_2: FC<PropsType> = ({
 
         {!!filters?.length &&
           filters.map((el) => (
-            <FilterField key={el.id} {...{ field: el, formContext }} />
+            <FilterField
+              key={el.id}
+              {...{ field: el, formContext, closeAllDrop }}
+            />
           ))}
       </div>
     </div>

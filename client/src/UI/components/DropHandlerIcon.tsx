@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { IconType } from "react-icons/lib";
 
 type PropsType = {
@@ -7,6 +7,7 @@ type PropsType = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   txt: string;
   Icon: IconType;
+  closeAllDrop?: boolean;
   customStyle?: string;
   customIconStyle?: string;
 };
@@ -16,9 +17,14 @@ const DropHandlerIcon: FC<PropsType> = ({
   setIsOpen,
   txt,
   Icon,
+  closeAllDrop,
   customStyle,
   customIconStyle,
 }) => {
+  useEffect(() => {
+    if (closeAllDrop) setIsOpen(false);
+  }, [closeAllDrop, setIsOpen]);
+
   return (
     <div
       onClick={() => setIsOpen(!isOpen)}
