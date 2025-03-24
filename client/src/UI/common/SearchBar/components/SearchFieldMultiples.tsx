@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
@@ -7,6 +7,7 @@ import { REG_SEARCH } from "../../../../core/config/constants/regex";
 import { searchRestFieldsSearch } from "../../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { myDishesFieldsSearch } from "../../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
 import { myRestFieldsSearch } from "../../../../core/config/fieldsArr/fields";
+import { tailwindBreak } from "../../../../core/config/constants/breakpoints";
 
 type PropsType = {
   formContext: UseFormReturn<any>;
@@ -19,6 +20,7 @@ type PropsType = {
 
 const SearchFieldMultiple: FC<PropsType> = ({ formContext, i, searchVal }) => {
   const path = useLocation().pathname;
+  const [place, setPlace] = useState("");
 
   const {
     register,
@@ -56,12 +58,27 @@ const SearchFieldMultiple: FC<PropsType> = ({ formContext, i, searchVal }) => {
     .filter((el) => el.field === searchVal?.searchVal)?.[0]
     ?.label?.toLowerCase();
 
+  useEffect(() => {
+    const updatePlace = () => {
+      const w = window.innerWidth;
+
+      if (w > tailwindBreak.sm)
+        setPlace(`Search a ${target}${label ? ` by ${label}` : ""}...`);
+      else setPlace(`${label[0].toUpperCase() + label.slice(1)}...`);
+    };
+
+    updatePlace();
+
+    window.addEventListener("resize", updatePlace);
+
+    return () => window.removeEventListener("resize", updatePlace);
+  }, [target, label]);
   return (
     <div className="w-full flex flex-col gap-3">
       <label className="w-full grid grid-cols-1 justify-items-start gap-2 relative">
         <input
           type="text"
-          placeholder={`Search a ${target}${label ? ` by ${label}` : ""}...`}
+          placeholder={place}
           className="focus__base el__flow outline-none border-2 border-orange-500 rounded-full w-full px-5 pr-14 py-2 txt__01"
           {...register(valToRegister, {
             pattern: {

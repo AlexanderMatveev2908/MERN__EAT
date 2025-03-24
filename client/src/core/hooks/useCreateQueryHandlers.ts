@@ -23,7 +23,7 @@ export const useCreateQueryHandlers = ({
   cbProcessForm?: (formVals: any) => URLSearchParams;
 }) => {
   const [currPage, setCurrPage] = useState<number>(1);
-  const [limit, setLimit] = useState(6);
+  const [limit, setLimit] = useState(5);
 
   const path = useLocation().pathname;
 
