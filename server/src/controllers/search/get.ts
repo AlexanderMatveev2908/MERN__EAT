@@ -110,6 +110,9 @@ export const getRestaurantsSearchAllUsers = async (
     },
 
     ...(queryObj ? [{ $match: queryObj }] : []),
+    ...(sorter
+      ? [{ $sort: sorter }]
+      : [{ $sort: { "restaurant.createdAt": -1 } }]),
 
     {
       $facet: {
@@ -120,8 +123,6 @@ export const getRestaurantsSearchAllUsers = async (
         ],
 
         resPaginated: [
-          ...(sorter ? [{ $sort: sorter }] : []),
-
           { $skip: skip },
           { $limit: limit },
 

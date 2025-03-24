@@ -8,16 +8,23 @@ import DropHandlerIcon from "../../../../../components/DropHandlerIcon";
 type PropsType = {
   field: SearchFilterType;
   formContext: UseFormReturn<any>;
+  closeAllDrop?: boolean;
 };
 
-const FilterField: FC<PropsType> = ({ formContext, field }) => {
+const FilterField: FC<PropsType> = ({ formContext, field, closeAllDrop }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { register, watch } = formContext;
 
   return (
     <div className="w-full grid grid-cols-1">
       <DropHandlerIcon
-        {...{ isOpen, setIsOpen, txt: field.label, Icon: field.icon }}
+        {...{
+          isOpen,
+          setIsOpen,
+          txt: field.label,
+          Icon: field.icon,
+          closeAllDrop,
+        }}
       />
 
       <div
