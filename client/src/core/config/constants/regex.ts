@@ -28,3 +28,5 @@ export const REG_QTY_SEARCH = /^\d*$/;
 
 export const REG_QTY = /^\d+$/;
 export const REG_DISH_NAME = /^[A-Za-zÀ-ÿ0-9\s_\-!@#$%^&*()+=.,'"_]{2,30}$/;
+
+export const REG_PATH_SEARCH_DISHES = /^\/search\/[a-f0-9]{24}$/;

@@ -11,7 +11,6 @@ import {
   getMySingleRestaurant,
   getMySingleRestaurantInfoToUpdate,
 } from "../../controllers/myRestaurants/get.js";
-import { validatorMySingleRest } from "../../middleware/myRestaurants/validatorMySingleRest.js";
 import {
   createRestaurant,
   deleteRestaurant,
@@ -19,6 +18,7 @@ import {
 } from "../../controllers/myRestaurants/makeUpdateDelete.js";
 import { validateGetMyRestParams } from "../../middleware/myRestaurants/validateGetMyRestParams.js";
 import { validatePagination } from "../../middleware/general/validatePagination.js";
+import { checkRestId } from "../../middleware/general/checkRestId.js";
 
 const router = express();
 
@@ -38,20 +38,20 @@ router
 
 router.get(
   "/info-restaurant/:restId",
-  validatorMySingleRest,
+  checkRestId,
   asyncWrapper(getMySingleRestaurantInfoToUpdate)
 );
 
 router
   .route("/:restId")
-  .get(validatorMySingleRest, asyncWrapper(getMySingleRestaurant))
+  .get(checkRestId, asyncWrapper(getMySingleRestaurant))
   .patch(
-    validatorMySingleRest,
+    checkRestId,
     uploadMyRestaurants,
     validatorMyRestaurants,
     validateImagesUploaded,
     asyncWrapper(updateMyRestaurant)
   )
-  .delete(validatorMySingleRest, asyncWrapper(deleteRestaurant));
+  .delete(checkRestId, asyncWrapper(deleteRestaurant));
 
 export default router;

@@ -55,7 +55,7 @@ const UpdateDish: FC = () => {
       ) : (
         <ErrEmoji
           {...{
-            err: (errorInfo as ErrFoodApp)?.response?.data?.msg,
+            err: errorInfo as ErrFoodApp,
           }}
         />
       )}

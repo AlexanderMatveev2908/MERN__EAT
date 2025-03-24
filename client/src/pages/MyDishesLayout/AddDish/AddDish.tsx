@@ -37,7 +37,7 @@ const AddDish = () => {
           />
         </FormProvider>
       ) : (
-        <ErrEmoji {...{ err: (errorIds as ErrFoodApp)?.response?.data?.msg }} />
+        <ErrEmoji {...{ err: errorIds as ErrFoodApp }} />
       )}
     </div>
   );

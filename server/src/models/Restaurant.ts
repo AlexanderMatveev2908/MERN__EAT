@@ -55,6 +55,8 @@ export type RestaurantType = {
   reviewsCount?: number;
   avgRating?: number;
   reviewsByRating: DynamicFieldRating[];
+
+  isAdmin?: boolean;
 };
 
 const RestaurantSchema = new mongoose.Schema(

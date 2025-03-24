@@ -1,5 +1,5 @@
 import { useLocation, useSearchParams } from "react-router-dom";
-import { validateStrWithArr } from "../../utils/allUtils/validateStr";
+import { validateStrWithArr } from "../../utils/allUtils/validateData";
 
 export const useNoticeEmail = () => {
   const [searchParams] = useSearchParams();

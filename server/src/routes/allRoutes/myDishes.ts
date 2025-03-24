@@ -25,6 +25,7 @@ import {
   deleteDish,
   deleteQueriesResults,
 } from "../../controllers/MyDishesControllers/delete.js";
+import { checkNumericFields } from "../../middleware/general/checkNumericFields.js";
 
 const router = express();
 
@@ -32,7 +33,12 @@ router.get("/restaurant-ids", asyncWrapper(getRestaurantIds));
 
 router
   .route("/")
-  .get(validatePagination, validatorSearchDishes, asyncWrapper(getMyDishes))
+  .get(
+    validatePagination,
+    checkNumericFields,
+    validatorSearchDishes,
+    asyncWrapper(getMyDishes)
+  )
   .post(
     uploadMyDishes,
     validateFilesStorage,
@@ -43,6 +49,7 @@ router
 router.delete("/bulk-delete", validateArrIds, asyncWrapper(bulkDelete));
 router.delete(
   "/bulk-delete-query",
+  checkNumericFields,
   validatorSearchDishes,
   asyncWrapper(deleteQueriesResults)
 );

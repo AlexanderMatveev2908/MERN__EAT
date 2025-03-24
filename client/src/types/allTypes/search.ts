@@ -22,3 +22,13 @@ export type RestaurantAllUsers = Omit<
 > & {
   isAdmin: boolean;
 };
+
+export type SearchDishesFormType = {
+  minPrice: string;
+  maxPrice: string;
+  priceSort: [];
+  quantitySort: [];
+
+  page?: string;
+  limit?: string;
+};

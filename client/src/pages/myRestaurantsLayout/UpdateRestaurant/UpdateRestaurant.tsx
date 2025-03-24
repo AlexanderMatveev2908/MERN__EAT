@@ -48,7 +48,7 @@ const UpdateRestaurant: FC = () => {
       </div>
     </FormProvider>
   ) : (
-    <ErrEmoji {...{ err: (errorInfo as ErrFoodApp)?.response?.data?.msg }} />
+    <ErrEmoji {...{ err: errorInfo as ErrFoodApp }} />
   );
 };
 export default UpdateRestaurant;

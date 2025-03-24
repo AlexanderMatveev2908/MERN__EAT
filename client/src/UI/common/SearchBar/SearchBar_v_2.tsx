@@ -34,14 +34,11 @@ const SearchBar_v_2: FC<PropsType> = ({
   isPending,
   closeAllDrop,
 }) => {
-  const clearRef = useRef<HTMLDivElement | null>(null);
-  const searchRef = useRef<HTMLDivElement | null>(null);
   const hasAppendedFirst = useRef(false);
 
   const path = useLocation().pathname;
 
   const { control } = formContext;
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
@@ -95,10 +92,7 @@ const SearchBar_v_2: FC<PropsType> = ({
       </div>
 
       <div className="w-full grid grid-cols-2 mt-5">
-        <div
-          ref={searchRef}
-          className="sm:w-full justify-self-start w-[30vw] sm:max-w-[200px] sm:justify-self-center"
-        >
+        <div className="sm:w-full justify-self-start w-[30vw] sm:max-w-[200px] sm:justify-self-center">
           <ButtonBasic
             {...{
               type: "submit",
@@ -111,10 +105,7 @@ const SearchBar_v_2: FC<PropsType> = ({
           />
         </div>
 
-        <div
-          ref={clearRef}
-          className="sm:w-full justify-self-end w-[30vw] sm:max-w-[200px] sm:justify-self-center"
-        >
+        <div className="sm:w-full justify-self-end w-[30vw] sm:max-w-[200px] sm:justify-self-center">
           <ButtonBasic
             {...{
               type: "button",

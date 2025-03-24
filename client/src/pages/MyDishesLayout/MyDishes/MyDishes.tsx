@@ -103,7 +103,7 @@ const MyDishes: FC = () => {
       {isPending ? (
         <LoaderPageReact />
       ) : isError ? (
-        <ErrEmoji {...{ err: (error as ErrFoodApp)?.response?.data?.msg }} />
+        <ErrEmoji {...{ err: error as ErrFoodApp }} />
       ) : (
         !!dishes?.length && (
           <div className="container__cards">
