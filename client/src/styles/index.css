@@ -32,11 +32,15 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 /* CARDS */
 
 .container__cards {
-  @apply w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(325px,1fr))] justify-items-center gap-10 mt-5 items-start;
+  @apply w-full grid grid-cols-1 justify-items-center gap-10 mt-5 items-start;
+}
+
+.container__cards__grid {
+  @apply w-full grid grid-cols-1 justify-items-center gap-10 mt-5 items-start sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))];
 }
 
 .card__el {
-  @apply border-[3px] rounded-xl py-1 pb-5 min-w-[300px] max-w-[400px] sm:min-w-[325px] sm:max-w-[325px] justify-self-center;
+  @apply border-[3px] rounded-xl py-1 pb-5 w-full;
 }
 
 /* GENERAL */

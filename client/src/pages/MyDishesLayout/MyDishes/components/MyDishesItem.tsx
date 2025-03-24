@@ -1,8 +1,6 @@
 import { FC, useState } from "react";
 import { DishType } from "../../../../types/types";
 import HeaderIDItem from "../../../../UI/components/cards/HeaderIDItem";
-import HeaderImgs from "./../../../../UI/components/cards/HeaderImgs";
-import HeaderName from "../../../../UI/components/cards/HeaderName";
 import DropHandlerIcon from "../../../../UI/components/DropHandlerIcon";
 import {
   showCatRestMyDishes,
@@ -16,6 +14,7 @@ import DeleteButton from "../../../../UI/components/buttons/DeleteButton";
 import { IoIosRestaurant } from "react-icons/io";
 import { FaDatabase } from "react-icons/fa";
 import TooltipEL from "../../../../UI/components/TooltipEL";
+import HeaderCard from "../../../../UI/components/cards/HeaderCard";
 
 type PropsType = {
   dish: DishType;
@@ -36,9 +35,7 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
       <div className="w-full flex flex-col">
         <HeaderIDItem {...{ id: dish._id }} />
 
-        <HeaderImgs {...{ images: dish.images }}>
-          <HeaderName {...{ name: dish.name }} />
-        </HeaderImgs>
+        <HeaderCard {...{ images: dish.images, name: dish.name }} />
 
         <div className="w-full grid grid-cols-1">
           <DropHandlerIcon

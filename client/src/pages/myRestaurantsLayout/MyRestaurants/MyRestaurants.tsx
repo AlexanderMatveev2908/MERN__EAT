@@ -66,7 +66,7 @@ const MyRestaurants: FC = () => {
         <ErrEmoji {...{ err: (error as ErrFoodApp)?.response?.data?.msg }} />
       ) : (
         !!restaurants?.length && (
-          <div className="container__cards">
+          <div className="container__cards__grid">
             {restaurants?.map((rest) => (
               <RestaurantItem key={rest._id} {...{ rest }} />
             ))}
