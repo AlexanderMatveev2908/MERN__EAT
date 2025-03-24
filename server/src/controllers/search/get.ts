@@ -110,9 +110,6 @@ export const getRestaurantsSearchAllUsers = async (
     },
 
     ...(queryObj ? [{ $match: queryObj }] : []),
-    ...(sorter
-      ? [{ $sort: sorter }]
-      : [{ $sort: { "restaurant.createdAt": -1 } }]),
 
     {
       $facet: {
@@ -122,7 +119,14 @@ export const getRestaurantsSearchAllUsers = async (
           },
         ],
 
+        // IMPORTANT => GROUP STAGE SHUFFLE A LITTLE ORDER DOCUMENTS, IN THIS CASE THERE ARE PRETTY MUCH GROUP USED, SO
+        // WHEN THERE IS NO SORTER OR THERE IS BUT MISS DATA TO SORT LIKE IF A REST DOES NOT HAVE REVIEWS, THEN I WILL
+        //  DEFAULT SORT AS LAST WALL WITH CREATED AT , BUT I THINK IS ONLY NEEDED TO CHOSE A FIELDS THAT CAN REALLY SORT DOCUMENTS AND NOT RETURN 0 IN A COMPARISON GREATER FEWER
         resPaginated: [
+          ...(sorter
+            ? [{ $sort: { ...sorter, "restaurant.createdAt": -1 } }]
+            : [{ $sort: { "restaurant.createdAt": -1 } }]),
+
           { $skip: skip },
           { $limit: limit },
 
