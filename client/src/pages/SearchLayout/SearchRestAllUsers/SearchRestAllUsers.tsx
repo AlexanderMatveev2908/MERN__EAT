@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { useScrollTop } from "../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/useScrollTop";
 import {
   searchRestAllUsersFilters,
   searchRestAllUsersSorters,
   searchRestFieldsSearch,
-} from "../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
+} from "../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { FormProvider } from "react-hook-form";
-import BlockPages from "../../UI/components/BlockPages/BlockPages";
-import LoaderPageReact from "../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
-import ShowNumberHits from "../../UI/components/ShowNumberHits";
-import ErrEmoji from "../../UI/components/ErrEmoji";
-import { ErrFoodApp } from "../../types/allTypes/API";
-import { useFormsCustom } from "../../core/hooks/useGlobal";
-import { RestaurantAllUsers } from "../../types/allTypes/search";
+import BlockPages from "../../../UI/components/BlockPages/BlockPages";
+import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
+import ShowNumberHits from "../../../UI/components/ShowNumberHits";
+import ErrEmoji from "../../../UI/components/ErrEmoji";
+import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useFormsCustom } from "../../../core/hooks/useGlobal";
+import { RestaurantAllUsers } from "../../../types/allTypes/search";
+import SearchBar_v_2 from "../../../UI/common/SearchBar/SearchBar_v_2";
+import { useCreateQueryHandlers } from "../../../core/hooks/useCreateQueryHandlers";
+import { getRestAllUSersAPI } from "../../../core/api/APICalls/searchAllUsers";
+import { createURLParamsMultipleSearch } from "../../../utils/allUtils/makeURLParams";
 import SearchRestItem from "./components/SearchRestItem";
-import SearchBar_v_2 from "../../UI/common/SearchBar/SearchBar_v_2";
-import { getRestAllUSersAPI } from "../../core/api/APICalls/searchAllUsers";
-import { createURLParamsMultipleSearch } from "../../utils/allUtils/makeURLParams";
-import { useCreateQueryHandlers } from "../../core/hooks/useCreateQueryHandlers";
 
 const SearchRestAllUsers: FC = () => {
   useScrollTop();
@@ -45,7 +45,7 @@ const SearchRestAllUsers: FC = () => {
   const { watch } = formContext;
   const fields = watch("items" as any);
 
-  const resWtc = fields.filter((field) => !!field?.search);
+  const resWtc = fields?.length && fields.filter((field) => !!field?.search);
   const res = resWtc?.[resWtc?.length - 1];
 
   const { totDocuments, nHits, totPages, restaurants } = data ?? ({} as any);
