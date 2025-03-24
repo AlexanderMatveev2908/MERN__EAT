@@ -48,7 +48,7 @@ const FiltersSearchBar_v_2: FC<PropsType> = ({
         {children}
 
         {/^\/(my-dishes).*/.test(location.pathname) && (
-          <CardToSearchStats {...{ formContext }} />
+          <CardToSearchStats {...{ formContext, closeAllDrop }} />
         )}
 
         {!!filters?.length &&

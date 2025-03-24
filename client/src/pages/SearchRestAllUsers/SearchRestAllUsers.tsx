@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useScrollTop } from "../../core/hooks/useScrollTop";
 import {
   searchRestAllUsersFilters,
@@ -23,8 +23,6 @@ import { useCreateQueryHandlers } from "../../core/hooks/useCreateQueryHandlers"
 const SearchRestAllUsers: FC = () => {
   useScrollTop();
 
-  const [closeAllDrop, setCloseAllDrop] = useState(false);
-
   const { formContextSearchRestAllUsers: formContext } = useFormsCustom();
 
   const {
@@ -36,6 +34,7 @@ const SearchRestAllUsers: FC = () => {
     isError,
     error,
     isSuccess,
+    closeAllDrop,
   } = useCreateQueryHandlers({
     formCtx: formContext,
     key: "searchAllUsersRest",
@@ -58,7 +57,6 @@ const SearchRestAllUsers: FC = () => {
             handleSave,
             handleClear,
             closeAllDrop,
-            setCloseAllDrop,
           }}
         />
       </FormProvider>
@@ -81,16 +79,7 @@ const SearchRestAllUsers: FC = () => {
 
       <BlockPages
         {...{
-          currPage: propsBlock.currPage,
-          setCurrPage: (num) => {
-            setCloseAllDrop(true);
-
-            propsBlock.setCurrPage(num);
-
-            setTimeout(() => {
-              window.scrollTo({ top: 300, behavior: "smooth" });
-            }, 200);
-          },
+          ...propsBlock,
           totPages,
         }}
       />

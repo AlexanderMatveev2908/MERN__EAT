@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, SetStateAction, useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import SortersSearchBar from "./components/Sorters/SortersSearchBar";
 import {
@@ -22,7 +22,6 @@ type PropsType = {
   handleClear: () => void;
   isPending: boolean;
   closeAllDrop: boolean;
-  setCloseAllDrop: React.Dispatch<SetStateAction<boolean>>;
 };
 
 const SearchBar_v_2: FC<PropsType> = ({
@@ -34,34 +33,12 @@ const SearchBar_v_2: FC<PropsType> = ({
   handleClear,
   isPending,
   closeAllDrop,
-  setCloseAllDrop,
 }) => {
   const clearRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLDivElement | null>(null);
   const hasAppendedFirst = useRef(false);
 
   const path = useLocation().pathname;
-
-  useEffect(() => {
-    const handleClickReset = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (
-        (clearRef.current || searchRef.current) &&
-        (clearRef?.current?.contains(target) ||
-          searchRef?.current?.contains(target))
-      ) {
-        setCloseAllDrop(true);
-      } else {
-        setCloseAllDrop(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickReset);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickReset);
-    };
-  }, [setCloseAllDrop]);
 
   const { control } = formContext;
 
@@ -154,19 +131,3 @@ const SearchBar_v_2: FC<PropsType> = ({
   );
 };
 export default SearchBar_v_2;
-
-/*
-
-     <div className="w-full grid grid-cols-1 gap-4 relative pb-6">
-            {fields.map((_, i) => (
-              <SearchFieldMultiple
-                {...{ formContext, i, searchVal: searchValEquivalent?.[i] }}
-                key={i}
-              />
-            ))}
-            <button className="absolute border-2 border-orange-500 rounded-xl bg-[#000] flex w-fit gap-5 items-center top-1/2 p-1 group el__flow hover:scale-110 cursor-pointer">
-              <FaPlus className="icon__base group-hover:text-orange-500 el__flow" />
-            </button>
-          </div>
-
-          */

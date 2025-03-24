@@ -16,12 +16,14 @@ type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
   filters: SearchFilterType[];
+  closeAllDrop: boolean;
 };
 
 const FiltersSearchBar: FC<PropsType> = ({
   searchFields,
   formContext,
   filters,
+  closeAllDrop,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,6 +38,7 @@ const FiltersSearchBar: FC<PropsType> = ({
           isOpen,
           setIsOpen,
           customStyle: "pb-1 border-b-[3px] border-orange-500",
+          closeAllDrop,
         }}
       />
 
@@ -46,15 +49,18 @@ const FiltersSearchBar: FC<PropsType> = ({
             : "opacity-0 max-h-0 pointer-events-none"
         }`}
       >
-        <TextFilter {...{ formContext, searchFields }} />
+        <TextFilter {...{ formContext, searchFields, closeAllDrop }} />
 
         {/^\/(my-dishes).*/.test(location.pathname) && (
-          <CardToSearchStats {...{ formContext }} />
+          <CardToSearchStats {...{ formContext, closeAllDrop }} />
         )}
 
         {!!filters?.length &&
           filters.map((el) => (
-            <FilterField key={el.id} {...{ field: el, formContext }} />
+            <FilterField
+              key={el.id}
+              {...{ field: el, formContext, closeAllDrop }}
+            />
           ))}
       </div>
     </div>

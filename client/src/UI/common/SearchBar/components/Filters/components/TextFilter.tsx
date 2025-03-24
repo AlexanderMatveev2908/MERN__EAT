@@ -10,9 +10,14 @@ import { REG_MONGO } from "../../../../../../core/config/constants/regex";
 type PropsType = {
   searchFields: CheckBoxFieldType[];
   formContext: UseFormReturn<any>;
+  closeAllDrop: boolean;
 };
 
-const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
+const TextFilter: FC<PropsType> = ({
+  searchFields,
+  formContext,
+  closeAllDrop,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { register, watch, setValue, setError } = formContext;
@@ -36,6 +41,7 @@ const TextFilter: FC<PropsType> = ({ searchFields, formContext }) => {
           setIsOpen,
           txt: "Text",
           Icon: CiTextAlignCenter,
+          closeAllDrop,
         }}
       />
 

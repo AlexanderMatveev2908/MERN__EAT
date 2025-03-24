@@ -37,6 +37,7 @@ const MyDishes: FC = () => {
     error,
     isSuccess,
     isPending,
+    closeAllDrop,
   } = useMyDishes();
 
   const { totDocuments, nHits, dishes } = data ?? ({} as any);
@@ -52,6 +53,7 @@ const MyDishes: FC = () => {
             searchFields: myDishesFieldsSearch,
             filters: myDishesFilters,
             sorters: sortersMyDishesFields,
+            closeAllDrop,
           }}
         />
       </FormProvider>
