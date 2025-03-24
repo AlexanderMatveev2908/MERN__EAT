@@ -4,7 +4,10 @@ import {
   ReturnManageAccountAPIType,
   ReturnUserInfoAPIType,
 } from "../../../types/allTypes/API";
-import { UserDetailsType } from "../../../types/allTypes/userTypes";
+import {
+  CurrUserType,
+  UserDetailsType,
+} from "../../../types/allTypes/userTypes";
 import { foodAppInstance } from "../../config/constants/axiosInstance";
 
 export const getUserInfoAPI = async (): Promise<
@@ -55,7 +58,7 @@ export const changeEmailAPI = async (params: {
 export const verifyNewEmailAPI = async (params: {
   userId: string;
   token: string;
-}): Promise<ReturnAPIBasic> => {
+}): Promise<ReturnAPIBasic & { currUser: CurrUserType }> => {
   const { data } = await foodAppInstance.post("/user/verify-new-email", params);
 
   return data;

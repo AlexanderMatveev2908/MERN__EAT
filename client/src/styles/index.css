@@ -43,6 +43,10 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   @apply border-[3px] rounded-xl py-1 pb-5 w-full;
 }
 
+.card__el_grid {
+  @apply border-[3px] rounded-xl py-1 pb-5 w-full max-w-[350px];
+}
+
 /* GENERAL */
 
 .hide_scrollbar::-webkit-scrollbar {

@@ -26,7 +26,7 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div
-      className={`card__el ${
+      className={`card__el_grid ${
         selected.includes(dish._id)
           ? "border-red-600 opacity-50 scale-105"
           : "border-orange-500"

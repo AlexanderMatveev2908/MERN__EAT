@@ -66,7 +66,7 @@ const Sidebar: FC = () => {
         } sidebar__content sidebar__i_content ${isLogged ? "" : "pt-6"}`}
       >
         <div className="w-full grid grid-cols-1 justify-items-start gap-5 px-3">
-          {currUser && <UserEmail {...{ currUser }} />}
+          {currUser?.email && <UserEmail {...{ email: currUser.email }} />}
 
           <SideEL {...{ el: homeFieldSide, handleSideClick }} />
 

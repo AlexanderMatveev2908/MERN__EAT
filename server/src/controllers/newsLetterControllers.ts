@@ -43,7 +43,6 @@ export const toggleUserNewsLetter = async (
   return res.status(200).json({
     msg: "User toggled to newsletter",
     success: true,
-    user: updatedUser,
   });
 };
 
