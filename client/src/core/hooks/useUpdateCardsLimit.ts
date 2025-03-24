@@ -12,6 +12,7 @@ export const useUpdateCardsLimit = (
       const w = window.innerWidth;
       if (path === "/search") return;
       if (w > 1250) setLimit(9);
+      else if (w > 835) setLimit(6);
       else setLimit(6);
     };
 
