@@ -42,6 +42,12 @@ const SearchRestAllUsers: FC = () => {
     cbProcessForm: createURLParamsMultipleSearch,
   });
 
+  const { watch } = formContext;
+  const fields = watch("items" as any);
+
+  const resWtc = fields.filter((field) => !!field?.search);
+  const res = resWtc?.[resWtc?.length - 1];
+
   const { totDocuments, nHits, totPages, restaurants } = data ?? ({} as any);
 
   return (
@@ -61,7 +67,17 @@ const SearchRestAllUsers: FC = () => {
         />
       </FormProvider>
 
-      {isSuccess && <ShowNumberHits {...{ nHits, totDocuments, isPending }} />}
+      {isSuccess && (
+        <ShowNumberHits
+          {...{
+            nHits,
+            totDocuments,
+            isPending,
+            search: res?.search,
+            searchVal: res?.searchVal,
+          }}
+        />
+      )}
 
       {isPending ? (
         <LoaderPageReact />

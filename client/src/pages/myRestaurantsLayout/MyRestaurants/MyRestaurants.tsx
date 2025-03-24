@@ -21,6 +21,9 @@ const MyRestaurants: FC = () => {
   useScrollTop();
 
   const { formContextMyRestaurants: formContext } = useFormsCustom();
+  const { watch } = formContext;
+  const searchVals = watch("searchVals");
+  const search = watch("search");
 
   const {
     handleSave,
@@ -59,7 +62,15 @@ const MyRestaurants: FC = () => {
       </FormProvider>
 
       {isSuccess && (
-        <ShowNumberHits {...{ isPending, nHits: nHits, totDocuments }} />
+        <ShowNumberHits
+          {...{
+            isPending,
+            nHits: nHits,
+            totDocuments,
+            search,
+            searchVal: searchVals?.[0],
+          }}
+        />
       )}
 
       {isPending ? (

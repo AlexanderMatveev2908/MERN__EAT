@@ -61,7 +61,9 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
                 <span className="txt__01">Name</span>
               </div>
 
-              <span className="txt__01 justify-self-end">{dish.name}</span>
+              <span className="txt__01 justify-self-end">
+                {dish.restaurantName}
+              </span>
             </li>
 
             <li className="w-full grid grid-cols-[80px_1fr]">

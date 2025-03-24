@@ -1,14 +1,23 @@
 import { PartyPopper } from "lucide-react";
 import { FC } from "react";
 import { useLocation } from "react-router-dom";
+import { getTargetConfig } from "../../core/hooks/useUpdatePlace";
 
 type PropsType = {
   nHits?: number;
   totDocuments?: number;
   isPending: boolean;
+  search?: string | undefined;
+  searchVal?: string;
 };
 
-const ShowNumberHits: FC<PropsType> = ({ nHits, totDocuments, isPending }) => {
+const ShowNumberHits: FC<PropsType> = ({
+  nHits,
+  totDocuments,
+  isPending,
+  search,
+  searchVal,
+}) => {
   const path = useLocation().pathname;
 
   const target =
@@ -17,6 +26,18 @@ const ShowNumberHits: FC<PropsType> = ({ nHits, totDocuments, isPending }) => {
       : path === "/my-restaurants"
       ? "restaurants"
       : null;
+
+  const { arrToCheck } = getTargetConfig(path);
+  const field = arrToCheck?.filter((el) => el.field === searchVal)?.[0];
+
+  let info;
+
+  if (search) {
+    if (["country", "state", "city"].includes(field.field))
+      info = ` in ${search}`;
+    if (["name", "id", "restaurantName", "restaurantId"].includes(field.field))
+      info = ` for ${search}`;
+  }
 
   return isPending ? null : (
     <div className="w-full grid grid-cols-1">
@@ -27,12 +48,17 @@ const ShowNumberHits: FC<PropsType> = ({ nHits, totDocuments, isPending }) => {
             <div className="w-fit flex gap-2 items-center">
               <span className="txt__04">{nHits}&nbsp;</span>
 
-              <span className="txt__03">Result{nHits > 1 ? "s" : ""}</span>
+              <span className="txt__03">
+                Result{nHits > 1 ? "s" : ""}
+                {info}
+              </span>
             </div>
           </div>
         ) : (
           <div className="w-full flex justify-self-center justify-center items-center mt-[50px]">
-            <span className="txt__03">Results = Number(new String()) 🥸</span>
+            <span className="txt__03">
+              Results Number(new String()) 🥸{info}
+            </span>
           </div>
         )
       ) : (

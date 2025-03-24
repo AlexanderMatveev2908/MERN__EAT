@@ -2,19 +2,14 @@
 import { FC, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
 import { REG_MONGO, REG_SEARCH } from "../../../../core/config/constants/regex";
-import { myRestFieldsSearch } from "../../../../core/config/fieldsArr/fields";
-import { myDishesFieldsSearch } from "../../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
-import { searchRestFieldsSearch } from "../../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
+import { useUpdatePlace } from "../../../../core/hooks/useUpdatePlace";
 
 type PropsType = {
   formContext: UseFormReturn<any>;
 };
 
 const SearchField: FC<PropsType> = ({ formContext }) => {
-  const path = useLocation().pathname;
-
   const {
     register,
     formState: { errors },
@@ -24,29 +19,7 @@ const SearchField: FC<PropsType> = ({ formContext }) => {
 
   const searchVals = watch("searchVals")?.[0];
 
-  let target;
-  let arrToCheck;
-  switch (path) {
-    case "/search":
-      target = "restaurant";
-      arrToCheck = searchRestFieldsSearch;
-      break;
-    case "/my-restaurants":
-      target = "restaurant";
-      arrToCheck = myRestFieldsSearch;
-      break;
-    case "/my-dishes":
-      target = "dish";
-      arrToCheck = myDishesFieldsSearch;
-      break;
-    default:
-      target = "";
-      arrToCheck = [];
-  }
-
-  const label = arrToCheck
-    .filter((el) => el.field === searchVals)?.[0]
-    ?.label?.toLowerCase();
+  const { place } = useUpdatePlace({ searchVals });
 
   useEffect(() => {
     if (errors?.search?.message && !["id", "restaurantId"].includes(searchVals))
@@ -58,7 +31,7 @@ const SearchField: FC<PropsType> = ({ formContext }) => {
       <label className="w-full grid grid-cols-1 justify-items-start gap-2 relative">
         <input
           type="text"
-          placeholder={`Search a ${target} ${label ? `by ${label}` : ""}...`}
+          placeholder={place}
           className="focus__base el__flow outline-none border-2 border-orange-500 rounded-full w-full px-5 pr-14 py-2 txt__01"
           {...register("search", {
             pattern: {

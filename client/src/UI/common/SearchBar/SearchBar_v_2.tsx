@@ -65,7 +65,7 @@ const SearchBar_v_2: FC<PropsType> = ({
         <div className="w-full grid grid-cols-1 gap-4">
           {fields.map((_, i) => (
             <SearchFieldMultiple
-              {...{ formContext, i, searchVal: fields?.[i] as any }}
+              {...{ formContext, i, fieldHook: fields?.[i] as any }}
               key={i}
             />
           ))}

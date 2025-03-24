@@ -40,6 +40,10 @@ const MyDishes: FC = () => {
     closeAllDrop,
   } = useMyDishes();
 
+  const { watch } = propsForm.formContext;
+  const search = watch("search");
+  const searchVals = watch("searchVals");
+
   const { totDocuments, nHits, dishes } = data ?? ({} as any);
 
   return (
@@ -60,7 +64,13 @@ const MyDishes: FC = () => {
 
       {isSuccess && (
         <ShowNumberHits
-          {...{ nHits, totDocuments, isPending: propsForm.isPending }}
+          {...{
+            nHits,
+            totDocuments,
+            isPending: propsForm.isPending,
+            search,
+            searchVal: searchVals?.[0],
+          }}
         />
       )}
 
