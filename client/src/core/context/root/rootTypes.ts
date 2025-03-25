@@ -21,11 +21,13 @@ import {
   SearchDishesFormType,
   SearchFormType,
 } from "../../../types/allTypes/search";
+import { CartState, CartVals } from "../../../types/allTypes/cart";
 
 export type RootStateType = {
   toastState: ToastStateType;
   userState: UserStateType;
   popupState: PopupStateType;
+  cartState: CartState;
 };
 
 export type RootActionTypes =
@@ -53,4 +55,5 @@ export type RootValsType = {
   popupState: PopupValsType;
   sideState: SideVals;
   formsState: FormsCtxType;
+  cartState: CartVals;
 };

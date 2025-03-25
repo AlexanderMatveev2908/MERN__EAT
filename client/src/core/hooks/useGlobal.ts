@@ -8,6 +8,7 @@ import {
 import { ToastValsType } from "../../types/allTypes/toastTypes";
 import { UserValsType } from "../../types/allTypes/userTypes";
 import { PopupValsType } from "../../types/allTypes/popup";
+import { CartVals } from "../../types/allTypes/cart";
 
 const useGlobal = (): RootValsType => {
   const context = useContext(GlobalContext);
@@ -27,3 +28,5 @@ export const usePopup = (): PopupValsType => useGlobal().popupState;
 export const useFormsCustom = (): FormsCtxType => useGlobal().formsState;
 
 export const useSidebar = (): SideVals => useGlobal().sideState;
+
+export const useCart = (): CartVals => useGlobal().cartState;

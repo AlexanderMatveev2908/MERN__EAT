@@ -13,7 +13,7 @@ const port = process.env.PORT ?? 3000;
 
 app.set("trust proxy", 1);
 
-app.use("/", router);
+app.use("/api/v1", router);
 
 if (!isDev) {
   app.use(express.static(path.join(get__dirname(), "../../client/dist")));
