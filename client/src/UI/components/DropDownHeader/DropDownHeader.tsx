@@ -23,8 +23,8 @@ const DropDownHeader: FC<PropsType> = ({ isLogged, children }) => {
     dropOpen,
     dropRef,
     handleSideClick,
-    handleMouseEnter,
-    handleMouseLeave,
+    // handleMouseEnter,
+    // handleMouseLeave,
   } = useDropDownHeader();
 
   const fieldsToMap = isLogged ? loggedUserFieldsDrop : nonLoggedUserFields;
@@ -35,8 +35,8 @@ const DropDownHeader: FC<PropsType> = ({ isLogged, children }) => {
       className="flex items-center justify-center cursor-pointer relative"
     >
       <div
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        // onMouseEnter={handleMouseEnter}
+        // onMouseLeave={handleMouseLeave}
         onClick={toggleDrop}
         className={`txt__01 ${
           isLogged
@@ -52,8 +52,8 @@ const DropDownHeader: FC<PropsType> = ({ isLogged, children }) => {
       </div>
 
       <div
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        // onMouseEnter={handleMouseEnter}
+        // onMouseLeave={handleMouseLeave}
         className={`absolute border-2 border-orange-500 bg-[#111] -top-full -right-full h-fit w-fit rounded-xl z-10 el__flow  ${
           dropOpen
             ? "translate-y-[40%] opacity-100"

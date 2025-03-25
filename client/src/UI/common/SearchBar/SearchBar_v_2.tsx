@@ -49,7 +49,7 @@ const SearchBar_v_2: FC<PropsType> = ({
       !fields.length &&
       fields.length + 1 < 2 &&
       !hasAppendedFirst.current &&
-      path === "/search"
+      /^\/search\/?$/.test(path)
     ) {
       hasAppendedFirst.current = true;
       append({ search: "", searchVal: "name" });

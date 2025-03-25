@@ -1,5 +1,6 @@
 import { SetStateAction, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { REG_P_SEARCH } from "../config/constants/regex";
 
 export const useUpdateCardsLimit = (
   limit: number,
@@ -10,7 +11,7 @@ export const useUpdateCardsLimit = (
   useEffect(() => {
     const updateLimit = () => {
       const w = window.innerWidth;
-      if (path === "/search") return;
+      if (REG_P_SEARCH.test(path)) return;
       if (w > 1250) setLimit(9);
       else if (w > 835) setLimit(6);
       else setLimit(6);

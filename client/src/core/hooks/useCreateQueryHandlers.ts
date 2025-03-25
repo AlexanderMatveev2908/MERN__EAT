@@ -13,7 +13,12 @@ import {
 import { createURLParams } from "../../utils/utils";
 import { useHandleErr } from "./useHandleErr";
 import { ErrFoodApp } from "../../types/allTypes/API";
-import { REG_PATH_SEARCH_DISHES } from "../config/constants/regex";
+import {
+  REG_P_DISHES,
+  REG_P_MY_REST,
+  REG_P_SEARCH,
+  REG_PATH_SEARCH_DISHES,
+} from "../config/constants/regex";
 
 export const useCreateQueryHandlers = ({
   formCtx,
@@ -37,16 +42,15 @@ export const useCreateQueryHandlers = ({
 
   const { handleSubmit, reset, trigger } = formCtx;
 
-  const defaultValues =
-    path === "/my-restaurants"
-      ? defaultValuesMyRestSearch
-      : path === "/my-dishes"
-      ? defaultValuesMyDishesSearch
-      : path === "/search"
-      ? defaultValsSearchAllUsers
-      : REG_PATH_SEARCH_DISHES.test(path)
-      ? defaultValuesSearchDishesAsUser
-      : {};
+  const defaultValues = REG_P_MY_REST.test(path)
+    ? defaultValuesMyRestSearch
+    : REG_P_DISHES.test(path)
+    ? defaultValuesMyDishesSearch
+    : REG_P_SEARCH.test(path)
+    ? defaultValsSearchAllUsers
+    : REG_PATH_SEARCH_DISHES.test(path)
+    ? defaultValuesSearchDishesAsUser
+    : {};
 
   const handleSave = handleSubmit((formDatHook) => {
     formDatHook.page = currPage + "";
