@@ -34,7 +34,7 @@ const DeleteAccount: FC<PropsType> = ({
         </span>
       </div>
 
-      <div className="w-full flex justify-center mt-14">
+      <div className="w-fit justify-self-center mt-14">
         <DeleteButton
           {...{
             handleDelete: handleSubmitDeleteAccount,

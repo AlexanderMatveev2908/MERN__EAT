@@ -33,7 +33,7 @@ const UpdateRestaurant: FC = () => {
       <div className="w-full grid grid-cols-1 justify-items-center gap-y-5">
         <span className="txt__04">Update your restaurant</span>
 
-        <div className="w-full flex justify-end">
+        <div className="w-fit justify-self-end">
           <DeleteButton
             {...{
               txt: "Delete restaurant",

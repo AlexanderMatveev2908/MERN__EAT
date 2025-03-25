@@ -25,6 +25,7 @@ import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import { createURLParamsMyDishes } from "../../../utils/allUtils/makeURLParams";
 import DishItem from "./components/DishItem";
 import ShowHitsByNumbers from "../../../UI/components/ShowHitsByNumbers";
+import Summary from "./components/Summary";
 
 const SearchRestPage: FC = () => {
   useScrollTop();
@@ -108,6 +109,10 @@ const SearchRestPage: FC = () => {
 
         <div className="w-full grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-3 gap-x-6 items-start">
           <DetailsRestaurantUser {...{ rest, Container: DropElAbsolute }} />
+        </div>
+
+        <div className="w-full mt-6">
+          <Summary />
         </div>
 
         <FormProvider {...formContext}>
