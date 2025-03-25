@@ -81,7 +81,7 @@ export const useCreateQueryHandlers = ({
       handleErrAPI({ err: error as ErrFoodApp });
     }
     if (isSuccess) {
-      // console.log(data);
+      console.log(data);
       if (data?.nHits < limit) setCurrPage(1);
     }
   }, [isError, isSuccess, error, handleErrAPI, data, limit, setCurrPage]);
@@ -102,7 +102,7 @@ export const useCreateQueryHandlers = ({
         setCurrPage(val);
 
         window.scrollTo({
-          top: 200,
+          top: REG_PATH_SEARCH_DISHES.test(path) ? 600 : 200,
           behavior: "smooth",
         });
       },

@@ -5,7 +5,7 @@ import User from "../../models/User.js";
 import mongoose from "mongoose";
 import { makeQueriesMyRestaurants } from "../../utils/makeQueries/myRestaurants.js";
 import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
-import { calcPagination } from "../../utils/calcPagination.js";
+import { calcPagination } from "../../utils/makeQueries/calcPagination.js";
 import {
   countRatingVars,
   makeAvgMyRest,

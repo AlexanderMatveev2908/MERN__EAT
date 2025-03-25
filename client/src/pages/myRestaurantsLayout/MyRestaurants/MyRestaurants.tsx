@@ -64,7 +64,6 @@ const MyRestaurants: FC = () => {
       {isSuccess && (
         <ShowNumberHits
           {...{
-            isPending,
             nHits: nHits,
             totDocuments,
             search,

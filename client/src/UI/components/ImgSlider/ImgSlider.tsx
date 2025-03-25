@@ -2,15 +2,20 @@ import { FC } from "react";
 import { useImgSlider } from "./useImgSlider";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ImageUploadedType } from "../../../types/types";
+import { useLocation } from "react-router-dom";
+import { REG_PATH_SEARCH_DISHES } from "../../../core/config/constants/regex";
 
 type PropsType = {
   images: ImageUploadedType[] | { id: string; img: string }[];
 };
 
 const ImgSlider: FC<PropsType> = ({ images }) => {
+  const path = useLocation().pathname;
+
   const { activeIndx, handleNext, handlePrev, setBtnClicked } = useImgSlider({
     images,
   });
+
   return (
     <div className="pad__page w-full pt-5 flex flex-col justify-center">
       <div className="w-full flex items-center relative">
@@ -28,7 +33,11 @@ const ImgSlider: FC<PropsType> = ({ images }) => {
           {images.map((el) => (
             <div
               key={el?.public_id ?? el.id}
-              className="min-w-[200px] h-[200px] sm:min-w-[350px] sm:h-[350px] rounded-xl transition-all duration-500 overflow-hidden"
+              className={`min-w-[200px] h-[200px] ${
+                !REG_PATH_SEARCH_DISHES.test(path)
+                  ? "sm:min-w-[350px] sm:h-[350px]"
+                  : ""
+              } rounded-xl transition-all duration-500 overflow-hidden`}
               style={{
                 transform: `translateX(-${activeIndx * 100}%`,
               }}

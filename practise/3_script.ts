@@ -1,7 +1,3 @@
-console.log("first");
-console.log("first");
-console.log("first");
-
 /*
 --transpile-only
 javascriptremotero46 RO

@@ -22,15 +22,24 @@ import { useFormsCustom } from "../../../core/hooks/useGlobal";
 import { useCreateQueryHandlers } from "../../../core/hooks/useCreateQueryHandlers";
 import { FormProvider } from "react-hook-form";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
-import ShowNumberHits from "../../../UI/components/ShowNumberHits";
-import DishesCards from "./components/DishesPart";
 import { createURLParamsMyDishes } from "../../../utils/allUtils/makeURLParams";
+import DishItem from "./components/DishItem";
+import ShowHitsByNumbers from "../../../UI/components/ShowHitsByNumbers";
 
 const SearchRestPage: FC = () => {
   useScrollTop();
 
   const { handleErrAPI } = useHandleErr();
   const { formContextSearchDishesAllUSers: formContext } = useFormsCustom();
+
+  const {
+    watch,
+    formState: { errors },
+  } = formContext;
+  const minPrice = watch("minPrice");
+  const maxPrice = watch("maxPrice");
+  const minQuantity = watch("minQuantity");
+  const maxQuantity = watch("maxQuantity");
 
   const restId = useParams()?.restId;
 
@@ -42,13 +51,12 @@ const SearchRestPage: FC = () => {
     isError: isErrorRest,
     error: errorRest,
   } = useQuery({
-    queryKey: ["searchDishesAllUsers", restId],
+    queryKey: ["restAsUser", restId],
     queryFn: () => getRestaurantAsUserAPI(restId ?? ""),
     enabled: canStay,
   });
   useEffect(() => {
     if (isErrorRest) handleErrAPI({ err: errorRest as ErrFoodApp });
-    else console.log(dataRest);
   }, [isSuccessRest, isErrorRest, errorRest, dataRest, handleErrAPI]);
   const { restaurant: rest } = dataRest ?? {};
 
@@ -70,7 +78,7 @@ const SearchRestPage: FC = () => {
     cbProcessForm: createURLParamsMyDishes,
   });
 
-  const { dishes, totDocuments, totPages, nHits } = dataDishes ?? {};
+  const { dishes, totDocuments, totPages, nHits, isAdmin } = dataDishes ?? {};
 
   return !canStay ? (
     <Navigate to="/" replace />
@@ -116,8 +124,16 @@ const SearchRestPage: FC = () => {
         </FormProvider>
 
         {isSuccessDishes && (
-          <ShowNumberHits
-            {...{ nHits, totDocuments, isPending: isPendingDishes }}
+          <ShowHitsByNumbers
+            {...{
+              nHits,
+              totDocuments,
+              minPrice,
+              maxPrice,
+              minQuantity,
+              maxQuantity,
+              errors,
+            }}
           />
         )}
 
@@ -126,7 +142,13 @@ const SearchRestPage: FC = () => {
         ) : isErrorDishes ? (
           <ErrEmoji {...{ err: errorDishes as ErrFoodApp }} />
         ) : (
-          !!dishes?.length && <DishesCards {...{ dishes }} />
+          !!dishes?.length && (
+            <div className="container__cards">
+              {dishes.map((el) => (
+                <DishItem key={el._id} {...{ dish: el, isAdmin }} />
+              ))}
+            </div>
+          )
         )}
 
         <BlockPages {...{ ...propsBlock, totPages }} />

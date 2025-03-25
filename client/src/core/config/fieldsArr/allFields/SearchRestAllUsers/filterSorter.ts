@@ -94,13 +94,21 @@ export const numericFieldsSearch = myDishesFieldsNumericSearch.map((el) => ({
 
 export const searchDishesSorters = sortersMyDishesFields
   .filter((el) =>
-    ["priceSort", "createdAtSort", "updatedAtSort"].includes(el.field)
+    ["createdAtSort", "updatedAtSort", "priceSort", "quantitySort"].includes(
+      el.field
+    )
   )
   .map((el) => ({
     ...el,
     id: genID(),
     subFields: [...fieldsUpAndDown.map((subEl) => ({ ...subEl, id: genID() }))],
-  }));
+  }))
+  .reverse()
+  // built-in js or mongoDb sort make a come after b when result returned in cb is positive and a before b when result is negative, 0 leave all as it is
+  //  so 10 - 5 where a=a and b=5 will make 10 come after b so sort will be asc => 5, 10
+  //  so to make sort desc we can switch els as 5 - 10 where a=10 and b=5 to force result be negative and have a before b => 10, 5
+  // eslint-disable-next-line
+  .sort((a, _) => (a.field === "priceSort" ? -1 : 0));
 
 export const defaultValuesSearchDishesAsUser = {
   minPrice: "",

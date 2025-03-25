@@ -72,7 +72,6 @@ const SearchRestAllUsers: FC = () => {
           {...{
             nHits,
             totDocuments,
-            isPending,
             search: res?.search,
             searchVal: res?.searchVal,
           }}

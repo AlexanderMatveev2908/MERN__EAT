@@ -7,7 +7,6 @@ import { REG_PATH_SEARCH_DISHES } from "../../core/config/constants/regex";
 type PropsType = {
   nHits?: number;
   totDocuments?: number;
-  isPending: boolean;
   search?: string | undefined;
   searchVal?: string;
 };
@@ -15,7 +14,6 @@ type PropsType = {
 const ShowNumberHits: FC<PropsType> = ({
   nHits,
   totDocuments,
-  isPending,
   search,
   searchVal,
 }) => {
@@ -42,7 +40,7 @@ const ShowNumberHits: FC<PropsType> = ({
       info = ` for ${search}`;
   }
 
-  return isPending ? null : (
+  return (
     <div className="w-full grid grid-cols-1">
       {totDocuments ? (
         nHits ? (

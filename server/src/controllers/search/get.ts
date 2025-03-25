@@ -5,11 +5,12 @@ import {
   makeQuerySearchDishes,
 } from "../../utils/makeQueries/search.js";
 import { makeSorters } from "../../utils/makeSorters/general.js";
-import { calcPagination } from "../../utils/calcPagination.js";
+import { calcPagination } from "../../utils/makeQueries/calcPagination.js";
 import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 import { REG_MONGO } from "../../config/constants/regex.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
+import Dish from "../../models/Dish.js";
 
 export const getRestaurantsSearchAllUsers = async (
   req: RequestWithUserId,
@@ -180,7 +181,7 @@ export const getRestaurantAsUser = async (
   if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
 
   restaurant.isAdmin = REG_MONGO.test(userId ?? "")
-    ? restaurant.owner === userId
+    ? restaurant.owner + "" === userId
     : false;
 
   return res.status(200).json({
@@ -195,12 +196,36 @@ export const getDishesRestaurant = async (
   res: Response
 ): Promise<any> => {
   const { restId } = req.params;
+  const { userId } = req;
+
+  const totDocuments = await Dish.countDocuments({
+    restaurant: makeMongoId(restId),
+  });
+  if (!totDocuments)
+    return res.status(200).json({ msg: "No dishes", success: true });
 
   const queryObj = makeQuerySearchDishes(req);
   const sorter = makeSorters(req, "dishes.");
+  const { limit, skip } = calcPagination(req);
 
   const result = await Restaurant.aggregate([
     { $match: { _id: makeMongoId(restId ?? "") } },
+
+    ...(REG_MONGO.test(userId ?? "")
+      ? [
+          {
+            $set: {
+              isAdmin: {
+                $cond: {
+                  if: { $eq: ["$owner", makeMongoId(userId ?? "")] },
+                  then: true,
+                  else: false,
+                },
+              },
+            },
+          },
+        ]
+      : []),
 
     {
       $lookup: {
@@ -211,9 +236,44 @@ export const getDishesRestaurant = async (
       },
     },
 
+    { $unwind: "$dishes" },
+
     ...(queryObj ? [{ $match: queryObj }] : []),
     ...(sorter ? [{ $sort: sorter }] : []),
+
+    {
+      $facet: {
+        count: [{ $count: "nHits" }],
+
+        resPaginated: [
+          { $skip: skip },
+          { $limit: limit },
+
+          {
+            $group: {
+              _id: null,
+              dishes: { $push: "$dishes" },
+              isAdmin: { $first: "$isAdmin" },
+            },
+          },
+
+          {
+            $project: {
+              dishes: 1,
+              isAdmin: 1,
+            },
+          },
+        ],
+      },
+    },
   ]);
 
-  return res.status(200).json({ success: true });
+  const nHits = result?.[0]?.count?.[0]?.nHits;
+  const dishes = result?.[0]?.resPaginated?.[0]?.dishes;
+  const totPages = Math.ceil((nHits ?? 0) / limit);
+  const isAdmin = result?.[0]?.resPaginated?.[0]?.isAdmin;
+
+  return res
+    .status(200)
+    .json({ success: true, nHits, totDocuments, totPages, dishes, isAdmin });
 };
