@@ -123,3 +123,13 @@ export const defaultValuesSearchDishesAsUser = {
   createdAtSort: [],
   updateAtSort: [],
 };
+
+export const fieldCoupon = {
+  id: genID(),
+  field: "coupon",
+  label: "Coupon",
+  msg: "Invalid code coupon",
+  reg: /^\d{1}$/,
+  place: "Coupon code...",
+  required: false,
+};

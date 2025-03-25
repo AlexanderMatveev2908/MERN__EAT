@@ -16,7 +16,7 @@ import xss from "xss-clean";
 import cookieParser from "cookie-parser";
 import mongoSanitize from "express-mongo-sanitize";
 import { logReq } from "../middleware/onlyDev/logQuery.js";
-
+import cartRouter from "./allRoutes/cart.js";
 const router = express.Router();
 
 router.use(helmetMid);
@@ -30,12 +30,13 @@ router.use(cookieParser());
 
 router.use(logReq);
 
-router.use("/api/v1/auth", authRouter);
-router.use("/api/v1/user", userRouter);
-router.use("/api/v1/newsletter", newsLetterRouter);
-router.use("/api/v1/my-restaurants", verifyAccessToken, myRestaurantsRouter);
-router.use("/api/v1/my-dishes", verifyAccessToken, routerMyDishes);
-router.use("/api/v1/search", searchRouter);
+router.use("/auth", authRouter);
+router.use("/user", userRouter);
+router.use("/newsletter", newsLetterRouter);
+router.use("/my-restaurants", verifyAccessToken, myRestaurantsRouter);
+router.use("/my-dishes", verifyAccessToken, routerMyDishes);
+router.use("/search", searchRouter);
+router.use("/my-cart", cartRouter);
 
 if (isDev) router.use("/api/v1/proxy", asyncWrapper(proxyRouter));
 
