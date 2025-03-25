@@ -24,11 +24,13 @@ export const deleteDish = async (req: any, res: Response): Promise<any> => {
   });
   if (!dish) return baseErrResponse(res, 404, "Dish not found");
 
-  let i = 0;
-  do {
-    await deleteCloud(dish.images[i].public_id);
-    i++;
-  } while (i < dish.images.length);
+  try {
+    let i = 0;
+    do {
+      await deleteCloud(dish.images[i].public_id);
+      i++;
+    } while (i < dish.images.length);
+  } catch {}
 
   const result = await Dish.findOneAndDelete({
     _id: makeMongoId(dishId),
@@ -101,7 +103,9 @@ export const bulkDelete = async (req: any, res: Response): Promise<any> => {
   const promisesDishesImages = publicIdImgs.map(
     async (el: any) => await deleteCloud(el)
   );
-  await Promise.all(promisesDishesImages);
+  try {
+    await Promise.all(promisesDishesImages);
+  } catch {}
 
   let i = 0;
   do {
@@ -189,7 +193,10 @@ export const deleteQueriesResults = async (
   const promisesCloud = publicIdImages.map(
     async (el: string) => await deleteCloud(el)
   );
-  await Promise.all(promisesCloud);
+
+  try {
+    await Promise.all(promisesCloud);
+  } catch {}
 
   const promises = result.map(async (obj) => {
     const idsDishes = obj.dishes.map((el: DishType) => el._id);

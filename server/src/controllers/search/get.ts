@@ -33,10 +33,13 @@ export const getRestaurantsSearchAllUsers = async (
       nHits: 0,
     });
 
+  console.log(sorter);
+
   // IMPORTANT => THERE IS ABSOLUTE NO NEED TO UNWIND DOCUMENTS, I DID IT ONLY TO COMPLICATE STUFF SO I CAN EXERCISE WITH DIFFERENT SITUATIONS IN WHICH I CAN FIND MYSELF DURING AGGREGATIONS
 
   const result = await Restaurant.aggregate([
     //  parent document is Rest, we watch for all children refs, i do not know if i can use terms parent and children in this context but for me make s sense
+
     {
       $lookup: {
         from: "dishes",
@@ -45,6 +48,13 @@ export const getRestaurantsSearchAllUsers = async (
         as: "dishes",
       },
     },
+
+    {
+      $set: {
+        dishesCount: { $size: "$dishes" },
+      },
+    },
+
     {
       $lookup: {
         from: "reviews",
@@ -89,6 +99,7 @@ export const getRestaurantsSearchAllUsers = async (
         reviews: { $push: "$reviews" },
         avgPrice: { $avg: { $ifNull: ["$dishes.price", 0] } },
         avgRating: { $avg: { $ifNull: ["$reviews.rating", 0] } },
+        dishesCount: { $first: "$dishesCount" },
       },
     },
 

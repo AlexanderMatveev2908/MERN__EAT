@@ -3,7 +3,7 @@ import { useImgSlider } from "./useImgSlider";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ImageUploadedType } from "../../../types/types";
 import { useLocation } from "react-router-dom";
-import { REG_PATH_SEARCH_DISHES } from "../../../core/config/constants/regex";
+import { REG_P_DISHES_USER } from "../../../core/config/constants/regex";
 
 type PropsType = {
   images: ImageUploadedType[] | { id: string; img: string }[];
@@ -34,7 +34,7 @@ const ImgSlider: FC<PropsType> = ({ images }) => {
             <div
               key={el?.public_id ?? el.id}
               className={`min-w-[200px] h-[200px] ${
-                !REG_PATH_SEARCH_DISHES.test(path)
+                !REG_P_DISHES_USER.test(path)
                   ? "sm:min-w-[350px] sm:h-[350px]"
                   : ""
               } rounded-xl transition-all duration-500 overflow-hidden`}

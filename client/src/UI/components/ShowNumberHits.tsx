@@ -6,7 +6,7 @@ import {
   REG_P_DISHES,
   REG_P_MY_REST,
   REG_P_SEARCH,
-  REG_PATH_SEARCH_DISHES,
+  REG_P_DISHES_USER,
 } from "../../core/config/constants/regex";
 
 type PropsType = {
@@ -28,7 +28,7 @@ const ShowNumberHits: FC<PropsType> = ({
     ? "dishes"
     : [REG_P_MY_REST, REG_P_SEARCH].some((reg) => reg.test(path))
     ? "restaurants"
-    : REG_PATH_SEARCH_DISHES.test(path)
+    : REG_P_DISHES_USER.test(path)
     ? "dishes"
     : null;
 
@@ -69,9 +69,9 @@ const ShowNumberHits: FC<PropsType> = ({
       ) : (
         <div className="w-full flex justify-self-center justify-center mt-[50px]">
           <span className="txt__03">
-            {!REG_P_SEARCH.test(path)
+            {REG_P_SEARCH.test(path)
               ? "Good news, there are not restaurants available so you could be the first that could create one ✌🏼"
-              : REG_PATH_SEARCH_DISHES.test(path)
+              : REG_P_DISHES_USER.test(path)
               ? "This restaurant does not have dishes right now, they are strategically preparing 🧐"
               : `You have Number(Array().fill()+Array().fill()) ${target} 🥸`}
           </span>
