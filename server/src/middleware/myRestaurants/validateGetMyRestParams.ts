@@ -1,11 +1,10 @@
 import { check } from "express-validator";
 import { handleValidator } from "../../utils/handleValidator.js";
 import { REG_MONGO, REG_SEARCH } from "../../config/constants/regex.js";
+import { validatePagination } from "../general/queriesAndSorters/validatePagination.js";
 
 export const validateGetMyRestParams = [
-  check().custom((_, { req }) => {
-    return true;
-  }),
+  ...validatePagination,
 
   check("searchVals").custom((val, { req }) =>
     val?.split(",").length > 1 || (val && !req?.query?.search)

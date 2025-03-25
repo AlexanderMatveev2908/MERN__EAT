@@ -15,7 +15,6 @@ import {
 } from "../../controllers/MyDishesControllers/createUpdate.js";
 import { uploadMyDishes } from "../../middleware/myDishes/multer.js";
 import { validatorSearchDishes } from "../../middleware/myDishes/validatorSearchDishes.js";
-import { validatePagination } from "../../middleware/general/validatePagination.js";
 import { validateParams } from "../../middleware/myDishes/validateParams.js";
 import { validatorUpdateDish } from "../../middleware/myDishes/validatorUpdateDish.js";
 import { updateDishesUpload } from "../../middleware/myDishes/multerUpdate.js";
@@ -25,7 +24,6 @@ import {
   deleteDish,
   deleteQueriesResults,
 } from "../../controllers/MyDishesControllers/delete.js";
-import { checkNumericFields } from "../../middleware/general/checkNumericFields.js";
 
 const router = express();
 
@@ -33,12 +31,7 @@ router.get("/restaurant-ids", asyncWrapper(getRestaurantIds));
 
 router
   .route("/")
-  .get(
-    validatePagination,
-    checkNumericFields,
-    validatorSearchDishes,
-    asyncWrapper(getMyDishes)
-  )
+  .get(validatorSearchDishes, asyncWrapper(getMyDishes))
   .post(
     uploadMyDishes,
     validateFilesStorage,
@@ -49,7 +42,6 @@ router
 router.delete("/bulk-delete", validateArrIds, asyncWrapper(bulkDelete));
 router.delete(
   "/bulk-delete-query",
-  checkNumericFields,
   validatorSearchDishes,
   asyncWrapper(deleteQueriesResults)
 );

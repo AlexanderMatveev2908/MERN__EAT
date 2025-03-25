@@ -12,7 +12,7 @@ export const getUserInfo = async (
 ): Promise<any> => {
   const { userId } = req as any;
 
-  if (!userId) return unauthorizedErr(res, "ACCESS TOKEN NOT PROVIDED");
+  if (!userId) return res.status(200).json({ msg: "No info", success: false });
 
   const user = await User.findById(userId)
     .select("firstName lastName email hasSubscribedToNewsletter -_id")
