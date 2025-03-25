@@ -51,7 +51,7 @@
 
 .content__btn,
 .btn_container__shadow {
-  @apply px-10 py-2 rounded-full transition-all duration-300 
+  @apply py-2 rounded-full transition-all duration-300 
   bg-neutral-950 relative overflow-hidden;
 }
 .content__btn::after {

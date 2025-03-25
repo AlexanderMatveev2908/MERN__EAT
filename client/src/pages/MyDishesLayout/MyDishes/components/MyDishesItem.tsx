@@ -115,7 +115,7 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
           </span>
         </Link>
 
-        <div className="w-full flex justify-center">
+        <div className="w-fit justify-self-center">
           <DeleteButton
             {...{
               txt: "Delete",

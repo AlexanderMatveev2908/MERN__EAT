@@ -85,17 +85,19 @@ const MyDishes: FC = () => {
           >
             <span className="txt__02">Cancel operation</span>
           </button>
-
-          <DeleteButton
-            {...{ txt: "Delete selected", handleDelete: handleOpenPopup }}
-          />
-
-          <DeleteButton
-            {...{
-              txt: "Delete results searched",
-              handleDelete: handleOpenPopupBulkQuery,
-            }}
-          />
+          <div className="w-fit">
+            <DeleteButton
+              {...{ txt: "Delete selected", handleDelete: handleOpenPopup }}
+            />
+          </div>
+          <div className="w-fit">
+            <DeleteButton
+              {...{
+                txt: "Delete results searched",
+                handleDelete: handleOpenPopupBulkQuery,
+              }}
+            />
+          </div>
         </div>
       )}
 

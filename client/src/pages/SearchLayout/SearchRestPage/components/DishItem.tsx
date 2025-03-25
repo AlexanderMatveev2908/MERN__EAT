@@ -5,7 +5,7 @@ import HeaderName from "../../../../UI/components/cards/HeaderName";
 import { Link } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { showNumericValsMyDish } from "../../../../core/config/fieldsArr/allFields/MyDishes/show";
-import ButtonsCart from "./ButtonsCart";
+import ButtonsCart from "./components/ButtonsCart";
 
 type PropsType = {
   dish: DishType;
