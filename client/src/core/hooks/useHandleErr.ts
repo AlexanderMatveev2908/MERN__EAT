@@ -16,7 +16,7 @@ export type HandleErrType = ({
 export const useHandleErr = () => {
   const { showToastMsg } = useToast();
   const navigate = useNavigate();
-  const { logoutUser } = useUser();
+  const { setUserLogged } = useUser();
 
   const handleErrAPI = useCallback(
     ({
@@ -35,12 +35,12 @@ export const useHandleErr = () => {
       const status = err?.response?.status;
 
       if (url === "/auth/refresh") {
-        logoutUser();
+        setUserLogged(false);
         navigate("/", { replace: true });
         showToastMsg("SESSION EXPIRED", "ERROR");
       } else if ([401, 403, 429].includes(status ?? 400)) {
         if (["USER DOES NOT EXIST", "USER NOT VERIFIED"].includes(msg))
-          logoutUser();
+          setUserLogged(false);
 
         navigate("/", { replace: true });
         showToastMsg(msg, "ERROR");
@@ -49,7 +49,7 @@ export const useHandleErr = () => {
         if (toast) showToastMsg(msg, "ERROR");
       }
     },
-    [navigate, showToastMsg, logoutUser]
+    [navigate, showToastMsg, setUserLogged]
   );
 
   return { handleErrAPI };

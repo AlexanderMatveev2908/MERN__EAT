@@ -10,6 +10,7 @@ import {
   SET_IS_LOGGED,
 } from "../actions/userActions";
 import { getInitialsName } from "../../../utils/utils";
+import { useQueryClient } from "@tanstack/react-query";
 
 const currentKeysToCleanStorage = [
   "myRestaurantsSearch",
@@ -24,17 +25,33 @@ export const useUserVals = (
   userState: UserStateType,
   dispatch: React.Dispatch<UserActionTypes>
 ) => {
+  const queryClient = useQueryClient();
+
+  const logoutUser = useCallback(() => {
+    let i = 0;
+    do {
+      sessionStorage.removeItem(currentKeysToCleanStorage[i]);
+      i++;
+    } while (i < currentKeysToCleanStorage.length);
+
+    dispatch({ type: SET_IS_LOGGED, payload: false });
+    dispatch({ type: SET_CURR_USER, payload: null });
+    dispatch({ type: SET_CAN_MANAGE_ACCOUNT, payload: false });
+  }, [dispatch]);
+
   const setUserLogged = useCallback(
     (val?: string | boolean) => {
-      if (!val) {
-        sessionStorage.removeItem("accessToken");
-      } else {
+      if (val) {
         sessionStorage.setItem("accessToken", val as string);
+        dispatch({ type: SET_IS_LOGGED, payload: true });
+      } else {
+        logoutUser();
       }
 
-      dispatch({ type: SET_IS_LOGGED, payload: !!val });
+      queryClient.resetQueries();
     },
-    [dispatch]
+
+    [dispatch, logoutUser, queryClient]
   );
 
   const setCurrUser = useCallback(
@@ -63,18 +80,6 @@ export const useUserVals = (
     },
     [dispatch]
   );
-
-  const logoutUser = useCallback(() => {
-    let i = 0;
-    do {
-      sessionStorage.removeItem(currentKeysToCleanStorage[i]);
-      i++;
-    } while (i < currentKeysToCleanStorage.length);
-
-    dispatch({ type: SET_IS_LOGGED, payload: false });
-    dispatch({ type: SET_CURR_USER, payload: null });
-    dispatch({ type: SET_CAN_MANAGE_ACCOUNT, payload: false });
-  }, [dispatch]);
 
   return {
     ...userState,

@@ -210,6 +210,9 @@ export const getDishesRestaurant = async (
         as: "dishes",
       },
     },
+
+    ...(queryObj ? [{ $match: queryObj }] : []),
+    ...(sorter ? [{ $sort: sorter }] : []),
   ]);
 
   return res.status(200).json({ success: true });

@@ -1,6 +1,5 @@
 import { check } from "express-validator";
-import { REG_PRICE, REG_QTY } from "../../config/constants/regex.js";
-import { handleValidator } from "../../utils/handleValidator.js";
+import { REG_PRICE, REG_QTY } from "../../../config/constants/regex.js";
 
 export const checkNumericFields = [
   check().custom((_, { req }) =>
@@ -36,6 +35,4 @@ export const checkNumericFields = [
       ? Promise.reject("Bad request maxQuantity")
       : true
   ),
-
-  handleValidator(400),
 ];

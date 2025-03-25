@@ -18,7 +18,7 @@ export const useDeleteAccount = ({
   handleErrManageUser: handleErrManageUserType;
 }) => {
   const navigate = useNavigate();
-  const { logoutUser } = useUser();
+  const { setUserLogged } = useUser();
   const { setPopup, popup } = usePopup();
 
   const { mutate, isPending } = useMutation({
@@ -29,7 +29,7 @@ export const useDeleteAccount = ({
       return deleteAccountAPI(manageAccountToken);
     },
     onSuccess: () => {
-      logoutUser();
+      setUserLogged(false);
       navigate("/", { replace: true });
       showToastMsg("Account deleted successfully", "SUCCESS");
     },

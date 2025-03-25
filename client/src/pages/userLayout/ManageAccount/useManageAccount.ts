@@ -8,7 +8,7 @@ export const useManageAccount = () => {
   const { showToastMsg, closeToast } = useToast();
   const { handleErrAPI } = useHandleErr();
 
-  const { setCanManageAccount, canManageAccount, currUser, logoutUser } =
+  const { setCanManageAccount, canManageAccount, currUser, setUserLogged } =
     useUser();
 
   const handleErrManageUser = ({ err }: { err: ErrFoodApp }) => {
@@ -20,7 +20,7 @@ export const useManageAccount = () => {
       if (status === 401) {
         showToastMsg(msg, "ERROR");
       } else if (status === 429) {
-        logoutUser();
+        setUserLogged(false);
         handleErrAPI({ err });
       }
     } else {

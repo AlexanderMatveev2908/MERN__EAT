@@ -6,7 +6,7 @@ import { ErrFoodApp } from "../../types/allTypes/API";
 
 export const useLogout = () => {
   const { showToastMsg } = useToast();
-  const { logoutUser } = useUser();
+  const { setUserLogged } = useUser();
 
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export const useLogout = () => {
       showToastMsg(err?.response?.data?.msg || err?.message, "ERROR");
     },
     onSettled: () => {
-      logoutUser();
+      setUserLogged(false);
       navigate("/", { replace: true });
     },
   });

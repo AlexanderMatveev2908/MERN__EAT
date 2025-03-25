@@ -1,6 +1,7 @@
 import { check } from "express-validator";
 import { REG_SEARCH } from "../../config/constants/regex.js";
 import { handleValidator } from "../../utils/handleValidator.js";
+import { validatePagination } from "../general/queriesAndSorters/validatePagination.js";
 
 const areValidStr = (q: any) =>
   Object.entries(q ?? {})
@@ -8,6 +9,8 @@ const areValidStr = (q: any) =>
     .every(([_, v]) => REG_SEARCH.test(v as string));
 
 export const validatorQueryRest = [
+  ...validatePagination,
+
   check().custom((_, { req }) => {
     const q = req.query;
 
