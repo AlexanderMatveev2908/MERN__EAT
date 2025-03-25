@@ -26,6 +26,8 @@ export type RestaurantAllUsers = Omit<
 export type SearchDishesFormType = {
   minPrice: string;
   maxPrice: string;
+  minQuantity: string;
+  maxQuantity: string;
   priceSort: [];
   quantitySort: [];
 

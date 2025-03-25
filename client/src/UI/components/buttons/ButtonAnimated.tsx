@@ -26,7 +26,7 @@ const ButtonAnimated: FC<PropsType> = ({
       onClick={handleClick}
       type={type}
       disabled={isDisabled}
-      className="btn_container"
+      className="btn_container outline-none"
     >
       <div className="btn_container__content">
         <div className="content__btn">

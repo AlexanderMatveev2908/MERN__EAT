@@ -23,7 +23,8 @@ export const getDishesRestAsUser = async (
   params: URLSearchParams,
   restId: string
 ): Promise<
-  ReturnAPIBasic & GetElsQueriedReturnType & { dishes: DishType[] }
+  ReturnAPIBasic &
+    GetElsQueriedReturnType & { dishes: DishType[]; isAdmin: boolean }
 > => {
   const { data } = await foodAppInstance.get(
     `/search/dishes/${restId}?${params}`

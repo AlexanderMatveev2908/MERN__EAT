@@ -11,6 +11,7 @@ import {
 import DropHandlerIcon from "../../../../components/DropHandlerIcon";
 import CardToSearchStats from "./components/CardToSearchStats";
 import { useLocation } from "react-router-dom";
+import { REG_PATH_SEARCH_DISHES } from "../../../../../core/config/constants/regex";
 
 type PropsType = {
   searchFields?: CheckBoxFieldType[];
@@ -46,7 +47,7 @@ const FiltersSearchBar: FC<PropsType> = ({
         className={`w-full grid grid-cols-1 pb-3 transition-all duration-300 gap-2 ${
           isOpen
             ? "max-h-[2000px] opacity-100 pointer-events-auto"
-            : "opacity-0 max-h-0 pointer-events-none"
+            : "opacity-0 max-h-0 pointer-events-none -z-10"
         }`}
       >
         {!!searchFields?.length && (
@@ -54,7 +55,7 @@ const FiltersSearchBar: FC<PropsType> = ({
         )}
 
         {(/^\/(my-dishes).*/.test(location.pathname) ||
-          /^\/search\/[a-f0-9]{24}$/.test(location.pathname)) && (
+          REG_PATH_SEARCH_DISHES.test(location.pathname)) && (
           <CardToSearchStats {...{ formContext, closeAllDrop }} />
         )}
 

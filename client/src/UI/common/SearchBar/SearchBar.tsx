@@ -10,6 +10,8 @@ import {
   SorterFieldType,
 } from "../../../core/config/fieldsArr/typesFields";
 import ButtonBasic from "../../components/buttons/ButtonBasic";
+import { REG_PATH_SEARCH_DISHES } from "../../../core/config/constants/regex";
+import { useLocation } from "react-router-dom";
 
 // export type FormContextSearchBar =
 //   | UseFormReturn<SearchMyDishesFormType>
@@ -46,10 +48,17 @@ const SearchBar: FC<PropsType> = ({
   isPending,
   closeAllDrop,
 }) => {
+  const path = useLocation().pathname;
+  const needSearchField = !REG_PATH_SEARCH_DISHES.test(path);
+
   return !formContext ? null : (
-    <form className="w-full max-w-[90%] border-[3px] border-orange-500 rounded-xl p-6">
+    <form
+      className={`w-full max-w-[90%] border-[3px] border-orange-500 rounded-xl p-6 ${
+        needSearchField ? "" : "pt-0"
+      }`}
+    >
       <div className="w-full grid grid-cols-1">
-        <SearchField {...{ formContext }} />
+        {needSearchField && <SearchField {...{ formContext }} />}
 
         <FiltersSearchBar
           {...{

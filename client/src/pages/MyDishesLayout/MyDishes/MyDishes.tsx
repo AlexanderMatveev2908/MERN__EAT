@@ -67,7 +67,6 @@ const MyDishes: FC = () => {
           {...{
             nHits,
             totDocuments,
-            isPending: propsForm.isPending,
             search,
             searchVal: searchVals?.[0],
           }}
