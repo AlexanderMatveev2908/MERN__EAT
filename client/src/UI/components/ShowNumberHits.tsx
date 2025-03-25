@@ -2,7 +2,12 @@ import { PartyPopper } from "lucide-react";
 import { FC } from "react";
 import { useLocation } from "react-router-dom";
 import { getTargetConfig } from "../../core/hooks/useUpdatePlace";
-import { REG_PATH_SEARCH_DISHES } from "../../core/config/constants/regex";
+import {
+  REG_P_DISHES,
+  REG_P_MY_REST,
+  REG_P_SEARCH,
+  REG_PATH_SEARCH_DISHES,
+} from "../../core/config/constants/regex";
 
 type PropsType = {
   nHits?: number;
@@ -19,14 +24,13 @@ const ShowNumberHits: FC<PropsType> = ({
 }) => {
   const path = useLocation().pathname;
 
-  const target =
-    path === "/my-dishes"
-      ? "dishes"
-      : path === "/my-restaurants"
-      ? "restaurants"
-      : REG_PATH_SEARCH_DISHES.test(path)
-      ? "dishes"
-      : null;
+  const target = REG_P_DISHES.test(path)
+    ? "dishes"
+    : [REG_P_MY_REST, REG_P_SEARCH].some((reg) => reg.test(path))
+    ? "restaurants"
+    : REG_PATH_SEARCH_DISHES.test(path)
+    ? "dishes"
+    : null;
 
   const { arrToCheck } = getTargetConfig(path);
   const field = arrToCheck?.filter((el) => el.field === searchVal)?.[0];
@@ -34,9 +38,9 @@ const ShowNumberHits: FC<PropsType> = ({
   let info;
 
   if (search) {
-    if (["country", "state", "city"].includes(field.field))
+    if (["country", "state", "city"].includes(field?.field))
       info = ` in ${search}`;
-    if (["name", "id", "restaurantName", "restaurantId"].includes(field.field))
+    if (["name", "id", "restaurantName", "restaurantId"].includes(field?.field))
       info = ` for ${search}`;
   }
 
@@ -65,7 +69,7 @@ const ShowNumberHits: FC<PropsType> = ({
       ) : (
         <div className="w-full flex justify-self-center justify-center mt-[50px]">
           <span className="txt__03">
-            {path === "/search"
+            {!REG_P_SEARCH.test(path)
               ? "Good news, there are not restaurants available so you could be the first that could create one ✌🏼"
               : REG_PATH_SEARCH_DISHES.test(path)
               ? "This restaurant does not have dishes right now, they are strategically preparing 🧐"

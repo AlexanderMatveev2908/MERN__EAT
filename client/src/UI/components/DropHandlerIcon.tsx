@@ -28,7 +28,7 @@ const DropHandlerIcon: FC<PropsType> = ({
   return (
     <div
       onClick={() => setIsOpen(!isOpen)}
-      className={`w-full grid grid-cols-[1fr_75px] items-center group cursor-pointer ${
+      className={`w-full grid grid-cols-[1fr_65px] items-center group cursor-pointer ${
         customStyle ?? ""
       }`}
     >
