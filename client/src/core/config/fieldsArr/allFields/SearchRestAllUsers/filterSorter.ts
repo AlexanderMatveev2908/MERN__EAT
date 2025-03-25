@@ -15,6 +15,7 @@ import {
   myDishesFieldsNumericSearch,
   sortersMyDishesFields,
 } from "../MyDishes/filterSort";
+import { IoRestaurant } from "react-icons/io5";
 
 const searchRest = ["name", "country", "state", "city"];
 
@@ -57,6 +58,7 @@ export const searchRestAllUsersSorters = [
     label: "Delivery price",
     icon: MdDeliveryDining,
   },
+  { field: "dishesCountSort", label: "No. of dishes", icon: IoRestaurant },
 ].map((el) => ({
   ...el,
   id: genID(),
@@ -74,6 +76,7 @@ export const defaultValsSearchAllUsers: Omit<SearchFormType, "search"> & {
 
   avgRatingSort: [],
   avgPriceSort: [],
+  dishesCountSort: [],
   deliveryTimeSort: [],
   deliveryPriceSort: [],
 

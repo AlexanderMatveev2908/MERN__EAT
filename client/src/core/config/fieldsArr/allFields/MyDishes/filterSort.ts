@@ -95,10 +95,12 @@ export const defaultValuesMyDishesSearch: SearchMyDishesFormType = {
   search: "",
   searchVals: ["name"],
   categories: [],
+
   minPrice: "",
   maxPrice: "",
   minQuantity: "",
   maxQuantity: "",
+
   priceSort: [],
   quantitySort: [],
   createdAtSort: [],

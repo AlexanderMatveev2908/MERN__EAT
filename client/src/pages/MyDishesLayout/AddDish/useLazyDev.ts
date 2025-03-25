@@ -59,10 +59,10 @@ export const useLazyDev = ({ setValue, reset }) => {
         restaurant: "",
         items: [
           ...Array.from({ length: 10 }).map((_, i) => ({
-            name: `b_2_${i + 1 + ""}`,
-            price: `${"15.44"}`,
-            quantity: `${"37"}`,
-            images: [...files],
+            name: `item_${i + 1 + ""}`,
+            price: `${"9.99"}`,
+            quantity: `${"12"}`,
+            images: [files?.[0]],
           })),
         ],
       });

@@ -10,7 +10,7 @@ import {
   SorterFieldType,
 } from "../../../core/config/fieldsArr/typesFields";
 import ButtonBasic from "../../components/buttons/ButtonBasic";
-import { REG_PATH_SEARCH_DISHES } from "../../../core/config/constants/regex";
+import { REG_P_DISHES_USER } from "../../../core/config/constants/regex";
 import { useLocation } from "react-router-dom";
 
 // export type FormContextSearchBar =
@@ -49,7 +49,7 @@ const SearchBar: FC<PropsType> = ({
   closeAllDrop,
 }) => {
   const path = useLocation().pathname;
-  const needSearchField = !REG_PATH_SEARCH_DISHES.test(path);
+  const needSearchField = !REG_P_DISHES_USER.test(path);
 
   return !formContext ? null : (
     <form

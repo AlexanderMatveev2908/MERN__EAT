@@ -11,7 +11,7 @@ import {
 import DropHandlerIcon from "../../../../components/DropHandlerIcon";
 import CardToSearchStats from "./components/CardToSearchStats";
 import { useLocation } from "react-router-dom";
-import { REG_PATH_SEARCH_DISHES } from "../../../../../core/config/constants/regex";
+import { REG_P_DISHES_USER } from "../../../../../core/config/constants/regex";
 
 type PropsType = {
   searchFields?: CheckBoxFieldType[];
@@ -55,7 +55,7 @@ const FiltersSearchBar: FC<PropsType> = ({
         )}
 
         {(/^\/(my-dishes).*/.test(location.pathname) ||
-          REG_PATH_SEARCH_DISHES.test(location.pathname)) && (
+          REG_P_DISHES_USER.test(location.pathname)) && (
           <CardToSearchStats {...{ formContext, closeAllDrop }} />
         )}
 

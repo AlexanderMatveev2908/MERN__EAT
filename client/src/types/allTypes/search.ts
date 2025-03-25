@@ -11,6 +11,7 @@ export type SearchFormType = {
   avgPriceSort: ["asc" | "desc"] | [];
   deliveryTimeSort: ["asc" | "desc"] | [];
   deliveryPriceSort: ["asc" | "desc"] | [];
+  dishesCountSort: ["asc" | "desc"] | [];
 
   page?: string;
   limit?: string;

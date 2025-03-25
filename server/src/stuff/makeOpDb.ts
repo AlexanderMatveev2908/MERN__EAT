@@ -16,3 +16,7 @@ export const updateRest = async () => {
 export const makeCart = async () => {
   await User.updateMany({}, { $set: { cart: null } });
 };
+
+export const clearDishes = async () => {
+  await Restaurant.updateMany({}, { $set: { dishes: [] } });
+};

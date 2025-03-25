@@ -21,7 +21,7 @@ const Summary: FC = () => {
           <ButtonAnimated {...{ label: "Checkout", type: "button" }} />
         </div>
 
-        <div className="w-[175px] justify-self-center">
+        <div className="w-[150px] justify-self-center">
           <DeleteButton
             {...{ txt: "Clear", handleDelete: () => console.log("to do") }}
           />

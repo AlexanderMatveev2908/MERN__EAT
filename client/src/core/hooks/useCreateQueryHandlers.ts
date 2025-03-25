@@ -17,7 +17,7 @@ import {
   REG_P_DISHES,
   REG_P_MY_REST,
   REG_P_SEARCH,
-  REG_PATH_SEARCH_DISHES,
+  REG_P_DISHES_USER,
 } from "../config/constants/regex";
 
 export const useCreateQueryHandlers = ({
@@ -48,7 +48,7 @@ export const useCreateQueryHandlers = ({
     ? defaultValuesMyDishesSearch
     : REG_P_SEARCH.test(path)
     ? defaultValsSearchAllUsers
-    : REG_PATH_SEARCH_DISHES.test(path)
+    : REG_P_DISHES_USER.test(path)
     ? defaultValuesSearchDishesAsUser
     : {};
 
@@ -106,7 +106,7 @@ export const useCreateQueryHandlers = ({
         setCurrPage(val);
 
         window.scrollTo({
-          top: REG_PATH_SEARCH_DISHES.test(path) ? 600 : 200,
+          top: REG_P_DISHES_USER.test(path) ? 1000 : 200,
           behavior: "smooth",
         });
       },
