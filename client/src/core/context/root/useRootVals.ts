@@ -8,6 +8,8 @@ import { usePopupVals } from "../hooks/usePopupVals";
 import { useFormsVals } from "../hooks/useFormsVals";
 import { useSidebarVals } from "../hooks/useSidebarVals";
 import { useCartVals } from "../hooks/useCartVals";
+import { useNoticeVals } from "../hooks/useNoticeVals";
+import { useInfoPopVals } from "../hooks/useInfoPopVals";
 
 export const useRootVals = (): RootValsType => {
   const [state, dispatch] = useReducer(rootReducer, rootInitState);
@@ -17,6 +19,8 @@ export const useRootVals = (): RootValsType => {
   const popupVals = usePopupVals(state.popupState, dispatch);
   const sideVals = useSidebarVals();
   const cartVals = useCartVals(state.cartState, dispatch);
+  const noticeVals = useNoticeVals();
+  const infoPopVals = useInfoPopVals();
 
   const formContexts = useFormsVals();
 
@@ -35,6 +39,12 @@ export const useRootVals = (): RootValsType => {
     },
     cartState: {
       ...cartVals,
+    },
+    noticeState: {
+      ...noticeVals,
+    },
+    infoPopState: {
+      ...infoPopVals,
     },
 
     formsState: {

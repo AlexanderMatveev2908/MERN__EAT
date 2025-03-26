@@ -9,6 +9,8 @@ import { ToastValsType } from "../../types/allTypes/toastTypes";
 import { UserValsType } from "../../types/allTypes/userTypes";
 import { PopupValsType } from "../../types/allTypes/popup";
 import { CartVals } from "../../types/allTypes/cart";
+import { NoticeVals } from "../context/hooks/useNoticeVals";
+import { InfoPopVals } from "../context/hooks/useInfoPopVals";
 
 const useGlobal = (): RootValsType => {
   const context = useContext(GlobalContext);
@@ -30,3 +32,7 @@ export const useFormsCustom = (): FormsCtxType => useGlobal().formsState;
 export const useSidebar = (): SideVals => useGlobal().sideState;
 
 export const useCart = (): CartVals => useGlobal().cartState;
+
+export const useNotice = (): NoticeVals => useGlobal().noticeState;
+
+export const useInfoPop = (): InfoPopVals => useGlobal().infoPopState;

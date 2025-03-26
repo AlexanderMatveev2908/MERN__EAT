@@ -47,6 +47,10 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
   @apply border-[3px] rounded-xl py-1 pb-5 w-full max-w-[350px];
 }
 
+.notice {
+  @apply w-[200px] sm:w-[300px] h-[200px] sm:h-[300px];
+}
+
 /* GENERAL */
 
 .hide_scrollbar::-webkit-scrollbar {
