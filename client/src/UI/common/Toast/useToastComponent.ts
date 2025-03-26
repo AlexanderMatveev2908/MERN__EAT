@@ -3,45 +3,64 @@ import { useToast } from "../../../core/hooks/useGlobal";
 
 export const useToastComponent = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const [closeClicked, setCloseClicked] = useState<boolean>(false);
-  const toastRef = useRef<HTMLDivElement | null>(null);
+  const afterRef = useRef<HTMLDivElement | null>(null);
 
-  const { isToast, msg, type, closeToast } = useToast();
-
-  useEffect(() => {
-    let timer;
-    if (isToast) {
-      setCloseClicked(false);
-      timer = setTimeout(() => {
-        closeToast();
-      }, 5000);
-      timerRef.current = timer;
-    }
-
-    return () => {
-      clearTimeout(timer);
-      if (isToast) setCloseClicked(true);
-      if (timerRef.current) timerRef.current = null;
-    };
-  }, [closeToast, isToast]);
-
-  useEffect(() => {
-    if (isToast && toastRef.current) {
-      toastRef.current.classList.remove("toast__container_after");
-
-      requestAnimationFrame(() =>
-        toastRef.current?.classList.add("toast__container_after")
-      );
-    }
-  }, [isToast, closeToast]);
-
-  return {
+  const {
     isToast,
-    toastRef,
     msg,
     type,
     closeToast,
-    closeClicked,
-    setCloseClicked,
+    toastClicked,
+    setToastClicked,
+    wasToast,
+    setWasToast,
+  } = useToast();
+
+  useEffect(() => {
+    const handleToastUI = () => {
+      const toast = document.getElementById("toast");
+      if (afterRef?.current && toast) {
+        if (isToast) {
+          toast.classList.remove("toast__no");
+          toast.classList.remove("toast__active_out");
+          afterRef.current.classList.remove("toast__container_after");
+
+          requestAnimationFrame(() => {
+            toast.classList.add("toast__active_in");
+            afterRef?.current?.classList.add("toast__container_after");
+          });
+
+          if (timerRef.current) clearTimeout(timerRef.current);
+
+          timerRef.current = setTimeout(() => {
+            setToastClicked(true);
+            closeToast();
+            timerRef.current = null;
+          }, 5000);
+        } else {
+          toast.classList.remove("toast__active_in");
+
+          if (toastClicked) {
+            toast.classList.remove("toast__no");
+            requestAnimationFrame(() => {
+              toast.classList.add("toast__active_out");
+            });
+          } else {
+            toast.classList.add("toast__no");
+          }
+        }
+      }
+    };
+
+    handleToastUI();
+  }, [isToast, toastClicked, closeToast]);
+
+  return {
+    isToast,
+    afterRef,
+    msg,
+    type,
+    closeToast,
+    setToastClicked,
   };
 };
