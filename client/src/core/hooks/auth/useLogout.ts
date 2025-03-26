@@ -1,10 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast, useUser } from ".././useGlobal";
 import { useNavigate } from "react-router-dom";
 import { logoutUserAPI } from "../../api/APICalls/auth";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useLogout = () => {
+  const queryClient = useQueryClient();
+
   const { showToastMsg } = useToast();
   const { setUserLogged } = useUser();
 
@@ -20,6 +22,7 @@ export const useLogout = () => {
     },
     onSettled: () => {
       setUserLogged(false);
+      queryClient.resetQueries({ queryKey: ["myCart"] });
       navigate("/", { replace: true });
     },
   });

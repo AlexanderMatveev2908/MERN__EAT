@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast, useUser } from "./useGlobal";
 import { useCallback } from "react";
 import { ErrFoodApp } from "../../types/allTypes/API";
+import { useQueryClient } from "@tanstack/react-query";
 
 export type HandleErrType = ({
   err,
@@ -14,8 +15,10 @@ export type HandleErrType = ({
 }) => void;
 
 export const useHandleErr = () => {
-  const { showToastMsg } = useToast();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  const { showToastMsg } = useToast();
   const { setUserLogged } = useUser();
 
   const handleErrAPI = useCallback(
@@ -36,12 +39,14 @@ export const useHandleErr = () => {
 
       if (url === "/auth/refresh") {
         setUserLogged(false);
+        queryClient.resetQueries({ queryKey: ["myCart"] });
         navigate("/", { replace: true });
         showToastMsg("SESSION EXPIRED", "ERROR");
       } else if ([401, 403, 429].includes(status ?? 400)) {
-        if (["USER DOES NOT EXIST", "USER NOT VERIFIED"].includes(msg))
+        if (["USER DOES NOT EXIST", "USER NOT VERIFIED"].includes(msg)) {
           setUserLogged(false);
-
+          queryClient.resetQueries({ queryKey: ["myCart"] });
+        }
         navigate("/", { replace: true });
         showToastMsg(msg, "ERROR");
       } else {
@@ -49,7 +54,7 @@ export const useHandleErr = () => {
         if (toast) showToastMsg(msg, "ERROR");
       }
     },
-    [navigate, showToastMsg, setUserLogged]
+    [navigate, showToastMsg, setUserLogged, queryClient]
   );
 
   return { handleErrAPI };

@@ -15,15 +15,16 @@ type PropsType = {
 const ButtonsCart: FC<PropsType> = ({ dish }) => {
   const { isLogged } = useUser();
   const { cart, cartNonLogged } = useCart();
-  const { handleClickCart, isPending, qtyItem } = useUpdateCart({ dish });
+  const { handleClickCart, isPending } = useUpdateCart({ dish });
 
+  //  in buttons works well cause they are inside dish item but hook can be called also in summary cart item so there i will check not the _id of dish in his own collection in db but ref of dish as simple object inside document Cart od carts collections
   const cartToCheck = isLogged ? cart : cartNonLogged;
-  const existingItem =
+  const qtyItem =
     isObjOk(cartToCheck) &&
-    cartToCheck?.items.find((el: CartItem) => el.dishId === dish._id);
+    cartToCheck?.items.find((el: CartItem) => el.dishId === dish._id)?.quantity;
 
   let isAvl = true;
-  if (existingItem) if (existingItem.quantity >= dish.quantity) isAvl = false;
+  if (qtyItem) if (qtyItem >= dish.quantity) isAvl = false;
 
   return (
     <div className="w-full max-w-full grid grid-cols-[1fr_75px] mt-3">
