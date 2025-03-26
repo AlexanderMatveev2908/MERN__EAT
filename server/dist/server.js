@@ -26,6 +26,7 @@ if (!isDev) {
     app.get("*", (_, res) => res.sendFile(path.join(get__dirname(), "../../client/dist/index.html")));
 }
 app.use(errMiddleware);
+// makeCart();
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield connectDB();
@@ -33,7 +34,10 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
         app.listen(+port, "0.0.0.0", () => console.log(`=> server listening on ${port}...`));
     }
     catch (err) {
-        console.log(err);
+        console.log({
+            msg: err.message,
+            stack: err.stack,
+        });
     }
 });
 // netstat -ano | findstr :3000
