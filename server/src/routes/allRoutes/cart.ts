@@ -8,6 +8,7 @@ import {
   delItem,
   incQtyCart,
   updateQtyByInput,
+  updateQtyIntervalFormFront,
 } from "./../../controllers/cartControllers/update.js";
 import { validateDishId } from "../../middleware/cart/validateDishId.js";
 
@@ -31,6 +32,14 @@ router.put(
   validateDishId,
   asyncWrapper(updateQtyByInput)
 );
+
+router.put(
+  "/put-int",
+  verifyAccessToken,
+  validateDishId,
+  asyncWrapper(updateQtyIntervalFormFront)
+);
+
 router.delete("/del-cart", verifyAccessToken, asyncWrapper(delCart));
 
 export default router;

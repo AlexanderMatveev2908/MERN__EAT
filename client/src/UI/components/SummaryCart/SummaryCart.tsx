@@ -9,8 +9,8 @@ import ButtonAnimated from "../buttons/ButtonAnimated";
 import DeleteButton from "../buttons/DeleteButton";
 import { fieldCoupon } from "../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { RestaurantAllUsers } from "../../../types/allTypes/search";
-import { useUpdateCart } from "../../../core/hooks/cart/useUpdateCart";
 import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
+import { useDeleteCart } from "../../../core/hooks/cart/useDeleteCart";
 
 type PropsType = {
   rest: RestaurantAllUsers;
@@ -26,7 +26,7 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
 
   const { cart, cartNonLogged } = useCart();
   const { isLogged } = useUser();
-  const { isPending, handleClickCart } = useUpdateCart({});
+  const { isPending, handleDeleteCart } = useDeleteCart();
 
   const cartToMap = isLogged ? cart : cartNonLogged;
 
@@ -65,7 +65,7 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
                 <DeleteButton
                   {...{
                     txt: "Clear",
-                    handleDelete: () => handleClickCart("del-cart"),
+                    handleDelete: handleDeleteCart,
                   }}
                 />
               )}

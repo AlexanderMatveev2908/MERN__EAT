@@ -7,20 +7,24 @@ import { CartItem } from "../../../../types/allTypes/cart";
 import { useUpdateCart } from "../../../../core/hooks/cart/useUpdateCart";
 import MiniSpinner from "../../loaders/MiniSpinner";
 import { fieldUpdateQty } from "../../../../core/config/fieldsArr/allFields/cart/update";
+import { useUpdateCartByInput } from "../../../../core/hooks/cart/useUpdateCartByInput";
 
 type PropsType = {
   item: CartItem;
 };
 
 const SummaryItem: FC<PropsType> = ({ item }) => {
-  const { handleClickCart, isPending, handlersInputQty } = useUpdateCart({
+  const { handleClickCart, isPending } = useUpdateCart({
     dish: item,
   });
+
+  const { register, errors, isPendingInputQTy, changeQtyInput } =
+    useUpdateCartByInput({ dish: item });
 
   return (
     <li className="w-full grid gap-y-1 items-center md:grid-cols-2 gap-10">
       <form
-        onSubmit={handlersInputQty.changeQtyInput}
+        onSubmit={changeQtyInput}
         className="w-full flex gap-5 justify-between items-center"
       >
         <span className="txt__02">{item.name}</span>
@@ -31,7 +35,7 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
           step="any"
           type="number"
           className="txt__02 border-orange-500 border-2 outline-none rounded-xl focus__base el__flow px-3 py-[0.1rem] max-w-[100px] md:justify-self-start input__blur"
-          {...handlersInputQty.register(fieldUpdateQty.field as any, {
+          {...register(fieldUpdateQty.field as any, {
             pattern: {
               value: fieldUpdateQty.reg,
               message: fieldUpdateQty.msg,
@@ -49,7 +53,7 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
           {calcTotPriceItem(item)}
         </span>
 
-        {isPending || handlersInputQty.isPendingInputQTy ? (
+        {isPending || isPendingInputQTy ? (
           <div className="justify-self-end">
             <MiniSpinner />
           </div>
@@ -64,10 +68,8 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
         )}
       </div>
 
-      {handlersInputQty.errors?.quantity && (
-        <span className="txt__01 text-red-600">
-          {handlersInputQty.errors.quantity.message}
-        </span>
+      {errors?.quantity && (
+        <span className="txt__01 text-red-600">{errors.quantity.message}</span>
       )}
     </li>
   );
