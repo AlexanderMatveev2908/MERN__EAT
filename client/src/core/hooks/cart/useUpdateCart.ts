@@ -6,12 +6,19 @@ import {
   delCartAPI,
   delItemAPI,
   incQtyAPI,
+  updateQtyInputAPI,
 } from "../../api/APICalls/cart";
 import { useHandleErr } from "../useHandleErr";
 import { ErrFoodApp, ReturnAPIBasic } from "../../../types/allTypes/API";
 import { useCart, useToast, useUser } from "../useGlobal";
 import { DishType } from "../../../types/types";
 import { CartItem } from "../../../types/allTypes/cart";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+
+type FormQtyType = {
+  quantity: string;
+};
 
 export const useUpdateCart = ({ dish }: { dish?: DishType | CartItem }) => {
   const queryClient = useQueryClient();
@@ -50,9 +57,47 @@ export const useUpdateCart = ({ dish }: { dish?: DishType | CartItem }) => {
   const handleClickCart = (action: ActionAPICart) =>
     isLogged ? mutate(action) : null;
 
+  const {
+    register,
+    setValue,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormQtyType>({
+    mode: "onChange",
+    defaultValues: {
+      quantity: dish?.quantity + "",
+    },
+  });
+
+  useEffect(() => {
+    setValue("quantity", dish?.quantity + "");
+  }, [dish, setValue]);
+
+  const { isPending: isPendingInputQTy, mutate: mutateInputQty } = useMutation({
+    mutationFn: (quantity: string) =>
+      updateQtyInputAPI({ dishId: (dish as CartItem)?.dishId, quantity }),
+    onSuccess: () => {
+      showToastMsg("Cart updated", "SUCCESS");
+      queryClient.resetQueries({ queryKey: ["myCart"] });
+    },
+    onError: (err: ErrFoodApp) => {
+      handleErrAPI({ err });
+      setValue("quantity", (dish as CartItem)?.quantity + "");
+    },
+  });
+
+  const changeQtyInput = handleSubmit((data) => mutateInputQty(data.quantity));
+
   return {
     handleClickCart,
     isPending,
     qtyItem,
+
+    handlersInputQty: {
+      register,
+      errors,
+      isPendingInputQTy,
+      changeQtyInput,
+    },
   };
 };
