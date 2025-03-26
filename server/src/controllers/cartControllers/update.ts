@@ -25,7 +25,7 @@ const getDataRequest = async (
 
   // if from frontend come a req about other dish from cart restaurant, then restaurant will not be found and i send 404 that implicit is 400
   if ([dish, restaurant].some((el) => !el))
-    return baseErrResponse(res, 404, "Not found, bad req");
+    return baseErrResponse(res, 404, "Not found something");
 
   return {
     cart,
@@ -47,9 +47,10 @@ export const incQtyCart = async (
   if (!dish.quantity) return baseErrResponse(res, 400, "Bad req");
 
   let newCart = null;
+
   if (cart?.items?.length) {
     const existingItem = cart.items.find((el: CartItem) =>
-      (el?.dishId as mongoose.Types.ObjectId).equals(dish._id)
+      (el.dishId as mongoose.Types.ObjectId).equals(dish._id)
     );
     if (existingItem) {
       if (existingItem.quantity + 1 > dish.quantity) return badRequest(res);
@@ -243,7 +244,6 @@ export const updateQtyIntervalFormFront = async (
 
     // // instead of sending 400 i send 200 but i put just as much as there is avl
     if (existingItem) {
-      console.log("mapped");
       cart.items = cart.items.map((el: CartItem) =>
         el.dishId + "" === existingItem.dishId + ""
           ? {
@@ -253,7 +253,6 @@ export const updateQtyIntervalFormFront = async (
           : el
       );
     } else {
-      console.log("pushes");
       cart.items.push({
         dishId: dish._id,
         name: dish.name,
@@ -262,7 +261,6 @@ export const updateQtyIntervalFormFront = async (
       });
     }
   } else {
-    console.log("created");
     newCart = await Cart.create({
       user: userId,
       restaurant: restaurant._id,
@@ -282,5 +280,5 @@ export const updateQtyIntervalFormFront = async (
 
   if (!newCart) await cart.save();
 
-  return res.status(200).json({ success: false, msg: "Cart updated" });
+  return res.status(200).json({ success: true, msg: "Cart updated" });
 };

@@ -41,6 +41,7 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
               message: fieldUpdateQty.msg,
             },
           })}
+          onBlur={() => changeQtyInput()}
         />
       </form>
 
