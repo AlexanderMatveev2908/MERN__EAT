@@ -27,7 +27,7 @@ const Header: FC = () => {
           <div className="flex w-full gap-5 items-center justify-end">
             {(isObjOk(cart) || isObjOk(cartNonLogged)) && (
               <Link
-                to={`/search/`}
+                to={`/search/${cart?.restaurant}`}
                 className="group relative el__flow hover:scale-110"
               >
                 <span className="absolute border-2 px-2 border-orange-500 text-orange-500 rounded-full bg-[#000] -top-3 -right-2">

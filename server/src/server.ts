@@ -7,6 +7,7 @@ import { isDev } from "./config/currMode.js";
 import { connectCloudinary } from "./config/cloud.js";
 import router from "./routes/mainRoute.js";
 import { get__dirname } from "./utils/calcPath.js";
+import { makeCart } from "./stuff/makeOpDb.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -24,6 +25,8 @@ if (!isDev) {
 }
 
 app.use(errMiddleware);
+
+// makeCart();
 
 const start = async () => {
   try {

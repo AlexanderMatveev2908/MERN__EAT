@@ -13,8 +13,8 @@ import { DishType } from "../../../types/types";
 import { CartItem } from "../../../types/allTypes/cart";
 
 // IMPORTANT =>
-// INC DEC DEL-ITEM IN BUTTONS PROVIDES DISH AS DOCUMENT OF COLLECTION
-// SUMMARY ITEM PROVIDES ITEM OF CART DOCUMENT AS SIMPLE OBJ
+// INC DEC DEL-ITEM IN BUTTONS PROVIDES DISH AS DOCUMENT OF COLLECTION DISHES
+// SUMMARY ITEM PROVIDES ITEM OF CART DOCUMENT IN COLLECTION CARTS AS SIMPLE OBJ
 
 export const useUpdateCart = ({ dish }: { dish: DishType | CartItem }) => {
   const queryClient = useQueryClient();

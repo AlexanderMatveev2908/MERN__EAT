@@ -47,7 +47,7 @@ export const incQtyCart = async (
   if (!dish.quantity) return baseErrResponse(res, 400, "Bad req");
 
   let newCart = null;
-  if (cart) {
+  if (cart?.items?.length) {
     const existingItem = cart.items.find((el: CartItem) =>
       (el?.dishId as mongoose.Types.ObjectId).equals(dish._id)
     );
@@ -234,32 +234,35 @@ export const updateQtyIntervalFormFront = async (
 
   let newCart;
 
-  if (cart) {
+  const qty = dish.quantity < quantity ? dish.quantity : quantity || 1;
+
+  if (cart?.items?.length) {
     const existingItem = cart.items.find(
-      (el: CartItem) => el.dishId + "" === dish._id
+      (el: CartItem) => el.dishId + "" === dish._id + ""
     );
-    // instead of sending 400 i send 200 but i put just as much as there is avl
+
+    // // instead of sending 400 i send 200 but i put just as much as there is avl
     if (existingItem) {
+      console.log("mapped");
       cart.items = cart.items.map((el: CartItem) =>
         el.dishId + "" === existingItem.dishId + ""
           ? {
               ...el,
-              quantity: dish.quantity < quantity ? dish.quantity : quantity,
+              quantity: qty,
             }
           : el
       );
     } else {
-      cart.items = [
-        ...cart.items,
-        {
-          dishId: dish._id,
-          name: dish.name,
-          price: dish.price,
-          quantity,
-        },
-      ];
+      console.log("pushes");
+      cart.items.push({
+        dishId: dish._id,
+        name: dish.name,
+        price: dish.price,
+        quantity: qty,
+      });
     }
   } else {
+    console.log("created");
     newCart = await Cart.create({
       user: userId,
       restaurant: restaurant._id,
@@ -268,7 +271,7 @@ export const updateQtyIntervalFormFront = async (
           dishId: dish._id,
           name: dish.name,
           price: dish.price,
-          quantity: dish.quantity < quantity ? dish.quantity : quantity,
+          quantity: qty,
         },
       ],
     });
