@@ -4,6 +4,7 @@ import { useToast } from "../../../core/hooks/useGlobal";
 import { foodAppInstance } from "../../../core/config/constants/axiosInstance";
 import { useEffect } from "react";
 import { isDev } from "../../../core/config/constants/environment";
+import { makeNumPrice, makeNumQty } from "../../../utils/allUtils/makeNumber";
 
 const urls = [
   "https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg",
@@ -61,9 +62,9 @@ export const useLazyDev = ({ setValue, reset }) => {
         items: [
           ...Array.from({ length: 10 }).map((_, i) => ({
             name: `item_${i + 1 + ""}`,
-            price: `${"9.99"}`,
-            quantity: `${"12"}`,
-            images: [files?.[0]],
+            price: makeNumPrice(),
+            quantity: makeNumQty(),
+            images: [files?.[1]],
           })),
         ],
       });
