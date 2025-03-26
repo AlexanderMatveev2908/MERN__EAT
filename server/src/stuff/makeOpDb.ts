@@ -1,3 +1,4 @@
+import Cart from "../models/Cart.js";
 import Restaurant from "../models/Restaurant.js";
 import User from "../models/User.js";
 
@@ -15,6 +16,16 @@ export const updateRest = async () => {
 
 export const makeCart = async () => {
   await User.updateMany({}, { $set: { cart: null } });
+
+  const carts = await Cart.find({});
+
+  if (!carts?.length) return;
+
+  let i = 0;
+  do {
+    await Cart.findByIdAndDelete(carts[i]._id);
+    i++;
+  } while (i < carts.length);
 };
 
 export const clearDishes = async () => {
