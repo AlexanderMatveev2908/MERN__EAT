@@ -19,3 +19,6 @@ export const priceFormatter = ({
 
 export const calcTotPriceItem = (item: CartItem) =>
   priceFormatter({ price: item.quantity * item.price });
+
+export const calcTotWithDelivery = (tot: number, del: number) =>
+  priceFormatter({ price: tot + del });

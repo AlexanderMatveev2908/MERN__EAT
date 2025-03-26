@@ -47,7 +47,7 @@ const MyRestaurantsForm: FC<PropsType> = ({
 
       <Delivery {...{ formContext }} />
 
-      <div className="max-w-[300px] justify-center mt-10">
+      <div className="w-[250px] sm:w-[325px] justify-center mt-10">
         <ButtonAnimated
           {...{
             label: `${

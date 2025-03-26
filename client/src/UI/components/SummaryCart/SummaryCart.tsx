@@ -9,6 +9,8 @@ import ButtonAnimated from "../buttons/ButtonAnimated";
 import DeleteButton from "../buttons/DeleteButton";
 import { fieldCoupon } from "../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { RestaurantAllUsers } from "../../../types/allTypes/search";
+import { useUpdateCart } from "../../../core/hooks/cart/useUpdateCart";
+import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   rest: RestaurantAllUsers;
@@ -24,16 +26,17 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
 
   const { cart, cartNonLogged } = useCart();
   const { isLogged } = useUser();
+  const { isPending, handleClickCart } = useUpdateCart({});
 
   const cartToMap = isLogged ? cart : cartNonLogged;
 
   return (
     cartToMap &&
     isObjOk(cart) && (
-      <div className="w-full grid grid-cols-1 gap-4 border-[3px] border-orange-500 rounded-xl px-5 py-3 pb-6 mb-6">
+      <div className="w-full grid grid-cols-1 gap-4 border-[3px] border-orange-500 rounded-xl p-6 mb-6">
         <span className="txt__03 justify-self-center">Your Order</span>
 
-        <ul className="w-full grid gap-3">
+        <ul className="w-full grid gap-5">
           {cartToMap.items.map((el) => (
             <SummaryItem key={el.dishId} {...{ item: el }} />
           ))}
@@ -46,13 +49,26 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
 
           <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 sm:gap-0 sm:grid-cols-2 items-center">
             <div className="w-[200px] justify-self-center flex ic">
-              <ButtonAnimated {...{ label: "Checkout", type: "button" }} />
+              <ButtonAnimated
+                {...{
+                  label: "Checkout",
+                  type: "button",
+                  isDisabled: isPending,
+                }}
+              />
             </div>
 
             <div className="w-[200px] justify-self-center">
-              <DeleteButton
-                {...{ txt: "Clear", handleDelete: () => console.log("to do") }}
-              />
+              {isPending ? (
+                <SpinnerBtnReact />
+              ) : (
+                <DeleteButton
+                  {...{
+                    txt: "Clear",
+                    handleDelete: () => handleClickCart("del-cart"),
+                  }}
+                />
+              )}
             </div>
           </div>
         </form>

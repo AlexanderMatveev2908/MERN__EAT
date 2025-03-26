@@ -10,6 +10,7 @@ type PropsType = {
 const DeleteButton: FC<PropsType> = ({ handleDelete, txt, border = true }) => {
   return (
     <button
+      type="button"
       onClick={handleDelete}
       className={`min-w-full group ${
         border ? "border-2 border-red-600 " : ""

@@ -25,6 +25,7 @@ export const useToastVals = (
 
       setToastClicked(false);
 
+      //  need to make it false so i can restart animation from 0
       if (wasToast) {
         dispatch({ type: SET_IS_TOAST, payload: { isToast: false } });
 
@@ -33,15 +34,15 @@ export const useToastVals = (
             type: SET_IS_TOAST,
             payload: { isToast: true, msg, type },
           });
-        }, 250);
+          //  small timeout to allow toast_out animation to complete
+        }, 100);
       } else {
+        // make it true as in past was true from point of view of next call of toast
         setWasToast(true);
-        setTimeout(() => {
-          dispatch({
-            type: SET_IS_TOAST,
-            payload: { isToast: true, msg, type },
-          });
-        }, 0);
+        dispatch({
+          type: SET_IS_TOAST,
+          payload: { isToast: true, msg, type },
+        });
       }
     },
     [dispatch, wasToast]
