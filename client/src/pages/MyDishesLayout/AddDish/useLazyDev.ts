@@ -51,6 +51,7 @@ export const useLazyDev = ({ setValue, reset }) => {
 
   useEffect(() => {
     if (isError) {
+      console.log(error);
       showToastMsg("Error", "ERROR");
     } else if (isSuccess) {
       const files = data.base64Imgs.map((el, i) => base64ToFile(el, i));

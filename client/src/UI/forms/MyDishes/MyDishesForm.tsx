@@ -70,7 +70,7 @@ const MyDishesForm: FC<PropsType> = ({
   };
 
   return (
-    <div className="w-full grid grid-cols-1 gap-5">
+    <form className="w-full grid grid-cols-1 gap-5">
       <RestaurantSelect {...{ restInfo, formContext }} />
 
       {fields.map((_, indexForm) => (
@@ -106,7 +106,7 @@ const MyDishesForm: FC<PropsType> = ({
             />
           </div>
         )}
-    </div>
+    </form>
   );
 };
 export default MyDishesForm;
