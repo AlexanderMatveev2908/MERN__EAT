@@ -7,7 +7,7 @@ import { useFormsCustom, useToast } from "../../../core/hooks/useGlobal";
 import { useFieldArray } from "react-hook-form";
 import { prepareFormDataMyDishes } from "../../../utils/allUtils/prepareFormData";
 import { useNavigate } from "react-router-dom";
-import { useGetRestaurantsIds } from "../../../core/hooks/useGetRestaurantsIds";
+import { useGetRestaurantsIds } from "../../../core/hooks/myRestaurants/useGetRestaurantsIds";
 import { useLazyDev } from "./useLazyDev";
 import { isDev } from "../../../core/config/constants/environment";
 

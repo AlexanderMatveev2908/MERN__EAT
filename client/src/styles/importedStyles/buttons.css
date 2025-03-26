@@ -12,6 +12,18 @@
   @apply active:scale-120 active:text-orange-500;
 }
 
+.btn__icon {
+  @apply w-fit p-2 border-2 rounded-xl enabled:hover:scale-120 flex items-center justify-center enabled:cursor-pointer disabled:opacity-50;
+}
+
+.btn__icon:disabled .btn__icon_icon {
+  @apply text-white;
+}
+
+.btn__icon_icon {
+  @apply min-w-[20px] min-h-[20px];
+}
+
 /* BASIC BTN */
 .btn__with_shadow_container,
 .btn__with_shadow_container__shadow {

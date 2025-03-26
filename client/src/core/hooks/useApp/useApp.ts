@@ -1,4 +1,4 @@
-import { useGetCart } from "../useGetCart";
+import { useGetCart } from "../cart/useGetCart";
 import { useGetCurrUser } from "../useGetCurrUser";
 
 export const useApp = () => {

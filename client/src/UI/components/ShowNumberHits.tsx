@@ -1,13 +1,13 @@
 import { PartyPopper } from "lucide-react";
 import { FC } from "react";
 import { useLocation } from "react-router-dom";
-import { getTargetConfig } from "../../core/hooks/useUpdatePlace";
 import {
   REG_P_DISHES,
   REG_P_MY_REST,
   REG_P_SEARCH,
   REG_P_DISHES_USER,
 } from "../../core/config/constants/regex";
+import { getTargetConfig } from "../../core/hooks/UI/useUpdatePlace";
 
 type PropsType = {
   nHits?: number;

@@ -5,7 +5,7 @@ import BaseFormField from "../../../UI/forms/inputFields/BaseFormField";
 import { Navigate } from "react-router-dom";
 import { useNoticeUnSubscribe } from "./useNoticeUnSubscribe";
 import { emailField } from "../../../core/config/fieldsArr/fields";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 
 const NoticeUnSubscribe: FC = () => {
   useScrollTop();

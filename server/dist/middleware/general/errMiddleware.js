@@ -3,6 +3,7 @@ export const errMiddleware = (err, _, res, __) => {
     return res.status(err.status || 500).json({
         success: false,
         msg: "Oops! Our server decided to take a coffee break ☕. Try again later!",
+        stack: err.stack,
     });
 };
 // if (err instanceof UnauthorizedError) {

@@ -10,7 +10,7 @@ import {
 import { FormProvider } from "react-hook-form";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useFormsCustom } from "../../../core/hooks/useGlobal";

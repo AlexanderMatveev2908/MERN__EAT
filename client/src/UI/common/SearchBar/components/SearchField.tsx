@@ -3,7 +3,7 @@ import { FC, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import { REG_MONGO, REG_SEARCH } from "../../../../core/config/constants/regex";
-import { useUpdatePlace } from "../../../../core/hooks/useUpdatePlace";
+import { useUpdatePlace } from "../../../../core/hooks/UI/useUpdatePlace";
 
 type PropsType = {
   formContext: UseFormReturn<any>;

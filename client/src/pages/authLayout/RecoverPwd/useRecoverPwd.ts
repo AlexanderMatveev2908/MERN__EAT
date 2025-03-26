@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { useToast, useUser } from "../../../core/hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
-import { useChangeVisibilityPwd } from "../../../core/hooks/useChangeVisibilityPwd";
+import { useChangeVisibilityPwd } from "../../../core/hooks/auth/useChangeVisibilityPwd";
 import { changeRecoverPwdAPI } from "../../../core/api/api";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 

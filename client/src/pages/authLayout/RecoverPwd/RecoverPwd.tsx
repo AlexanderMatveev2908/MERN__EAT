@@ -10,7 +10,7 @@ import {
   confirmPwdField,
   pwdFieldToCreate,
 } from "../../../core/config/fieldsArr/fields";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 
 const RecoverPwd: FC = () => {
   useScrollTop();

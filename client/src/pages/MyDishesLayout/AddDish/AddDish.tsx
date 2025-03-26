@@ -3,7 +3,7 @@ import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/Load
 import { useAddDish } from "./useAddDish";
 import MyDishesForm from "../../../UI/forms/MyDishes/MyDishesForm";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { ReturnIdsAPI } from "../../../core/api/APICalls/myDishes";
 

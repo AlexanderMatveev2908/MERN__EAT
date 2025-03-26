@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import Restaurant from "../models/Restaurant.js";
+import User from "../models/User.js";
 export const updateRest = () => __awaiter(void 0, void 0, void 0, function* () {
     const rest = yield Restaurant.findById("67dd5666537f1a7c2103ee43");
     const randomRest = yield Restaurant.findById("67dec23c33223dc5e44d3799");
@@ -15,4 +16,10 @@ export const updateRest = () => __awaiter(void 0, void 0, void 0, function* () {
         ...randomRest.images.map((el) => (Object.assign(Object.assign({}, el), { _id: rest._id }))),
     ];
     yield rest.save();
+});
+export const makeCart = () => __awaiter(void 0, void 0, void 0, function* () {
+    yield User.updateMany({}, { $set: { cart: null } });
+});
+export const clearDishes = () => __awaiter(void 0, void 0, void 0, function* () {
+    yield Restaurant.updateMany({}, { $set: { dishes: [] } });
 });

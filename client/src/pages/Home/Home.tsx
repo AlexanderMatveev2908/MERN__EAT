@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useScrollTop } from "../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../core/hooks/UI/useScrollTop";
 
 const Home: FC = () => {
   useScrollTop();

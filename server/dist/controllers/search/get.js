@@ -7,12 +7,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { makeQuerySearchAllUsers } from "../../utils/makeQueries/search.js";
+import { makeQuerySearchAllUsers, makeQuerySearchDishes, } from "../../utils/makeQueries/search.js";
 import { makeSorters } from "../../utils/makeSorters/general.js";
-import { calcPagination } from "../../utils/calcPagination.js";
+import { calcPagination } from "../../utils/makeQueries/calcPagination.js";
 import Restaurant from "../../models/Restaurant.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 import { REG_MONGO } from "../../config/constants/regex.js";
+import { baseErrResponse } from "../../utils/baseErrResponse.js";
+import Dish from "../../models/Dish.js";
 export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d, _e, _f;
     const { userId } = req;
@@ -29,6 +31,7 @@ export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void
             restaurants: [],
             nHits: 0,
         });
+    console.log(sorter);
     // IMPORTANT => THERE IS ABSOLUTE NO NEED TO UNWIND DOCUMENTS, I DID IT ONLY TO COMPLICATE STUFF SO I CAN EXERCISE WITH DIFFERENT SITUATIONS IN WHICH I CAN FIND MYSELF DURING AGGREGATIONS
     const result = yield Restaurant.aggregate([
         //  parent document is Rest, we watch for all children refs, i do not know if i can use terms parent and children in this context but for me make s sense
@@ -38,6 +41,11 @@ export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void
                 localField: "dishes",
                 foreignField: "_id",
                 as: "dishes",
+            },
+        },
+        {
+            $set: {
+                dishesCount: { $size: "$dishes" },
             },
         },
         {
@@ -77,6 +85,7 @@ export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void
                 reviews: { $push: "$reviews" },
                 avgPrice: { $avg: { $ifNull: ["$dishes.price", 0] } },
                 avgRating: { $avg: { $ifNull: ["$reviews.rating", 0] } },
+                dishesCount: { $first: "$dishesCount" },
             },
         },
         { $unset: ["data.orders", "data.__v"] },
@@ -146,4 +155,90 @@ export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void
         nHits,
         restaurants,
     });
+});
+export const getRestaurantAsUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req;
+    const { restId } = req.params;
+    const restaurant = yield Restaurant.findById(restId).lean();
+    if (!restaurant)
+        return baseErrResponse(res, 404, "Restaurant not found");
+    restaurant.isAdmin = REG_MONGO.test(userId !== null && userId !== void 0 ? userId : "")
+        ? restaurant.owner + "" === userId
+        : false;
+    return res.status(200).json({
+        msg: "ok",
+        success: true,
+        restaurant,
+    });
+});
+export const getDishesRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+    const { restId } = req.params;
+    const { userId } = req;
+    const totDocuments = yield Dish.countDocuments({
+        restaurant: makeMongoId(restId),
+    });
+    if (!totDocuments)
+        return res.status(200).json({ msg: "No dishes", success: true });
+    const queryObj = makeQuerySearchDishes(req);
+    const sorter = makeSorters(req, "dishes.");
+    const { limit, skip } = calcPagination(req);
+    const result = yield Restaurant.aggregate([
+        { $match: { _id: makeMongoId(restId !== null && restId !== void 0 ? restId : "") } },
+        ...(REG_MONGO.test(userId !== null && userId !== void 0 ? userId : "")
+            ? [
+                {
+                    $set: {
+                        isAdmin: {
+                            $cond: {
+                                if: { $eq: ["$owner", makeMongoId(userId !== null && userId !== void 0 ? userId : "")] },
+                                then: true,
+                                else: false,
+                            },
+                        },
+                    },
+                },
+            ]
+            : []),
+        {
+            $lookup: {
+                from: "dishes",
+                localField: "dishes",
+                foreignField: "_id",
+                as: "dishes",
+            },
+        },
+        { $unwind: "$dishes" },
+        ...(queryObj ? [{ $match: queryObj }] : []),
+        ...(sorter ? [{ $sort: sorter }] : []),
+        {
+            $facet: {
+                count: [{ $count: "nHits" }],
+                resPaginated: [
+                    { $skip: skip },
+                    { $limit: limit },
+                    {
+                        $group: {
+                            _id: null,
+                            dishes: { $push: "$dishes" },
+                            isAdmin: { $first: "$isAdmin" },
+                        },
+                    },
+                    {
+                        $project: {
+                            dishes: 1,
+                            isAdmin: 1,
+                        },
+                    },
+                ],
+            },
+        },
+    ]);
+    const nHits = (_c = (_b = (_a = result === null || result === void 0 ? void 0 : result[0]) === null || _a === void 0 ? void 0 : _a.count) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.nHits;
+    const dishes = (_f = (_e = (_d = result === null || result === void 0 ? void 0 : result[0]) === null || _d === void 0 ? void 0 : _d.resPaginated) === null || _e === void 0 ? void 0 : _e[0]) === null || _f === void 0 ? void 0 : _f.dishes;
+    const totPages = Math.ceil((nHits !== null && nHits !== void 0 ? nHits : 0) / limit);
+    const isAdmin = (_j = (_h = (_g = result === null || result === void 0 ? void 0 : result[0]) === null || _g === void 0 ? void 0 : _g.resPaginated) === null || _h === void 0 ? void 0 : _h[0]) === null || _j === void 0 ? void 0 : _j.isAdmin;
+    return res
+        .status(200)
+        .json({ success: true, nHits, totDocuments, totPages, dishes, isAdmin });
 });

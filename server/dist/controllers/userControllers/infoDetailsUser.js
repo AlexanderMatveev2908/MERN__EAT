@@ -20,13 +20,13 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import User from "../../models/User.js";
 import mongoose from "mongoose";
-import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
+import { userNotFound } from "../../utils/baseErrResponse.js";
 import Restaurant from "../../models/Restaurant.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 export const getUserInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
     if (!userId)
-        return unauthorizedErr(res, "ACCESS TOKEN NOT PROVIDED");
+        return res.status(200).json({ msg: "No info", success: false });
     const user = yield User.findById(userId)
         .select("firstName lastName email hasSubscribedToNewsletter -_id")
         .lean();

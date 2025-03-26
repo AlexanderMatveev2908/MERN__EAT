@@ -6,7 +6,7 @@ import MyRestaurantsForm from "../../../UI/forms/MyRestaurants/MyRestaurantsForm
 import { Navigate } from "react-router-dom";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 

@@ -27,11 +27,14 @@ export const deleteDish = (req, res) => __awaiter(void 0, void 0, void 0, functi
     });
     if (!dish)
         return baseErrResponse(res, 404, "Dish not found");
-    let i = 0;
-    do {
-        yield deleteCloud(dish.images[i].public_id);
-        i++;
-    } while (i < dish.images.length);
+    try {
+        let i = 0;
+        do {
+            yield deleteCloud(dish.images[i].public_id);
+            i++;
+        } while (i < dish.images.length);
+    }
+    catch (_a) { }
     const result = yield Dish.findOneAndDelete({
         _id: makeMongoId(dishId),
         restaurant: dish.restaurant,
@@ -84,7 +87,10 @@ export const bulkDelete = (req, res) => __awaiter(void 0, void 0, void 0, functi
         .map((dishesByRest) => dishesByRest.dishes.map((dish) => dish.images.map((img) => img.public_id)))
         .flat(Infinity);
     const promisesDishesImages = publicIdImgs.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(el); }));
-    yield Promise.all(promisesDishesImages);
+    try {
+        yield Promise.all(promisesDishesImages);
+    }
+    catch (_a) { }
     let i = 0;
     do {
         const promises = result[i].dishes.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield Dish.findByIdAndDelete(el._id); }));
@@ -138,7 +144,10 @@ export const deleteQueriesResults = (req, res) => __awaiter(void 0, void 0, void
         .map((obj) => obj.dishes.map((dish) => dish.images.map((img) => img.public_id)))
         .flat(Infinity);
     const promisesCloud = publicIdImages.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(el); }));
-    yield Promise.all(promisesCloud);
+    try {
+        yield Promise.all(promisesCloud);
+    }
+    catch (_a) { }
     const promises = result.map((obj) => __awaiter(void 0, void 0, void 0, function* () {
         const idsDishes = obj.dishes.map((el) => el._id);
         yield Dish.deleteMany({ _id: { $in: idsDishes } });

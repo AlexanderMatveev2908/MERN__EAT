@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ShowToastType } from "../../../../../../../types/allTypes/toastTypes";
 import { handleErrManageUserType } from "../../../../useManageAccount";
 import { SetChildLoadingType } from "../../ManageAccountForms";
-import { useChangeVisibilityPwd } from "../../../../../../../core/hooks/useChangeVisibilityPwd";
+import { useChangeVisibilityPwd } from "../../../../../../../core/hooks/auth/useChangeVisibilityPwd";
 import { changeOldPwdAPI } from "../../../../../../../core/api/api";
 import { ErrFoodApp } from "../../../../../../../types/allTypes/API";
 

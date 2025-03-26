@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { PopupPayloadSetter } from "../../types/types";
-import { deleteRestaurantAPI } from "../api/api";
-import { usePopup, useToast } from "./useGlobal";
-import { useHandleErr } from "./useHandleErr";
+import { PopupPayloadSetter } from "../../../types/types";
+import { deleteRestaurantAPI } from "../../api/api";
+import { usePopup, useToast } from ".././useGlobal";
+import { useHandleErr } from ".././useHandleErr";
 import { useMutation } from "@tanstack/react-query";
-import { ErrFoodApp } from "../../types/allTypes/API";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 export const useDeleteRestaurant = () => {
   const { popup, setPopup } = usePopup();

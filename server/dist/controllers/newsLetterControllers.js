@@ -29,7 +29,6 @@ export const toggleUserNewsLetter = (req, res) => __awaiter(void 0, void 0, void
     return res.status(200).json({
         msg: "User toggled to newsletter",
         success: true,
-        user: updatedUser,
     });
 });
 export const subscribeNonLoggedUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

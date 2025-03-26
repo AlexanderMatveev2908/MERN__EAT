@@ -4,7 +4,7 @@ import DropHandlerIcon from "../../../../UI/components/DropHandlerIcon";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { makeLinksMyRestPage } from "../../../../core/config/fieldsArr/fields";
 import { useFormsCustom } from "../../../../core/hooks/useGlobal";
-import { useDeleteRestaurant } from "../../../../core/hooks/useDeleteRestaurant";
+import { useDeleteRestaurant } from "../../../../core/hooks/myRestaurants/useDeleteRestaurant";
 
 type PropsType = {
   restId: string | undefined;

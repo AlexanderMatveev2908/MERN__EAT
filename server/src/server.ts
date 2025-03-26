@@ -35,7 +35,10 @@ const start = async () => {
       console.log(`=> server listening on ${port}...`)
     );
   } catch (err: any) {
-    console.log(err);
+    console.log({
+      msg: err.message,
+      stack: err.stack,
+    });
   }
 };
 

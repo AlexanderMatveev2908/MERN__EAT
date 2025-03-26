@@ -3,7 +3,7 @@ import { useUserProfile } from "./hooks/useUserProfile";
 import ButtonsForm from "./components/ButtonsForm";
 import FormUserProfile from "./components/FormUserProfile";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 
 const UserProfile: FC = () => {
   useScrollTop();

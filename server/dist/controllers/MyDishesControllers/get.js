@@ -22,7 +22,7 @@ import User from "../../models/User.js";
 import mongoose from "mongoose";
 import { makeQueryMyDishes } from "../../utils/makeQueries/myDishes.js";
 import Restaurant from "../../models/Restaurant.js";
-import { calcPagination } from "../../utils/calcPagination.js";
+import { calcPagination } from "../../utils/makeQueries/calcPagination.js";
 import Dish from "../../models/Dish.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";

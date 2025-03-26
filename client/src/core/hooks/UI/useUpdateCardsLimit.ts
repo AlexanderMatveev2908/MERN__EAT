@@ -1,6 +1,6 @@
 import { SetStateAction, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { REG_P_SEARCH, REG_P_DISHES_USER } from "../config/constants/regex";
+import { REG_P_SEARCH, REG_P_DISHES_USER } from "../../config/constants/regex";
 
 export const useUpdateCardsLimit = (
   limit: number,

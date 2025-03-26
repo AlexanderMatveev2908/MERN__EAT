@@ -1,4 +1,4 @@
-const makeQueryRange_v_2 = (queryObj, vals, rangeName, limit) => {
+const makeQueryRange_v_2 = (queryObj, vals, keyName, limit) => {
     var _a;
     const ranges = vals.split(",");
     let i = 0;
@@ -8,10 +8,10 @@ const makeQueryRange_v_2 = (queryObj, vals, rangeName, limit) => {
             continue;
         const conditions = [];
         if (max === limit)
-            conditions.push({ [`restaurant.${rangeName}`]: { $gte: min } });
+            conditions.push({ [`${keyName}`]: { $gte: min } });
         else
             conditions.push({
-                [`restaurant.${rangeName}`]: { $gte: min, $lte: max },
+                [`${keyName}`]: { $gte: min, $lte: max },
             });
         if ((_a = queryObj === null || queryObj === void 0 ? void 0 : queryObj.$and) === null || _a === void 0 ? void 0 : _a.length)
             queryObj.$and.push(...conditions);
@@ -41,8 +41,21 @@ export const makeQuerySearchAllUsers = (req) => {
             $in: categories === null || categories === void 0 ? void 0 : categories.split(","),
         };
     if (avgPriceRange)
-        makeQueryRange_v_2(queryObj, avgPriceRange, "avgPrice", 100);
+        makeQueryRange_v_2(queryObj, avgPriceRange, "restaurant.avgPrice", 100);
     if (avgPriceRange)
-        makeQueryRange_v_2(queryObj, avgRatingRange, "avgRating", 5);
+        makeQueryRange_v_2(queryObj, avgRatingRange, "restaurant.avgRating", 5);
+    return Object.keys(queryObj).length ? queryObj : null;
+};
+export const makeQuerySearchDishes = (req) => {
+    const { minPrice, maxPrice, minQuantity, maxQuantity } = req.query;
+    const queryObj = {};
+    const numericFilters = [
+        minPrice ? { "dishes.price": { $gte: +minPrice } } : null,
+        maxPrice ? { "dishes.price": { $lte: +maxPrice } } : null,
+        minQuantity ? { "dishes.quantity": { $gte: +minQuantity } } : null,
+        maxQuantity ? { "dishes.quantity": { $lte: +maxQuantity } } : null,
+    ].filter((el) => !!el);
+    if (numericFilters.length)
+        queryObj["$and"] = numericFilters;
     return Object.keys(queryObj).length ? queryObj : null;
 };

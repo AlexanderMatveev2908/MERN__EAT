@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useGetRestaurantsIds } from "../../../core/hooks/useGetRestaurantsIds";
+import { useGetRestaurantsIds } from "../../../core/hooks/myRestaurants/useGetRestaurantsIds";
 import {
   useFormsCustom,
   usePopup,

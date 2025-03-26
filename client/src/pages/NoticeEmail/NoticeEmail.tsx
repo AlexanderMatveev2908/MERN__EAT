@@ -2,7 +2,7 @@ import { CircleCheckBig } from "lucide-react";
 import { FC } from "react";
 import { Navigate } from "react-router-dom";
 import { useNoticeEmail } from "./useNoticeEmail";
-import { useScrollTop } from "../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../core/hooks/UI/useScrollTop";
 
 const NoticeEmail: FC = () => {
   useScrollTop();
