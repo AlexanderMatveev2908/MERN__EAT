@@ -8,6 +8,10 @@
   animation: toast_out 0.3s ease-in forwards;
 }
 
+.toast__no {
+  @apply translate-x-[120%] opacity-0;
+}
+
 @keyframes toast_in {
   0% {
     transform: translateX(120%);
