@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import Cart from "../models/Cart.js";
 import Restaurant from "../models/Restaurant.js";
 import User from "../models/User.js";
 export const updateRest = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -19,6 +20,14 @@ export const updateRest = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 export const makeCart = () => __awaiter(void 0, void 0, void 0, function* () {
     yield User.updateMany({}, { $set: { cart: null } });
+    const carts = yield Cart.find({});
+    if (!(carts === null || carts === void 0 ? void 0 : carts.length))
+        return;
+    let i = 0;
+    do {
+        yield Cart.findByIdAndDelete(carts[i]._id);
+        i++;
+    } while (i < carts.length);
 });
 export const clearDishes = () => __awaiter(void 0, void 0, void 0, function* () {
     yield Restaurant.updateMany({}, { $set: { dishes: [] } });

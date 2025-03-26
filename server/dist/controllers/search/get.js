@@ -31,7 +31,6 @@ export const getRestaurantsSearchAllUsers = (req, res) => __awaiter(void 0, void
             restaurants: [],
             nHits: 0,
         });
-    console.log(sorter);
     // IMPORTANT => THERE IS ABSOLUTE NO NEED TO UNWIND DOCUMENTS, I DID IT ONLY TO COMPLICATE STUFF SO I CAN EXERCISE WITH DIFFERENT SITUATIONS IN WHICH I CAN FIND MYSELF DURING AGGREGATIONS
     const result = yield Restaurant.aggregate([
         //  parent document is Rest, we watch for all children refs, i do not know if i can use terms parent and children in this context but for me make s sense

@@ -34,5 +34,5 @@ router.use("/my-dishes", verifyAccessToken, routerMyDishes);
 router.use("/search", searchRouter);
 router.use("/my-cart", cartRouter);
 if (isDev)
-    router.use("/api/v1/proxy", asyncWrapper(proxyRouter));
+    router.use("/proxy", asyncWrapper(proxyRouter));
 export default router;
