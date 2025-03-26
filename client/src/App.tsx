@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import NoticeEmail from "./pages/NoticeEmail/NoticeEmail";
@@ -29,9 +29,24 @@ import UpdateDish from "./pages/MyDishesLayout/UpdateDish/UpdateDish";
 import LayoutSearchRoute from "./UI/layouts/LayoutSearchRoute";
 import SearchRestAllUsers from "./pages/SearchLayout/SearchRestAllUsers/SearchRestAllUsers";
 import SearchRestPage from "./pages/SearchLayout/SearchRestPage/SearchRestPage";
+import Notice from "./pages/Notice/Notice";
+import { useInfoPop } from "./core/hooks/useGlobal";
 
 const App: FC = () => {
   useApp();
+
+  const { infoPop, setInfoPop } = useInfoPop();
+
+  useEffect(() => {
+    setInfoPop({
+      msg: "Basic msg",
+      confirmActMsg: "I love hamburgers",
+      cancelActMsg: "I prefer pizza",
+      confirmActCb: () => console.log("🍔🍔🍔🍔🍔🍔🍔🍔"),
+      cancelActCb: () => console.log("🍕🍕🍕🍕🍕🍕"),
+      isPending: false,
+    });
+  }, [setInfoPop]);
 
   return (
     <Routes>
@@ -54,6 +69,8 @@ const App: FC = () => {
         <Route path="verify-new-email" element={<VerifyUser />} />
 
         <Route path="notice-email" element={<NoticeEmail />} />
+
+        <Route path="notice" element={<Notice />} />
 
         <Route path="newsletter" element={<LayoutNewsLetterRoute />}>
           <Route

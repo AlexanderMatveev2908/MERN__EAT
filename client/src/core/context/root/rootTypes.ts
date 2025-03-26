@@ -22,6 +22,8 @@ import {
   SearchFormType,
 } from "../../../types/allTypes/search";
 import { CartState, CartVals } from "../../../types/allTypes/cart";
+import { NoticeVals } from "../hooks/useNoticeVals";
+import { InfoPopVals } from "../hooks/useInfoPopVals";
 
 export type RootStateType = {
   toastState: ToastStateType;
@@ -56,4 +58,6 @@ export type RootValsType = {
   sideState: SideVals;
   formsState: FormsCtxType;
   cartState: CartVals;
+  noticeState: NoticeVals;
+  infoPopState: InfoPopVals;
 };

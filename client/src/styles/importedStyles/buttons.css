@@ -29,9 +29,16 @@
 .btn__with_shadow_container__shadow {
   @apply transition-all duration-300;
 }
-.btn__with_shadow_container {
-  @apply relative min-w-full w-fit h-fit cursor-pointer disabled:opacity-50;
+.btn__with_shadow_container:not(:disabled) {
+  cursor: pointer;
 }
+.btn__with_shadow_container {
+  @apply relative min-w-full w-fit h-fit disabled:opacity-50;
+}
+.btn__with_shadow_container:disabled span {
+  @apply text-white;
+}
+
 .btn__with_shadow_container__content,
 .btn__with_shadow_container__shadow {
   @apply min-w-full min-h-full border-2 rounded-xl transition-all duration-300;

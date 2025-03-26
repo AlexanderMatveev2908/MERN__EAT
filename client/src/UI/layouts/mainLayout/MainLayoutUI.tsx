@@ -6,6 +6,7 @@ import Toast from "../../common/Toast/Toast";
 import Footer from "../../common/Footer/Footer";
 import Sidebar from "../../common/Sidebar/Sidebar";
 import Hero from "../../common/Hero";
+import InfoPop from "../../common/InfoPop";
 
 type PropsType = {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ const MainLayoutUI: FC<PropsType> = ({ children }) => {
       <Sidebar />
 
       <Popup />
+      <InfoPop />
 
       <Toast />
 

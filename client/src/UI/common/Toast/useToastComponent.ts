@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useToast } from "../../../core/hooks/useGlobal";
 
 export const useToastComponent = () => {
@@ -12,8 +12,8 @@ export const useToastComponent = () => {
     closeToast,
     toastClicked,
     setToastClicked,
-    wasToast,
-    setWasToast,
+    // wasToast,
+    // setWasToast,
   } = useToast();
 
   useEffect(() => {

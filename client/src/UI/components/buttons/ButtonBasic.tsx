@@ -31,15 +31,15 @@ const ButtonBasic: FC<PropsType> = ({
     >
       <div
         className={`${
-          styleBtn ?? "group-hover:text-orange-500"
+          styleBtn ?? "group-hover:text-orange-500 border-orange-500"
         } btn__with_shadow_container__content`}
       >
-        <span className={`${styleTxt} content__txt`}>{label}</span>
+        <span className={`${styleTxt}`}>{label}</span>
       </div>
 
       <span
         className={`${
-          styleBtn ?? "group-hover:text-orange-500"
+          styleBtn ?? "border-orange-500"
         } btn__with_shadow_container__shadow`}
       ></span>
     </button>
