@@ -22,29 +22,9 @@ body {
 IMPORTANT: for some practical reasons i chose using snake case instead of kebab case in css naming, but only because i am working just myself on this project, if i would have been in a team i would been followed conventions of css of those one established by team  
 */
 
-/* BASE */
-
 /* padding page */
 .pad__page {
   @apply px-[5%] sm:px-10;
-}
-
-/* CARDS */
-
-.container__cards {
-  @apply w-full grid grid-cols-1 justify-items-center gap-10 mt-5 items-start;
-}
-
-.container__cards__grid {
-  @apply w-full grid grid-cols-1 justify-items-center gap-10 mt-5 items-start sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))];
-}
-
-.card__el {
-  @apply border-[3px] rounded-xl py-1 pb-5 w-full;
-}
-
-.card__el_grid {
-  @apply border-[3px] rounded-xl py-1 pb-5 w-full max-w-[350px];
 }
 
 .notice {
@@ -61,10 +41,6 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-.container__disable_inputs input {
-  @apply pointer-events-none;
 }
 
 .mini_spinner {

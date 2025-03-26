@@ -26,6 +26,28 @@
   @apply transition-all duration-300;
 }
 
+/* CARDS */
+
+.container__disable_inputs input {
+  @apply pointer-events-none;
+}
+
+.container__cards {
+  @apply w-full grid grid-cols-1 justify-items-center gap-10 mt-5 items-start;
+}
+
+.container__cards__grid {
+  @apply w-full grid grid-cols-1 justify-items-center gap-10 mt-5 items-start sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))];
+}
+
+.card__el {
+  @apply border-[3px] rounded-xl py-1 pb-5 w-full;
+}
+
+.card__el_grid {
+  @apply border-[3px] rounded-xl py-1 pb-5 w-full max-w-[350px];
+}
+
 /* input */
 
 .input__base {

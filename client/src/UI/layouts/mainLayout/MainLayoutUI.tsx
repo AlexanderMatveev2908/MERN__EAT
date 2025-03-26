@@ -26,7 +26,7 @@ const MainLayoutUI: FC<PropsType> = ({ children }) => {
       <Toast />
 
       {location.pathname === "/" && <Hero />}
-      <div className="flex flex-col items-center w-full pad__page py-5 pb-[150px] sm:pb-[200px] lg:pb-[300px] relative">
+      <div className="flex flex-col items-center w-full pad__page py-5 pb-[150px] sm:pb-[200px] relative">
         {children}
       </div>
       <Footer />
