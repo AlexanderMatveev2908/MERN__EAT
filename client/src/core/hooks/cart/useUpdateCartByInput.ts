@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { CartItem } from "../../../types/allTypes/cart";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { updateQtyInputAPI } from "../../api/APICalls/cart";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "../useGlobal";
@@ -12,6 +12,8 @@ type FormQtyType = {
 };
 
 export const useUpdateCartByInput = ({ dish }: { dish: CartItem }) => {
+  const isMutating = useRef(false);
+
   const queryClient = useQueryClient();
 
   const { showToastMsg } = useToast();
@@ -56,9 +58,15 @@ export const useUpdateCartByInput = ({ dish }: { dish: CartItem }) => {
       handleErrAPI({ err });
       setValue("quantity", (dish as CartItem)?.quantity + "");
     },
+    onSettled: () => (isMutating.current = false),
   });
 
-  const changeQtyInput = handleSubmit((data) => mutateInputQty(data.quantity));
+  const changeQtyInput = handleSubmit((data) => {
+    if (isMutating.current) return;
+
+    isMutating.current = true;
+    mutateInputQty(data.quantity);
+  });
 
   return {
     register,
