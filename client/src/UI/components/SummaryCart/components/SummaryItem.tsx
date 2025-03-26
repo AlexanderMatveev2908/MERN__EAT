@@ -8,18 +8,30 @@ import { useUpdateCart } from "../../../../core/hooks/cart/useUpdateCart";
 import MiniSpinner from "../../loaders/MiniSpinner";
 import { fieldUpdateQty } from "../../../../core/config/fieldsArr/allFields/cart/update";
 import { useUpdateCartByInput } from "../../../../core/hooks/cart/useUpdateCartByInput";
+import { useMutation } from "@tanstack/react-query";
+import { getDishInfoQtyInputAPI } from "../../../../core/api/api";
+import { useHandleErr } from "../../../../core/hooks/useHandleErr";
+import { ErrFoodApp } from "../../../../types/allTypes/API";
 
 type PropsType = {
   item: CartItem;
 };
 
 const SummaryItem: FC<PropsType> = ({ item }) => {
+  const { handleErrAPI } = useHandleErr();
   const { handleClickCart, isPending } = useUpdateCart({
     dish: item,
   });
-
   const { register, errors, isPendingInputQTy, changeQtyInput } =
     useUpdateCartByInput({ dish: item });
+
+  const { data, mutate } = useMutation({
+    mutationFn: () => getDishInfoQtyInputAPI({ dishId: item.dishId }),
+    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
+  });
+
+  const handleFocus = () => mutate();
+  console.log(data);
 
   return (
     <li className="w-full grid gap-y-1 items-center md:grid-cols-2 gap-10">
@@ -40,8 +52,13 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
               value: fieldUpdateQty.reg,
               message: fieldUpdateQty.msg,
             },
+            validate: (val: string) =>
+              +val > (data?.dish?.quantity ?? 0)
+                ? "Quantity not available"
+                : true,
           })}
-          onBlur={() => changeQtyInput()}
+          onBlur={() => (errors?.quantity?.message ? null : changeQtyInput)}
+          onFocus={handleFocus}
         />
       </form>
 

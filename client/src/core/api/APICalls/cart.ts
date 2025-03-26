@@ -1,5 +1,5 @@
 import { CartType } from "../../../types/allTypes/cart";
-import { ReturnAPIBasic } from "../../../types/types";
+import { DishType, ReturnAPIBasic } from "../../../types/types";
 import { destructureDataAPI } from "../../../utils/allUtils/apiUtils";
 import { foodAppInstance } from "../../config/constants/axiosInstance";
 
@@ -55,4 +55,13 @@ export const updateQtyByIntAPI = async ({
 }): Promise<ReturnAPIBasic> =>
   destructureDataAPI(() =>
     foodAppInstance.put(`/my-cart/put-int?dishId=${dishId}`, { quantity })
+  );
+
+export const getDishInfoQtyInputAPI = async ({
+  dishId,
+}: {
+  dishId: string;
+}): Promise<ReturnAPIBasic & { dish: DishType }> =>
+  destructureDataAPI(() =>
+    foodAppInstance.get(`/my-cart/dish-info?dishId=${dishId}`)
   );
