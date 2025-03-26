@@ -7,7 +7,7 @@ export const getCartUserAPI = async (): Promise<
   ReturnAPIBasic & { cart: CartType }
 > => destructureDataAPI(() => foodAppInstance.get("/my-cart"));
 
-export type ActionAPICart = "inc" | "dec" | "del-item" | "del-cart";
+export type ActionAPICart = "inc" | "dec" | "del-item";
 
 export const incQtyAPI = async ({
   dishId,
@@ -44,4 +44,15 @@ export const updateQtyInputAPI = async ({
 }): Promise<ReturnAPIBasic> =>
   destructureDataAPI(() =>
     foodAppInstance.put(`/my-cart/put-input?dishId=${dishId}`, { quantity })
+  );
+
+export const updateQtyByIntAPI = async ({
+  dishId,
+  quantity,
+}: {
+  dishId: string;
+  quantity: number;
+}): Promise<ReturnAPIBasic> =>
+  destructureDataAPI(() =>
+    foodAppInstance.put(`/my-cart/put-int?dishId=${dishId}`, { quantity })
   );

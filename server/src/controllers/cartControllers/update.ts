@@ -217,3 +217,67 @@ export const updateQtyByInput = async (
 
   return res.status(200).json({ success: true, msg: "Cart updated" });
 };
+
+export const updateQtyIntervalFormFront = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+  const { quantity } = req.body;
+
+  if (!REG_QTY.test(quantity)) return badRequest(res);
+
+  const { cart, dish, restaurant, ok } = await getDataRequest(req, res);
+  if (!ok) return;
+
+  if (!dish.quantity) return badRequest(res);
+
+  let newCart;
+
+  if (cart) {
+    const existingItem = cart.items.find(
+      (el: CartItem) => el.dishId + "" === dish._id
+    );
+    // instead of sending 400 i send 200 but i put just as much as there is avl
+    if (existingItem) {
+      cart.items = cart.items.map((el: CartItem) =>
+        el.dishId + "" === existingItem.dishId + ""
+          ? {
+              ...el,
+              quantity: dish.quantity < quantity ? dish.quantity : quantity,
+            }
+          : el
+      );
+    } else {
+      cart.items = [
+        ...cart.items,
+        {
+          dishId: dish._id,
+          name: dish.name,
+          price: dish.price,
+          quantity,
+        },
+      ];
+    }
+  } else {
+    newCart = await Cart.create({
+      user: userId,
+      restaurant: restaurant._id,
+      items: [
+        {
+          dishId: dish._id,
+          name: dish.name,
+          price: dish.price,
+          quantity: dish.quantity < quantity ? dish.quantity : quantity,
+        },
+      ],
+    });
+    await User.findByIdAndUpdate(userId, {
+      cart: newCart,
+    });
+  }
+
+  if (!newCart) await cart.save();
+
+  return res.status(200).json({ success: false, msg: "Cart updated" });
+};
