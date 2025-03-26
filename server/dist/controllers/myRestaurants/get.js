@@ -12,7 +12,7 @@ import User from "../../models/User.js";
 import mongoose from "mongoose";
 import { makeQueriesMyRestaurants } from "../../utils/makeQueries/myRestaurants.js";
 import Restaurant from "../../models/Restaurant.js";
-import { calcPagination } from "../../utils/calcPagination.js";
+import { calcPagination } from "../../utils/makeQueries/calcPagination.js";
 import { countRatingVars, makeAvgMyRest, makeOrdersStatusFields, makeReviewsCountFields, statusVars, } from "../../utils/dbPipeline/myRestaurants.js";
 import { makeLookUp } from "../../utils/dbPipeline/general.js";
 import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";

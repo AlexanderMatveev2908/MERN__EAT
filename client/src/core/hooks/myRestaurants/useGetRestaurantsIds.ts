@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { getRestaurantIdsAPI } from "../api/APICalls/myDishes";
+import { getRestaurantIdsAPI } from "../../api/APICalls/myDishes";
 import { useCallback, useEffect } from "react";
-import { ErrFoodApp } from "../../types/allTypes/API";
-import { useHandleErr } from "./useHandleErr";
+import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useHandleErr } from "../useHandleErr";
 
 export const useGetRestaurantsIds = () => {
   const { handleErrAPI } = useHandleErr();

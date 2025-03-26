@@ -8,7 +8,6 @@ import {
 import UserEmail from "./components/UserEmail";
 import SideEL from "./components/SideEL";
 import LogoutBtn from "./components/LogoutBtn";
-import { useLogout } from "../../../core/hooks/useLogout";
 import {
   fieldAccountDrop,
   fieldAdminDrop,
@@ -17,6 +16,7 @@ import {
   nonLoggedUserFields,
 } from "../../../core/config/fieldsArr/allFields/dropSideFields";
 import DropInsideSide from "./components/DropInsideSide";
+import { useLogout } from "../../../core/hooks/auth/useLogout";
 
 const Sidebar: FC = () => {
   const { isOpenSide, setIsOpenSide } = useSidebar();

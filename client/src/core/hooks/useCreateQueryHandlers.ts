@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useCallback, useEffect, useState } from "react";
-import { useUpdateCardsLimit } from "./useUpdateCardsLimit";
+import { SetStateAction, useCallback, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { UseFormReturn } from "react-hook-form";
 import { useLocation } from "react-router-dom";
@@ -19,6 +18,25 @@ import {
   REG_P_SEARCH,
   REG_P_DISHES_USER,
 } from "../config/constants/regex";
+import { useUpdateCardsLimit } from "./UI/useUpdateCardsLimit";
+
+type ReturnTypeCreateQueryHandler = {
+  formVals: any;
+  handleSave: () => void;
+  handleClear: () => void;
+  limit: number;
+  propsBlock: {
+    currPage: number;
+    setCurrPage: (val: number) => void;
+  };
+  closeAllDrop: boolean;
+  setCloseAllDrop: React.Dispatch<SetStateAction<boolean>>;
+  data: any;
+  isSuccess: boolean;
+  isPending: boolean;
+  isError: boolean;
+  error: ErrFoodApp;
+};
 
 export const useCreateQueryHandlers = ({
   formCtx,
@@ -30,8 +48,8 @@ export const useCreateQueryHandlers = ({
   key: string;
   cbAPI: (params: URLSearchParams, extra?: string) => Promise<any>;
   cbProcessForm?: (formVals: any) => URLSearchParams;
-}) => {
-  const [currPage, setCurrPage] = useState<number>(1);
+}): ReturnTypeCreateQueryHandler => {
+  const [currPage, setCurrPageBeforeCb] = useState<number>(1);
   const [limit, setLimit] = useState(5);
   const [closeAllDrop, setCloseAllDrop] = useState(false);
 
@@ -61,7 +79,7 @@ export const useCreateQueryHandlers = ({
   const handleClear = () => {
     sessionStorage.removeItem(key);
     reset(defaultValues);
-    setCurrPage(1);
+    setCurrPageBeforeCb(1);
     trigger();
     queryClient.resetQueries({ queryKey: [key] });
   };
@@ -85,14 +103,34 @@ export const useCreateQueryHandlers = ({
       handleErrAPI({ err: error as ErrFoodApp });
     }
     if (isSuccess) {
-      console.log(data);
-      if (data?.nHits < limit) setCurrPage(1);
+      if (data?.nHits < limit) setCurrPageBeforeCb(1);
     }
-  }, [isError, isSuccess, error, handleErrAPI, data, limit, setCurrPage]);
+  }, [
+    isError,
+    isSuccess,
+    error,
+    handleErrAPI,
+    data,
+    limit,
+    setCurrPageBeforeCb,
+  ]);
 
   useEffect(() => {
     handleSideEffects();
   }, [handleSideEffects]);
+
+  const setCurrPage = (val: number) => {
+    setCloseAllDrop(true);
+    setCurrPageBeforeCb(val);
+
+    const summary = document.getElementById("summaryRestPage");
+    const h = summary?.getBoundingClientRect()?.height;
+
+    window.scrollTo({
+      top: REG_P_DISHES_USER.test(path) ? (h ?? 0) + 800 : 200,
+      behavior: "smooth",
+    });
+  };
 
   return {
     formVals,
@@ -101,15 +139,7 @@ export const useCreateQueryHandlers = ({
     limit,
     propsBlock: {
       currPage,
-      setCurrPage: (val: number) => {
-        setCloseAllDrop(true);
-        setCurrPage(val);
-
-        window.scrollTo({
-          top: REG_P_DISHES_USER.test(path) ? 1000 : 200,
-          behavior: "smooth",
-        });
-      },
+      setCurrPage,
     },
     closeAllDrop,
     setCloseAllDrop,
@@ -118,6 +148,6 @@ export const useCreateQueryHandlers = ({
     isSuccess,
     isPending,
     isError,
-    error,
+    error: error as ErrFoodApp,
   };
 };

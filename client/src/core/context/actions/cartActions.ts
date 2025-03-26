@@ -1,7 +1,10 @@
-export enum CartActions {
+export enum CartActionsLogged {
   SET_CART = "SET_CART",
-  INC_QTY = "ADD_CART",
-  DEC_QTY = "DEQ_QTY",
-  DEL_ITEM = "DEL_ITEM",
-  DEL_CART = "DEL_CART",
+}
+
+export enum CartActionsNonLogged {
+  SET_CART_NON_LOGGED = "SET_CART_NON_LOGGED",
+  INC_QTY_NON_LOGGED = "ADD_CART_NON_LOGGED",
+  DEC_QTY_NON_LOGGED = "DEQ_QTY_NON_LOGGED",
+  DEL_ITEM_NON_LOGGED = "DEL_ITEM_NON_LOGGED",
 }

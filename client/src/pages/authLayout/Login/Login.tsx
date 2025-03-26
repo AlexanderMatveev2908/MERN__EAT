@@ -8,7 +8,7 @@ import {
   emailField,
   pwdFieldToAccess,
 } from "../../../core/config/fieldsArr/allFields/authFieldsUser";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 
 const Login: FC = () => {
   useScrollTop();

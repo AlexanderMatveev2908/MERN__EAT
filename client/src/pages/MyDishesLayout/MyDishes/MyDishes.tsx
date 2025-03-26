@@ -13,7 +13,7 @@ import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import MyDishesItem from "./components/MyDishesItem";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 

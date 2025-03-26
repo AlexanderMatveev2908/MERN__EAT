@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useChangeVisibilityPwd } from "../../../core/hooks/useChangeVisibilityPwd";
+import { useChangeVisibilityPwd } from "../../../core/hooks/auth/useChangeVisibilityPwd";
 import { useToast } from "../../../core/hooks/useGlobal";
 import { registerUserAPI } from "../../../core/api/api";
 import { ErrFoodApp } from "../../../types/allTypes/API";

@@ -4,8 +4,8 @@ import HeaderImgs from "../../../../UI/components/cards/HeaderImgs";
 import HeaderName from "../../../../UI/components/cards/HeaderName";
 import { Link } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
-import { showNumericValsMyDish } from "../../../../core/config/fieldsArr/allFields/MyDishes/show";
 import ButtonsCart from "./components/ButtonsCart";
+import { showNumericValsDishUser } from "../../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 
 type PropsType = {
   dish: DishType;
@@ -36,8 +36,8 @@ const DishItem: FC<PropsType> = ({ dish, isAdmin }) => {
         </div>
 
         <ul className="w-full grid grid-cols-1 gap-4 px-3 pr-6 sm:py-1 self-start">
-          {showNumericValsMyDish(dish.price, dish.quantity).map((el, i) => (
-            <li key={i} className="w-full grid grid-cols-[80px_1fr] first:pt-2">
+          {showNumericValsDishUser(dish.price, dish.quantity).map((el, i) => (
+            <li key={i} className="w-full grid grid-cols-[1fr_50px] first:pt-2">
               <div className="w-full flex gap-5 items-center">
                 <el.icon className="icon__base" />
 

@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FaMoneyBillWave, FaMoneyBillWaveAlt, FaRegStar } from "react-icons/fa";
-import { genID } from "../../../../../utils/utils";
+import {
+  FaDatabase,
+  FaMoneyBillAlt,
+  FaMoneyBillWave,
+  FaMoneyBillWaveAlt,
+  FaRegStar,
+} from "react-icons/fa";
+import { genID, priceFormatter } from "../../../../../utils/utils";
 import {
   categoriesAppFields,
   fieldsUpAndDown,
@@ -133,3 +139,20 @@ export const fieldCoupon = {
   place: "Coupon code...",
   required: false,
 };
+
+export const showNumericValsDishUser = (...params: number[]) =>
+  [
+    {
+      label: "Price",
+      val: priceFormatter({ price: params[0] }),
+      icon: FaMoneyBillAlt,
+    },
+    {
+      label: "Avl quantity",
+      val: params[1],
+      icon: FaDatabase,
+    },
+  ].map((el) => ({
+    ...el,
+    id: genID(),
+  }));

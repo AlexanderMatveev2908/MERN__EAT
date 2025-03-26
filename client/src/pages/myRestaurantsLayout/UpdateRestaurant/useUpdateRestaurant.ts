@@ -14,7 +14,7 @@ import { useToast } from "../../../core/hooks/useGlobal";
 import { prepareFormDataMyRest } from "../../../utils/allUtils/prepareFormData";
 import { formatTimeHmMh } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
-import { useDeleteRestaurant } from "../../../core/hooks/useDeleteRestaurant";
+import { useDeleteRestaurant } from "../../../core/hooks/myRestaurants/useDeleteRestaurant";
 
 export const useUpdateRestaurant = () => {
   const { restId } = useParams();

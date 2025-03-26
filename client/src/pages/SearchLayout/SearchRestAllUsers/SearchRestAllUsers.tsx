@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import {
   searchRestAllUsersFilters,
   searchRestAllUsersSorters,

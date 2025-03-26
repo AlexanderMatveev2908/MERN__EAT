@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useLocation } from "react-router-dom";
-import { myDishesFieldsSearch } from "../config/fieldsArr/allFields/MyDishes/filterSort";
-import { searchRestFieldsSearch } from "../config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
-import { myRestFieldsSearch } from "../config/fieldsArr/fields";
+import { myDishesFieldsSearch } from "../../config/fieldsArr/allFields/MyDishes/filterSort";
+import { searchRestFieldsSearch } from "../../config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
+import { myRestFieldsSearch } from "../../config/fieldsArr/fields";
 import { useEffect, useState } from "react";
-import { tailwindBreak } from "../config/constants/breakpoints";
+import { tailwindBreak } from "../../config/constants/breakpoints";
 import {
   REG_P_DISHES,
   REG_P_MY_REST,
   REG_P_SEARCH,
-} from "../config/constants/regex";
+} from "../../config/constants/regex";
 
 export const getTargetConfig = (path: string) => {
   let target = "";

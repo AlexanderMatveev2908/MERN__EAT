@@ -14,7 +14,7 @@ import {
 } from "../../../core/config/fieldsArr/fields.ts";
 import BasePwdField from "../../../UI/forms/inputFields/BasePwdField";
 import GeneratePwd from "../../../UI/components/GeneratePwd/GeneratePwd";
-import { useScrollTop } from "../../../core/hooks/useScrollTop.ts";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop.ts";
 
 const Register: FC = () => {
   useScrollTop();

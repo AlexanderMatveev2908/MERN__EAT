@@ -4,7 +4,7 @@ import { useSendEmail } from "./hooks/useSendEmail";
 import BaseFormField from "../../../UI/forms/inputFields/BaseFormField";
 import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 import { emailField } from "../../../core/config/fieldsArr/fields";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 
 const SendEmail: FC = () => {
   useScrollTop();

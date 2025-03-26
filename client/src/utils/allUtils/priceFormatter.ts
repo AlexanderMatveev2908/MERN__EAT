@@ -1,3 +1,5 @@
+import { CartItem } from "../../types/allTypes/cart";
+
 export const priceFormatter = ({
   price,
   showStr = false,
@@ -14,3 +16,6 @@ export const priceFormatter = ({
 
   return formatted;
 };
+
+export const calcTotPriceItem = (item: CartItem) =>
+  priceFormatter({ price: item.quantity * item.price });

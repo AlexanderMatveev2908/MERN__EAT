@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -18,19 +18,20 @@ import DropElAbsolute from "../../../UI/components/DropElAbsolute";
 import SearchBar from "../../../UI/common/SearchBar/SearchBar";
 import { searchDishesSorters } from "../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { isObjOk } from "../../../utils/allUtils/validateData";
-import { useFormsCustom } from "../../../core/hooks/useGlobal";
+import { useCart, useFormsCustom } from "../../../core/hooks/useGlobal";
 import { useCreateQueryHandlers } from "../../../core/hooks/useCreateQueryHandlers";
 import { FormProvider } from "react-hook-form";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import { createURLParamsMyDishes } from "../../../utils/allUtils/makeURLParams";
 import DishItem from "./components/DishItem";
 import ShowHitsByNumbers from "../../../UI/components/ShowHitsByNumbers";
-import Summary from "./components/Summary";
+import SummaryCart from "../../../UI/components/SummaryCart/SummaryCart";
 
 const SearchRestPage: FC = () => {
   useScrollTop();
 
   const { handleErrAPI } = useHandleErr();
+  const { cart, cartNonLogged } = useCart();
   const { formContextSearchDishesAllUSers: formContext } = useFormsCustom();
 
   const {
@@ -111,9 +112,11 @@ const SearchRestPage: FC = () => {
           <DetailsRestaurantUser {...{ rest, Container: DropElAbsolute }} />
         </div>
 
-        <div className="w-full mt-6">
-          <Summary />
-        </div>
+        {(cart || cartNonLogged) && (
+          <div id="summaryRestPage" className="w-full mt-6">
+            <SummaryCart {...{ rest: dataRest?.restaurant }} />
+          </div>
+        )}
 
         <FormProvider {...formContext}>
           <SearchBar

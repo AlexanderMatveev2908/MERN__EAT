@@ -1,5 +1,25 @@
 import mongoose from "mongoose";
 
+export type CartItem = {
+  dishId: string | mongoose.Types.ObjectId;
+
+  name: string;
+  price: number;
+  quantity: number;
+};
+
+export type CartType = {
+  _id: string | mongoose.Types.ObjectId;
+
+  user: string | mongoose.Types.ObjectId;
+  restaurant: string | mongoose.Types.ObjectId;
+
+  items: CartItem[];
+
+  totQty: number;
+  totPrice: number;
+} | null;
+// for practical reason i will make user can buy from home only from a restaurant cause is simpler to handle right now, in future i will think to update management to allow user order from multiple restaurants, but anyway even i did not used so much platform for ordering online i remember that for most i used does not allow to order 2 dishes from different places but make u make different orders for management reasons about timing and money split
 export const CartItemSchema = {
   dishId: {
     type: mongoose.Types.ObjectId,

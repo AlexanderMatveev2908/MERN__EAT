@@ -6,7 +6,7 @@ import ErrEmoji from "../../../UI/components/ErrEmoji";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import { Navigate } from "react-router-dom";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
-import { useScrollTop } from "../../../core/hooks/useScrollTop";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { ReturnIdsAPI } from "../../../core/api/APICalls/myDishes";
 
