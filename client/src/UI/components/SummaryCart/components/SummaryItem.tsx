@@ -30,7 +30,7 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
         <input
           step="any"
           type="number"
-          className="txt__02 border-orange-500 border-2 outline-none rounded-xl focus__base el__flow px-3 py-[0.1rem] max-w-[100px] md:justify-self-start"
+          className="txt__02 border-orange-500 border-2 outline-none rounded-xl focus__base el__flow px-3 py-[0.1rem] max-w-[100px] md:justify-self-start input__blur"
           {...handlersInputQty.register(fieldUpdateQty.field as any, {
             pattern: {
               value: fieldUpdateQty.reg,
