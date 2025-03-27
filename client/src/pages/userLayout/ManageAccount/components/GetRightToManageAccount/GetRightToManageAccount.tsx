@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { useGetRightToManageAccount } from "./useGetRightToManageAccount";
-import ButtonBasic from "../../../../../UI/components/buttons/ButtonBasic";
 import BasePwdField from "../../../../../UI/forms/inputFields/BasePwdField";
 import { pwdFieldToAccess } from "../../../../../core/config/fieldsArr/fields";
+import ButtonBasic from "../../../../../UI/components/buttons/ButtonBasic";
 
 type PropsType = {
   setCanManageAccount: (val: string | boolean) => void;

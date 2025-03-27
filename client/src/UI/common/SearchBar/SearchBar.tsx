@@ -9,9 +9,9 @@ import {
   SearchFilterType,
   SorterFieldType,
 } from "../../../core/config/fieldsArr/typesFields";
-import ButtonBasic from "../../components/buttons/ButtonBasic";
 import { REG_P_DISHES_USER } from "../../../core/config/constants/regex";
 import { useLocation } from "react-router-dom";
+import ButtonBasic from "../../components/buttons/ButtonBasic";
 
 // export type FormContextSearchBar =
 //   | UseFormReturn<SearchMyDishesFormType>

@@ -1,5 +1,4 @@
 import { FC } from "react";
-import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 import AcceptTerms from "./components/AcceptTerms";
 import BaseFormField from "../../../UI/forms/inputFields/BaseFormField";
 import { useRegisterCustom } from "./useRegisterCustom";
@@ -15,6 +14,7 @@ import {
 import BasePwdField from "../../../UI/forms/inputFields/BasePwdField";
 import GeneratePwd from "../../../UI/components/GeneratePwd/GeneratePwd";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop.ts";
+import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated.tsx";
 
 const Register: FC = () => {
   useScrollTop();

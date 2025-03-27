@@ -2,8 +2,8 @@ import { FC } from "react";
 import { useChangeEmail } from "./useChangeEmail";
 import BaseFormField from "../../../../../../../UI/forms/inputFields/BaseFormField";
 import { PropsForChildren } from "../../ManageAccountForms";
-import ButtonAnimated from "../../../../../../../UI/components/buttons/ButtonAnimated";
 import { changeEmailField } from "../../../../../../../core/config/fieldsArr/fields";
+import ButtonAnimated from "../../../../../../../UI/components/buttons/ButtonAnimated";
 
 const ChangeEmail: FC<Omit<PropsForChildren, "setCanManageAccount">> = ({
   currUser,

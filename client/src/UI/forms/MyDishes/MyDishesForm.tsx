@@ -3,11 +3,11 @@ import { useFieldArray, UseFormReturn } from "react-hook-form";
 import { DishMenuFormType } from "../../../types/types";
 import RestaurantSelect from "./components/components/RestaurantSelect";
 import { ReturnIdsAPI } from "../../../core/api/APICalls/myDishes";
-import ButtonAnimated from "../../components/buttons/ButtonAnimated";
-import ButtonBasic from "../../components/buttons/ButtonBasic";
 import SubForm from "./components/SubForm";
 import { myDishesFormItem } from "../../../core/config/fieldsArr/allFields/MyDishes/makeUpdate";
 import { useLocation } from "react-router-dom";
+import ButtonAnimated from "../../components/buttons/ButtonAnimated";
+import ButtonBasic from "../../components/buttons/ButtonBasic";
 
 type PropsType = {
   formContext: UseFormReturn<DishMenuFormType>;

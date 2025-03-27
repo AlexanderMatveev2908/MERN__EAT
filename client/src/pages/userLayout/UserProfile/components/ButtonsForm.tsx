@@ -1,7 +1,7 @@
 import { FC } from "react";
-import ButtonAnimated from "../../../../UI/components/buttons/ButtonAnimated";
 import ButtonsSwapper from "../../../../UI/components/ButtonsSwapper";
 import { totLenUserDetails } from "../../../../core/config/fieldsArr/fields";
+import ButtonAnimated from "../../../../UI/components/buttons/ButtonAnimated";
 
 type PropsType = {
   isPrevDisabled: boolean;

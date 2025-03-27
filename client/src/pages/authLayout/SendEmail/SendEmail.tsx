@@ -2,9 +2,9 @@ import { FC } from "react";
 import { Navigate } from "react-router-dom";
 import { useSendEmail } from "./hooks/useSendEmail";
 import BaseFormField from "../../../UI/forms/inputFields/BaseFormField";
-import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 import { emailField } from "../../../core/config/fieldsArr/fields";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
+import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 
 const SendEmail: FC = () => {
   useScrollTop();

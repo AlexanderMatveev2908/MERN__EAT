@@ -7,9 +7,9 @@ import CatForm from "./components/CatForm/CatForm";
 import NameRestaurant from "./components/NameRestaurant/NameRestaurant";
 import ImagesRestaurant from "./components/ImagesRestaurant/ImagesRestaurant";
 import Delivery from "./components/Delivery/Delivery";
-import ButtonAnimated from "../../components/buttons/ButtonAnimated";
 import AddressForm from "./components/AddressForm/AddressForm";
 import { useLocation } from "react-router-dom";
+import ButtonAnimated from "../../components/buttons/ButtonAnimated";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
