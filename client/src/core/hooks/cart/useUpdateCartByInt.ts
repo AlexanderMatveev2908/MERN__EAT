@@ -35,6 +35,8 @@ export const useUpdateCartByInt = ({ dish }: { dish: DishType }) => {
   };
 
   const handleAddInt = (cbCheckAvl: (prev: number) => boolean) => {
+    if (!isLogged) return;
+
     handlerUI();
 
     intId.current = setInterval(() => {

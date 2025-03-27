@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  FaClock,
   FaDatabase,
   FaMoneyBillAlt,
   FaMoneyBillWave,
@@ -32,6 +33,18 @@ export const searchRestFieldsSearch: BaseFieldType[] = searchRest.map((el) => ({
 }));
 
 export const searchRestAllUsersFilters = [
+  {
+    field: "openHours",
+    label: "Open hours",
+    subFields: [
+      {
+        id: genID(),
+        field: "openNow",
+        label: "Open now",
+      },
+    ],
+    icon: FaClock,
+  },
   {
     field: "avgRatingRange",
     label: "Avg rating",
@@ -76,6 +89,7 @@ export const defaultValsSearchAllUsers: Omit<SearchFormType, "search"> & {
 } = {
   searchVals: ["name"],
 
+  openHours: [],
   categories: [],
   avgPriceRange: [],
   avgRatingRange: [],

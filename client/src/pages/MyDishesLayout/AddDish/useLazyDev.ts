@@ -66,10 +66,10 @@ export const useLazyDev = ({ setValue, reset }) => {
         restaurant: REG_MONGO.test(restIdSent ?? "") ? restIdSent ?? "" : "",
         items: [
           ...Array.from({ length: 10 }).map((_, i) => ({
-            name: `b_item_${i + 1 + ""}`,
+            name: `a_item_${i + 1 + ""}`,
             price: makeNumPrice(),
             quantity: makeNumQty(),
-            images: [files?.[4]],
+            images: [files?.[2]],
           })),
         ],
       });

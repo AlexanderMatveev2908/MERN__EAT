@@ -34,19 +34,6 @@ import Notice from "./pages/Notice/Notice";
 const App: FC = () => {
   useApp();
 
-  // const { infoPop, setInfoPop } = useInfoPop();
-
-  // useEffect(() => {
-  //   setInfoPop({
-  //     msg: "Basic msg",
-  //     confirmActMsg: "I love hamburgers",
-  //     cancelActMsg: "I prefer pizza",
-  //     confirmActCb: () => console.log("🍔🍔🍔🍔🍔🍔🍔🍔"),
-  //     cancelActCb: () => console.log("🍕🍕🍕🍕🍕🍕"),
-  //     isPending: false,
-  //   });
-  // }, [setInfoPop]);
-
   return (
     <Routes>
       <Route path="/" element={<MainLayoutRoute />}>

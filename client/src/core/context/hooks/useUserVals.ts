@@ -10,7 +10,6 @@ import {
   SET_IS_LOGGED,
 } from "../actions/userActions";
 import { getInitialsName } from "../../../utils/utils";
-import { useQueryClient } from "@tanstack/react-query";
 
 const currentKeysToCleanStorage = [
   "myRestaurantsSearch",
@@ -25,8 +24,6 @@ export const useUserVals = (
   userState: UserStateType,
   dispatch: React.Dispatch<UserActionTypes>
 ) => {
-  const queryClient = useQueryClient();
-
   const logoutUser = useCallback(() => {
     let i = 0;
     do {
@@ -47,11 +44,9 @@ export const useUserVals = (
       } else {
         logoutUser();
       }
-
-      queryClient.resetQueries();
     },
 
-    [dispatch, logoutUser, queryClient]
+    [dispatch, logoutUser]
   );
 
   const setCurrUser = useCallback(

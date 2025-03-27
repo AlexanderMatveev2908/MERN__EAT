@@ -22,7 +22,7 @@ const CheckBox: FC<PropsType> = ({
 
   return (
     <label
-      className={`w-full flex items-center border-2 rounded-xl py-2 el__flow cursor-pointer ${
+      className={`w-full max-w-[200px] flex justify-self-center justify-center items-center border-2 rounded-xl py-2 el__flow cursor-pointer ${
         isIn ? "scale-105 border-orange-500" : "border-[#222]"
       }`}
     >
