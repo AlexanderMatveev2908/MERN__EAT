@@ -49,34 +49,52 @@ export const makeQuerySearchAllUsers = (req: Request) => {
   }
 
   if (openHours) {
-    // const currTime = 1320;
-    const currTime = new Date().getHours() * 60 + new Date().getMinutes();
+    const currTime = 1260;
+    // const currTime = new Date().getHours() * 60 + new Date().getMinutes();
 
-    queryObj["$or"] = [
-      {
-        // first case simple day of work from morning to evening or night
-        $and: [
-          {
-            "openHours.openTime": { $lte: currTime },
-            "openHours.closeTime": { $gt: currTime },
-          },
-        ],
-      },
-      {
-        //  when restaurant work more during night like opening at 21 and closing at 4 or 6
-        $and: [
-          { "openHours.openTime": { $lte: currTime } },
-          {
-            $or: [
-              { "openHours.closeTime": { $lt: currTime } },
-              {
-                "openHours.closeTime": { $gt: currTime },
+    if (openHours === "openNow")
+      queryObj["$or"] = [
+        {
+          // first case simple day of work from morning to evening or night
+          $and: [
+            { "openHours.openTime": { $lte: currTime } },
+            { "openHours.closeTime": { $gt: currTime } },
+          ],
+        },
+        {
+          $and: [
+            { "openHours.openTime": { $lte: currTime } },
+            {
+              $expr: { $lte: ["$openHours.closeTime", "$openHours.openTime"] },
+            },
+          ],
+        },
+      ];
+
+    if (openHours === "closed") {
+      const queryClosed = [
+        {
+          // first case simple day of work from morning to evening or night
+          $and: [
+            { "openHours.openTime": { $gt: currTime } },
+            { "openHours.closeTime": { $lte: currTime } },
+          ],
+        },
+        {
+          $and: [
+            { "openHours.openTime": { $lt: currTime } },
+            {
+              $expr: {
+                $gt: ["$openHours.closeTime", "$openHours.openTime"],
               },
-            ],
-          },
-        ],
-      },
-    ];
+            },
+          ],
+        },
+      ];
+
+      if (queryObj?.$or) queryObj.$or.push(queryClosed);
+      else queryObj.$or = queryClosed;
+    }
   }
 
   if (categories)
