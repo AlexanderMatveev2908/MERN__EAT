@@ -18,7 +18,6 @@ export const switchCartLogged = async (
   const cart = await Cart.findOne({
     user: makeMongoId(userId ?? ""),
   });
-  if (!cart) return baseErrResponse(res, 404, "Cart not found");
 
   const dish = await Dish.findById(dishId);
   if (!dishId) return baseErrResponse(res, 404, "Dish not found");
@@ -27,9 +26,11 @@ export const switchCartLogged = async (
   const restaurant = await Restaurant.findById(dish.restaurant);
   if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
 
-  const deletedCart = await cart.deleteOne();
-  if (deletedCart.deletedCount !== 1)
-    return baseErrResponse(res, 500, "Error deleting cart");
+  if (cart) {
+    const deletedCart = await cart.deleteOne();
+    if (deletedCart.deletedCount !== 1)
+      return baseErrResponse(res, 500, "Error deleting cart");
+  }
 
   const newCart = await Cart.create({
     user: userId,
