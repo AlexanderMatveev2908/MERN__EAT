@@ -25,10 +25,12 @@ export const useSwitchCartLogged = ({ dish }: { dish: DishType }) => {
 
     onSuccess: () => {
       showToastMsg("Cart replaced", "SUCCESS");
-      queryClient.resetQueries({ queryKey: ["myCart"] });
     },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
-    onSettled: () => setInfoPop(null),
+    onSettled: () => {
+      setInfoPop(null);
+      queryClient.resetQueries({ queryKey: ["myCart"] });
+    },
   });
 
   const handleOpenInfoPop = () => {

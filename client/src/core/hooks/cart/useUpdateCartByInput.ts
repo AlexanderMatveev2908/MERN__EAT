@@ -39,7 +39,6 @@ export const useUpdateCartByInput = ({ dish }: { dish: CartItem }) => {
       updateQtyInputAPI({ dishId: dish.dishId, quantity }),
     onSuccess: () => {
       showToastMsg("Cart updated", "SUCCESS");
-      queryClient.resetQueries({ queryKey: ["myCart"] });
 
       const inputsBlur = document.querySelectorAll(".input__blur");
       if (inputsBlur?.length) {
@@ -57,7 +56,10 @@ export const useUpdateCartByInput = ({ dish }: { dish: CartItem }) => {
       handleErrAPI({ err });
       setValue("quantity", (dish as CartItem)?.quantity + "");
     },
-    onSettled: () => (isMutating.current = false),
+    onSettled: () => {
+      isMutating.current = false;
+      queryClient.resetQueries({ queryKey: ["myCart"] });
+    },
   });
 
   const changeQtyInput = handleSubmit((data) => {

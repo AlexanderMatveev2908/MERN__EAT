@@ -21,11 +21,11 @@ const getDataRequest = async (
   })) as HydratedDocument<CartType>;
 
   const dish = await Dish.findById(dishId);
+  if (!dish) return baseErrResponse(res, 404, "Dish not found");
   const restaurant = await Restaurant.findById(dish.restaurant);
+  if (!restaurant) return baseErrResponse(res, 404, "Rest not found");
 
   // if from frontend come a req about other dish from cart restaurant, then restaurant will not be found and i send 404 that implicit is 400
-  if ([dish, restaurant].some((el) => !el))
-    return baseErrResponse(res, 404, "Not found something");
 
   return {
     cart,
@@ -107,15 +107,14 @@ export const decQtyCart = async (
   const { cart, dish, ok } = await getDataRequest(req, res);
   if (!ok) return;
 
-  if (!cart) return badRequest(res);
+  if (!cart) return baseErrResponse(res, 404, "Cart not found");
 
   let deletedCart;
 
   const existingItem = cart.items.find(
     (el: CartItem) => el.dishId + "" === dish._id + ""
   );
-  if (!existingItem)
-    return baseErrResponse(res, 404, "Dish not found, bad req");
+  if (!existingItem) return baseErrResponse(res, 404, "Dish not found");
 
   if (existingItem.quantity > 1) {
     cart.items = cart.items.map((el: CartItem) =>
@@ -154,7 +153,7 @@ export const delItem = async (
 
   const { cart, dish, ok } = await getDataRequest(req, res);
   if (!ok) return;
-  if (!cart) return badRequest(res);
+  if (!cart) return baseErrResponse(res, 404, "Cart not found");
 
   let deletedCart;
 
@@ -181,7 +180,7 @@ export const delCart = async (
   const cartDeleted = await Cart.findOneAndDelete({
     user: makeMongoId(userId ?? ""),
   });
-  if (!cartDeleted) return baseErrResponse(res, 404, "Cart not found, bad req");
+  if (!cartDeleted) return baseErrResponse(res, 404, "Cart not found");
 
   return res.status(200).json({ msg: "Cart deleted", success: true });
 };
@@ -196,14 +195,14 @@ export const updateQtyByInput = async (
 
   const { cart, dish, ok } = await getDataRequest(req, res);
   if (!ok) return;
-  if (!cart) return badRequest(res);
+  if (!cart) return baseErrResponse(res, 404, "Cart not found");
 
   const existingItem = cart.items.find(
     (el: CartItem) => el.dishId + "" === dish._id + ""
   );
-  if (!existingItem) return badRequest(res);
+  if (!existingItem) return baseErrResponse(res, 404, "Dish not found");
   if (dish.quantity < +quantity)
-    return baseErrResponse(res, 400, "Qty not avl");
+    return baseErrResponse(res, 400, "Dish not available");
 
   cart.items = cart.items.map((el: CartItem) =>
     el.dishId + "" === existingItem.dishId + ""
@@ -231,7 +230,7 @@ export const updateQtyIntervalFormFront = async (
   const { cart, dish, restaurant, ok } = await getDataRequest(req, res);
   if (!ok) return;
 
-  if (!dish.quantity) return badRequest(res);
+  if (!dish.quantity) return baseErrResponse(res, 400, "Dish not available");
 
   let newCart;
 

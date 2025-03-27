@@ -18,11 +18,11 @@ export const switchCartLogged = async (
   const cart = await Cart.findOne({
     user: makeMongoId(userId ?? ""),
   });
-  if (!cart) return badRequest(res);
+  if (!cart) return baseErrResponse(res, 404, "Cart not found");
 
   const dish = await Dish.findById(dishId);
   if (!dishId) return baseErrResponse(res, 404, "Dish not found");
-  if (!dish.quantity) return badRequest(res);
+  if (!dish.quantity) return baseErrResponse(res, 400, "Dish not available");
 
   const restaurant = await Restaurant.findById(dish.restaurant);
   if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
