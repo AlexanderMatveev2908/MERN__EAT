@@ -22,7 +22,7 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
   const { handleClickCart, isPending } = useUpdateCart({
     dish: item,
   });
-  const { register, errors, isPendingInputQTy, changeQtyInput } =
+  const { register, errors, isPendingInputQTy, changeQtyInput, isMutating } =
     useUpdateCartByInput({ dish: item });
 
   const { data, mutate } = useMutation({
@@ -31,7 +31,6 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
   });
 
   const handleFocus = () => mutate();
-  console.log(data);
 
   return (
     <li className="w-full grid gap-y-1 items-center md:grid-cols-2 gap-10">
@@ -57,7 +56,11 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
                 ? "Quantity not available"
                 : true,
           })}
-          onBlur={() => (errors?.quantity?.message ? null : changeQtyInput)}
+          onBlur={() =>
+            errors?.quantity?.message || isMutating.current
+              ? null
+              : changeQtyInput()
+          }
           onFocus={handleFocus}
         />
       </form>

@@ -63,7 +63,6 @@ export const useUpdateCartByInput = ({ dish }: { dish: CartItem }) => {
   });
 
   const changeQtyInput = handleSubmit((data) => {
-    if (isMutating.current) return;
     if (+getValues("quantity") === dish.quantity) return;
 
     isMutating.current = true;
@@ -75,5 +74,6 @@ export const useUpdateCartByInput = ({ dish }: { dish: CartItem }) => {
     errors,
     isPendingInputQTy,
     changeQtyInput,
+    isMutating,
   };
 };

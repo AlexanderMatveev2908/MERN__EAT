@@ -24,7 +24,7 @@ const DropElStatic: FC<PropsType> = ({ el, children }) => {
       /^\/(my-restaurants)\/[a-f0-9]{24}/.test(location.pathname) &&
       window.innerWidth > tailwindBreak.sm
         ? setIsOpen(true)
-        : setIsOpen(false);
+        : null;
 
     updateSize();
 
