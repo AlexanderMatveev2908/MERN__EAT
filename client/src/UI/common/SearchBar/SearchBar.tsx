@@ -78,7 +78,7 @@ const SearchBar: FC<PropsType> = ({
             {...{
               type: "submit",
               label: "Search",
-              styleBtn: "text-green-600",
+              styleBtn: "border-green-600",
               styleTxt: "text-green-600 txt__02",
               handleClick: handleSave,
               isPending,
@@ -91,7 +91,7 @@ const SearchBar: FC<PropsType> = ({
             {...{
               type: "button",
               label: "Clear",
-              styleBtn: "text-red-600",
+              styleBtn: "border-red-600",
               styleTxt: "text-red-600 txt__02",
               handleClick: handleClear,
               isDisabled: isPending,

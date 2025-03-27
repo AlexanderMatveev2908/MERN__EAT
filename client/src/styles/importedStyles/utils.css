@@ -28,10 +28,6 @@
 
 /* CARDS */
 
-.container__disable_inputs input {
-  @apply pointer-events-none;
-}
-
 .container__cards {
   @apply w-full grid grid-cols-1 justify-items-center gap-10 mt-5 items-start;
 }
