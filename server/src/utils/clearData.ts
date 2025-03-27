@@ -24,7 +24,7 @@ export const clearDataDish = async (dish: DishType) => {
 
   if (carts.length) {
     const idsDelete: mongoose.Types.ObjectId[] = [];
-    const idsUpdate: Promise<any>[] = [];
+    const promisesUpdate: Promise<any>[] = [];
 
     for (const cart of carts) {
       if ((cart?.items?.length ?? 0) < 2) {
@@ -33,11 +33,13 @@ export const clearDataDish = async (dish: DishType) => {
         cart.items = cart.items.filter(
           (el: CartItem) => el.dishId + "" !== dish._id + ""
         );
-        idsUpdate.push(Cart.findByIdAndUpdate(cart._id, { items: cart.items }));
+        promisesUpdate.push(
+          Cart.findByIdAndUpdate(cart._id, { items: cart.items })
+        );
       }
     }
 
-    if (idsUpdate) await Promise.all(idsUpdate);
+    if (promisesUpdate) await Promise.all(promisesUpdate);
     if (idsDelete) {
       await User.updateMany({ cart: { $in: idsDelete } }, { cart: null });
       await Cart.deleteMany({ _id: { $in: idsDelete } });
@@ -64,7 +66,7 @@ export const clearData = async (rest: HydratedDocument<RestaurantType>) => {
       .map((cart: CartType) =>
         cart?.items?.map(async (item: CartItem) => {
           const dish = await Dish.findById(item.dishId);
-          await clearDataDish(dish);
+          if (dish) await clearDataDish(dish);
         })
       )
       .flat(Infinity);

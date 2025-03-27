@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SetStateAction } from "react";
 import { SET_IS_TOAST } from "../../core/context/actions/toastActions";
 
@@ -18,8 +19,9 @@ export type ToastValsType = ToastStateType & {
   closeToast: () => void;
   showToastMsg: ShowToastType;
 
-  toastClicked: boolean;
-  setToastClicked: React.Dispatch<SetStateAction<boolean>>;
+  clicked: any;
+  // toastClicked: boolean;
+  // setToastClicked: React.Dispatch<SetStateAction<boolean>>;
   wasToast: boolean;
   setWasToast: React.Dispatch<SetStateAction<boolean>>;
 };
