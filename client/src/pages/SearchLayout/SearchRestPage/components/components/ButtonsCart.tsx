@@ -52,7 +52,7 @@ const ButtonsCart: FC<PropsType> = ({ dish }) => {
         <button
           disabled={!dish.quantity || !isAvl || isSomeoneLoading}
           onMouseDown={() =>
-            cartToCheck?.restaurant !== dish?.restaurant
+            !!cartToCheck && cartToCheck?.restaurant !== dish?.restaurant
               ? handleOpenInfoPop()
               : //  here i pass a validateCb to not overflow wty item avl
                 handleAddInt((prev: number) => prev < dish.quantity)

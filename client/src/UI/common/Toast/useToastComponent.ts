@@ -10,8 +10,9 @@ export const useToastComponent = () => {
     msg,
     type,
     closeToast,
-    toastClicked,
-    setToastClicked,
+    // toastClicked,
+    // setToastClicked,
+    clicked,
     // wasToast,
     // setWasToast,
   } = useToast();
@@ -39,7 +40,8 @@ export const useToastComponent = () => {
 
           timerRef.current = setTimeout(() => {
             // make it clocked so animation out will run in next rerender going in else condition
-            setToastClicked(true);
+            // setToastClicked(true);
+            clicked.current = true;
             closeToast();
             timerRef.current = null;
           }, 5000);
@@ -47,7 +49,7 @@ export const useToastComponent = () => {
           // if present in animation remove
           toast.classList.remove("toast__active_in");
 
-          if (toastClicked) {
+          if (clicked.current) {
             // if clicked run out a animation else just set default translation out of document view
             toast.classList.remove("toast__no");
             requestAnimationFrame(() => {
@@ -61,7 +63,7 @@ export const useToastComponent = () => {
     };
 
     handleToastUI();
-  }, [isToast, toastClicked, closeToast, setToastClicked]);
+  }, [isToast, closeToast, clicked]);
 
   return {
     isToast,
@@ -69,6 +71,6 @@ export const useToastComponent = () => {
     msg,
     type,
     closeToast,
-    setToastClicked,
+    clicked,
   };
 };

@@ -3,8 +3,7 @@ import { CircleCheck, CircleX, X } from "lucide-react";
 import { useToastComponent } from "./useToastComponent";
 
 const Toast: FC = () => {
-  const { afterRef, msg, type, closeToast, setToastClicked } =
-    useToastComponent();
+  const { afterRef, msg, type, closeToast, clicked } = useToastComponent();
 
   return (
     <div
@@ -44,7 +43,8 @@ const Toast: FC = () => {
 
         <div
           onClick={() => {
-            setToastClicked(true);
+            // setToastClicked(true);
+            clicked.current = true;
             closeToast();
           }}
           className="absolute right-5 top-3 "

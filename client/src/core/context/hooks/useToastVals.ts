@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useCallback, useRef, useState } from "react";
 import {
   ToastActionTypes,
   ToastStateType,
@@ -9,10 +10,13 @@ export const useToastVals = (
   toastState: ToastStateType,
   dispatch: React.Dispatch<ToastActionTypes>
 ) => {
-  const [toastClicked, setToastClicked] = useState(false);
-  const [wasToast, setWasToast] = useState(false);
+  // const [toastClicked, setToastClicked] = useState(false);
+  const clicked = useRef<boolean>(false);
+  const wasToast = useRef<boolean>(false);
+  // const [wasToast, setWasToast] = useState(false);
   const closeToast = () => {
-    setWasToast(false);
+    // setWasToast(false);
+    wasToast.current = false;
     dispatch({ type: SET_IS_TOAST, payload: { isToast: false } });
   };
 
@@ -23,7 +27,8 @@ export const useToastVals = (
       //   dispatch({ type: SET_IS_TOAST, payload: { isToast: false } });
       // }
 
-      setToastClicked(false);
+      // setToastClicked(false);
+      clicked.current = false;
 
       //  need to make it false so i can restart animation from 0
       if (wasToast) {
@@ -38,7 +43,8 @@ export const useToastVals = (
         }, 100);
       } else {
         // make it true as in past was true from point of view of next call of toast
-        setWasToast(true);
+        // setWasToast(true);
+        (wasToast as any).current = true;
         dispatch({
           type: SET_IS_TOAST,
           payload: { isToast: true, msg, type },
@@ -52,10 +58,11 @@ export const useToastVals = (
     closeToast,
     showToastMsg,
 
-    toastClicked,
-    setToastClicked,
+    // toastClicked,
+    // setToastClicked,
+    clicked,
     wasToast,
-    setWasToast,
+    // setWasToast,
 
     ...toastState,
   };
