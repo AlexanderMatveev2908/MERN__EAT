@@ -29,7 +29,7 @@ const makeQueryRange_v_2 = (
 };
 
 export const makeQuerySearchAllUsers = (req: Request) => {
-  const { categories, avgRatingRange, avgPriceRange } = req.query;
+  const { categories, avgRatingRange, avgPriceRange, openHours } = req.query;
 
   const queryObj: any = {};
 
@@ -46,6 +46,37 @@ export const makeQuerySearchAllUsers = (req: Request) => {
         $options: "i",
       };
     }
+  }
+
+  if (openHours) {
+    // const currTime = 1320;
+    const currTime = new Date().getHours() * 60 + new Date().getMinutes();
+
+    queryObj["$or"] = [
+      {
+        // first case simple day of work from morning to evening or night
+        $and: [
+          {
+            "openHours.openTime": { $lte: currTime },
+            "openHours.closeTime": { $gt: currTime },
+          },
+        ],
+      },
+      {
+        //  when restaurant work more during night like opening at 21 and closing at 4 or 6
+        $and: [
+          { "openHours.openTime": { $lte: currTime } },
+          {
+            $or: [
+              { "openHours.closeTime": { $lt: currTime } },
+              {
+                "openHours.closeTime": { $gt: currTime },
+              },
+            ],
+          },
+        ],
+      },
+    ];
   }
 
   if (categories)

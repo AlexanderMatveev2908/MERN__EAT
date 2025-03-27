@@ -19,7 +19,6 @@ export const useGetCart = () => {
   useEffect(() => {
     if (isError) handleErrAPI({ err: error as ErrFoodApp });
     if (isSuccess) {
-      console.log(data?.cart);
       setCartLogged(data?.cart);
     }
   }, [data, isPending, isError, isSuccess, error, handleErrAPI, setCartLogged]);

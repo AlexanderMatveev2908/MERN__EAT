@@ -177,10 +177,10 @@ export const delCart = async (
 ): Promise<any> => {
   const { userId } = req;
 
-  const cartDeleted = await Cart.findOneAndDelete({
+  await Cart.findOneAndDelete({
     user: makeMongoId(userId ?? ""),
   });
-  if (!cartDeleted) return baseErrResponse(res, 404, "Cart not found");
+  // if (!cartDeleted) return baseErrResponse(res, 404, "Cart not found");
 
   return res.status(200).json({ msg: "Cart deleted", success: true });
 };

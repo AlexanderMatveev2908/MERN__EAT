@@ -6,7 +6,7 @@ export type SearchFormType = {
   categories: string[];
   avgPriceRange: string[];
   avgRatingRange: string[];
-
+  openHours: string[];
   avgRatingSort: ["asc" | "desc"] | [];
   avgPriceSort: ["asc" | "desc"] | [];
   deliveryTimeSort: ["asc" | "desc"] | [];
