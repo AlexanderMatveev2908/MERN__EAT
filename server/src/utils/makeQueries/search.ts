@@ -35,13 +35,13 @@ export const makeQuerySearchAllUsers = (req: Request) => {
 
   for (const key of ["country", "state", "city"]) {
     if (req.query[key])
-      queryObj[`restaurant.address.${key}`] = {
+      queryObj[`address.${key}`] = {
         $regex: `.*${req.query[key]}.*`,
         $options: "i",
       };
 
     if (req.query["name"]) {
-      queryObj[`restaurant.name`] = {
+      queryObj[`name`] = {
         $regex: `.*${req.query["name"]}.*`,
         $options: "i",
       };
@@ -49,24 +49,14 @@ export const makeQuerySearchAllUsers = (req: Request) => {
   }
 
   if (categories)
-    queryObj[`restaurant.categories`] = {
+    queryObj[`categories`] = {
       $in: (categories as string)?.split(","),
     };
 
   if (avgPriceRange)
-    makeQueryRange_v_2(
-      queryObj,
-      avgPriceRange as string,
-      "restaurant.avgPrice",
-      100
-    );
+    makeQueryRange_v_2(queryObj, avgPriceRange as string, "avgPrice", 100);
   if (avgPriceRange)
-    makeQueryRange_v_2(
-      queryObj,
-      avgRatingRange as string,
-      "restaurant.avgRating",
-      5
-    );
+    makeQueryRange_v_2(queryObj, avgRatingRange as string, "avgRating", 5);
 
   return Object.keys(queryObj).length ? queryObj : null;
 };
