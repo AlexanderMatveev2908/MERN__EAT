@@ -49,7 +49,7 @@ export const makeQuerySearchAllUsers = (req: Request) => {
   }
 
   if (openHours) {
-    const currTime = 1260;
+    const currTime = 960;
     // const currTime = new Date().getHours() * 60 + new Date().getMinutes();
 
     if (openHours === "openNow")
@@ -62,6 +62,7 @@ export const makeQuerySearchAllUsers = (req: Request) => {
           ],
         },
         {
+          // shit start today and end tomorrow, it can close before currTime if it close before open time like 22:00 => 6 in the morning and cover 00:00 => 00:00 for 24/7
           $and: [
             { "openHours.openTime": { $lte: currTime } },
             {
@@ -69,12 +70,13 @@ export const makeQuerySearchAllUsers = (req: Request) => {
             },
           ],
         },
+        { $expr: { $eq: ["$openHours.closeTime", "$openHours.openTime"] } },
       ];
 
     if (openHours === "closed") {
       const queryClosed = [
         {
-          // first case simple day of work from morning to evening or night
+          // if it close now we can not get inside bar so it is considered closed instead of last drink
           $and: [
             { "openHours.openTime": { $gt: currTime } },
             { "openHours.closeTime": { $lte: currTime } },
@@ -82,8 +84,9 @@ export const makeQuerySearchAllUsers = (req: Request) => {
         },
         {
           $and: [
-            { "openHours.openTime": { $lt: currTime } },
+            { "openHours.openTime": { $lte: currTime } },
             {
+              // only greater cause equals is used for 24/7
               $expr: {
                 $gt: ["$openHours.closeTime", "$openHours.openTime"],
               },
