@@ -10,15 +10,12 @@ import { fieldUpdateQty } from "../../../../core/config/fieldsArr/allFields/cart
 import { useUpdateCartByInput } from "../../../../core/hooks/cart/useUpdateCartByInput";
 import { useMutation } from "@tanstack/react-query";
 import { getDishInfoQtyInputAPI } from "../../../../core/api/api";
-import { useHandleErr } from "../../../../core/hooks/useHandleErr";
-import { ErrFoodApp } from "../../../../types/allTypes/API";
 
 type PropsType = {
   item: CartItem;
 };
 
 const SummaryItem: FC<PropsType> = ({ item }) => {
-  const { handleErrAPI } = useHandleErr();
   const { handleClickCart, isPending } = useUpdateCart({
     dish: item,
   });
@@ -27,7 +24,6 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
 
   const { data, mutate } = useMutation({
     mutationFn: () => getDishInfoQtyInputAPI({ dishId: item.dishId }),
-    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });
 
   const handleFocus = () => mutate();

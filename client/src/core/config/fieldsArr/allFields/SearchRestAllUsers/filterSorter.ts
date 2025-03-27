@@ -126,6 +126,7 @@ export const defaultValuesSearchDishesAsUser = {
   maxQuantity: "",
 
   priceSort: [],
+  quantitySort: [],
   createdAtSort: [],
   updateAtSort: [],
 };

@@ -83,7 +83,7 @@ const SearchRestPage: FC = () => {
     closeAllDrop,
   } = useCreateQueryHandlers({
     formCtx: formContext,
-    key: "myRestaurantsSearch",
+    key: "searchDishesAsUser",
     cbAPI: (params: URLSearchParams) =>
       getDishesRestAsUser(params, restId ?? ""),
     cbProcessForm: createURLParamsMyDishes,

@@ -37,7 +37,16 @@ export const useUpdateCart = ({ dish }: { dish: DishType | CartItem }) => {
     onSuccess: (data: ReturnAPIBasic) => {
       showToastMsg(data?.msg ?? "", "SUCCESS");
     },
-    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
+    onError: (err: ErrFoodApp) => {
+      if (
+        [400, 404].includes(err?.response?.status ?? 400) &&
+        /^\/(my-cart)\/(del-item)\?dishId=([a-f0-9]{24})$/.test(
+          err?.response?.config?.url ?? ""
+        )
+      )
+        showToastMsg("Item removed from cart", "SUCCESS");
+      else handleErrAPI({ err });
+    },
     onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),
   });
 
