@@ -5,12 +5,12 @@ import { isObjOk } from "../../../utils/allUtils/validateData";
 import SummaryItem from "./components/SummaryItem";
 import ShowCalcCart from "./components/ShowCalcCart";
 import FormFieldNoIcon from "../../forms/inputFields/FormFieldNoIcon";
-import ButtonAnimated from "../buttons/ButtonAnimated";
 import DeleteButton from "../buttons/DeleteButton";
 import { fieldCoupon } from "../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { RestaurantAllUsers } from "../../../types/allTypes/search";
 import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
 import { useDeleteCart } from "../../../core/hooks/cart/useDeleteCart";
+import ButtonAnimated from "../buttons/ButtonAnimated";
 
 type PropsType = {
   rest: RestaurantAllUsers;

@@ -1,11 +1,11 @@
 import { CircleCheckBig } from "lucide-react";
 import { FC } from "react";
-import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 import BaseFormField from "../../../UI/forms/inputFields/BaseFormField";
 import { Navigate } from "react-router-dom";
 import { useNoticeUnSubscribe } from "./useNoticeUnSubscribe";
 import { emailField } from "../../../core/config/fieldsArr/fields";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
+import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 
 const NoticeUnSubscribe: FC = () => {
   useScrollTop();

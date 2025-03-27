@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 import BaseFormField from "../../../UI/forms/inputFields/BaseFormField";
 import { useLoginCustom } from "./useLoginCustom";
 import SwitchForm from "../../../UI/components/SwitchForm";
@@ -9,6 +8,7 @@ import {
   pwdFieldToAccess,
 } from "../../../core/config/fieldsArr/allFields/authFieldsUser";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
+import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 
 const Login: FC = () => {
   useScrollTop();

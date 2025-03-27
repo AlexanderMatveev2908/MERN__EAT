@@ -2,8 +2,8 @@ import { FC } from "react";
 import { REG_EMAIL } from "../../../../../core/config/constants/regex";
 import { CurrUserType } from "../../../../../types/allTypes/userTypes";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";
 import { NewsLetterFormType } from "../useNewsletter";
+import ButtonAnimated from "../../../../components/buttons/ButtonAnimated";
 
 type PropsType = {
   isPending: boolean;

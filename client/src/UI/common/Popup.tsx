@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
 import { FC } from "react";
-import ButtonBasic from "../components/buttons/ButtonBasic";
 import { usePopup } from "../../core/hooks/useGlobal";
+import ButtonBasic from "../components/buttons/ButtonBasic";
 
 const Popup: FC = () => {
   const { setPopup, popup } = usePopup();

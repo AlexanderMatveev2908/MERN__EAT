@@ -7,11 +7,11 @@ import {
   SearchFilterType,
   SorterFieldType,
 } from "../../../core/config/fieldsArr/typesFields";
-import ButtonBasic from "../../components/buttons/ButtonBasic";
 import { useLocation } from "react-router-dom";
 import SearchFieldMultiple from "./components/SearchFieldMultiples";
 import TextFilter_v_2 from "./components/TextFilter_v_2";
 import FiltersSearchBar_v_2 from "./components/Filters/FiltersSearchBar_v_2";
+import ButtonBasic from "../../components/buttons/ButtonBasic";
 
 type PropsType = {
   searchFields: CheckBoxFieldType[];

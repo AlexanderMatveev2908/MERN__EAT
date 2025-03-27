@@ -1,5 +1,4 @@
 import { FC } from "react";
-import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 import { Navigate } from "react-router-dom";
 import { useRecoverPwd } from "./useRecoverPwd";
 import PasswordLength from "../../../UI/forms/inputFields/PasswordLength";
@@ -11,6 +10,7 @@ import {
   pwdFieldToCreate,
 } from "../../../core/config/fieldsArr/fields";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
+import ButtonAnimated from "../../../UI/components/buttons/ButtonAnimated";
 
 const RecoverPwd: FC = () => {
   useScrollTop();

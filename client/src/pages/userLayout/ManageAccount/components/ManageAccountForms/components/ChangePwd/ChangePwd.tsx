@@ -2,7 +2,6 @@ import { FC } from "react";
 import { useChangePwd } from "./useChangePwd";
 import PasswordLength from "../../../../../../../UI/forms/inputFields/PasswordLength";
 import { PropsForChildren } from "../../ManageAccountForms";
-import ButtonAnimated from "../../../../../../../UI/components/buttons/ButtonAnimated";
 import PasswordChecker from "../../../../../../../UI/forms/inputFields/PasswordChecker";
 import BasePwdField from "../../../../../../../UI/forms/inputFields/BasePwdField";
 import GeneratePwd from "../../../../../../../UI/components/GeneratePwd/GeneratePwd";
@@ -10,6 +9,7 @@ import {
   confirmPwdField,
   pwdFieldToChangeOldPwd,
 } from "../../../../../../../core/config/fieldsArr/fields";
+import ButtonAnimated from "../../../../../../../UI/components/buttons/ButtonAnimated";
 
 const ChangePwd: FC<PropsForChildren> = ({
   showToastMsg,
