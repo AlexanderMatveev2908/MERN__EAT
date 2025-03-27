@@ -1,21 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { createDishesAPI } from "../../../core/api/APICalls/myDishes";
-import { useFormsCustom, useToast } from "../../../core/hooks/useGlobal";
+import { useFormsCustom } from "../../../core/hooks/useGlobal";
 import { useFieldArray } from "react-hook-form";
 import { prepareFormDataMyDishes } from "../../../utils/allUtils/prepareFormData";
 import { useNavigate } from "react-router-dom";
 import { useGetRestaurantsIds } from "../../../core/hooks/myRestaurants/useGetRestaurantsIds";
 import { useLazyDev } from "./useLazyDev";
 import { isDev } from "../../../core/config/constants/environment";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 
 export const useAddDish = () => {
-  const { handleErrAPI } = useHandleErr();
   const { formContextMyDishesAddItem: formContext, formContextMyDishesSearch } =
     useFormsCustom();
-  const { showToastMsg } = useToast();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const navigate = useNavigate();
 

@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { useToast, useUser } from "../../../core/hooks/useGlobal";
-import { useHandleErr } from "../../../core/hooks/useHandleErr";
+import { useUser } from "../../../core/hooks/useGlobal";
 import { loginUserAPI } from "../../../core/api/api";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 
 export type LoginFormType = {
   email: string;
@@ -14,8 +14,7 @@ export type LoginFormType = {
 
 export const useLoginCustom = () => {
   const { setUserLogged } = useUser();
-  const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const navigate = useNavigate();
 

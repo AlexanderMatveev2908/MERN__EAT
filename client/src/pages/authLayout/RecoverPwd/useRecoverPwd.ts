@@ -2,12 +2,12 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { useHandleErr } from "../../../core/hooks/useHandleErr";
-import { useToast, useUser } from "../../../core/hooks/useGlobal";
+import { useUser } from "../../../core/hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
 import { useChangeVisibilityPwd } from "../../../core/hooks/auth/useChangeVisibilityPwd";
 import { changeRecoverPwdAPI } from "../../../core/api/api";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 
 type ChangePwdFormType = {
   password: string;
@@ -18,8 +18,7 @@ export const useRecoverPwd = () => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isConfirmPwdVisible, setIsConfirmPwdVisible] = useState(false);
 
-  const { handleErrAPI } = useHandleErr();
-  const { showToastMsg } = useToast();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
   const { setUserLogged } = useUser();
 
   const location = useLocation();

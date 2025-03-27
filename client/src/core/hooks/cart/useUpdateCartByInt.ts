@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { updateQtyByIntAPI } from "../../api/APICalls/cart";
-import { useHandleErr } from "../useHandleErr";
-import { useCart, useToast, useUser } from "../useGlobal";
+import { useCart, useUser } from "../useGlobal";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { DishType } from "../../../types/types";
 import { isObjOk } from "../../../utils/allUtils/validateData";
 import { CartItem } from "../../../types/allTypes/cart";
+import { useGetFavHooks } from "../useGetFavHooks";
 
 export const useUpdateCartByInt = ({ dish }: { dish: DishType }) => {
   const [localQty, setLocalQty] = useState(0);
@@ -15,8 +15,7 @@ export const useUpdateCartByInt = ({ dish }: { dish: DishType }) => {
 
   const queryClient = useQueryClient();
 
-  const { handleErrAPI } = useHandleErr();
-  const { showToastMsg } = useToast();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
   const { isLogged } = useUser();
   const { cart, cartNonLogged } = useCart();
 

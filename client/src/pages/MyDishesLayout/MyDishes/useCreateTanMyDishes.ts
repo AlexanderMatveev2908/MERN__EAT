@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { usePopup, useToast } from "../../../core/hooks/useGlobal";
-import { useHandleErr } from "../../../core/hooks/useHandleErr";
+import { usePopup } from "../../../core/hooks/useGlobal";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 
 export const useCreateTanMyDishes = ({
   cbMutation,
@@ -14,8 +14,7 @@ export const useCreateTanMyDishes = ({
   const queryClient = useQueryClient();
 
   const { popup, setPopup } = usePopup();
-  const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => {

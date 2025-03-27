@@ -3,9 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 import { SendEmailFormType } from "./useSendEmail";
 import { useNavigate } from "react-router-dom";
 import { UseFormReset } from "react-hook-form";
-import { useHandleErr } from "../../../../core/hooks/useHandleErr";
-import { useToast } from "../../../../core/hooks/useGlobal";
 import { ErrFoodApp } from "../../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../../core/hooks/useGetFavHooks";
 
 export const useCreateTanStackSendEmail = ({
   reset,
@@ -18,8 +17,8 @@ export const useCreateTanStackSendEmail = ({
   from: string;
   type: string | null;
 }) => {
-  const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
+
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({

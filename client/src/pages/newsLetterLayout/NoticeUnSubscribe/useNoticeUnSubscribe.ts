@@ -1,18 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { useToast } from "./../../../core/hooks/useGlobal";
-import { useHandleErr } from "./../../../core/hooks/useHandleErr";
 import { sendEmailUnsubscribeAPI } from "../../../core/api/api";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 
 type UnsubscribeEmailFormType = {
   email: string;
 };
 
 export const useNoticeUnSubscribe = () => {
-  const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const [searchParams] = useSearchParams();
   const location = useLocation();

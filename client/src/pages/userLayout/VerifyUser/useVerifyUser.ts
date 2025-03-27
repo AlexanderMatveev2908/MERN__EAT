@@ -1,13 +1,12 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useEffect, useRef } from "react";
-import { useToast } from "./../../../core/hooks/useGlobal";
-import { useHandleErr } from "./../../../core/hooks/useHandleErr";
 import { isValidStr } from "../../../utils/allUtils/validateData";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { verifyNewEmailAPI } from "./../../../core/api/api";
 import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 
 export const useVerifyUser = () => {
   const isVerifyingRef = useRef<boolean>(false);
@@ -15,8 +14,7 @@ export const useVerifyUser = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const token = searchParams.get("token");
   const userId = searchParams.get("userId");
