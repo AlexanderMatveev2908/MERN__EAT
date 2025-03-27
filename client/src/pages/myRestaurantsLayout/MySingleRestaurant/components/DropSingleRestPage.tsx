@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FC, useState } from "react";
 import DropHandlerIcon from "../../../../UI/components/DropHandlerIcon";
 import { MdAdminPanelSettings } from "react-icons/md";
@@ -13,8 +13,9 @@ type PropsType = {
 const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { formContextMyDishesAddItem, formContextMyDishesSearch } =
-    useFormsCustom();
+  const navigate = useNavigate();
+
+  const { formContextMyDishesSearch } = useFormsCustom();
 
   const handleSearchDishesClick = () => {
     const { setValue } = formContextMyDishesSearch;
@@ -23,7 +24,8 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
   };
 
   const handleDishClick = () =>
-    formContextMyDishesAddItem.setValue("restaurant", restId ?? "");
+    navigate(`/my-dishes/add-dish?restId=${restId}`);
+  // formContextMyDishesAddItem.setValue("restaurant", restId ?? "");
 
   const { handleClickToOpenPopup } = useDeleteRestaurant();
 
@@ -65,6 +67,14 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
               className="w-full flex items-center gap-3 group el__flow cursor-pointer first:pt-4 hover:text-orange-500 el__after_below"
             >
               {el.label === "Delete" ? (
+                <div className="w-full flex items-center gap-3">
+                  <el.icon className="min-w-[25px] min-h-[25px] group-hover:text-orange-500 el__flow" />
+
+                  <span className="txt__02 group-hover:text-orange-500 el__flow ">
+                    {el.label}
+                  </span>
+                </div>
+              ) : el.label === "Add dish" ? (
                 <div className="w-full flex items-center gap-3">
                   <el.icon className="min-w-[25px] min-h-[25px] group-hover:text-orange-500 el__flow" />
 

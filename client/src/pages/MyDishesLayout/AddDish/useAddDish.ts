@@ -5,11 +5,12 @@ import { createDishesAPI } from "../../../core/api/APICalls/myDishes";
 import { useFormsCustom } from "../../../core/hooks/useGlobal";
 import { useFieldArray } from "react-hook-form";
 import { prepareFormDataMyDishes } from "../../../utils/allUtils/prepareFormData";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGetRestaurantsIds } from "../../../core/hooks/myRestaurants/useGetRestaurantsIds";
 import { useLazyDev } from "./useLazyDev";
 import { isDev } from "../../../core/config/constants/environment";
 import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
+import { REG_MONGO } from "../../../core/config/constants/regex";
 
 export const useAddDish = () => {
   const { formContextMyDishesAddItem: formContext, formContextMyDishesSearch } =
@@ -17,6 +18,8 @@ export const useAddDish = () => {
   const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const restIdSent = searchParams.get("restId");
 
   const { isPending: isDevPending } = useLazyDev({
     setValue: formContext.setValue,
@@ -37,6 +40,11 @@ export const useAddDish = () => {
         formContext.setFocus(`items.${fields.length - 1}`);
       }, 500);
   }, [formContext, fields.length]);
+
+  useEffect(() => {
+    if (REG_MONGO.test(restIdSent ?? ""))
+      formContext.setValue("restaurant", restIdSent ?? "");
+  }, [formContext, restIdSent]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: ({ form, restId }: { form: FormData; restId: string }) =>
