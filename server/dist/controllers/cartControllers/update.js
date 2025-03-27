@@ -21,10 +21,12 @@ const getDataRequest = (req, res) => __awaiter(void 0, void 0, void 0, function*
         user: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
     }));
     const dish = yield Dish.findById(dishId);
+    if (!dish)
+        return baseErrResponse(res, 404, "Dish not found");
     const restaurant = yield Restaurant.findById(dish.restaurant);
+    if (!restaurant)
+        return baseErrResponse(res, 404, "Rest not found");
     // if from frontend come a req about other dish from cart restaurant, then restaurant will not be found and i send 404 that implicit is 400
-    if ([dish, restaurant].some((el) => !el))
-        return baseErrResponse(res, 404, "Not found something");
     return {
         cart,
         dish,
@@ -88,11 +90,11 @@ export const decQtyCart = (req, res) => __awaiter(void 0, void 0, void 0, functi
     if (!ok)
         return;
     if (!cart)
-        return badRequest(res);
+        return baseErrResponse(res, 404, "Cart not found");
     let deletedCart;
     const existingItem = cart.items.find((el) => el.dishId + "" === dish._id + "");
     if (!existingItem)
-        return baseErrResponse(res, 404, "Dish not found, bad req");
+        return baseErrResponse(res, 404, "Dish not found");
     if (existingItem.quantity > 1) {
         cart.items = cart.items.map((el) => el.dishId + "" === existingItem.dishId + ""
             ? Object.assign(Object.assign({}, el), { quantity: el.quantity - 1 }) : el);
@@ -119,7 +121,7 @@ export const delItem = (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (!ok)
         return;
     if (!cart)
-        return badRequest(res);
+        return baseErrResponse(res, 404, "Cart not found");
     let deletedCart;
     if (cart.items.length > 1) {
         cart.items = cart.items.filter((el) => el.dishId + "" !== dish._id + "");
@@ -138,7 +140,7 @@ export const delCart = (req, res) => __awaiter(void 0, void 0, void 0, function*
         user: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
     });
     if (!cartDeleted)
-        return baseErrResponse(res, 404, "Cart not found, bad req");
+        return baseErrResponse(res, 404, "Cart not found");
     return res.status(200).json({ msg: "Cart deleted", success: true });
 });
 export const updateQtyByInput = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -149,12 +151,12 @@ export const updateQtyByInput = (req, res) => __awaiter(void 0, void 0, void 0, 
     if (!ok)
         return;
     if (!cart)
-        return badRequest(res);
+        return baseErrResponse(res, 404, "Cart not found");
     const existingItem = cart.items.find((el) => el.dishId + "" === dish._id + "");
     if (!existingItem)
-        return badRequest(res);
+        return baseErrResponse(res, 404, "Dish not found");
     if (dish.quantity < +quantity)
-        return baseErrResponse(res, 400, "Qty not avl");
+        return baseErrResponse(res, 400, "Dish not available");
     cart.items = cart.items.map((el) => el.dishId + "" === existingItem.dishId + ""
         ? Object.assign(Object.assign({}, el), { quantity }) : el);
     yield cart.save();
@@ -170,7 +172,7 @@ export const updateQtyIntervalFormFront = (req, res) => __awaiter(void 0, void 0
     if (!ok)
         return;
     if (!dish.quantity)
-        return badRequest(res);
+        return baseErrResponse(res, 400, "Dish not available");
     let newCart;
     const qty = dish.quantity < quantity ? dish.quantity : quantity || 1;
     if ((_a = cart === null || cart === void 0 ? void 0 : cart.items) === null || _a === void 0 ? void 0 : _a.length) {

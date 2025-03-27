@@ -11,7 +11,7 @@ import User from "../../models/User.js";
 import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
 import { checkTokenSHA } from "../../utils/token.js";
 import Restaurant from "../../models/Restaurant.js";
-import { deleteCloud } from "../../utils/cloud.js";
+import { clearData } from "../../utils/clearData.js";
 export const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
     const { userId } = req;
@@ -35,19 +35,7 @@ export const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, fun
         owner: user._id,
     }).populate("dishes");
     if (restaurants === null || restaurants === void 0 ? void 0 : restaurants.length) {
-        const promises = restaurants.map((el) => __awaiter(void 0, void 0, void 0, function* () {
-            var _a;
-            if ((_a = el === null || el === void 0 ? void 0 : el.dishes) === null || _a === void 0 ? void 0 : _a.length) {
-                const promisesDishesImages = el.dishes
-                    .map((dish) => __awaiter(void 0, void 0, void 0, function* () { return dish.images.map((img) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(img.public_id); })); }))
-                    .flat(Infinity);
-                const promisesDishes = el.dishes.map((dish) => __awaiter(void 0, void 0, void 0, function* () { return yield dish.deleteOne(); }));
-                yield Promise.all([...promisesDishesImages, promisesDishes]);
-            }
-            const promisesRestaurantImages = el.images.map((img) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(img.public_id); }));
-            yield Promise.all(promisesRestaurantImages);
-            yield el.deleteOne();
-        }));
+        const promises = restaurants.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield clearData(el); }));
         yield Promise.all(promises);
     }
     const result = yield User.deleteOne({ _id: userId });
@@ -59,3 +47,29 @@ export const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json({ success: true, msg: "Account deleted" });
     }
 });
+/*
+  if (restaurants?.length) {
+    const promises = restaurants.map(async (el) => {
+      if (el?.dishes?.length) {
+        const promisesDishesImages = el.dishes
+          .map(async (dish: HydratedDocument<DishType>) =>
+            dish.images.map(async (img) => await deleteCloud(img.public_id))
+          )
+          .flat(Infinity);
+        const promisesDishes = el.dishes.map(
+          async (dish: HydratedDocument<DishType>) => await dish.deleteOne()
+        );
+
+        await Promise.all([...promisesDishesImages, promisesDishes]);
+      }
+      const promisesRestaurantImages = el.images.map(
+        async (img: ImageType) => await deleteCloud(img.public_id)
+      );
+      await Promise.all(promisesRestaurantImages);
+
+      await el.deleteOne();
+    });
+
+    await Promise.all(promises);
+  }
+    */

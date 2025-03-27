@@ -13,7 +13,7 @@ import { baseErrResponse, userNotFound } from "../../utils/baseErrResponse.js";
 import { deleteCloud, uploadCloud } from "../../utils/cloud.js";
 import { formatMyRestaurantsBody } from "../../utils/getValsMyRestaurantFromBody.js";
 import { checkUserProperty } from "../../utils/checkers/myRestaurants.js";
-import Dish from "../../models/Dish.js";
+import { clearData } from "../../utils/clearData.js";
 export const createRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
     const { userId } = req;
@@ -61,29 +61,10 @@ export const updateMyRestaurant = (req, res) => __awaiter(void 0, void 0, void 0
         .json({ msg: "Restaurant updated", success: true, restId: restaurant._id });
 });
 export const deleteRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     const { user, restaurant } = yield checkUserProperty(req, res);
     if ([user, restaurant].some((el) => !el))
         return;
-    const promises = restaurant.images.map((img) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(img.public_id); }));
-    yield Promise.all(promises);
-    const idsDishes = ((_a = restaurant === null || restaurant === void 0 ? void 0 : restaurant.dishes) === null || _a === void 0 ? void 0 : _a.length)
-        ? restaurant.dishes.map((dish) => dish._id)
-        : [];
-    const resultDishes = yield Dish.find({
-        _id: { $in: idsDishes },
-    });
-    if (resultDishes.length) {
-        const idsImages = resultDishes.flatMap((dish) => dish.images.map((img) => img.public_id));
-        const promises = idsImages.map((img) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(img); }));
-        yield Promise.all(promises);
-        const resultDeleted = yield Dish.deleteMany({
-            _id: { $in: idsDishes },
-        });
-        if (!resultDeleted.deletedCount)
-            return baseErrResponse(res, 500, "Error deleting dishes");
-    }
-    yield restaurant.deleteOne();
+    yield clearData(restaurant);
     user.restaurants = user.restaurants.filter((restId) => restId + "" !== restaurant._id + "");
     yield user.save();
     return res.status(200).json({ msg: "Restaurant deleted", success: true });
