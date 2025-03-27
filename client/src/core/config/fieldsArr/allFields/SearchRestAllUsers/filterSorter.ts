@@ -42,6 +42,11 @@ export const searchRestAllUsersFilters = [
         field: "openNow",
         label: "Open now",
       },
+      {
+        id: genID(),
+        field: "closed",
+        label: "Closed",
+      },
     ],
     icon: FaClock,
   },
