@@ -5,6 +5,8 @@ import { foodAppInstance } from "../../../core/config/constants/axiosInstance";
 import { useEffect } from "react";
 import { isDev } from "../../../core/config/constants/environment";
 import { makeNumPrice, makeNumQty } from "../../../utils/allUtils/makeNumber";
+import { REG_MONGO } from "../../../core/config/constants/regex";
+import { useSearchParams } from "react-router-dom";
 
 const urls = [
   "https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg",
@@ -44,6 +46,9 @@ const base64ToFile = (base64Str, currIndex) => {
 export const useLazyDev = ({ setValue, reset }) => {
   const { showToastMsg } = useToast();
 
+  const [searchParams] = useSearchParams();
+  const restIdSent = searchParams.get("restId");
+
   const { data, isPending, isSuccess, isError, error } = useQuery({
     queryKey: ["urls", urls],
     queryFn: getImagesProxyAPI,
@@ -58,7 +63,7 @@ export const useLazyDev = ({ setValue, reset }) => {
       const files = data.base64Imgs.map((el, i) => base64ToFile(el, i));
 
       reset({
-        restaurant: "",
+        restaurant: REG_MONGO.test(restIdSent ?? "") ? restIdSent ?? "" : "",
         items: [
           ...Array.from({ length: 10 }).map((_, i) => ({
             name: `b_item_${i + 1 + ""}`,
@@ -69,7 +74,16 @@ export const useLazyDev = ({ setValue, reset }) => {
         ],
       });
     }
-  }, [isSuccess, isError, error, data, showToastMsg, setValue, reset]);
+  }, [
+    isSuccess,
+    isError,
+    error,
+    data,
+    showToastMsg,
+    setValue,
+    reset,
+    restIdSent,
+  ]);
 
   return {
     isPending,
