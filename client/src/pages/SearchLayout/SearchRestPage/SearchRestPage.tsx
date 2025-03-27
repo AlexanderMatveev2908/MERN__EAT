@@ -18,7 +18,11 @@ import DropElAbsolute from "../../../UI/components/DropElAbsolute";
 import SearchBar from "../../../UI/common/SearchBar/SearchBar";
 import { searchDishesSorters } from "../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { isObjOk } from "../../../utils/allUtils/validateData";
-import { useCart, useFormsCustom } from "../../../core/hooks/useGlobal";
+import {
+  useCart,
+  useFormsCustom,
+  useUser,
+} from "../../../core/hooks/useGlobal";
 import { useCreateQueryHandlers } from "../../../core/hooks/useCreateQueryHandlers";
 import { FormProvider } from "react-hook-form";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
@@ -31,6 +35,7 @@ const SearchRestPage: FC = () => {
   useScrollTop();
 
   const { handleErrAPI } = useHandleErr();
+  const { isLogged } = useUser();
   const { cart, cartNonLogged } = useCart();
   const { formContextSearchDishesAllUSers: formContext } = useFormsCustom();
 
@@ -60,7 +65,11 @@ const SearchRestPage: FC = () => {
   useEffect(() => {
     if (isErrorRest) handleErrAPI({ err: errorRest as ErrFoodApp });
   }, [isSuccessRest, isErrorRest, errorRest, dataRest, handleErrAPI]);
+
   const { restaurant: rest } = dataRest ?? {};
+
+  const cartToCheck = isLogged ? cart : cartNonLogged;
+  const isBuyingSameRest = cartToCheck?.restaurant === rest?._id;
 
   const {
     handleSave,
@@ -112,7 +121,7 @@ const SearchRestPage: FC = () => {
           <DetailsRestaurantUser {...{ rest, Container: DropElAbsolute }} />
         </div>
 
-        {(cart || cartNonLogged) && (
+        {isBuyingSameRest && (
           <div id="summaryRestPage" className="w-full mt-6">
             <SummaryCart {...{ rest: dataRest?.restaurant }} />
           </div>

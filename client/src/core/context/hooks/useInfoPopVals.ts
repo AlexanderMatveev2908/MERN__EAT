@@ -1,21 +1,22 @@
 import { SetStateAction, useState } from "react";
 
-type InfoPop = {
+export type InfoPopType = {
   msg: string;
   confirmActMsg: string;
   cancelActMsg: string;
   confirmActCb: () => void;
   cancelActCb: () => void;
-  isPending: boolean;
+  isPendingConfirm?: boolean;
+  isPendingCancel?: boolean;
 } | null;
 
 export type InfoPopVals = {
-  infoPop: InfoPop;
-  setInfoPop: React.Dispatch<SetStateAction<InfoPop>>;
+  infoPop: InfoPopType;
+  setInfoPop: React.Dispatch<SetStateAction<InfoPopType>>;
 };
 
 export const useInfoPopVals = () => {
-  const [infoPop, setInfoPop] = useState<InfoPop>(null);
+  const [infoPop, setInfoPop] = useState<InfoPopType>(null);
 
   return {
     infoPop,

@@ -8,6 +8,7 @@ import { useCart, useUser } from "../../../../../core/hooks/useGlobal";
 import { isObjOk } from "../../../../../utils/allUtils/validateData";
 import { CartItem } from "../../../../../types/allTypes/cart";
 import { useUpdateCartByInt } from "../../../../../core/hooks/cart/useUpdateCartByInt";
+import { useSwitchCartLogged } from "../../../../../core/hooks/cart/useSwitchCartLogged";
 
 type PropsType = {
   dish: DishType;
@@ -27,6 +28,7 @@ const ButtonsCart: FC<PropsType> = ({ dish }) => {
     localQty,
     setLocalQty,
   } = useUpdateCartByInt({ dish });
+  const { handleOpenInfoPop } = useSwitchCartLogged({ dish });
 
   const isSomeoneLoading = isPending || isPendingInt;
 
@@ -50,7 +52,10 @@ const ButtonsCart: FC<PropsType> = ({ dish }) => {
         <button
           disabled={!dish.quantity || !isAvl || isSomeoneLoading}
           onMouseDown={() =>
-            handleAddInt((prev: number) => prev < dish.quantity)
+            cartToCheck?.restaurant !== dish?.restaurant
+              ? handleOpenInfoPop()
+              : //  here i pass a validateCb to not overflow wty item avl
+                handleAddInt((prev: number) => prev < dish.quantity)
           }
           onMouseUp={() => handleMouseUp(() => handleClickCart("inc"))}
           onMouseLeave={() => handleMouseUp(() => handleClickCart("inc"))}

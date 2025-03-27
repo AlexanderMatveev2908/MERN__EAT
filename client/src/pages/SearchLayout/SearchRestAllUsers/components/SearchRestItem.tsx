@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
 import HeaderName from "../../../../UI/components/cards/HeaderName";
 import HeaderImgs from "../../../../UI/components/cards/HeaderImgs";
+import DetailsRestUserStats from "../../../../UI/components/cards/restaurants/DetailsRestUserStats";
 
 type PropsType = {
   rest: RestaurantAllUsers;
@@ -39,6 +40,8 @@ const SearchRestItem: FC<PropsType> = ({ rest }) => {
         <div className="w-full grid grid-cols-1">
           <div className="pt-3 w-full el__flow grid grid-cols-1 gap-3">
             <DetailsRestaurantUser {...{ rest, Container: DropElAbsolute }} />
+
+            <DetailsRestUserStats {...{ rest }} />
           </div>
         </div>
       </div>
