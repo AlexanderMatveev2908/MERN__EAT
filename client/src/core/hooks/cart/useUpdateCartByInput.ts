@@ -36,7 +36,7 @@ export const useUpdateCartByInput = ({ dish }: { dish: CartItem }) => {
 
   const { isPending: isPendingInputQTy, mutate: mutateInputQty } = useMutation({
     mutationFn: (quantity: string) =>
-      updateQtyInputAPI({ dishId: dish.dishId, quantity }),
+      updateQtyInputAPI({ dishId: dish.dishId, quantity: quantity || "1" }),
     onSuccess: () => {
       showToastMsg("Cart updated", "SUCCESS");
 

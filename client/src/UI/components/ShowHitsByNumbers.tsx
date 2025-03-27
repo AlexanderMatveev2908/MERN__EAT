@@ -35,10 +35,10 @@ const ShowHitsByNumbers: FC<PropsType> = ({
   }
   if (!errors?.minQuantity && !errors?.maxQuantity) {
     if (minQuantity)
-      info += ` ${minPrice || maxPrice ? ", " : ""}above ${minQuantity}`;
+      info += ` ${minPrice || maxPrice ? ", and " : ""}above ${minQuantity}`;
     if (maxQuantity)
       info += `${
-        minQuantity ? " and" : minPrice || maxPrice ? ", " : " "
+        minQuantity ? " and" : minPrice || maxPrice ? ", and" : " "
       } below ${maxQuantity}`;
   }
 

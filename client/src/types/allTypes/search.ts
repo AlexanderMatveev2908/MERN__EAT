@@ -29,8 +29,10 @@ export type SearchDishesFormType = {
   maxPrice: string;
   minQuantity: string;
   maxQuantity: string;
-  priceSort: [];
-  quantitySort: [];
+  priceSort: string[];
+  quantitySort: string[];
+  createdAtSort: string[];
+  updatedAtSort: string[];
 
   page?: string;
   limit?: string;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { switchCartLoggedAPI } from "../../api/api";
 import { useGetFavHooks } from "../useGetFavHooks";
 import { useInfoPop } from "../useGlobal";
@@ -10,10 +10,6 @@ import { DishType } from "../../../types/types";
 
 export const useSwitchCartLogged = ({ dish }: { dish: DishType }) => {
   const [dishIdNewRest, setDishIdNewRest] = useState<string | null>(null);
-
-  useEffect(() => {
-    console.log(dishIdNewRest);
-  }, [dishIdNewRest]);
 
   const queryClient = useQueryClient();
 

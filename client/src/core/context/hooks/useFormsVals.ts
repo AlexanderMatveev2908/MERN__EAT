@@ -7,6 +7,7 @@ import {
   SearchFormType,
 } from "../../../types/allTypes/search";
 import { isDev } from "../../config/constants/environment";
+import { defaultValuesSearchDishesAsUser } from "../../config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 
 export const useFormsVals = () => {
   const savedForm = sessionStorage.getItem("myRestaurantsSearch");
@@ -64,6 +65,7 @@ export const useFormsVals = () => {
 
   const formContextSearchDishesAllUSers = useForm<SearchDishesFormType>({
     mode: "onChange",
+    defaultValues: { ...defaultValuesSearchDishesAsUser },
   });
 
   return {
