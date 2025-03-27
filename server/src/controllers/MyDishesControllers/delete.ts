@@ -1,12 +1,13 @@
 import { Response } from "express";
 import { deleteCloud } from "../../utils/cloud.js";
-import Restaurant from "../../models/Restaurant.js";
+import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
 import { ObjectId } from "mongoose";
 import Dish, { DishType } from "../../models/Dish.js";
 import { makeQueryMyDishes } from "../../utils/makeQueries/myDishes.js";
 import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
+import { clearDataDish } from "../../utils/clearData.js";
 
 export const deleteDish = async (req: any, res: Response): Promise<any> => {
   const { userId } = req;
@@ -24,19 +25,7 @@ export const deleteDish = async (req: any, res: Response): Promise<any> => {
   });
   if (!dish) return baseErrResponse(res, 404, "Dish not found");
 
-  try {
-    let i = 0;
-    do {
-      await deleteCloud(dish.images[i].public_id);
-      i++;
-    } while (i < dish.images.length);
-  } catch {}
-
-  const result = await Dish.findOneAndDelete({
-    _id: makeMongoId(dishId),
-    restaurant: dish.restaurant,
-  });
-  if (!result) return baseErrResponse(res, 404, "Dish not found");
+  await clearDataDish(dish);
 
   const currRestaurant = restaurantsUser.filter(
     (el) => el._id + "" === dish.restaurant + ""
@@ -92,42 +81,23 @@ export const bulkDelete = async (req: any, res: Response): Promise<any> => {
 
   if (!result.length) return baseErrResponse(res, 404, "Dishes not found");
 
-  const publicIdImgs = result
-    .map((dishesByRest: any) =>
-      dishesByRest.dishes.map((dish: any) =>
-        dish.images.map((img: any) => img.public_id)
-      )
-    )
-    .flat(Infinity);
+  const idsDishesDeleted: string[] = [];
 
-  const promisesDishesImages = publicIdImgs.map(
-    async (el: any) => await deleteCloud(el)
-  );
-  try {
-    await Promise.all(promisesDishesImages);
-  } catch {}
+  const promises = result.map(async (rest: any) => {
+    const promisesDishes = rest.dishes.map(async (dish: DishType) => {
+      idsDishesDeleted.push(dish._id + "");
+      await clearDataDish(dish);
+    });
+    await Promise.all(promisesDishes);
 
-  let i = 0;
-  do {
-    const promises = result[i].dishes.map(
-      async (el: any) => await Dish.findByIdAndDelete(el._id)
-    );
-    await Promise.all(promises);
-
-    const restaurant = await Restaurant.findById(result[i]._id);
-
-    const dishesIdsToDelete = new Set(
-      // here i mean dishes already deleted in their collection but not as ref from point of view of restaurant
-      result[i].dishes.map((el: any) => el._id + "")
-    );
+    const restaurant = await Restaurant.findById(rest._id);
     restaurant.dishes = restaurant.dishes.filter(
-      (el: any) => !dishesIdsToDelete.has(el + "")
+      (el: any) => !new Set(...idsDishesDeleted).has(el + "")
     );
-
     await restaurant.save();
+  });
 
-    i++;
-  } while (i < result.length);
+  await Promise.all(promises);
 
   return res.status(204).end();
 };
@@ -182,7 +152,68 @@ export const deleteQueriesResults = async (
 
   if (!result?.length) return baseErrResponse(res, 404, "Dishes not found");
 
-  const publicIdImages: string[] = result
+  const idsDishesDeleted: string[] = [];
+
+  const promises = result.map(async (rest: any) => {
+    const promisesDishes = rest.dishes.map(async (dish: DishType) => {
+      idsDishesDeleted.push(dish._id + "");
+      await clearDataDish(dish);
+    });
+    await Promise.all(promisesDishes);
+
+    const restaurant = await Restaurant.findById(rest._id);
+    restaurant.dishes = restaurant.dishes.filter(
+      (el: any) => !new Set(...idsDishesDeleted).has(el + "")
+    );
+    await restaurant.save();
+  });
+
+  await Promise.all(promises);
+
+  return res.status(204).end();
+};
+
+/*
+ const publicIdImgs = result
+    .map((dishesByRest: any) =>
+      dishesByRest.dishes.map((dish: any) =>
+        dish.images.map((img: any) => img.public_id)
+      )
+    )
+    .flat(Infinity);
+
+  const promisesDishesImages = publicIdImgs.map(
+    async (el: any) => await deleteCloud(el)
+  );
+  try {
+    await Promise.all(promisesDishesImages);
+  } catch {}
+
+  let i = 0;
+  do {
+    const promises = result[i].dishes.map(
+      async (el: any) => await Dish.findByIdAndDelete(el._id)
+    );
+    await Promise.all(promises);
+
+    const restaurant = await Restaurant.findById(result[i]._id);
+
+    const dishesIdsToDelete = new Set(
+      // here i mean dishes already deleted in their collection but not as ref from point of view of restaurant
+      result[i].dishes.map((el: any) => el._id + "")
+    );
+    restaurant.dishes = restaurant.dishes.filter(
+      (el: any) => !dishesIdsToDelete.has(el + "")
+    );
+
+    await restaurant.save();
+
+    i++;
+  } while (i < result.length);
+   */
+
+/*
+    const publicIdImages: string[] = result
     .map((obj) =>
       obj.dishes.map((dish: DishType) =>
         dish.images.map((img) => img.public_id)
@@ -211,6 +242,4 @@ export const deleteQueriesResults = async (
     await restaurant.save();
   });
   await Promise.all(promises);
-
-  return res.status(204).end();
-};
+  */

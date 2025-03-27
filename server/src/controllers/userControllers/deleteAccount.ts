@@ -8,6 +8,7 @@ import { deleteCloud } from "../../utils/cloud.js";
 import { ImageType } from "../../models/Image.js";
 import { DishType } from "../../models/Dish.js";
 import { HydratedDocument } from "mongoose";
+import { clearData } from "../../utils/clearData.js";
 
 export const deleteAccount = async (
   req: RequestWithUserId,
@@ -45,6 +46,22 @@ export const deleteAccount = async (
   }).populate("dishes");
 
   if (restaurants?.length) {
+    const promises = restaurants.map(async (el) => await clearData(el));
+    await Promise.all(promises);
+  }
+
+  const result = await User.deleteOne({ _id: userId });
+
+  if (result?.deletedCount !== 1) {
+    return userNotFound(res);
+  } else {
+    res.cookie("refreshToken", "", { expires: new Date(0) });
+    return res.status(200).json({ success: true, msg: "Account deleted" });
+  }
+};
+
+/*
+  if (restaurants?.length) {
     const promises = restaurants.map(async (el) => {
       if (el?.dishes?.length) {
         const promisesDishesImages = el.dishes
@@ -68,13 +85,4 @@ export const deleteAccount = async (
 
     await Promise.all(promises);
   }
-
-  const result = await User.deleteOne({ _id: userId });
-
-  if (result?.deletedCount !== 1) {
-    return userNotFound(res);
-  } else {
-    res.cookie("refreshToken", "", { expires: new Date(0) });
-    return res.status(200).json({ success: true, msg: "Account deleted" });
-  }
-};
+    */

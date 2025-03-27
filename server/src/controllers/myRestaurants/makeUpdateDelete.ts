@@ -8,6 +8,7 @@ import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js
 import { checkUserProperty } from "../../utils/checkers/myRestaurants.js";
 import { ImageType } from "../../models/Image.js";
 import Dish from "../../models/Dish.js";
+import { clearData } from "../../utils/clearData.js";
 
 export const createRestaurant = async (
   req: RequestWithUserId,
@@ -102,35 +103,7 @@ export const deleteRestaurant = async (
   const { user, restaurant } = await checkUserProperty(req, res);
   if ([user, restaurant].some((el) => !el)) return;
 
-  const promises = restaurant.images.map(
-    async (img: ImageType) => await deleteCloud(img.public_id)
-  );
-
-  await Promise.all(promises);
-
-  const idsDishes = restaurant?.dishes?.length
-    ? restaurant.dishes.map((dish: any) => dish._id)
-    : [];
-  const resultDishes = await Dish.find({
-    _id: { $in: idsDishes },
-  });
-  if (resultDishes.length) {
-    const idsImages = resultDishes.flatMap((dish) =>
-      dish.images.map((img: any) => img.public_id)
-    );
-    const promises = idsImages.map(
-      async (img: string) => await deleteCloud(img)
-    );
-    await Promise.all(promises);
-
-    const resultDeleted = await Dish.deleteMany({
-      _id: { $in: idsDishes },
-    });
-    if (!resultDeleted.deletedCount)
-      return baseErrResponse(res, 500, "Error deleting dishes");
-  }
-
-  await restaurant.deleteOne();
+  await clearData(restaurant);
 
   user.restaurants = user.restaurants.filter(
     (restId: string) => restId + "" !== restaurant._id + ""

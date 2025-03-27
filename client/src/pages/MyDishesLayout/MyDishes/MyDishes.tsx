@@ -107,7 +107,7 @@ const MyDishes: FC = () => {
         <ErrEmoji {...{ err: error as ErrFoodApp }} />
       ) : (
         !!dishes?.length && (
-          <div className="container__cards">
+          <div className="container__cards__grid">
             {dishes.map((el) => (
               <MyDishesItem
                 key={el._id}
