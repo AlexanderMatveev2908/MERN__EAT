@@ -49,10 +49,12 @@ export const makeQuerySearchAllUsers = (req: Request) => {
   }
 
   if (openHours) {
-    const currTime = 960;
+    const currTime = 1200;
     // const currTime = new Date().getHours() * 60 + new Date().getMinutes();
 
-    if (openHours === "openNow")
+    const vals = (openHours as string).split(",");
+
+    if (vals.includes("openNow"))
       queryObj["$or"] = [
         {
           // first case simple day of work from morning to evening or night
@@ -66,36 +68,60 @@ export const makeQuerySearchAllUsers = (req: Request) => {
           $and: [
             { "openHours.openTime": { $lte: currTime } },
             {
-              $expr: { $lte: ["$openHours.closeTime", "$openHours.openTime"] },
+              $expr: { $lt: ["$openHours.closeTime", "$openHours.openTime"] },
             },
+          ],
+        },
+        {
+          // shit start today and end tomorrow, it can close before currTime if it close before open time like 22:00 => 6 in the morning and cover 00:00 => 00:00 for 24/7
+          $and: [
+            { "openHours.openTime": { $gte: currTime } },
+            {
+              $expr: { $lt: ["$openHours.closeTime", "$openHours.openTime"] },
+            },
+            { "openHours.closeTime": { $gt: currTime } },
           ],
         },
         { $expr: { $eq: ["$openHours.closeTime", "$openHours.openTime"] } },
       ];
 
-    if (openHours === "closed") {
+    if (vals.includes("closed")) {
       const queryClosed = [
         {
-          // if it close now we can not get inside bar so it is considered closed instead of last drink
           $and: [
             { "openHours.openTime": { $gt: currTime } },
-            { "openHours.closeTime": { $lte: currTime } },
+            { "openHours.closeTime": { $gte: currTime } },
           ],
         },
         {
           $and: [
-            { "openHours.openTime": { $lte: currTime } },
+            { "openHours.openTime": { $lt: currTime } },
+            { "openHours.closeTime": { $lte: currTime } },
             {
-              // only greater cause equals is used for 24/7
               $expr: {
-                $gt: ["$openHours.closeTime", "$openHours.openTime"],
+                $ne: ["$openHours.openTime", "$openHours.closeTime"],
+              },
+            },
+          ],
+        },
+        {
+          $and: [
+            { "openHours.openTime": { $gt: currTime } },
+            {
+              $expr: {
+                $lt: ["$openHours.closeTime", "$openHours.openTime"],
+              },
+            },
+            {
+              $expr: {
+                $ne: ["$openHours.openTime", "$openHours.closeTime"],
               },
             },
           ],
         },
       ];
 
-      if (queryObj?.$or) queryObj.$or.push(queryClosed);
+      if (queryObj?.$or) queryObj.$or.push(...queryClosed);
       else queryObj.$or = queryClosed;
     }
   }
