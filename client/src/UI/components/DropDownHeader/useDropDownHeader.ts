@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { tailwindBreak } from "../../../core/config/constants/breakpoints";
 
 export const useDropDownHeader = () => {
   const [dropOpen, setDropOpen] = useState<boolean>(false);
@@ -30,11 +31,15 @@ export const useDropDownHeader = () => {
   };
 
   const handleMouseEnter = () => {
+    if (window.innerWidth < tailwindBreak.md) return;
+
     if (timerRef.current) clearTimeout(timerRef.current);
 
     setDropOpen(true);
   };
   const handleMouseLeave = () => {
+    if (window.innerWidth < tailwindBreak.md) return;
+
     timerRef.current = setTimeout(() => {
       setDropOpen(false);
     }, 250);
