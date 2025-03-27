@@ -1,18 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import { useToast } from "../../../core/hooks/useGlobal";
 import { REG_MONGO, REG_TOKEN } from "../../../core/config/constants/regex";
 import {
   isValidStr,
   validateStrWithArr,
 } from "../../../utils/allUtils/validateData";
-import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import {
   unSubScribeViaLinkLoggedAPI,
   unSubscribeViaLinkNonLoggedAPI,
 } from "../../../core/api/api";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 
 export const useVerifyUnsubScribeNewsLetter = () => {
   const isVerifyingRef = useRef<boolean>(false);
@@ -21,8 +20,7 @@ export const useVerifyUnsubScribeNewsLetter = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const typeUser = searchParams.get("typeUser");
   const userId = searchParams.get("userId");

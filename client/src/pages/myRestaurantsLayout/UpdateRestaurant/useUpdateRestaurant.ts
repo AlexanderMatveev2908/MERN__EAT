@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmin";
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -10,11 +9,11 @@ import {
 } from "./../../../core/api/APICalls/myRestaurants";
 import { useNavigate, useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../core/config/constants/regex";
-import { useToast } from "../../../core/hooks/useGlobal";
 import { prepareFormDataMyRest } from "../../../utils/allUtils/prepareFormData";
 import { formatTimeHmMh } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useDeleteRestaurant } from "../../../core/hooks/myRestaurants/useDeleteRestaurant";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 
 export const useUpdateRestaurant = () => {
   const { restId } = useParams();
@@ -22,8 +21,7 @@ export const useUpdateRestaurant = () => {
 
   const canStay = REG_MONGO.test(restId ?? "");
 
-  const { handleErrAPI } = useHandleErr();
-  const { showToastMsg } = useToast();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const formContext = useForm<MyRestaurantsAddUpdateFormType>({
     mode: "onChange",

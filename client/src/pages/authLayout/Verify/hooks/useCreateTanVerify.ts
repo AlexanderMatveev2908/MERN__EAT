@@ -1,14 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../../../../core/hooks/useGlobal";
-import { useHandleErr } from "../../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../../core/hooks/useGetFavHooks";
 
 export const useCreateTanVerify = ({ callAPI, successCB }) => {
   const navigate = useNavigate();
 
-  const { handleErrAPI } = useHandleErr();
-  const { showToastMsg } = useToast();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const handleErrVerify = (err) => {
     if (

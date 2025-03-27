@@ -21,7 +21,7 @@ export const decQtyAPI = async ({
 }: {
   dishId: string;
 }): Promise<ReturnAPIBasic> =>
-  destructureDataAPI(() => foodAppInstance.put(`/my-cart?dishId=${dishId}`));
+  destructureDataAPI(() => foodAppInstance.patch(`/my-cart?dishId=${dishId}`));
 
 export const delItemAPI = async ({
   dishId,
@@ -29,7 +29,7 @@ export const delItemAPI = async ({
   dishId: string;
 }): Promise<ReturnAPIBasic> =>
   destructureDataAPI(() =>
-    foodAppInstance.put(`/my-cart/del-item?dishId=${dishId}`)
+    foodAppInstance.patch(`/my-cart/del-item?dishId=${dishId}`)
   );
 
 export const delCartAPI = async (): Promise<ReturnAPIBasic> =>
@@ -43,7 +43,7 @@ export const updateQtyInputAPI = async ({
   quantity: string;
 }): Promise<ReturnAPIBasic> =>
   destructureDataAPI(() =>
-    foodAppInstance.put(`/my-cart/put-input?dishId=${dishId}`, { quantity })
+    foodAppInstance.patch(`/my-cart/put-input?dishId=${dishId}`, { quantity })
   );
 
 export const updateQtyByIntAPI = async ({
@@ -54,7 +54,7 @@ export const updateQtyByIntAPI = async ({
   quantity: number;
 }): Promise<ReturnAPIBasic> =>
   destructureDataAPI(() =>
-    foodAppInstance.put(`/my-cart/put-int?dishId=${dishId}`, { quantity })
+    foodAppInstance.patch(`/my-cart/put-int?dishId=${dishId}`, { quantity })
   );
 
 export const getDishInfoQtyInputAPI = async ({
@@ -64,4 +64,13 @@ export const getDishInfoQtyInputAPI = async ({
 }): Promise<ReturnAPIBasic & { dish: DishType }> =>
   destructureDataAPI(() =>
     foodAppInstance.get(`/my-cart/dish-info?dishId=${dishId}`)
+  );
+
+export const switchCartLoggedAPI = async ({
+  dishId,
+}: {
+  dishId: string;
+}): Promise<ReturnAPIBasic> =>
+  destructureDataAPI(() =>
+    foodAppInstance.put(`/my-cart/switch-logged?dishId=${dishId}`)
   );

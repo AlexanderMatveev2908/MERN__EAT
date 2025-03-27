@@ -6,11 +6,11 @@ import {
   delItemAPI,
   incQtyAPI,
 } from "../../api/APICalls/cart";
-import { useHandleErr } from "../useHandleErr";
 import { ErrFoodApp, ReturnAPIBasic } from "../../../types/allTypes/API";
-import { useToast, useUser } from "../useGlobal";
+import { useUser } from "../useGlobal";
 import { DishType } from "../../../types/types";
 import { CartItem } from "../../../types/allTypes/cart";
+import { useGetFavHooks } from "../useGetFavHooks";
 
 // IMPORTANT =>
 // INC DEC DEL-ITEM IN BUTTONS PROVIDES DISH AS DOCUMENT OF COLLECTION DISHES
@@ -19,8 +19,7 @@ import { CartItem } from "../../../types/allTypes/cart";
 export const useUpdateCart = ({ dish }: { dish: DishType | CartItem }) => {
   const queryClient = useQueryClient();
 
-  const { handleErrAPI } = useHandleErr();
-  const { showToastMsg } = useToast();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
   const { isLogged } = useUser();
 
   const dishId = dish && "dishId" in dish ? dish.dishId : dish?._id;

@@ -2,14 +2,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { ReturnAPIBasic } from "../../../types/types";
 import { delCartAPI } from "../../api/APICalls/cart";
-import { useToast, useUser } from "../useGlobal";
-import { useHandleErr } from "../useHandleErr";
+import { useUser } from "../useGlobal";
+import { useGetFavHooks } from "../useGetFavHooks";
 
 export const useDeleteCart = () => {
   const queryClient = useQueryClient();
 
-  const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
   const { isLogged } = useUser();
 
   const { mutate, isPending } = useMutation({

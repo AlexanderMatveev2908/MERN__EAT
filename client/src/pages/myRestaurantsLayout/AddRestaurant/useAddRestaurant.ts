@@ -3,19 +3,17 @@ import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmi
 import { useEffect } from "react";
 import { prepareFormDataMyRest } from "../../../utils/allUtils/prepareFormData";
 import { useMutation } from "@tanstack/react-query";
-import { useToast } from "../../../core/hooks/useGlobal";
-import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { useNavigate } from "react-router-dom";
 import { defaultValuesMyRest } from "../../../core/config/onlyDev/defVals";
 import { createRestaurantAPI } from "../../../core/api/api";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { isDev } from "../../../core/config/constants/environment";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 
 export const useAddRestaurant = () => {
   const navigate = useNavigate();
 
-  const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const formContext = useForm<MyRestaurantsAddUpdateFormType>({
     mode: "onChange",

@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useGetRestaurantsIds } from "../../../core/hooks/myRestaurants/useGetRestaurantsIds";
-import {
-  useFormsCustom,
-  usePopup,
-  useToast,
-} from "../../../core/hooks/useGlobal";
+import { useFormsCustom, usePopup } from "../../../core/hooks/useGlobal";
 import { useNavigate, useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import {
@@ -14,15 +10,14 @@ import {
   updateDishAPI,
 } from "../../../core/api/APICalls/myDishes";
 import { useEffect } from "react";
-import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { prepareFormDataMyDishUpdate } from "../../../utils/allUtils/prepareFormData";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 
 export const useUpdateDish = () => {
   const { formContextMyDishesUpdate: formContext, formContextMyDishesSearch } =
     useFormsCustom();
-  const { handleErrAPI } = useHandleErr();
-  const { showToastMsg } = useToast();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
   const { setPopup, popup } = usePopup();
 
   const { setValue, reset } = formContext;

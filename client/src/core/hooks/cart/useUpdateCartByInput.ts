@@ -3,9 +3,8 @@ import { CartItem } from "../../../types/allTypes/cart";
 import { useEffect, useRef } from "react";
 import { updateQtyInputAPI } from "../../api/APICalls/cart";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../useGlobal";
-import { useHandleErr } from "../useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useGetFavHooks } from "../useGetFavHooks";
 
 type FormQtyType = {
   quantity: string;
@@ -16,8 +15,7 @@ export const useUpdateCartByInput = ({ dish }: { dish: CartItem }) => {
 
   const queryClient = useQueryClient();
 
-  const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const {
     register,

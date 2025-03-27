@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { useToast, useUser } from "../../../../core/hooks/useGlobal";
-import { useHandleErr } from "../../../../core/hooks/useHandleErr";
+import { useUser } from "../../../../core/hooks/useGlobal";
 import {
   newsLetterToggleLoggedAPI,
   subscribeNonLoggedUserAPI,
 } from "../../../../core/api/api";
 import { ErrFoodApp } from "../../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../../core/hooks/useGetFavHooks";
 
 export type NewsLetterFormType = {
   email: string;
@@ -15,8 +15,7 @@ export type NewsLetterFormType = {
 
 export const useNewsletter = () => {
   const { isLogged, currUser } = useUser();
-  const { showToastMsg } = useToast();
-  const { handleErrAPI } = useHandleErr();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();

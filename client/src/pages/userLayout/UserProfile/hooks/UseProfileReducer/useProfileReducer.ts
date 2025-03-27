@@ -11,18 +11,16 @@ import {
   setDetailsFields,
 } from "./lib";
 import { initState } from "./reducer/initState";
-import { useHandleErr } from "../../../../../core/hooks/useHandleErr";
-import { useToast } from "../../../../../core/hooks/useGlobal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getUserProfileDetailsAPI,
   updateUserProfileAPI,
 } from "../../../../../core/api/api";
 import { ErrFoodApp } from "../../../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../../../core/hooks/useGetFavHooks";
 
 export const useProfileReducer = () => {
-  const { handleErrAPI } = useHandleErr();
-  const { showToastMsg } = useToast();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   const queryClient = useQueryClient();
 
