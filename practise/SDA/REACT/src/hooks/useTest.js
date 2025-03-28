@@ -1,10 +1,36 @@
 import { useReducer } from "react";
 
 const initState = {
-  prev: null,
   curr: null,
   tot: 0,
   act: null,
+};
+
+const isInvalidNum = (val) => val?.startsWith("0") && !val?.includes(".");
+
+const handleMath = (state) => {
+  const curr = +state.curr;
+  let updated = state.tot;
+
+  switch (state.act) {
+    case "+":
+      updated += curr;
+      break;
+    case "-":
+      updated -= curr;
+      break;
+    case "×":
+      updated *= curr;
+      break;
+    case "÷":
+      updated =
+        state.curr !== null ? (curr !== 0 ? updated / curr : "Error") : updated;
+      break;
+    default:
+      throw new Error("Invalid");
+  }
+
+  return { updated };
 };
 
 const reducer = (state, action) => {
@@ -29,46 +55,24 @@ const reducer = (state, action) => {
     case "ACT_CLICK": {
       const { act } = action.payload;
 
-      let canCalc = true;
-      for (const key in state) {
-        if (key === "tot") continue;
-        if (!state[key]) {
-          canCalc = false;
-          break;
-        }
-      }
-      if (!canCalc)
-        return {
-          ...state,
-          act,
-          prev: state.curr,
-          curr: null,
-        };
+      if (!state.act) state.act = "+";
 
-      const prev = +state.prev;
-      const curr = +state.curr;
-      let updated = state.tot;
-
-      switch (state.act) {
-        case "+":
-          updated += prev + curr;
-          break;
-        case "-":
-          updated += prev - curr;
-          break;
-        case "×":
-          updated += prev * curr;
-          break;
-        case "÷":
-          updated += curr !== 0 ? prev / curr : "Error";
-          break;
-        default:
-          throw new Error("Invalid");
-      }
+      const { updated } = handleMath(state);
 
       return {
         act,
-        prev: null,
+        curr: null,
+        tot: updated,
+      };
+    }
+
+    case "GET_RES": {
+      if (![state.curr, state.act].every((el) => !!el)) return state;
+
+      const { updated } = handleMath(state);
+
+      return {
+        act: null,
         curr: null,
         tot: updated,
       };
@@ -86,17 +90,19 @@ export const useTest = () => {
   const handleTestClick = (val) => {
     dispatch({ type: "NUM_CLICK", payload: { val } });
   };
-  const handleClearTest = () => {
-    dispatch({ type: "CLEAR" });
-  };
+  const handleClearTest = () => dispatch({ type: "CLEAR" });
+
   const handleChangeAction = (val) => {
     dispatch({ type: "ACT_CLICK", payload: { act: val } });
   };
+  const getRes = () => dispatch({ type: "GET_RES" });
 
   console.log(state);
+
   return {
     handleTestClick,
     handleClearTest,
     handleChangeAction,
+    getRes,
   };
 };
