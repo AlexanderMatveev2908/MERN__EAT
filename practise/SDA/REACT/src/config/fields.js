@@ -18,7 +18,14 @@ export const fieldsLeftSide = [
   id: genID(),
 }));
 
-export const fieldsRightSide = ["÷", "×", "-", "+", "="].map((el) => ({
+export const fieldsLeftSideBottom = ["0", "."].map((el) => ({
+  field: el,
+  id: genID(),
+}));
+
+export const operations = ["÷", "×", "-", "+"];
+
+export const fieldsRightSide = [...operations, "="].map((el) => ({
   field: el,
   id: genID(),
 }));

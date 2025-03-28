@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const ButtonBasic = ({ styleProp, label, cbTextUser }) => {
+const ButtonBasic = ({ styleProp, label, handleClick, ref }) => {
   const handleStyle = () =>
     styleProp === 1
       ? "btn__1"
@@ -11,7 +11,11 @@ const ButtonBasic = ({ styleProp, label, cbTextUser }) => {
       : "";
 
   return (
-    <button onClick={cbTextUser} className={`btn__base ${handleStyle()}`}>
+    <button
+      ref={ref}
+      onClick={handleClick}
+      className={`btn__base ${handleStyle()}`}
+    >
       {label}
     </button>
   );
