@@ -1,8 +1,9 @@
 import Content from "./components/Content/Content";
 import { useApp } from "./hooks/useApp";
+import { useTest } from "./hooks/useTest";
 
 const App = () => {
-  const { resMath, textUser, ...rest } = useApp();
+  const { resMath, textUser, totDev, ...rest } = useApp();
 
   return (
     <div className="w-full flex justify-center h-screen items-center">
@@ -11,7 +12,7 @@ const App = () => {
         {/* HEADER */}
         <div className="grid grid-cols-1">
           <div className="w-full flex justify-start items-center h-[122px] p-[40px] text-white text-[35px] leading-[54px] border-b border-[#222] font-[400]">
-            Calculator
+            Calculator ({totDev})
           </div>
         </div>
         {/* CONTENT LAYER*/}
@@ -26,7 +27,7 @@ const App = () => {
             </div>
 
             {/* BUTTONS */}
-            <Content {...rest} />
+            <Content {...{ ...rest, ...useTest() }} />
           </div>
         </div>
       </div>

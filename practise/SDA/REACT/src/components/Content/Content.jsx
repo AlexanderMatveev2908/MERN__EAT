@@ -6,7 +6,15 @@ import {
 } from "../../config/fields";
 import ButtonBasic from "../buttons/ButtonBasic";
 
-const Content = ({ handleChainStr, handleClear, resRef, handleShowRes }) => {
+const Content = ({
+  handleChainStr,
+  handleClear,
+  resRef,
+  handleShowRes,
+  handleTestClick,
+  handleClearTest,
+  handleChangeAction,
+}) => {
   return (
     <div className="w-full grid grid-cols-[3fr_1fr] gap-[20px]">
       {/* LEFT SIDE */}
@@ -18,9 +26,15 @@ const Content = ({ handleChainStr, handleClear, resRef, handleShowRes }) => {
               styleProp: 2,
               label: el.field,
               handleClick: !isNaN(+el.field)
-                ? () => handleChainStr(el.field)
+                ? () => {
+                    handleChainStr(el.field);
+                    handleTestClick(el.field);
+                  }
                 : el.field === "C"
-                ? handleClear
+                ? () => {
+                    handleClear();
+                    handleClearTest();
+                  }
                 : null,
             }}
           />
@@ -32,7 +46,10 @@ const Content = ({ handleChainStr, handleClear, resRef, handleShowRes }) => {
             {...{
               styleProp: isNaN(+el.field) ? 2 : 3,
               label: el.field,
-              handleClick: () => handleChainStr(el.field),
+              handleClick: () => {
+                handleChainStr(el.field);
+                handleTestClick(el.field);
+              },
             }}
           />
         ))}
@@ -48,7 +65,10 @@ const Content = ({ handleChainStr, handleClear, resRef, handleShowRes }) => {
               label: el.field,
               handleClick:
                 el.field !== "="
-                  ? () => handleChainStr(el.field)
+                  ? () => {
+                      handleChainStr(el.field);
+                      handleChangeAction(el.field);
+                    }
                   : handleShowRes,
             }}
           />
@@ -58,5 +78,11 @@ const Content = ({ handleChainStr, handleClear, resRef, handleShowRes }) => {
   );
 };
 
-Content.propTypes = {};
+Content.propTypes = {
+  handleChainStr: PropTypes.func.isRequired,
+  handleClear: PropTypes.func.isRequired,
+  handleShowRes: PropTypes.func.isRequired,
+  handleChangeAction: PropTypes.func.isRequired,
+  resRef: PropTypes.object.isRequired,
+};
 export default Content;
