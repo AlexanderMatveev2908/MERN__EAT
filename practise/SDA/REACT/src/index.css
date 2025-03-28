@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+.btn__base {
+  @apply border-0 bg-transparent text-[30px] leading-[40px] tracking-[0px] font-[400] text-white rounded-[90px] transition-all duration-300 cursor-pointer;
+}
+.btn__base:active {
+  font-size: 25px;
+  transition: none;
+}
+
+.btn__1,
+.btn__2 {
+  @apply w-[90px] h-[90px] active:w-[80px] active:h-[80px];
+}
+
+.btn__1 {
+  @apply bg-[#FF9F03] hover:bg-[#FFBB4C] active:bg-[#FF9F03];
+}
+.btn__2 {
+  @apply bg-[#3A3A3C] hover:bg-[#626262] active:bg-[#3A3A3C];
+}
+.btn__3 {
+  @apply bg-[#3A3A3C] w-[200px] h-[90px] px-[35px] text-start hover:bg-[#626262] active:bg-[#3A3A3C] active:w-[175px] active:h-[80px];
+}

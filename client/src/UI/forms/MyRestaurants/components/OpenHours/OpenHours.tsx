@@ -18,8 +18,10 @@ const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
 
   useEffect(() => {
     const updateErrs = () => {
+      const REG_MID = /^0{1,2}:0{1,2}$/;
+
       const res = getDiffTime(close, open);
-      if (res !== 0) {
+      if (res !== 0 || [open, close].every((el) => REG_MID.test(el))) {
         trigger("openTime");
         trigger("closeTime");
       }
@@ -30,6 +32,12 @@ const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
 
   const customValidateClose = (val: string) => {
     const res = getDiffTime(val, watch("openTime"));
+    if (
+      res === 0 &&
+      ![val, watch("openTime")].every((el) => /^0{1,2}:0{1,2}$/.test(el))
+    )
+      return "To keep open 24/7 write 0:0 or 00:00";
+
     if (res > 0 && res < 4)
       return "You must keep open at least 4 hours (part-time)";
 
@@ -38,6 +46,12 @@ const OpenHours: FC<PropsTypeFormContextRestaurants> = ({ formContext }) => {
 
   const customValidateOpen = (val: string) => {
     const res = getDiffTime(watch("closeTime"), val);
+
+    if (
+      res === 0 &&
+      ![val, watch("closeTime")].every((el) => /^0{1,2}:0{1,2}$/.test(el))
+    )
+      return "To keep open 24/7 write 0:0 or 00:00";
 
     if (res > 0 && res < 4)
       return "You must keep open at least 4 hours (part-time)";

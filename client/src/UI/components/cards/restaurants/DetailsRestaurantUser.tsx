@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, ReactNode } from "react";
 import {
   fieldsShowMyRestaurants,
@@ -10,6 +11,7 @@ import { priceFormatter } from "../../../../utils/allUtils/priceFormatter.ts";
 import { IconType } from "react-icons/lib";
 import { RestaurantAllUsers } from "../../../../types/allTypes/search.ts";
 import { MyRestaurantType } from "../../../../types/types.ts";
+import { Ri24HoursLine } from "react-icons/ri";
 
 type PropsContainer = {
   el: {
@@ -43,18 +45,46 @@ const DetailsRestaurantUser: FC<PropsType> = ({ rest, Container }) => {
       ))}
 
       <Container {...{ el: showMyRestaurantsOpenHours }}>
-        {showMyRestaurantsOpenHoursFields(...Object.values(rest.openHours)).map(
-          (el, i) => (
-            <li
-              key={i}
-              className="el__flow overflow-x-auto hide_scrollbar pointer-events-none cursor-pointer flex items-center gap-3"
-            >
-              <el.icon className="w-[25px] h-[25px]" />
+        {(() => {
+          const els = showMyRestaurantsOpenHoursFields(
+            ...Object.values(rest.openHours)
+          );
+          const content: any = [];
 
-              <span className="txt__01">{el.val}</span>
-            </li>
-          )
-        )}
+          let i = 0;
+
+          do {
+            if (els[i].val === els?.[i + 1]?.val) {
+              content.push(
+                <li
+                  key={i}
+                  className="el__flow overflow-x-auto hide_scrollbar pointer-events-none cursor-pointer flex items-center gap-3 col-span-2"
+                >
+                  <Ri24HoursLine className="w-[25px] h-[25px]" />
+
+                  <span className="txt__01">Always open</span>
+                </li>
+              );
+
+              break;
+            } else {
+              const Icon = els[i].icon;
+              content.push(
+                <li
+                  key={i}
+                  className="el__flow overflow-x-auto hide_scrollbar pointer-events-none cursor-pointer flex items-center gap-3"
+                >
+                  <Icon className="w-[25px] h-[25px]" />
+
+                  <span className="txt__01">{els[i].val}</span>
+                </li>
+              );
+              i++;
+            }
+          } while (i < els.length);
+
+          return content;
+        })()}
       </Container>
 
       <Container {...{ el: showMyRestaurantsDelivery }}>

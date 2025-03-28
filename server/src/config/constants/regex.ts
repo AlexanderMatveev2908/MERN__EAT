@@ -10,7 +10,7 @@ export const REG_TOKEN = /^[a-f0-9]{128}$/;
 export const REG_COUNTRY = /^[A-Za-zÀ-ÿ\d\s_]{2,50}$/;
 export const REG_STATE = /^[A-Za-zÀ-ÿ\d\s-_]{2,50}$/;
 export const REG_CITY = /^[A-Za-zÀ-ÿ\d\s-_]{2,50}$/;
-export const REG_STREET = /^[A-Za-zÀ-ÿ0-9\s,.#-]{5,100}$/;
+export const REG_STREET = /^[A-Za-zÀ-ÿ0-9\s,._#-]{5,100}$/;
 export const REG_ZIP = /^\d{5}(-\d{4})?$/;
 export const REG_PHONE =
   /^\+?\d{1,4}[\s-]?\(?\d{2,3}\)?[\s-]?\d{3,4}[\s-]?\d{3,4}$/;
@@ -28,3 +28,8 @@ export const REG_QTY_SEARCH = /^\d*$/;
 
 export const REG_QTY = /^\d+$/;
 export const REG_DISH_NAME = /^[A-Za-zÀ-ÿ0-9\s_\-!@#$%^&*()+=.,'"_]{2,30}$/;
+
+export const REG_P_SEARCH = /^\/search\/?$/;
+export const REG_P_DISHES_USER = /^\/search\/[a-f0-9]{24}$/;
+export const REG_P_DISHES = /^\/my-dishes\/?$/;
+export const REG_P_MY_REST = /^\/my-restaurants\/?$/;
