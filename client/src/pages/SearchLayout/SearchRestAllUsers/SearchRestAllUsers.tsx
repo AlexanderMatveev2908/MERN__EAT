@@ -50,7 +50,6 @@ const SearchRestAllUsers: FC = () => {
 
   const { totDocuments, nHits, totPages, restaurants } = data ?? ({} as any);
 
-  console.log(restaurants);
   return (
     <div className="w-full grid grid-cols-1 justify-items-center gap-5">
       <FormProvider {...formContext}>
