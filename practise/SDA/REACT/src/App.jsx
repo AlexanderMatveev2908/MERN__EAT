@@ -1,4 +1,12 @@
+import ButtonBasic from "./components/buttons/ButtonBasic";
+
 const App = () => {
-  return <div className="text-red-600 text-3xl">App</div>;
+  return (
+    <div className="">
+      <ButtonBasic {...{ styleProp: 1 }} />
+      <ButtonBasic {...{ styleProp: 2 }} />
+      <ButtonBasic {...{ styleProp: 3 }} />
+    </div>
+  );
 };
 export default App;
