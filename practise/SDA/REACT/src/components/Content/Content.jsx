@@ -14,6 +14,7 @@ const Content = ({
   handleTestClick,
   handleClearTest,
   handleChangeAction,
+  getRes,
 }) => {
   return (
     <div className="w-full grid grid-cols-[3fr_1fr] gap-[20px]">
@@ -69,7 +70,10 @@ const Content = ({
                       handleChainStr(el.field);
                       handleChangeAction(el.field);
                     }
-                  : handleShowRes,
+                  : () => {
+                      handleShowRes();
+                      getRes();
+                    },
             }}
           />
         ))}
