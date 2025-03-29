@@ -58,7 +58,7 @@ const handleMath = (state) => {
   if (operationsToCalc.length < 2) {
     res = +operationsToCalc[0];
   } else {
-    //  inner scope so i can name it as i want even already existing
+    //  inner scope so i can name it as i want even already existing above
     const arg = operationsToCalc;
     // start from first cause i assign res to first number, is like if inside a reduce i assign the acc to a number i know is to make additions instead of starting from 0
     res = +arg[0];
