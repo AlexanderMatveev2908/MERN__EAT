@@ -10,6 +10,7 @@ export const useApp = () => {
   const [resMath, setResMath] = useState(null);
   const resRef = useRef(null);
 
+  // made just for me
   const totDev = useMemo(() => {
     if (isNaN(textUser.split("")?.at(-1))) return;
     const formatted = formatTxt(textUser);
@@ -22,6 +23,7 @@ export const useApp = () => {
 
   useEffect(() => {
     const listenMouseDown = (e) => {
+      // chain prev tot with new calc, used ref but also id is ok
       if (!resRef?.current) return;
       if (!resRef.current.contains(e.target)) {
         setResMath(null);
@@ -33,12 +35,7 @@ export const useApp = () => {
   }, []);
 
   const handleToggleLastNum = () => {
-    if (
-      isNaN(textUser.split("").at(-1)) ||
-      textUser.length < 1 ||
-      textUser === "0"
-    )
-      return;
+    if (isNaN(textUser.at(-1)) || textUser === "0") return;
     // i do not affect original array cause virtual DOM react is not triggered by changes that does not return new memory ref of var
 
     setTextUser((prev) => {
@@ -65,20 +62,19 @@ export const useApp = () => {
       // start processing
 
       if (!lastOp) return -lastNum + "";
-      if (lastOp === "+") {
-        lastOp = "-";
-      } else if (lastOp === "-") {
-        lastOp = "+";
-      } else {
-        lastNum = -lastNum;
-      }
-      // start from prev str to calc logic, (splitted.len - 1 -i )tell us where was operator cause
-      // splitted.length -1 allow us to think in index logic and -i tells position whew we stopped above
-      //  - 1 cause we will replace operator with  updated one or same one(if no need change)
-      const whereToCut = prev.length - (splitted.length - 1 - i) - 1;
-      const cutted = prev.slice(0, whereToCut);
-      if (operations.includes(cutted.split("").at(-1)) && lastOp === "+")
-        lastOp = "";
+
+      // toggle op if not  * or / but toggle num if yes
+      if (lastOp === "+") lastOp = "-";
+      else if (lastOp === "-") lastOp = "+";
+      else lastNum = -lastNum;
+
+      //  make less 1 to each one to think in index logic and less i to know where we stopped above and exclude the op we will replace
+      const whereToStopCut = prev.length - 1 - (splitted.length - 1 - i);
+      const cutted = prev.slice(0, whereToStopCut);
+
+      //  last char is op cause we toggleled in past it and now would be x ++el or +-el that is ok and makes sense but is better show simple nums
+      if (operations.includes(cutted.at(-1)) && lastOp === "+") lastOp = "";
+      // i think is ok allow toggle first num to start making negative calc, just i do not show + if num is positive making it implicit positive
       if (!cutted && lastOp === "+") lastOp = "";
 
       // no need to use lastNum +"" cause it automatically is converted to string, i use to write it anyway cause help me with a personal logic
@@ -87,8 +83,8 @@ export const useApp = () => {
   };
 
   const handleChainStr = (val) => {
-    if (textUser.length >= 16) {
-      alert("Exceeded 16 chars");
+    if (textUser.length >= 14 && window.innerWidth <= 640) {
+      alert("Exceeded 14 chars");
       return;
     }
     setTextUser((prev) => {
@@ -104,7 +100,6 @@ export const useApp = () => {
 
       // not allow two . or in general NaN val consecutive
       const lastBlock = prev.split(REG_OP).pop();
-
       if (lastBlock.includes(".") && val === ".") return prev;
       if (isNaN(+lastChar) && isNaN(+val)) return prev;
 
@@ -118,7 +113,7 @@ export const useApp = () => {
   };
 
   const handleShowRes = () => {
-    if (isNaN(+textUser.slice(textUser.length - 1))) return;
+    if (isNaN(+textUser.at(-1))) return;
 
     const formatted = formatTxt(textUser);
 
@@ -126,27 +121,27 @@ export const useApp = () => {
     let i = 0;
     let isErr = false;
     do {
-      if (checkFormatted[i] === "/") {
-        // if we know is not by zero is ok
-        if (checkFormatted[i + 1] !== "0") {
-          i++;
-          continue;
-        }
+      // if no division no chance divide by 0, or if there is no 0 then will be ok division
+      if (checkFormatted[i] !== "/" || checkFormatted[i + 1] !== "0") {
+        i++;
+        continue;
+      }
 
-        //  delete / cause would create errors in findIndex
-        const blockToCheck = checkFormatted.slice(i + 1);
-        // isolate from next op
-        const nextOp = blockToCheck.findIndex((el) => operations.includes(el));
-        // create final block to check
-        const blockLoop =
-          nextOp !== -1 ? blockToCheck.slice(0, nextOp) : blockToCheck;
+      //  delete / cause would create bugs in findIndex
+      const blockToCheck = checkFormatted.slice(i + 1);
+      // isolate from next op
+      const nextOp = blockToCheck.findIndex((el) => operations.includes(el));
+      // create final block to check
+      const blockLoop =
+        nextOp !== -1 ? blockToCheck.slice(0, nextOp) : blockToCheck;
 
-        const num = blockLoop.join("");
-        // or is zero or does not include floating prime number then is err
-        if (num === "0" || !blockLoop.some((el) => !["0", "."].includes(el))) {
-          isErr = true;
-          break;
-        }
+      // or is zero or does not include floating prime number then is err
+      if (
+        blockLoop.join("") === "0" ||
+        !blockLoop.some((el) => !["0", "."].includes(el))
+      ) {
+        isErr = true;
+        break;
       }
       i++;
     } while (i < checkFormatted.length);
