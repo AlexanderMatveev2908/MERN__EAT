@@ -117,7 +117,6 @@ const reducer = (state, action) => {
     }
 
     case "TOGGLE_LAST": {
-      if (state.operationsQue.length < 3) return state;
       let updated = [...state.operationsQue];
 
       if (isNaN(updated.at(-1))) return state;
