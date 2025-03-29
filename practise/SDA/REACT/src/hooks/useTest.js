@@ -21,7 +21,7 @@ const handleMath = (state) => {
       const prev = +arg[i - 1];
       const next = +arg[i + 1];
 
-      const canDivide = next > 0;
+      const canDivide = next !== 0;
       if (curr === "÷" && !canDivide) {
         isErr = true;
         break;
