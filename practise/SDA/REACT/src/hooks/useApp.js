@@ -77,8 +77,7 @@ export const useApp = () => {
       // i think is ok allow toggle first num to start making negative calc, just i do not show + if num is positive making it implicit positive
       if (!cutted && lastOp === "+") lastOp = "";
 
-      // no need to use lastNum +"" cause it automatically is converted to string, i use to write it anyway cause help me with a personal logic
-      return cutted + lastOp + lastNum + "";
+      return cutted + lastOp + lastNum;
     });
   };
 
@@ -96,12 +95,12 @@ export const useApp = () => {
       if (operations.includes(lastChar) && operations.includes(val))
         return prev.slice(0, lastIndex) + val;
       // replace placeholder
-      if (prev === "0") return isNaN(+val) ? prev + val : val;
+      if (prev === "0") return isNaN(val) ? prev + val : val;
 
       // not allow two . or in general NaN val consecutive
       const lastBlock = prev.split(REG_OP).pop();
       if (lastBlock.includes(".") && val === ".") return prev;
-      if (isNaN(+lastChar) && isNaN(+val)) return prev;
+      if (isNaN(lastChar) && isNaN(val)) return prev;
 
       return prev + val;
     });
@@ -113,7 +112,7 @@ export const useApp = () => {
   };
 
   const handleShowRes = () => {
-    if (isNaN(+textUser.at(-1))) return;
+    if (isNaN(textUser.at(-1))) return;
 
     const formatted = formatTxt(textUser);
 

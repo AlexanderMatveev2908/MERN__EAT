@@ -21,8 +21,7 @@ const handleMath = (state) => {
       const prev = +arg[i - 1];
       const next = +arg[i + 1];
 
-      const canDivide = next !== 0;
-      if (curr === "÷" && !canDivide) {
+      if (curr === "÷" && next === 0) {
         isErr = true;
         break;
       }
@@ -34,7 +33,12 @@ const handleMath = (state) => {
           ? prev / next
           : curr === "%"
           ? (prev / 100) * next
-          : "Invalid sign";
+          : "Invalid";
+
+      if (res === "Invalid") {
+        isErr = true;
+        break;
+      }
 
       arg.splice(i - 1, 3, res + "");
 
@@ -42,6 +46,7 @@ const handleMath = (state) => {
       i--;
       // nothing happen so next
     } else i++;
+    //  arg and operationsToCalc share same ref in memory
   } while (i < operationsToCalc.length);
 
   let res = null;
@@ -50,8 +55,9 @@ const handleMath = (state) => {
       res,
     };
 
-  if (operationsToCalc.length < 2) res = +operationsToCalc[0];
-  else {
+  if (operationsToCalc.length < 2) {
+    res = +operationsToCalc[0];
+  } else {
     //  inner scope so i can name it as i want even already existing
     const arg = operationsToCalc;
     // start from first cause i assign res to first number, is like if inside a reduce i assign the acc to a number i know is to make additions instead of starting from 0
@@ -81,12 +87,12 @@ const reducer = (state, action) => {
 
       let updated = [...state.operationsQue];
 
-      if (isNaN(+updated?.at(-1))) updated = [...updated, ""];
+      if (isNaN(updated?.at(-1))) updated = [...updated, ""];
       let updatedCurr = updated.at(-1);
 
       if (!isNaN(val)) {
-        if (!updatedCurr) updatedCurr = val + "";
-        else updatedCurr += val + "";
+        if (!updatedCurr) updatedCurr = val;
+        else updatedCurr += val;
       }
       if (updatedCurr && isNaN(+val))
         updatedCurr += updatedCurr?.includes(".") ? "" : ".";
@@ -123,6 +129,7 @@ const reducer = (state, action) => {
 
       updated = [
         ...updated.slice(0, updated.length - 1),
+        //  shortcut ES6 => convert to number make negative convert to string faster, just cut - for negative num
         updated.at(-1) > 0 ? -+updated.at(-1) + "" : updated.at(-1).slice(1),
       ];
 
