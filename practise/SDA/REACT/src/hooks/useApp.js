@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { operations } from "../config/fields";
 import { REG_OP } from "../config/reg";
 
@@ -10,7 +10,16 @@ export const useApp = () => {
   const [resMath, setResMath] = useState(null);
   const resRef = useRef(null);
 
-  const [totDev, setTotDev] = useState(0);
+  const totDev = useMemo(() => {
+    if (isNaN(textUser.split("").at(-1))) return;
+    const formatted = formatTxt(textUser);
+
+    try {
+      return new Function(`return ${formatted}`)();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [textUser]);
 
   useEffect(() => {
     const listenMouseDown = (e) => {
@@ -23,23 +32,6 @@ export const useApp = () => {
     document.addEventListener("mousedown", listenMouseDown);
     return () => document.removeEventListener("mousedown", listenMouseDown);
   }, []);
-
-  useEffect(() => {
-    const updateTotDev = () => {
-      if (isNaN(textUser.split("").at(-1))) return;
-      const formatted = formatTxt(textUser);
-
-      try {
-        const res = new Function(`return ${formatted}`)();
-
-        setTotDev(res);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    updateTotDev();
-  }, [textUser]);
 
   const handleToggleLastNum = () => {
     if (isNaN(textUser.split("").at(-1)) || textUser.length < 2) return;
@@ -88,6 +80,10 @@ export const useApp = () => {
   };
 
   const handleChainStr = (val) => {
+    if (textUser.length >= 16) {
+      alert("Exceeded 16 chars");
+      return;
+    }
     setTextUser((prev) => {
       if (prev === "Error") prev = "";
 

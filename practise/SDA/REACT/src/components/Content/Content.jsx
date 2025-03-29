@@ -21,9 +21,9 @@ const Content = ({
   getRes,
 }) => {
   return (
-    <div className="w-full grid grid-cols-[3fr_1fr] gap-[20px]">
+    <div className="w-full grid grid-cols-[3fr_1fr] gap-[15px] sm:gap-[20px]">
       {/* LEFT SIDE */}
-      <div className="w-full grid grid-cols-3 place-items-center gap-[20px]">
+      <div className="w-full grid grid-cols-3 place-items-center gap-[15px] sm:gap-[20px]">
         {fieldsLeftSide.map((el) => (
           <ButtonBasic
             key={el.id}
@@ -70,7 +70,7 @@ const Content = ({
         ))}
       </div>
       {/* RIGHT SIDE */}
-      <div className="w-full grid gap-[20px] place-items-center">
+      <div className="w-full grid gap-[15px] sm:gap-[20px] place-items-center">
         {fieldsRightSide.map((el) => (
           <ButtonBasic
             key={el.id}
