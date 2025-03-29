@@ -5,7 +5,7 @@
 }
 
 body {
-  @apply bg-[#000] pb-[200px] pt-[100px];
+  @apply bg-[#000] sm:pb-[200px] sm:pt-[100px] pt-[20px];
 }
 
 .btn__base {
@@ -18,7 +18,7 @@ body {
 
 .btn__1,
 .btn__2 {
-  @apply w-[90px] h-[90px] active:w-[80px] active:h-[80px];
+  @apply w-[80px] sm:w-[90px] h-[80px] sm:h-[90px] active:w-[70px] sm:active:w-[80px] active:h-[70px] sm:active:h-[80px];
 }
 .btn__2,
 .btn__3 {
@@ -32,5 +32,5 @@ body {
   @apply bg-[#3A3A3C] hover:bg-[#626262] active:bg-[#3A3A3C];
 }
 .btn__3 {
-  @apply bg-[#3A3A3C] w-[200px] h-[90px] px-[35px] text-start hover:bg-[#626262] active:bg-[#3A3A3C] active:w-[175px] active:h-[80px] col-span-2;
+  @apply bg-[#3A3A3C] w-[175px] h-[80px] sm:w-[200px] sm:h-[90px] px-[35px] text-start hover:bg-[#626262] active:bg-[#3A3A3C] sm:active:w-[175px] sm:active:h-[80px] active:w-[150px] active:h-[70px] col-span-2;
 }
