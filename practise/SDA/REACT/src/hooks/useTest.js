@@ -1,38 +1,77 @@
 import { useReducer } from "react";
+import { operations } from "../config/fields";
 
 const initState = {
-  curr: null,
   tot: 0,
-  act: null,
-  operations: [],
+  operationsQue: [],
 };
 
 const handleMath = (state) => {
-  const curr = +state.curr;
-  let updated = state.tot;
+  const operationsToCalc = [...state.operationsQue];
 
-  switch (state.act) {
-    case "+":
-      updated += curr;
-      break;
-    case "-":
-      updated -= curr;
-      break;
-    case "×":
-      updated *= curr;
-      break;
-    case "÷":
-      updated =
-        state.curr !== null ? (curr !== 0 ? updated / curr : "Error") : updated;
-      break;
-    case "%":
-      updated = (updated / 100) * curr;
-      break;
-    default:
-      throw new Error("Invalid");
+  let isErr = false;
+  let i = 0;
+
+  do {
+    // give alias cause shorter and arg share memory ref so i can splice and update original
+    const curr = operationsToCalc[i];
+    const arg = operationsToCalc;
+
+    if (["×", "÷", "%"].includes(curr)) {
+      const prev = +arg[i - 1];
+      const next = +arg[i + 1];
+
+      const canDivide = next > 0;
+      if (curr === "÷" && !canDivide) {
+        isErr = true;
+        break;
+      }
+
+      const res =
+        curr === "×"
+          ? prev * next
+          : curr === "÷"
+          ? prev / next
+          : curr === "%"
+          ? (prev / 100) * next
+          : "Invalid sign";
+
+      arg.splice(i - 1, 3, res + "");
+
+      // rollback
+      i--;
+      // nothing happen so next
+    } else i++;
+  } while (i < operationsToCalc.length);
+
+  let res = null;
+  if (isErr)
+    return {
+      res,
+    };
+
+  if (operationsToCalc.length < 2) res = +operationsToCalc[0];
+  else {
+    //  inner scope so i can name it as i want even already existing
+    const arg = operationsToCalc;
+    // start from first cause i assign res to first number, is like if inside a reduce i assign the acc to a number i know is to make additions instead of starting from 0
+    res = +arg[0];
+    let j = 1;
+
+    do {
+      const curr = arg[j];
+      const next = arg[j + 1];
+
+      res = ["+", "-"].includes(curr)
+        ? curr === "+"
+          ? res + +next
+          : res - +next
+        : res;
+      // go next block operations couple
+      j += 2;
+    } while (j < operationsToCalc.length);
   }
-
-  return { updated };
+  return { res };
 };
 
 const reducer = (state, action) => {
@@ -40,7 +79,10 @@ const reducer = (state, action) => {
     case "NUM_CLICK": {
       const { val } = action.payload;
 
-      let updatedCurr = state.curr;
+      let updated = [...state.operationsQue];
+
+      if (isNaN(+updated?.at(-1))) updated = [...updated, ""];
+      let updatedCurr = updated.at(-1);
 
       if (!isNaN(val)) {
         if (!updatedCurr) updatedCurr = val + "";
@@ -49,44 +91,66 @@ const reducer = (state, action) => {
       if (updatedCurr && isNaN(+val))
         updatedCurr += updatedCurr?.includes(".") ? "" : ".";
 
+      updated = [...updated.slice(0, updated.length - 1), updatedCurr];
+
       return {
         ...state,
-        curr: updatedCurr,
+        operationsQue: updated,
       };
     }
     case "ACT_CLICK": {
       const { act } = action.payload;
 
-      if (!state.act) state.act = "+";
+      if (!state.operationsQue.length) return state;
 
-      const { updated } = handleMath(state);
-
-      return {
-        act,
-        curr: null,
-        tot: updated,
-      };
-    }
-
-    case "TOGGLE_LAST":
-      if (!state.curr || !state.act) return state;
+      let updated = [...state.operationsQue];
+      if (!isNaN(updated.at(-1))) {
+        updated = [...updated, act];
+      } else if (operations.includes(updated.at(-1))) {
+        updated = [...updated.slice(0, updated.length - 1), act];
+      }
 
       return {
         ...state,
-        curr: +state.curr > 0 ? -+state.curr + "" : state.curr.slice(1),
-      };
-
-    case "GET_RES": {
-      if (![state.curr, state.act].every((el) => !!el)) return state;
-
-      const { updated } = handleMath(state);
-
-      return {
-        act: null,
-        curr: null,
-        tot: updated,
+        operationsQue: updated,
       };
     }
+
+    case "TOGGLE_LAST": {
+      if (state.operationsQue.length < 3) return state;
+      let updated = [...state.operationsQue];
+
+      if (isNaN(updated.at(-1))) return state;
+
+      updated = [
+        ...updated.slice(0, updated.length - 1),
+        updated.at(-1) > 0 ? -+updated.at(-1) + "" : updated.at(-1).slice(1),
+      ];
+
+      return {
+        ...state,
+        operationsQue: updated,
+      };
+    }
+
+    case "GET_RES": {
+      if (state.operationsQue.length < 3 || isNaN(state.operationsQue.at(-1)))
+        return state;
+
+      const { res } = handleMath(state);
+
+      if (res === null)
+        return {
+          operationsQue: [],
+          tot: "Error",
+        };
+
+      return {
+        operationsQue: [res + ""],
+        tot: res,
+      };
+    }
+
     case "CLEAR":
       return initState;
     default:
@@ -110,6 +174,7 @@ export const useTest = () => {
   const handleToggleTest = () => dispatch({ type: "TOGGLE_LAST" });
 
   console.log(state);
+
   return {
     handleTestClick,
     handleClearTest,
