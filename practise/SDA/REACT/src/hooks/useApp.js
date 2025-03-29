@@ -76,7 +76,7 @@ export const useApp = () => {
       }
       // start from prev str to calc logic, (splitted.len - 1 -i )tell us where was operator cause
       // splitted.length -1 allow us to think in index logic and -i tells position whew we stopped above
-      //  - 1 cause we will replace operator with same one(if no need change) or updated one
+      //  - 1 cause we will replace operator with  updated one or same one(if no need change)
       const whereToCut = prev.length - (splitted.length - 1 - i) - 1;
       const cutted = prev.slice(0, whereToCut);
       if (operations.includes(cutted.split("").at(-1)) && lastOp === "+")
@@ -89,6 +89,8 @@ export const useApp = () => {
 
   const handleChainStr = (val) => {
     setTextUser((prev) => {
+      if (prev === "Error") prev = "";
+
       const lastIndex = prev.length - 1;
       const lastChar = prev?.slice(lastIndex);
       // switch operations
