@@ -11,9 +11,8 @@ export const useApp = () => {
   const resRef = useRef(null);
 
   const totDev = useMemo(() => {
-    if (isNaN(textUser.split("").at(-1))) return;
+    if (isNaN(textUser.split("")?.at(-1))) return;
     const formatted = formatTxt(textUser);
-
     try {
       return new Function(`return ${formatted}`)();
     } catch (err) {
@@ -34,7 +33,12 @@ export const useApp = () => {
   }, []);
 
   const handleToggleLastNum = () => {
-    if (isNaN(textUser.split("").at(-1)) || textUser.length < 2) return;
+    if (
+      isNaN(textUser.split("").at(-1)) ||
+      textUser.length < 1 ||
+      textUser === "0"
+    )
+      return;
     // i do not affect original array cause virtual DOM react is not triggered by changes that does not return new memory ref of var
 
     setTextUser((prev) => {
@@ -59,6 +63,8 @@ export const useApp = () => {
       //  remake of number correct order
       lastNum = +lastNum.reverse().join("");
       // start processing
+
+      if (!lastOp) return -lastNum + "";
       if (lastOp === "+") {
         lastOp = "-";
       } else if (lastOp === "-") {
@@ -73,6 +79,7 @@ export const useApp = () => {
       const cutted = prev.slice(0, whereToCut);
       if (operations.includes(cutted.split("").at(-1)) && lastOp === "+")
         lastOp = "";
+      if (!cutted && lastOp === "+") lastOp = "";
 
       // no need to use lastNum +"" cause it automatically is converted to string, i use to write it anyway cause help me with a personal logic
       return cutted + lastOp + lastNum + "";
