@@ -95,7 +95,7 @@ export const useApp = () => {
       if (operations.includes(lastChar) && operations.includes(val))
         return prev.slice(0, lastIndex) + val;
       // replace placeholder
-      if (prev === "0") return !isNaN(+val) ? val : prev + val;
+      if (prev === "0") return isNaN(+val) ? prev + val : val;
 
       // not allow two . or in general NaN val consecutive
       const lastBlock = prev.split(REG_OP).pop();
