@@ -23,9 +23,12 @@ export const fieldsLeftSideBottom = ["0", "."].map((el) => ({
   id: genID(),
 }));
 
-export const operations = ["÷", "×", "-", "+"];
+export const operations = ["÷", "×", "-", "+", "%"];
 
-export const fieldsRightSide = [...operations, "="].map((el) => ({
+export const fieldsRightSide = [
+  ...operations.filter((el) => el !== "%"),
+  "=",
+].map((el) => ({
   field: el,
   id: genID(),
 }));

@@ -4,9 +4,8 @@ const initState = {
   curr: null,
   tot: 0,
   act: null,
+  operations: [],
 };
-
-const isInvalidNum = (val) => val?.startsWith("0") && !val?.includes(".");
 
 const handleMath = (state) => {
   const curr = +state.curr;
@@ -25,6 +24,9 @@ const handleMath = (state) => {
     case "÷":
       updated =
         state.curr !== null ? (curr !== 0 ? updated / curr : "Error") : updated;
+      break;
+    case "%":
+      updated = (updated / 100) * curr;
       break;
     default:
       throw new Error("Invalid");
@@ -66,6 +68,14 @@ const reducer = (state, action) => {
       };
     }
 
+    case "TOGGLE_LAST":
+      if (!state.curr || !state.act) return state;
+
+      return {
+        ...state,
+        curr: +state.curr > 0 ? -+state.curr + "" : state.curr.slice(1),
+      };
+
     case "GET_RES": {
       if (![state.curr, state.act].every((el) => !!el)) return state;
 
@@ -97,12 +107,14 @@ export const useTest = () => {
   };
   const getRes = () => dispatch({ type: "GET_RES" });
 
-  console.log(state);
+  const handleToggleTest = () => dispatch({ type: "TOGGLE_LAST" });
 
+  console.log(state);
   return {
     handleTestClick,
     handleClearTest,
     handleChangeAction,
     getRes,
+    handleToggleTest,
   };
 };

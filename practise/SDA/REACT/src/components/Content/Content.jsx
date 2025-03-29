@@ -11,9 +11,13 @@ const Content = ({
   handleClear,
   resRef,
   handleShowRes,
+  handleToggleLastNum,
+
+  // made just for me
   handleTestClick,
   handleClearTest,
   handleChangeAction,
+  handleToggleTest,
   getRes,
 }) => {
   return (
@@ -35,6 +39,16 @@ const Content = ({
                 ? () => {
                     handleClear();
                     handleClearTest();
+                  }
+                : el.field === "%"
+                ? () => {
+                    handleChangeAction(el.field);
+                    handleChainStr(el.field);
+                  }
+                : el.field === "±"
+                ? () => {
+                    handleToggleLastNum();
+                    handleToggleTest();
                   }
                 : null,
             }}
