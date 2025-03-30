@@ -45,6 +45,11 @@ export const useUpdateCartByInt = ({ dish }: { dish: DishType }) => {
     clearInterval(intId.current!);
     intId.current = null;
   };
+  const handleOptimisticUpdate = (action: ActionsCLickCart) => {
+    if (action === "inc") setLocalQty((prev) => prev + 1);
+    else if (action === "dec") setLocalQty((prev) => prev - 1);
+    else setLocalQty(0);
+  };
 
   const handleAddInt = () => {
     clearInt();
@@ -106,12 +111,11 @@ export const useUpdateCartByInt = ({ dish }: { dish: DishType }) => {
       //  so i trigger the onCLick code i write before thinking of implementing the interval events, as a cb i get a param,
       //  and this only if user does not keep pressed enough to trigger interval event
       if (localQty === qtyItem) {
-        if (action === "inc") setLocalQty((prev) => prev + 1);
-        else if (action === "dec") setLocalQty((prev) => prev - 1);
-        else setLocalQty(0);
-
+        handleOptimisticUpdate(action);
         handleClickCart(action);
-      } else mutateInt({ dishId: (dish as DishType)._id, quantity: localQty });
+      } else {
+        mutateInt({ dishId: (dish as DishType)._id, quantity: localQty });
+      }
     }
   };
 
