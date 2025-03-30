@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useHandleErr } from ".././useHandleErr";
-import { useCart, useUser } from ".././useGlobal";
+import { useHandleErr } from "../useHandleErr";
+import { useCart, useUser } from "../useGlobal";
 import { useEffect } from "react";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { getCartUserAPI } from "../../api/api";

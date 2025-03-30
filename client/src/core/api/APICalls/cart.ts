@@ -7,8 +7,6 @@ export const getCartUserAPI = async (): Promise<
   ReturnAPIBasic & { cart: CartType }
 > => destructureDataAPI(() => foodAppInstance.get("/my-cart"));
 
-export type ActionAPICart = "inc" | "dec" | "del-item";
-
 export const incQtyAPI = async ({
   dishId,
 }: {

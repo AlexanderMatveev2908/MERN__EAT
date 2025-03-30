@@ -23,12 +23,9 @@ router
   .get(verifyAccessToken, asyncWrapper(getCartUser))
   .post(verifyAccessToken, validateDishId, asyncWrapper(incQtyCart))
   .patch(verifyAccessToken, validateDishId, asyncWrapper(decQtyCart));
-router.get(
-  "/dish-info",
-  verifyAccessToken,
-  validateDishId,
-  asyncWrapper(getDishInfoQtyInput)
-);
+
+router.get("/dish-info", validateDishId, asyncWrapper(getDishInfoQtyInput));
+
 router.patch(
   "/del-item",
   verifyAccessToken,
@@ -48,6 +45,7 @@ router.patch(
   validateDishId,
   asyncWrapper(updateQtyIntervalFormFront)
 );
+
 router.put(
   "/switch-logged",
   verifyAccessToken,

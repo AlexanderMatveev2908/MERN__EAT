@@ -31,7 +31,7 @@ const Header: FC = () => {
                 className="group relative el__flow hover:scale-110"
               >
                 <span className="absolute border-2 px-2 border-orange-500 text-orange-500 rounded-full bg-[#000] -top-3 -right-2">
-                  {cartNonLogged?.totQty ?? cart?.totQty}
+                  {cartNonLogged?.totQty ?? cart?.totQty ?? 0}
                 </span>
                 <MdOutlineShoppingCartCheckout className="min-w-[35px] min-h-[35px] group-hover:text-orange-500 el__flow" />
               </Link>

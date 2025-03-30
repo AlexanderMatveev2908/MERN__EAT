@@ -9,7 +9,7 @@ import DeleteButton from "../buttons/DeleteButton";
 import { fieldCoupon } from "../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { RestaurantAllUsers } from "../../../types/allTypes/search";
 import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
-import { useDeleteCart } from "../../../core/hooks/cart/useDeleteCart";
+import { useDeleteCart } from "../../../core/hooks/cartLogged/useDeleteCart";
 import ButtonAnimated from "../buttons/ButtonAnimated";
 
 type PropsType = {
@@ -28,21 +28,21 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
   const { isLogged } = useUser();
   const { isPending, handleDeleteCart } = useDeleteCart();
 
-  const cartToMap = isLogged ? cart : cartNonLogged;
+  const cartToCheck = isLogged ? cart : cartNonLogged;
 
   return (
-    cartToMap &&
-    isObjOk(cart) && (
+    cartToCheck &&
+    isObjOk(cartToCheck) && (
       <div className="w-full grid grid-cols-1 gap-4 border-[3px] border-orange-500 rounded-xl p-6 mb-6">
         <span className="txt__03 justify-self-center">Your Order</span>
 
         <ul className="w-full grid gap-5">
-          {cartToMap.items.map((el) => (
-            <SummaryItem key={el.dishId} {...{ item: el }} />
-          ))}
+          {cartToCheck.items.map((el) =>
+            isLogged ? <SummaryItem key={el.dishId} {...{ item: el }} /> : null
+          )}
         </ul>
 
-        <ShowCalcCart {...{ cart: cartToMap, rest }} />
+        <ShowCalcCart {...{ cart: cartToCheck, rest }} />
 
         <form className="w-full grid gap-6">
           <FormFieldNoIcon {...{ field: fieldCoupon, register, errors }} />
