@@ -16,7 +16,7 @@ const saveStorage = (updated) => {
     ...handleMath(updated),
   } as any;
 
-  localStorage.setItem("cartNonLogged", JSON.stringify(updated));
+  localStorage.setItem("cartNonLogged", JSON.stringify(merged));
 
   return { merged };
 };

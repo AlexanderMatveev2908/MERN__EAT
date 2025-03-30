@@ -70,7 +70,9 @@ const SearchRestPage: FC = () => {
 
   const cartToCheck = isLogged ? cart : cartNonLogged;
   const isBuyingSameRest =
-    isObjOk(cartToCheck) && cartToCheck?.restaurant === rest?._id;
+    isObjOk(cartToCheck) &&
+    cartToCheck?.totQty &&
+    cartToCheck?.restaurant === rest?._id;
 
   const {
     handleSave,

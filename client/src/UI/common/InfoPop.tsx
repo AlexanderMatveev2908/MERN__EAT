@@ -3,7 +3,7 @@ import { useInfoPop } from "../../core/hooks/useGlobal";
 import ButtonBasic from "../components/buttons/ButtonBasic";
 
 const InfoPop = () => {
-  const { infoPop, setInfoPop } = useInfoPop();
+  const { infoPop } = useInfoPop();
 
   const someoneIsLoading =
     infoPop?.isPendingCancel || infoPop?.isPendingConfirm;
@@ -15,7 +15,7 @@ const InfoPop = () => {
     >
       <div className="w-[75vw] max-w-[750px] min-h-1/2 max-h-full bg-[#111] border-[3px] border-orange-500 rounded-2xl grid grid-rows-[40px_1fr_1fr] p-6">
         <div
-          onClick={() => setInfoPop(null)}
+          onClick={() => infoPop?.cancelActCb()}
           className="w-fit h-fit justify-self-end flex justify-end -mt-3 -mr-2"
         >
           <X className="w-[35px] h-[35px] sm:h-[40px] sm:w-[40px] text-red-600 btn__pseudo hover:scale-120" />
