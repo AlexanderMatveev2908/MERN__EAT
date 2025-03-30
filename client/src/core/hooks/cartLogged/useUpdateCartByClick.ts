@@ -1,37 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  ActionAPICart,
-  decQtyAPI,
-  delItemAPI,
-  incQtyAPI,
-} from "../../api/APICalls/cart";
-import { ErrFoodApp, ReturnAPIBasic } from "../../../types/allTypes/API";
-import { useUser } from "../useGlobal";
-import { DishType } from "../../../types/types";
-import { CartItem } from "../../../types/allTypes/cart";
+import { ActionsCLickCart, CartItem } from "../../../types/allTypes/cart";
+import { DishType, ReturnAPIBasic } from "../../../types/types";
+import { decQtyAPI, delItemAPI, incQtyAPI } from "../../api/api";
 import { useGetFavHooks } from "../useGetFavHooks";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
-// IMPORTANT =>
-// INC DEC DEL-ITEM IN BUTTONS PROVIDES DISH AS DOCUMENT OF COLLECTION DISHES
-// SUMMARY ITEM PROVIDES ITEM OF CART DOCUMENT IN COLLECTION CARTS AS SIMPLE OBJ
-
-export const useUpdateCart = ({ dish }: { dish: DishType | CartItem }) => {
+export const useUpdateCartByClick = ({
+  dish,
+}: {
+  dish: DishType | CartItem;
+}) => {
   const queryClient = useQueryClient();
 
   const { showToastMsg, handleErrAPI } = useGetFavHooks();
-  const { isLogged } = useUser();
-
-  const dishId = dish && "dishId" in dish ? dish.dishId : dish?._id;
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (action: ActionAPICart): any =>
+    mutationFn: (action: ActionsCLickCart): any =>
       action === "inc"
-        ? incQtyAPI({ dishId: dishId as string })
+        ? incQtyAPI({ dishId: (dish as DishType)._id as string })
         : action === "dec"
-        ? decQtyAPI({ dishId: dishId as string })
+        ? decQtyAPI({ dishId: (dish as DishType)._id as string })
         : action === "del-item"
-        ? delItemAPI({ dishId: dishId as string })
+        ? delItemAPI({
+            dishId:
+              ((dish as CartItem).dishId as string) ?? (dish as DishType)._id,
+          })
         : null,
 
     onSuccess: (data: ReturnAPIBasic) => {
@@ -50,8 +44,7 @@ export const useUpdateCart = ({ dish }: { dish: DishType | CartItem }) => {
     onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),
   });
 
-  const handleClickCart = (action: ActionAPICart) =>
-    isLogged ? mutate(action) : null;
+  const handleClickCart = (action: ActionsCLickCart) => mutate(action);
 
   return {
     handleClickCart,

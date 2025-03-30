@@ -1,26 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { X } from "lucide-react";
-import { FC } from "react";
-import { priceFormatter } from "../../../../utils/utils";
-import { calcTotPriceItem } from "../../../../utils/allUtils/priceFormatter";
-import { CartItem } from "../../../../types/allTypes/cart";
-import MiniSpinner from "../../loaders/MiniSpinner";
-import { fieldUpdateQty } from "../../../../core/config/fieldsArr/allFields/cart/update";
-import { useUpdateCartByInput } from "../../../../core/hooks/cartLogged/useUpdateCartByInput";
 import { useMutation } from "@tanstack/react-query";
 import { getDishInfoQtyInputAPI } from "../../../../core/api/api";
-import { useUpdateCartByClick } from "../../../../core/hooks/cartLogged/useUpdateCartByClick";
+import { fieldUpdateQty } from "../../../../core/config/fieldsArr/allFields/cart/update";
+import { FC } from "react";
+import { CartItem } from "../../../../types/allTypes/cart";
+import { priceFormatter } from "../../../../utils/utils";
+import { calcTotPriceItem } from "../../../../utils/allUtils/priceFormatter";
+import { X } from "lucide-react";
 
 type PropsType = {
   item: CartItem;
 };
 
-const SummaryItem: FC<PropsType> = ({ item }) => {
-  const { handleClickCart, isPending } = useUpdateCartByClick({ dish: item });
-
-  const { register, errors, isPendingInputQTy, changeQtyInput, isMutating } =
-    useUpdateCartByInput({ dish: item });
-
+const SummaryItemNoLogged: FC<PropsType> = ({ item }) => {
   const { data, mutate } = useMutation({
     mutationFn: () => getDishInfoQtyInputAPI({ dishId: item.dishId }),
   });
@@ -48,11 +39,7 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
             validate: (val: string) =>
               +val > (data?.dish?.quantity ?? 0) ? "Dish not available" : true,
           })}
-          onBlur={() =>
-            errors?.quantity?.message || isMutating.current
-              ? null
-              : changeQtyInput()
-          }
+          onBlur={() => (errors?.quantity?.message ? null : changeQtyInput())}
           onFocus={handleFocus}
         />
       </form>
@@ -66,19 +53,12 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
           {calcTotPriceItem(item)}
         </span>
 
-        {isPending || isPendingInputQTy ? (
-          <div className="justify-self-end">
-            <MiniSpinner />
-          </div>
-        ) : (
-          <button
-            disabled={isPending}
-            onClick={() => handleClickCart("del-item")}
-            className="w-fit p-1 border-2 border-red-600 rounded-xl group hover:scale-120 el__flow flex items-center justify-center cursor-pointer justify-self-end"
-          >
-            <X className="min-w-[25px] min-h-[25px] group-hover:text-red-600 el__flow" />
-          </button>
-        )}
+        <button
+          onClick={() => handleClickCart("del-item")}
+          className="w-fit p-1 border-2 border-red-600 rounded-xl group hover:scale-120 el__flow flex items-center justify-center cursor-pointer justify-self-end"
+        >
+          <X className="min-w-[25px] min-h-[25px] group-hover:text-red-600 el__flow" />
+        </button>
       </div>
 
       {errors?.quantity && (
@@ -87,4 +67,4 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
     </li>
   );
 };
-export default SummaryItem;
+export default SummaryItemNoLogged;
