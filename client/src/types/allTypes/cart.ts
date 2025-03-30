@@ -43,8 +43,24 @@ export type CartVals = CartState & {
     restId,
   }: {
     action: ActionsCLickCart;
-    dish: DishType;
+    dish: DishType | CartItem;
     restId?: string;
+  }) => void;
+  handleUpdateByInput: ({
+    quantity,
+    dishId,
+  }: {
+    quantity: string;
+    dishId: string;
+  }) => void;
+  handleUpdateByInt: ({
+    dish,
+    restId,
+    quantity,
+  }: {
+    dish: DishType;
+    restId: string;
+    quantity;
   }) => void;
 };
 
@@ -67,5 +83,13 @@ export type CartActionsType =
     }
   | {
       type: CartActionsNonLogged.DEL_ITEM_NON_LOGGED;
-      payload: { dish: DishType };
+      payload: { dish: DishType | CartItem };
+    }
+  | {
+      type: CartActionsNonLogged.UPDATE_QTY_BY_INPUT;
+      payload: { dishId: string; quantity: string };
+    }
+  | {
+      type: CartActionsNonLogged.UPDATE_QTY_BY_INT;
+      payload: { dish: DishType; restId: string; quantity: string };
     };

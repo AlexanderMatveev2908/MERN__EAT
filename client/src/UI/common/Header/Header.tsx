@@ -15,6 +15,7 @@ const Header: FC = () => {
 
   const location = useLocation();
   const needSideBar = location.pathname !== "/notice-email-sent";
+  const cartToCheck = isLogged ? cart : cartNonLogged;
 
   return (
     <div className="sticky top-0 left-0 h-fit min-h-[75px] w-full border-b-3 border-orange-500 bg-[#111] pad__page flex items-center header__i">
@@ -25,13 +26,13 @@ const Header: FC = () => {
 
         {needSideBar && (
           <div className="flex w-full gap-5 items-center justify-end">
-            {(isObjOk(cart) || isObjOk(cartNonLogged)) && (
+            {isObjOk(cartToCheck) && cartToCheck?.totQty && (
               <Link
-                to={`/search/${cart?.restaurant}`}
+                to={`/search/${cartToCheck?.restaurant}`}
                 className="group relative el__flow hover:scale-110"
               >
                 <span className="absolute border-2 px-2 border-orange-500 text-orange-500 rounded-full bg-[#000] -top-3 -right-2">
-                  {cartNonLogged?.totQty ?? cart?.totQty ?? 0}
+                  {cartToCheck.totQty}
                 </span>
                 <MdOutlineShoppingCartCheckout className="min-w-[35px] min-h-[35px] group-hover:text-orange-500 el__flow" />
               </Link>

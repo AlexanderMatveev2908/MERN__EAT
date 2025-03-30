@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
 import ButtonsCart from "./components/ButtonsCart";
 import { showNumericValsDishUser } from "../../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
+import { useUser } from "../../../../core/hooks/useGlobal";
+import ButtonsCartNonLogged from "./components/ButtonsCartNonLogged";
 
 type PropsType = {
   dish: DishType;
@@ -13,6 +15,8 @@ type PropsType = {
 };
 
 const DishItem: FC<PropsType> = ({ dish, isAdmin }) => {
+  const { isLogged } = useUser();
+
   return (
     <div className="card__el border-orange-500 relative">
       {isAdmin && (
@@ -48,7 +52,11 @@ const DishItem: FC<PropsType> = ({ dish, isAdmin }) => {
             </li>
           ))}
 
-          <ButtonsCart {...{ dish }} />
+          {isLogged ? (
+            <ButtonsCart {...{ dish }} />
+          ) : (
+            <ButtonsCartNonLogged {...{ dish }} />
+          )}
         </ul>
       </div>
     </div>

@@ -11,6 +11,7 @@ import { RestaurantAllUsers } from "../../../types/allTypes/search";
 import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
 import { useDeleteCart } from "../../../core/hooks/cartLogged/useDeleteCart";
 import ButtonAnimated from "../buttons/ButtonAnimated";
+import SummaryItemNoLogged from "./components/SummaryItemNoLogged";
 
 type PropsType = {
   rest: RestaurantAllUsers;
@@ -38,7 +39,11 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
 
         <ul className="w-full grid gap-5">
           {cartToCheck.items.map((el) =>
-            isLogged ? <SummaryItem key={el.dishId} {...{ item: el }} /> : null
+            isLogged ? (
+              <SummaryItem key={el.dishId} {...{ item: el }} />
+            ) : (
+              <SummaryItemNoLogged key={el.dishId} {...{ item: el }} />
+            )
           )}
         </ul>
 

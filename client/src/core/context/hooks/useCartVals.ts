@@ -3,6 +3,7 @@ import { Dispatch, useCallback } from "react";
 import {
   ActionsCLickCart,
   CartActionsType,
+  CartItem,
   CartState,
   CartType,
   CartTypeNonLogged,
@@ -47,15 +48,42 @@ export const useCartVals = (
     restId,
   }: {
     action: ActionsCLickCart;
-    dish: DishType;
+    dish: DishType | CartItem;
     restId: string;
   }) => dispatch({ type: getAction(action), payload: { restId, dish } } as any);
+
+  const handleUpdateByInput = ({
+    dishId,
+    quantity,
+  }: {
+    dishId: string;
+    quantity: string;
+  }) =>
+    dispatch({
+      type: CartActionsNonLogged.UPDATE_QTY_BY_INPUT,
+      payload: { quantity, dishId },
+    });
+  const handleUpdateByInt = ({
+    dish,
+    restId,
+    quantity,
+  }: {
+    dish: DishType;
+    restId: string;
+    quantity;
+  }) =>
+    dispatch({
+      type: CartActionsNonLogged.UPDATE_QTY_BY_INT,
+      payload: { dish, quantity, restId },
+    });
 
   //sometimes i spread to not write all stuff inside state but to be onest i do it often also for habit
   return {
     setCartLogged,
     setCartNonLogged,
     handleClickCartNonLogged,
+    handleUpdateByInput,
+    handleUpdateByInt,
     ...cartState,
   };
 };
