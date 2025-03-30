@@ -192,6 +192,7 @@ export const updateQtyByInput = async (
   const { quantity } = req.body;
 
   if (!REG_QTY.test(quantity)) return badRequest(res);
+  if (!+quantity) return badRequest(res);
 
   const { cart, dish, ok } = await getDataRequest(req, res);
   if (!ok) return;

@@ -52,12 +52,11 @@ export const useCreateQueryHandlers = ({
   const [currPage, setCurrPageBeforeCb] = useState<number>(1);
   const [limit, setLimit] = useState(5);
   const [closeAllDrop, setCloseAllDrop] = useState(false);
-
   const path = useLocation().pathname;
 
   const queryClient = useQueryClient();
-  useUpdateCardsLimit(limit, setLimit);
 
+  useUpdateCardsLimit(limit, setLimit);
   const { handleSubmit, reset, trigger } = formCtx;
 
   const defaultValues = REG_P_MY_REST.test(path)

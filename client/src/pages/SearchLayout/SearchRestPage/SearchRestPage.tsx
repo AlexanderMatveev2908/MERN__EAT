@@ -69,7 +69,8 @@ const SearchRestPage: FC = () => {
   const { restaurant: rest } = dataRest ?? {};
 
   const cartToCheck = isLogged ? cart : cartNonLogged;
-  const isBuyingSameRest = cartToCheck?.restaurant === rest?._id;
+  const isBuyingSameRest =
+    isObjOk(cartToCheck) && cartToCheck?.restaurant === rest?._id;
 
   const {
     handleSave,

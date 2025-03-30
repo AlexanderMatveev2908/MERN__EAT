@@ -24,10 +24,11 @@ export const useUpdateCartByInt = ({ dish }: { dish: DishType }) => {
   const { handleOpenInfoPop } = useSwitchCartLogged({ dish: dish as DishType });
   const { cart } = useCart();
 
-  const qtyItem = isObjOk(cart)
-    ? cart?.items.find((el: CartItem) => el.dishId === (dish as DishType)._id)
-        ?.quantity || 0
-    : 0;
+  const qtyItem =
+    isObjOk(cart) && cart?.items
+      ? cart.items.find((el: CartItem) => el.dishId === (dish as DishType)._id)
+          ?.quantity || 0
+      : 0;
   let isAvl = true;
   if (qtyItem >= dish.quantity) isAvl = false;
 

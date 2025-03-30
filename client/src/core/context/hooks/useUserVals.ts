@@ -1,15 +1,14 @@
 import { useCallback } from "react";
-import {
-  CurrUserType,
-  UserActionTypes,
-  UserStateType,
-} from "../../../types/allTypes/userTypes";
+import { CurrUserType, UserStateType } from "../../../types/allTypes/userTypes";
 import {
   SET_CAN_MANAGE_ACCOUNT,
   SET_CURR_USER,
   SET_IS_LOGGED,
 } from "../actions/userActions";
 import { getInitialsName } from "../../../utils/utils";
+import { RootActionTypes } from "../root/rootTypes";
+import { useQueryClient } from "@tanstack/react-query";
+import { CartActionsLogged } from "../actions/cartActions";
 
 const currentKeysToCleanStorage = [
   "myRestaurantsSearch",
@@ -22,8 +21,10 @@ const currentKeysToCleanStorage = [
 
 export const useUserVals = (
   userState: UserStateType,
-  dispatch: React.Dispatch<UserActionTypes>
+  dispatch: React.Dispatch<RootActionTypes>
 ) => {
+  const queryClient = useQueryClient();
+
   const logoutUser = useCallback(() => {
     let i = 0;
     do {
@@ -34,7 +35,14 @@ export const useUserVals = (
     dispatch({ type: SET_IS_LOGGED, payload: false });
     dispatch({ type: SET_CURR_USER, payload: null });
     dispatch({ type: SET_CAN_MANAGE_ACCOUNT, payload: false });
-  }, [dispatch]);
+
+    dispatch({
+      type: CartActionsLogged.SET_CART,
+      payload: { cart: null },
+    } as Extract<RootActionTypes, { type: CartActionsLogged.SET_CART }>);
+
+    queryClient.clear();
+  }, [dispatch, queryClient]);
 
   const setUserLogged = useCallback(
     (val?: string | boolean) => {

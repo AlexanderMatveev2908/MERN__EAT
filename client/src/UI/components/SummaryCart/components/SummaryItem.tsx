@@ -46,7 +46,11 @@ const SummaryItem: FC<PropsType> = ({ item }) => {
               message: fieldUpdateQty.msg,
             },
             validate: (val: string) =>
-              +val > (data?.dish?.quantity ?? 0) ? "Dish not available" : true,
+              !+val
+                ? "Quantity must be a positive number"
+                : +val > (data?.dish?.quantity ?? 0)
+                ? "Dish not available"
+                : true,
           })}
           onBlur={() =>
             errors?.quantity?.message || isMutating.current
