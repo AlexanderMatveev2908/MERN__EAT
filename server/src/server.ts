@@ -8,6 +8,7 @@ import { connectCloudinary } from "./config/cloud.js";
 import router from "./routes/mainRoute.js";
 import { get__dirname } from "./utils/calcPath.js";
 import { makeCart } from "./stuff/makeOpDb.js";
+import { genTxtCouponMail } from "./utils/mail.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -23,6 +24,8 @@ if (!isDev) {
     res.sendFile(path.join(get__dirname(), "../../client/dist/index.html"))
   );
 }
+
+console.log(genTxtCouponMail("12345"));
 
 app.use(errMiddleware);
 

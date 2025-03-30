@@ -1,6 +1,12 @@
 import { isDev } from "../config/currMode.js";
 import { transporterMail } from "../config/nodemailer.js";
 import { UserType } from "../models/User.js";
+import {
+  categoriesDiscount,
+  discount,
+  discountOverCond,
+  genExpiryCoupon,
+} from "./coupon/generateCoupons.js";
 
 const basePath = isDev ? process.env.FRONT_URL_DEV : process.env.FRONT_URL;
 
@@ -76,5 +82,46 @@ export const sendEmailChangeAccountEmail = async (
     to: user?.tempNewEmail as string,
     subject: "VERIFY NEW EMAIL",
     text: `Click the link to be redirected to our app and verify your new email ✌🏼: ${verifyEmailURL}`,
+  });
+};
+
+export const genTxtCouponMail = (token: string) => {
+  const diffTimeSeconds = (genExpiryCoupon().getTime() - Date.now()) / 1000;
+  const hours = Math.floor(diffTimeSeconds / (60 * 60));
+  const minutes = Math.floor((diffTimeSeconds % (60 * 60)) / 60);
+  const expiry = ` ${hours ? `${hours} hour${hours > 1 ? "s" : ""}` : ""} ${
+    minutes
+      ? `${hours ? "and " : ""}${minutes} minute${minutes > 1 ? "s" : ""}`
+      : ""
+  }`;
+
+  const categories =
+    categoriesDiscount.length > 1
+      ? categoriesDiscount
+          .map((el, i, arg) =>
+            i === arg.length - 1
+              ? "and " + el.toUpperCase()
+              : i === arg.length - 2
+              ? el.toUpperCase() + " "
+              : el.toUpperCase() + ", "
+          )
+          .join("")
+      : categoriesDiscount[0].toUpperCase();
+
+  return `Good news, for the next${expiry}, you will have a discount on ${categories} categor${
+    categoriesDiscount.length > 1 ? "ies" : "y"
+  }, of ${discount}, over an order of $${discountOverCond.toFixed(
+    2
+  )}, with following code ✌🏼\n${token}\n`;
+};
+
+export const sendEmailCoupon = async (user: UserType, token: string) => {
+  if (!user || !token) return;
+
+  await transporterMail.sendMail({
+    from: process.env.MAIL_USER,
+    to: user.email,
+    subject: "SPECIAL OFFER 🎉",
+    text: genTxtCouponMail(token),
   });
 };
