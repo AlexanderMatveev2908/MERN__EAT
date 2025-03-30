@@ -1,10 +1,12 @@
 import { CartActionsType, CartState } from "../../../../types/allTypes/cart";
+import { isObjOk } from "../../../../utils/allUtils/validateData";
 
 import {
   CartActionsLogged,
   CartActionsNonLogged,
 } from "../../actions/cartActions";
 import {
+  handleChangeRest,
   handleDecQty,
   handleDelItem,
   handleIncQty,
@@ -23,11 +25,22 @@ export const cartReducer = (
         cart: action.payload.cart,
       };
 
-    case CartActionsNonLogged.SET_CART_NON_LOGGED:
+    case CartActionsNonLogged.SET_CART_NON_LOGGED: {
+      const { cart } = action.payload;
+
+      if (!isObjOk(cart)) {
+        localStorage.removeItem("cartNonLogged");
+        return {
+          ...cartState,
+          cartNonLogged: null,
+        };
+      }
+
       return {
         ...cartState,
         cartNonLogged: action.payload.cart,
       };
+    }
 
     case CartActionsNonLogged.INC_QTY_NON_LOGGED:
       return handleIncQty(cartState, action);
@@ -43,6 +56,9 @@ export const cartReducer = (
 
     case CartActionsNonLogged.UPDATE_QTY_BY_INT:
       return handleUpdateByInt(cartState, action);
+
+    case CartActionsNonLogged.CHANGE_REST:
+      return handleChangeRest(cartState, action);
 
     default:
       return cartState;

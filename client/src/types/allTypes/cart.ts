@@ -36,6 +36,7 @@ export type CartState = {
 
 export type CartVals = CartState & {
   setCartLogged: (cart: CartType) => void;
+
   setCartNonLogged: (cart: CartTypeNonLogged) => void;
   handleClickCartNonLogged: ({
     action,
@@ -62,6 +63,7 @@ export type CartVals = CartState & {
     restId: string;
     quantity;
   }) => void;
+  changeRest: ({ dish, restId }: { dish: DishType; restId: string }) => void;
 };
 
 export type CartActionsType =
@@ -92,4 +94,8 @@ export type CartActionsType =
   | {
       type: CartActionsNonLogged.UPDATE_QTY_BY_INT;
       payload: { dish: DishType; restId: string; quantity: string };
+    }
+  | {
+      type: CartActionsNonLogged.CHANGE_REST;
+      payload: { dish: DishType; restId: string };
     };

@@ -11,4 +11,6 @@ export enum CartActionsNonLogged {
 
   UPDATE_QTY_BY_INPUT = "UPDATE_QTY_BY_INPUT",
   UPDATE_QTY_BY_INT = "UPDATE_QTY_BY_INT",
+
+  CHANGE_REST = "CHANGE_REST",
 }

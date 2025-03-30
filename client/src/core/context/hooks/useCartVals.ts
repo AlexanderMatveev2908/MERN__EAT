@@ -77,6 +77,12 @@ export const useCartVals = (
       payload: { dish, quantity, restId },
     });
 
+  const changeRest = ({ dish, restId }: { dish: DishType; restId: string }) =>
+    dispatch({
+      type: CartActionsNonLogged.CHANGE_REST,
+      payload: { dish, restId },
+    });
+
   //sometimes i spread to not write all stuff inside state but to be onest i do it often also for habit
   return {
     setCartLogged,
@@ -84,6 +90,7 @@ export const useCartVals = (
     handleClickCartNonLogged,
     handleUpdateByInput,
     handleUpdateByInt,
+    changeRest,
     ...cartState,
   };
 };

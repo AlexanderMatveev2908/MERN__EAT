@@ -8,16 +8,19 @@ import FormFieldNoIcon from "../../forms/inputFields/FormFieldNoIcon";
 import DeleteButton from "../buttons/DeleteButton";
 import { fieldCoupon } from "../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { RestaurantAllUsers } from "../../../types/allTypes/search";
-import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
 import { useDeleteCart } from "../../../core/hooks/cartLogged/useDeleteCart";
 import ButtonAnimated from "../buttons/ButtonAnimated";
 import SummaryItemNoLogged from "./components/SummaryItemNoLogged";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type PropsType = {
   rest: RestaurantAllUsers;
 };
 
 const SummaryCart: FC<PropsType> = ({ rest }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const {
     register,
     formState: { errors },
@@ -25,11 +28,19 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
     mode: "onChange",
   });
 
-  const { cart, cartNonLogged } = useCart();
+  //  I KEEP CART STATE OF NON LOGGED IN CTX AND HANDLE CART SAVED IN DB WITH CUSTOM HOOKS
+  const { cart, cartNonLogged, setCartNonLogged } = useCart();
   const { isLogged } = useUser();
   const { isPending, handleDeleteCart } = useDeleteCart();
 
   const cartToCheck = isLogged ? cart : cartNonLogged;
+  const handleCheckout = () =>
+    isLogged
+      ? null
+      : navigate("/auth/login", {
+          state: { from: location.pathname },
+        });
+  const clearCartNonLogged = () => setCartNonLogged(null);
 
   return (
     cartToCheck &&
@@ -53,27 +64,30 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
           <FormFieldNoIcon {...{ field: fieldCoupon, register, errors }} />
 
           <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 sm:gap-0 sm:grid-cols-2 items-center">
-            <div className="w-[200px] justify-self-center flex ic">
+            <div
+              className={`${
+                isLogged ? "w-[200px]" : "w-[250px]"
+              } justify-self-center flex `}
+            >
               <ButtonAnimated
                 {...{
-                  label: "Checkout",
+                  label: isLogged ? "Checkout" : "Login now to order",
                   type: "button",
                   isDisabled: isPending,
+                  handleClick: handleCheckout,
                 }}
               />
             </div>
 
             <div className="w-[200px] justify-self-center">
-              {isPending ? (
-                <SpinnerBtnReact />
-              ) : (
-                <DeleteButton
-                  {...{
-                    txt: "Clear",
-                    handleDelete: handleDeleteCart,
-                  }}
-                />
-              )}
+              <DeleteButton
+                {...{
+                  txt: "Clear",
+                  handleDelete: isLogged
+                    ? handleDeleteCart
+                    : clearCartNonLogged,
+                }}
+              />
             </div>
           </div>
         </form>

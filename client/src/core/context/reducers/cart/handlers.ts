@@ -218,3 +218,29 @@ export const handleUpdateByInt = (cartState: CartState, action) => {
     cartNonLogged: merged,
   };
 };
+
+export const handleChangeRest = (cartState: CartState, action) => {
+  const { dish, restId } = action.payload;
+
+  if (!isObjOk(dish) || !restId) throw new Error("Miss data " + action.type);
+  if (!cartState.cartNonLogged) return cartState;
+
+  const newCart: Partial<CartTypeNonLogged> = {
+    restaurant: restId,
+    items: [
+      {
+        name: dish.name,
+        price: dish.price,
+        quantity: 1,
+        dishId: dish._id,
+      },
+    ],
+  };
+
+  const { merged } = saveStorage(newCart);
+
+  return {
+    ...cartState,
+    cartNonLogged: merged,
+  };
+};
