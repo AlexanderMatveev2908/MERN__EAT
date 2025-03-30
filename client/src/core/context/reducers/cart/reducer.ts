@@ -1,10 +1,11 @@
-import { CartActionsType, CartState } from "../../../../types/allTypes/cart";
+import { CartState } from "../../../../types/allTypes/cart";
 import { isObjOk } from "../../../../utils/allUtils/validateData";
 
 import {
   CartActionsLogged,
   CartActionsNonLogged,
 } from "../../actions/cartActions";
+import { RootActionTypes } from "../../root/rootTypes";
 import {
   handleChangeRest,
   handleDecQty,
@@ -16,7 +17,7 @@ import {
 
 export const cartReducer = (
   cartState: CartState,
-  action: CartActionsType
+  action: RootActionTypes
 ): CartState => {
   switch (action.type) {
     case CartActionsLogged.SET_CART:

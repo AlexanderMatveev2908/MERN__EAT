@@ -21,7 +21,11 @@ import {
   SearchDishesFormType,
   SearchFormType,
 } from "../../../types/allTypes/search";
-import { CartState, CartVals } from "../../../types/allTypes/cart";
+import {
+  CartActionsType,
+  CartState,
+  CartVals,
+} from "../../../types/allTypes/cart";
 import { NoticeVals } from "../hooks/useNoticeVals";
 import { InfoPopVals } from "../hooks/useInfoPopVals";
 
@@ -35,7 +39,8 @@ export type RootStateType = {
 export type RootActionTypes =
   | ToastActionTypes
   | UserActionTypes
-  | PopupActionTypes;
+  | PopupActionTypes
+  | CartActionsType;
 
 export type FormsCtxType = {
   formContextMyRestaurants: UseFormReturn<FormSearchType>;

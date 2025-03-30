@@ -25,11 +25,14 @@ export const useCartVals = (
     [dispatch]
   );
 
-  const setCartNonLogged = (cart: CartTypeNonLogged) =>
-    dispatch({
-      type: CartActionsNonLogged.SET_CART_NON_LOGGED,
-      payload: { cart },
-    });
+  const setCartNonLogged = useCallback(
+    (cart: CartTypeNonLogged) =>
+      dispatch({
+        type: CartActionsNonLogged.SET_CART_NON_LOGGED,
+        payload: { cart },
+      }),
+    [dispatch]
+  );
 
   const getAction = (action: ActionsCLickCart) => {
     switch (action) {

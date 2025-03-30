@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useRef } from "react";
-import {
-  ToastActionTypes,
-  ToastStateType,
-} from "../../../types/allTypes/toastTypes";
+import { ToastStateType } from "../../../types/allTypes/toastTypes";
 import { SET_IS_TOAST } from "../actions/toastActions";
+import { RootActionTypes } from "../root/rootTypes";
 
 export const useToastVals = (
   toastState: ToastStateType,
-  dispatch: React.Dispatch<ToastActionTypes>
+  dispatch: React.Dispatch<RootActionTypes>
 ) => {
   // const [toastClicked, setToastClicked] = useState(false);
   const clicked = useRef<boolean>(false);

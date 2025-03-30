@@ -136,16 +136,17 @@ export const delItem = (req, res) => __awaiter(void 0, void 0, void 0, function*
 });
 export const delCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
-    const cartDeleted = yield Cart.findOneAndDelete({
+    yield Cart.findOneAndDelete({
         user: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
     });
-    if (!cartDeleted)
-        return baseErrResponse(res, 404, "Cart not found");
+    // if (!cartDeleted) return baseErrResponse(res, 404, "Cart not found");
     return res.status(200).json({ msg: "Cart deleted", success: true });
 });
 export const updateQtyByInput = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { quantity } = req.body;
     if (!REG_QTY.test(quantity))
+        return badRequest(res);
+    if (!+quantity)
         return badRequest(res);
     const { cart, dish, ok } = yield getDataRequest(req, res);
     if (!ok)
