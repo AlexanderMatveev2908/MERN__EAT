@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { useCart } from "../../../../../core/hooks/useGlobal";
+import { useCart, useInfoPop } from "../../../../../core/hooks/useGlobal";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { X } from "lucide-react";
 import { DishType } from "../../../../../types/types";
@@ -17,8 +17,13 @@ const ButtonsCartNonLogged: FC<PropsType> = ({ dish }) => {
   const [localQty, setLocalQty] = useState(0);
   const restId = useParams()?.restId;
 
-  const { handleClickCartNonLogged, cartNonLogged, handleUpdateByInt } =
-    useCart();
+  const {
+    handleClickCartNonLogged,
+    cartNonLogged,
+    handleUpdateByInt,
+    changeRest,
+  } = useCart();
+  const { setInfoPop } = useInfoPop();
 
   const indexItem =
     isObjOk(cartNonLogged) && cartNonLogged?.items
@@ -27,6 +32,18 @@ const ButtonsCartNonLogged: FC<PropsType> = ({ dish }) => {
   const qtyItem =
     indexItem !== -1 ? cartNonLogged?.items[indexItem].quantity : 0;
   const isAvl = (qtyItem as number) < dish.quantity;
+
+  const handleOpenPopup = () =>
+    setInfoPop({
+      msg: "Do you prefer keeping old cart or delete it and start ordering from this restaurant ?",
+      confirmActMsg: "Start new cart",
+      confirmActCb: () => {
+        changeRest({ dish, restId: restId ?? "" });
+        setInfoPop(null);
+      },
+      cancelActMsg: "Keep existing cart",
+      cancelActCb: () => setInfoPop(null),
+    });
 
   useEffect(() => {
     setLocalQty(qtyItem as number);
@@ -40,6 +57,15 @@ const ButtonsCartNonLogged: FC<PropsType> = ({ dish }) => {
     setLocalQty((prev) => (action === "inc" ? prev + 1 : prev - 1));
 
   const handleMouseDownAdd = () => {
+    if (
+      isObjOk(cartNonLogged) &&
+      cartNonLogged?.totQty &&
+      cartNonLogged.restaurant !== restId
+    ) {
+      handleOpenPopup();
+      return;
+    }
+
     clearTimer();
     pressedRef.current = true;
 
