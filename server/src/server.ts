@@ -7,8 +7,7 @@ import { isDev } from "./config/currMode.js";
 import { connectCloudinary } from "./config/cloud.js";
 import router from "./routes/mainRoute.js";
 import { get__dirname } from "./utils/calcPath.js";
-import { makeCart } from "./stuff/makeOpDb.js";
-import { genTxtCouponMail } from "./utils/mail.js";
+import { scheduleFoodCoupon } from "./config/cron.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -17,6 +16,8 @@ app.set("trust proxy", 1);
 
 app.use("/api/v1", router);
 
+scheduleFoodCoupon();
+
 if (!isDev) {
   app.use(express.static(path.join(get__dirname(), "../../client/dist")));
 
@@ -24,8 +25,6 @@ if (!isDev) {
     res.sendFile(path.join(get__dirname(), "../../client/dist/index.html"))
   );
 }
-
-console.log(genTxtCouponMail("12345"));
 
 app.use(errMiddleware);
 

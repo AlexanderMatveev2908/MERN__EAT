@@ -52,7 +52,6 @@ export const useNewsletter = () => {
     mutationFn: ({ type }: { type: "subscribe" | "unsubscribe" }) =>
       newsLetterToggleLoggedAPI({ type }),
     onSuccess: () => {
-      queryClient.resetQueries({ queryKey: ["currUser"] });
       showToastMsg(
         `You have ${
           currUser?.hasSubscribedToNewsletter ? "unsubscribed" : "subscribed"
@@ -64,6 +63,7 @@ export const useNewsletter = () => {
       if (err?.response?.status === 401) handleErrAPI({ err });
       else showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
     },
+    onSettled: () => queryClient.resetQueries({ queryKey: ["currUser"] }),
   });
 
   const toggleNewsLetter = () => {

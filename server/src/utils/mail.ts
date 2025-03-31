@@ -1,11 +1,12 @@
 import { isDev } from "../config/currMode.js";
 import { transporterMail } from "../config/nodemailer.js";
 import { UserType } from "../models/User.js";
+import { NewsletterUser } from "../models/UserNewsLetter.js";
 import {
   categoriesDiscount,
   discount,
-  discountOverCond,
   genExpiryCoupon,
+  minCartPrice,
 } from "./coupon/generateCoupons.js";
 
 const basePath = isDev ? process.env.FRONT_URL_DEV : process.env.FRONT_URL;
@@ -85,13 +86,17 @@ export const sendEmailChangeAccountEmail = async (
   });
 };
 
-export const genTxtCouponMail = (token: string) => {
+export const genTxtCouponMail = (
+  code: string,
+  tokenUnsubscribe: string,
+  user: UserType | NewsletterUser
+) => {
   const diffTimeSeconds = (genExpiryCoupon().getTime() - Date.now()) / 1000;
   const hours = Math.floor(diffTimeSeconds / (60 * 60));
   const minutes = Math.floor((diffTimeSeconds % (60 * 60)) / 60);
-  const expiry = ` ${hours ? `${hours} hour${hours > 1 ? "s" : ""}` : ""} ${
+  const expiry = ` ${hours ? `${hours} hour${hours > 1 ? "s" : ""}` : ""}${
     minutes
-      ? `${hours ? "and " : ""}${minutes} minute${minutes > 1 ? "s" : ""}`
+      ? `${hours ? " and" : ""}${minutes} minute${minutes > 1 ? "s" : ""}`
       : ""
   }`;
 
@@ -108,20 +113,28 @@ export const genTxtCouponMail = (token: string) => {
           .join("")
       : categoriesDiscount[0].toUpperCase();
 
-  return `Good news, for the next${expiry}, you will have a discount on ${categories} categor${
+  const unsubscribeURL = `${basePath}/newsletter/verify-unsubscribe?token=${tokenUnsubscribe}&userId=${
+    user._id
+  }&typeUser=${(user as UserType)?.isVerified ? "logged" : "non-logged"}`;
+
+  return `Just for the next${expiry}, you get ${discount}% off, ordering from a restaurant included in ${categories} categor${
     categoriesDiscount.length > 1 ? "ies" : "y"
-  }, of ${discount}, over an order of $${discountOverCond.toFixed(
+  }\nMinimum order $${minCartPrice.toFixed(
     2
-  )}, with following code ✌🏼\n${token}\n`;
+  )} ✔️\nYour code: ${code} ✌🏼\nHurry! This offer will not last long\nIf you do not want anymore receive our promos click the following link to be redirected to our website and unsubscribe:\n${unsubscribeURL}`;
 };
 
-export const sendEmailCoupon = async (user: UserType, token: string) => {
-  if (!user || !token) return;
+export const sendEmailCoupon = async (
+  user: UserType | NewsletterUser,
+  code: string,
+  tokenUnsubscribe: string
+) => {
+  if (!user || !code || !tokenUnsubscribe) return;
 
   await transporterMail.sendMail({
     from: process.env.MAIL_USER,
     to: user.email,
-    subject: "SPECIAL OFFER 🎉",
-    text: genTxtCouponMail(token),
+    subject: "DISCOUNT JUST FOR YOU! 🎉",
+    text: genTxtCouponMail(code, tokenUnsubscribe, user),
   });
 };
