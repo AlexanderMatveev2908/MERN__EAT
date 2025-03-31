@@ -19,6 +19,7 @@ app.set("trust proxy", 1);
 app.use("/api/v1", router);
 
 // scheduleFoodCoupon();
+// updateCO();
 if (!isDev) {
   app.use(express.static(path.join(get__dirname(), "../../client/dist")));
 

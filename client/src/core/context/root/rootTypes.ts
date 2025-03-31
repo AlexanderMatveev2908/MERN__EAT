@@ -28,6 +28,7 @@ import {
 } from "../../../types/allTypes/cart";
 import { NoticeVals } from "../hooks/useNoticeVals";
 import { InfoPopVals } from "../hooks/useInfoPopVals";
+import { Stripe } from "@stripe/stripe-js";
 
 export type RootStateType = {
   toastState: ToastStateType;
@@ -65,4 +66,5 @@ export type RootValsType = {
   cartState: CartVals;
   noticeState: NoticeVals;
   infoPopState: InfoPopVals;
+  stripePromise: Promise<Stripe | null>;
 };

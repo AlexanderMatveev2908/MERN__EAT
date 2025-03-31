@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { ImageSchema, ImageType } from "./Image.js";
-import { AddressSchema } from "./User.js";
+import { AddressSchema, AddressType } from "./User.js";
 
 export type OrderItem = {
   dishId: string | null;
@@ -27,6 +27,7 @@ export type OrderType = {
   restaurantId: string;
   restaurantName: string;
   items: OrderItem[];
+  address: AddressType;
   priceNoDiscount: number;
   priceWithDiscount: number | null;
   coupon: string | null;
@@ -82,9 +83,7 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     address: AddressSchema,
-
     items: [OrderItemSchema],
     priceNoDiscount: {
       type: Number,

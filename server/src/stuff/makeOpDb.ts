@@ -39,4 +39,5 @@ export const clearCoupons = async () => await Coupon.deleteMany({});
 export const updateCO = async () => {
   await Order.deleteMany({});
   await Coupon.deleteMany({});
+  await User.updateMany({}, { orders: [] });
 };

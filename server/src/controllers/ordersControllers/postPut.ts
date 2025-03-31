@@ -173,7 +173,7 @@ export const createOrder = async (
     payment_method_types: ["card"],
   });
 
-  const newOrder: OrderType = {
+  const newOrder: Partial<OrderType> = {
     paymentId: paymentIntent.id,
 
     userId: userId as string,
