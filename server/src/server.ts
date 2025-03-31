@@ -20,7 +20,6 @@ app.use("/api/v1", router);
 
 // scheduleFoodCoupon();
 // generateCoupons();
-
 if (!isDev) {
   app.use(express.static(path.join(get__dirname(), "../../client/dist")));
 
