@@ -20,7 +20,7 @@ export type OrderStatus =
   | "cancelled";
 
 export type OrderType = {
-  _id?: string;
+  _id?: string | mongoose.Types.ObjectId | null;
   userId: string;
   userEmail: string;
   restaurantId: string;
@@ -30,6 +30,7 @@ export type OrderType = {
   priceWithDiscount: number | null;
   coupon: string | null;
   status: OrderStatus;
+  delivery: number | null;
 };
 
 const OrderItemSchema = new mongoose.Schema({
@@ -82,6 +83,10 @@ const OrderSchema = new mongoose.Schema(
     priceNoDiscount: {
       type: Number,
       required: true,
+    },
+    delivery: {
+      type: Number,
+      default: null,
     },
     priceWithDiscount: {
       type: Number,
