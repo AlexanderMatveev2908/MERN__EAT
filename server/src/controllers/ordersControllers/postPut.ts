@@ -12,6 +12,7 @@ import User, { UserType } from "../../models/User.js";
 import Order, { OrderItem, OrderType } from "../../models/Order.js";
 import { ImageType } from "../../models/Image.js";
 import { uploadCloudURL } from "../../utils/cloud.js";
+import { stripe } from "../../config/stripe.js";
 
 // WHEN OPEN
 // if (open <= currTime && close > currTime) console.log(true);
@@ -65,15 +66,19 @@ export const createOrder = async (
   const currTime =
     (now.getTime() - mid.getTime()) / 1000 / 60 +
     existingRestaurant.delivery.estTimeDelivery;
-  let isClosed = false;
+  let isOpen = true;
 
   if (close !== open) {
-    if (open > currTime && close > currTime && close > open) isClosed = true;
-    if (open < currTime && close <= currTime) isClosed = true;
-    if (close <= currTime && close < open && open > currTime) isClosed = true;
+    if (open < close) isOpen = currTime >= open && currTime < close;
+    else isOpen = currTime >= open || currTime < close;
   }
 
-  if (isClosed) return baseErrResponse(res, 400, "Restaurant closed right now");
+  if (!isOpen)
+    return baseErrResponse(
+      res,
+      400,
+      "Restaurant closed or delivery time too long for his close time programmed"
+    );
 
   let couponSaved: HydratedDocument<CouponType> | null = null;
 
@@ -148,14 +153,29 @@ export const createOrder = async (
   if (couponSaved && totPrice < couponSaved.minCartPrice)
     return baseErrResponse(res, 400, "Amount to use coupon not reached");
 
-  const priceWithDiscount = couponSaved
-    ? +(totPrice - (totPrice / 100) * couponSaved.discount)
-    : null;
-
+  // save in vars cause too long names
   const freeMeal = existingRestaurant.delivery.freeDeliveryPrice;
   const delPrice = existingRestaurant.delivery.price;
 
+  //  so i know if i need to apply or not del and save it in db so who watch know he also paid delivery out of tot price
+
+  if (freeMeal && totPrice < freeMeal) totPrice += delPrice;
+
+  let priceStripe = totPrice;
+  if (couponSaved)
+    priceStripe = +(totPrice - (totPrice / 100) * couponSaved.discount);
+
+  priceStripe = +priceStripe.toFixed(2);
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: priceStripe * 100,
+    currency: "usd",
+    payment_method_types: ["card"],
+  });
+
   const newOrder: OrderType = {
+    paymentId: paymentIntent.id,
+
     userId: userId as string,
     userEmail: user.email,
 
@@ -164,8 +184,8 @@ export const createOrder = async (
 
     items: orderItems,
     priceNoDiscount: +totPrice.toFixed(2),
-    priceWithDiscount: priceWithDiscount ? +priceWithDiscount.toFixed(2) : null,
-    delivery: freeMeal > totPrice ? delPrice : null,
+    priceWithDiscount: couponSaved ? priceStripe : null,
+    delivery: couponSaved ? delPrice : null,
     coupon: couponSaved ? (couponSaved._id as any) : null,
     status: "created",
   };
