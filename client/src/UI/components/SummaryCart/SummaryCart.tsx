@@ -61,7 +61,9 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
         <ShowCalcCart {...{ cart: cartToCheck, rest }} />
 
         <form className="w-full grid gap-6">
-          <FormFieldNoIcon {...{ field: fieldCoupon, register, errors }} />
+          {isLogged && (
+            <FormFieldNoIcon {...{ field: fieldCoupon, register, errors }} />
+          )}
 
           <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 sm:gap-0 sm:grid-cols-2 items-center">
             <div

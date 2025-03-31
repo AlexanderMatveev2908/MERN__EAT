@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 
+export type NewsletterUser = {
+  _id: string;
+  email: string;
+  hashedTokenToUnsubscribe: string;
+  tokenExpiry: Date;
+};
+
 const NonLoggedUserNewsLetterSchema = new mongoose.Schema(
   {
     email: {

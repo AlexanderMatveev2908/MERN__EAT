@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { RequestWithUserId } from "../middleware/general/verifyAccessToken.js";
-import User from "../models/User.js";
+import User, { UserType } from "../models/User.js";
 import { checkTokenSHA, genTokenSHA } from "../utils/token.js";
 import NonLoggedUserNewsLetter from "../models/UserNewsLetter.js";
 import {
@@ -9,6 +9,7 @@ import {
   userNotFound,
 } from "../utils/baseErrResponse.js";
 import { sendSubScriptionNewsLetterConfirmed } from "../utils/mail.js";
+import { HydratedDocument } from "mongoose";
 
 export const toggleUserNewsLetter = async (
   req: RequestWithUserId,
@@ -17,28 +18,36 @@ export const toggleUserNewsLetter = async (
   const { userId } = req;
   const { type } = req.body;
 
-  const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
+  const user = (await User.findById(userId)) as HydratedDocument<UserType>;
+  if (!user) return userNotFound(res);
+  if (type === "unsubscribe" && !user.hasSubscribedToNewsletter) {
+    return baseErrResponse(res, 400, "User not subscribed");
+  } else {
+    const { token, hashedToken, expiryVerification } =
+      genTokenSHA("newsletter");
 
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    {
-      $set: {
-        hasSubscribedToNewsletter: type === "subscribe",
-        "tokens.unSubScribeNewsLetter.hashed": hashedToken,
-        "tokens.unSubScribeNewsLetter.expiry": expiryVerification,
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          hasSubscribedToNewsletter: true,
+          "tokens.unSubScribeNewsLetter.hashed": hashedToken,
+          "tokens.unSubScribeNewsLetter.expiry": expiryVerification,
+        },
       },
-    },
-    { new: true, select: "hasSubscribedToNewsletter firstName lastName email" }
-  );
+      {
+        new: true,
+        select: "hasSubscribedToNewsletter firstName lastName email",
+      }
+    );
 
-  if (!updatedUser) return userNotFound(res);
-
-  await sendSubScriptionNewsLetterConfirmed(
-    updatedUser,
-    token,
-    "logged",
-    "subscribe"
-  );
+    await sendSubScriptionNewsLetterConfirmed(
+      user,
+      token,
+      "logged",
+      "subscribe"
+    );
+  }
 
   return res.status(200).json({
     msg: "User toggled to newsletter",
