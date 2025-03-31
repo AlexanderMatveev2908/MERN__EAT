@@ -23,7 +23,7 @@ foodAppInstance.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalReq = err.config;
-    const isRefreshing = originalReq.url === "/auth/refresh";
+    const isRefreshing = originalReq.url.includes("/auth/refresh");
 
     if (
       err?.response?.status === 401 &&

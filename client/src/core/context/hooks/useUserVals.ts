@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { CurrUserType, UserStateType } from "../../../types/allTypes/userTypes";
 import {
   SET_CAN_MANAGE_ACCOUNT,
@@ -83,6 +83,13 @@ export const useUserVals = (
     },
     [dispatch]
   );
+
+  useEffect(() => {
+    const access = sessionStorage.getItem("accessToken");
+
+    if ((!userState.isLogged || !userState.currUser) && access)
+      dispatch({ type: SET_IS_LOGGED, payload: true });
+  }, [dispatch, userState]);
 
   return {
     ...userState,

@@ -4,16 +4,12 @@ import { userProfileFields_0, userProfileFields_1 } from "../userDetailsFields";
 import { userProfileFields_2 } from "./../userDetailsFields";
 
 export const fieldsAddressForm_0 = [
-  ...[emailField].map((el) => {
-    // eslint-disable-next-line
-    const { svg: _, ...rest } = el;
-
-    return {
-      ...rest,
-      id: genID(),
-      required: true,
-    };
-  }),
+  // eslint-disable-next-line
+  ...[emailField].map(({ svg, ...rest }) => ({
+    ...rest,
+    id: genID(),
+    required: true,
+  })),
   ...userProfileFields_0.map((el) => ({
     ...el,
     id: genID(),
@@ -74,3 +70,23 @@ export const fieldsDividedByAreaCheckout = [
     })),
   ],
 ];
+
+export const showOrderFields = (...params: (number | null)[]) =>
+  [
+    {
+      label: "Subtotal",
+      val: params[0],
+    },
+    {
+      label: "Discount",
+      val: params[1],
+    },
+    { label: "Delivery", val: params[2] },
+    {
+      label: "Total",
+      val: params[3],
+    },
+  ].map((el) => ({
+    ...el,
+    id: genID(),
+  }));

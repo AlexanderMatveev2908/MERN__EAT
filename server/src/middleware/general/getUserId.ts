@@ -5,6 +5,7 @@ import {
   baseErrResponse,
   unauthorizedErr,
 } from "../../utils/baseErrResponse.js";
+import { REG_TOKEN } from "../../config/constants/regex.js";
 
 export const getUserId = (
   req: RequestWithUserId,
@@ -13,8 +14,9 @@ export const getUserId = (
 ): any => {
   const auth = req.headers?.authorization || req.headers?.Authorization;
   const token = (auth as string | undefined)?.split(" ")[1];
+  const { refreshToken } = req.cookies;
 
-  if (!token) return next();
+  if (!token && !refreshToken) return next();
 
   try {
     const decoded = verifyAccessJWT(token ?? "");
