@@ -17,12 +17,25 @@ import cookieParser from "cookie-parser";
 import mongoSanitize from "express-mongo-sanitize";
 import { logReq } from "../middleware/onlyDev/logQuery.js";
 import cartRouter from "./allRoutes/cart.js";
+import ordersRouter from "./allRoutes/orders.js";
+
 const router = express.Router();
 
 router.use(helmetMid);
 router.use(corsMiddleware);
 router.use(xss());
 router.use(mongoSanitize());
+
+router.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  (req: any, res: any) => {
+    const event = JSON.parse(req.body);
+    console.log(event);
+
+    return res.status(200).json({ success: true });
+  }
+);
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -37,6 +50,7 @@ router.use("/my-restaurants", verifyAccessToken, myRestaurantsRouter);
 router.use("/my-dishes", verifyAccessToken, routerMyDishes);
 router.use("/search", searchRouter);
 router.use("/my-cart", cartRouter);
+router.use("/my-orders", ordersRouter);
 
 if (isDev) router.use("/proxy", asyncWrapper(proxyRouter));
 

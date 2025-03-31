@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 export type ImageType = {
   url: string;
   public_id: string;
-  _id: string;
+  _id?: string;
 };
 
 export const ImageSchema = new mongoose.Schema({

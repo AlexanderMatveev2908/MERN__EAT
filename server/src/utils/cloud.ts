@@ -51,3 +51,12 @@ export const uploadUpdateDish = (files: any): Promise<any> => {
 
   return Promise.all(promises);
 };
+
+export const uploadCloudURL = async (urlCloud: string) => {
+  const { public_id, secure_url: url } = await v2.uploader.upload(urlCloud, {
+    resource_type: "auto",
+    folder: "orders",
+  });
+
+  return { public_id, url };
+};

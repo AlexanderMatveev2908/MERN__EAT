@@ -12,13 +12,41 @@ export const categoriesDiscount = ["fast-food", "indian"];
 export const discount = 20;
 export const minCartPrice = 50;
 
-const genCoupon = () => {
-  const code = crypto.randomBytes(64).toString("hex");
-  const hashedCode = crypto
+export const createCouponHashed = (code: string) =>
+  crypto
     .createHmac("sha256", process.env.COUPON_SIGN!)
     .update(code)
     .digest("hex");
+
+const genCoupon = () => {
+  const code = crypto.randomBytes(8).toString("hex");
+  const hashedCode = createCouponHashed(code);
   const expiry = genExpiryCoupon();
+
+  return {
+    code,
+    hashedCode,
+    expiry,
+  };
+};
+
+const genUniqueCoupon = async () => {
+  let code, hashedCode, expiry;
+  let existingCoupon = null;
+
+  let attempts = 0;
+  const maxAttempts = 20;
+  do {
+    //  can do this cause i called them same way, if they were different i should have use aliases like const {couponCode: code , hashed:hashedCode, exp:expiry} =genCoupon() so the vars would be attributed to let vars initialized above even in an inner scope
+    ({ code, hashedCode, expiry } = genCoupon());
+
+    existingCoupon = await Coupon.findOne({ hashedCode });
+
+    attempts++;
+
+    if (attempts > maxAttempts)
+      throw new Error("Unable to generate unique coupon");
+  } while (existingCoupon);
 
   return {
     code,
@@ -41,7 +69,7 @@ export const generateCoupons = async () => {
     if (!merged.length) return;
 
     const promises = merged.map(async (el: UserType | NewsletterUser) => {
-      const { code, hashedCode, expiry } = genCoupon();
+      const { code, hashedCode, expiry } = await genUniqueCoupon();
 
       await Coupon.create({
         hashedCode,

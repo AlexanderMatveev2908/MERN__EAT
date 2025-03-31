@@ -5,6 +5,7 @@ import { DishType, ReturnAPIBasic } from "../../../types/types";
 import { decQtyAPI, delItemAPI, incQtyAPI } from "../../api/api";
 import { useGetFavHooks } from "../useGetFavHooks";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { makeDelay } from "../../../utils/allUtils/apiUtils";
 
 export const useUpdateCartByClick = ({
   dish,
@@ -29,17 +30,19 @@ export const useUpdateCartByClick = ({
         : null,
 
     onSuccess: (data: ReturnAPIBasic) => {
-      showToastMsg(data?.msg ?? "", "SUCCESS");
+      makeDelay(() => showToastMsg(data?.msg ?? "", "SUCCESS"));
     },
     onError: (err: ErrFoodApp) => {
-      if (
-        [400, 404].includes(err?.response?.status ?? 400) &&
-        /^\/(my-cart)\/(del-item)\?dishId=([a-f0-9]{24})$/.test(
-          err?.response?.config?.url ?? ""
+      makeDelay(() => {
+        if (
+          [400, 404].includes(err?.response?.status ?? 400) &&
+          /^\/(my-cart)\/(del-item)\?dishId=([a-f0-9]{24})$/.test(
+            err?.response?.config?.url ?? ""
+          )
         )
-      )
-        showToastMsg("Item removed from cart", "SUCCESS");
-      else handleErrAPI({ err });
+          showToastMsg("Item removed from cart", "SUCCESS");
+        else handleErrAPI({ err });
+      });
     },
     onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),
   });

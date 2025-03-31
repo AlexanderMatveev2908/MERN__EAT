@@ -8,6 +8,7 @@ import { connectCloudinary } from "./config/cloud.js";
 import router from "./routes/mainRoute.js";
 import { get__dirname } from "./utils/calcPath.js";
 import { scheduleFoodCoupon } from "./config/cron.js";
+import { clearCoupons } from "./stuff/makeOpDb.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -17,7 +18,6 @@ app.set("trust proxy", 1);
 app.use("/api/v1", router);
 
 scheduleFoodCoupon();
-
 if (!isDev) {
   app.use(express.static(path.join(get__dirname(), "../../client/dist")));
 
