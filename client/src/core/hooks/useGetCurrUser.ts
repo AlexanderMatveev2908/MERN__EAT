@@ -19,7 +19,6 @@ export const useGetCurrUser = () => {
       if (isError) {
         handleErrAPI({ err: error as ErrFoodApp });
       } else if (isSuccess) {
-        if (!data?.success) return;
         const { user = {} as any } = data ?? ({} as any);
         setCurrUser({ user });
       }
