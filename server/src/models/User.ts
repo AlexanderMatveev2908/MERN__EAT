@@ -2,6 +2,14 @@ import mongoose, { Schema } from "mongoose";
 import { OrderType } from "./Order.js";
 import { CartType } from "./Cart.js";
 
+export type AddressType = {
+  country: string | null;
+  state: string | null;
+  city: string | null;
+  street: string | null;
+  zipCode: string | null;
+  phone: string | null;
+};
 export type UserType = {
   _id: string;
   firstName: string;
@@ -9,14 +17,7 @@ export type UserType = {
   email: string;
   tempNewEmail: string | null;
   password: string;
-  address: {
-    country: string | null;
-    state: string | null;
-    city: string | null;
-    street: string | null;
-    zipCode: string | null;
-    phone: string | null;
-  };
+  address: AddressType;
   acceptedTerms: boolean;
   isVerified: boolean;
   hasSubscribedToNewsletter: boolean;
