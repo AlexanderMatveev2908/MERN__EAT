@@ -1,11 +1,15 @@
 import mongoose from "mongoose";
 
-export type Coupon = {
+export type CouponType = {
   hashedCode: string;
   discount: number;
   categories: string[];
   minCartPrice: number;
   expiryDate: Date;
+  isActive: boolean;
+
+  usedBy: string;
+  usedFor: string;
 };
 
 const CouponSchema = new mongoose.Schema(

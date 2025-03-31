@@ -20,9 +20,12 @@ export const toggleUserNewsLetter = async (
 
   const user = (await User.findById(userId)) as HydratedDocument<UserType>;
   if (!user) return userNotFound(res);
-  if (type === "unsubscribe" && !user.hasSubscribedToNewsletter) {
+  if (type === "unsubscribe" && !user.hasSubscribedToNewsletter)
     return baseErrResponse(res, 400, "User not subscribed");
-  } else {
+  if (type == "subscribe" && user.hasSubscribedToNewsletter)
+    return baseErrResponse(res, 409, "User already subscribed");
+
+  if (type === "subscribe") {
     const { token, hashedToken, expiryVerification } =
       genTokenSHA("newsletter");
 
@@ -47,6 +50,14 @@ export const toggleUserNewsLetter = async (
       "logged",
       "subscribe"
     );
+  } else {
+    await User.findByIdAndUpdate(userId, {
+      $set: {
+        hasSubscribedToNewsletter: false,
+        "tokens.unSubScribeNewsLetter.hashed": null,
+        "tokens.unSubScribeNewsLetter.expiry": null,
+      },
+    });
   }
 
   return res.status(200).json({

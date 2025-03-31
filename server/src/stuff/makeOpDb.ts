@@ -1,4 +1,5 @@
 import Cart from "../models/Cart.js";
+import Coupon from "../models/Coupon.js";
 import Restaurant from "../models/Restaurant.js";
 import User from "../models/User.js";
 
@@ -31,3 +32,5 @@ export const makeCart = async () => {
 export const clearDishes = async () => {
   await Restaurant.updateMany({}, { $set: { dishes: [] } });
 };
+
+export const clearCoupons = async () => await Coupon.deleteMany({});

@@ -17,15 +17,17 @@ export type ReturnTokenSHAType = {
   expiryVerification: Date;
 };
 
+export const createHashedSHA = (
+  token: string,
+  type: "auth" | "newsletter" | "manageAccount" | "verifyNewEmail"
+) => crypto.createHmac("sha256", getSign(type)!).update(token).digest("hex");
+
 export const genTokenSHA = (
   type: "auth" | "newsletter" | "manageAccount" | "verifyNewEmail"
 ): ReturnTokenSHAType => {
   const token = crypto.randomBytes(64).toString("hex");
 
-  const hashedToken = crypto
-    .createHmac("sha256", getSign(type)!)
-    .update(token)
-    .digest("hex");
+  const hashedToken = createHashedSHA(token, type);
 
   const expiryVerification = getExpiry(type);
 

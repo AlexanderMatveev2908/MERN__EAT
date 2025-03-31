@@ -23,6 +23,7 @@ import {
   sortersMyDishesFields,
 } from "../MyDishes/filterSort";
 import { IoRestaurant } from "react-icons/io5";
+import { REG_COUPON } from "../../../constants/regex";
 
 const searchRest = ["name", "country", "state", "city"];
 
@@ -155,7 +156,7 @@ export const fieldCoupon = {
   field: "coupon",
   label: "Coupon",
   msg: "Invalid code coupon",
-  reg: /^\d{1}$/,
+  reg: REG_COUPON,
   place: "Coupon code...",
   required: false,
 };

@@ -9,6 +9,7 @@ import { ActionsCLickCart, CartItem } from "../../../types/allTypes/cart";
 import { useGetFavHooks } from "../useGetFavHooks";
 import { useSwitchCartLogged } from "./useSwitchCartLogged";
 import { useUpdateCartByClick } from "./useUpdateCartByClick";
+import { makeDelay } from "../../../utils/allUtils/apiUtils";
 
 //  I PUT TOGETHER UPDATE AND UPDATE BY INTERVAL CAUSE THIS WAY THERE ARE NO TIMEOUTS IN UPDATE UI QTY
 //  I NEED THE DISH AS DOCUMENT OF DISHES COLLECTIONS FOR EVERY OPERATION EXCEPT FOR DELETE ITEM FROM CART WHERE IS OK IF PARAM IS AN ITEM FROM CART AS OBJ INSTEAD OF DOCUMENT
@@ -89,8 +90,14 @@ export const useUpdateCartByInt = ({ dish }: { dish: DishType }) => {
     mutationFn: ({ dishId, quantity }: { dishId: string; quantity: number }) =>
       updateQtyByIntAPI({ dishId, quantity }),
 
-    onSuccess: () => showToastMsg("Cart updated ✌🏼", "SUCCESS"),
-    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
+    onSuccess: () =>
+      makeDelay(() => {
+        showToastMsg("Cart updated ✌🏼", "SUCCESS");
+      }),
+    onError: (err: ErrFoodApp) =>
+      makeDelay(() => {
+        handleErrAPI({ err });
+      }),
     onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),
   });
 

@@ -5,6 +5,7 @@ import { updateQtyInputAPI } from "../../api/APICalls/cart";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useGetFavHooks } from "../useGetFavHooks";
+import { makeDelay } from "../../../utils/allUtils/apiUtils";
 
 type FormQtyType = {
   quantity: string;
@@ -38,23 +39,27 @@ export const useUpdateCartByInput = ({ dish }: { dish: CartItem }) => {
     mutationFn: (quantity: string) =>
       updateQtyInputAPI({ dishId: dish.dishId, quantity: quantity || "1" }),
     onSuccess: () => {
-      showToastMsg("Cart updated", "SUCCESS");
+      makeDelay(() => {
+        showToastMsg("Cart updated", "SUCCESS");
 
-      const inputsBlur = document.querySelectorAll(".input__blur");
-      if (inputsBlur?.length) {
-        let i = 0;
+        const inputsBlur = document.querySelectorAll(".input__blur");
+        if (inputsBlur?.length) {
+          let i = 0;
 
-        do {
-          if (document.activeElement === inputsBlur[i]) {
-            (inputsBlur[i] as HTMLInputElement).blur();
-            break;
-          } else i++;
-        } while (i < inputsBlur.length);
-      }
+          do {
+            if (document.activeElement === inputsBlur[i]) {
+              (inputsBlur[i] as HTMLInputElement).blur();
+              break;
+            } else i++;
+          } while (i < inputsBlur.length);
+        }
+      });
     },
     onError: (err: ErrFoodApp) => {
-      handleErrAPI({ err });
-      setValue("quantity", (dish as CartItem)?.quantity + "");
+      makeDelay(() => {
+        handleErrAPI({ err });
+        setValue("quantity", (dish as CartItem)?.quantity + "");
+      });
     },
     onSettled: () => {
       isMutating.current = false;

@@ -24,9 +24,12 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
   const {
     register,
     formState: { errors },
+    handleSubmit,
   } = useForm<{ coupon: string }>({
     mode: "onChange",
   });
+
+  const handleSend = handleSubmit((formData) => {});
 
   //  I KEEP CART STATE OF NON LOGGED IN CTX AND HANDLE CART SAVED IN DB WITH CUSTOM HOOKS
   const { cart, cartNonLogged, setCartNonLogged } = useCart();
