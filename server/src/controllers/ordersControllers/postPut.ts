@@ -62,17 +62,18 @@ export const createOrder = async (
     0
   );
   // ms from 1970 - ms of midnight of ours day today => final res in minutes
-  const currTime = (now.getTime() - mid.getTime()) / 1000 / 60;
+  const currTime =
+    (now.getTime() - mid.getTime()) / 1000 / 60 +
+    existingRestaurant.delivery.estTimeDelivery;
   let isClosed = false;
 
   if (close !== open) {
-    if (open > currTime && close >= currTime && close > open) isClosed = true;
+    if (open > currTime && close > currTime && close > open) isClosed = true;
     if (open < currTime && close <= currTime) isClosed = true;
     if (close <= currTime && close < open && open > currTime) isClosed = true;
   }
 
-  if (!isClosed)
-    return baseErrResponse(res, 400, "Restaurant closed right now");
+  if (isClosed) return baseErrResponse(res, 400, "Restaurant closed right now");
 
   let couponSaved: HydratedDocument<CouponType> | null = null;
 
