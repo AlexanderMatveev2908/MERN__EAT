@@ -20,6 +20,7 @@ export type OrderStatus =
   | "cancelled";
 
 export type OrderType = {
+  paymentId: string;
   _id?: string | mongoose.Types.ObjectId | null;
   userId: string;
   userEmail: string;
@@ -57,6 +58,11 @@ const OrderItemSchema = new mongoose.Schema({
 
 const OrderSchema = new mongoose.Schema(
   {
+    paymentId: {
+      type: String,
+      required: true,
+    },
+
     // CAUSE RESTAURANT CAN BE DELETED AS WELL AS USER ACCOUNT I WILL PROVIDE AT LEAST NAME AND EMAIL FOR GENERIC INFO
     userId: {
       type: mongoose.Types.ObjectId,
