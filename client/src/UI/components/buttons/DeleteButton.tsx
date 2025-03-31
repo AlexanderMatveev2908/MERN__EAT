@@ -1,15 +1,27 @@
 import { Trash2 } from "lucide-react";
 import { FC } from "react";
+import SpinnerBtnReact from "../loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   handleDelete: () => void;
   txt: string;
   border?: boolean;
+  isDisabled?: boolean;
+  isPending?: boolean;
 };
 
-const DeleteButton: FC<PropsType> = ({ handleDelete, txt, border = true }) => {
-  return (
+const DeleteButton: FC<PropsType> = ({
+  handleDelete,
+  txt,
+  border = true,
+  isDisabled,
+  isPending,
+}) => {
+  return isPending ? (
+    <SpinnerBtnReact />
+  ) : (
     <button
+      disabled={isDisabled}
       type="button"
       onClick={handleDelete}
       className={`min-w-full group ${

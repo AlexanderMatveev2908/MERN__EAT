@@ -12,6 +12,11 @@ import { useDeleteCart } from "../../../core/hooks/cartLogged/useDeleteCart";
 import ButtonAnimated from "../buttons/ButtonAnimated";
 import SummaryItemNoLogged from "./components/SummaryItemNoLogged";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { sendOrderAPI } from "../../../core/api/APICalls/orders";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
+import { makeDelay } from "../../../utils/allUtils/apiUtils";
+import { ErrFoodApp } from "../../../types/allTypes/API";
 
 type PropsType = {
   rest: RestaurantAllUsers;
@@ -21,6 +26,10 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const queryClient = useQueryClient();
+
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
+
   const {
     register,
     formState: { errors },
@@ -29,12 +38,21 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
     mode: "onChange",
   });
 
-  const handleSend = handleSubmit((formData) => {});
+  const { isPending: isPendingSubmit, mutate } = useMutation({
+    mutationFn: (coupon?: string) => sendOrderAPI({ coupon }),
+    onSuccess: () => makeDelay(() => showToastMsg("OK", "SUCCESS")),
+    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
+    onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),
+  });
+
+  const handleSend = handleSubmit((formData) => {
+    mutate(formData?.coupon ?? undefined);
+  });
 
   //  I KEEP CART STATE OF NON LOGGED IN CTX AND HANDLE CART SAVED IN DB WITH CUSTOM HOOKS
   const { cart, cartNonLogged, setCartNonLogged } = useCart();
   const { isLogged } = useUser();
-  const { isPending, handleDeleteCart } = useDeleteCart();
+  const { isPending: isPendingClear, handleDeleteCart } = useDeleteCart();
 
   const cartToCheck = isLogged ? cart : cartNonLogged;
   const handleCheckout = () =>
@@ -63,7 +81,7 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
 
         <ShowCalcCart {...{ cart: cartToCheck, rest }} />
 
-        <form className="w-full grid gap-6">
+        <form onSubmit={handleSend} className="w-full grid gap-6">
           {isLogged && (
             <FormFieldNoIcon {...{ field: fieldCoupon, register, errors }} />
           )}
@@ -77,9 +95,10 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
               <ButtonAnimated
                 {...{
                   label: isLogged ? "Checkout" : "Login now to order",
-                  type: "button",
-                  isDisabled: isPending,
+                  type: "submit",
+                  isDisabled: isPendingClear,
                   handleClick: handleCheckout,
+                  isPending: isPendingSubmit,
                 }}
               />
             </div>
@@ -91,6 +110,8 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
                   handleDelete: isLogged
                     ? handleDeleteCart
                     : clearCartNonLogged,
+                  isDisabled: isPendingSubmit,
+                  isPending: isPendingClear,
                 }}
               />
             </div>

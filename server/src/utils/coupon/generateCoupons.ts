@@ -7,7 +7,7 @@ import { genTokenSHA } from "../token.js";
 import Coupon from "../../models/Coupon.js";
 import { sendEmailCoupon } from "../mail.js";
 
-export const genExpiryCoupon = () => new Date(Date.now() + 1000 * 60 * 2);
+export const genExpiryCoupon = () => new Date(Date.now() + 1000 * 60 * 60);
 export const categoriesDiscount = ["fast-food", "indian"];
 export const discount = 20;
 export const minCartPrice = 50;
