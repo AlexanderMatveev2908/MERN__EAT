@@ -12,7 +12,6 @@ import User, { UserType } from "../../models/User.js";
 import Order, { OrderItem, OrderType } from "../../models/Order.js";
 import { ImageType } from "../../models/Image.js";
 import { uploadCloudURL } from "../../utils/cloud.js";
-import { stripe } from "../../config/stripe.js";
 import { createPaymentInt } from "../../utils/stripe.js";
 
 // WHEN OPEN
@@ -101,11 +100,16 @@ export const createOrder = async (
       return baseErrResponse(res, 422, "Coupon expired");
     }
     if (
+      //  maybe would have more sense to check restaurant.some(el) but the concept somehow we could say there is
       !couponSaved.categories.some((el) =>
         existingRestaurant.categories.includes(el)
       )
     )
-      return baseErrResponse(res, 422, "Coupon not valid for this restaurant");
+      return baseErrResponse(
+        res,
+        422,
+        "Coupon not valid for this restaurant category"
+      );
   }
   const orderItems: OrderItem[] = [];
 

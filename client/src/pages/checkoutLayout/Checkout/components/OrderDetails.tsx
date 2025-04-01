@@ -18,7 +18,7 @@ const OrderDetails: FC<PropsType> = ({ order, isDisabled }) => {
         <ContentMath {...{ order }} />
 
         <CardElement
-          className="w-full mt-6 border-2 border-orange-500 py-3 px-4 rounded-xl txt__02"
+          className="w-full mt-6 border-2 border-orange-500 py-3 px-4 rounded-xl"
           options={{
             style: {
               base: {
