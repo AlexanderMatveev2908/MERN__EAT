@@ -1,8 +1,8 @@
 import { FC } from "react";
-import ContentMath from "./ContentMath";
 import { OrderType } from "../../../../../types/types";
 import { CardElement } from "@stripe/react-stripe-js";
 import ButtonAnimated from "../../../../../UI/components/buttons/ButtonAnimated";
+import ContentMath from "./ContentMath";
 
 type PropsType = {
   order?: OrderType;
