@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
-import { showOrderFields } from "../../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
-import { priceFormatter } from "../../../../utils/utils";
-import { OrderType } from "../../../../types/types";
+import { showOrderFields } from "../../../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
+import { priceFormatter } from "../../../../../utils/utils";
+import { OrderType } from "../../../../../types/types";
 
 type PropsType = {
   order?: OrderType;

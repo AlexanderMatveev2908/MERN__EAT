@@ -3,10 +3,10 @@ import {
   fieldsAddressForm_all,
   fieldsDividedByAreaCheckout,
   totLenCheckoutSwap,
-} from "../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
-import FormFieldNoIcon from "../inputFields/FormFieldNoIcon";
-import ButtonsSwapper from "../../components/ButtonsSwapper";
-import { AddressFormType } from "../../../pages/checkoutLayout/Checkout/useCheckout";
+} from "../../../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
+import FormFieldNoIcon from "../../../../../UI/forms/inputFields/FormFieldNoIcon";
+import ButtonsSwapper from "../../../../../UI/components/ButtonsSwapper";
+import { AddressFormType } from "../../useCheckout";
 import { UseFormReturn } from "react-hook-form";
 
 type PropsType = {

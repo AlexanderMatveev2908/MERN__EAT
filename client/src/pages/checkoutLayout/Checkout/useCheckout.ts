@@ -2,13 +2,10 @@ import { useForm } from "react-hook-form";
 import { useStripeCustom, useUser } from "../../../core/hooks/useGlobal";
 import { useSearchParams } from "react-router-dom";
 import { defaultValsFormAddress } from "../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 import { REG_MONGO } from "../../../core/config/constants/regex";
-import {
-  getInfoPendingOrderAPI,
-  lastCheckOrderAPI,
-} from "../../../core/api/APICalls/orders";
+import { getInfoPendingOrderAPI } from "../../../core/api/APICalls/orders";
 import { useEffect } from "react";
 import { isObjOk } from "../../../utils/allUtils/validateData";
 import { ErrFoodApp } from "../../../types/allTypes/API";
@@ -28,41 +25,16 @@ export type AddressFormType = {
 export const useCheckout = () => {
   const [searchParams] = useSearchParams();
 
-  const orderId = searchParams.get("orderId");
-  const { handleErrAPI, showToastMsg } = useGetFavHooks();
-  const { isLogged } = useUser();
-  const canStay = isLogged && REG_MONGO.test(orderId ?? "");
-  const stripePromise = useStripeCustom();
   const formContext = useForm<AddressFormType>({
     mode: "onChange",
     defaultValues: defaultValsFormAddress,
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (formData: AddressFormType) =>
-      lastCheckOrderAPI(orderId ?? "", formData),
-    onSuccess: (data) => {
-      console.log(data);
-      showToastMsg("Ok", "SUCCESS");
-    },
-    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
-  });
-  const handleOrder = formContext.handleSubmit((data) => {
-    mutate(data);
-  });
-
-  const isDisabled = () => {
-    let isDisabled = false;
-
-    for (const key in defaultValsFormAddress) {
-      if (formContext.formState.errors[key]) {
-        isDisabled = true;
-        break;
-      }
-    }
-
-    return isDisabled;
-  };
+  const orderId = searchParams.get("orderId");
+  const { handleErrAPI } = useGetFavHooks();
+  const { isLogged } = useUser();
+  const canStay = isLogged && REG_MONGO.test(orderId ?? "");
+  const stripePromise = useStripeCustom();
 
   const {
     data: dataInfo,
@@ -93,7 +65,8 @@ export const useCheckout = () => {
           );
         }
       }
-    } else {
+    }
+    if (isErrorInfo) {
       handleErrAPI({ err: errorInfo as ErrFoodApp });
     }
   }, [
@@ -114,8 +87,5 @@ export const useCheckout = () => {
     isPendingInfo,
     errorInfo,
     dataInfo,
-    handleOrder,
-    isDisabled,
-    isPending,
   };
 };
