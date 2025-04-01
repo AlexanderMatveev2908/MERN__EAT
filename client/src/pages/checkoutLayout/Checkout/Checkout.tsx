@@ -8,7 +8,6 @@ import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/Load
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { Elements } from "@stripe/react-stripe-js";
-import { StripeElementsOptions } from "@stripe/stripe-js";
 
 const Checkout: FC = () => {
   const {
@@ -32,7 +31,9 @@ const Checkout: FC = () => {
   ) : (
     <Elements
       stripe={stripePromise}
-      options={dataInfo?.order?.paymentClientSecret as StripeElementsOptions}
+      options={{
+        clientSecret: dataInfo?.order?.paymentClientSecret ?? "",
+      }}
     >
       <div className="w-full grid justify-items-center place-content-center gap-6">
         <span className="txt__04">Checkout</span>
