@@ -60,4 +60,18 @@ export const lastCheckOrder = async (
 
     return baseErrResponse(res, 400, "Some items are not available anymore");
   }
+
+  await Order.findByIdAndUpdate(order._id, {
+    $set: {
+      addressUser: address,
+      "infoUser.email": email,
+      "infoUser.firstName": firstName,
+      "infoUser.lastName": lastName,
+    },
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Order updated successfully",
+  });
 };

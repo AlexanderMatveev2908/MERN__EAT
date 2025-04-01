@@ -20,6 +20,7 @@ const Checkout: FC = () => {
     dataInfo,
     handleOrder,
     isDisabled,
+    isPending,
   } = useCheckout();
 
   return !canStay ? (
@@ -41,7 +42,11 @@ const Checkout: FC = () => {
         <FormProvider {...formContext}>
           <CheckoutForm {...{ formContext, handleOrder }}>
             <OrderDetails
-              {...{ order: dataInfo?.order, isDisabled: isDisabled() }}
+              {...{
+                order: dataInfo?.order,
+                isDisabled: isDisabled(),
+                isPending,
+              }}
             />
           </CheckoutForm>
         </FormProvider>

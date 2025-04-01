@@ -7,9 +7,10 @@ import ButtonAnimated from "../../../../UI/components/buttons/ButtonAnimated";
 type PropsType = {
   order?: OrderType;
   isDisabled: boolean;
+  isPending: boolean;
 };
 
-const OrderDetails: FC<PropsType> = ({ order, isDisabled }) => {
+const OrderDetails: FC<PropsType> = ({ order, isDisabled, isPending }) => {
   return (
     <div className="w-full grid gap-5 items-start h-fit">
       <span className="txt__03 justify-self-center">Order Details</span>
@@ -31,7 +32,7 @@ const OrderDetails: FC<PropsType> = ({ order, isDisabled }) => {
 
         <div className="w-full max-w-[250px] mt-10">
           <ButtonAnimated
-            {...{ label: "Order now", type: "submit", isDisabled }}
+            {...{ label: "Order now", type: "submit", isDisabled, isPending }}
           />
         </div>
       </div>
