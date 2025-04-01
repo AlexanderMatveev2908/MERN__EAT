@@ -44,6 +44,7 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
 
     const int = setInterval(async () => {
       if (retryCount >= MAX_RETRY) {
+        setIsMoneyLoading(false);
         clearInterval(int);
         return;
       }
@@ -51,12 +52,14 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
       try {
         const data = await pollingOrderAPI(orderId ?? "");
         console.log(data);
+
+        setIsMoneyLoading(false);
         clearInterval(int);
       } catch (err) {
         console.log(err);
         retryCount++;
       }
-    }, 2500);
+    }, 3500);
   };
 
   const { paymentClientSecret } = order ?? {};
@@ -80,7 +83,12 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
         }
       );
 
-      if (paymentIntent?.status === "succeeded" && !error) pollOrder();
+      if (paymentIntent?.status === "succeeded" && !error) {
+        pollOrder();
+      } else {
+        console.log(error);
+        setIsMoneyLoading(false);
+      }
     },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });

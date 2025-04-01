@@ -26,8 +26,7 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
 
   const paymentInt = e.data.object as Stripe.PaymentIntent;
   const paymentStatus = paymentInt.status;
-  console.log(paymentInt);
-
+  console.log(paymentStatus);
   const order = (await Order.findOne({
     paymentClientSecret: paymentInt.client_secret,
     paymentId: paymentInt.id,
@@ -43,9 +42,6 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
 
     restaurant.orders.push(order._id);
     await restaurant.save();
-  } else {
-    order.paymentId = null;
-    order.paymentClientSecret = null;
   }
   await order.save();
 

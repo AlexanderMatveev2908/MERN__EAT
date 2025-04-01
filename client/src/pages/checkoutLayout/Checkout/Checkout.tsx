@@ -7,8 +7,11 @@ import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/Load
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { Elements } from "@stripe/react-stripe-js";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 
 const Checkout: FC = () => {
+  useScrollTop();
+
   const {
     formContext,
     stripePromise,
