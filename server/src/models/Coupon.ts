@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 export type CouponType = {
+  _id?: string;
   hashedCode: string;
   discount: number;
   categories: string[];

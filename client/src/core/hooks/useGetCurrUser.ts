@@ -5,6 +5,7 @@ import { useUser } from "./useGlobal";
 import { useHandleErr } from "./useHandleErr";
 import { ErrFoodApp } from "../../types/allTypes/API";
 import { useQuery } from "@tanstack/react-query";
+import { isObjOk } from "../../utils/allUtils/validateData";
 
 export const useGetCurrUser = () => {
   const { setCurrUser, isLogged } = useUser();
@@ -20,7 +21,7 @@ export const useGetCurrUser = () => {
         handleErrAPI({ err: error as ErrFoodApp });
       } else if (isSuccess) {
         const { user = {} as any } = data ?? ({} as any);
-        setCurrUser({ user });
+        if (isObjOk(user)) setCurrUser({ user });
       }
     };
 

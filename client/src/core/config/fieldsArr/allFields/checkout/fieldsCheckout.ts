@@ -77,11 +77,11 @@ export const showOrderFields = (...params: (number | null)[]) =>
       label: "Subtotal",
       val: params[0],
     },
+    { label: "Delivery", val: params[1] },
     {
       label: "Discount",
-      val: params[1],
+      val: params[2],
     },
-    { label: "Delivery", val: params[2] },
     {
       label: "Total",
       val: params[3],

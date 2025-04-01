@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { ImageSchema, ImageType } from "./Image.js";
 import { AddressSchema, AddressType } from "./User.js";
+import { ContactRestaurantSchema } from "./Restaurant.js";
 
 export type OrderItem = {
   dishId: string | null;
@@ -12,7 +13,6 @@ export type OrderItem = {
 };
 
 export type OrderStatus =
-  | "created"
   | "pending"
   | "processing"
   | "shipped"
@@ -20,14 +20,18 @@ export type OrderStatus =
   | "cancelled";
 
 export type OrderType = {
-  paymentId: string;
+  paymentId: string | null;
+  paymentClientSecret: string | null;
   _id?: string | mongoose.Types.ObjectId | null;
   userId: string;
-  userEmail: string;
   restaurantId: string;
-  restaurantName: string;
+  contactRestaurant: {
+    phone: string;
+    email: string;
+    website: string;
+  };
   items: OrderItem[];
-  address: AddressType;
+  addressUser: AddressType;
   priceNoDiscount: number;
   priceWithDiscount: number | null;
   coupon: string | null;
@@ -61,7 +65,11 @@ const OrderSchema = new mongoose.Schema(
   {
     paymentId: {
       type: String,
-      required: true,
+      default: null,
+    },
+    paymentClientSecret: {
+      type: String,
+      default: null,
     },
 
     // CAUSE RESTAURANT CAN BE DELETED AS WELL AS USER ACCOUNT I WILL PROVIDE AT LEAST NAME AND EMAIL FOR GENERIC INFO
@@ -70,20 +78,13 @@ const OrderSchema = new mongoose.Schema(
       ref: "User",
       default: null,
     },
-    userEmail: {
-      type: String,
-      required: true,
-    },
     restaurantId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Restaurant",
       default: null,
     },
-    restaurantName: {
-      type: String,
-      required: true,
-    },
-    address: AddressSchema,
+    contactRestaurant: ContactRestaurantSchema,
+    addressUser: AddressSchema,
     items: [OrderItemSchema],
     priceNoDiscount: {
       type: Number,
@@ -104,14 +105,7 @@ const OrderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: [
-        "created",
-        "pending",
-        "processing",
-        "shipped",
-        "delivered",
-        "cancelled",
-      ],
+      enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
       default: "created",
     },
   },
