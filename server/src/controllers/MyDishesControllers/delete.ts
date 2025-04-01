@@ -81,18 +81,17 @@ export const bulkDelete = async (req: any, res: Response): Promise<any> => {
 
   if (!result.length) return baseErrResponse(res, 404, "Dishes not found");
 
-  const idsDishesDeleted: string[] = [];
-
   const promises = result.map(async (rest: any) => {
-    const promisesDishes = rest.dishes.map(async (dish: DishType) => {
-      idsDishesDeleted.push(dish._id + "");
-      await clearDataDish(dish);
-    });
-    await Promise.all(promisesDishes);
+    const idsToDelete = await Promise.all(
+      rest.dishes.map(async (dish: DishType) => {
+        await clearDataDish(dish);
+        return dish._id + "";
+      })
+    );
 
     const restaurant = await Restaurant.findById(rest._id);
     restaurant.dishes = restaurant.dishes.filter(
-      (el: any) => !new Set(...idsDishesDeleted).has(el + "")
+      (el: DishType) => !new Set(idsToDelete).has(el + "")
     );
     await restaurant.save();
   });
@@ -152,18 +151,17 @@ export const deleteQueriesResults = async (
 
   if (!result?.length) return baseErrResponse(res, 404, "Dishes not found");
 
-  const idsDishesDeleted: string[] = [];
-
   const promises = result.map(async (rest: any) => {
-    const promisesDishes = rest.dishes.map(async (dish: DishType) => {
-      idsDishesDeleted.push(dish._id + "");
-      await clearDataDish(dish);
-    });
-    await Promise.all(promisesDishes);
+    const idsToDelete = await Promise.all(
+      rest.dishes.map(async (dish: DishType) => {
+        await clearDataDish(dish);
+        return dish._id + "";
+      })
+    );
 
     const restaurant = await Restaurant.findById(rest._id);
     restaurant.dishes = restaurant.dishes.filter(
-      (el: any) => !new Set(...idsDishesDeleted).has(el + "")
+      (el: DishType) => !new Set(idsToDelete).has(el + "")
     );
     await restaurant.save();
   });
