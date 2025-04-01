@@ -1,3 +1,4 @@
+import { AddressFormType } from "../../../pages/checkoutLayout/Checkout/useCheckout";
 import { OrderType, ReturnAPIBasic } from "../../../types/types";
 import { destructureDataAPI } from "../../../utils/allUtils/apiUtils";
 import { foodAppInstance } from "../../config/constants/axiosInstance";
@@ -22,4 +23,12 @@ export const getInfoPendingOrderAPI = (
 > =>
   destructureDataAPI(() =>
     foodAppInstance.get(`/my-orders?orderId=${orderId}`)
+  );
+
+export const lastCheckOrderAPI = (
+  orderId: string,
+  formData: AddressFormType
+): Promise<ReturnAPIBasic> =>
+  destructureDataAPI(() =>
+    foodAppInstance.put(`/my-orders?orderId=${orderId}`, { ...formData })
   );
