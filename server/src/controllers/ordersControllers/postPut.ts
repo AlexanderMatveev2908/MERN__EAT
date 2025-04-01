@@ -175,19 +175,18 @@ export const createOrder = async (
 
   const newOrder: Partial<OrderType> = {
     paymentId: paymentIntent.id,
+    paymentClientSecret: paymentIntent.client_secret,
 
     userId: userId as string,
-    userEmail: user.email,
-
     restaurantId: existingRestaurant._id,
-    restaurantName: existingRestaurant.name,
+    contactRestaurant: existingRestaurant.contact,
 
     items: orderItems,
     priceNoDiscount: +totPrice.toFixed(2),
     priceWithDiscount: couponSaved ? priceStripe : null,
     delivery: couponSaved ? delPrice : null,
     coupon: couponSaved ? (couponSaved._id as any) : null,
-    status: "created",
+    status: "pending",
   };
 
   const newMongoOrder = (await Order.create(newOrder)) as OrderType;
@@ -211,5 +210,10 @@ export const createOrder = async (
     },
   });
 
-  return res.status(201).json({ msg: "Order created", success: true });
+  return res.status(201).json({
+    msg: "Order created",
+    success: true,
+    paymentId: paymentIntent.client_secret,
+    orderId: newMongoOrder._id,
+  });
 };

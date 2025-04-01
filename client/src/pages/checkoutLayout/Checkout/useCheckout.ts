@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useStripeCustom } from "../../../core/hooks/useGlobal";
+import { useSearchParams } from "react-router-dom";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
 
 export type AddressFormType = {
   email: string;
@@ -14,7 +16,11 @@ export type AddressFormType = {
 };
 
 export const useCheckout = () => {
-  const stripe = useStripeCustom();
+  const [searchParams] = useSearchParams();
+
+  const stripePromise = useStripeCustom();
+  const stripe = useStripe();
+  const elements = useElements();
 
   const formContext = useForm<AddressFormType>({
     mode: "onChange",
@@ -33,6 +39,6 @@ export const useCheckout = () => {
 
   return {
     formContext,
-    stripe,
+    stripePromise,
   };
 };

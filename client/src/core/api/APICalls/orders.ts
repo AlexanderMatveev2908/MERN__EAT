@@ -6,7 +6,7 @@ export const sendOrderAPI = ({
   coupon,
 }: {
   coupon?: string;
-}): Promise<ReturnAPIBasic> =>
+}): Promise<ReturnAPIBasic & { paymentId: string; orderId: string }> =>
   destructureDataAPI(() =>
     foodAppInstance.post("/my-orders", { coupon: coupon ?? null })
   );

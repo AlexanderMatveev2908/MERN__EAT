@@ -40,10 +40,12 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
 
   const { isPending: isPendingSubmit, mutate } = useMutation({
     mutationFn: (coupon?: string) => sendOrderAPI({ coupon }),
-    onSuccess: () =>
+    onSuccess: (data) =>
       makeDelay(() => {
         showToastMsg("Order created", "SUCCESS");
-        navigate("/checkout", { state: { from: location.pathname } });
+        navigate(`/checkout?orderId${data.orderId}`, {
+          state: { from: location.pathname },
+        });
       }),
     onError: (err: ErrFoodApp) => makeDelay(() => handleErrAPI({ err })),
     onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),

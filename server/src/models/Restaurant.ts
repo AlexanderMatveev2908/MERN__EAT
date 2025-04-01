@@ -59,6 +59,21 @@ export type RestaurantType = {
   isAdmin?: boolean;
 };
 
+export const ContactRestaurantSchema = new mongoose.Schema({
+  phone: {
+    type: String,
+    default: null,
+  },
+  email: {
+    type: String,
+    default: null,
+  },
+  website: {
+    type: String,
+    default: null,
+  },
+});
+
 const RestaurantSchema = new mongoose.Schema(
   {
     owner: {
@@ -92,20 +107,7 @@ const RestaurantSchema = new mongoose.Schema(
         required: true,
       },
     },
-    contact: {
-      phone: {
-        type: String,
-        default: null,
-      },
-      email: {
-        type: String,
-        default: null,
-      },
-      website: {
-        type: String,
-        default: null,
-      },
-    },
+    contact: ContactRestaurantSchema,
     openHours: {
       openTime: {
         type: Number,
