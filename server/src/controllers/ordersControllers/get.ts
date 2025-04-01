@@ -14,6 +14,7 @@ import {
   checkIsOpen,
   checkDataExistOrder,
   getFreshItemsStock,
+  handleCouponOrder,
 } from "../../utils/orders/refreshOrder.js";
 
 export const getOrderInfo = async (
@@ -120,24 +121,11 @@ export const getOrderInfo = async (
       coupon = await Coupon.findById(order.coupon);
       if (!coupon) return baseErrResponse(res, 404, "Coupon not found");
 
-      const isPriceCOndOk = newTotPrice >= coupon.minCartPrice;
-      const isStillValid = new Date(coupon.expiryDate).getTime() > Date.now();
-
-      if ((!isPriceCOndOk || !orderItemsFresh.length) && isStillValid) {
-        resetCoupon = true;
-
-        await Coupon.findByIdAndUpdate(coupon._id, {
-          isActive: true,
-        });
-      } else if (!isStillValid) {
-        expiredCoupon = true;
-
-        await Coupon.findByIdAndUpdate(coupon._id, {
-          isActive: false,
-        });
-      } else {
-        discount = +((newTotPrice / 100) * coupon.discount).toFixed(2);
-      }
+      ({ resetCoupon, expiredCoupon, discount } = await handleCouponOrder(
+        coupon,
+        newTotPrice,
+        orderItemsFresh
+      ));
     }
 
     const stripePrice = +(

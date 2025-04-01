@@ -1,3 +1,5 @@
+import { HydratedDocument } from "mongoose";
+import Coupon, { CouponType } from "../../models/Coupon.js";
 import Order, { OrderType } from "../../models/Order.js";
 import { RestaurantType } from "../../models/Restaurant.js";
 import User from "../../models/User.js";
@@ -32,5 +34,30 @@ export const lastCheckOrder = async (
       "Restaurant closed or would not make in time order"
     );
 
-  const { orderItemsFresh, oldQty, newQty } = await getFreshItemsStock(order);
+  const { oldQty, newQty } = await getFreshItemsStock(order);
+
+  if (oldQty !== newQty) {
+    await User.findByIdAndUpdate(userId, {
+      $pull: { orders: order._id },
+    });
+    await Order.findByIdAndDelete(order._id);
+
+    if (order.coupon) {
+      const coupon = (await Coupon.findById(
+        order.coupon
+      )) as HydratedDocument<CouponType> | null;
+
+      if (coupon) {
+        const isStillValid =
+          new Date(coupon.expiryDate ?? 0).getTime() > Date.now();
+
+        if (!isStillValid) {
+          coupon.isActive = false;
+          await coupon.save();
+        }
+      }
+    }
+
+    return baseErrResponse(res, 400, "Some items are not available anymore");
+  }
 };
