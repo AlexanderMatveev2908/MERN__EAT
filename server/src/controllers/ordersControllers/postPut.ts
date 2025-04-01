@@ -100,6 +100,12 @@ export const createOrder = async (
 
       return baseErrResponse(res, 422, "Coupon expired");
     }
+    if (
+      !couponSaved.categories.some((el) =>
+        existingRestaurant.categories.includes(el)
+      )
+    )
+      return baseErrResponse(res, 422, "Coupon not valid for this restaurant");
   }
   const orderItems: OrderItem[] = [];
 
@@ -117,7 +123,7 @@ export const createOrder = async (
       price: dish.price,
       dishId: dish._id,
       images,
-      //  could be used also Math.max if preferred
+      //  could be used also Math.min if preferred
       quantity: el.quantity > dish.quantity ? dish.quantity : el.quantity,
     });
   });
@@ -157,33 +163,41 @@ export const createOrder = async (
   // save in vars cause too long names
   const freeMeal = existingRestaurant.delivery.freeDeliveryPrice;
   const delPrice = existingRestaurant.delivery.price;
-  const needApplyDel = freeMeal && totPrice < freeMeal;
+  const needApplyDel = delPrice && totPrice < freeMeal;
   //  so i know if i need to apply or not del and save it in db so who watch know he also paid delivery out of tot price
 
-  if (needApplyDel) totPrice += delPrice;
-
-  let priceStripe = totPrice;
+  let discount = 0;
   if (couponSaved)
-    priceStripe = +(totPrice - (totPrice / 100) * couponSaved.discount);
-
-  priceStripe = +priceStripe.toFixed(2);
+    discount = +(totPrice - (totPrice / 100) * couponSaved.discount).toFixed(2);
 
   const newOrder: Partial<OrderType> = {
     userId: userId,
     restaurantId: existingRestaurant._id,
+
     contactRestaurant: existingRestaurant.contact,
+    infoUser: {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    },
+    addressUser: user.address,
 
     items: orderItems,
-    priceNoDiscount: +totPrice.toFixed(2),
-    priceWithDiscount: couponSaved ? priceStripe : null,
-    delivery: needApplyDel ? delPrice : null,
-    coupon: couponSaved ? (couponSaved._id as any) : null,
+    totPrice: +totPrice.toFixed(2),
+    discount,
+    delivery: needApplyDel ? delPrice : 0,
+    coupon: couponSaved ? couponSaved._id : null,
     status: "pending",
   };
   const newMongoOrder = (await Order.create(newOrder)) as OrderType;
   if (!newMongoOrder) return baseErrResponse(res, 500, "Error creating order");
 
-  const { paymentIntent } = await createPaymentInt(priceStripe);
+  const stripePrice = +(
+    newMongoOrder.totPrice -
+    newMongoOrder.discount +
+    newMongoOrder.delivery
+  ).toFixed(2);
+  const { paymentIntent } = await createPaymentInt(stripePrice);
   if (!paymentIntent)
     return baseErrResponse(res, 500, "Error creating payment");
 

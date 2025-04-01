@@ -32,11 +32,16 @@ export type OrderType = {
   };
   items: OrderItem[];
   addressUser: AddressType;
-  priceNoDiscount: number;
-  priceWithDiscount: number | null;
+  infoUser: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  totPrice: number;
+  delivery: number;
+  discount: number;
   coupon: string | null;
   status: OrderStatus;
-  delivery: number | null;
 };
 
 const OrderItemSchema = new mongoose.Schema({
@@ -83,20 +88,36 @@ const OrderSchema = new mongoose.Schema(
       ref: "Restaurant",
       default: null,
     },
+
     contactRestaurant: ContactRestaurantSchema,
+    infoUser: {
+      firstName: {
+        type: String,
+        required: true,
+      },
+      lastName: {
+        type: String,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+      },
+    },
     addressUser: AddressSchema,
+
     items: [OrderItemSchema],
-    priceNoDiscount: {
+    totPrice: {
       type: Number,
       required: true,
     },
+    discount: {
+      type: Number,
+      default: 0,
+    },
     delivery: {
       type: Number,
-      default: null,
-    },
-    priceWithDiscount: {
-      type: Number,
-      default: null,
+      default: 0,
     },
     coupon: {
       type: mongoose.Schema.Types.ObjectId,

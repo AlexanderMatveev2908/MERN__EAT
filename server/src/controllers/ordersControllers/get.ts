@@ -21,7 +21,7 @@ export const getOrderInfo = async (
   const order = (await Order.findOne({
     _id: makeMongoId(orderId as string),
     userId: makeMongoId(userId as string),
-  }).lean()) as any;
+  }).lean()) as unknown as OrderType;
 
   if (!order) {
     await User.findByIdAndUpdate(userId, {
@@ -86,20 +86,19 @@ export const getOrderInfo = async (
     0
   );
 
-  const userDetails = await User.findById(userId)
-    .select("address firstName lastName email")
-    .lean();
-
   if (newQty === oldQty) {
     if (order.paymentId && order.paymentClientSecret) {
       return res.status(200).json({
         order,
         success: true,
-        userDetails,
         msg: "Ok the same",
       });
     } else {
-      const stripePrice = order.priceWithDiscount ?? order.priceNoDiscount;
+      const stripePrice = +(
+        order.totPrice +
+        order.delivery -
+        order.discount
+      ).toFixed(2);
 
       const { paymentIntent: newPaymentIntent } = await createPaymentInt(
         stripePrice
@@ -115,12 +114,28 @@ export const getOrderInfo = async (
       return res.status(200).json({
         order,
         success: true,
-        userDetails,
-        msg: "Ok the same",
+        msg: "Ok the same, added stripe",
       });
     }
   } else {
+    let coupon = null;
+    let isStillValid = true;
+    let isPriceCOndOk = true;
+    let resetCoupon = false;
+    let expiredCoupon = false;
+
+    if (order.coupon)
+      coupon = (await Coupon.findOne({
+        usedBy: makeMongoId(userId ?? ""),
+        usedFor: order._id,
+      }).lean()) as CouponType | null;
+    if (coupon)
+      isStillValid = new Date(coupon.expiryDate).getTime() > Date.now();
+
     if (!orderItemsFresh.length) {
+      if (coupon && isStillValid)
+        await Coupon.findByIdAndUpdate(coupon._id, { isActive: true });
+
       await Order.findByIdAndDelete(order._id);
       await User.findByIdAndUpdate(userId, {
         $pull: { orders: order._id },
@@ -160,28 +175,17 @@ export const getOrderInfo = async (
       0
     );
 
-    let needApplyDel = false;
-    let resetCoupon = false;
-    let expiredCoupon = false;
-
+    const discount = coupon
+      ? newTotPrice - (newTotPrice / 100) * coupon.discount
+      : 0;
+    const delPrice = restaurant.delivery.price;
     const delFree = restaurant.delivery.freeDeliveryPrice;
+    let needApplyDel = false;
 
-    if (delFree && newTotPrice < delFree) {
-      needApplyDel = true;
-      newTotPrice += restaurant.delivery.price;
-    }
+    if (delPrice && newTotPrice < delFree) needApplyDel = true;
 
-    let coupon = null;
-    if (order.coupon)
-      coupon = (await Coupon.findOne({
-        usedBy: makeMongoId(userId ?? ""),
-        usedFor: order._id,
-      }).lean()) as CouponType | null;
-
-    let stripePrice = newTotPrice;
     if (coupon) {
-      const isStillValid = new Date(coupon.expiryDate).getTime() > Date.now();
-      const isPriceCOndOk = newTotPrice >= coupon.minCartPrice;
+      isPriceCOndOk = newTotPrice >= coupon.minCartPrice;
 
       if (!isPriceCOndOk && isStillValid) {
         resetCoupon = true;
@@ -199,12 +203,13 @@ export const getOrderInfo = async (
             isActive: false,
           });
       }
-      if (isPriceCOndOk && isStillValid) {
-        stripePrice = +(newTotPrice - (newTotPrice / 100) * coupon.discount);
-      }
     }
-    stripePrice = +stripePrice.toFixed(2);
 
+    const stripePrice = +(
+      newTotPrice -
+      discount +
+      (needApplyDel ? delPrice : 0)
+    ).toFixed(2);
     const { paymentIntent: newPaymentIntent } = await createPaymentInt(
       stripePrice
     );
@@ -231,7 +236,6 @@ export const getOrderInfo = async (
       order: updatedOrder,
       success: true,
       msg: "Changed",
-      userDetails,
       resetCoupon,
       expiredCoupon,
     });
