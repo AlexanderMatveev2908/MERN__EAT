@@ -10,6 +10,7 @@ import { useSidebarVals } from "../hooks/useSidebarVals";
 import { useCartVals } from "../hooks/useCartVals";
 import { useNoticeVals } from "../hooks/useNoticeVals";
 import { useInfoPopVals } from "../hooks/useInfoPopVals";
+import { loadStripe } from "@stripe/stripe-js";
 
 export const useRootVals = (): RootValsType => {
   const [state, dispatch] = useReducer(rootReducer, rootInitState);
@@ -23,6 +24,8 @@ export const useRootVals = (): RootValsType => {
   const infoPopVals = useInfoPopVals();
 
   const formContexts = useFormsVals();
+
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY!);
 
   return {
     toastState: {
@@ -46,6 +49,8 @@ export const useRootVals = (): RootValsType => {
     infoPopState: {
       ...infoPopVals,
     },
+
+    stripePromise,
 
     formsState: {
       ...formContexts,
