@@ -61,20 +61,17 @@ export const getOrderInfo = async (
       "Restaurant closed or would not make in time order"
     );
 
-  const orderItemsFresh: OrderItem[] = [];
+  const orderItemsFresh: OrderItem[] = await Promise.all(
+    order.items.map(async (el: OrderItem) => {
+      const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
+      if (!dish || !dish.quantity) return null;
 
-  const promises = order.items.map(async (el: OrderItem) => {
-    // i search in dish collection cause is possible i forgot to update restaurant document ref, my fault, when i will be sure is all sync i will refactor code so i do not do unnecessary DB call
-    const dish = (await Dish.findById(el.dishId).lean()) as unknown as DishType;
-    if (!dish || !dish.quantity) return;
-
-    orderItemsFresh.push({
-      ...el,
-      quantity: Math.min(el.quantity, dish.quantity),
-    });
-  });
-
-  await Promise.all(promises);
+      return {
+        ...el,
+        quantity: Math.min(el.quantity, dish.quantity),
+      };
+    })
+  ).then((items) => items.filter((el) => !!el));
 
   const newQty = orderItemsFresh.reduce(
     (acc, curr: OrderItem) => acc + curr.quantity,
