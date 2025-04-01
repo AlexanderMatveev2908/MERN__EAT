@@ -27,9 +27,9 @@ export const getOrderInfo = async (
     await User.findByIdAndUpdate(userId, {
       $pull: { orders: makeMongoId(orderId as string) },
     });
-
     return baseErrResponse(res, 404, "Order not found");
   }
+
   const restaurant = (await Restaurant.findById(
     order.restaurantId
   ).lean()) as RestaurantType | null;
@@ -38,7 +38,6 @@ export const getOrderInfo = async (
     await User.findByIdAndUpdate(userId, {
       $pull: { orders: order._id },
     });
-
     return baseErrResponse(res, 404, "Restaurant not found");
   }
 
@@ -118,30 +117,11 @@ export const getOrderInfo = async (
       });
     }
   } else {
-    let coupon = null;
-    let isStillValid = true;
-    let isPriceCOndOk = true;
-    //  i need last two for popup i am thinking to do for coupon
-    let resetCoupon = false;
-    let expiredCoupon = false;
-
-    if (order.coupon)
-      coupon = (await Coupon.findOne({
-        usedBy: makeMongoId(userId ?? ""),
-        usedFor: order._id,
-      }).lean()) as CouponType | null;
-    if (coupon)
-      isStillValid = new Date(coupon.expiryDate).getTime() > Date.now();
-
     if (!orderItemsFresh.length) {
-      if (coupon && isStillValid)
-        await Coupon.findByIdAndUpdate(coupon._id, { isActive: true });
-
       await Order.findByIdAndDelete(order._id);
       await User.findByIdAndUpdate(userId, {
         $pull: { orders: order._id },
       });
-
       return baseErrResponse(
         res,
         422,
@@ -160,51 +140,53 @@ export const getOrderInfo = async (
         filtered.images.map((img: ImageType) => img.public_id)
       )
       .flat(Infinity) as unknown as string[];
-
     if (idsImagesToDelete.length) {
       const promisesCloud = idsImagesToDelete.map(
         async (public_id: string) => await deleteCloud(public_id)
       );
-
       try {
         await Promise.all(promisesCloud);
       } catch {}
     }
 
+    const delPrice = restaurant.delivery.price;
+    const delFree = restaurant.delivery.freeDeliveryPrice;
     let newTotPrice = orderItemsFresh.reduce(
       (acc, curr: OrderItem) => acc + curr.quantity * curr.quantity,
       0
     );
-
-    const delPrice = restaurant.delivery.price;
-    const delFree = restaurant.delivery.freeDeliveryPrice;
+    let coupon: CouponType | null = null;
     let needApplyDel = false;
+    let discount = 0;
+    let resetCoupon = false;
+    let expiredCoupon = false;
 
     if (delPrice && newTotPrice < delFree) needApplyDel = true;
 
-    if (coupon) {
-      isPriceCOndOk = newTotPrice >= coupon.minCartPrice;
+    if (order.coupon) {
+      coupon = await Coupon.findById(order.coupon);
+      if (!coupon) return baseErrResponse(res, 404, "Coupon not found");
 
-      if (!isPriceCOndOk && isStillValid) {
+      const isPriceCOndOk = newTotPrice >= coupon.minCartPrice;
+      const isStillValid = new Date(coupon.expiryDate).getTime() > Date.now();
+
+      if ((!isPriceCOndOk || !orderItemsFresh.length) && isStillValid) {
         resetCoupon = true;
 
         await Coupon.findByIdAndUpdate(coupon._id, {
           isActive: true,
         });
-      }
-      if (!isStillValid) {
+      } else if (!isStillValid) {
         expiredCoupon = true;
 
         await Coupon.findByIdAndUpdate(coupon._id, {
           isActive: false,
         });
+      } else {
+        discount = +((newTotPrice / 100) * coupon.discount).toFixed(2);
       }
     }
 
-    const canApplyCoupon = coupon && !resetCoupon && !expiredCoupon;
-    const discount = canApplyCoupon
-      ? +((newTotPrice / 100) * (coupon as CouponType).discount).toFixed(2)
-      : 0;
     const stripePrice = +(
       newTotPrice -
       discount +
@@ -224,7 +206,7 @@ export const getOrderInfo = async (
       items: orderItemsFresh,
       totPrice: +newTotPrice.toFixed(2),
       discount,
-      coupon: canApplyCoupon ? ((coupon as CouponType)._id as string) : null,
+      coupon: coupon ? ((coupon as CouponType)._id as string) : null,
       delivery: needApplyDel ? delPrice : 0,
     };
 

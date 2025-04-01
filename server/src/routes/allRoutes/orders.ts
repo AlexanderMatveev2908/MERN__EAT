@@ -2,7 +2,7 @@ import express from "express";
 import { verifyAccessToken } from "../../middleware/general/verifyAccessToken.js";
 import { checkCode } from "../../middleware/orders/checkCode.js";
 import { asyncWrapper } from "../../middleware/general/asyncWrapper.js";
-import { createOrder } from "../../controllers/ordersControllers/postPut.js";
+import { createOrder } from "../../controllers/ordersControllers/post.js";
 import { getOrderInfo } from "../../controllers/ordersControllers/get.js";
 import { validateOrderId } from "../../middleware/orders/validateOrderId.js";
 
