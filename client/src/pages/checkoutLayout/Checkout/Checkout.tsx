@@ -1,8 +1,7 @@
 import { FC } from "react";
 import { useCheckout } from "./useCheckout";
 import { FormProvider } from "react-hook-form";
-import CheckoutForm from "../../../UI/forms/CheckoutForm/CheckoutForm";
-import OrderDetails from "./components/OrderDetails";
+import CheckoutForm from "./components/CheckoutForm";
 import { Navigate } from "react-router-dom";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
@@ -18,9 +17,6 @@ const Checkout: FC = () => {
     isErrorInfo,
     errorInfo,
     dataInfo,
-    handleOrder,
-    isDisabled,
-    isPending,
   } = useCheckout();
 
   return !canStay ? (
@@ -40,15 +36,7 @@ const Checkout: FC = () => {
         <span className="txt__04">Checkout</span>
 
         <FormProvider {...formContext}>
-          <CheckoutForm {...{ formContext, handleOrder }}>
-            <OrderDetails
-              {...{
-                order: dataInfo?.order,
-                isDisabled: isDisabled(),
-                isPending,
-              }}
-            />
-          </CheckoutForm>
+          <CheckoutForm {...{ formContext, order: dataInfo?.order }} />
         </FormProvider>
       </div>
     </Elements>
