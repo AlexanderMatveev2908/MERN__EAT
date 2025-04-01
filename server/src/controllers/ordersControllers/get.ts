@@ -10,77 +10,33 @@ import { ImageType } from "../../models/Image.js";
 import { deleteCloud } from "../../utils/cloud.js";
 import Coupon, { CouponType } from "../../models/Coupon.js";
 import { createPaymentInt } from "../../utils/stripe.js";
+import {
+  checkIsOpen,
+  checkDataExistOrder,
+  getFreshItemsStock,
+} from "../../utils/orders/refreshOrder.js";
 
 export const getOrderInfo = async (
   req: RequestWithUserId,
   res: Response
 ): Promise<any> => {
   const { userId } = req;
-  const { orderId } = req.query;
 
-  const order = (await Order.findOne({
-    _id: makeMongoId(orderId as string),
-    userId: makeMongoId(userId as string),
-  }).lean()) as unknown as OrderType;
+  const result = await checkDataExistOrder(req, res);
+  if (!result) return;
+  const { restaurant, order } = result as {
+    order: OrderType;
+    restaurant: RestaurantType;
+  };
 
-  if (!order) {
-    await User.findByIdAndUpdate(userId, {
-      $pull: { orders: makeMongoId(orderId as string) },
-    });
-    return baseErrResponse(res, 404, "Order not found");
-  }
-
-  const restaurant = (await Restaurant.findById(
-    order.restaurantId
-  ).lean()) as RestaurantType | null;
-  if (!restaurant) {
-    await Order.findByIdAndDelete(order._id);
-    await User.findByIdAndUpdate(userId, {
-      $pull: { orders: order._id },
-    });
-    return baseErrResponse(res, 404, "Restaurant not found");
-  }
-
-  let isOpen = true;
-
-  const open = restaurant.openHours.openTime;
-  const close = restaurant.openHours.closeTime;
-  const now =
-    new Date().getHours() * 60 +
-    new Date().getMinutes() +
-    restaurant.delivery.estTimeDelivery;
-
-  if (open !== close) {
-    if (open < close) isOpen = now >= open && now < close;
-    else isOpen = now >= open || now < close;
-  }
-  if (!isOpen)
+  if (!checkIsOpen(restaurant))
     return baseErrResponse(
       res,
       400,
       "Restaurant closed or would not make in time order"
     );
 
-  const orderItemsFresh: OrderItem[] = await Promise.all(
-    order.items.map(async (el: OrderItem) => {
-      const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
-      if (!dish || !dish.quantity) return null;
-
-      return {
-        ...el,
-        quantity: Math.min(el.quantity, dish.quantity),
-      };
-    })
-  ).then((items) => items.filter((el) => !!el));
-
-  const newQty = orderItemsFresh.reduce(
-    (acc, curr: OrderItem) => acc + curr.quantity,
-    0
-  );
-  const oldQty = order.items.reduce(
-    (acc: number, curr: OrderItem) => acc + curr.quantity,
-    0
-  );
+  const { orderItemsFresh, oldQty, newQty } = await getFreshItemsStock(order);
 
   if (newQty === oldQty) {
     if (order.paymentId && order.paymentClientSecret) {
