@@ -168,7 +168,7 @@ export const createOrder = async (
 
   let discount = 0;
   if (couponSaved)
-    discount = +(totPrice - (totPrice / 100) * couponSaved.discount).toFixed(2);
+    discount = +((totPrice / 100) * couponSaved.discount).toFixed(2);
 
   const newOrder: Partial<OrderType> = {
     userId: userId,
