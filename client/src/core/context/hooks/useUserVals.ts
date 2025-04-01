@@ -84,12 +84,16 @@ export const useUserVals = (
     [dispatch]
   );
 
-  useEffect(() => {
+  const lookUserLogged = useCallback(() => {
     const access = sessionStorage.getItem("accessToken");
 
     if ((!userState.isLogged || !userState.currUser) && access)
       dispatch({ type: SET_IS_LOGGED, payload: true });
   }, [dispatch, userState]);
+
+  useEffect(() => {
+    lookUserLogged();
+  }, [lookUserLogged]);
 
   return {
     ...userState,
