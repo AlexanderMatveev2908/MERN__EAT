@@ -41,8 +41,8 @@ export const updateCO = async () => {
   const orders = await Order.find({});
   if (orders.length) {
     const promises = orders.map(async (el: any) => {
-      const promises = el.images.map(
-        async (el: any) => await deleteCloud(el.public_id)
+      const promises = el.items.map((el: any) =>
+        el.images.map(async (el: any) => await deleteCloud(el.public_id))
       );
 
       await Promise.all(promises);

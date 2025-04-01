@@ -10,6 +10,7 @@ import OrderDetails from "./components/OrderDetails";
 import { OrderType } from "../../../../types/types";
 import { defaultValsFormAddress } from "../../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
 import SwapAddress from "./components/SwapAddress";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 
 type PropsType = {
   formContext: UseFormReturn<AddressFormType>;
@@ -20,29 +21,48 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
   const [searchParams] = useSearchParams();
   const [isMoneyLoading, setIsMoneyLoading] = useState(false);
 
+  const stripe = useStripe();
+  const elements = useElements();
+
   const isDisabled = () => {
     let isDisabled = false;
-
     for (const key in defaultValsFormAddress) {
       if (formContext.formState.errors[key]) {
         isDisabled = true;
         break;
       }
     }
-
     return isDisabled;
   };
 
+  const { paymentClientSecret } = order ?? {};
+
   const orderId = searchParams.get("orderId");
-  const { handleErrAPI, showToastMsg } = useGetFavHooks();
+  const { handleErrAPI } = useGetFavHooks();
   const { mutate, isPending } = useMutation({
-    mutationFn: (formData: AddressFormType) => {
+    mutationFn: (formData: AddressFormType) =>
+      lastCheckOrderAPI(orderId ?? "", formData),
+    onSuccess: async () => {
+      if (!stripe || !elements || !paymentClientSecret) return;
+      const card = elements.getElement(CardElement);
+      if (!card) return;
+
       setIsMoneyLoading(true);
-      return lastCheckOrderAPI(orderId ?? "", formData);
-    },
-    onSuccess: (data) => {
-      console.log(data);
-      showToastMsg("Ok", "SUCCESS");
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        paymentClientSecret,
+        {
+          payment_method: {
+            card,
+          },
+        }
+      );
+
+      if (error) {
+        setIsMoneyLoading(false);
+      } else if (paymentIntent.status === "succeeded") {
+        console.log(paymentIntent);
+        setIsMoneyLoading(false);
+      }
     },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });
