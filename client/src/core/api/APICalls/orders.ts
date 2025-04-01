@@ -1,8 +1,4 @@
-import {
-  OrderType,
-  ReturnAPIBasic,
-  UserAddressType,
-} from "../../../types/types";
+import { OrderType, ReturnAPIBasic } from "../../../types/types";
 import { destructureDataAPI } from "../../../utils/allUtils/apiUtils";
 import { foodAppInstance } from "../../config/constants/axiosInstance";
 
@@ -20,12 +16,6 @@ export const getInfoPendingOrderAPI = (
 ): Promise<
   ReturnAPIBasic & {
     order: OrderType;
-    userDetails: {
-      address: UserAddressType;
-      firstName: string;
-      lastName: string;
-      email: string;
-    };
     resetCoupon?: boolean;
     expiredCoupon?: boolean;
   }

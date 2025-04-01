@@ -71,7 +71,7 @@ export const fieldsDividedByAreaCheckout = [
   ],
 ];
 
-export const showOrderFields = (...params: (number | null)[]) =>
+export const showOrderFields = (...params: (number | undefined)[]) =>
   [
     {
       label: "Subtotal",

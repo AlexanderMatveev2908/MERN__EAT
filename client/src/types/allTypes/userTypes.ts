@@ -72,4 +72,5 @@ export type UserValsType = UserStateType & {
   setUserLogged: (val?: string | boolean) => void;
   setCanManageAccount: (val: string | boolean) => void;
   logoutUser: () => void;
+  lookUserLogged: () => void;
 };

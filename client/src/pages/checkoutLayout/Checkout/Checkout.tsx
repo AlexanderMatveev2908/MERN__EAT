@@ -7,15 +7,20 @@ import { Navigate } from "react-router-dom";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { Elements } from "@stripe/react-stripe-js";
+import { StripeElementsOptions } from "@stripe/stripe-js";
 
 const Checkout: FC = () => {
   const {
     formContext,
-    stripe,
+    stripePromise,
     canStay,
     isPendingInfo,
     isErrorInfo,
     errorInfo,
+    dataInfo,
+    handleOrder,
+    isDisabled,
   } = useCheckout();
 
   return !canStay ? (
@@ -25,15 +30,22 @@ const Checkout: FC = () => {
   ) : isErrorInfo ? (
     <ErrEmoji {...{ err: errorInfo as ErrFoodApp }} />
   ) : (
-    <div className="w-full grid justify-items-center place-content-center gap-6">
-      <span className="txt__04">Checkout</span>
+    <Elements
+      stripe={stripePromise}
+      options={dataInfo?.order?.paymentClientSecret as StripeElementsOptions}
+    >
+      <div className="w-full grid justify-items-center place-content-center gap-6">
+        <span className="txt__04">Checkout</span>
 
-      <FormProvider {...formContext}>
-        <CheckoutForm {...{ formContext }}>
-          <OrderDetails />
-        </CheckoutForm>
-      </FormProvider>
-    </div>
+        <FormProvider {...formContext}>
+          <CheckoutForm {...{ formContext, handleOrder }}>
+            <OrderDetails
+              {...{ order: dataInfo?.order, isDisabled: isDisabled() }}
+            />
+          </CheckoutForm>
+        </FormProvider>
+      </div>
+    </Elements>
   );
 };
 export default Checkout;

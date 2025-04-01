@@ -5,12 +5,17 @@ import SwapAddress from "./SwapAddress";
 
 type PropsType = {
   formContext: UseFormReturn<AddressFormType>;
-  children?: React.ReactNode;
+  children: React.ReactNode;
+  handleOrder: () => void;
 };
 
-const CheckoutForm: FC<PropsType> = ({ formContext, children }) => {
+const CheckoutForm: FC<PropsType> = ({
+  formContext,
+  children,
+  handleOrder,
+}) => {
   return (
-    <form className="w-full grid gap-10 xl:grid-cols-2">
+    <form onSubmit={handleOrder} className="w-full grid gap-10 xl:grid-cols-2">
       <SwapAddress {...{ formContext }} />
 
       {children}

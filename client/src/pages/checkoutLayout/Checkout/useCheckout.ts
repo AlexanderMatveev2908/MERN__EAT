@@ -38,6 +38,23 @@ export const useCheckout = () => {
     defaultValues: defaultValsFormAddress,
   });
 
+  const handleOrder = formContext.handleSubmit((data) => {
+    console.log(data);
+  });
+
+  const isDisabled = () => {
+    let isDisabled = false;
+
+    for (const key in defaultValsFormAddress) {
+      if (formContext.formState.errors[key]) {
+        isDisabled = true;
+        break;
+      }
+    }
+
+    return isDisabled;
+  };
+
   const {
     data: dataInfo,
     isPending: isPendingInfo,
@@ -53,16 +70,18 @@ export const useCheckout = () => {
   useEffect(() => {
     if (isSuccessInfo) {
       console.log(dataInfo);
-      const { userDetails } = dataInfo ?? {};
-      if (isObjOk(userDetails)) {
-        formContext.setValue("email", userDetails.email);
-        formContext.setValue("firstName", userDetails.firstName);
-        formContext.setValue("lastName", userDetails.lastName);
-
-        for (const key in userDetails.address) {
+      const { order } = dataInfo ?? {};
+      if (isObjOk(order)) {
+        for (const key in order.infoUser) {
           formContext.setValue(
             key as keyof AddressFormType,
-            userDetails.address[key as keyof AddressFormType]
+            order.infoUser[key as keyof AddressFormType]
+          );
+        }
+        for (const key in order.addressUser) {
+          formContext.setValue(
+            key as keyof AddressFormType,
+            order.addressUser[key as keyof AddressFormType]
           );
         }
       }
@@ -86,5 +105,8 @@ export const useCheckout = () => {
     isErrorInfo,
     isPendingInfo,
     errorInfo,
+    dataInfo,
+    handleOrder,
+    isDisabled,
   };
 };
