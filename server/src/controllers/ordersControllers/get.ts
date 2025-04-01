@@ -121,6 +121,7 @@ export const getOrderInfo = async (
     let coupon = null;
     let isStillValid = true;
     let isPriceCOndOk = true;
+    //  i need last two for popup i am thinking to do for coupon
     let resetCoupon = false;
     let expiredCoupon = false;
 
@@ -175,9 +176,6 @@ export const getOrderInfo = async (
       0
     );
 
-    const discount = coupon
-      ? newTotPrice - (newTotPrice / 100) * coupon.discount
-      : 0;
     const delPrice = restaurant.delivery.price;
     const delFree = restaurant.delivery.freeDeliveryPrice;
     let needApplyDel = false;
@@ -190,21 +188,23 @@ export const getOrderInfo = async (
       if (!isPriceCOndOk && isStillValid) {
         resetCoupon = true;
 
-        if (!coupon.isActive)
-          await Coupon.findByIdAndUpdate(coupon._id, {
-            isActive: true,
-          });
+        await Coupon.findByIdAndUpdate(coupon._id, {
+          isActive: true,
+        });
       }
       if (!isStillValid) {
         expiredCoupon = true;
 
-        if (coupon.isActive)
-          await Coupon.findByIdAndUpdate(coupon._id, {
-            isActive: false,
-          });
+        await Coupon.findByIdAndUpdate(coupon._id, {
+          isActive: false,
+        });
       }
     }
 
+    const canApplyCoupon = coupon && !resetCoupon && !expiredCoupon;
+    const discount = canApplyCoupon
+      ? +((newTotPrice / 100) * (coupon as CouponType).discount).toFixed(2)
+      : 0;
     const stripePrice = +(
       newTotPrice -
       discount +
@@ -216,18 +216,16 @@ export const getOrderInfo = async (
     if (!newPaymentIntent)
       return baseErrResponse(res, 500, "Error creating payment");
 
-    const canApplyCoupon = coupon && !resetCoupon && !expiredCoupon;
-
-    const updatedOrder = {
+    const updatedOrder: OrderType = {
       ...order,
       paymentId: newPaymentIntent.id,
       paymentClientSecret: newPaymentIntent.client_secret,
 
       items: orderItemsFresh,
-      priceNoDiscount: +newTotPrice.toFixed(2),
-      priceWithDiscount: canApplyCoupon ? stripePrice : null,
+      totPrice: +newTotPrice.toFixed(2),
+      discount,
       coupon: canApplyCoupon ? ((coupon as CouponType)._id as string) : null,
-      delivery: needApplyDel ? restaurant.delivery.price : null,
+      delivery: needApplyDel ? delPrice : 0,
     };
 
     await Order.findByIdAndUpdate(order._id, updatedOrder);
