@@ -9,7 +9,6 @@ import User from "../../models/User.js";
 import { ImageType } from "../../models/Image.js";
 import { deleteCloud } from "../../utils/cloud.js";
 import Coupon, { CouponType } from "../../models/Coupon.js";
-import { stripe } from "../../config/stripe.js";
 import { createPaymentInt } from "../../utils/stripe.js";
 
 export const getOrderInfo = async (
@@ -19,14 +18,11 @@ export const getOrderInfo = async (
   const { userId } = req;
   const { orderId } = req.query;
 
-  console.log(orderId);
+  const order = (await Order.findOne({
+    _id: makeMongoId(orderId as string),
+    userId: makeMongoId(userId as string),
+  }).lean()) as any;
 
-  const order = (
-    await Order.findOne({
-      user: makeMongoId(userId ?? ""),
-      _id: makeMongoId(orderId as string),
-    })
-  )?.lean() as OrderType | null;
   if (!order) {
     await User.findByIdAndUpdate(userId, {
       $pull: { orders: makeMongoId(orderId as string) },
@@ -86,7 +82,7 @@ export const getOrderInfo = async (
     0
   );
   const oldQty = order.items.reduce(
-    (acc, curr: OrderItem) => acc + curr.quantity,
+    (acc: number, curr: OrderItem) => acc + curr.quantity,
     0
   );
 

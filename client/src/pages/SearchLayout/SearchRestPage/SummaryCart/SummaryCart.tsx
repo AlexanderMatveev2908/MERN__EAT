@@ -43,7 +43,7 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
     onSuccess: (data) =>
       makeDelay(() => {
         showToastMsg("Order created", "SUCCESS");
-        navigate(`/checkout?orderId${data.orderId}`, {
+        navigate(`/checkout?orderId=${data.orderId}`, {
           state: { from: location.pathname },
         });
       }),

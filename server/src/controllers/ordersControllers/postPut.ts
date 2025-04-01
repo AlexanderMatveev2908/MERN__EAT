@@ -169,7 +169,7 @@ export const createOrder = async (
   priceStripe = +priceStripe.toFixed(2);
 
   const newOrder: Partial<OrderType> = {
-    userId: userId as string,
+    userId: userId,
     restaurantId: existingRestaurant._id,
     contactRestaurant: existingRestaurant.contact,
 

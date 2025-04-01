@@ -58,7 +58,7 @@ const OrderItemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  image: [ImageSchema],
+  images: [ImageSchema],
 });
 
 const OrderSchema = new mongoose.Schema(
