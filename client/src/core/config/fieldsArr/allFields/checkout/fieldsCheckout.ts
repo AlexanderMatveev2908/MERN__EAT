@@ -90,3 +90,15 @@ export const showOrderFields = (...params: (number | null)[]) =>
     ...el,
     id: genID(),
   }));
+
+export const defaultValsFormAddress = {
+  email: "",
+  firstName: "",
+  lastName: "",
+  country: "",
+  state: "",
+  city: "",
+  street: "",
+  zipCode: "",
+  phone: "",
+};

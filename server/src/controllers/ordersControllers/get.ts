@@ -10,23 +10,26 @@ import { ImageType } from "../../models/Image.js";
 import { deleteCloud } from "../../utils/cloud.js";
 import Coupon, { CouponType } from "../../models/Coupon.js";
 import { stripe } from "../../config/stripe.js";
+import { createPaymentInt } from "../../utils/stripe.js";
 
 export const getOrderInfo = async (
   req: RequestWithUserId,
   res: Response
 ): Promise<any> => {
   const { userId } = req;
-  const { orderId } = req.params;
+  const { orderId } = req.query;
+
+  console.log(orderId);
 
   const order = (
     await Order.findOne({
       user: makeMongoId(userId ?? ""),
-      _id: makeMongoId(orderId ?? ""),
+      _id: makeMongoId(orderId as string),
     })
-  ).lean() as OrderType | null;
+  )?.lean() as OrderType | null;
   if (!order) {
     await User.findByIdAndUpdate(userId, {
-      $pull: { orders: makeMongoId(orderId ?? "") },
+      $pull: { orders: makeMongoId(orderId as string) },
     });
 
     return baseErrResponse(res, 404, "Order not found");
@@ -72,7 +75,7 @@ export const getOrderInfo = async (
 
     orderItemsFresh.push({
       ...el,
-      quantity: Math.max(el.quantity, dish.quantity),
+      quantity: Math.min(el.quantity, dish.quantity),
     });
   });
 
@@ -87,13 +90,40 @@ export const getOrderInfo = async (
     0
   );
 
-  if (newQty === oldQty)
-    return res.status(200).json({
-      order,
-      success: true,
-      msg: "Ok the same",
-    });
-  else {
+  const userDetails = await User.findById(userId)
+    .select("address firstName lastName email")
+    .lean();
+
+  if (newQty === oldQty) {
+    if (order.paymentId && order.paymentClientSecret) {
+      return res.status(200).json({
+        order,
+        success: true,
+        userDetails,
+        msg: "Ok the same",
+      });
+    } else {
+      const stripePrice = order.priceWithDiscount ?? order.priceNoDiscount;
+
+      const { paymentIntent: newPaymentIntent } = await createPaymentInt(
+        stripePrice
+      );
+      if (!newPaymentIntent)
+        return baseErrResponse(res, 500, "Error creating payment");
+
+      order.paymentId = newPaymentIntent.id;
+      order.paymentClientSecret = newPaymentIntent.client_secret;
+
+      await Order.findByIdAndUpdate(order._id, order);
+
+      return res.status(200).json({
+        order,
+        success: true,
+        userDetails,
+        msg: "Ok the same",
+      });
+    }
+  } else {
     if (!orderItemsFresh.length) {
       await Order.findByIdAndDelete(order._id);
       await User.findByIdAndUpdate(userId, {
@@ -119,13 +149,15 @@ export const getOrderInfo = async (
       )
       .flat(Infinity) as unknown as string[];
 
-    const promisesCloud = idsImagesToDelete.map(
-      async (public_id: string) => await deleteCloud(public_id)
-    );
+    if (idsImagesToDelete.length) {
+      const promisesCloud = idsImagesToDelete.map(
+        async (public_id: string) => await deleteCloud(public_id)
+      );
 
-    try {
-      await Promise.all(promisesCloud);
-    } catch {}
+      try {
+        await Promise.all(promisesCloud);
+      } catch {}
+    }
 
     let newTotPrice = orderItemsFresh.reduce(
       (acc, curr: OrderItem) => acc + curr.quantity * curr.quantity,
@@ -177,11 +209,11 @@ export const getOrderInfo = async (
     }
     stripePrice = +stripePrice.toFixed(2);
 
-    const newPaymentIntent = await stripe.paymentIntents.create({
-      amount: stripePrice * 100,
-      currency: "usd",
-      payment_method_types: ["card"],
-    });
+    const { paymentIntent: newPaymentIntent } = await createPaymentInt(
+      stripePrice
+    );
+    if (!newPaymentIntent)
+      return baseErrResponse(res, 500, "Error creating payment");
 
     const canApplyCoupon = coupon && !resetCoupon && !expiredCoupon;
 
@@ -202,7 +234,8 @@ export const getOrderInfo = async (
     return res.status(200).json({
       order: updatedOrder,
       success: true,
-      msg: "Ok",
+      msg: "Changed",
+      userDetails,
       resetCoupon,
       expiredCoupon,
     });

@@ -106,7 +106,7 @@ const OrderSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
-      default: "created",
+      default: "pending",
     },
   },
   { timestamps: true }

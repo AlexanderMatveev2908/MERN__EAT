@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect } from "react";
-import { CartItem } from "../../../../types/allTypes/cart";
-import { priceFormatter } from "../../../../utils/utils";
-import { calcTotPriceItem } from "../../../../utils/allUtils/priceFormatter";
-import { X } from "lucide-react";
-import { useCart } from "../../../../core/hooks/useGlobal";
+import { CartItem } from "../../../../../types/allTypes/cart";
+import { useCart } from "../../../../../core/hooks/useGlobal";
 import { useForm } from "react-hook-form";
-import { fieldUpdateQty } from "../../../../core/config/fieldsArr/allFields/cart/update";
 import { useMutation } from "@tanstack/react-query";
-import { getDishInfoQtyInputAPI } from "../../../../core/api/api";
+import { getDishInfoQtyInputAPI } from "../../../../../core/api/api";
+import { fieldUpdateQty } from "../../../../../core/config/fieldsArr/allFields/cart/update";
+import { priceFormatter } from "../../../../../utils/utils";
+import { calcTotPriceItem } from "../../../../../utils/allUtils/priceFormatter";
+import { X } from "lucide-react";
 
 type PropsType = {
   item: CartItem;
