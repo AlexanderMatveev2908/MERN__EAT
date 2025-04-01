@@ -162,3 +162,21 @@ export const getOrderInfo = async (
     });
   }
 };
+
+export const getOrderConfirmedByPolling = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+  const { orderId } = req.query;
+
+  const order = await Order.findOne({
+    userId: makeMongoId(userId ?? ""),
+    _id: makeMongoId(orderId as string),
+    status: "confirmed",
+  }).lean();
+
+  if (!order) return baseErrResponse(res, 404, "Order not found");
+
+  return res.status(200).json({ order, success: true, msg: "Order confirmed" });
+};

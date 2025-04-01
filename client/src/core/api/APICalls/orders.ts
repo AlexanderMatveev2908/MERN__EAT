@@ -9,7 +9,7 @@ export const sendOrderAPI = ({
   coupon?: string;
 }): Promise<ReturnAPIBasic & { orderId: string }> =>
   destructureDataAPI(() =>
-    foodAppInstance.post("/my-orders", { coupon: coupon ?? null })
+    foodAppInstance.post("/my-orders/checkout", { coupon: coupon ?? null })
   );
 
 export const getInfoPendingOrderAPI = (
@@ -22,7 +22,7 @@ export const getInfoPendingOrderAPI = (
   }
 > =>
   destructureDataAPI(() =>
-    foodAppInstance.get(`/my-orders?orderId=${orderId}`)
+    foodAppInstance.get(`/my-orders/checkout?orderId=${orderId}`)
   );
 
 export const lastCheckOrderAPI = (
@@ -30,5 +30,14 @@ export const lastCheckOrderAPI = (
   formData: AddressFormType
 ): Promise<ReturnAPIBasic> =>
   destructureDataAPI(() =>
-    foodAppInstance.put(`/my-orders?orderId=${orderId}`, { ...formData })
+    foodAppInstance.put(`/my-orders/checkout?orderId=${orderId}`, {
+      ...formData,
+    })
+  );
+
+export const pollingOrderAPI = async (
+  orderId: string
+): Promise<ReturnAPIBasic> =>
+  destructureDataAPI(() =>
+    foodAppInstance.get(`/my-orders/checkout-poll?orderId=${orderId}`)
   );
