@@ -18,6 +18,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import { logReq } from "../middleware/onlyDev/logQuery.js";
 import cartRouter from "./allRoutes/cart.js";
 import ordersRouter from "./allRoutes/orders.js";
+import { webhook } from "../controllers/webhook.js";
 
 const router = express.Router();
 
@@ -26,16 +27,7 @@ router.use(corsMiddleware);
 router.use(xss());
 router.use(mongoSanitize());
 
-router.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  (req: any, res: any) => {
-    const event = JSON.parse(req.body);
-    console.log(event);
-
-    return res.status(200).json({ success: true });
-  }
-);
+router.post("/webhook", express.raw({ type: "application/json" }), webhook);
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));

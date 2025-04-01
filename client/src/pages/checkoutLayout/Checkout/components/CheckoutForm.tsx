@@ -2,7 +2,10 @@ import { FC, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { AddressFormType } from "../useCheckout";
 import { useMutation } from "@tanstack/react-query";
-import { lastCheckOrderAPI } from "../../../../core/api/APICalls/orders";
+import {
+  lastCheckOrderAPI,
+  pollingOrderAPI,
+} from "../../../../core/api/APICalls/orders";
 import { useGetFavHooks } from "../../../../core/hooks/useGetFavHooks";
 import { ErrFoodApp } from "../../../../types/allTypes/API";
 import { useSearchParams } from "react-router-dom";
@@ -35,8 +38,28 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
     return isDisabled;
   };
 
-  const { paymentClientSecret } = order ?? {};
+  const pollOrder = () => {
+    let retryCount = 0;
+    const MAX_RETRY = 10;
 
+    const int = setInterval(async () => {
+      if (retryCount >= MAX_RETRY) {
+        clearInterval(int);
+        return;
+      }
+
+      try {
+        const data = await pollingOrderAPI(orderId ?? "");
+        console.log(data);
+        clearInterval(int);
+      } catch (err) {
+        console.log(err);
+        retryCount++;
+      }
+    }, 2500);
+  };
+
+  const { paymentClientSecret } = order ?? {};
   const orderId = searchParams.get("orderId");
   const { handleErrAPI } = useGetFavHooks();
   const { mutate, isPending } = useMutation({
@@ -57,12 +80,7 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
         }
       );
 
-      if (error) {
-        setIsMoneyLoading(false);
-      } else if (paymentIntent.status === "succeeded") {
-        console.log(paymentIntent);
-        setIsMoneyLoading(false);
-      }
+      if (paymentIntent?.status === "succeeded" && !error) pollOrder();
     },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });
