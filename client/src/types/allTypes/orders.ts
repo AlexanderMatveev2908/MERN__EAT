@@ -30,9 +30,14 @@ export type OrderType = {
   };
   items: OrderItem[];
   addressUser: UserAddressType;
-  priceNoDiscount: number;
-  priceWithDiscount: number | null;
+  infoUser: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  totPrice: number;
+  delivery: number;
+  discount: number;
   coupon: string | null;
   status: OrderStatus;
-  delivery: number | null;
 };

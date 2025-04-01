@@ -1,14 +1,26 @@
 import { FC, ReactNode } from "react";
 import { showOrderFields } from "../../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
 import { priceFormatter } from "../../../../utils/utils";
+import { OrderType } from "../../../../types/types";
 
-const ContentMath: FC = () => {
+type PropsType = {
+  order?: OrderType;
+};
+
+const ContentMath: FC<PropsType> = ({ order }) => {
   return (
-    <ul className="w-full grid gap-3 justify-items-center items-start border-[3px] border-orange-500 rounded-xl p-6">
+    <ul className="w-full grid gap-3 ">
       {(() => {
         const content: ReactNode[] = [];
 
-        const dataArr = showOrderFields(10, null, null, 11);
+        const dataArr = showOrderFields(
+          order?.totPrice,
+          order?.delivery,
+          order?.discount,
+          (order?.totPrice ?? 0) +
+            (order?.delivery ?? 0) -
+            (order?.discount ?? 0)
+        );
 
         let i = 0;
 

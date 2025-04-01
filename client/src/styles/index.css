@@ -516,7 +516,7 @@ input[type="range"]::-webkit-slider-thumb {
 /* ANIMATED BTN */
 
 .btn_container {
-  @apply w-full max-h-fit transition-all duration-500 relative cursor-pointer disabled:opacity-50;
+  @apply w-full max-h-fit transition-all duration-500 relative enabled:cursor-pointer disabled:opacity-50;
 }
 
 .btn_container__content {
