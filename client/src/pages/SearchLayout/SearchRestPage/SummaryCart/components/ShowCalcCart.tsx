@@ -1,8 +1,11 @@
 import { FC } from "react";
-import { CartType, CartTypeNonLogged } from "../../../../types/allTypes/cart";
-import { priceFormatter } from "../../../../utils/utils";
-import { RestaurantAllUsers } from "../../../../types/allTypes/search";
-import { calcTotWithDelivery } from "../../../../utils/allUtils/priceFormatter";
+import {
+  CartType,
+  CartTypeNonLogged,
+} from "../../../../../types/allTypes/cart";
+import { RestaurantAllUsers } from "../../../../../types/allTypes/search";
+import { priceFormatter } from "../../../../../utils/utils";
+import { calcTotWithDelivery } from "../../../../../utils/allUtils/priceFormatter";
 
 type PropsType = {
   cart: CartType | CartTypeNonLogged;

@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useMutation } from "@tanstack/react-query";
+import { useUpdateCartByClick } from "../../../../../core/hooks/cartLogged/useUpdateCartByClick";
+import { useUpdateCartByInput } from "../../../../../core/hooks/cartLogged/useUpdateCartByInput";
+import { getDishInfoQtyInputAPI } from "../../../../../core/api/api";
+import { CartItem } from "../../../../../types/allTypes/cart";
+import { fieldUpdateQty } from "../../../../../core/config/fieldsArr/allFields/cart/update";
+import { priceFormatter } from "../../../../../utils/utils";
+import { calcTotPriceItem } from "../../../../../utils/allUtils/priceFormatter";
+import MiniSpinner from "../../../../../UI/components/loaders/MiniSpinner";
 import { X } from "lucide-react";
 import { FC } from "react";
-import { priceFormatter } from "../../../../utils/utils";
-import { calcTotPriceItem } from "../../../../utils/allUtils/priceFormatter";
-import { CartItem } from "../../../../types/allTypes/cart";
-import MiniSpinner from "../../loaders/MiniSpinner";
-import { fieldUpdateQty } from "../../../../core/config/fieldsArr/allFields/cart/update";
-import { useUpdateCartByInput } from "../../../../core/hooks/cartLogged/useUpdateCartByInput";
-import { useMutation } from "@tanstack/react-query";
-import { getDishInfoQtyInputAPI } from "../../../../core/api/api";
-import { useUpdateCartByClick } from "../../../../core/hooks/cartLogged/useUpdateCartByClick";
 
 type PropsType = {
   item: CartItem;

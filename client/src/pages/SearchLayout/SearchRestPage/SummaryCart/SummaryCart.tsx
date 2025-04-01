@@ -1,22 +1,22 @@
 import { FC } from "react";
-import { useForm } from "react-hook-form";
-import { useCart, useUser } from "../../../core/hooks/useGlobal";
-import { isObjOk } from "../../../utils/allUtils/validateData";
-import SummaryItem from "./components/SummaryItem";
-import ShowCalcCart from "./components/ShowCalcCart";
-import FormFieldNoIcon from "../../forms/inputFields/FormFieldNoIcon";
-import DeleteButton from "../buttons/DeleteButton";
-import { fieldCoupon } from "../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
-import { RestaurantAllUsers } from "../../../types/allTypes/search";
-import { useDeleteCart } from "../../../core/hooks/cartLogged/useDeleteCart";
-import ButtonAnimated from "../buttons/ButtonAnimated";
-import SummaryItemNoLogged from "./components/SummaryItemNoLogged";
+import { RestaurantAllUsers } from "../../../../types/allTypes/search";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { sendOrderAPI } from "../../../core/api/APICalls/orders";
-import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
-import { makeDelay } from "../../../utils/allUtils/apiUtils";
-import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useGetFavHooks } from "../../../../core/hooks/useGetFavHooks";
+import { useForm } from "react-hook-form";
+import { sendOrderAPI } from "../../../../core/api/APICalls/orders";
+import { makeDelay } from "../../../../utils/allUtils/apiUtils";
+import { ErrFoodApp } from "../../../../types/allTypes/API";
+import { useCart, useUser } from "../../../../core/hooks/useGlobal";
+import { isObjOk } from "../../../../utils/allUtils/validateData";
+import SummaryItem from "./components/SummaryItem";
+import SummaryItemNoLogged from "./components/SummaryItemNoLogged";
+import ShowCalcCart from "./components/ShowCalcCart";
+import FormFieldNoIcon from "../../../../UI/forms/inputFields/FormFieldNoIcon";
+import { fieldCoupon } from "../../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
+import ButtonAnimated from "../../../../UI/components/buttons/ButtonAnimated";
+import DeleteButton from "../../../../UI/components/buttons/DeleteButton";
+import { useDeleteCart } from "../../../../core/hooks/cartLogged/useDeleteCart";
 
 type PropsType = {
   rest: RestaurantAllUsers;
@@ -47,7 +47,7 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
           state: { from: location.pathname },
         });
       }),
-    onError: (err: ErrFoodApp) => makeDelay(() => handleErrAPI({ err })),
+    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
     onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),
   });
 

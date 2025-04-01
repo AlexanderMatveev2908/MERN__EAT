@@ -13,6 +13,7 @@ import Order, { OrderItem, OrderType } from "../../models/Order.js";
 import { ImageType } from "../../models/Image.js";
 import { uploadCloudURL } from "../../utils/cloud.js";
 import { stripe } from "../../config/stripe.js";
+import { createPaymentInt } from "../../utils/stripe.js";
 
 // WHEN OPEN
 // if (open <= currTime && close > currTime) console.log(true);
@@ -156,10 +157,10 @@ export const createOrder = async (
   // save in vars cause too long names
   const freeMeal = existingRestaurant.delivery.freeDeliveryPrice;
   const delPrice = existingRestaurant.delivery.price;
-
+  const needApplyDel = freeMeal && totPrice < freeMeal;
   //  so i know if i need to apply or not del and save it in db so who watch know he also paid delivery out of tot price
 
-  if (freeMeal && totPrice < freeMeal) totPrice += delPrice;
+  if (needApplyDel) totPrice += delPrice;
 
   let priceStripe = totPrice;
   if (couponSaved)
@@ -167,16 +168,7 @@ export const createOrder = async (
 
   priceStripe = +priceStripe.toFixed(2);
 
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: priceStripe * 100,
-    currency: "usd",
-    payment_method_types: ["card"],
-  });
-
   const newOrder: Partial<OrderType> = {
-    paymentId: paymentIntent.id,
-    paymentClientSecret: paymentIntent.client_secret,
-
     userId: userId as string,
     restaurantId: existingRestaurant._id,
     contactRestaurant: existingRestaurant.contact,
@@ -184,13 +176,20 @@ export const createOrder = async (
     items: orderItems,
     priceNoDiscount: +totPrice.toFixed(2),
     priceWithDiscount: couponSaved ? priceStripe : null,
-    delivery: couponSaved ? delPrice : null,
+    delivery: needApplyDel ? delPrice : null,
     coupon: couponSaved ? (couponSaved._id as any) : null,
     status: "pending",
   };
-
   const newMongoOrder = (await Order.create(newOrder)) as OrderType;
   if (!newMongoOrder) return baseErrResponse(res, 500, "Error creating order");
+
+  const { paymentIntent } = await createPaymentInt(priceStripe);
+  if (!paymentIntent)
+    return baseErrResponse(res, 500, "Error creating payment");
+
+  newMongoOrder.paymentId = paymentIntent.id;
+  newMongoOrder.paymentClientSecret = paymentIntent.client_secret;
+  await Order.findByIdAndUpdate(newMongoOrder._id, newMongoOrder);
 
   if (couponSaved) {
     couponSaved.usedBy = user._id;
@@ -213,7 +212,6 @@ export const createOrder = async (
   return res.status(201).json({
     msg: "Order created",
     success: true,
-    paymentId: paymentIntent.client_secret,
     orderId: newMongoOrder._id,
   });
 };

@@ -33,7 +33,9 @@ export const useHandleErr = () => {
     }) => {
       console.log(err);
 
-      const msg = err?.response?.data?.msg || err.message;
+      if (!err) return;
+
+      const msg = err?.response?.data?.msg || err?.message;
       const url = err?.response?.config?.url || "";
       const status = err?.response?.status;
 

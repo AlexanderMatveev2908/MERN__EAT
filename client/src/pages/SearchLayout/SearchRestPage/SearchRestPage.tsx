@@ -29,7 +29,7 @@ import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import { createURLParamsMyDishes } from "../../../utils/allUtils/makeURLParams";
 import DishItem from "./components/DishItem";
 import ShowHitsByNumbers from "../../../UI/components/ShowHitsByNumbers";
-import SummaryCart from "../../../UI/components/SummaryCart/SummaryCart";
+import SummaryCart from "./SummaryCart/SummaryCart";
 
 const SearchRestPage: FC = () => {
   useScrollTop();
