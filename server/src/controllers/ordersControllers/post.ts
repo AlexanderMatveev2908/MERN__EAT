@@ -111,28 +111,24 @@ export const createOrder = async (
         "Coupon not valid for this restaurant category"
       );
   }
-  const orderItems: OrderItem[] = [];
+  const orderItems: OrderItem[] = await Promise.all(
+    cart.items.map(async (el: CartItem) => {
+      const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
+      if (!dish || !dish.quantity) return null;
 
-  const promises = cart.items.map(async (el: CartItem) => {
-    const dish = (await Dish.findById(el.dishId)) as DishType;
-    if (!dish || !dish?.quantity) return;
+      const images: Omit<ImageType, "_id">[] = await Promise.all(
+        dish.images.map(async (img: ImageType) => await uploadCloudURL(img.url))
+      );
 
-    const promisesImages = dish.images.map(
-      async (el: ImageType) => await uploadCloudURL(el.url)
-    );
-    const images: Omit<ImageType, "_id">[] = await Promise.all(promisesImages);
-
-    orderItems.push({
-      name: dish.name,
-      price: dish.price,
-      dishId: dish._id,
-      images,
-      //  could be used also Math.min if preferred
-      quantity: el.quantity > dish.quantity ? dish.quantity : el.quantity,
-    });
-  });
-
-  await Promise.all(promises);
+      return {
+        name: dish.name,
+        price: dish.price,
+        dishId: dish._id,
+        images,
+        quantity: Math.min(el.quantity, dish.quantity),
+      };
+    })
+  ).then((items) => items.filter((el) => !!el));
 
   if (!orderItems.length) {
     await User.findByIdAndUpdate(userId, { $set: { cart: null } });
