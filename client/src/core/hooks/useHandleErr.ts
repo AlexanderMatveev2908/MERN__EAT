@@ -16,6 +16,11 @@ export type HandleErrType = ({
 }) => void;
 
 // ipotetically i do not think would be wrong in reality organize with coworkers in backend with some messages on which we behave differently, of course not uppercase and clear as mine but maybe a little encrypted or just signed, so for exception we can behave differently
+//  IMPORTANT => THE ONLY WAY TO WORK THIS FLOW OF CHECKING INDEPENDENTLY IF USER IS LOGGED OR NOT IS THAT BACKEND HAS AN OPTIONAL MIDDLEWARE THAT LET MAKE REQ ALSO NON LOGGED USER FOR DETERMINATE ROUTES AS LONG AS =>
+// IF USER HAS REFRESH IN COOKIE AND ACCESS IN STORAGE EXPIRED THEN 401
+// IF USER HAS REFRESH IN COOKIE AND NOTHING IN STORAGE 401
+// IF USER HAS NOTHING AT ALL 200 , CAN GO BUT WILL NOT HAVE "PRIVILEGES" OF LOGGED USER
+// WITHOUT THIS COOPERATION FRONT BACK, IS PROBABLY FRONTEND WOULD BE IN AN INFINITE LOOP OF 401 AND RE-RENDERS
 const msgHelpersFrontBack = [
   "ACCESS TOKEN EXPIRED",
   "ACCESS TOKEN INVALID",
