@@ -80,3 +80,73 @@ export const mergeSortPrice = (arr: OrderType[], val: number): OrderType[] => {
   // left and right will be arr of one el and val is my frontend val sort
   return innerMergePrice(left, right, val);
 };
+
+const heapifyAsc = (arr: OrderType[], n: number, i: number): void => {
+  let bigger = i;
+  // multiply to reflect a tree structures where a node has two children so need doubled index to get correct position in ipotetic tree
+  let left = 2 * i + 1;
+  let right = 2 * i + 2;
+
+  // always check and respect n to not overflow arr capacity
+  if (left < n && arr[left].discount > arr[bigger].discount) bigger = left;
+
+  if (right < n && arr[right].discount > arr[bigger].discount) bigger = right;
+
+  // swap bigger only if has been reassigned, so it can follow tree structures, and then continue calling itself until tree structures is ok
+  if (bigger !== i) {
+    [arr[i], arr[bigger]] = [arr[bigger], arr[i]];
+    heapifyAsc(arr, n, bigger);
+  }
+};
+
+export const heapDiscountAsc = (arr: OrderType[]): void => {
+  const n = arr.length;
+
+  // we heapifyAsc just first half that will be parent with children while others are more leaves, BUILD HEAP sintetically
+  let i = Math.floor(n / 2) - 1;
+  do {
+    heapifyAsc(arr, n, i);
+    i--;
+  } while (i >= 0);
+
+  let j = n - 1;
+  do {
+    // swapping is equal to sort here cause heapifyAsc sort a tree from bigger to fewer about children , and us , we think about make first the last of tree to have an asc arr => 1
+    [arr[0], arr[j]] = [arr[j], arr[0]];
+    heapifyAsc(arr, j, 0);
+    j--;
+    // first el is already sorted
+  } while (j > 0);
+};
+
+const heapifyDesc = (arr: OrderType[], n: number, i: number): void => {
+  let smaller = i;
+  let left = 2 * i + 1;
+  let right = 2 * i + 2;
+
+  if (left < n && arr[left].discount < arr[smaller].discount) smaller = left;
+
+  if (right < n && arr[right].discount < arr[smaller].discount) smaller = right;
+
+  if (smaller !== i) {
+    [arr[i], arr[smaller]] = [arr[smaller], arr[i]];
+    heapifyDesc(arr, n, smaller);
+  }
+};
+
+export const heapDiscountDesc = (arr: OrderType[]): void => {
+  const n = arr.length;
+
+  let i = Math.floor(n / 2) - 1;
+  do {
+    heapifyDesc(arr, n, i);
+    i--;
+  } while (i >= 0);
+
+  let j = n - 1;
+  do {
+    [arr[0], arr[j]] = [arr[j], arr[0]];
+    heapifyDesc(arr, j, 0);
+    j--;
+  } while (j > 0);
+};
