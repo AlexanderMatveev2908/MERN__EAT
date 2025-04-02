@@ -3,7 +3,7 @@ import { useApp } from "./hooks/useApp";
 import { useTest } from "./hooks/useTest";
 
 const App = () => {
-  const { resMath, textUser, totDev, ...rest } = useApp();
+  const { textUser, totDev, ...rest } = useApp();
 
   return (
     <div className="w-full flex justify-center h-screen items-center">
@@ -22,7 +22,7 @@ const App = () => {
             {/* TEXT BOARD */}
             <div className="w-full pb-[30px] flex justify-end">
               <span className="text-[65px] font-[400] text-white break-all">
-                {resMath ?? textUser}
+                {textUser}
               </span>
             </div>
 
