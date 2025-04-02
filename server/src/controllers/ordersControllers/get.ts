@@ -54,6 +54,7 @@ export const getOrderInfo = async (
       return res.status(200).json({
         order,
         success: true,
+        backPaymentInt: existingPaymentInt,
         msg: "Ok the same",
       });
     } else {
@@ -78,6 +79,7 @@ export const getOrderInfo = async (
         order,
         success: true,
         msg: "Ok the same, added stripe",
+        backPaymentInt: newPaymentIntent,
       });
     }
   } else {
@@ -169,6 +171,7 @@ export const getOrderInfo = async (
       msg: "Changed",
       resetCoupon,
       expiredCoupon,
+      backPaymentInt: newPaymentIntent,
     });
   }
 };

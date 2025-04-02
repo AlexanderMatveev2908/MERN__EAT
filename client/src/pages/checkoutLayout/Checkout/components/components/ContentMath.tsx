@@ -4,22 +4,21 @@ import { priceFormatter } from "../../../../../utils/utils";
 import { OrderType } from "../../../../../types/types";
 
 type PropsType = {
-  order?: OrderType;
+  order: OrderType;
+  totStripe: number;
 };
 
-const ContentMath: FC<PropsType> = ({ order }) => {
+const ContentMath: FC<PropsType> = ({ order, totStripe }) => {
   return (
     <ul className="w-full grid gap-3 ">
       {(() => {
         const content: ReactNode[] = [];
 
         const dataArr = showOrderFields(
-          order?.totPrice,
-          order?.delivery,
-          order?.discount,
-          (order?.totPrice ?? 0) +
-            (order?.delivery ?? 0) -
-            (order?.discount ?? 0)
+          order.totPrice,
+          order.delivery,
+          order.discount,
+          totStripe / 100
         );
 
         let i = 0;

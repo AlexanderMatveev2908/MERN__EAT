@@ -13,13 +13,20 @@ import { OrderType } from "../../../../types/types";
 import { defaultValsFormAddress } from "../../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
 import SwapAddress from "./components/SwapAddress";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { PaymentIntent } from "@stripe/stripe-js";
+import ButtonAnimated from "../../../../UI/components/buttons/ButtonAnimated";
 
 type PropsType = {
   formContext: UseFormReturn<AddressFormType>;
-  order?: OrderType;
+  order: OrderType;
+  backPaymentInt: PaymentIntent;
 };
 
-const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
+const CheckoutForm: FC<PropsType> = ({
+  formContext,
+  order,
+  backPaymentInt,
+}) => {
   const [isMoneyLoading, setIsMoneyLoading] = useState(false);
 
   const stripe = useStripe();
@@ -38,30 +45,24 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
     return isDisabled;
   };
 
-  const pollOrder = () => {
-    let retryCount = 0;
+  const pollOrder = async (retryCount = 0) => {
     const MAX_RETRY = 10;
+    if (retryCount >= MAX_RETRY) {
+      showToastMsg("Error processing order payment", "ERROR");
+      setIsMoneyLoading(false);
+      return;
+    }
 
-    const int = setInterval(async () => {
-      if (retryCount >= MAX_RETRY) {
-        setIsMoneyLoading(false);
-        clearInterval(int);
+    try {
+      await pollingOrderAPI(order?._id ?? "");
 
-        showToastMsg("Error processing order payment", "ERROR");
-        return;
-      }
-
-      try {
-        await pollingOrderAPI(order?._id ?? "");
-
-        setIsMoneyLoading(false);
-        clearInterval(int);
-
-        showToastMsg("Payment successful", "SUCCESS");
-      } catch {
-        retryCount++;
-      }
-    }, 3000);
+      showToastMsg("Payment successful", "SUCCESS");
+      setIsMoneyLoading(false);
+    } catch {
+      setTimeout(() => {
+        pollOrder(retryCount + 1);
+      }, 3000);
+    }
   };
 
   const { mutate, isPending } = useMutation({
@@ -97,7 +98,9 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
     mutate(data);
   });
 
-  return (
+  const isLoading = isPending || isMoneyLoading;
+
+  return !stripe || !elements ? null : (
     <form onSubmit={handleOrder} className="w-full grid gap-10 xl:grid-cols-2">
       <SwapAddress {...{ formContext }} />
 
@@ -105,9 +108,21 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
         {...{
           order: order,
           isDisabled: isDisabled(),
-          isPending: isPending || isMoneyLoading,
+          isPending: isPending,
+          totStripe: backPaymentInt.amount,
         }}
-      />
+      >
+        <div className="w-full max-w-[250px] mt-10">
+          <ButtonAnimated
+            {...{
+              label: "Order now",
+              type: "submit",
+              isDisabled: isDisabled(),
+              isPending: isLoading,
+            }}
+          />
+        </div>
+      </OrderDetails>
     </form>
   );
 };
