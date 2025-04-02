@@ -5,7 +5,7 @@ import { FormProvider } from "react-hook-form";
 import {
   myOrdersFilters,
   myOrdersSorters,
-  searchFields,
+  searchFieldsMyOrders,
 } from "../../../core/config/fieldsArr/allFields/myOrders/filterSort";
 import { useCreateQueryHandlers } from "../../../core/hooks/useCreateQueryHandlers";
 import { getMyOrdersAPI } from "../../../core/api/APICalls/orders";
@@ -44,7 +44,7 @@ const MyOrders: FC = () => {
         <SearchBar
           {...{
             formContext,
-            searchFields: searchFields,
+            searchFields: searchFieldsMyOrders,
             filters: myOrdersFilters,
             sorters: myOrdersSorters,
             handleSave,

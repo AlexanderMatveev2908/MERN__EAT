@@ -6,7 +6,7 @@ import { ordersStatus } from "../MyRestaurants/filterSort";
 import { MdDiscount } from "react-icons/md";
 import { fieldsUpAndDown } from "../filtersSorters";
 
-export const searchFields = [...searchRest, "id"].map((el) => ({
+export const searchFieldsMyOrders = [...searchRest, "id"].map((el) => ({
   field: el,
   label: el.at(0)?.toUpperCase() + el.slice(1),
   id: genID(),
@@ -34,7 +34,6 @@ export const myOrdersSortSub = [
 
   { field: "priceSort", label: "Tot Price order", icon: FaMoneyBillWave },
   { field: "discountOrder", label: "Discount order", icon: MdDiscount },
-  { field: "quantitySort", label: "Quantity order", icon: FaDatabase },
 ];
 
 export const myOrdersSorters: SorterFieldType[] = myOrdersSortSub.map((el) => ({

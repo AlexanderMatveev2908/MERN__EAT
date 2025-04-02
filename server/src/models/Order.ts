@@ -12,6 +12,16 @@ export type OrderItem = {
   images: ImageType[];
 };
 
+export const ordersStatusArr = [
+  ,
+  "pending",
+  "confirmed",
+  "processing",
+  "shipped",
+  "delivered",
+  "cancelled",
+];
+
 export type OrderStatus =
   | "pending"
   | "confirmed"
