@@ -30,8 +30,9 @@ import LayoutSearchRoute from "./UI/layouts/LayoutSearchRoute";
 import SearchRestAllUsers from "./pages/SearchLayout/SearchRestAllUsers/SearchRestAllUsers";
 import SearchRestPage from "./pages/SearchLayout/SearchRestPage/SearchRestPage";
 import Notice from "./pages/Notice/Notice";
-import LayoutCheckout from "./UI/layouts/LayoutCheckout";
-import Checkout from "./pages/checkoutLayout/Checkout/Checkout";
+import Checkout from "./pages/myOrdersLayout/Checkout/Checkout";
+import LayoutMyOrders from "./UI/layouts/LayoutMyOrders";
+import MyOrders from "./pages/myOrdersLayout/MyOrders/MyOrders";
 
 const App: FC = () => {
   useApp();
@@ -89,8 +90,9 @@ const App: FC = () => {
           <Route path=":restId" element={<SearchRestPage />} />
         </Route>
 
-        <Route path="checkout" element={<LayoutCheckout />}>
-          <Route index element={<Checkout />} />
+        <Route path="my-orders" element={<LayoutMyOrders />}>
+          <Route index element={<MyOrders />} />
+          <Route path="checkout" element={<Checkout />} />
         </Route>
       </Route>
 

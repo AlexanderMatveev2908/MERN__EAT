@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useStripeCustom, useUser } from "../../../core/hooks/useGlobal";
+import { useStripeCustom } from "../../../core/hooks/useGlobal";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { defaultValsFormAddress } from "../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
 import { useQuery } from "@tanstack/react-query";
@@ -33,9 +33,7 @@ export const useCheckout = () => {
 
   const orderId = searchParams.get("orderId");
   const { handleErrAPI } = useGetFavHooks();
-  const { isLogged } = useUser();
   const canStay =
-    isLogged &&
     REG_MONGO.test(orderId ?? "") &&
     /^\/(search)\/([a-f0-9]{24})$/.test(location?.state?.from);
 
