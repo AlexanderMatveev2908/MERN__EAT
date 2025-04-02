@@ -25,9 +25,7 @@ export const useApp = () => {
     const listenMouseDown = (e) => {
       // chain prev tot with new calc, used ref but also id is ok
       if (!resRef?.current) return;
-      if (!resRef.current.contains(e.target)) {
-        setResMath(null);
-      }
+      if (resRef.current && resRef.current.contains(e.target)) setResMath(true);
     };
 
     document.addEventListener("mousedown", listenMouseDown);
@@ -82,12 +80,20 @@ export const useApp = () => {
   };
 
   const handleChainStr = (val) => {
+    let repl = false;
+    if (resMath) {
+      repl = true;
+      setResMath(null);
+    }
+
     if (textUser.length >= 14 && window.innerWidth <= 640) {
       alert("Exceeded 14 chars");
       return;
     }
     setTextUser((prev) => {
       if (prev === "Error") prev = "";
+
+      if (repl && !isNaN(val) && +val) return val;
 
       const lastIndex = prev.length - 1;
       const lastChar = prev?.slice(lastIndex);
@@ -100,6 +106,8 @@ export const useApp = () => {
       // not allow two . or in general NaN val consecutive
       const lastBlock = prev.split(REG_OP).pop();
       if (lastBlock.includes(".") && val === ".") return prev;
+      if (lastBlock === "0" && val !== ".")
+        return prev.slice(0, prev.length - 1) + val;
       if (isNaN(lastChar) && isNaN(val)) return prev;
 
       return prev + val;
@@ -154,7 +162,7 @@ export const useApp = () => {
 
     try {
       const res = new Function(`return ${formatted}`)();
-      setResMath(res);
+      setResMath(true);
       setTextUser(res + "");
     } catch (err) {
       console.log(err);
