@@ -33,7 +33,7 @@ export const myOrdersSortSub = [
   { field: "updatedAtSort", label: "Updated at", icon: FaDatabase },
 
   { field: "priceSort", label: "Tot Price order", icon: FaMoneyBillWave },
-  { field: "discountOrder", label: "Discount order", icon: MdDiscount },
+  { field: "discountSort", label: "Discount order", icon: MdDiscount },
 ];
 
 export const myOrdersSorters: SorterFieldType[] = myOrdersSortSub.map((el) => ({

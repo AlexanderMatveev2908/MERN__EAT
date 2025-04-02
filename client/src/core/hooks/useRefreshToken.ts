@@ -20,12 +20,13 @@ export const useRefreshToken = () => {
     try {
       const { accessToken } = await refreshTokenAPI();
       setUserLogged(accessToken);
+
+      queryClient.clear();
     } catch {
       if (isLogged) showToastMsg("SESSION EXPIRED", "ERROR");
       else showToastMsg("UNAUTHORIZED", "ERROR");
 
       logoutUser();
-      queryClient.resetQueries({ queryKey: ["myCart"] });
       navigate("/auth/login", { replace: true });
     }
   };

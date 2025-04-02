@@ -53,6 +53,8 @@ export type OrderType = {
   discount: number;
   coupon: string | null;
   status: OrderStatus;
+  createdAt: string;
+  updatedAt: string;
 };
 
 const OrderItemSchema = new mongoose.Schema({
