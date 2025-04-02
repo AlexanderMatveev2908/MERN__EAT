@@ -1,22 +1,21 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { OrderType } from "../../../../../types/types";
 import { CardElement } from "@stripe/react-stripe-js";
-import ButtonAnimated from "../../../../../UI/components/buttons/ButtonAnimated";
 import ContentMath from "./ContentMath";
 
 type PropsType = {
-  order?: OrderType;
-  isDisabled: boolean;
-  isPending: boolean;
+  order: OrderType;
+  totStripe: number;
+  children: ReactNode;
 };
 
-const OrderDetails: FC<PropsType> = ({ order, isDisabled, isPending }) => {
+const OrderDetails: FC<PropsType> = ({ order, totStripe, children }) => {
   return (
     <div className="w-full grid gap-5 items-start h-fit">
       <span className="txt__03 justify-self-center">Order Details</span>
 
       <div className="justify-items-center items-start border-[3px] border-orange-500 rounded-xl p-6">
-        <ContentMath {...{ order }} />
+        <ContentMath {...{ order, totStripe }} />
 
         <CardElement
           className="w-full mt-6 border-2 border-orange-500 py-3 px-4 rounded-xl"
@@ -30,11 +29,7 @@ const OrderDetails: FC<PropsType> = ({ order, isDisabled, isPending }) => {
           }}
         />
 
-        <div className="w-full max-w-[250px] mt-10">
-          <ButtonAnimated
-            {...{ label: "Order now", type: "submit", isDisabled, isPending }}
-          />
-        </div>
+        {children}
       </div>
     </div>
   );

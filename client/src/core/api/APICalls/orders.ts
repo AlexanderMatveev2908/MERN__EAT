@@ -1,3 +1,4 @@
+import { PaymentIntent } from "@stripe/stripe-js";
 import { AddressFormType } from "../../../pages/checkoutLayout/Checkout/useCheckout";
 import { OrderType, ReturnAPIBasic } from "../../../types/types";
 import { destructureDataAPI } from "../../../utils/allUtils/apiUtils";
@@ -19,6 +20,7 @@ export const getInfoPendingOrderAPI = (
     order: OrderType;
     resetCoupon?: boolean;
     expiredCoupon?: boolean;
+    backPaymentInt: PaymentIntent;
   }
 > =>
   destructureDataAPI(() =>

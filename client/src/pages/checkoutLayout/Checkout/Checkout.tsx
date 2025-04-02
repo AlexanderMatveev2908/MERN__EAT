@@ -22,7 +22,7 @@ const Checkout: FC = () => {
     dataInfo,
   } = useCheckout();
 
-  const { order } = dataInfo ?? {};
+  const { order, backPaymentInt } = dataInfo ?? {};
 
   return !canStay ? (
     <Navigate to="/" replace />
@@ -30,7 +30,7 @@ const Checkout: FC = () => {
     <LoaderPageReact />
   ) : isErrorInfo ? (
     <ErrEmoji {...{ err: errorInfo as ErrFoodApp }} />
-  ) : !order?.paymentClientSecret || !stripePromise ? (
+  ) : !order?.paymentClientSecret || !stripePromise || !backPaymentInt ? (
     <ErrEmoji />
   ) : (
     <Elements
@@ -43,7 +43,7 @@ const Checkout: FC = () => {
         <span className="txt__04">Checkout</span>
 
         <FormProvider {...formContext}>
-          <CheckoutForm {...{ formContext, order: dataInfo?.order }} />
+          <CheckoutForm {...{ formContext, order, backPaymentInt }} />
         </FormProvider>
       </div>
     </Elements>
