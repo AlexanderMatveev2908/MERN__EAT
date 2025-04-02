@@ -8,8 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import Cart from "../models/Cart.js";
+import Coupon from "../models/Coupon.js";
+import Order from "../models/Order.js";
 import Restaurant from "../models/Restaurant.js";
 import User from "../models/User.js";
+import { deleteCloud } from "../utils/cloud.js";
 export const updateRest = () => __awaiter(void 0, void 0, void 0, function* () {
     const rest = yield Restaurant.findById("67dd5666537f1a7c2103ee43");
     const randomRest = yield Restaurant.findById("67dec23c33223dc5e44d3799");
@@ -31,4 +34,23 @@ export const makeCart = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 export const clearDishes = () => __awaiter(void 0, void 0, void 0, function* () {
     yield Restaurant.updateMany({}, { $set: { dishes: [] } });
+});
+export const clearCoupons = () => __awaiter(void 0, void 0, void 0, function* () { return yield Coupon.deleteMany({}); });
+export const updateCO = () => __awaiter(void 0, void 0, void 0, function* () {
+    const orders = yield Order.find({});
+    if (orders.length) {
+        const promises = orders.map((el) => __awaiter(void 0, void 0, void 0, function* () {
+            const promises = el.items
+                .map((el) => el.images.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(el.public_id); })))
+                .flat(Infinity);
+            yield Promise.all(promises);
+            yield el.deleteOne();
+        }));
+        yield Promise.all(promises);
+        yield User.updateMany({}, { orders: [] });
+        yield Coupon.deleteMany({});
+    }
+    yield Coupon.deleteMany({});
+    yield User.updateMany({}, { orders: [] });
+    yield Restaurant.updateMany({}, { orders: [] });
 });

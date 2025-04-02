@@ -7,6 +7,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import cron from "node-cron";
-import { generateCoupons } from "../utils/coupon/generateCoupons.js";
-export const scheduleFoodCoupon = () => cron.schedule("*/1 * * * *", () => __awaiter(void 0, void 0, void 0, function* () { return yield generateCoupons(); }));
+import { stripe } from "../config/stripe.js";
+export const createPaymentInt = (stripePrice) => __awaiter(void 0, void 0, void 0, function* () {
+    let paymentIntent = null;
+    try {
+        paymentIntent = yield stripe.paymentIntents.create({
+            amount: stripePrice * 100,
+            currency: "usd",
+            payment_method_types: ["card"],
+        });
+    }
+    catch (err) { }
+    return { paymentIntent };
+});

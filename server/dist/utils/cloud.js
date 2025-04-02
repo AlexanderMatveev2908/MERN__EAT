@@ -48,3 +48,10 @@ export const uploadUpdateDish = (files) => {
     }));
     return Promise.all(promises);
 };
+export const uploadCloudURL = (urlCloud) => __awaiter(void 0, void 0, void 0, function* () {
+    const { public_id, secure_url: url } = yield v2.uploader.upload(urlCloud, {
+        resource_type: "auto",
+        folder: "orders",
+    });
+    return { public_id, url };
+});

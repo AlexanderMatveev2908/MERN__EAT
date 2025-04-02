@@ -47,6 +47,7 @@ const CheckoutForm: FC<PropsType> = ({
 
   const pollOrder = async (retryCount = 0) => {
     const MAX_RETRY = 10;
+
     if (retryCount >= MAX_RETRY) {
       showToastMsg("Error processing order payment", "ERROR");
       setIsMoneyLoading(false);
@@ -107,8 +108,6 @@ const CheckoutForm: FC<PropsType> = ({
       <OrderDetails
         {...{
           order: order,
-          isDisabled: isDisabled(),
-          isPending: isPending,
           totStripe: backPaymentInt.amount,
         }}
       >

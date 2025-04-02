@@ -70,15 +70,13 @@ export const bulkDelete = (req, res) => __awaiter(void 0, void 0, void 0, functi
     ]);
     if (!result.length)
         return baseErrResponse(res, 404, "Dishes not found");
-    const idsDishesDeleted = [];
     const promises = result.map((rest) => __awaiter(void 0, void 0, void 0, function* () {
-        const promisesDishes = rest.dishes.map((dish) => __awaiter(void 0, void 0, void 0, function* () {
-            idsDishesDeleted.push(dish._id + "");
+        const idsToDelete = yield Promise.all(rest.dishes.map((dish) => __awaiter(void 0, void 0, void 0, function* () {
             yield clearDataDish(dish);
-        }));
-        yield Promise.all(promisesDishes);
+            return dish._id + "";
+        })));
         const restaurant = yield Restaurant.findById(rest._id);
-        restaurant.dishes = restaurant.dishes.filter((el) => !new Set(...idsDishesDeleted).has(el + ""));
+        restaurant.dishes = restaurant.dishes.filter((el) => !new Set(idsToDelete).has(el + ""));
         yield restaurant.save();
     }));
     yield Promise.all(promises);
@@ -119,15 +117,13 @@ export const deleteQueriesResults = (req, res) => __awaiter(void 0, void 0, void
     ]);
     if (!(result === null || result === void 0 ? void 0 : result.length))
         return baseErrResponse(res, 404, "Dishes not found");
-    const idsDishesDeleted = [];
     const promises = result.map((rest) => __awaiter(void 0, void 0, void 0, function* () {
-        const promisesDishes = rest.dishes.map((dish) => __awaiter(void 0, void 0, void 0, function* () {
-            idsDishesDeleted.push(dish._id + "");
+        const idsToDelete = yield Promise.all(rest.dishes.map((dish) => __awaiter(void 0, void 0, void 0, function* () {
             yield clearDataDish(dish);
-        }));
-        yield Promise.all(promisesDishes);
+            return dish._id + "";
+        })));
         const restaurant = yield Restaurant.findById(rest._id);
-        restaurant.dishes = restaurant.dishes.filter((el) => !new Set(...idsDishesDeleted).has(el + ""));
+        restaurant.dishes = restaurant.dishes.filter((el) => !new Set(idsToDelete).has(el + ""));
         yield restaurant.save();
     }));
     yield Promise.all(promises);
