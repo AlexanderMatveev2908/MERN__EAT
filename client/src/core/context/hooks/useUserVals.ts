@@ -84,19 +84,11 @@ export const useUserVals = (
     [dispatch]
   );
 
-  const lookUserLogged = useCallback(() => {
-    const access = sessionStorage.getItem("accessToken");
-
-    if (!userState.isLogged && access)
-      dispatch({ type: SET_IS_LOGGED, payload: true });
-  }, [dispatch, userState.isLogged]);
-
   return {
     ...userState,
     setCurrUser,
     setUserLogged,
     setCanManageAccount,
     logoutUser,
-    lookUserLogged,
   };
 };
