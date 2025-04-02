@@ -3,7 +3,12 @@ import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js
 import Order, { OrderType } from "../../models/Order.js";
 import { makeQMyOrders } from "../../utils/makeQueries/myOrders.js";
 import { makeSorters } from "../../utils/makeSorters/general.js";
-import { mergeSortPrice, quickSortDate } from "./funnyRecursive.js";
+import {
+  heapDiscountAsc,
+  heapDiscountDesc,
+  mergeSortPrice,
+  quickSortDate,
+} from "./funnyRecursive.js";
 import { calcPagination } from "../../utils/makeQueries/calcPagination.js";
 import { handleNoHits } from "../../utils/handleNoHits.js";
 
@@ -32,6 +37,10 @@ export const getOrders = async (
   if (sortObj?.updatedAt)
     orders = quickSortDate(orders, sortObj.updatedAt, getUpdatedAt);
   if (sortObj?.price) orders = mergeSortPrice(orders, sortObj.price);
+
+  if (sortObj?.discount)
+    if (sortObj?.discount === 1) heapDiscountAsc(orders);
+    else if (sortObj?.discount === -1) heapDiscountDesc(orders);
 
   console.log(orders);
 
