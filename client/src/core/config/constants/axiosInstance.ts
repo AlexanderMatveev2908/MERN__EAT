@@ -19,41 +19,41 @@ foodAppInstance.interceptors.request.use(
   (err) => Promise.reject(err)
 );
 
-foodAppInstance.interceptors.response.use(
-  (res) => res,
-  async (err) => {
-    const originalReq = err.config;
-    const isRefreshing = originalReq.url.includes("/auth/refresh");
+// foodAppInstance.interceptors.response.use(
+//   (res) => res,
+//   async (err) => {
+//     const originalReq = err.config;
+//     const isRefreshing = originalReq.url.includes("/auth/refresh");
 
-    if (
-      err?.response?.status === 401 &&
-      [
-        "ACCESS TOKEN EXPIRED",
-        "ACCESS TOKEN INVALID",
-        "ACCESS TOKEN NOT PROVIDED",
-      ].includes(err?.response?.data?.msg) &&
-      !isRefreshing &&
-      !originalReq.retry
-    ) {
-      try {
-        originalReq.retry = true;
+//     if (
+//       err?.response?.status === 401 &&
+//       [
+//         "ACCESS TOKEN EXPIRED",
+//         "ACCESS TOKEN INVALID",
+//         "ACCESS TOKEN NOT PROVIDED",
+//       ].includes(err?.response?.data?.msg) &&
+//       !isRefreshing &&
+//       !originalReq.retry
+//     ) {
+//       try {
+//         originalReq.retry = true;
 
-        const { data } = await foodAppInstance.get("/auth/refresh");
+//         const { data } = await foodAppInstance.get("/auth/refresh");
 
-        sessionStorage.setItem("accessToken", data.accessToken);
-        originalReq.headers["Authorization"] = `Bearer ${data.accessToken}`;
+//         sessionStorage.setItem("accessToken", data.accessToken);
+//         originalReq.headers["Authorization"] = `Bearer ${data.accessToken}`;
 
-        return foodAppInstance(originalReq);
-      } catch (err: unknown) {
-        sessionStorage.removeItem("accessToken");
+//         return foodAppInstance(originalReq);
+//       } catch (err: unknown) {
+//         sessionStorage.removeItem("accessToken");
 
-        return Promise.reject(err);
-      }
-    }
+//         return Promise.reject(err);
+//       }
+//     }
 
-    return Promise.reject(err);
-  }
-);
+//     return Promise.reject(err);
+//   }
+// );
 
 // foodAppInstance.interceptors.response.use(
 //   (res) => res,
