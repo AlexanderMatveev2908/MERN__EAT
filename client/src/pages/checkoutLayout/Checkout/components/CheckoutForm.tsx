@@ -8,7 +8,6 @@ import {
 } from "../../../../core/api/APICalls/orders";
 import { useGetFavHooks } from "../../../../core/hooks/useGetFavHooks";
 import { ErrFoodApp } from "../../../../types/allTypes/API";
-import { useSearchParams } from "react-router-dom";
 import OrderDetails from "./components/OrderDetails";
 import { OrderType } from "../../../../types/types";
 import { defaultValsFormAddress } from "../../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
@@ -21,11 +20,12 @@ type PropsType = {
 };
 
 const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
-  const [searchParams] = useSearchParams();
   const [isMoneyLoading, setIsMoneyLoading] = useState(false);
 
   const stripe = useStripe();
   const elements = useElements();
+
+  const { handleErrAPI, showToastMsg } = useGetFavHooks();
 
   const isDisabled = () => {
     let isDisabled = false;
@@ -46,30 +46,31 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
       if (retryCount >= MAX_RETRY) {
         setIsMoneyLoading(false);
         clearInterval(int);
+
+        showToastMsg("Error processing order payment", "ERROR");
         return;
       }
 
       try {
-        const data = await pollingOrderAPI(orderId ?? "");
-        console.log(data);
+        await pollingOrderAPI(order?._id ?? "");
 
         setIsMoneyLoading(false);
         clearInterval(int);
-      } catch (err) {
-        console.log(err);
+
+        showToastMsg("Payment successful", "SUCCESS");
+      } catch {
         retryCount++;
       }
-    }, 3500);
+    }, 3000);
   };
 
-  const { paymentClientSecret } = order ?? {};
-  const orderId = searchParams.get("orderId");
-  const { handleErrAPI } = useGetFavHooks();
   const { mutate, isPending } = useMutation({
     mutationFn: (formData: AddressFormType) =>
-      lastCheckOrderAPI(orderId ?? "", formData),
+      lastCheckOrderAPI(order?._id ?? "", formData),
     onSuccess: async () => {
+      const { paymentClientSecret } = order ?? {};
       if (!stripe || !elements || !paymentClientSecret) return;
+
       const card = elements.getElement(CardElement);
       if (!card) return;
 
@@ -86,7 +87,7 @@ const CheckoutForm: FC<PropsType> = ({ formContext, order }) => {
       if (paymentIntent?.status === "succeeded" && !error) {
         pollOrder();
       } else {
-        console.log(error);
+        showToastMsg("Payment failed", "ERROR");
         setIsMoneyLoading(false);
       }
     },

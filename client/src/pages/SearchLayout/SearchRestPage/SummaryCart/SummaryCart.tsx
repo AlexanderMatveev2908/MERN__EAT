@@ -28,7 +28,7 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
 
   const queryClient = useQueryClient();
 
-  const { showToastMsg, handleErrAPI } = useGetFavHooks();
+  const { handleErrAPI } = useGetFavHooks();
 
   const {
     register,
@@ -42,7 +42,6 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
     mutationFn: (coupon?: string) => sendOrderAPI({ coupon }),
     onSuccess: (data) =>
       makeDelay(() => {
-        showToastMsg("Order created", "SUCCESS");
         navigate(`/checkout?orderId=${data.orderId}`, {
           state: { from: location.pathname },
         });

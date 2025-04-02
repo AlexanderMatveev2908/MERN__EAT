@@ -22,17 +22,21 @@ const Checkout: FC = () => {
     dataInfo,
   } = useCheckout();
 
+  const { order } = dataInfo ?? {};
+
   return !canStay ? (
     <Navigate to="/" replace />
   ) : isPendingInfo ? (
     <LoaderPageReact />
   ) : isErrorInfo ? (
     <ErrEmoji {...{ err: errorInfo as ErrFoodApp }} />
+  ) : !order?.paymentClientSecret || !stripePromise ? (
+    <ErrEmoji />
   ) : (
     <Elements
       stripe={stripePromise}
       options={{
-        clientSecret: dataInfo?.order?.paymentClientSecret ?? "",
+        clientSecret: order.paymentClientSecret,
       }}
     >
       <div className="w-full grid justify-items-center place-content-center gap-6">
