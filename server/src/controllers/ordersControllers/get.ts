@@ -16,6 +16,7 @@ import {
   getFreshItemsStock,
   handleCouponOrder,
 } from "../../utils/orders/refreshOrder.js";
+import { stripe } from "../../config/stripe.js";
 
 export const getOrderInfo = async (
   req: RequestWithUserId,
@@ -40,7 +41,16 @@ export const getOrderInfo = async (
   const { orderItemsFresh, oldQty, newQty } = await getFreshItemsStock(order);
 
   if (newQty === oldQty) {
-    if (order.paymentId && order.paymentClientSecret) {
+    const existingPaymentInt = await stripe.paymentIntents.retrieve(
+      order.paymentId ?? ""
+    );
+
+    if (existingPaymentInt) {
+      if (order.paymentClientSecret !== existingPaymentInt.client_secret) {
+        order.paymentClientSecret = existingPaymentInt.client_secret;
+
+        await Order.findByIdAndUpdate(order._id, order);
+      }
       return res.status(200).json({
         order,
         success: true,
