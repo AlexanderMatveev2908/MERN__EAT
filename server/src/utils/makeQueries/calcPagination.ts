@@ -10,5 +10,5 @@ export const calcPagination = (req: Request) => {
 
   const skip = (+page - 1) * limit;
 
-  return { limit: limit, skip };
+  return { limit, skip };
 };
