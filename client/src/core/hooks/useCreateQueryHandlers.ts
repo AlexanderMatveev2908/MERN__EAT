@@ -17,8 +17,10 @@ import {
   REG_P_MY_REST,
   REG_P_SEARCH,
   REG_P_DISHES_USER,
+  REG_P_MY_ORD,
 } from "../config/constants/regex";
 import { useUpdateCardsLimit } from "./UI/useUpdateCardsLimit";
+import { defaultValsSearchMyOrders } from "../config/fieldsArr/allFields/myOrders/filterSort";
 
 type ReturnTypeCreateQueryHandler = {
   formVals: any;
@@ -67,6 +69,8 @@ export const useCreateQueryHandlers = ({
     ? defaultValsSearchAllUsers
     : REG_P_DISHES_USER.test(path)
     ? defaultValuesSearchDishesAsUser
+    : REG_P_MY_ORD.test(path)
+    ? defaultValsSearchMyOrders
     : {};
 
   const handleSave = handleSubmit((formDatHook) => {

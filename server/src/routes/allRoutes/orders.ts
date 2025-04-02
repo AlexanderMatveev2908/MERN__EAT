@@ -2,14 +2,16 @@ import express from "express";
 import { verifyAccessToken } from "../../middleware/general/verifyAccessToken.js";
 import { checkCode } from "../../middleware/orders/checkCode.js";
 import { asyncWrapper } from "../../middleware/general/asyncWrapper.js";
-import { createOrder } from "../../controllers/ordersControllers/post.js";
 import {
   getOrderConfirmedByPolling,
   getOrderInfo,
-} from "../../controllers/ordersControllers/get.js";
+} from "../../controllers/ordersControllers/checkout/get.js";
 import { validateOrderId } from "../../middleware/orders/validateOrderId.js";
 import { validateLastCheckOrder } from "../../middleware/orders/lastCheckOrder.js";
-import { lastCheckOrder } from "../../controllers/ordersControllers/put.js";
+import { lastCheckOrder } from "../../controllers/ordersControllers/checkout/put.js";
+import { createOrder } from "../../controllers/ordersControllers/checkout/post.js";
+import { validateQuery } from "../../middleware/orders/validateQuery.js";
+import { getOrders } from "../../controllers/ordersControllers/get.js";
 
 const router = express.Router();
 
@@ -31,4 +33,5 @@ router.get(
   asyncWrapper(getOrderConfirmedByPolling)
 );
 
+router.get("/", verifyAccessToken, validateQuery, asyncWrapper(getOrders));
 export default router;

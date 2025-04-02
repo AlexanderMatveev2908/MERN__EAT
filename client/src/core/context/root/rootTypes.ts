@@ -29,6 +29,7 @@ import {
 import { NoticeVals } from "../hooks/useNoticeVals";
 import { InfoPopVals } from "../hooks/useInfoPopVals";
 import { Stripe } from "@stripe/stripe-js";
+import { SearchMyOrders } from "../../../types/allTypes/orders";
 
 export type RootStateType = {
   toastState: ToastStateType;
@@ -50,6 +51,7 @@ export type FormsCtxType = {
   formContextMyDishesSearch: UseFormReturn<SearchMyDishesFormType>;
   formContextSearchRestAllUsers: UseFormReturn<SearchFormType>;
   formContextSearchDishesAllUSers: UseFormReturn<SearchDishesFormType>;
+  formContextSearchMyOrders: UseFormReturn<SearchMyOrders>;
 };
 
 export type SideVals = {

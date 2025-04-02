@@ -8,6 +8,8 @@ import {
 } from "../../../types/allTypes/search";
 import { isDev } from "../../config/constants/environment";
 import { defaultValuesSearchDishesAsUser } from "../../config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
+import { SearchMyOrders } from "../../../types/allTypes/orders";
+import { defaultValsSearchMyOrders } from "../../config/fieldsArr/allFields/myOrders/filterSort";
 
 export const useFormsVals = () => {
   const savedForm = sessionStorage.getItem("myRestaurantsSearch");
@@ -68,6 +70,16 @@ export const useFormsVals = () => {
     defaultValues: { ...defaultValuesSearchDishesAsUser },
   });
 
+  const savedValsMyOrders = sessionStorage.getItem("myOrdersSearch");
+  const formContextSearchMyOrders = useForm<SearchMyOrders>({
+    mode: "onChange",
+    defaultValues: savedValsMyOrders
+      ? {
+          ...JSON.parse(savedValsMyOrders),
+        }
+      : defaultValsSearchMyOrders,
+  });
+
   return {
     formContextMyRestaurants,
     formContextMyDishesAddItem,
@@ -75,5 +87,6 @@ export const useFormsVals = () => {
     formContextMyDishesUpdate,
     formContextSearchRestAllUsers,
     formContextSearchDishesAllUSers,
+    formContextSearchMyOrders,
   };
 };

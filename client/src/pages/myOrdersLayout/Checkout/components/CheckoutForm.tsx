@@ -65,7 +65,7 @@ const CheckoutForm: FC<PropsType> = ({
     } catch {
       setTimeout(() => {
         pollOrder(retryCount + 1);
-      }, 3000);
+      }, 2000);
     }
   };
 

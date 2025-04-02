@@ -43,3 +43,8 @@ export const pollingOrderAPI = async (
   destructureDataAPI(() =>
     foodAppInstance.get(`/my-orders/checkout-poll?orderId=${orderId}`)
   );
+
+export const getMyOrdersAPI = (
+  params: URLSearchParams
+): Promise<ReturnAPIBasic> =>
+  destructureDataAPI(() => foodAppInstance.get(`/my-orders?${params}`));

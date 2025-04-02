@@ -6,6 +6,7 @@ import {
   REG_P_MY_REST,
   REG_P_SEARCH,
   REG_P_DISHES_USER,
+  REG_P_MY_ORD,
 } from "../../core/config/constants/regex";
 import { getTargetConfig } from "../../core/hooks/UI/useUpdatePlace";
 
@@ -30,6 +31,8 @@ const ShowNumberHits: FC<PropsType> = ({
     ? "restaurants"
     : REG_P_DISHES_USER.test(path)
     ? "dishes"
+    : REG_P_MY_ORD.test(path)
+    ? "orders"
     : null;
 
   const { arrToCheck } = getTargetConfig(path);

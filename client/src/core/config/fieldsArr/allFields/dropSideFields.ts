@@ -47,6 +47,11 @@ export const loggedUserFields: SideDropFieldType[] = [
     label: "Manage Account",
     svg: UserRoundPen,
   },
+  {
+    path: "/my-orders",
+    label: "My Orders",
+    svg: FaDatabase,
+  },
 ].map((el) => ({
   ...el,
   id: genID(),
