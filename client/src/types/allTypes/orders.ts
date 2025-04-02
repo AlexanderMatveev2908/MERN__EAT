@@ -55,5 +55,4 @@ export type SearchMyOrders = SearchBarForm &
 
     priceSort: string[];
     discountSort: string[];
-    quantitySort: string[];
   };

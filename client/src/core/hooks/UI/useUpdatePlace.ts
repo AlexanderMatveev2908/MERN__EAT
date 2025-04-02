@@ -7,9 +7,11 @@ import { useEffect, useState } from "react";
 import { tailwindBreak } from "../../config/constants/breakpoints";
 import {
   REG_P_DISHES,
+  REG_P_MY_ORD,
   REG_P_MY_REST,
   REG_P_SEARCH,
 } from "../../config/constants/regex";
+import { searchFieldsMyOrders } from "../../config/fieldsArr/allFields/myOrders/filterSort";
 
 export const getTargetConfig = (path: string) => {
   let target = "";
@@ -26,6 +28,10 @@ export const getTargetConfig = (path: string) => {
   if (REG_P_DISHES.test(path)) {
     target = "dish";
     arrToCheck = myDishesFieldsSearch;
+  }
+  if (REG_P_MY_ORD.test(path)) {
+    target = "order";
+    arrToCheck = searchFieldsMyOrders;
   }
 
   // switch (path) {

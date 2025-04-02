@@ -3,6 +3,7 @@ import { AddressFormType } from "../../../pages/myOrdersLayout/Checkout/useCheck
 import { OrderType, ReturnAPIBasic } from "../../../types/types";
 import { destructureDataAPI } from "../../../utils/allUtils/apiUtils";
 import { foodAppInstance } from "../../config/constants/axiosInstance";
+import { GetElsQueriedReturnType } from "../../../types/allTypes/API";
 
 export const sendOrderAPI = ({
   coupon,
@@ -46,5 +47,5 @@ export const pollingOrderAPI = async (
 
 export const getMyOrdersAPI = (
   params: URLSearchParams
-): Promise<ReturnAPIBasic> =>
+): Promise<ReturnAPIBasic & GetElsQueriedReturnType & { orders: OrderType }> =>
   destructureDataAPI(() => foodAppInstance.get(`/my-orders?${params}`));
