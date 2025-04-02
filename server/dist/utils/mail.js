@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { isDev } from "../config/currMode.js";
 import { transporterMail } from "../config/nodemailer.js";
+import { categoriesDiscount, discount, genExpiryCoupon, minCartPrice, } from "./coupon/generateCoupons.js";
 const basePath = isDev ? process.env.FRONT_URL_DEV : process.env.FRONT_URL;
 export const sendUserEmail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ user, token, type, }) {
     if ([user, token, type].some((el) => !el))
@@ -53,5 +54,34 @@ export const sendEmailChangeAccountEmail = (user, token) => __awaiter(void 0, vo
         to: user === null || user === void 0 ? void 0 : user.tempNewEmail,
         subject: "VERIFY NEW EMAIL",
         text: `Click the link to be redirected to our app and verify your new email ✌🏼: ${verifyEmailURL}`,
+    });
+});
+export const genTxtCouponMail = (code, tokenUnsubscribe, user) => {
+    const diffTimeSeconds = (genExpiryCoupon().getTime() - Date.now()) / 1000;
+    const hours = Math.floor(diffTimeSeconds / (60 * 60));
+    const minutes = Math.floor((diffTimeSeconds % (60 * 60)) / 60);
+    const expiry = ` ${hours ? `${hours} hour${hours > 1 ? "s" : ""}` : ""}${minutes
+        ? `${hours ? " and" : ""}${minutes} minute${minutes > 1 ? "s" : ""}`
+        : ""}`;
+    const categories = categoriesDiscount.length > 1
+        ? categoriesDiscount
+            .map((el, i, arg) => i === arg.length - 1
+            ? "and " + el.toUpperCase()
+            : i === arg.length - 2
+                ? el.toUpperCase() + " "
+                : el.toUpperCase() + ", ")
+            .join("")
+        : categoriesDiscount[0].toUpperCase();
+    const unsubscribeURL = `${basePath}/newsletter/verify-unsubscribe?token=${tokenUnsubscribe}&userId=${user._id}&typeUser=${(user === null || user === void 0 ? void 0 : user.isVerified) ? "logged" : "non-logged"}`;
+    return `Just for the next${expiry}, you get ${discount}% off, ordering from a restaurant included in ${categories} categor${categoriesDiscount.length > 1 ? "ies" : "y"}\nMinimum order $${minCartPrice.toFixed(2)} ✔️\nYour code: ${code} ✌🏼\nHurry! This offer will not last long\nIf you do not want anymore receive our promos click the following link to be redirected to our website and unsubscribe:\n${unsubscribeURL}`;
+};
+export const sendEmailCoupon = (user, code, tokenUnsubscribe) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!user || !code || !tokenUnsubscribe)
+        return;
+    yield transporterMail.sendMail({
+        from: process.env.MAIL_USER,
+        to: user.email,
+        subject: "DISCOUNT JUST FOR YOU! 🎉",
+        text: genTxtCouponMail(code, tokenUnsubscribe, user),
     });
 });

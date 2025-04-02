@@ -15,11 +15,11 @@ import { uploadCloudURL } from "../../utils/cloud.js";
 import { createPaymentInt } from "../../utils/stripe.js";
 
 // WHEN OPEN
-// if (open <= currTime && close > currTime) console.log(true);
-// else console.log(false);
-// if (open === close) console.log(true);
-// if (open <= currTime && close < open) console.log(true);
-// if (close < open && close > currTime) console.log(true);
+// if (open <= currTime && close > currTime)
+// else
+// if (open === close)
+// if (open <= currTime && close < open)
+// if (close < open && close > currTime)
 
 export const createOrder = async (
   req: RequestWithUserId,

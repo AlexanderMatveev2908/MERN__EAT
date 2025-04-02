@@ -8,6 +8,7 @@ import { connectCloudinary } from "./config/cloud.js";
 import router from "./routes/mainRoute.js";
 import { get__dirname } from "./utils/calcPath.js";
 import { updateCO } from "./stuff/makeOpDb.js";
+import { generateCoupons } from "./utils/coupon/generateCoupons.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -26,6 +27,7 @@ if (!isDev) {
 
 app.use(errMiddleware);
 // updateCO();
+// generateCoupons();
 const start = async () => {
   try {
     await connectDB();

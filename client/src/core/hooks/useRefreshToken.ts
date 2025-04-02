@@ -10,7 +10,7 @@ export const useRefreshToken = () => {
 
   const queryClient = useQueryClient();
 
-  const { logoutUser, setUserLogged } = useUser();
+  const { logoutUser, isLogged, setUserLogged } = useUser();
   const { showToastMsg } = useToast();
 
   const refreshTokenAndUI = async () => {
@@ -21,10 +21,12 @@ export const useRefreshToken = () => {
       const { accessToken } = await refreshTokenAPI();
       setUserLogged(accessToken);
     } catch {
+      if (isLogged) showToastMsg("SESSION EXPIRED", "ERROR");
+      else showToastMsg("UNAUTHORIZED", "ERROR");
+
       logoutUser();
       queryClient.resetQueries({ queryKey: ["myCart"] });
-      navigate("/auth/login");
-      showToastMsg("Session Expired", "ERROR");
+      navigate("/auth/login", { replace: true });
     }
   };
 

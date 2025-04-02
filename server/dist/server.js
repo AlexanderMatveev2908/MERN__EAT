@@ -26,7 +26,8 @@ if (!isDev) {
     app.get("*", (_, res) => res.sendFile(path.join(get__dirname(), "../../client/dist/index.html")));
 }
 app.use(errMiddleware);
-// makeCart();
+// updateCO();
+// generateCoupons();
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield connectDB();

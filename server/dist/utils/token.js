@@ -12,12 +12,10 @@ import jwt from "jsonwebtoken";
 import { getKeys, makeKeys } from "./keys.js";
 import { CompactEncrypt, jwtDecrypt } from "jose";
 import { ACCESS_SIGN, EXPIRY_ACCESS, genExpiryRefresh, getExpiry, getSign, } from "../config/tokensExpiry.js";
+export const createHashedSHA = (token, type) => crypto.createHmac("sha256", getSign(type)).update(token).digest("hex");
 export const genTokenSHA = (type) => {
     const token = crypto.randomBytes(64).toString("hex");
-    const hashedToken = crypto
-        .createHmac("sha256", getSign(type))
-        .update(token)
-        .digest("hex");
+    const hashedToken = createHashedSHA(token, type);
     const expiryVerification = getExpiry(type);
     return { token, hashedToken, expiryVerification: expiryVerification };
 };

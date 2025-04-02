@@ -1,44 +1,91 @@
 import mongoose from "mongoose";
-const OrderSchema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+import { ImageSchema } from "./Image.js";
+import { AddressSchema } from "./User.js";
+import { ContactRestaurantSchema } from "./Restaurant.js";
+const OrderItemSchema = new mongoose.Schema({
+    dishId: {
+        type: mongoose.Types.ObjectId,
+        ref: "Dish",
+        default: null,
+    },
+    name: {
+        type: String,
         required: true,
     },
-    restaurant: {
+    price: {
+        type: Number,
+        required: true,
+    },
+    quantity: {
+        type: Number,
+        required: true,
+    },
+    images: [ImageSchema],
+});
+const OrderSchema = new mongoose.Schema({
+    paymentId: {
+        type: String,
+        default: null,
+    },
+    paymentClientSecret: {
+        type: String,
+        default: null,
+    },
+    // CAUSE RESTAURANT CAN BE DELETED AS WELL AS USER ACCOUNT I WILL PROVIDE AT LEAST NAME AND EMAIL FOR GENERIC INFO
+    userId: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+        default: null,
+    },
+    restaurantId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Restaurant",
-        required: true,
+        default: null,
     },
-    items: [
-        {
-            dish: {
-                type: mongoose.Types.ObjectId,
-                ref: "Dish",
-            },
-            quantity: {
-                type: Number,
-                required: true,
-                min: 1,
-            },
+    contactRestaurant: ContactRestaurantSchema,
+    infoUser: {
+        firstName: {
+            type: String,
+            required: true,
         },
-    ],
-    priceNoDiscount: {
+        lastName: {
+            type: String,
+            required: true,
+        },
+        email: {
+            type: String,
+            required: true,
+        },
+    },
+    addressUser: AddressSchema,
+    items: [OrderItemSchema],
+    totPrice: {
         type: Number,
         required: true,
     },
-    priceWithDiscount: {
+    discount: {
         type: Number,
-        required: true,
+        default: 0,
+    },
+    delivery: {
+        type: Number,
+        default: 0,
     },
     coupon: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Coupon",
-        required: false,
+        default: null,
     },
     status: {
         type: String,
-        enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
+        enum: [
+            "pending",
+            "confirmed",
+            "processing",
+            "shipped",
+            "delivered",
+            "cancelled",
+        ],
         default: "pending",
     },
 }, { timestamps: true });

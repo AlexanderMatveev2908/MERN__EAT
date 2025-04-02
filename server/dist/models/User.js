@@ -1,4 +1,30 @@
 import mongoose, { Schema } from "mongoose";
+export const AddressSchema = new mongoose.Schema({
+    country: {
+        type: String,
+        default: null,
+    },
+    state: {
+        type: String,
+        default: null,
+    },
+    city: {
+        type: String,
+        default: null,
+    },
+    street: {
+        type: String,
+        default: null,
+    },
+    zipCode: {
+        type: String,
+        default: null,
+    },
+    phone: {
+        type: String,
+        default: null,
+    },
+});
 const UserSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -21,32 +47,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    address: {
-        country: {
-            type: String,
-            default: null,
-        },
-        state: {
-            type: String,
-            default: null,
-        },
-        city: {
-            type: String,
-            default: null,
-        },
-        street: {
-            type: String,
-            default: null,
-        },
-        zipCode: {
-            type: String,
-            default: null,
-        },
-        phone: {
-            type: String,
-            default: null,
-        },
-    },
+    address: AddressSchema,
     acceptedTerms: {
         type: Boolean,
         required: true,

@@ -26,7 +26,7 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
 
   const paymentInt = e.data.object as Stripe.PaymentIntent;
   const paymentStatus = paymentInt.status;
-  console.log(paymentStatus);
+
   const order = (await Order.findOne({
     paymentClientSecret: paymentInt.client_secret,
     paymentId: paymentInt.id,

@@ -15,17 +15,36 @@ import { sendSubScriptionNewsLetterConfirmed } from "../utils/mail.js";
 export const toggleUserNewsLetter = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
     const { type } = req.body;
-    const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
-    const updatedUser = yield User.findByIdAndUpdate(userId, {
-        $set: {
-            hasSubscribedToNewsletter: type === "subscribe",
-            "tokens.unSubScribeNewsLetter.hashed": hashedToken,
-            "tokens.unSubScribeNewsLetter.expiry": expiryVerification,
-        },
-    }, { new: true, select: "hasSubscribedToNewsletter firstName lastName email" });
-    if (!updatedUser)
+    const user = (yield User.findById(userId));
+    if (!user)
         return userNotFound(res);
-    yield sendSubScriptionNewsLetterConfirmed(updatedUser, token, "logged", "subscribe");
+    if (type === "unsubscribe" && !user.hasSubscribedToNewsletter)
+        return baseErrResponse(res, 400, "User not subscribed");
+    if (type == "subscribe" && user.hasSubscribedToNewsletter)
+        return baseErrResponse(res, 409, "User already subscribed");
+    if (type === "subscribe") {
+        const { token, hashedToken, expiryVerification } = genTokenSHA("newsletter");
+        yield User.findByIdAndUpdate(userId, {
+            $set: {
+                hasSubscribedToNewsletter: true,
+                "tokens.unSubScribeNewsLetter.hashed": hashedToken,
+                "tokens.unSubScribeNewsLetter.expiry": expiryVerification,
+            },
+        }, {
+            new: true,
+            select: "hasSubscribedToNewsletter firstName lastName email",
+        });
+        yield sendSubScriptionNewsLetterConfirmed(user, token, "logged", "subscribe");
+    }
+    else {
+        yield User.findByIdAndUpdate(userId, {
+            $set: {
+                hasSubscribedToNewsletter: false,
+                "tokens.unSubScribeNewsLetter.hashed": null,
+                "tokens.unSubScribeNewsLetter.expiry": null,
+            },
+        });
+    }
     return res.status(200).json({
         msg: "User toggled to newsletter",
         success: true,

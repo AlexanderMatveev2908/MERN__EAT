@@ -12,7 +12,6 @@ import {
   fieldAccountDrop,
   fieldAdminDrop,
   fieldsAdmin,
-  homeFieldSide,
   nonLoggedUserFields,
 } from "../../../core/config/fieldsArr/allFields/dropSideFields";
 import DropInsideSide from "./components/DropInsideSide";
@@ -68,7 +67,9 @@ const Sidebar: FC = () => {
         <div className="w-full grid grid-cols-1 justify-items-start gap-5 px-3">
           {currUser?.email && <UserEmail {...{ email: currUser.email }} />}
 
-          <SideEL {...{ el: homeFieldSide, handleSideClick }} />
+          {allUsersFields.map((el) => (
+            <SideEL key={el.id} {...{ handleSideClick, el }} />
+          ))}
 
           {isLogged ? (
             loggedUserFields.map((el) => (
@@ -89,10 +90,6 @@ const Sidebar: FC = () => {
               {...{ handleSideClick, el: fieldAdminDrop, fields: fieldsAdmin }}
             />
           )}
-
-          {allUsersFields.map((el) => (
-            <SideEL key={el.id} {...{ handleSideClick, el }} />
-          ))}
 
           {isLogged && <LogoutBtn {...{ isPending, handleLogout }} />}
         </div>
