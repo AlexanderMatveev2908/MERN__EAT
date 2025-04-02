@@ -1,4 +1,9 @@
-import { ImageUploadedType } from "./API";
+import {
+  ImageUploadedType,
+  PageFormType,
+  SearchBarForm,
+  TimeStampSearch,
+} from "./API";
 import { UserAddressType } from "./userTypes";
 
 export type OrderItem = {
@@ -12,6 +17,7 @@ export type OrderItem = {
 
 export type OrderStatus =
   | "pending"
+  | "confirmed"
   | "processing"
   | "shipped"
   | "delivered"
@@ -41,3 +47,13 @@ export type OrderType = {
   coupon: string | null;
   status: OrderStatus;
 };
+
+export type SearchMyOrders = SearchBarForm &
+  PageFormType &
+  TimeStampSearch & {
+    status: OrderStatus[];
+
+    priceSort: string[];
+    discountSort: string[];
+    quantitySort: string[];
+  };

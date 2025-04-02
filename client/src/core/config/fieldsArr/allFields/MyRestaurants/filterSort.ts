@@ -30,13 +30,16 @@ export const myRestFieldsSearch: BaseFieldType[] = myRestFieldsArr.map(
   })
 );
 
-const ordersFieldsArr: BaseFieldType[] = [
+export const ordersStatus = [
   "pending",
+  "confirmed",
   "processing",
   "shipped",
   "delivered",
   "cancelled",
-].map((el) => ({
+];
+
+const ordersFieldsArr: BaseFieldType[] = [...ordersStatus].map((el) => ({
   field: el,
   id: genID(),
   label: el[0].toUpperCase() + el.slice(1),

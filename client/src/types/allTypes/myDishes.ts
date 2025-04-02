@@ -1,4 +1,10 @@
-import { ImageUploadedType } from "./API";
+import {
+  ImageUploadedType,
+  NumericFiltersSearch,
+  PageFormType,
+  SearchBarForm,
+  TimeStampSearch,
+} from "./API";
 
 export type DishFormItemType = {
   name: string;
@@ -13,24 +19,14 @@ export type DishMenuFormType = {
 };
 
 export type SearchMyDishesFormType = {
-  search: string;
-  searchVals: string[];
-
-  minPrice: string;
-  maxPrice: string;
-  minQuantity: string;
-  maxQuantity: string;
-
   categories: string[];
 
-  createdAtSort: string[];
-  updatedAtSort: string[];
   priceSort: [];
   quantitySort: [];
-
-  page?: string;
-  limit?: string;
-};
+} & NumericFiltersSearch &
+  SearchBarForm &
+  TimeStampSearch &
+  PageFormType;
 
 export type DishType = {
   _id: string;

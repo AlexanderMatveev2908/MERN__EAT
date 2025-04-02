@@ -35,3 +35,25 @@ export type GetElsQueriedReturnType = {
   nHits: number;
   totPages: number;
 };
+
+export type PageFormType = {
+  page?: string;
+  limit?: string;
+};
+
+export type SearchBarForm = {
+  search: string;
+  searchVals: string[];
+};
+
+export type TimeStampSearch = {
+  createdAtSort: string[];
+  updatedAtSort: string[];
+};
+
+export type NumericFiltersSearch = {
+  minPrice: string;
+  maxPrice: string;
+  minQuantity: string;
+  maxQuantity: string;
+};

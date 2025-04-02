@@ -30,7 +30,9 @@ export const REG_QTY_SEARCH = /^\d*$/;
 export const REG_QTY = /^\d+$/;
 export const REG_DISH_NAME = /^[A-Za-zÀ-ÿ0-9\s_\-!@#$%^&*()+=.,'"_]{2,30}$/;
 
+// p=path
 export const REG_P_SEARCH = /^\/search\/?$/;
 export const REG_P_DISHES_USER = /^\/search\/[a-f0-9]{24}$/;
 export const REG_P_DISHES = /^\/my-dishes\/?$/;
 export const REG_P_MY_REST = /^\/my-restaurants\/?$/;
+export const REG_P_MY_ORD = /^\/my-orders\/?$/;

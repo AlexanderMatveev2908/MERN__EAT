@@ -25,6 +25,7 @@ import {
   DynamicFieldOrder,
   DynamicFieldRating,
 } from "../../../../../types/allTypes/restAdmin";
+import { ordersStatus } from "./filterSort";
 
 export const fieldsShowMyRestaurants = (
   ...params: string[][]
@@ -99,13 +100,11 @@ export const showMyRestaurantsDeliveryFields = (
 export const makeSubFieldsOrders = (
   ...params: DynamicFieldOrder[]
 ): (BaseFieldShowType & { val: number })[] =>
-  ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"].map(
-    (el, i) => ({
-      id: genID(),
-      label: el,
-      val: params[i].count,
-    })
-  );
+  [...ordersStatus].map((el, i) => ({
+    id: genID(),
+    label: el.at(0)?.toUpperCase() + el.slice(1),
+    val: params[i].count,
+  }));
 
 export const showFieldOrders: BaseFieldShowIcon = {
   id: genID(),

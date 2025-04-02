@@ -1,5 +1,6 @@
 export const statusVars = [
   "pending",
+  "confirmed",
   "processing",
   "shipped",
   "delivered",

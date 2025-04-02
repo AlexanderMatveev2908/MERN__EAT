@@ -25,7 +25,7 @@ import {
 import { IoRestaurant } from "react-icons/io5";
 import { REG_COUPON } from "../../../constants/regex";
 
-const searchRest = ["name", "country", "state", "city"];
+export const searchRest = ["name", "country", "state", "city"];
 
 export const searchRestFieldsSearch: BaseFieldType[] = searchRest.map((el) => ({
   field: el,

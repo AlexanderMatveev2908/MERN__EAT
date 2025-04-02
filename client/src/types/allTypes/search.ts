@@ -1,8 +1,12 @@
+import {
+  NumericFiltersSearch,
+  PageFormType,
+  SearchBarForm,
+  TimeStampSearch,
+} from "./API";
 import { MyRestaurantType } from "./restAdmin";
 
 export type SearchFormType = {
-  search: string;
-  searchVals: string[];
   categories: string[];
   avgPriceRange: string[];
   avgRatingRange: string[];
@@ -12,10 +16,8 @@ export type SearchFormType = {
   deliveryTimeSort: ["asc" | "desc"] | [];
   deliveryPriceSort: ["asc" | "desc"] | [];
   dishesCountSort: ["asc" | "desc"] | [];
-
-  page?: string;
-  limit?: string;
-};
+} & PageFormType &
+  SearchBarForm;
 
 export type RestaurantAllUsers = Omit<
   MyRestaurantType,
@@ -25,15 +27,8 @@ export type RestaurantAllUsers = Omit<
 };
 
 export type SearchDishesFormType = {
-  minPrice: string;
-  maxPrice: string;
-  minQuantity: string;
-  maxQuantity: string;
   priceSort: string[];
   quantitySort: string[];
-  createdAtSort: string[];
-  updatedAtSort: string[];
-
-  page?: string;
-  limit?: string;
-};
+} & PageFormType &
+  TimeStampSearch &
+  NumericFiltersSearch;

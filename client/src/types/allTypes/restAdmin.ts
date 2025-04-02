@@ -1,4 +1,4 @@
-import { ImageUploadedType } from "./API";
+import { ImageUploadedType, PageFormType, SearchBarForm } from "./API";
 import { DishType } from "./myDishes";
 import { OrderType } from "./orders";
 import { ReviewType } from "./reviews";
@@ -38,8 +38,6 @@ export type MyRestaurantsAddUpdateFormType = {
   DeliveryType;
 
 export type FormSearchType = {
-  search: string;
-  searchVals: string[];
   categories: string[];
   ordersStatus: string[];
   avgPriceRange: string[];
@@ -59,10 +57,8 @@ export type FormSearchType = {
   shippedOrdersSort: ["asc" | "desc"] | [];
   deliveredOrdersSort: ["asc" | "desc"] | [];
   cancelledOrdersSort: ["asc" | "desc"] | [];
-
-  page?: string;
-  limit?: string;
-};
+} & PageFormType &
+  SearchBarForm;
 
 export type DynamicFieldRating = {
   rating: string;

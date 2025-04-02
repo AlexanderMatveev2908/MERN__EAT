@@ -6,7 +6,7 @@ export const validateSorters = [
     Object.entries(req?.query ?? {}).some(
       ([key, val]) => key.includes("Sort") && !["asc", "desc"].includes(val)
     )
-      ? Promise.reject("Bad request sort / numeric")
+      ? Promise.reject("Bad request sort ")
       : true
   ),
 ];
