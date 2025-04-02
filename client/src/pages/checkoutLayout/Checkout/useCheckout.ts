@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useStripeCustom, useUser } from "../../../core/hooks/useGlobal";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { defaultValsFormAddress } from "../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
 import { useQuery } from "@tanstack/react-query";
 import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
@@ -24,6 +24,7 @@ export type AddressFormType = {
 
 export const useCheckout = () => {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
 
   const formContext = useForm<AddressFormType>({
     mode: "onChange",
@@ -33,7 +34,11 @@ export const useCheckout = () => {
   const orderId = searchParams.get("orderId");
   const { handleErrAPI } = useGetFavHooks();
   const { isLogged } = useUser();
-  const canStay = isLogged && REG_MONGO.test(orderId ?? "");
+  const canStay =
+    isLogged &&
+    REG_MONGO.test(orderId ?? "") &&
+    /^\/(search)\/([a-f0-9]{24})$/.test(location?.state?.from);
+
   const stripePromise = useStripeCustom();
 
   const {
