@@ -15,6 +15,7 @@ import SwapAddress from "./components/SwapAddress";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { PaymentIntent } from "@stripe/stripe-js";
 import ButtonAnimated from "../../../../UI/components/buttons/ButtonAnimated";
+import { useNavigate } from "react-router-dom";
 
 type PropsType = {
   formContext: UseFormReturn<AddressFormType>;
@@ -28,6 +29,7 @@ const CheckoutForm: FC<PropsType> = ({
   backPaymentInt,
 }) => {
   const [isMoneyLoading, setIsMoneyLoading] = useState(false);
+  const navigate = useNavigate();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -59,6 +61,7 @@ const CheckoutForm: FC<PropsType> = ({
 
       showToastMsg("Payment successful", "SUCCESS");
       setIsMoneyLoading(false);
+      navigate("/my-orders");
     } catch {
       setTimeout(() => {
         pollOrder(retryCount + 1);

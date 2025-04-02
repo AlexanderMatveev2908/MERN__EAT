@@ -42,7 +42,7 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
     mutationFn: (coupon?: string) => sendOrderAPI({ coupon }),
     onSuccess: (data) =>
       makeDelay(() => {
-        navigate(`/checkout?orderId=${data.orderId}`, {
+        navigate(`/my-orders/checkout?orderId=${data.orderId}`, {
           state: { from: location.pathname },
         });
       }),
