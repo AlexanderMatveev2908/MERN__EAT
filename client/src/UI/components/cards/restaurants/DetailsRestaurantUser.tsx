@@ -33,7 +33,10 @@ const DetailsRestaurantUser: FC<PropsType> = ({ rest, Container }) => {
     <>
       {fieldsShowMyRestaurants(
         Object.values(rest.address),
-        Object.values(rest.contact),
+        Object.values(rest.contact).slice(
+          0,
+          Object.keys(rest.contact).length - 1
+        ),
         rest.categories
       ).map((el, i) => (
         <Container

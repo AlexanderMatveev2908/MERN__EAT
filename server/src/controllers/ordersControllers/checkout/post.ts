@@ -174,7 +174,6 @@ export const createOrder = async (
     userId: userId,
     restaurantId: existingRestaurant._id,
 
-    contactRestaurant: existingRestaurant.contact,
     restaurantName: existingRestaurant.name,
     infoUser: {
       firstName: user.firstName,

@@ -36,11 +36,7 @@ export type OrderType = {
   _id?: string;
   userId: string;
   restaurantId: string | IDPopulatedOrder;
-  contactRestaurant: {
-    phone: string;
-    email: string;
-    website: string;
-  };
+
   restaurantName: string;
   items: OrderItem[];
   addressUser: UserAddressType;
