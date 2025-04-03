@@ -17,7 +17,7 @@ export type OrderItem = {
   _id: string;
 };
 
-export type OrderStatus =
+export type OrderStatusType =
   | "pending"
   | "confirmed"
   | "processing"
@@ -49,7 +49,7 @@ export type OrderType = {
   delivery: number;
   discount: number;
   coupon: string | null;
-  status: OrderStatus;
+  status: OrderStatusType;
 
   isAdmin: boolean;
 
@@ -59,7 +59,7 @@ export type OrderType = {
 export type SearchMyOrders = SearchBarForm &
   PageFormType &
   TimeStampSearch & {
-    status: OrderStatus[];
+    status: OrderStatusType[];
 
     priceSort: string[];
     discountSort: string[];
