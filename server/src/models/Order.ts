@@ -55,6 +55,8 @@ export type OrderType = {
   status: OrderStatus;
   createdAt: string;
   updatedAt: string;
+
+  isAdmin: boolean;
 };
 
 const OrderItemSchema = new mongoose.Schema({

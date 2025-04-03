@@ -13,6 +13,7 @@ import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
+import MyOrdersItem from "./components/MyOrdersItem";
 
 const MyOrders: FC = () => {
   const { formContextSearchMyOrders: formContext } = useFormsCustom();
@@ -36,7 +37,7 @@ const MyOrders: FC = () => {
     cbAPI: getMyOrdersAPI,
   });
 
-  const { totDocuments, nHits } = data ?? {};
+  const { totDocuments, nHits, orders, totPages } = data ?? {};
 
   return (
     <div className="w-full grid justify-items-center">
@@ -70,9 +71,16 @@ const MyOrders: FC = () => {
         <LoaderPageReact />
       ) : isError ? (
         <ErrEmoji {...{ err: error }} />
-      ) : null}
+      ) : (
+        <div className="w-full grid grid-cols-1 justify-items-center gap-10 mt-10 items-start">
+          {!!orders?.length &&
+            orders.map((el) => (
+              <MyOrdersItem key={el._id} {...{ order: el }} />
+            ))}
+        </div>
+      )}
 
-      <BlockPages {...{ ...propsBlock }} />
+      <BlockPages {...{ ...propsBlock, totPages }} />
     </div>
   );
 };
