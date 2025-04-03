@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { OrderType } from "../../../../types/types";
 import { IoIosRestaurant } from "react-icons/io";
@@ -7,8 +8,10 @@ import {
   fieldDeliveryMyOrders,
   fieldItemsMyOrders,
   fieldMoneyMyOrders,
+  fieldMyAddressMyOrders,
   showFieldsDelivery,
   showFieldsMoneyMyOrders,
+  showMyAddressInOrder,
 } from "../../../../core/config/fieldsArr/allFields/myOrders/show";
 import { IDPopulatedOrder, OrderItem } from "../../../../types/allTypes/orders";
 import {
@@ -21,7 +24,7 @@ type PropsType = {
 };
 
 const DetailsOrderUser: FC<PropsType> = ({ order }) => {
-  return (
+  return !order ? null : (
     <div className="w-full grid gap-3">
       <li className="w-full grid grid-cols-[80px_1fr]">
         <div className="w-full flex gap-5 justify-start items-center">
@@ -40,6 +43,18 @@ const DetailsOrderUser: FC<PropsType> = ({ order }) => {
           ),
         }}
       />
+
+      <DropElAbsolute
+        {...{
+          el: fieldMyAddressMyOrders,
+        }}
+      >
+        {showMyAddressInOrder(order.addressUser).map((el) => (
+          <li key={el.id} className="w-full items-center">
+            <span className="txt__01">{el.val}</span>
+          </li>
+        ))}
+      </DropElAbsolute>
 
       <DropElAbsolute {...{ el: fieldItemsMyOrders }}>
         {order.items.map((el: OrderItem) => (
@@ -80,21 +95,23 @@ const DetailsOrderUser: FC<PropsType> = ({ order }) => {
         )}
       </DropElAbsolute>
 
-      <DropElAbsolute {...{ el: fieldDeliveryMyOrders }}>
-        {showFieldsDelivery(
-          order.createdAt,
-          (order.restaurantId as IDPopulatedOrder).delivery.estTimeDelivery
-        ).map((el) => (
-          <li
-            key={el.id}
-            className="w-full grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))]"
-          >
-            <span className="txt__02">{el.label}</span>
+      {!["pending", "delivered", "cancelled"].includes(order.status) && (
+        <DropElAbsolute {...{ el: fieldDeliveryMyOrders }}>
+          {showFieldsDelivery(
+            order.createdAt,
+            (order.restaurantId as IDPopulatedOrder).delivery.estTimeDelivery
+          ).map((el) => (
+            <li
+              key={el.id}
+              className="w-full grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))]"
+            >
+              <span className="txt__02">{el.label}</span>
 
-            <span className="txt__01">{el.val}</span>
-          </li>
-        ))}
-      </DropElAbsolute>
+              <span className="txt__01">{el.val}</span>
+            </li>
+          ))}
+        </DropElAbsolute>
+      )}
     </div>
   );
 };
