@@ -193,10 +193,9 @@ export const createOrder = async (
   const newMongoOrder = (await Order.create(newOrder)) as OrderType;
   if (!newMongoOrder) return baseErrResponse(res, 500, "Error creating order");
 
+  const updatedOrders = [...existingRestaurant.orders, newMongoOrder._id];
   await Restaurant.findByIdAndUpdate(existingRestaurant._id, {
-    $addToSet: {
-      orders: newMongoOrder._id,
-    },
+    orders: updatedOrders,
   });
 
   const stripePrice = +(
