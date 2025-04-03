@@ -36,7 +36,8 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
   if (!order) return baseErrResponse(res, 404, "Order not found");
 
   if (paymentStatus === "succeeded" && order.status === "pending") {
-    await Order.findByIdAndUpdate(order._id, { $set: { status: "confirmed" } });
+    order.status = "confirmed";
+    await order.save();
 
     const promises = order.items.map(async (el: OrderItem) => {
       const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
@@ -50,6 +51,16 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
     });
 
     await Promise.all(promises);
+
+    await Restaurant.updateMany({}, [
+      {
+        $set: {
+          orders: {
+            $setUnion: ["$orders", "$orders"],
+          },
+        },
+      },
+    ]);
   }
 
   return res.status(200).json({ received: true });

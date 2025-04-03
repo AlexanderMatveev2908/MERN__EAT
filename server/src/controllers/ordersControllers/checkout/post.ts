@@ -193,19 +193,17 @@ export const createOrder = async (
   const newMongoOrder = (await Order.create(newOrder)) as OrderType;
   if (!newMongoOrder) return baseErrResponse(res, 500, "Error creating order");
 
-  const updatedOrders = [...existingRestaurant.orders, newMongoOrder._id];
-  await Restaurant.findByIdAndUpdate(existingRestaurant._id, {
-    orders: updatedOrders,
-  });
-
   const stripePrice = +(
     newMongoOrder.totPrice -
     newMongoOrder.discount +
     newMongoOrder.delivery
   ).toFixed(2);
+
   const { paymentIntent } = await createPaymentInt(stripePrice);
-  if (!paymentIntent)
+  if (!paymentIntent) {
+    await Order.findByIdAndDelete(newMongoOrder._id);
     return baseErrResponse(res, 500, "Error creating payment");
+  }
 
   newMongoOrder.paymentId = paymentIntent.id;
   newMongoOrder.paymentClientSecret = paymentIntent.client_secret;
@@ -227,6 +225,9 @@ export const createOrder = async (
         ? user.orders
         : [...user.orders, newMongoOrder._id],
     },
+  });
+  await Restaurant.findByIdAndUpdate(existingRestaurant._id, {
+    $addToSet: { orders: newMongoOrder._id },
   });
 
   return res.status(201).json({

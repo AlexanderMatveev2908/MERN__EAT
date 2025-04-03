@@ -6,7 +6,7 @@ export const createPaymentInt = async (stripePrice: number): Promise<any> => {
 
   try {
     paymentIntent = await stripe.paymentIntents.create({
-      amount: stripePrice * 100,
+      amount: +(stripePrice * 100).toFixed(2),
       currency: "usd",
       payment_method_types: ["card"],
     });
