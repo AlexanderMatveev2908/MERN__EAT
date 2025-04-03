@@ -59,7 +59,7 @@ export const updateProfileDetails = async (
 
   const restaurantsUser: RestaurantType[] = await Restaurant.find({
     owner: makeMongoId(userId ?? ""),
-    "contact.phone": user.address.phone,
+    "contact.phone": user?.address?.phone,
   });
 
   if (restaurantsUser.length) {
