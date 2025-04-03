@@ -324,6 +324,19 @@ input[type="number"]::-webkit-inner-spin-button {
 .el__after_below:hover::after {
   @apply w-full;
 }
+/* ------------------------------------- */
+.el__after_below_dynamic {
+  @apply relative max-w-fit;
+}
+
+.el__after_below_dynamic::after {
+  @apply absolute content-[""] -bottom-2 left-1/2 w-0 h-[3px] transition-all duration-300 -translate-x-1/2;
+  background: var(--col-btn);
+}
+
+.el__after_below_dynamic:hover::after {
+  @apply w-full;
+}
 
 .focus__base:focus,
 .focus__base:active {
@@ -468,6 +481,13 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .btn__brand:not(:disabled):active {
   @apply active:scale-120 active:text-orange-500;
+}
+
+.btn__order {
+  @apply w-fit flex items-end justify-center gap-5 cursor-pointer;
+}
+.btn__order:hover {
+  color: var(--col-btn);
 }
 
 .btn__icon {

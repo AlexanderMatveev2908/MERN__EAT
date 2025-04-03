@@ -1,6 +1,12 @@
 import { FaCartShopping } from "react-icons/fa6";
 import { genID } from "../../../../../utils/utils";
-import { MdConnectWithoutContact, MdDeliveryDining } from "react-icons/md";
+import {
+  MdConnectWithoutContact,
+  MdDeleteForever,
+  MdDeliveryDining,
+  MdOutlineRateReview,
+  MdOutlineShoppingCartCheckout,
+} from "react-icons/md";
 import { TbPigMoney } from "react-icons/tb";
 import {
   formatDate,
@@ -8,6 +14,9 @@ import {
 } from "../../../../../utils/allUtils/formatTime";
 import { FaStreetView } from "react-icons/fa";
 import { UserAddressType } from "../../../../../types/types";
+import { FiRefreshCw } from "react-icons/fi";
+import { RiRefund2Line } from "react-icons/ri";
+import { IconType } from "react-icons/lib";
 
 export const fieldItemsMyOrders = {
   icon: FaCartShopping,
@@ -89,3 +98,46 @@ export const fieldDeliveryMyOrders = {
   icon: MdDeliveryDining,
   id: genID(),
 };
+
+export enum ActionsMyOrdersBtns {
+  CHECKOUT = "CHECKOUT",
+  DELETE = "DELETE",
+  REFUND = "REFUND",
+  REFRESH = "REFRESH",
+  REVIEW = "REVIEW",
+}
+
+export type ButtonOMyOrdersType = {
+  label: string;
+  icon: IconType;
+  action: ActionsMyOrdersBtns;
+  id: string;
+};
+
+export const buttonsMyOrders: ButtonOMyOrdersType[] = [
+  {
+    label: "Checkout",
+    icon: MdOutlineShoppingCartCheckout,
+    action: ActionsMyOrdersBtns.CHECKOUT,
+  },
+  {
+    label: "Delete",
+    icon: MdDeleteForever,
+    action: ActionsMyOrdersBtns.DELETE,
+  },
+  {
+    label: "Refund",
+    icon: RiRefund2Line,
+    action: ActionsMyOrdersBtns.REFUND,
+  },
+  {
+    label: "Refresh",
+    icon: FiRefreshCw,
+    action: ActionsMyOrdersBtns.REFRESH,
+  },
+  {
+    label: "Leave Review",
+    icon: MdOutlineRateReview,
+    action: ActionsMyOrdersBtns.REVIEW,
+  },
+].map((el) => ({ ...el, id: genID() }));
