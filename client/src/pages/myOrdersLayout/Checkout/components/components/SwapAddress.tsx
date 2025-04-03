@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, SetStateAction, useEffect, useState } from "react";
 import {
   fieldsAddressForm_all,
   fieldsDividedByAreaCheckout,
@@ -11,12 +11,13 @@ import { UseFormReturn } from "react-hook-form";
 
 type PropsType = {
   formContext: UseFormReturn<AddressFormType>;
+  currForm: number;
+  setCurrForm: React.Dispatch<SetStateAction<number>>;
 };
 
-const SwapAddress: FC<PropsType> = ({ formContext }) => {
+const SwapAddress: FC<PropsType> = ({ formContext, currForm, setCurrForm }) => {
   const [isPrevDisabled, setIsPrevDisabled] = useState(true);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
-  const [currForm, setCurrForm] = useState(0);
 
   const {
     register,
@@ -54,7 +55,7 @@ const SwapAddress: FC<PropsType> = ({ formContext }) => {
       : setCurrForm((prev) => prev + 1);
 
   return (
-    <div className="w-full grid gap-4">
+    <div className="w-full grid gap-4" id="swapFormOrders">
       <span className="txt__03 justify-self-center">Your profile details</span>
 
       <div className="w-full p-6 border-[3px] border-orange-500 max-w-[600px] rounded-xl grid place-content-center gap-10">
@@ -73,8 +74,8 @@ const SwapAddress: FC<PropsType> = ({ formContext }) => {
             ).map(([_, v], i) => (
               <div
                 key={v.id}
-                className={`w-full grid justify-items-center gap-6 sm:px-3 transition-all duration-300 ${
-                  i === currForm ? "opacity-100" : "opacity-80"
+                className={`w-full grid justify-items-center h-fit items-start gap-6 sm:px-3 transition-all duration-300 ${
+                  i === currForm ? "opacity-100" : "opacity-0"
                 }`}
               >
                 {v.sudFields.map((el) => (

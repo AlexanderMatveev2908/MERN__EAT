@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, FormEvent, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { AddressFormType } from "../useCheckout";
 import { useMutation } from "@tanstack/react-query";
@@ -10,7 +10,10 @@ import { useGetFavHooks } from "../../../../core/hooks/useGetFavHooks";
 import { ErrFoodApp } from "../../../../types/allTypes/API";
 import OrderDetails from "./components/OrderDetails";
 import { OrderType } from "../../../../types/types";
-import { defaultValsFormAddress } from "../../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
+import {
+  defaultValsFormAddress,
+  fieldsDividedByAreaCheckout,
+} from "../../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
 import SwapAddress from "./components/SwapAddress";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { PaymentIntent } from "@stripe/stripe-js";
@@ -31,6 +34,7 @@ const CheckoutForm: FC<PropsType> = ({
 }) => {
   const [isMoneyLoading, setIsMoneyLoading] = useState(false);
   const navigate = useNavigate();
+  const [currForm, setCurrForm] = useState(0);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -106,16 +110,47 @@ const CheckoutForm: FC<PropsType> = ({
     },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });
-  const handleOrder = formContext.handleSubmit((data, e) => {
-    e?.preventDefault();
-    mutate(data);
-  });
+  const handleOrder = (e: FormEvent) => {
+    e.preventDefault();
+
+    const data = formContext.getValues();
+
+    let i = 0;
+    let isValid = true;
+    do {
+      const curr = fieldsDividedByAreaCheckout[i];
+      if (curr.some((el) => !el.reg.test(data[el.field]))) {
+        isValid = false;
+        setCurrForm(i);
+        formContext.trigger();
+        break;
+      }
+
+      i++;
+    } while (i < fieldsDividedByAreaCheckout.length);
+
+    if (!isValid) {
+      const form = document.getElementById("swapFormOrders");
+      const stats = form?.getBoundingClientRect();
+
+      if (stats) {
+        setTimeout(() => {
+          window.scrollTo({
+            top: stats.top,
+            behavior: "smooth",
+          });
+        }, 0);
+      }
+    } else {
+      mutate(data);
+    }
+  };
 
   const isLoading = isPending || isMoneyLoading;
 
   return !stripe || !elements ? null : (
     <form onSubmit={handleOrder} className="w-full grid gap-10 xl:grid-cols-2">
-      <SwapAddress {...{ formContext }} />
+      <SwapAddress {...{ formContext, currForm, setCurrForm }} />
 
       <OrderDetails
         {...{
