@@ -15,7 +15,7 @@ import {
 
 type PropsType = {
   rest: MyRestaurantType;
-  customStyle: string;
+  customStyle?: string;
 };
 
 const DetailsRestaurantAdmin: FC<PropsType> = ({ rest, customStyle }) => {

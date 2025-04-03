@@ -17,74 +17,77 @@ export const lastCheckOrder = async (
   req: RequestWithUserId,
   res: Response
 ): Promise<any> => {
-  const { userId } = req;
-  const { email, firstName, lastName, ...address } = req.body;
+  // const { userId } = req;
+  // const { email, firstName, lastName, ...address } = req.body;
 
-  const result = await checkDataExistOrder(req, res);
-  if (!result) return;
-  const { restaurant, order } = result as {
-    order: OrderType;
-    restaurant: RestaurantType;
-  };
+  // const result = await checkDataExistOrder(req, res);
+  // if (!result) return;
+  // const { restaurant, order } = result as {
+  //   order: OrderType;
+  //   restaurant: RestaurantType;
+  // };
 
-  if (!checkIsOpen(restaurant))
-    return baseErrResponse(
-      res,
-      400,
-      "Restaurant closed or would not make in time order"
-    );
+  // if (order.status !== "pending")
+  //   return baseErrResponse(res, 400, "Order is not pending");
 
-  const { oldQty, newQty } = await getFreshItemsStock(order);
+  // if (!checkIsOpen(restaurant))
+  //   return baseErrResponse(
+  //     res,
+  //     400,
+  //     "Restaurant closed or would not make in time order"
+  //   );
 
-  if (oldQty !== newQty) {
-    await User.findByIdAndUpdate(userId, {
-      $pull: { orders: order._id },
-    });
-    await Order.findByIdAndDelete(order._id);
-    await Restaurant.findByIdAndUpdate(restaurant._id, {
-      $pull: { orders: order._id },
-    });
+  // const { oldQty, newQty } = await getFreshItemsStock(order);
 
-    if (order.coupon) {
-      const coupon = (await Coupon.findById(
-        order.coupon
-      )) as HydratedDocument<CouponType> | null;
+  // if (oldQty !== newQty) {
+  //   await User.findByIdAndUpdate(userId, {
+  //     $pull: { orders: order._id },
+  //   });
+  //   await Order.findByIdAndDelete(order._id);
+  //   await Restaurant.findByIdAndUpdate(restaurant._id, {
+  //     $pull: { orders: order._id },
+  //   });
 
-      if (coupon) {
-        const isStillValid =
-          new Date(coupon.expiryDate ?? 0).getTime() > Date.now();
+  //   if (order.coupon) {
+  //     const coupon = (await Coupon.findById(
+  //       order.coupon
+  //     )) as HydratedDocument<CouponType> | null;
 
-        if (!isStillValid) {
-          coupon.isActive = false;
-          await coupon.save();
-        }
-      }
-    }
+  //     if (coupon) {
+  //       const isStillValid =
+  //         new Date(coupon.expiryDate ?? 0).getTime() > Date.now();
 
-    return baseErrResponse(res, 400, "Some items are not available anymore");
-  }
+  //       if (!isStillValid) {
+  //         coupon.isActive = false;
+  //         await coupon.save();
+  //       }
+  //     }
+  //   }
 
-  await Order.findByIdAndUpdate(order._id, {
-    $set: {
-      addressUser: address,
-      "infoUser.email": email,
-      "infoUser.firstName": firstName,
-      "infoUser.lastName": lastName,
-    },
-  });
+  //   return baseErrResponse(res, 400, "Some items are not available anymore");
+  // }
 
-  const promises = order.items.map(async (el: OrderItem) => {
-    const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
-    //  i return just for tsc complain, i already checked in "getFreshItemsStock" that stock is ok and up to date
-    if (!dish) return;
+  // await Order.findByIdAndUpdate(order._id, {
+  //   $set: {
+  //     addressUser: address,
+  //     "infoUser.email": email,
+  //     "infoUser.firstName": firstName,
+  //     "infoUser.lastName": lastName,
+  //   },
+  // });
 
-    dish.quantity -= el.quantity;
-    await Dish.findByIdAndUpdate(el.dishId, {
-      $set: { quantity: dish.quantity },
-    });
-  });
+  // const promises = order.items.map(async (el: OrderItem) => {
+  //   const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
+  //   //  i return just for tsc complain, i already checked in "getFreshItemsStock" that stock is ok and up to date
+  //   if (!dish) return;
 
-  await Promise.all(promises);
+  //   dish.quantity -= el.quantity;
+  //   await Dish.findByIdAndUpdate(el.dishId, {
+  //     $set: { quantity: dish.quantity },
+  //   });
+  // });
+
+  // await Promise.all(promises);
 
   return res.status(200).json({
     success: true,

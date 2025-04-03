@@ -12,6 +12,8 @@ import { lastCheckOrder } from "../../controllers/ordersControllers/checkout/put
 import { createOrder } from "../../controllers/ordersControllers/checkout/post.js";
 import { validateQuery } from "../../middleware/orders/validateQuery.js";
 import { getOrders } from "../../controllers/ordersControllers/get.js";
+import { deletePendingOrder } from "../../controllers/ordersControllers/delete.js";
+import { refundOrder } from "../../controllers/ordersControllers/patch.js";
 
 const router = express.Router();
 
@@ -34,4 +36,17 @@ router.get(
 );
 
 router.get("/", verifyAccessToken, validateQuery, asyncWrapper(getOrders));
+
+router.delete(
+  "/del-pending/:orderId",
+  verifyAccessToken,
+  validateOrderId,
+  asyncWrapper(deletePendingOrder)
+);
+router.patch(
+  "/refund-confirmed/:orderId",
+  verifyAccessToken,
+  validateOrderId,
+  asyncWrapper(refundOrder)
+);
 export default router;

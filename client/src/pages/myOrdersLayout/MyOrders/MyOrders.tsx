@@ -42,7 +42,6 @@ const MyOrders: FC = () => {
 
   const { totDocuments, nHits, orders, totPages } = data ?? {};
 
-  console.log(orders);
   return (
     <div className="w-full grid justify-items-center">
       <FormProvider {...formContext}>

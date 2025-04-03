@@ -5,7 +5,6 @@ import { isDev } from "../config/currMode.js";
 import Stripe from "stripe";
 import Order, { OrderType } from "../models/Order.js";
 import { HydratedDocument } from "mongoose";
-import Restaurant from "../models/Restaurant.js";
 
 export const webhook = async (req: Request, res: Response): Promise<any> => {
   const sig = req.headers["stripe-signature"];
@@ -36,14 +35,8 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
 
   if (paymentStatus === "succeeded") {
     order.status = "confirmed";
-
-    const restaurant = await Restaurant.findById(order.restaurantId);
-    if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
-
-    restaurant.orders.push(order._id);
-    await restaurant.save();
+    await order.save();
   }
-  await order.save();
 
   return res.status(200).json({ received: true });
 };
