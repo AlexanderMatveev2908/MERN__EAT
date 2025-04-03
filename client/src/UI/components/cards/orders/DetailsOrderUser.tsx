@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import { OrderType } from "../../../../types/types";
-import { IoIosRestaurant } from "react-icons/io";
 import DropElAbsolute from "../../DropElAbsolute";
 import {
-  fieldContactRestMyOrders,
   fieldDeliveryMyOrders,
   fieldItemsMyOrders,
   fieldMoneyMyOrders,
@@ -18,6 +15,8 @@ import {
   calcTotPriceItem,
   priceFormatter,
 } from "../../../../utils/allUtils/priceFormatter";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 type PropsType = {
   order: OrderType;
@@ -27,22 +26,14 @@ const DetailsOrderUser: FC<PropsType> = ({ order }) => {
   return !order ? null : (
     <div className="w-full grid gap-3">
       <li className="w-full grid grid-cols-[80px_1fr]">
-        <div className="w-full flex gap-5 justify-start items-center">
-          <IoIosRestaurant className="icon__base" />
+        <Link
+          to={`/search/${(order.restaurantId as IDPopulatedOrder)._id}`}
+          className="w-fit el__after_below el__flow cursor-pointer hover:text-orange-500 flex gap-5 justify-start items-center"
+        >
+          <FaExternalLinkAlt className="icon__base" />
           <span className="txt__01">{order.restaurantName}</span>
-        </div>
+        </Link>
       </li>
-
-      <DropElAbsolute
-        {...{
-          el: fieldContactRestMyOrders(
-            ...Object.values(order.contactRestaurant).slice(
-              0,
-              Object.keys(order.contactRestaurant).length - 1
-            )
-          ),
-        }}
-      />
 
       <DropElAbsolute
         {...{

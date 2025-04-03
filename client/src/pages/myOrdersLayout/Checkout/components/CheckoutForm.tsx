@@ -16,6 +16,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { PaymentIntent } from "@stripe/stripe-js";
 import ButtonAnimated from "../../../../UI/components/buttons/ButtonAnimated";
 import { useNavigate } from "react-router-dom";
+import { useFormsCustom } from "../../../../core/hooks/useGlobal";
 
 type PropsType = {
   formContext: UseFormReturn<AddressFormType>;
@@ -35,6 +36,7 @@ const CheckoutForm: FC<PropsType> = ({
   const elements = useElements();
 
   const { handleErrAPI, showToastMsg } = useGetFavHooks();
+  const { formContextSearchMyOrders } = useFormsCustom();
 
   const isDisabled = () => {
     let isDisabled = false;
@@ -61,6 +63,12 @@ const CheckoutForm: FC<PropsType> = ({
 
       showToastMsg("Payment successful", "SUCCESS");
       setIsMoneyLoading(false);
+
+      const { setValue } = formContextSearchMyOrders;
+      setValue("createdAtSort", ["desc"]);
+      setValue("search", order._id as string);
+      setValue("searchVals", ["id"]);
+
       navigate("/my-orders");
     } catch {
       setTimeout(() => {

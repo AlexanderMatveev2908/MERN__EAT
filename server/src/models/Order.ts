@@ -36,11 +36,6 @@ export type OrderType = {
   _id?: string | mongoose.Types.ObjectId | null;
   userId: string;
   restaurantId: string;
-  contactRestaurant: {
-    phone: string;
-    email: string;
-    website: string;
-  };
   restaurantName: string;
   items: OrderItem[];
   addressUser: AddressType;
@@ -105,7 +100,6 @@ const OrderSchema = new mongoose.Schema(
       default: null,
     },
 
-    contactRestaurant: ContactRestaurantSchema,
     restaurantName: {
       type: String,
       required: true,
