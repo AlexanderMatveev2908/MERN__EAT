@@ -14,8 +14,11 @@ import ErrEmoji from "../../../UI/components/ErrEmoji";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 import MyOrdersItem from "./components/MyOrdersItem";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 
 const MyOrders: FC = () => {
+  useScrollTop();
+
   const { formContextSearchMyOrders: formContext } = useFormsCustom();
   const { watch } = formContext;
   const searchVals = watch("searchVals");
@@ -39,6 +42,7 @@ const MyOrders: FC = () => {
 
   const { totDocuments, nHits, orders, totPages } = data ?? {};
 
+  console.log(orders);
   return (
     <div className="w-full grid justify-items-center">
       <FormProvider {...formContext}>

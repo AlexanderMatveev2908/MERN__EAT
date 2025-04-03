@@ -30,9 +30,11 @@ export const getOrders = async (
   const nHits = await Order.countDocuments(queryObj);
   if (!totDocuments) return handleNoHits(res, totDocuments);
 
-  let orders = (await Order.find(queryObj).skip(skip).limit(limit).lean()) as
-    | OrderType[]
-    | [];
+  let orders = (await Order.find(queryObj)
+    .skip(skip)
+    .limit(limit)
+    .populate("restaurantId")
+    .lean()) as OrderType[] | [];
   if (!orders.length) return handleNoHits(res, totDocuments);
 
   if (sortObj?.createdAt)
@@ -50,6 +52,10 @@ export const getOrders = async (
   do {
     const curr = orders[i];
     curr.isAdmin = curr.userId + "" === userId;
+    curr.restaurantId = {
+      _id: (curr.restaurantId as any)._id,
+      delivery: (curr.restaurantId as any).delivery,
+    } as any;
     i--;
   } while (i >= 0);
 

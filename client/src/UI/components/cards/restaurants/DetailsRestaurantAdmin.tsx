@@ -15,12 +15,13 @@ import {
 
 type PropsType = {
   rest: MyRestaurantType;
+  customStyle: string;
 };
 
-const DetailsRestaurantAdmin: FC<PropsType> = ({ rest }) => {
+const DetailsRestaurantAdmin: FC<PropsType> = ({ rest, customStyle }) => {
   return (
     <>
-      <DropElStatic {...{ el: showFieldOrders }}>
+      <DropElStatic {...{ el: showFieldOrders, customStyle }}>
         {makeSubFieldsOrders(...rest.ordersByStatus).map((el) => (
           <li
             key={el.id}
@@ -39,7 +40,7 @@ const DetailsRestaurantAdmin: FC<PropsType> = ({ rest }) => {
         </li>
       </DropElStatic>
 
-      <DropElStatic {...{ el: showFieldReviews }}>
+      <DropElStatic {...{ el: showFieldReviews, customStyle }}>
         {makeSubFieldsReviews(...rest.reviewsByRating).map((el) => (
           <li
             key={el.id}
@@ -67,7 +68,7 @@ const DetailsRestaurantAdmin: FC<PropsType> = ({ rest }) => {
         ))}
       </DropElStatic>
 
-      <DropElStatic {...{ el: showFieldDishes }}>
+      <DropElStatic {...{ el: showFieldDishes, customStyle }}>
         {makeShowPriceFieldsMyRest(
           rest.avgPrice,
           rest.avgQuantity,

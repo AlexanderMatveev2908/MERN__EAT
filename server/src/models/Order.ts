@@ -41,6 +41,7 @@ export type OrderType = {
     email: string;
     website: string;
   };
+  restaurantName: string;
   items: OrderItem[];
   addressUser: AddressType;
   infoUser: {
@@ -105,6 +106,10 @@ const OrderSchema = new mongoose.Schema(
     },
 
     contactRestaurant: ContactRestaurantSchema,
+    restaurantName: {
+      type: String,
+      required: true,
+    },
     infoUser: {
       firstName: {
         type: String,

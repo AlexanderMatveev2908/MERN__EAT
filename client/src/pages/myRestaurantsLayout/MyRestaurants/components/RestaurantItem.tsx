@@ -35,7 +35,7 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
           />
 
           <div
-            className={`w-full el__flow grid grid-cols-1 gap-3 ${
+            className={`w-full el__flow grid grid-cols-1 gap-3 px-3 ${
               isOpen
                 ? "opacity-100 max-h-[500px] pointer-events-auto pt-3"
                 : "opacity-0 max-h-0 pointer-events-none"
@@ -44,7 +44,7 @@ const RestaurantItem: FC<PropsType> = ({ rest }) => {
             <DetailsRestaurantUser {...{ rest, Container: DropElAbsolute }} />
           </div>
 
-          <DetailsRestaurantAdmin {...{ rest }} />
+          <DetailsRestaurantAdmin {...{ rest, customStyle: "px-3" }} />
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 import { HydratedDocument } from "mongoose";
 import Coupon, { CouponType } from "../../../models/Coupon.js";
-import Order, { OrderType } from "../../../models/Order.js";
+import Order, { OrderItem, OrderType } from "../../../models/Order.js";
 import { RestaurantType } from "../../../models/Restaurant.js";
 import User from "../../../models/User.js";
 import { baseErrResponse } from "../../../utils/baseErrResponse.js";
@@ -11,6 +11,7 @@ import {
 } from "../../../utils/orders/refreshOrder.js";
 import { RequestWithUserId } from ".././../../middleware/general/verifyAccessToken.js";
 import { Response } from "express";
+import Dish, { DishType } from "../../../models/Dish.js";
 
 export const lastCheckOrder = async (
   req: RequestWithUserId,
@@ -68,6 +69,19 @@ export const lastCheckOrder = async (
       "infoUser.lastName": lastName,
     },
   });
+
+  const promises = order.items.map(async (el: OrderItem) => {
+    const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
+    //  i return just for tsc complain, i already checked in "getFreshItemsStock" that stock is ok and up to date
+    if (!dish) return;
+
+    dish.quantity -= el.quantity;
+    await Dish.findByIdAndUpdate(el.dishId, {
+      $set: { quantity: dish.quantity },
+    });
+  });
+
+  await Promise.all(promises);
 
   return res.status(200).json({
     success: true,

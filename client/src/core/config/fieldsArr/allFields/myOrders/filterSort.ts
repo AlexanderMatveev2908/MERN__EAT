@@ -1,16 +1,20 @@
 import { FaDatabase, FaMoneyBillWave } from "react-icons/fa";
 import { genID } from "../../../../../utils/utils";
-import { searchRest } from "../SearchRestAllUsers/filterSorter";
 import { BaseFieldType, SorterFieldType } from "../../typesFields";
 import { ordersStatus } from "../MyRestaurants/filterSort";
 import { MdDiscount } from "react-icons/md";
 import { fieldsUpAndDown } from "../filtersSorters";
 
-export const searchFieldsMyOrders = [...searchRest, "id"].map((el) => ({
-  field: el,
-  label: el.at(0)?.toUpperCase() + el.slice(1),
-  id: genID(),
-}));
+export const searchFieldsMyOrders = [
+  {
+    field: "restaurantName",
+    label: "Restaurant name",
+  },
+  {
+    field: "id",
+    label: "Id",
+  },
+];
 
 const ordersFieldsArr: BaseFieldType[] = [...ordersStatus].map((el) => ({
   field: el,
@@ -44,7 +48,7 @@ export const myOrdersSorters: SorterFieldType[] = myOrdersSortSub.map((el) => ({
 
 export const defaultValsSearchMyOrders = {
   search: "",
-  searchVals: ["name"],
+  searchVals: ["restaurantName"],
 
   ordersStatus: [],
 
