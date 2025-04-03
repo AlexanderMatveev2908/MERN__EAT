@@ -29,7 +29,7 @@ const SearchRestItem: FC<PropsType> = ({ rest }) => {
         </div>
 
         <div className="w-full grid grid-cols-1">
-          <div className="pt-3 w-full el__flow grid grid-cols-1 gap-3">
+          <div className="pt-3 w-full el__flow grid grid-cols-1 gap-3 px-3">
             <DetailsRestaurantUser {...{ rest, Container: DropElAbsolute }} />
 
             <DetailsRestUserStats {...{ rest }} />

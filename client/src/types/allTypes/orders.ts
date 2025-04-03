@@ -4,6 +4,7 @@ import {
   SearchBarForm,
   TimeStampSearch,
 } from "./API";
+import { DeliveryType } from "./restAdmin";
 import { UserAddressType } from "./userTypes";
 
 export type OrderItem = {
@@ -13,6 +14,7 @@ export type OrderItem = {
   price: number;
   quantity: number;
   images: ImageUploadedType[];
+  _id: string;
 };
 
 export type OrderStatus =
@@ -23,17 +25,23 @@ export type OrderStatus =
   | "delivered"
   | "cancelled";
 
+export type IDPopulatedOrder = {
+  _id: string;
+  delivery: DeliveryType;
+};
+
 export type OrderType = {
   paymentId: string | null;
   paymentClientSecret: string | null;
   _id?: string;
   userId: string;
-  restaurantId: string;
+  restaurantId: string | IDPopulatedOrder;
   contactRestaurant: {
     phone: string;
     email: string;
     website: string;
   };
+  restaurantName: string;
   items: OrderItem[];
   addressUser: UserAddressType;
   infoUser: {
@@ -48,6 +56,8 @@ export type OrderType = {
   status: OrderStatus;
 
   isAdmin: boolean;
+
+  createdAt: string;
 };
 
 export type SearchMyOrders = SearchBarForm &

@@ -79,11 +79,7 @@ export type MyRestaurantType = {
     openTime: number;
     closeTime: number;
   };
-  delivery: {
-    estTimeDelivery: number;
-    price: number;
-    freeDeliveryPrice: number;
-  };
+  delivery: DeliveryType;
   categories: string[];
 
   dishes?: DishType[];

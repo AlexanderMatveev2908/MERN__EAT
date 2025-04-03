@@ -10,9 +10,10 @@ type PropsType = {
     vals?: string[] | number[];
   };
   children?: ReactNode;
+  customStyle?: string;
 };
 
-const DropElAbsolute: FC<PropsType> = ({ el, children }) => {
+const DropElAbsolute: FC<PropsType> = ({ el, children, customStyle }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -23,8 +24,8 @@ const DropElAbsolute: FC<PropsType> = ({ el, children }) => {
           setIsOpen,
           txt: el.label,
           Icon: el.icon,
-          customStyle: "px-3",
-          customIconStyle: "min-w-[25px] min-h-[25px]",
+          customIconStyle: `min-w-[25px] min-h-[25px]`,
+          customStyle,
         }}
       />
 

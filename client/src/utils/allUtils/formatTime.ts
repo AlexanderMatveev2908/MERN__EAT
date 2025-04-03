@@ -22,3 +22,24 @@ export const reverseFormaTimeHhMm = (val: string) => {
 
 export const getDiffTime = (closeVal: string, openVal: string) =>
   (reverseFormaTimeHhMm(closeVal) - reverseFormaTimeHhMm(openVal)) / 60;
+
+export const formatDate = (str: string) =>
+  new Intl.DateTimeFormat("us", {
+    day: "numeric",
+    // month: "long",
+    // year: "numeric",
+    weekday: "short",
+    hour: "numeric",
+    minute: "numeric",
+    // second: "numeric",
+    hour12: false,
+  }).format(new Date(str));
+
+export const formatEstDelivery = (val: number) => {
+  const hours = Math.floor(val / 60);
+  const minutes = val % 60;
+
+  return `${
+    hours ? `${hours} hour${hours > 1 ? "s" : ""}${minutes ? " and " : ""}` : ``
+  }${minutes ? `${minutes} minute${minutes > 1 ? `s` : ``}` : ``}`;
+};

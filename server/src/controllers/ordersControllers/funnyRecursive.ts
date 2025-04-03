@@ -124,6 +124,13 @@ const heapifyDesc = (arr: OrderType[], n: number, i: number): void => {
   let left = 2 * i + 1;
   let right = 2 * i + 2;
 
+  //  follow left +1 and right +2 base on tree index rule =>
+  //  0
+  // 1 | 2
+  // 3 4 | 5 6
+  // 7 8 | 9 10 | 11 12 | 13 14
+  // and so on...
+
   if (left < n && arr[left].discount < arr[smaller].discount) smaller = left;
 
   if (right < n && arr[right].discount < arr[smaller].discount) smaller = right;

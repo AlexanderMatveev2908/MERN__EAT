@@ -24,7 +24,7 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
         </div>
 
         <div className="w-full grid grid-cols-1 h-full">
-          <div className="pt-3 w-full el__flow grid grid-cols-1 gap-3 items-start h-full">
+          <div className="pt-3 w-full el__flow grid grid-cols-1 gap-3 items-start h-full px-3 sm:pr-2 sm:pl-0">
             <DetailsOrderUser {...{ order }} />
           </div>
         </div>

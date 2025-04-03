@@ -26,6 +26,7 @@ import {
   DynamicFieldRating,
 } from "../../../../../types/allTypes/restAdmin";
 import { ordersStatus } from "./filterSort";
+import { formatEstDelivery } from "../../../../../utils/allUtils/formatTime";
 
 export const fieldsShowMyRestaurants = (
   ...params: string[][]
@@ -78,12 +79,12 @@ export const showMyRestaurantsDelivery: BaseFieldShowIcon = {
 };
 
 export const showMyRestaurantsDeliveryFields = (
-  ...params: number[]
+  ...params: (number | string)[]
 ): ShowCardMyRestType[] => [
   {
     id: genID(),
     label: "Time",
-    val: params[0],
+    val: formatEstDelivery(params[0] as number),
   },
   {
     id: genID(),

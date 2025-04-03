@@ -11,10 +11,11 @@ type PropsType = {
     label: string;
     vals?: string[] | number[];
   };
+  customStyle?: string;
   children?: ReactNode;
 };
 
-const DropElStatic: FC<PropsType> = ({ el, children }) => {
+const DropElStatic: FC<PropsType> = ({ el, children, customStyle }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const location = useLocation();
@@ -41,11 +42,11 @@ const DropElStatic: FC<PropsType> = ({ el, children }) => {
           setIsOpen,
           txt: el.label,
           Icon: el.icon,
-          customStyle: "py-1 border-b-2 border-orange-500 px-3",
+          customStyle: `py-1 border-b-2 border-orange-500 ${customStyle}`,
         }}
       />
       <ul
-        className={`w-full el__flow grid gap-1 gap-2 items-start px-3 ${
+        className={`w-full el__flow grid gap-1 gap-2 items-start ${customStyle} ${
           isOpen
             ? "opacity-100 max-h-[500px] pointer-events-auto pt-2"
             : "opacity-0 max-h-0 pointer-events-none"

@@ -1,4 +1,5 @@
 import { CartItem } from "../../types/allTypes/cart";
+import { OrderItem } from "../../types/allTypes/orders";
 
 export const priceFormatter = ({
   price,
@@ -17,7 +18,7 @@ export const priceFormatter = ({
   return formatted;
 };
 
-export const calcTotPriceItem = (item: CartItem) =>
+export const calcTotPriceItem = (item: CartItem | OrderItem) =>
   priceFormatter({ price: item.quantity * item.price });
 
 export const calcTotWithDelivery = (tot: number, del: number) =>

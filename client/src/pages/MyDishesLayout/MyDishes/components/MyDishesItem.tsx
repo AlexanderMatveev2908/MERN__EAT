@@ -77,11 +77,7 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
               </div>
             </li>
 
-            <div className="-mx-3">
-              <DropElAbsolute
-                {...{ el: showCatRestMyDishes(dish.categories) }}
-              />
-            </div>
+            <DropElAbsolute {...{ el: showCatRestMyDishes(dish.categories) }} />
           </ul>
 
           <ul className="w-full grid grid-cols-1 gap-2 px-3">
