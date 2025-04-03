@@ -193,7 +193,7 @@ export const createOrder = async (
   if (!newMongoOrder) return baseErrResponse(res, 500, "Error creating order");
 
   await Restaurant.findByIdAndUpdate(existingRestaurant._id, {
-    $push: {
+    $addToSet: {
       orders: newMongoOrder._id,
     },
   });

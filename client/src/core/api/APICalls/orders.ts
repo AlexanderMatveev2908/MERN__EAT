@@ -50,3 +50,13 @@ export const getMyOrdersAPI = (
 ): Promise<
   ReturnAPIBasic & GetElsQueriedReturnType & { orders: OrderType[] }
 > => destructureDataAPI(() => foodAppInstance.get(`/my-orders?${params}`));
+
+export const delPendingOrderAPI = (orderId: string): Promise<void> =>
+  destructureDataAPI(() =>
+    foodAppInstance.delete(`/my-orders/del-pending/${orderId}`)
+  );
+
+export const refundConfirmedAPI = (orderId: string) =>
+  destructureDataAPI(() =>
+    foodAppInstance.patch(`/my-orders/refund-confirmed/${orderId}`)
+  );
