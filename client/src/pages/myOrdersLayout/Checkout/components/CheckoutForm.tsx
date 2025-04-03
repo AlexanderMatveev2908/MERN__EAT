@@ -106,7 +106,8 @@ const CheckoutForm: FC<PropsType> = ({
     },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });
-  const handleOrder = formContext.handleSubmit((data) => {
+  const handleOrder = formContext.handleSubmit((data, e) => {
+    e?.preventDefault();
     mutate(data);
   });
 

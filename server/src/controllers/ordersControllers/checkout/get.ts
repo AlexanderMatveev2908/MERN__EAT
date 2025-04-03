@@ -49,11 +49,6 @@ export const getOrderInfo = async (
     );
 
     if (existingPaymentInt) {
-      if (order.paymentClientSecret !== existingPaymentInt.client_secret) {
-        order.paymentClientSecret = existingPaymentInt.client_secret;
-
-        await Order.findByIdAndUpdate(order._id, order);
-      }
       return res.status(200).json({
         order,
         success: true,
