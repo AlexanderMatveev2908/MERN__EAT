@@ -85,7 +85,7 @@ const DetailsOrderUser: FC<PropsType> = ({ order }) => {
             >
               <span className="txt__02">{el.label}</span>
 
-              <span className="txt__01">{el.val}</span>
+              <span className="txt__01 justify-self-end">{el.val}</span>
             </li>
           ))}
         </DropElAbsolute>

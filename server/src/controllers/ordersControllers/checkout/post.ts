@@ -192,6 +192,12 @@ export const createOrder = async (
   const newMongoOrder = (await Order.create(newOrder)) as OrderType;
   if (!newMongoOrder) return baseErrResponse(res, 500, "Error creating order");
 
+  await Restaurant.findByIdAndUpdate(existingRestaurant._id, {
+    $push: {
+      orders: newMongoOrder._id,
+    },
+  });
+
   const stripePrice = +(
     newMongoOrder.totPrice -
     newMongoOrder.discount +

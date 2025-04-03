@@ -31,6 +31,9 @@ export const getOrderInfo = async (
     restaurant: RestaurantType;
   };
 
+  if (order.status !== "pending")
+    return baseErrResponse(res, 400, "Order is not pending");
+
   if (!checkIsOpen(restaurant))
     return baseErrResponse(
       res,
@@ -86,6 +89,9 @@ export const getOrderInfo = async (
     if (!orderItemsFresh.length) {
       await Order.findByIdAndDelete(order._id);
       await User.findByIdAndUpdate(userId, {
+        $pull: { orders: order._id },
+      });
+      await Restaurant.findByIdAndUpdate(restaurant._id, {
         $pull: { orders: order._id },
       });
       return baseErrResponse(

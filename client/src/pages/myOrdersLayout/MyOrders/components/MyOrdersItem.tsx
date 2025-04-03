@@ -44,19 +44,26 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
             const curr = buttonsMyOrders[i];
             if (
               order.status === "pending" &&
-              ![
+              [
                 ActionsMyOrdersBtns.CHECKOUT,
                 ActionsMyOrdersBtns.DELETE,
               ].includes(curr.action)
-            ) {
-              i++;
-              continue;
-            } else {
+            )
               content.push(
                 <ButtonOrder key={curr.id} {...{ el: curr, order }} />
               );
-              i++;
-            }
+            else if (
+              order.status === "confirmed" &&
+              [
+                ActionsMyOrdersBtns.REFRESH,
+                ActionsMyOrdersBtns.REFUND,
+              ].includes(curr.action)
+            )
+              content.push(
+                <ButtonOrder key={curr.id} {...{ el: curr, order }} />
+              );
+
+            i++;
           } while (i < buttonsMyOrders.length);
 
           return content;

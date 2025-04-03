@@ -1,7 +1,7 @@
 import { HydratedDocument } from "mongoose";
 import Coupon, { CouponType } from "../../../models/Coupon.js";
 import Order, { OrderItem, OrderType } from "../../../models/Order.js";
-import { RestaurantType } from "../../../models/Restaurant.js";
+import Restaurant, { RestaurantType } from "../../../models/Restaurant.js";
 import User from "../../../models/User.js";
 import { baseErrResponse } from "../../../utils/baseErrResponse.js";
 import {
@@ -41,6 +41,9 @@ export const lastCheckOrder = async (
       $pull: { orders: order._id },
     });
     await Order.findByIdAndDelete(order._id);
+    await Restaurant.findByIdAndUpdate(restaurant._id, {
+      $pull: { orders: order._id },
+    });
 
     if (order.coupon) {
       const coupon = (await Coupon.findById(
