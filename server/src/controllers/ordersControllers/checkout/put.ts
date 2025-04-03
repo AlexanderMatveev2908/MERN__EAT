@@ -17,77 +17,64 @@ export const lastCheckOrder = async (
   req: RequestWithUserId,
   res: Response
 ): Promise<any> => {
-  // const { userId } = req;
-  // const { email, firstName, lastName, ...address } = req.body;
+  const { userId } = req;
+  const { email, firstName, lastName, ...address } = req.body;
 
-  // const result = await checkDataExistOrder(req, res);
-  // if (!result) return;
-  // const { restaurant, order } = result as {
-  //   order: OrderType;
-  //   restaurant: RestaurantType;
-  // };
+  const result = await checkDataExistOrder(req, res);
+  if (!result) return;
+  const { restaurant, order } = result as {
+    order: OrderType;
+    restaurant: RestaurantType;
+  };
 
-  // if (order.status !== "pending")
-  //   return baseErrResponse(res, 400, "Order is not pending");
+  if (order.status !== "pending")
+    return baseErrResponse(res, 400, "Order is not pending");
 
-  // if (!checkIsOpen(restaurant))
-  //   return baseErrResponse(
-  //     res,
-  //     400,
-  //     "Restaurant closed or would not make in time order"
-  //   );
+  if (!checkIsOpen(restaurant))
+    return baseErrResponse(
+      res,
+      400,
+      "Restaurant closed or would not make in time order"
+    );
 
-  // const { oldQty, newQty } = await getFreshItemsStock(order);
+  const { oldQty, newQty } = await getFreshItemsStock(order);
 
-  // if (oldQty !== newQty) {
-  //   await User.findByIdAndUpdate(userId, {
-  //     $pull: { orders: order._id },
-  //   });
-  //   await Order.findByIdAndDelete(order._id);
-  //   await Restaurant.findByIdAndUpdate(restaurant._id, {
-  //     $pull: { orders: order._id },
-  //   });
+  if (oldQty !== newQty) {
+    await User.findByIdAndUpdate(userId, {
+      $pull: { orders: order._id },
+    });
+    await Order.findByIdAndDelete(order._id);
+    await Restaurant.findByIdAndUpdate(restaurant._id, {
+      $pull: { orders: order._id },
+    });
 
-  //   if (order.coupon) {
-  //     const coupon = (await Coupon.findById(
-  //       order.coupon
-  //     )) as HydratedDocument<CouponType> | null;
+    if (order.coupon) {
+      const coupon = (await Coupon.findById(
+        order.coupon
+      )) as HydratedDocument<CouponType> | null;
 
-  //     if (coupon) {
-  //       const isStillValid =
-  //         new Date(coupon.expiryDate ?? 0).getTime() > Date.now();
+      if (coupon) {
+        const isStillValid =
+          new Date(coupon.expiryDate ?? 0).getTime() > Date.now();
 
-  //       if (!isStillValid) {
-  //         coupon.isActive = false;
-  //         await coupon.save();
-  //       }
-  //     }
-  //   }
+        if (!isStillValid) {
+          coupon.isActive = false;
+          await coupon.save();
+        }
+      }
+    }
 
-  //   return baseErrResponse(res, 400, "Some items are not available anymore");
-  // }
+    return baseErrResponse(res, 400, "Some items are not available anymore");
+  }
 
-  // await Order.findByIdAndUpdate(order._id, {
-  //   $set: {
-  //     addressUser: address,
-  //     "infoUser.email": email,
-  //     "infoUser.firstName": firstName,
-  //     "infoUser.lastName": lastName,
-  //   },
-  // });
-
-  // const promises = order.items.map(async (el: OrderItem) => {
-  //   const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
-  //   //  i return just for tsc complain, i already checked in "getFreshItemsStock" that stock is ok and up to date
-  //   if (!dish) return;
-
-  //   dish.quantity -= el.quantity;
-  //   await Dish.findByIdAndUpdate(el.dishId, {
-  //     $set: { quantity: dish.quantity },
-  //   });
-  // });
-
-  // await Promise.all(promises);
+  await Order.findByIdAndUpdate(order._id, {
+    $set: {
+      addressUser: address,
+      "infoUser.email": email,
+      "infoUser.firstName": firstName,
+      "infoUser.lastName": lastName,
+    },
+  });
 
   return res.status(200).json({
     success: true,

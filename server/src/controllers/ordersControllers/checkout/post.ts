@@ -13,6 +13,7 @@ import Order, { OrderItem, OrderType } from "../../../models/Order.js";
 import { ImageType } from "../../../models/Image.js";
 import { uploadCloudURL } from "../../../utils/cloud.js";
 import { createPaymentInt } from "../../../utils/stripe.js";
+import mongoose from "mongoose";
 
 // WHEN OPEN
 // if (open <= currTime && close > currTime)
@@ -223,9 +224,9 @@ export const createOrder = async (
   await User.findByIdAndUpdate(userId, {
     $set: {
       cart: null,
-      orders: user.orders?.length
-        ? [...user.orders, newMongoOrder._id]
-        : [newMongoOrder._id],
+      orders: user.orders?.includes(newMongoOrder._id as any)
+        ? user.orders
+        : [...user.orders, newMongoOrder._id],
     },
   });
 

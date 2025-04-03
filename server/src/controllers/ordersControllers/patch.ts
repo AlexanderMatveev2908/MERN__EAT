@@ -25,7 +25,7 @@ export const refundOrder = async (
     return baseErrResponse(res, 400, "Order is already being processing");
 
   try {
-    const refund = await stripe.refunds.create({
+    await stripe.refunds.create({
       payment_intent: order.paymentId as string,
     });
 
