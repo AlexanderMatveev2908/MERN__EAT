@@ -5,10 +5,8 @@ import {
   fieldDeliveryMyOrders,
   fieldItemsMyOrders,
   fieldMoneyMyOrders,
-  fieldMyAddressMyOrders,
   showFieldsDelivery,
   showFieldsMoneyMyOrders,
-  showMyAddressInOrder,
 } from "../../../../core/config/fieldsArr/allFields/myOrders/show";
 import { IDPopulatedOrder, OrderItem } from "../../../../types/allTypes/orders";
 import {
@@ -17,6 +15,7 @@ import {
 } from "../../../../utils/allUtils/priceFormatter";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { GiMatterStates } from "react-icons/gi";
 
 type PropsType = {
   order: OrderType;
@@ -34,18 +33,6 @@ const DetailsOrderUser: FC<PropsType> = ({ order }) => {
           <span className="txt__01">{order.restaurantName}</span>
         </Link>
       </li>
-
-      <DropElAbsolute
-        {...{
-          el: fieldMyAddressMyOrders,
-        }}
-      >
-        {showMyAddressInOrder(order.addressUser).map((el) => (
-          <li key={el.id} className="w-full items-center">
-            <span className="txt__01">{el.val}</span>
-          </li>
-        ))}
-      </DropElAbsolute>
 
       <DropElAbsolute {...{ el: fieldItemsMyOrders }}>
         {order.items.map((el: OrderItem) => (
@@ -103,7 +90,30 @@ const DetailsOrderUser: FC<PropsType> = ({ order }) => {
           ))}
         </DropElAbsolute>
       )}
+
+      <div className="w-full grid grid-cols-2">
+        <div className="w-fit flex gap-5 justify-start items-center">
+          <GiMatterStates className="min-w-[25px] min-h-[25px]" />
+          <span className="txt__02">
+            {order.status.at(0)?.toUpperCase() + order.status.slice(1)}
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
 export default DetailsOrderUser;
+
+{
+  /* <DropElAbsolute
+        {...{
+          el: fieldMyAddressMyOrders,
+        }}
+      >
+        {showMyAddressInOrder(order.addressUser).map((el) => (
+          <li key={el.id} className="w-full items-center">
+            <span className="txt__01">{el.val}</span>
+          </li>
+        ))}
+      </DropElAbsolute> */
+}

@@ -14,7 +14,7 @@ export const searchFieldsMyOrders = [
     field: "id",
     label: "Id",
   },
-];
+].map((el) => ({ ...el, id: genID() }));
 
 const ordersFieldsArr: BaseFieldType[] = [...ordersStatus].map((el) => ({
   field: el,

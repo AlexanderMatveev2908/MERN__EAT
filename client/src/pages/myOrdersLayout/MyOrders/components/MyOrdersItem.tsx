@@ -1,9 +1,14 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { OrderType } from "../../../../types/types";
 import HeaderIDItem from "../../../../UI/components/cards/HeaderIDItem";
 import HeaderImgs from "../../../../UI/components/cards/HeaderImgs";
 import AdminLink from "../../../../UI/components/cards/AdminLink";
 import DetailsOrderUser from "../../../../UI/components/cards/orders/DetailsOrderUser";
+import {
+  ActionsMyOrdersBtns,
+  buttonsMyOrders,
+} from "../../../../core/config/fieldsArr/allFields/myOrders/show";
+import ButtonOrder from "./ButtonOrder";
 
 type PropsType = {
   order: OrderType;
@@ -28,6 +33,34 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
             <DetailsOrderUser {...{ order }} />
           </div>
         </div>
+      </div>
+
+      <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] px-3 mt-2 gap-y-4">
+        {(() => {
+          const content: ReactNode[] = [];
+
+          let i = 0;
+          do {
+            const curr = buttonsMyOrders[i];
+            if (
+              order.status === "pending" &&
+              ![
+                ActionsMyOrdersBtns.CHECKOUT,
+                ActionsMyOrdersBtns.DELETE,
+              ].includes(curr.action)
+            ) {
+              i++;
+              continue;
+            } else {
+              content.push(
+                <ButtonOrder key={curr.id} {...{ el: curr, order }} />
+              );
+              i++;
+            }
+          } while (i < buttonsMyOrders.length);
+
+          return content;
+        })()}
       </div>
     </div>
   );
