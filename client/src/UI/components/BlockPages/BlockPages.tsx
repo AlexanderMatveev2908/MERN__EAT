@@ -3,7 +3,7 @@ import { FC } from "react";
 import { useBlockPages } from "./useBlockPages";
 
 export type PropsType = {
-  totPages?: number;
+  totPages: number;
   currPage: number;
   setCurrPage: (val: number) => void;
 };

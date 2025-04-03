@@ -47,5 +47,6 @@ export const pollingOrderAPI = async (
 
 export const getMyOrdersAPI = (
   params: URLSearchParams
-): Promise<ReturnAPIBasic & GetElsQueriedReturnType & { orders: OrderType }> =>
-  destructureDataAPI(() => foodAppInstance.get(`/my-orders?${params}`));
+): Promise<
+  ReturnAPIBasic & GetElsQueriedReturnType & { orders: OrderType[] }
+> => destructureDataAPI(() => foodAppInstance.get(`/my-orders?${params}`));

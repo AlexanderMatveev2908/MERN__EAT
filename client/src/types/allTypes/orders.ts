@@ -46,6 +46,8 @@ export type OrderType = {
   discount: number;
   coupon: string | null;
   status: OrderStatus;
+
+  isAdmin: boolean;
 };
 
 export type SearchMyOrders = SearchBarForm &
