@@ -10,8 +10,9 @@ import TooltipEL from "../../../UI/components/TooltipEL";
 import DropElAbsolute from "../../../UI/components/DropElAbsolute";
 import { showCatRestMyDishes } from "../../../core/config/fieldsArr/allFields/MyDishes/show";
 import { IDPopulatedOrder } from "../../../types/allTypes/orders";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DetailsOrderUser from "../../../UI/components/cards/orders/DetailsOrderUser";
+import { useFormsCustom } from "../../../core/hooks/useGlobal";
 
 type PropsType = {
   order: OrderType;
@@ -19,17 +20,30 @@ type PropsType = {
 
 const ManageOrderItem: FC<PropsType> = ({ order }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const { formContextSearchMyOrders } = useFormsCustom();
+  const handleClickIsAdmin = () => {
+    const { setValue } = formContextSearchMyOrders;
+
+    setValue("searchVals", ["id"]);
+    setValue("search", order._id as string);
+    navigate("/my-orders");
+  };
 
   return (
     <div className="card__el_grid border-orange-500 relative">
       {order.isAdmin && (
-        <div className="absolute min-w-[150px] min-h-[50px] border-2 border-orange-500 rounded-xl bg-[#000] top-0 -translate-y-3/4 -right-6 z-20 flex gap-5 items-center px-3 pr-10 group cursor-pointer">
+        <button
+          onClick={handleClickIsAdmin}
+          className="absolute min-w-[150px] min-h-[50px] border-2 border-orange-500 rounded-xl bg-[#000] top-0 -translate-y-3/4 -right-6 z-20 flex gap-5 items-center px-3 pr-10 group cursor-pointer"
+        >
           <MdAdminPanelSettings className="icon__base el__flow group-hover:text-orange-500" />
 
           <span className="txt__02 el__flow group-hover:text-orange-500">
             My order
           </span>
-        </div>
+        </button>
       )}
 
       <div className="w-full flex flex-col">
