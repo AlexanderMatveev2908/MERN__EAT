@@ -37,17 +37,18 @@ const TooltipEL: FC<PropsType> = ({ txt, label }) => {
   };
 
   return (
-    <div className="relative group flex items-center">
+    <div className="relative group flex items-center max-w-full">
       <button
         type="button"
         ref={elToCpyRef}
         onClick={handleCopyId}
-        className="el__flow cursor-pointer hover:text-orange-500 outline-none"
+        className="el__flow cursor-pointer hover:text-orange-500 outline-none max-w-full"
       >
-        <span className="txt__01 block overflow-x-auto sm:max-w-[200px] hide_scrollbar">
+        <span className="txt__01 block overflow-x-auto hide_scrollbar">
           {txt}
         </span>
       </button>
+
       <span
         ref={toolRef}
         className="absolute lg:text-lg px-4 py-1 -top-full left-1/4 border-2 border-orange-500 rounded-xl w-full whitespace-nowrap bg-[#111] pointer-events-none z-20 txt__00 max-w-fit px-6 min-w-[150px] opacity-0"
