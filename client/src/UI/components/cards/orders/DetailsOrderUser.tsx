@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { OrderType } from "../../../../types/types";
 import DropElAbsolute from "../../DropElAbsolute";
 import {
@@ -13,27 +13,17 @@ import {
   calcTotPriceItem,
   priceFormatter,
 } from "../../../../utils/allUtils/priceFormatter";
-import { FaExternalLinkAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { GiMatterStates } from "react-icons/gi";
 
 type PropsType = {
   order: OrderType;
+  children?: ReactNode;
 };
 
-const DetailsOrderUser: FC<PropsType> = ({ order }) => {
+const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
   return !order ? null : (
     <div className="w-full grid gap-3">
-      <li className="w-full grid grid-cols-[80px_1fr]">
-        <Link
-          to={`/search/${(order.restaurantId as IDPopulatedOrder)._id}`}
-          className="w-fit el__after_below el__flow cursor-pointer hover:text-orange-500 flex gap-5 justify-start items-center"
-        >
-          <FaExternalLinkAlt className="icon__base" />
-          <span className="txt__01">{order.restaurantName}</span>
-        </Link>
-      </li>
-
+      {children}
       <DropElAbsolute {...{ el: fieldItemsMyOrders }}>
         {order.items.map((el: OrderItem) => (
           <li
