@@ -7,11 +7,13 @@ import { useEffect, useState } from "react";
 import { tailwindBreak } from "../../config/constants/breakpoints";
 import {
   REG_P_DISHES,
+  REG_P_MANAGE_ORD,
   REG_P_MY_ORD,
   REG_P_MY_REST,
   REG_P_SEARCH,
 } from "../../config/constants/regex";
 import { searchFieldsMyOrders } from "../../config/fieldsArr/allFields/myOrders/filterSort";
+import { searchFieldsManageOrders } from "../../config/fieldsArr/allFields/manageOrders/filterSort";
 
 export const getTargetConfig = (path: string) => {
   let target = "";
@@ -33,24 +35,10 @@ export const getTargetConfig = (path: string) => {
     target = "order";
     arrToCheck = searchFieldsMyOrders;
   }
-
-  // switch (path) {
-  //   case "/search":
-  //     target = "restaurant";
-  //     arrToCheck = searchRestFieldsSearch;
-  //     break;
-  //   case "/my-restaurants":
-  //     target = "restaurant";
-  //     arrToCheck = myRestFieldsSearch;
-  //     break;
-  //   case "/my-dishes":
-  //     target = "dish";
-  //     arrToCheck = myDishesFieldsSearch;
-  //     break;
-  //   default:
-  //     target = "";
-  //     arrToCheck = [];
-  // }
+  if (REG_P_MANAGE_ORD.test(path)) {
+    target = "order";
+    arrToCheck = searchFieldsManageOrders;
+  }
 
   return {
     target,

@@ -13,7 +13,6 @@ export type OrderItem = {
 };
 
 export const ordersStatusArr = [
-  ,
   "pending",
   "confirmed",
   "processing",

@@ -100,7 +100,7 @@ export const useFormsVals = () => {
       ? {
           ...JSON.parse(savedValsManageOrders),
         }
-      : defaultValuesManageOrdersSearch,
+      : { ...defaultValuesManageOrdersSearch },
   });
 
   return {
