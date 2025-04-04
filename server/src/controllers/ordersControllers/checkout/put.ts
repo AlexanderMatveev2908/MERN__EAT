@@ -10,7 +10,6 @@ import {
 } from "../../../utils/orders/refreshOrder.js";
 import { RequestWithUserId } from ".././../../middleware/general/verifyAccessToken.js";
 import { Response } from "express";
-import Dish, { DishType } from "../../../models/Dish.js";
 import { makeMongoId } from "../../../utils/dbPipeline/general.js";
 
 export const lastCheckOrder = async (

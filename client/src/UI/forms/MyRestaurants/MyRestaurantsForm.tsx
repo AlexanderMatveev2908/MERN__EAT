@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, FormEvent, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmin";
 import ContactForm from "./components/ContactForm/ContactForm";
@@ -13,8 +13,10 @@ import ButtonAnimated from "../../components/buttons/ButtonAnimated";
 
 type PropsType = {
   formContext: UseFormReturn<MyRestaurantsAddUpdateFormType>;
-  handleSave: () => void;
+  handleSave: (e: FormEvent) => void;
   isPending: boolean;
+  currFormAddress: number;
+  setCurrFormAddress: React.Dispatch<SetStateAction<number>>;
 };
 
 export type PropsTypeFormContextRestaurants = {
@@ -25,6 +27,8 @@ const MyRestaurantsForm: FC<PropsType> = ({
   formContext,
   handleSave,
   isPending,
+  currFormAddress,
+  setCurrFormAddress,
 }) => {
   const location = useLocation();
 
@@ -37,7 +41,13 @@ const MyRestaurantsForm: FC<PropsType> = ({
 
       <ImagesRestaurant {...{ formContext }} />
 
-      <AddressForm {...{ formContext }} />
+      <AddressForm
+        {...{
+          formContext,
+          currForm: currFormAddress,
+          setCurrForm: setCurrFormAddress,
+        }}
+      />
 
       <ContactForm {...{ formContext }} />
 

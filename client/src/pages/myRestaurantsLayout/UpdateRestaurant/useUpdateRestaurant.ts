@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import { MyRestaurantsAddUpdateFormType } from "../../../types/allTypes/restAdmin";
-import { useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   getInfoRestaurantAPI,
@@ -14,10 +14,12 @@ import { formatTimeHmMh } from "../../../utils/utils";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useDeleteRestaurant } from "../../../core/hooks/myRestaurants/useDeleteRestaurant";
 import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
+import { myRestaurantsAddressByArea } from "../../../core/config/fieldsArr/fields";
 
 export const useUpdateRestaurant = () => {
   const { restId } = useParams();
   const navigate = useNavigate();
+  const [currFormAddress, setCurrFormAddress] = useState(0);
 
   const canStay = REG_MONGO.test(restId ?? "");
 
@@ -91,13 +93,45 @@ export const useUpdateRestaurant = () => {
     },
   });
 
-  const handleSave = formContext.handleSubmit(
-    (data: MyRestaurantsAddUpdateFormType) => {
-      const formData = prepareFormDataMyRest(data);
+  const handleSave = (e: FormEvent) => {
+    e?.preventDefault();
 
-      mutate({ id: restId ?? "", formData });
+    e.preventDefault();
+
+    const vals = formContext.getValues();
+    let isValid = true;
+    let i = 0;
+
+    do {
+      const curr = myRestaurantsAddressByArea[i];
+
+      for (const key in vals) {
+        const innerCurr = curr.find((el) => el.field === key);
+        if (innerCurr && !innerCurr.reg.test(vals[key])) {
+          isValid = false;
+          break;
+        }
+      }
+
+      if (!isValid) break;
+
+      i++;
+    } while (i < myRestaurantsAddressByArea.length);
+
+    if (!isValid) {
+      setCurrFormAddress(i);
+
+      formContext.trigger();
+
+      const swapAddRestForm = document.getElementById("addressSwapUpdateRest");
+      const top = swapAddRestForm?.offsetTop;
+
+      window.scrollTo({ top: top, behavior: "smooth" });
+    } else {
+      const formData = prepareFormDataMyRest(vals);
+      mutate({ formData, id: restId ?? "" });
     }
-  );
+  };
 
   const { handleClickToOpenPopup } = useDeleteRestaurant();
 
@@ -112,5 +146,7 @@ export const useUpdateRestaurant = () => {
     isSuccessInfo:
       isSuccessInfo && Object.keys(dataInfo?.restaurant ?? {}).length,
     errorInfo,
+    currFormAddress,
+    setCurrFormAddress,
   };
 };
