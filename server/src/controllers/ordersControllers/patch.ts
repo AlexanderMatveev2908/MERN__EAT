@@ -22,7 +22,7 @@ export const refundOrder = async (
   if (!order) return baseErrResponse(res, 404, "Order not found");
 
   if (order.status !== "confirmed")
-    return baseErrResponse(res, 400, "Order is already being processing");
+    return baseErrResponse(res, 400, "Invalid status order");
 
   try {
     await stripe.refunds.create({
@@ -32,7 +32,6 @@ export const refundOrder = async (
     order.status = "cancelled";
     await order.save();
   } catch (err) {
-    console.log(err);
     return baseErrResponse(res, 500, "Refund failed");
   }
 

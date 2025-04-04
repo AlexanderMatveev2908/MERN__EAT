@@ -53,14 +53,15 @@ export const getUserProfileDetails = (req, res) => __awaiter(void 0, void 0, voi
     return res.status(200).json({ success: true, user });
 });
 export const updateProfileDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { userId } = req;
-    const _a = req.body, { firstName, lastName } = _a, address = __rest(_a, ["firstName", "lastName"]);
+    const _b = req.body, { firstName, lastName } = _b, address = __rest(_b, ["firstName", "lastName"]);
     const user = yield User.findById(userId);
     if (!user)
         return userNotFound(res);
     const restaurantsUser = yield Restaurant.find({
         owner: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
-        "contact.phone": user.address.phone,
+        "contact.phone": (_a = user === null || user === void 0 ? void 0 : user.address) === null || _a === void 0 ? void 0 : _a.phone,
     });
     if (restaurantsUser.length) {
         const promises = restaurantsUser.map((el) => __awaiter(void 0, void 0, void 0, function* () {

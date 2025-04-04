@@ -27,7 +27,7 @@ export const lastCheckOrder = async (
     restaurant: RestaurantType;
   };
 
-  if (order.status !== "pending")
+  if (order?.status !== "pending")
     return baseErrResponse(res, 400, "Order is not pending");
 
   if (!checkIsOpen(restaurant))

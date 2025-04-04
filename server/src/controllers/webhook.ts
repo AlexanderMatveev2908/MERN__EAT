@@ -32,8 +32,10 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
     paymentClientSecret: paymentInt.client_secret,
     paymentId: paymentInt.id,
   })) as HydratedDocument<OrderType> | null;
-
   if (!order) return baseErrResponse(res, 404, "Order not found");
+
+  const restaurant = await Restaurant.findById(order?.restaurantId);
+  if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
 
   if (paymentStatus === "succeeded" && order.status === "pending") {
     order.status = "confirmed";

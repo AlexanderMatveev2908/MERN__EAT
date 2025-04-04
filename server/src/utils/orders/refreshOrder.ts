@@ -37,7 +37,7 @@ export const checkDataExistOrder = async (
     const order = (await Order.findOne({
       _id: makeMongoId(orderId as string),
       userId: makeMongoId(userId as string),
-    }).lean()) as unknown as OrderType;
+    }).lean()) as OrderType | null;
 
     if (!order) {
       await User.findByIdAndUpdate(userId, {
@@ -49,6 +49,7 @@ export const checkDataExistOrder = async (
     const restaurant = (await Restaurant.findById(
       order.restaurantId
     ).lean()) as RestaurantType | null;
+
     if (!restaurant) {
       await Order.findByIdAndDelete(order._id);
       await User.findByIdAndUpdate(userId, {
