@@ -6,6 +6,7 @@ import { MdDiscount } from "react-icons/md";
 import { FaDatabase, FaMoneyBillWave } from "react-icons/fa";
 import { BaseFieldType } from "../../typesFields";
 import { ordersStatus } from "../MyRestaurants/filterSort";
+import { IoMdTime } from "react-icons/io";
 
 export const searchFieldsManageOrders = [
   {
@@ -18,19 +19,19 @@ export const searchFieldsManageOrders = [
   },
   {
     field: "restaurantName",
-    label: "restaurant name",
+    label: "Restaurant name",
   },
   {
     field: "country",
-    label: "country of the restaurant",
+    label: "Country",
   },
   {
     field: "state",
-    label: "state of the restaurant",
+    label: "State",
   },
   {
     field: "city",
-    label: "city of the restaurant",
+    label: "City",
   },
 ].map((el) => ({
   ...el,
@@ -69,10 +70,10 @@ export const manageOrdersFilters = [
 }));
 
 export const manageOrdersSorters = [
-  { field: "createdAtSort", label: "Created at", icon: FaDatabase },
-  { field: "updatedAtSort", label: "Updated at", icon: FaDatabase },
+  { field: "createdAtSort", label: "Created at", icon: IoMdTime },
+  { field: "updatedAtSort", label: "Updated at", icon: IoMdTime },
   { field: "priceSort", label: "Tot Price order", icon: FaMoneyBillWave },
-  { field: "quantitySort", label: "Tot quantity order", icon: FaMoneyBillWave },
+  { field: "quantitySort", label: "Tot quantity order", icon: FaDatabase },
   { field: "discountSort", label: "Discount order", icon: MdDiscount },
 ].map((el) => ({
   ...el,

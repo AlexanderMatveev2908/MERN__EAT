@@ -19,6 +19,7 @@ import { logReq } from "../middleware/onlyDev/logQuery.js";
 import cartRouter from "./allRoutes/cart.js";
 import ordersRouter from "./allRoutes/orders.js";
 import { webhook } from "../controllers/webhook.js";
+import routerManageOrders from "./allRoutes/manageOrders.js";
 
 const router = express.Router();
 
@@ -43,6 +44,7 @@ router.use("/my-dishes", verifyAccessToken, routerMyDishes);
 router.use("/search", searchRouter);
 router.use("/my-cart", cartRouter);
 router.use("/my-orders", ordersRouter);
+router.use("/manage-orders", verifyAccessToken, routerManageOrders);
 
 if (isDev) router.use("/proxy", asyncWrapper(proxyRouter));
 
