@@ -8,8 +8,8 @@ import User from "../../../models/User.js";
 import { createPaymentInt } from "../../../utils/stripe.js";
 import {
   checkIsOpen,
+  clearOrder,
   getFreshItemsStock,
-  handleOutStock,
 } from "../../../utils/orders/refreshOrder.js";
 import { stripe } from "../../../config/stripe.js";
 
@@ -35,13 +35,7 @@ export const getOrderInfo = async (
   const restaurant = (await Restaurant.findById(
     order.restaurantId
   ).lean()) as RestaurantType | null;
-  if (!restaurant) {
-    await Order.findByIdAndDelete(order._id);
-    await User.findByIdAndUpdate(userId, {
-      $pull: { orders: order._id },
-    });
-    return baseErrResponse(res, 404, "Restaurant not found");
-  }
+  if (!restaurant) return clearOrder(res, order);
 
   if (order.status !== "pending")
     return baseErrResponse(res, 400, "Order is not pending");
@@ -54,8 +48,7 @@ export const getOrderInfo = async (
     );
 
   const { oldQty, newQty } = await getFreshItemsStock(order);
-  if (newQty !== oldQty)
-    return handleOutStock(res, userId as string, order, restaurant);
+  if (newQty !== oldQty) return clearOrder(res, order, restaurant);
 
   const existingPaymentInt = await stripe.paymentIntents.retrieve(
     order.paymentId ?? ""

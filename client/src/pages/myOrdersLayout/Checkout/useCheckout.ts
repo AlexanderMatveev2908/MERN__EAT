@@ -70,7 +70,7 @@ export const useCheckout = () => {
       }
     }
     if (isErrorInfo) {
-      handleErrAPI({ err: errorInfo as ErrFoodApp });
+      handleErrAPI({ err: errorInfo as ErrFoodApp, push: true });
     }
   }, [
     dataInfo,
