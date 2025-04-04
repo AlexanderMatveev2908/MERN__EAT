@@ -53,7 +53,7 @@ export const createURLParamsMyDishes = (formDataHook) => {
     if (!genericCheck(pair, formDataHook)) continue;
 
     if (Array.isArray(pair[1])) {
-      if (pair[1]?.length) params.append(pair[0], pair[1].join(", "));
+      if (pair[1]?.length) params.append(pair[0], pair[1].join(","));
     } else {
       if (["minPrice", "maxPrice"].includes(pair[0])) {
         if (!REG_PRICE.test((pair[1] as string) ?? "")) continue;
