@@ -2,12 +2,10 @@ import Order, { OrderItem, OrderType } from "../../models/Order.js";
 import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
 
 import Dish, { DishType } from "../../models/Dish.js";
-import Coupon, { CouponType } from "../../models/Coupon.js";
-import { stripe } from "../../config/stripe.js";
+import Coupon from "../../models/Coupon.js";
 import { ImageType } from "../../models/Image.js";
 import { deleteCloud } from "../cloud.js";
 import User from "../../models/User.js";
-import { HydratedDocument } from "mongoose";
 import { baseErrResponse } from "../baseErrResponse.js";
 import { Response } from "express";
 
