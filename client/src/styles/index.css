@@ -359,7 +359,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .container__cards__grid {
-  @apply w-full grid grid-cols-1 justify-items-center gap-10 mt-5 items-start sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))];
+  @apply w-full grid grid-cols-1 justify-items-center gap-10 items-start sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))];
 }
 
 .card__el {

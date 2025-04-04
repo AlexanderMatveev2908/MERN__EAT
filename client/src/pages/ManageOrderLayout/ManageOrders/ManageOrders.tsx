@@ -46,8 +46,6 @@ const ManageOrders: FC = () => {
 
   const { nHits, totPages, orders, totDocuments } = data ?? {};
 
-  console.log(data);
-
   return (
     <div className="w-full grid justify-items-center">
       <FormProvider {...formContext}>
@@ -83,7 +81,7 @@ const ManageOrders: FC = () => {
         <ErrEmoji {...{ err: error }} />
       ) : (
         !!orders?.length && (
-          <div className="container__cards__grid">
+          <div className="container__cards__grid mt-10">
             {orders.map((el: OrderType) => (
               <ManageOrderItem key={el._id} {...{ order: el }} />
             ))}

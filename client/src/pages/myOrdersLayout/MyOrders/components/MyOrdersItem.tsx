@@ -9,6 +9,9 @@ import {
   buttonsMyOrders,
 } from "../../../../core/config/fieldsArr/allFields/myOrders/show";
 import ButtonOrder from "./ButtonOrder";
+import { Link } from "react-router-dom";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { IDPopulatedOrder } from "../../../../types/allTypes/orders";
 
 type PropsType = {
   order: OrderType;
@@ -30,7 +33,17 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
 
         <div className="w-full grid grid-cols-1 h-full">
           <div className="pt-3 w-full el__flow grid grid-cols-1 gap-3 items-start h-full px-3 sm:pr-2 sm:pl-0">
-            <DetailsOrderUser {...{ order }} />
+            <DetailsOrderUser {...{ order }}>
+              <li className="w-full grid grid-cols-[80px_1fr]">
+                <Link
+                  to={`/search/${(order.restaurantId as IDPopulatedOrder)._id}`}
+                  className="w-fit el__after_below el__flow cursor-pointer hover:text-orange-500 flex gap-5 justify-start items-center"
+                >
+                  <FaExternalLinkAlt className="icon__base" />
+                  <span className="txt__01">{order.restaurantName}</span>
+                </Link>
+              </li>
+            </DetailsOrderUser>
           </div>
         </div>
       </div>
