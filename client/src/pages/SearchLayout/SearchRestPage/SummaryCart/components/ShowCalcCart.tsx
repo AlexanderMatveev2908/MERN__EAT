@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from "react";
 import {
   CartType,
@@ -13,8 +14,8 @@ type PropsType = {
 };
 
 const ShowCalcCart: FC<PropsType> = ({ cart, rest }) => {
-  const isFreeDelivery =
-    (cart?.totPrice ?? 0) >= rest.delivery.freeDeliveryPrice;
+  const isFreeDelivery = ((cart?.totPrice ?? (0 as any)) >=
+    rest.delivery.freeDeliveryPrice) as unknown as number;
 
   return (
     <div className="w-full flex flex-col gap-2">
@@ -30,14 +31,19 @@ const ShowCalcCart: FC<PropsType> = ({ cart, rest }) => {
           <div className="w-full flex justify-between items-center">
             <span className="txt__01">Delivery</span>
             <span className="txt__01">
-              {priceFormatter({ price: rest.delivery.price })}
+              {priceFormatter({
+                price: rest.delivery.price as unknown as number,
+              })}
             </span>
           </div>
 
           <div className="w-full flex justify-between items-center">
             <span className="txt__01">Total</span>
             <span className="txt__01">
-              {calcTotWithDelivery(cart?.totPrice ?? 0, rest.delivery.price)}
+              {calcTotWithDelivery(
+                cart?.totPrice ?? 0,
+                rest.delivery.price as unknown as number
+              )}
             </span>
           </div>
         </>

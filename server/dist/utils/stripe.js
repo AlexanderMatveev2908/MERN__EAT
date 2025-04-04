@@ -12,7 +12,7 @@ export const createPaymentInt = (stripePrice) => __awaiter(void 0, void 0, void 
     let paymentIntent = null;
     try {
         paymentIntent = yield stripe.paymentIntents.create({
-            amount: stripePrice * 100,
+            amount: +(stripePrice * 100).toFixed(2),
             currency: "usd",
             payment_method_types: ["card"],
         });

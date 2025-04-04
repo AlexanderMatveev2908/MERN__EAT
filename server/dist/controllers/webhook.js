@@ -12,6 +12,7 @@ import { stripe } from "../config/stripe.js";
 import { isDev } from "../config/currMode.js";
 import Order from "../models/Order.js";
 import Restaurant from "../models/Restaurant.js";
+import Dish from "../models/Dish.js";
 export const webhook = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sig = req.headers["stripe-signature"];
     if (!sig)
@@ -31,14 +32,32 @@ export const webhook = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }));
     if (!order)
         return baseErrResponse(res, 404, "Order not found");
-    if (paymentStatus === "succeeded") {
+    const restaurant = yield Restaurant.findById(order === null || order === void 0 ? void 0 : order.restaurantId);
+    if (!restaurant)
+        return baseErrResponse(res, 404, "Restaurant not found");
+    if (paymentStatus === "succeeded" && order.status === "pending") {
         order.status = "confirmed";
-        const restaurant = yield Restaurant.findById(order.restaurantId);
-        if (!restaurant)
-            return baseErrResponse(res, 404, "Restaurant not found");
-        restaurant.orders.push(order._id);
-        yield restaurant.save();
+        yield order.save();
+        const promises = order.items.map((el) => __awaiter(void 0, void 0, void 0, function* () {
+            const dish = (yield Dish.findById(el.dishId).lean());
+            //  i return just for tsc complain, i already checked in "getFreshItemsStock" that stock is ok and up to date
+            if (!dish)
+                return;
+            dish.quantity -= el.quantity;
+            yield Dish.findByIdAndUpdate(el.dishId, {
+                $set: { quantity: dish.quantity },
+            });
+        }));
+        yield Promise.all(promises);
+        yield Restaurant.updateMany({}, [
+            {
+                $set: {
+                    orders: {
+                        $setUnion: ["$orders", "$orders"],
+                    },
+                },
+            },
+        ]);
     }
-    yield order.save();
     return res.status(200).json({ received: true });
 });

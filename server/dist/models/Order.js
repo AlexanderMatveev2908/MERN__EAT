@@ -1,7 +1,15 @@
 import mongoose from "mongoose";
 import { ImageSchema } from "./Image.js";
 import { AddressSchema } from "./User.js";
-import { ContactRestaurantSchema } from "./Restaurant.js";
+export const ordersStatusArr = [
+    ,
+    "pending",
+    "confirmed",
+    "processing",
+    "shipped",
+    "delivered",
+    "cancelled",
+];
 const OrderItemSchema = new mongoose.Schema({
     dishId: {
         type: mongoose.Types.ObjectId,
@@ -42,7 +50,10 @@ const OrderSchema = new mongoose.Schema({
         ref: "Restaurant",
         default: null,
     },
-    contactRestaurant: ContactRestaurantSchema,
+    restaurantName: {
+        type: String,
+        required: true,
+    },
     infoUser: {
         firstName: {
             type: String,

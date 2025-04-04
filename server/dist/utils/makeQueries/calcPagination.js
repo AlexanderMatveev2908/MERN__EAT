@@ -4,5 +4,5 @@ export const calcPagination = (req) => {
     const page = currPage ? +currPage : 1;
     // in my middleware i already converted vals to number and i am sure they will be sent or i return 400, i converted and give them fallback again just for tsc complain
     const skip = (+page - 1) * limit;
-    return { limit: limit, skip };
+    return { limit, skip };
 };
