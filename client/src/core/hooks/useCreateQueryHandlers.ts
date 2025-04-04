@@ -142,13 +142,15 @@ export const useCreateQueryHandlers = ({
     setCloseAllDrop(true);
     setCurrPageBeforeCb(val);
 
-    const el = document.getElementById(id!);
-    const h = el?.offsetTop;
+    setTimeout(() => {
+      const el = document.getElementById(id!);
+      const h = el?.offsetTop;
 
-    window.scrollTo({
-      top: (h ?? 0) + (el?.getBoundingClientRect()?.height ?? 0),
-      behavior: "smooth",
-    });
+      window.scrollTo({
+        top: (h ?? 0) + (el?.getBoundingClientRect()?.height ?? 0),
+        behavior: "smooth",
+      });
+    }, 100);
   };
 
   return {

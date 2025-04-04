@@ -48,7 +48,7 @@ const ManageOrderItem: FC<PropsType> = ({ order }) => {
         />
 
         <ul
-          className={`w-full el__flow grid grid-cols-1 gap-3 px-3 ${
+          className={`w-full el__flow grid grid-cols-1 gap-4 px-3 ${
             isOpen
               ? "opacity-100 max-h-[500px] pointer-events-auto pt-3"
               : "opacity-0 max-h-0 pointer-events-none"
@@ -72,7 +72,7 @@ const ManageOrderItem: FC<PropsType> = ({ order }) => {
               <span className="txt__01">Id</span>
             </div>
 
-            <div className="flex w-full justify-end">
+            <div className="flex w-full justify-start max-w-[95%]">
               <TooltipEL
                 {...{
                   txt: (order.restaurantId as IDPopulatedOrder)._id,

@@ -1,4 +1,4 @@
-import { OrderType } from "../../models/Order.js";
+import { OrderItem, OrderType } from "../../models/Order.js";
 
 export const sortOrders = (
   orders: OrderType[],
@@ -15,12 +15,22 @@ export const sortOrders = (
         ? a.totPrice + a.delivery - a.discount
         : ["createdAt", "updatedAt"].includes(label)
         ? new Date(a[label as keyof OrderType] + "").getTime()
+        : label === "quantity"
+        ? a.items.reduce(
+            (acc: number, curr: OrderItem) => acc + curr.quantity,
+            0
+          )
         : a[label as keyof OrderType];
     const valB =
       label === "price"
         ? b.totPrice + b.delivery - b.discount
         : ["createdAt", "updatedAt"].includes(label)
         ? new Date(b[label as keyof OrderType] + "").getTime()
+        : label === "quantity"
+        ? b.items.reduce(
+            (acc: number, curr: OrderItem) => acc + curr.quantity,
+            0
+          )
         : b[label as keyof OrderType];
 
     if (valA === valB) return sortRecursive(a, b, i + 1);
