@@ -48,11 +48,10 @@ export const createOrder = async (
     return baseErrResponse(res, 404, "Restaurant not found or activity closed");
   }
 
-  const open = existingRestaurant.openHours.openTime;
-  const close = existingRestaurant.openHours.closeTime;
-
   // IMPORTANT => ALL COULD BE SKIP WITH DATE GET HOURS AND DATE GET MINUTES BUT I WANTED EXERCISE WORKING WITH DATES
   // ms from 1 jan 1970
+  const open = existingRestaurant.openHours.openTime;
+  const close = existingRestaurant.openHours.closeTime;
   const now = new Date();
   const mid = new Date(
     now.getFullYear(),
@@ -68,12 +67,10 @@ export const createOrder = async (
     (now.getTime() - mid.getTime()) / 1000 / 60 +
     existingRestaurant.delivery.estTimeDelivery;
   let isOpen = true;
-
   if (close !== open) {
     if (open < close) isOpen = currTime >= open && currTime < close;
     else isOpen = currTime >= open || currTime < close;
   }
-
   if (!isOpen)
     return baseErrResponse(
       res,
@@ -81,8 +78,84 @@ export const createOrder = async (
       "Restaurant closed or delivery time too long for his close time programmed"
     );
 
-  let couponSaved: HydratedDocument<CouponType> | null = null;
+  const orderItems: Partial<OrderItem>[] = await Promise.all(
+    cart.items.map(async (el: CartItem) => {
+      const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
+      if (!dish || !dish.quantity) return null;
 
+      const images: string[] = dish.images.map((img: ImageType) => img.url);
+
+      return {
+        name: dish.name,
+        price: dish.price,
+        dishId: dish._id,
+        images,
+        quantity: Math.min(el.quantity, dish.quantity),
+      };
+    })
+  ).then((items) => items.filter((el) => !!el));
+
+  const qtyUpToDate = orderItems.reduce(
+    (acc: number, curr: Partial<OrderItem>) => acc + (curr?.quantity ?? 0),
+    0
+  );
+  const cartQty = cart.items.reduce(
+    (acc: number, curr: CartItem) => acc + curr.quantity,
+    0
+  );
+
+  if (qtyUpToDate !== cartQty) {
+    if (!qtyUpToDate) {
+      await User.findByIdAndUpdate(userId, { $set: { cart: null } });
+      await Cart.findByIdAndDelete(cart._id);
+
+      return baseErrResponse(
+        res,
+        422,
+        "Items not available or removed from menu"
+      );
+    } else {
+      const newCartItems = cart.items
+        .map((cartEl: CartItem) => {
+          const orderItem = orderItems.find(
+            (orderEl: Partial<OrderItem>) =>
+              orderEl.dishId + "" === cartEl.dishId + ""
+          );
+          if (!orderItem?.quantity) return null;
+
+          cartEl.quantity = orderItem.quantity;
+          return cartEl;
+        })
+        .filter((el) => !!el);
+
+      await Cart.findByIdAndUpdate(cart._id, {
+        $set: { items: newCartItems },
+      });
+
+      return baseErrResponse(res, 422, "Some items are not available anymore");
+    }
+  }
+
+  await Promise.all(
+    orderItems.map(async (el: Partial<OrderItem>) => {
+      el.images = (await Promise.all(
+        (el.images as string[])?.map(
+          async (el: string) => await uploadCloudURL(el)
+        )
+      )) as ImageType[];
+    })
+  );
+
+  let totPrice = 0;
+  let i = orderItems.length - 1;
+  do {
+    const curr = orderItems[i];
+    totPrice += (curr.price as number) * (curr.quantity as number);
+
+    i--;
+  } while (i >= 0);
+
+  let couponSaved: HydratedDocument<CouponType> | null = null;
   if (coupon) {
     // IMPORTANT => I CAN DO THIS JUST CAUSE SHA256 AND HMAC ARE DETERMINISTIC SO SAME INPUT SAME RES, I COULD NOT DO IT WITH BCRYPT ARGON OR AN AES(ADVANCED ENCRYPTION STANDARD) THAT USUALLY USE AN ALGORITHM THAT INCLUDE THE RESPECT OF AVALANCHE PRINCIPLE TO NOT HAVE SAME RESULT FOR SAME PRINCIPLE
     const couponHashed = createCouponHashed(coupon);
@@ -97,7 +170,6 @@ export const createOrder = async (
     if (new Date(couponSaved.expiryDate).getTime() < Date.now()) {
       couponSaved.isActive = false;
       await couponSaved.save();
-
       return baseErrResponse(res, 422, "Coupon expired");
     }
     if (
@@ -111,55 +183,13 @@ export const createOrder = async (
         422,
         "Coupon not valid for this restaurant category"
       );
-  }
-  const orderItems: OrderItem[] = await Promise.all(
-    cart.items.map(async (el: CartItem) => {
-      const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
-      if (!dish || !dish.quantity) return null;
-
-      const images: Omit<ImageType, "_id">[] = await Promise.all(
-        dish.images.map(async (img: ImageType) => await uploadCloudURL(img.url))
-      );
-
-      return {
-        name: dish.name,
-        price: dish.price,
-        dishId: dish._id,
-        images,
-        quantity: Math.min(el.quantity, dish.quantity),
-      };
-    })
-  ).then((items) => items.filter((el) => !!el));
-
-  if (!orderItems.length) {
-    await User.findByIdAndUpdate(userId, { $set: { cart: null } });
-    await Cart.findByIdAndDelete(cart._id);
-
-    return baseErrResponse(
-      res,
-      422,
-      "Items not available or removed from menu"
-    );
+    if (totPrice < couponSaved.minCartPrice)
+      return baseErrResponse(res, 400, "Amount to use coupon not reached");
   }
 
   const user: UserType = (await User.findById(
     userId
   ).lean()) as unknown as UserType;
-
-  let totQty = 0,
-    totPrice = 0;
-
-  let i = 0;
-  do {
-    const curr = orderItems[i];
-    totQty += curr.quantity;
-    totPrice += curr.price * curr.quantity;
-
-    i++;
-  } while (i < orderItems.length);
-
-  if (couponSaved && totPrice < couponSaved.minCartPrice)
-    return baseErrResponse(res, 400, "Amount to use coupon not reached");
 
   // save in vars cause too long names
   const freeMeal = existingRestaurant.delivery.freeDeliveryPrice;
@@ -172,7 +202,7 @@ export const createOrder = async (
     discount = +((totPrice / 100) * couponSaved.discount).toFixed(2);
 
   const newOrder: Partial<OrderType> = {
-    userId: userId,
+    userId: user._id,
     restaurantId: existingRestaurant._id,
 
     restaurantName: existingRestaurant.name,
@@ -183,7 +213,7 @@ export const createOrder = async (
     },
     addressUser: user.address,
 
-    items: orderItems,
+    items: orderItems as unknown as OrderItem[],
     totPrice: +totPrice.toFixed(2),
     discount,
     delivery: needApplyDel ? delPrice : 0,
@@ -213,12 +243,10 @@ export const createOrder = async (
     couponSaved.usedBy = user._id;
     couponSaved.usedFor = newMongoOrder._id as string;
     couponSaved.isActive = false;
-
     await couponSaved.save();
   }
 
   await Cart.findByIdAndDelete(cart._id);
-
   await User.findByIdAndUpdate(userId, {
     $set: {
       cart: null,

@@ -14,8 +14,10 @@ import {
   checkIsOpen,
   getFreshItemsStock,
   handleCouponOrder,
+  handleOutStock,
 } from "../../../utils/orders/refreshOrder.js";
 import { stripe } from "../../../config/stripe.js";
+import { HydratedDocument } from "mongoose";
 
 export const getOrderInfo = async (
   req: RequestWithUserId,
@@ -58,46 +60,67 @@ export const getOrderInfo = async (
       "Restaurant closed or would not make in time order"
     );
 
-  const { orderItemsFresh, oldQty, newQty } = await getFreshItemsStock(order);
+  const { oldQty, newQty } = await getFreshItemsStock(order);
+  if (newQty !== oldQty)
+    return handleOutStock(res, userId as string, order, restaurant);
 
-  if (newQty === oldQty) {
-    const existingPaymentInt = await stripe.paymentIntents.retrieve(
-      order.paymentId ?? ""
-    );
+  const existingPaymentInt = await stripe.paymentIntents.retrieve(
+    order.paymentId ?? ""
+  );
 
-    if (existingPaymentInt) {
-      return res.status(200).json({
-        order,
-        success: true,
-        backPaymentInt: existingPaymentInt,
-        msg: "Ok the same",
-      });
-    } else {
-      const stripePrice = +(
-        order.totPrice +
-        order.delivery -
-        order.discount
-      ).toFixed(2);
-
-      const { paymentIntent: newPaymentIntent } = await createPaymentInt(
-        stripePrice
-      );
-      if (!newPaymentIntent)
-        return baseErrResponse(res, 500, "Error creating payment");
-
-      order.paymentId = newPaymentIntent.id;
-      order.paymentClientSecret = newPaymentIntent.client_secret;
-
-      await Order.findByIdAndUpdate(order._id, order);
-
-      return res.status(200).json({
-        order,
-        success: true,
-        msg: "Ok the same, added stripe",
-        backPaymentInt: newPaymentIntent,
-      });
-    }
+  if (existingPaymentInt) {
+    return res.status(200).json({
+      order,
+      success: true,
+      backPaymentInt: existingPaymentInt,
+      msg: "Ok the same",
+    });
   } else {
+    const stripePrice = +(
+      order.totPrice +
+      order.delivery -
+      order.discount
+    ).toFixed(2);
+
+    const { paymentIntent: newPaymentIntent } = await createPaymentInt(
+      stripePrice
+    );
+    if (!newPaymentIntent)
+      return baseErrResponse(res, 500, "Error creating payment");
+
+    order.paymentId = newPaymentIntent.id;
+    order.paymentClientSecret = newPaymentIntent.client_secret;
+
+    await Order.findByIdAndUpdate(order._id, order);
+
+    return res.status(200).json({
+      order,
+      success: true,
+      msg: "Ok the same, added stripe",
+      backPaymentInt: newPaymentIntent,
+    });
+  }
+};
+
+export const getOrderConfirmedByPolling = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+  const { orderId } = req.query;
+
+  const order = await Order.findOne({
+    userId: makeMongoId(userId ?? ""),
+    _id: makeMongoId(orderId as string),
+    status: "confirmed",
+  }).lean();
+
+  if (!order) return baseErrResponse(res, 404, "Order not found");
+
+  return res.status(200).json({ order, success: true, msg: "Order confirmed" });
+};
+
+/*
     if (!orderItemsFresh.length) {
       await Order.findByIdAndDelete(order._id);
       await User.findByIdAndUpdate(userId, {
@@ -191,23 +214,4 @@ export const getOrderInfo = async (
       expiredCoupon,
       backPaymentInt: newPaymentIntent,
     });
-  }
-};
-
-export const getOrderConfirmedByPolling = async (
-  req: RequestWithUserId,
-  res: Response
-): Promise<any> => {
-  const { userId } = req;
-  const { orderId } = req.query;
-
-  const order = await Order.findOne({
-    userId: makeMongoId(userId ?? ""),
-    _id: makeMongoId(orderId as string),
-    status: "confirmed",
-  }).lean();
-
-  if (!order) return baseErrResponse(res, 404, "Order not found");
-
-  return res.status(200).json({ order, success: true, msg: "Order confirmed" });
-};
+    */

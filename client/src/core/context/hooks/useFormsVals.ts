@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { FormSearchType } from "../../../types/allTypes/restAdmin";
 import { DishMenuFormType } from "../../../types/types";
 import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
@@ -10,6 +10,19 @@ import { isDev } from "../../config/constants/environment";
 import { defaultValuesSearchDishesAsUser } from "../../config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { SearchMyOrders } from "../../../types/allTypes/orders";
 import { defaultValsSearchMyOrders } from "../../config/fieldsArr/allFields/myOrders/filterSort";
+import { ManageOrdersSearch } from "../../../types/allTypes/manageOrders";
+import { defaultValuesManageOrdersSearch } from "../../config/fieldsArr/allFields/manageOrders/filterSort";
+
+export type FormsCtxType = {
+  formContextMyRestaurants: UseFormReturn<FormSearchType>;
+  formContextMyDishesAddItem: UseFormReturn<DishMenuFormType>;
+  formContextMyDishesUpdate: UseFormReturn<DishMenuFormType>;
+  formContextMyDishesSearch: UseFormReturn<SearchMyDishesFormType>;
+  formContextSearchRestAllUsers: UseFormReturn<SearchFormType>;
+  formContextSearchDishesAllUSers: UseFormReturn<SearchDishesFormType>;
+  formContextSearchMyOrders: UseFormReturn<SearchMyOrders>;
+  formContextManageOrdersSearch: UseFormReturn<ManageOrdersSearch>;
+};
 
 export const useFormsVals = () => {
   const savedForm = sessionStorage.getItem("myRestaurantsSearch");
@@ -80,6 +93,16 @@ export const useFormsVals = () => {
       : defaultValsSearchMyOrders,
   });
 
+  const savedValsManageOrders = sessionStorage.getItem("manageOrdersSearch");
+  const formContextManageOrdersSearch = useForm<ManageOrdersSearch>({
+    mode: "onChange",
+    defaultValues: savedValsManageOrders
+      ? {
+          ...JSON.parse(savedValsManageOrders),
+        }
+      : defaultValuesManageOrdersSearch,
+  });
+
   return {
     formContextMyRestaurants,
     formContextMyDishesAddItem,
@@ -88,5 +111,6 @@ export const useFormsVals = () => {
     formContextSearchRestAllUsers,
     formContextSearchDishesAllUSers,
     formContextSearchMyOrders,
+    formContextManageOrdersSearch,
   };
 };

@@ -1,4 +1,3 @@
-import { UseFormReturn } from "react-hook-form";
 import {
   PopupActionTypes,
   PopupStateType,
@@ -14,13 +13,6 @@ import {
   UserStateType,
   UserValsType,
 } from "../../../types/allTypes/userTypes";
-import { FormSearchType } from "../../../types/allTypes/restAdmin";
-import { DishMenuFormType } from "../../../types/types";
-import { SearchMyDishesFormType } from "../../../types/allTypes/myDishes";
-import {
-  SearchDishesFormType,
-  SearchFormType,
-} from "../../../types/allTypes/search";
 import {
   CartActionsType,
   CartState,
@@ -29,7 +21,7 @@ import {
 import { NoticeVals } from "../hooks/useNoticeVals";
 import { InfoPopVals } from "../hooks/useInfoPopVals";
 import { Stripe } from "@stripe/stripe-js";
-import { SearchMyOrders } from "../../../types/allTypes/orders";
+import { FormsCtxType } from "../hooks/useFormsVals";
 
 export type RootStateType = {
   toastState: ToastStateType;
@@ -43,16 +35,6 @@ export type RootActionTypes =
   | UserActionTypes
   | PopupActionTypes
   | CartActionsType;
-
-export type FormsCtxType = {
-  formContextMyRestaurants: UseFormReturn<FormSearchType>;
-  formContextMyDishesAddItem: UseFormReturn<DishMenuFormType>;
-  formContextMyDishesUpdate: UseFormReturn<DishMenuFormType>;
-  formContextMyDishesSearch: UseFormReturn<SearchMyDishesFormType>;
-  formContextSearchRestAllUsers: UseFormReturn<SearchFormType>;
-  formContextSearchDishesAllUSers: UseFormReturn<SearchDishesFormType>;
-  formContextSearchMyOrders: UseFormReturn<SearchMyOrders>;
-};
 
 export type SideVals = {
   isOpenSide: boolean;

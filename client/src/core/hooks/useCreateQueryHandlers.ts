@@ -18,9 +18,11 @@ import {
   REG_P_SEARCH,
   REG_P_DISHES_USER,
   REG_P_MY_ORD,
+  REG_P_MANAGE_ORD,
 } from "../config/constants/regex";
 import { useUpdateCardsLimit } from "./UI/useUpdateCardsLimit";
 import { defaultValsSearchMyOrders } from "../config/fieldsArr/allFields/myOrders/filterSort";
+import { defaultValuesManageOrdersSearch } from "../config/fieldsArr/allFields/manageOrders/filterSort";
 
 type ReturnTypeCreateQueryHandler = {
   formVals: any;
@@ -80,6 +82,11 @@ export const useCreateQueryHandlers = ({
   } else if (REG_P_MY_ORD.test(path)) {
     defaultValues = defaultValsSearchMyOrders;
     id = "searchBarMyOrders";
+  } else if (REG_P_MANAGE_ORD.test(path)) {
+    defaultValues = defaultValuesManageOrdersSearch;
+    id = "searchBarManageOrders";
+  } else {
+    throw new Error("Invalid path");
   }
 
   const handleSave = handleSubmit((formDatHook) => {

@@ -36,3 +36,4 @@ export const REG_P_DISHES_USER = /^\/search\/[a-f0-9]{24}$/;
 export const REG_P_DISHES = /^\/my-dishes\/?$/;
 export const REG_P_MY_REST = /^\/my-restaurants\/?$/;
 export const REG_P_MY_ORD = /^\/my-orders\/?$/;
+export const REG_P_MANAGE_ORD = /^\/manage-orders\/?$/;
