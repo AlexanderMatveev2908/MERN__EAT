@@ -1,10 +1,6 @@
-import { Response } from "express";
-import Order, { OrderItem, OrderType } from "../../models/Order.js";
-import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
-import User from "../../models/User.js";
-import { baseErrResponse } from "../baseErrResponse.js";
-import { makeMongoId } from "../dbPipeline/general.js";
-import { RequestWithUserId } from "./../../middleware/general/verifyAccessToken.js";
+import { OrderItem, OrderType } from "../../models/Order.js";
+import { RestaurantType } from "../../models/Restaurant.js";
+
 import Dish, { DishType } from "../../models/Dish.js";
 import Coupon, { CouponType } from "../../models/Coupon.js";
 
