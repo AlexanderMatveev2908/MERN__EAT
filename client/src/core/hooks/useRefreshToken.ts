@@ -21,7 +21,9 @@ export const useRefreshToken = () => {
       const { accessToken } = await refreshTokenAPI();
       setUserLogged(accessToken);
 
+      queryClient.cancelQueries();
       queryClient.clear();
+      queryClient.resetQueries();
     } catch {
       if (isLogged) showToastMsg("SESSION EXPIRED", "ERROR");
       else showToastMsg("UNAUTHORIZED", "ERROR");

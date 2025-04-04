@@ -83,7 +83,7 @@ export const manageOrdersSorters = [
 
 export const defaultValuesManageOrdersSearch = {
   search: "",
-  searchVals: ["id"],
+  searchVals: ["restaurantName"],
 
   ordersStatus: [],
   categories: [],
@@ -93,6 +93,11 @@ export const defaultValuesManageOrdersSearch = {
   priceSort: [],
   quantitySort: [],
   discountSort: [],
+
+  minPrice: "",
+  maxPrice: "",
+  minQuantity: "",
+  maxQuantity: "",
 
   page: "1",
 };
