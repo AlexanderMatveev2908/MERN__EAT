@@ -12,7 +12,6 @@ import Coupon, { CouponType } from "../../../models/Coupon.js";
 import { createPaymentInt } from "../../../utils/stripe.js";
 import {
   checkIsOpen,
-  checkDataExistOrder,
   getFreshItemsStock,
   handleCouponOrder,
 } from "../../../utils/orders/refreshOrder.js";

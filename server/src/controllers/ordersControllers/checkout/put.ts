@@ -5,7 +5,6 @@ import Restaurant, { RestaurantType } from "../../../models/Restaurant.js";
 import User from "../../../models/User.js";
 import { baseErrResponse } from "../../../utils/baseErrResponse.js";
 import {
-  checkDataExistOrder,
   checkIsOpen,
   getFreshItemsStock,
 } from "../../../utils/orders/refreshOrder.js";

@@ -26,47 +26,6 @@ export const checkIsOpen = (rest: RestaurantType) => {
   return isOpen;
 };
 
-export const checkDataExistOrder = async (
-  req: RequestWithUserId,
-  res: Response
-) => {
-  const { userId } = req;
-  const { orderId } = req.query;
-
-  try {
-    const order = (await Order.findOne({
-      _id: makeMongoId(orderId as string),
-      userId: makeMongoId(userId as string),
-    }).lean()) as OrderType | null;
-
-    if (!order) {
-      await User.findByIdAndUpdate(userId, {
-        $pull: { orders: makeMongoId(orderId as string) },
-      });
-      throw new Error("Order not found");
-    }
-
-    const restaurant = (await Restaurant.findById(
-      order.restaurantId
-    ).lean()) as RestaurantType | null;
-
-    if (!restaurant) {
-      await Order.findByIdAndDelete(order._id);
-      await User.findByIdAndUpdate(userId, {
-        $pull: { orders: order._id },
-      });
-      throw new Error("Restaurant not found");
-    }
-
-    return {
-      order,
-      restaurant,
-    };
-  } catch (err: any) {
-    return baseErrResponse(res, 404, err.message);
-  }
-};
-
 export const getFreshItemsStock = async (order: OrderType) => {
   const orderItemsFresh: OrderItem[] = await Promise.all(
     order.items.map(async (el: OrderItem) => {
