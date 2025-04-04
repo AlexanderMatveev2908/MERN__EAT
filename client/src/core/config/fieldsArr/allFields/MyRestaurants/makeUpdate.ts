@@ -21,11 +21,11 @@ export const myRestaurantsName: FieldNoIconType = {
   msg: "Restaurant name must be between 2 and 50 characters",
 };
 export const myRestaurantsAddress_0: FieldNoIconType[] = [
-  ...userProfileFields_1.map((el) => ({ ...el, required: true })),
+  ...userProfileFields_1.map((el) => ({ ...el, required: true, id: genID() })),
 ];
 export const myRestaurantsAddress_1 = userProfileFields_2
   .filter((el) => el.field !== "phone")
-  .map((el) => ({ ...el, required: true }));
+  .map((el) => ({ ...el, required: true, id: genID() }));
 
 export const myRestaurantsAddressByArea: [
   FieldNoIconType[],

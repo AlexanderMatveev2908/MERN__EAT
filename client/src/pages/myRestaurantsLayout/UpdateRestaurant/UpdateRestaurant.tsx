@@ -22,6 +22,8 @@ const UpdateRestaurant: FC = () => {
     handleClickToOpenPopup,
     isSuccessInfo,
     errorInfo,
+    currFormAddress,
+    setCurrFormAddress,
   } = useUpdateRestaurant();
 
   return !canStay ? (
@@ -43,7 +45,13 @@ const UpdateRestaurant: FC = () => {
         </div>
 
         <MyRestaurantsForm
-          {...({ formContext, handleSave, isPending: isPendingUpdate } as any)}
+          {...({
+            formContext,
+            handleSave,
+            isPending: isPendingUpdate,
+            currFormAddress,
+            setCurrFormAddress,
+          } as any)}
         />
       </div>
     </FormProvider>
