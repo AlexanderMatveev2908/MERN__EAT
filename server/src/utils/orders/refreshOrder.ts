@@ -97,7 +97,9 @@ export const handleOutStock = async (
 ) => {
   const promises = order.items
     .map((el: OrderItem) =>
-      el.images.map(async (el: ImageType) => await deleteCloud(el.public_id))
+      (el.images as ImageType[]).map(
+        async (el: ImageType) => await deleteCloud(el.public_id)
+      )
     )
     .flat(Infinity);
   try {
