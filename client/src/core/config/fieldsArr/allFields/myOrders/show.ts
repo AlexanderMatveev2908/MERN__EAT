@@ -12,8 +12,6 @@ import {
   formatDate,
   formatEstDelivery,
 } from "../../../../../utils/allUtils/formatTime";
-import { FaStreetView } from "react-icons/fa";
-import { UserAddressType } from "../../../../../types/types";
 import { FiRefreshCw } from "react-icons/fi";
 import { RiRefund2Line } from "react-icons/ri";
 import { IconType } from "react-icons/lib";
@@ -35,30 +33,6 @@ export const fieldMoneyMyOrders = {
   icon: TbPigMoney,
   label: "Amount",
   id: genID(),
-};
-
-export const fieldMyAddressMyOrders = {
-  icon: FaStreetView,
-  label: "My address",
-  id: genID(),
-};
-
-export const showMyAddressInOrder = (address: UserAddressType) => {
-  const keys = ["country", "state", "city", "street", "zipCode", "phone"];
-  const content: string[] = [];
-
-  let i = 0;
-
-  do {
-    if (address[keys[i]]) content.push(address[keys[i]]);
-
-    i++;
-  } while (i < keys.length);
-
-  return content.map((el) => ({
-    val: el,
-    id: genID(),
-  }));
 };
 
 export const showFieldsMoneyMyOrders = (

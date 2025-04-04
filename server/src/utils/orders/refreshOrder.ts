@@ -126,6 +126,8 @@ export const handleOutStock = async (
   const isStillValid = new Date(coupon.expiryDate ?? 0).getTime() > Date.now();
   if (!isStillValid) {
     coupon.isActive = false;
+    coupon.usedBy = null;
+    coupon.usedFor = null;
     await coupon.save();
   }
 

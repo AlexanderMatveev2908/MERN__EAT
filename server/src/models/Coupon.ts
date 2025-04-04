@@ -9,8 +9,8 @@ export type CouponType = {
   expiryDate: Date;
   isActive: boolean;
 
-  usedBy: string;
-  usedFor: string;
+  usedBy: string | null;
+  usedFor: string | null;
 };
 
 const CouponSchema = new mongoose.Schema(
