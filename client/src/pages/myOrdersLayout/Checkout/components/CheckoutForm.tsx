@@ -108,7 +108,7 @@ const CheckoutForm: FC<PropsType> = ({
         setIsMoneyLoading(false);
       }
     },
-    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
+    onError: (err: ErrFoodApp) => handleErrAPI({ err, push: true }),
   });
   const handleOrder = (e: FormEvent) => {
     e.preventDefault();

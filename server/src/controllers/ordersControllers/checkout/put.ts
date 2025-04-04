@@ -1,13 +1,11 @@
-import { HydratedDocument } from "mongoose";
-import Coupon, { CouponType } from "../../../models/Coupon.js";
 import Order, { OrderItem, OrderType } from "../../../models/Order.js";
 import Restaurant, { RestaurantType } from "../../../models/Restaurant.js";
 import User from "../../../models/User.js";
 import { baseErrResponse } from "../../../utils/baseErrResponse.js";
 import {
   checkIsOpen,
+  clearOrder,
   getFreshItemsStock,
-  handleOutStock,
 } from "../../../utils/orders/refreshOrder.js";
 import { RequestWithUserId } from ".././../../middleware/general/verifyAccessToken.js";
 import { Response } from "express";
@@ -54,8 +52,7 @@ export const lastCheckOrder = async (
     );
 
   const { oldQty, newQty } = await getFreshItemsStock(order);
-  if (oldQty !== newQty)
-    return handleOutStock(res, userId as string, order, restaurant);
+  if (oldQty !== newQty) return clearOrder(res, order, restaurant);
 
   await Order.findByIdAndUpdate(order._id, {
     $set: {
