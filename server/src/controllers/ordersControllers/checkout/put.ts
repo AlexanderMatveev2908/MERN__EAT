@@ -12,20 +12,39 @@ import {
 import { RequestWithUserId } from ".././../../middleware/general/verifyAccessToken.js";
 import { Response } from "express";
 import Dish, { DishType } from "../../../models/Dish.js";
+import { makeMongoId } from "../../../utils/dbPipeline/general.js";
 
 export const lastCheckOrder = async (
   req: RequestWithUserId,
   res: Response
 ): Promise<any> => {
   const { userId } = req;
+  const { orderId } = req.query;
   const { email, firstName, lastName, ...address } = req.body;
 
-  const result = await checkDataExistOrder(req, res);
-  if (!result) return;
-  const { restaurant, order } = result as {
-    order: OrderType;
-    restaurant: RestaurantType;
-  };
+  const order = (await Order.findOne({
+    _id: makeMongoId(orderId as string),
+    userId: makeMongoId(userId as string),
+  }).lean()) as OrderType | null;
+
+  if (!order) {
+    await User.findByIdAndUpdate(userId, {
+      $pull: { orders: makeMongoId(orderId as string) },
+    });
+    return baseErrResponse(res, 404, "Order not found");
+  }
+
+  const restaurant = (await Restaurant.findById(
+    order.restaurantId
+  ).lean()) as RestaurantType | null;
+
+  if (!restaurant) {
+    await Order.findByIdAndDelete(order._id);
+    await User.findByIdAndUpdate(userId, {
+      $pull: { orders: order._id },
+    });
+    return baseErrResponse(res, 404, "Restaurant not found");
+  }
 
   if (order?.status !== "pending")
     return baseErrResponse(res, 400, "Order is not pending");

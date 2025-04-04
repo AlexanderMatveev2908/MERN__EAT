@@ -40,7 +40,7 @@ export const createOrder = async (
 
   const existingRestaurant = (await Restaurant.findById(
     cart.restaurant
-  ).lean()) as unknown as RestaurantType;
+  )) as HydratedDocument<RestaurantType> | null;
   if (!existingRestaurant) {
     await User.findByIdAndUpdate(userId, { $set: { cart: null } });
     await Cart.findByIdAndDelete(cart._id);
@@ -218,17 +218,16 @@ export const createOrder = async (
   }
 
   await Cart.findByIdAndDelete(cart._id);
+
   await User.findByIdAndUpdate(userId, {
     $set: {
       cart: null,
-      orders: user.orders?.includes(newMongoOrder._id as any)
-        ? user.orders
-        : [...user.orders, newMongoOrder._id],
     },
+    $push: { orders: newMongoOrder._id },
   });
-  await Restaurant.findByIdAndUpdate(existingRestaurant._id, {
-    $addToSet: { orders: newMongoOrder._id },
-  });
+
+  existingRestaurant.orders.push(newMongoOrder._id as string);
+  await existingRestaurant.save();
 
   return res.status(201).json({
     msg: "Order created",

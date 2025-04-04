@@ -5,5 +5,8 @@ export const logReq = (
   res: Response,
   next: NextFunction
 ): any => {
+  // console.log(req.originalUrl);
+  // console.log(req.method);
+
   return next();
 };
