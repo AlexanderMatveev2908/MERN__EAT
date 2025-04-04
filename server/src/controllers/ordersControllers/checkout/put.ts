@@ -7,6 +7,7 @@ import { baseErrResponse } from "../../../utils/baseErrResponse.js";
 import {
   checkIsOpen,
   getFreshItemsStock,
+  handleOutStock,
 } from "../../../utils/orders/refreshOrder.js";
 import { RequestWithUserId } from ".././../../middleware/general/verifyAccessToken.js";
 import { Response } from "express";
@@ -55,34 +56,8 @@ export const lastCheckOrder = async (
     );
 
   const { oldQty, newQty } = await getFreshItemsStock(order);
-
-  if (oldQty !== newQty) {
-    await User.findByIdAndUpdate(userId, {
-      $pull: { orders: order._id },
-    });
-    await Order.findByIdAndDelete(order._id);
-    await Restaurant.findByIdAndUpdate(restaurant._id, {
-      $pull: { orders: order._id },
-    });
-
-    if (order.coupon) {
-      const coupon = (await Coupon.findById(
-        order.coupon
-      )) as HydratedDocument<CouponType> | null;
-
-      if (coupon) {
-        const isStillValid =
-          new Date(coupon.expiryDate ?? 0).getTime() > Date.now();
-
-        if (!isStillValid) {
-          coupon.isActive = false;
-          await coupon.save();
-        }
-      }
-    }
-
-    return baseErrResponse(res, 400, "Some items are not available anymore");
-  }
+  if (oldQty !== newQty)
+    return handleOutStock(res, userId as string, order, restaurant);
 
   await Order.findByIdAndUpdate(order._id, {
     $set: {

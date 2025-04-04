@@ -9,7 +9,7 @@ export type OrderItem = {
   name: string;
   price: number;
   quantity: number;
-  images: ImageType[];
+  images: ImageType[] | string[];
 };
 
 export const ordersStatusArr = [

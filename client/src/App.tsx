@@ -33,6 +33,9 @@ import Notice from "./pages/Notice/Notice";
 import Checkout from "./pages/myOrdersLayout/Checkout/Checkout";
 import LayoutMyOrders from "./UI/layouts/LayoutMyOrders";
 import MyOrders from "./pages/myOrdersLayout/MyOrders/MyOrders";
+import LayoutManageOrders from "./UI/layouts/LayoutManageOrders";
+import ManageOrders from "./pages/ManageOrderLayout/ManageOrders/ManageOrders";
+import ManageSingleOrder from "./pages/ManageOrderLayout/ManageSingleOrder/ManageSingleOrder";
 
 const App: FC = () => {
   useApp();
@@ -83,6 +86,11 @@ const App: FC = () => {
           <Route index element={<MyDishes />} />
           <Route path="add-dish" element={<AddDish />} />
           <Route path="update/:dishId" element={<UpdateDish />} />
+        </Route>
+
+        <Route path="manage-orders" element={<LayoutManageOrders />}>
+          <Route index element={<ManageOrders />} />
+          <Route path=":orderId" element={<ManageSingleOrder />} />
         </Route>
 
         <Route path="search" element={<LayoutSearchRoute />}>
