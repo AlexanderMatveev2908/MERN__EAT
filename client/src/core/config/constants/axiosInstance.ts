@@ -11,9 +11,7 @@ export const foodAppInstance = axios.create({
 foodAppInstance.interceptors.request.use(
   (config) => {
     const accessToken = sessionStorage.getItem("accessToken");
-
     if (accessToken) config.headers["Authorization"] = `Bearer ${accessToken}`;
-
     return config;
   },
   (err) => Promise.reject(err)
