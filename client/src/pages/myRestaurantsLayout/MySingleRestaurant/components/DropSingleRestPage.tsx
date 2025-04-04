@@ -15,7 +15,8 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
 
   const navigate = useNavigate();
 
-  const { formContextMyDishesSearch } = useFormsCustom();
+  const { formContextMyDishesSearch, formContextManageOrdersSearch } =
+    useFormsCustom();
 
   const handleSearchDishesClick = () => {
     const { setValue } = formContextMyDishesSearch;
@@ -26,6 +27,14 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
   const handleDishClick = () =>
     navigate(`/my-dishes/add-dish?restId=${restId}`);
   // formContextMyDishesAddItem.setValue("restaurant", restId ?? "");
+  const handleCLickOrders = () => {
+    const { setValue } = formContextManageOrdersSearch;
+
+    setValue("searchVals", ["restaurantId"]);
+    setValue("search", restId ?? "");
+
+    navigate("/manage-orders");
+  };
 
   const { handleClickToOpenPopup } = useDeleteRestaurant();
 
@@ -62,6 +71,8 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
                   ? handleSearchDishesClick()
                   : el.label === "Delete"
                   ? handleClickToOpenPopup()
+                  : el.label === "My orders"
+                  ? handleCLickOrders()
                   : null
               }
               className="w-full flex items-center gap-3 group el__flow cursor-pointer first:pt-4 hover:text-orange-500 el__after_below"
