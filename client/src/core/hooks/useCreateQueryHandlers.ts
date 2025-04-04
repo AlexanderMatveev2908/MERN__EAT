@@ -135,10 +135,11 @@ export const useCreateQueryHandlers = ({
     setCloseAllDrop(true);
     setCurrPageBeforeCb(val);
 
-    const h = document.getElementById(id!)?.offsetTop;
+    const el = document.getElementById(id!);
+    const h = el?.offsetTop;
 
     window.scrollTo({
-      top: h ?? 0,
+      top: (h ?? 0) + (el?.getBoundingClientRect()?.height ?? 0),
       behavior: "smooth",
     });
   };
