@@ -95,6 +95,14 @@ const ManageOrderItem: FC<PropsType> = ({ order }) => {
           <DetailsOrderUser {...{ order }} />
         </div>
       </div>
+
+      <Link
+        to={`/manage-orders/${order._id}`}
+        className="btn__order el__after_below_dynamic el__flow justify-self-center mt-4"
+        style={{ "--col-btn": "#ea580c" } as React.CSSProperties}
+      >
+        <span className="txt__02">Update status</span>
+      </Link>
     </div>
   );
 };
