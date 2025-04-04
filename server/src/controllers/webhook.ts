@@ -54,15 +54,15 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
 
     await Promise.all(promises);
 
-    await Restaurant.updateMany({}, [
-      {
-        $set: {
-          orders: {
-            $setUnion: ["$orders", "$orders"],
-          },
-        },
-      },
-    ]);
+    // await Restaurant.updateMany({}, [
+    //   {
+    //     $set: {
+    //       orders: {
+    //         $setUnion: ["$orders", "$orders"],
+    //       },
+    //     },
+    //   },
+    // ]);
   }
 
   return res.status(200).json({ received: true });
