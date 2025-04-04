@@ -13,7 +13,6 @@ import Order, { OrderItem, OrderType } from "../../../models/Order.js";
 import { ImageType } from "../../../models/Image.js";
 import { uploadCloudURL } from "../../../utils/cloud.js";
 import { createPaymentInt } from "../../../utils/stripe.js";
-import mongoose from "mongoose";
 import { checkIsOpen } from "../../../utils/orders/refreshOrder.js";
 
 // WHEN OPEN

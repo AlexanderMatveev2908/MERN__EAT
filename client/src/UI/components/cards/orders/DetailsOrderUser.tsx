@@ -14,6 +14,9 @@ import {
   priceFormatter,
 } from "../../../../utils/allUtils/priceFormatter";
 import { GiMatterStates } from "react-icons/gi";
+import { useLocation } from "react-router-dom";
+import { REG_P_MANAGE_ORD } from "../../../../core/config/constants/regex";
+import { fieldUserAddressMyOrders } from "../../../../core/config/fieldsArr/allFields/manageOrders/show";
 
 type PropsType = {
   order: OrderType;
@@ -21,6 +24,8 @@ type PropsType = {
 };
 
 const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
+  const path = useLocation().pathname;
+
   return !order ? null : (
     <div className="w-full grid gap-3">
       {children}
@@ -28,9 +33,9 @@ const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
         {order.items.map((el: OrderItem) => (
           <li
             key={el._id}
-            className="w-full grid grid-cols-[repeat(auto-fit,minmax(50px,1fr))] justify-items-center"
+            className="w-full grid grid-cols-[repeat(auto-fit,minmax(75px,1fr))] justify-items-center px-3"
           >
-            <span className="txt__02">{el.name}</span>
+            <span className="txt__02 break-all max-w-full">{el.name}</span>
 
             <div className="flex items-center gap-1">
               <span className="txt__02">x</span>
@@ -79,6 +84,12 @@ const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
             </li>
           ))}
         </DropElAbsolute>
+      )}
+
+      {REG_P_MANAGE_ORD.test(path) && (
+        <DropElAbsolute
+          {...{ el: fieldUserAddressMyOrders(order.addressUser) }}
+        />
       )}
 
       <div className="w-full grid grid-cols-2">
