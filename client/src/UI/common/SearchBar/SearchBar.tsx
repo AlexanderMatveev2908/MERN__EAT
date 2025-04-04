@@ -36,6 +36,7 @@ type PropsType = {
   handleClear: () => void;
   isPending: boolean;
   closeAllDrop: boolean;
+  id: string;
 };
 
 const SearchBar: FC<PropsType> = ({
@@ -47,6 +48,7 @@ const SearchBar: FC<PropsType> = ({
   handleClear,
   isPending,
   closeAllDrop,
+  id,
 }) => {
   const path = useLocation().pathname;
   const needSearchField = !REG_P_DISHES_USER.test(path);
@@ -56,6 +58,7 @@ const SearchBar: FC<PropsType> = ({
       className={`w-full max-w-[90%] border-[3px] border-orange-500 rounded-xl p-6 ${
         needSearchField ? "" : "pt-0"
       }`}
+      id={id}
     >
       <div className="w-full grid grid-cols-1">
         {needSearchField && <SearchField {...{ formContext }} />}

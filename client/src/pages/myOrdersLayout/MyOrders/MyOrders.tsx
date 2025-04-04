@@ -34,6 +34,7 @@ const MyOrders: FC = () => {
     error,
     isSuccess,
     closeAllDrop,
+    id,
   } = useCreateQueryHandlers({
     formCtx: formContext,
     key: "myOrdersSearch",
@@ -55,6 +56,7 @@ const MyOrders: FC = () => {
             handleClear,
             isPending,
             closeAllDrop,
+            id,
           }}
         />
       </FormProvider>

@@ -38,6 +38,7 @@ const MyDishes: FC = () => {
     isSuccess,
     isPending,
     closeAllDrop,
+    id,
   } = useMyDishes();
 
   const { watch } = propsForm.formContext;
@@ -58,6 +59,7 @@ const MyDishes: FC = () => {
             filters: myDishesFilters,
             sorters: sortersMyDishesFields,
             closeAllDrop,
+            id,
           }}
         />
       </FormProvider>

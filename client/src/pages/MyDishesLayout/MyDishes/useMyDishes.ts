@@ -23,6 +23,7 @@ export const useMyDishes = () => {
     propsBlock,
     data,
     closeAllDrop,
+    id,
     ...statesAsyncCB
   } = useCreateQueryHandlers({
     formCtx: formContext,
@@ -85,6 +86,7 @@ export const useMyDishes = () => {
     handleOpenPopup,
     handleOpenPopupBulkQuery,
     closeAllDrop,
+    id,
 
     ...statesAsyncCB,
   };
