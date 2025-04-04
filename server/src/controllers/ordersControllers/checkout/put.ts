@@ -25,7 +25,6 @@ export const lastCheckOrder = async (
     _id: makeMongoId(orderId as string),
     userId: makeMongoId(userId as string),
   }).lean()) as OrderType | null;
-
   if (!order) {
     await User.findByIdAndUpdate(userId, {
       $pull: { orders: makeMongoId(orderId as string) },
@@ -36,7 +35,6 @@ export const lastCheckOrder = async (
   const restaurant = (await Restaurant.findById(
     order.restaurantId
   ).lean()) as RestaurantType | null;
-
   if (!restaurant) {
     await Order.findByIdAndDelete(order._id);
     await User.findByIdAndUpdate(userId, {

@@ -1,23 +1,17 @@
 import { Response } from "express";
 import { RequestWithUserId } from "../../../middleware/general/verifyAccessToken.js";
-import Order, { OrderItem, OrderType } from "../../../models/Order.js";
+import Order, { OrderType } from "../../../models/Order.js";
 import { baseErrResponse } from "../../../utils/baseErrResponse.js";
 import Restaurant, { RestaurantType } from "../../../models/Restaurant.js";
 import { makeMongoId } from "../../../utils/dbPipeline/general.js";
-import Dish, { DishType } from "../../../models/Dish.js";
 import User from "../../../models/User.js";
-import { ImageType } from "../../../models/Image.js";
-import { deleteCloud } from "../../../utils/cloud.js";
-import Coupon, { CouponType } from "../../../models/Coupon.js";
 import { createPaymentInt } from "../../../utils/stripe.js";
 import {
   checkIsOpen,
   getFreshItemsStock,
-  handleCouponOrder,
   handleOutStock,
 } from "../../../utils/orders/refreshOrder.js";
 import { stripe } from "../../../config/stripe.js";
-import { HydratedDocument } from "mongoose";
 
 export const getOrderInfo = async (
   req: RequestWithUserId,
@@ -41,7 +35,6 @@ export const getOrderInfo = async (
   const restaurant = (await Restaurant.findById(
     order.restaurantId
   ).lean()) as RestaurantType | null;
-
   if (!restaurant) {
     await Order.findByIdAndDelete(order._id);
     await User.findByIdAndUpdate(userId, {

@@ -14,6 +14,7 @@ import { ImageType } from "../../../models/Image.js";
 import { uploadCloudURL } from "../../../utils/cloud.js";
 import { createPaymentInt } from "../../../utils/stripe.js";
 import mongoose from "mongoose";
+import { checkIsOpen } from "../../../utils/orders/refreshOrder.js";
 
 // WHEN OPEN
 // if (open <= currTime && close > currTime)
@@ -34,7 +35,6 @@ export const createOrder = async (
   }).lean()) as CartType;
   if (!cart) {
     await User.findByIdAndUpdate(userId, { $set: { cart: null } });
-
     return baseErrResponse(res, 404, "Cart not found");
   }
 
@@ -44,41 +44,17 @@ export const createOrder = async (
   if (!existingRestaurant) {
     await User.findByIdAndUpdate(userId, { $set: { cart: null } });
     await Cart.findByIdAndDelete(cart._id);
-
     return baseErrResponse(res, 404, "Restaurant not found or activity closed");
   }
 
-  // IMPORTANT => ALL COULD BE SKIP WITH DATE GET HOURS AND DATE GET MINUTES BUT I WANTED EXERCISE WORKING WITH DATES
-  // ms from 1 jan 1970
-  const open = existingRestaurant.openHours.openTime;
-  const close = existingRestaurant.openHours.closeTime;
-  const now = new Date();
-  const mid = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    //  then hours minutes and sec
-    0,
-    0,
-    0
-  );
-  // ms from 1970 - ms of midnight of ours day today => final res in minutes
-  const currTime =
-    (now.getTime() - mid.getTime()) / 1000 / 60 +
-    existingRestaurant.delivery.estTimeDelivery;
-  let isOpen = true;
-  if (close !== open) {
-    if (open < close) isOpen = currTime >= open && currTime < close;
-    else isOpen = currTime >= open || currTime < close;
-  }
-  if (!isOpen)
+  if (!checkIsOpen(existingRestaurant))
     return baseErrResponse(
       res,
       400,
-      "Restaurant closed or delivery time too long for his close time programmed"
+      "Restaurant closed or would not make in time order"
     );
 
-  const orderItems: Partial<OrderItem>[] = await Promise.all(
+  const orderItems: OrderItem[] = await Promise.all(
     cart.items.map(async (el: CartItem) => {
       const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
       if (!dish || !dish.quantity) return null;
@@ -96,7 +72,7 @@ export const createOrder = async (
   ).then((items) => items.filter((el) => !!el));
 
   const qtyUpToDate = orderItems.reduce(
-    (acc: number, curr: Partial<OrderItem>) => acc + (curr?.quantity ?? 0),
+    (acc: number, curr: OrderItem) => acc + (curr?.quantity ?? 0),
     0
   );
   const cartQty = cart.items.reduce(
@@ -108,7 +84,6 @@ export const createOrder = async (
     if (!qtyUpToDate) {
       await User.findByIdAndUpdate(userId, { $set: { cart: null } });
       await Cart.findByIdAndDelete(cart._id);
-
       return baseErrResponse(
         res,
         422,
@@ -118,8 +93,7 @@ export const createOrder = async (
       const newCartItems = cart.items
         .map((cartEl: CartItem) => {
           const orderItem = orderItems.find(
-            (orderEl: Partial<OrderItem>) =>
-              orderEl.dishId + "" === cartEl.dishId + ""
+            (orderEl: OrderItem) => orderEl.dishId + "" === cartEl.dishId + ""
           );
           if (!orderItem?.quantity) return null;
 
@@ -137,10 +111,10 @@ export const createOrder = async (
   }
 
   await Promise.all(
-    orderItems.map(async (el: Partial<OrderItem>) => {
+    orderItems.map(async (el: OrderItem) => {
       el.images = (await Promise.all(
-        (el.images as string[])?.map(
-          async (el: string) => await uploadCloudURL(el)
+        (el.images as string[]).map(
+          async (url: string) => await uploadCloudURL(url)
         )
       )) as ImageType[];
     })
@@ -213,7 +187,7 @@ export const createOrder = async (
     },
     addressUser: user.address,
 
-    items: orderItems as unknown as OrderItem[],
+    items: orderItems as OrderItem[],
     totPrice: +totPrice.toFixed(2),
     discount,
     delivery: needApplyDel ? delPrice : 0,
@@ -232,7 +206,7 @@ export const createOrder = async (
   const { paymentIntent } = await createPaymentInt(stripePrice);
   if (!paymentIntent) {
     await Order.findByIdAndDelete(newMongoOrder._id);
-    return baseErrResponse(res, 500, "Error creating payment");
+    return baseErrResponse(res, 500, "Error creating payment intent");
   }
 
   newMongoOrder.paymentId = paymentIntent.id;
@@ -245,7 +219,6 @@ export const createOrder = async (
     couponSaved.isActive = false;
     await couponSaved.save();
   }
-
   await Cart.findByIdAndDelete(cart._id);
   await User.findByIdAndUpdate(userId, {
     $set: {
@@ -263,3 +236,35 @@ export const createOrder = async (
     orderId: newMongoOrder._id,
   });
 };
+
+/*
+  // IMPORTANT => ALL COULD BE SKIP WITH DATE GET HOURS AND DATE GET MINUTES BUT I WANTED EXERCISE WORKING WITH DATES
+  // ms from 1 jan 1970
+  const open = existingRestaurant.openHours.openTime;
+  const close = existingRestaurant.openHours.closeTime;
+  const now = new Date();
+  const mid = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    //  then hours minutes and sec
+    0,
+    0,
+    0
+  );
+  // ms from 1970 - ms of midnight of ours day today => final res in minutes
+  const currTime =
+    (now.getTime() - mid.getTime()) / 1000 / 60 +
+    existingRestaurant.delivery.estTimeDelivery;
+  let isOpen = true;
+  if (close !== open) {
+    if (open < close) isOpen = currTime >= open && currTime < close;
+    else isOpen = currTime >= open || currTime < close;
+  }
+  if (!isOpen)
+    return baseErrResponse(
+      res,
+      400,
+      "Restaurant closed or delivery time too long for his close time programmed"
+    );
+    */
