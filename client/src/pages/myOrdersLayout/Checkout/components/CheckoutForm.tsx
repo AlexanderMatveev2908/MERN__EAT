@@ -73,7 +73,7 @@ const CheckoutForm: FC<PropsType> = ({
       setValue("search", order._id as string);
       setValue("searchVals", ["id"]);
 
-      navigate("/my-orders");
+      navigate("/my-orders", { replace: true });
     } catch {
       setTimeout(() => {
         pollOrder(retryCount + 1);

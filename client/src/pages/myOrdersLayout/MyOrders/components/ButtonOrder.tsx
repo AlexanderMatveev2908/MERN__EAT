@@ -75,8 +75,7 @@ const ButtonOrder: FC<PropsType> = ({ order, el }) => {
   if (el.action === ActionsMyOrdersBtns.CHECKOUT) {
     color = "#16a34a";
     handler = handlerCheckout;
-  }
-  if (
+  } else if (
     el.action === ActionsMyOrdersBtns.DELETE ||
     el.action === ActionsMyOrdersBtns.REFUND
   ) {
