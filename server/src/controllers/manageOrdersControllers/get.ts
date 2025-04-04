@@ -40,6 +40,7 @@ export const getManageOrders = async (
       restaurantId: {
         _id: el.restaurantId?._id,
         categories: el?.restaurantId.categories,
+        delivery: el?.restaurantId.delivery,
       },
     })) as any
   );
