@@ -38,6 +38,7 @@ type ReturnTypeCreateQueryHandler = {
   isPending: boolean;
   isError: boolean;
   error: ErrFoodApp;
+  id: string;
 };
 
 export const useCreateQueryHandlers = ({
@@ -61,17 +62,25 @@ export const useCreateQueryHandlers = ({
   useUpdateCardsLimit(limit, setLimit);
   const { handleSubmit, reset, trigger } = formCtx;
 
-  const defaultValues = REG_P_MY_REST.test(path)
-    ? defaultValuesMyRestSearch
-    : REG_P_DISHES.test(path)
-    ? defaultValuesMyDishesSearch
-    : REG_P_SEARCH.test(path)
-    ? defaultValsSearchAllUsers
-    : REG_P_DISHES_USER.test(path)
-    ? defaultValuesSearchDishesAsUser
-    : REG_P_MY_ORD.test(path)
-    ? defaultValsSearchMyOrders
-    : {};
+  let defaultValues: any = null;
+  let id: string | null = null;
+
+  if (REG_P_MY_REST.test(path)) {
+    defaultValues = defaultValuesMyRestSearch;
+    id = "searchBarMyRest";
+  } else if (REG_P_DISHES.test(path)) {
+    defaultValues = defaultValuesMyDishesSearch;
+    id = "searchBarMyDishes";
+  } else if (REG_P_SEARCH.test(path)) {
+    defaultValues = defaultValsSearchAllUsers;
+    id = "searchBarAllUsers";
+  } else if (REG_P_DISHES_USER.test(path)) {
+    defaultValues = defaultValuesSearchDishesAsUser;
+    id = "searchBarDishesAsUser";
+  } else if (REG_P_MY_ORD.test(path)) {
+    defaultValues = defaultValsSearchMyOrders;
+    id = "searchBarMyOrders";
+  }
 
   const handleSave = handleSubmit((formDatHook) => {
     formDatHook.page = currPage + "";
@@ -126,11 +135,10 @@ export const useCreateQueryHandlers = ({
     setCloseAllDrop(true);
     setCurrPageBeforeCb(val);
 
-    const summary = document.getElementById("summaryRestPage");
-    const h = summary?.getBoundingClientRect()?.height;
+    const h = document.getElementById(id!)?.offsetTop;
 
     window.scrollTo({
-      top: REG_P_DISHES_USER.test(path) ? (h ?? 0) + 800 : 200,
+      top: h ?? 0,
       behavior: "smooth",
     });
   };
@@ -152,5 +160,6 @@ export const useCreateQueryHandlers = ({
     isPending,
     isError,
     error: error as ErrFoodApp,
+    id: id as string,
   };
 };

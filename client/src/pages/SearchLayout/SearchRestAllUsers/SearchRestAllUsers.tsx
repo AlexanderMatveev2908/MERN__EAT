@@ -35,6 +35,7 @@ const SearchRestAllUsers: FC = () => {
     error,
     isSuccess,
     closeAllDrop,
+    id,
   } = useCreateQueryHandlers({
     formCtx: formContext,
     key: "searchAllUsersRest",
@@ -63,6 +64,7 @@ const SearchRestAllUsers: FC = () => {
             handleSave,
             handleClear,
             closeAllDrop,
+            id,
           }}
         />
       </FormProvider>

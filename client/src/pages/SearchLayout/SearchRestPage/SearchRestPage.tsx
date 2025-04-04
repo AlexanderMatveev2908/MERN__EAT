@@ -84,6 +84,7 @@ const SearchRestPage: FC = () => {
     error: errorDishes,
     isSuccess: isSuccessDishes,
     closeAllDrop,
+    id,
   } = useCreateQueryHandlers({
     formCtx: formContext,
     key: "searchDishesAsUser",
@@ -125,7 +126,7 @@ const SearchRestPage: FC = () => {
         </div>
 
         {isBuyingSameRest && (
-          <div id="summaryRestPage" className="w-full mt-6">
+          <div className="w-full mt-6">
             <SummaryCart {...{ rest: dataRest?.restaurant }} />
           </div>
         )}
@@ -139,6 +140,7 @@ const SearchRestPage: FC = () => {
               closeAllDrop,
               isPending: isPendingDishes,
               sorters: searchDishesSorters,
+              id,
             }}
           />
         </FormProvider>
