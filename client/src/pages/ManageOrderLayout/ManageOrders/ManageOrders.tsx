@@ -15,6 +15,8 @@ import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
+import ManageOrderItem from "./ManageOrderItem";
+import { OrderType } from "../../../types/types";
 
 const ManageOrders: FC = () => {
   useScrollTop();
@@ -80,7 +82,13 @@ const ManageOrders: FC = () => {
       ) : isError ? (
         <ErrEmoji {...{ err: error }} />
       ) : (
-        !!orders?.length && null
+        !!orders?.length && (
+          <div className="container__cards__grid">
+            {orders.map((el: OrderType) => (
+              <ManageOrderItem key={el._id} {...{ order: el }} />
+            ))}
+          </div>
+        )
       )}
 
       <BlockPages {...{ ...propsBlock, totPages }} />

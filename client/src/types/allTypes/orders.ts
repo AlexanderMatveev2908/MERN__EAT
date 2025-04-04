@@ -27,6 +27,7 @@ export type OrderStatusType =
 
 export type IDPopulatedOrder = {
   _id: string;
+  categories?: string[];
   delivery: DeliveryType;
 };
 

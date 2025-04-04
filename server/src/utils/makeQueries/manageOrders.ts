@@ -6,6 +6,7 @@ export const filterManageOrders = (
   req: RequestWithUserId,
   orders: OrderType[]
 ) => {
+  const { userId } = req;
   const {
     search,
     searchVals,
@@ -62,6 +63,8 @@ export const filterManageOrders = (
     if (minQuantity) matchMinQTy = totQty >= +minQuantity;
     let matchMaxQTy: boolean = true;
     if (maxQuantity) matchMaxQTy = totQty <= +maxQuantity;
+
+    el.isAdmin = el.userId + "" === userId;
 
     return (
       matchTxt &&
