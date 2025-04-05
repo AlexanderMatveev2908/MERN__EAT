@@ -109,15 +109,19 @@ export const createOrder = async (
     }
   }
 
-  await Promise.all(
-    orderItems.map(async (el: OrderItem) => {
-      el.images = (await Promise.all(
-        (el.images as string[]).map(
-          async (url: string) => await uploadCloudURL(url)
-        )
-      )) as ImageType[];
-    })
-  );
+  try {
+    await Promise.all(
+      orderItems.map(async (el: OrderItem) => {
+        el.images = (
+          await Promise.all(
+            (el.images as string[]).map(
+              async (url: string) => await uploadCloudURL(url)
+            )
+          )
+        ).flat(Infinity) as ImageType[];
+      })
+    );
+  } catch {}
 
   let totPrice = 0;
   let i = orderItems.length - 1;
