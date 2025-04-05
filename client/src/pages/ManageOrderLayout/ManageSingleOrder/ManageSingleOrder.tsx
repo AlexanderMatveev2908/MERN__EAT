@@ -9,7 +9,8 @@ import { ErrFoodApp } from "../../../types/allTypes/API";
 import ListItemsOrder from "../../../UI/components/ListItemsOrder";
 import { isObjOk } from "../../../utils/allUtils/validateData";
 import ParentContentLoading from "../../../UI/components/ParentContentLoading";
-import { addKey } from "../../../utils/allUtils/genID";
+import { showPairsUserInfo } from "../../../core/config/fieldsArr/allFields/manageOrders/show";
+import DropElStatic from "../../../UI/components/DropElStatic";
 
 const ManageSingleOrder: FC = () => {
   const orderId = useParams()?.orderId;
@@ -36,29 +37,24 @@ const ManageSingleOrder: FC = () => {
         <div className="w-full grid justify-items-center">
           <ListItemsOrder {...{ order }} />
 
-          <div className="w-full grid grid-rows-1 md:grid-cols-2 mt-6 gap-x-10 gap-y-5 items-start">
-            {addKey([
-              addKey(Object.entries(order.infoUser)),
-              addKey(Object.entries(order.addressUser)),
-            ]).map((arr) => (
-              <ul
-                key={arr.key}
-                className="w-full grid border-[3px] border-orange-500 rounded-xl p-4"
-              >
-                {arr.el.map((el) =>
-                  el.el[0] === "_id" ? null : (
-                    <li
-                      key={el.key}
-                      className="w-full grid grid-cols-[75px_1fr] gap-5"
-                    >
-                      <span className="txt__01">{el.el[0]}</span>
-                      <span className="txt__01 justify-self-end block overflow-x-scroll hide_scrollbar max-w-full">
-                        {el.el[1]}
-                      </span>
-                    </li>
-                  )
-                )}
-              </ul>
+          <div className="w-full grid grid-rows-1 mt-6 gap-x-10 gap-y-5 items-start">
+            {showPairsUserInfo(
+              Object.entries(order.infoUser) as string[][],
+              Object.entries(order.addressUser) as string[][]
+            ).map((el) => (
+              <DropElStatic {...{ el }}>
+                {el.pairs.map((el) => (
+                  <li
+                    key={el.id}
+                    className="w-full grid grid-cols-[75px_1fr] gap-5"
+                  >
+                    <span className="txt__01">{el.pair[0]}</span>
+                    <span className="txt__01 justify-self-end block overflow-x-scroll hide_scrollbar max-w-full">
+                      {el.pair[1]}
+                    </span>
+                  </li>
+                ))}
+              </DropElStatic>
             ))}
           </div>
         </div>
