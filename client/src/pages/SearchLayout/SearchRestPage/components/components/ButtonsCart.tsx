@@ -18,6 +18,7 @@ const ButtonsCart: FC<PropsType> = ({ dish }) => {
     handleMouseUp,
 
     isPending,
+    setLocalQty,
     localQty,
     qtyItem,
     isAvl,
@@ -53,7 +54,10 @@ const ButtonsCart: FC<PropsType> = ({ dish }) => {
         </button>
       </div>
       <button
-        onClick={() => handleClickCart("del-item")}
+        onClick={() => {
+          setLocalQty(0);
+          handleClickCart("del-item");
+        }}
         disabled={!qtyItem || isPending}
         className="btn__icon el__flow border-red-600   justify-self-end group"
       >

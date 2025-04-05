@@ -180,6 +180,7 @@ export const delCart = async (
   await Cart.findOneAndDelete({
     user: makeMongoId(userId ?? ""),
   });
+  await User.findByIdAndUpdate(userId, { cart: null });
   // if (!cartDeleted) return baseErrResponse(res, 404, "Cart not found");
 
   return res.status(200).json({ msg: "Cart deleted", success: true });

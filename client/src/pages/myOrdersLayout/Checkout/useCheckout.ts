@@ -6,7 +6,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import { getInfoPendingOrderAPI } from "../../../core/api/APICalls/orders";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { isObjOk } from "../../../utils/allUtils/validateData";
 import { ErrFoodApp, ErrFoodOrder } from "../../../types/allTypes/API";
 
@@ -26,6 +26,7 @@ export const useCheckout = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const [restId, setRestId] = useState<string | null>(null);
 
   const formContext = useForm<AddressFormType>({
     mode: "onChange",
@@ -56,6 +57,7 @@ export const useCheckout = () => {
   useEffect(() => {
     if (isSuccessInfo) {
       const { order } = dataInfo ?? {};
+      setRestId((order?.restaurantId as string) ?? null);
       if (isObjOk(order)) {
         for (const key in order.infoUser) {
           formContext.setValue(
@@ -77,6 +79,7 @@ export const useCheckout = () => {
       setTimeout(() => {
         if ((errorInfo as ErrFoodOrder)?.response?.data?.remakeCart) {
           queryClient.removeQueries({ queryKey: ["myCart"] });
+
           setInfoPop({
             msg: `We thought you might want to review cart up to stock to make new order ${
               (errorInfo as ErrFoodOrder)?.response?.data?.resetCoupon
@@ -85,8 +88,11 @@ export const useCheckout = () => {
             }`,
             confirmActMsg: "Go to cart",
             cancelActMsg: "Close",
-            confirmActCb: () =>
-              navigate(`/search/${dataInfo?.order?.restaurantId ?? ""}`),
+            confirmActCb: () => {
+              navigate(`/search/${restId ?? ""}`);
+              setInfoPop(null);
+            },
+
             cancelActCb: () => setInfoPop(null),
           });
         } else if ((errorInfo as ErrFoodOrder)?.response?.data?.resetCoupon) {

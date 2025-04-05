@@ -1,7 +1,7 @@
 import { FC, FormEvent, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { AddressFormType } from "../useCheckout";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   lastCheckOrderAPI,
   pollingOrderAPI,
@@ -38,6 +38,7 @@ const CheckoutForm: FC<PropsType> = ({
 
   const stripe = useStripe();
   const elements = useElements();
+  const queryClient = useQueryClient();
 
   const { handleErrAPI, showToastMsg } = useGetFavHooks();
   const { formContextSearchMyOrders } = useFormsCustom();

@@ -60,6 +60,16 @@ export const clearOrder = async (
   restaurant?: RestaurantType,
   orderItemsFresh?: OrderItem[]
 ) => {
+  const msg = `${
+    restaurant
+      ? `${
+          orderItemsFresh?.length
+            ? "Some items are not available anymore or removed from menu"
+            : "Items not available or removed from menu"
+        }`
+      : "Restaurant not found or business activity closed "
+  }`;
+
   const user = (await User.findById(
     order.userId
   )) as HydratedDocument<UserType>;
@@ -119,7 +129,12 @@ export const clearOrder = async (
   await Order.findByIdAndDelete(order._id);
   user.orders = user.orders.filter((el) => el + "" !== order._id + "");
   await user.save();
-  if (!order.coupon) return baseErrResponse(res, 404, "Restaurant not found");
+  if (!order.coupon)
+    return res.status(422).json({
+      msg,
+      success: false,
+      remakeCart,
+    });
 
   const coupon = await Coupon.findById(order.coupon);
   const isStillValid = new Date(coupon?.expiryDate ?? 0).getTime() > Date.now();
@@ -133,7 +148,7 @@ export const clearOrder = async (
   }
 
   return res.status(404).json({
-    msg: "Restaurant not found",
+    msg,
     success: false,
     resetCoupon: isStillValid,
     remakeCart,
