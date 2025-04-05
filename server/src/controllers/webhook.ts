@@ -39,6 +39,7 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
 
   if (paymentStatus === "succeeded" && order.status === "pending") {
     order.status = "confirmed";
+    order.timeConfirmed = new Date();
     await order.save();
 
     const promises = order.items.map(async (el: OrderItem) => {

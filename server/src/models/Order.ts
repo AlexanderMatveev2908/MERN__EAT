@@ -45,6 +45,7 @@ export type OrderType = {
   };
   totPrice: number;
   delivery: number;
+  timeConfirmed: Date;
   discount: number;
   coupon: string | null;
   status: OrderStatus;
@@ -131,6 +132,10 @@ const OrderSchema = new mongoose.Schema(
     delivery: {
       type: Number,
       default: 0,
+    },
+    timeConfirmed: {
+      type: Date,
+      default: null,
     },
     coupon: {
       type: mongoose.Schema.Types.ObjectId,

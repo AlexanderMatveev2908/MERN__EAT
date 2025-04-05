@@ -8,7 +8,7 @@ import { handleNoHits } from "../../utils/handleNoHits.js";
 import { filterManageOrders } from "../../utils/makeQueries/manageOrders.js";
 import { makeSorters } from "../../utils/makeSorters/general.js";
 import { sortOrders } from "./funnyRecursive.js";
-import { baseErrResponse } from "../../utils/baseErrResponse.js";
+import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
 
 export const getManageOrders = async (
   req: RequestWithUserId,
@@ -82,6 +82,8 @@ export const getSingleManageOrders = async (
     restaurantId: { $in: restaurants.map((el) => el._id) },
   }).populate("restaurantId");
   if (!order) return baseErrResponse(res, 404, "Order not found");
+
+  if (order.status === "pending") return badRequest(res);
 
   return res.status(200).json({
     message: "ok",

@@ -48,6 +48,7 @@ export type OrderType = {
   };
   totPrice: number;
   delivery: number;
+  timeConfirmed: string;
   discount: number;
   coupon: string | null;
   status: OrderStatusType;
