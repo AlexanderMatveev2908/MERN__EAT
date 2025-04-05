@@ -117,9 +117,7 @@ export const createOrder = async (
         )) as ImageType[];
       })
     );
-  } catch (err) {
-    console.log(err);
-  }
+  } catch {}
 
   if (
     orderItems.some((el) =>
