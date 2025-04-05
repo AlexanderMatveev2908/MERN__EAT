@@ -12,7 +12,7 @@ const HeaderIDItem: FC<PropsType> = ({ id }) => {
       <div className="w-full flex gap-2 items-center px-3 py-2">
         <CiDatabase className="text-orange-500 icon__base -ml-2" />
 
-        <span className="txt__02">ID:</span>
+        <span className="txt__01">ID:</span>
       </div>
 
       <div className="w-full max-w-full flex items-center">

@@ -23,7 +23,7 @@ const DetailsRestUserStats: FC<PropsType> = ({ rest }) => {
           >
             <span className="txt__01">{el.label}</span>
 
-            <span className="txt__02 justify-self-end">{el.field}</span>
+            <span className="txt__01 justify-self-end">{el.field}</span>
           </li>
         ))}
       </DropElAbsolute>
@@ -36,7 +36,7 @@ const DetailsRestUserStats: FC<PropsType> = ({ rest }) => {
           >
             <span className="txt__01">{el.label}</span>
 
-            <span className="txt__02 justify-self-end">{el.field}</span>
+            <span className="txt__01 justify-self-end">{el.field}</span>
           </li>
         ))}
       </DropElAbsolute>

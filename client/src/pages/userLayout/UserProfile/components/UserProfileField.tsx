@@ -20,7 +20,7 @@ const UserProfileField: FC<PropsType> = ({
 
   return (
     <label key={el.id} className="w-full flex flex-col gap-y-2">
-      <span className="txt__02">{el.label}</span>
+      <span className="txt__01">{el.label}</span>
 
       <input
         ref={inputRef}

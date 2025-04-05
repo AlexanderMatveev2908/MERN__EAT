@@ -26,7 +26,7 @@ const Newsletter: FC = () => {
         }`}
       >
         <div className="w-full flex flex-col self-start">
-          <span className="txt__02">Newsletter</span>
+          <span className="txt__01">Newsletter</span>
         </div>
         {isLogged ? (
           <LoggedNewsLetter

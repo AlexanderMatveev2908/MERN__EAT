@@ -23,7 +23,7 @@ const DropLogged: FC = () => {
           className="w-full cursor-pointer flex gap-3 pl-3 pr-10 py-3 justify-start group"
         >
           <LogOut className="svg__drop" />
-          <span className="txt__02 group-hover:text-orange-500 duration-300 transition-all">
+          <span className="txt__01 group-hover:text-orange-500 duration-300 transition-all">
             Logout
           </span>
         </button>

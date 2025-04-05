@@ -81,7 +81,7 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
                 <div className="w-full flex items-center gap-3">
                   <el.icon className="min-w-[25px] min-h-[25px] group-hover:text-orange-500 el__flow" />
 
-                  <span className="txt__02 group-hover:text-orange-500 el__flow ">
+                  <span className="txt__01 group-hover:text-orange-500 el__flow ">
                     {el.label}
                   </span>
                 </div>
@@ -89,7 +89,7 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
                 <div className="w-full flex items-center gap-3">
                   <el.icon className="min-w-[25px] min-h-[25px] group-hover:text-orange-500 el__flow" />
 
-                  <span className="txt__02 group-hover:text-orange-500 el__flow ">
+                  <span className="txt__01 group-hover:text-orange-500 el__flow ">
                     {el.label}
                   </span>
                 </div>
@@ -97,7 +97,7 @@ const DropSingleRestPage: FC<PropsType> = ({ restId }) => {
                 <Link to={el.path} className="w-full flex items-center gap-3">
                   <el.icon className="min-w-[25px] min-h-[25px] group-hover:text-orange-500 el__flow" />
 
-                  <span className="txt__02 group-hover:text-orange-500 el__flow ">
+                  <span className="txt__01 group-hover:text-orange-500 el__flow ">
                     {el.label}
                   </span>
                 </Link>

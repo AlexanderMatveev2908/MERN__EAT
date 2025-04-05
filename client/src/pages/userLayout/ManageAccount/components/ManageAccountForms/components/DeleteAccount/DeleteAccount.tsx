@@ -26,9 +26,9 @@ const DeleteAccount: FC<PropsType> = ({
       <span className="txt__03">Delete Account</span>
 
       <div>
-        <span className="txt__02">This action is&nbsp;</span>
-        <span className="txt__03">irreversible&nbsp;</span>
-        <span className="txt__02">
+        <span className="txt__01">This action is&nbsp;</span>
+        <span className="txt__02">irreversible&nbsp;</span>
+        <span className="txt__01">
           , continuing you will delete your account and all associated data,
           without possibility of recovery.
         </span>
