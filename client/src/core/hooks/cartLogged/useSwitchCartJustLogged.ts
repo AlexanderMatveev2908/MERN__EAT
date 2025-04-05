@@ -22,7 +22,7 @@ export const useSwitchCartJustLogged = () => {
       return switchCartLocalStorageAPI(cart);
     },
     onSuccess: () => {
-      queryClient.resetQueries({ queryKey: ["myCart"] });
+      queryClient.removeQueries({ queryKey: ["myCart"] });
       showToastMsg("Cart replaced", "SUCCESS");
       setCartNonLogged(null);
     },

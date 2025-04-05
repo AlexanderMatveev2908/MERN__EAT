@@ -63,7 +63,7 @@ export const useNewsletter = () => {
       if (err?.response?.status === 401) handleErrAPI({ err });
       else showToastMsg(err?.response?.data?.msg || err.message, "ERROR");
     },
-    onSettled: () => queryClient.resetQueries({ queryKey: ["currUser"] }),
+    onSettled: () => queryClient.removeQueries({ queryKey: ["currUser"] }),
   });
 
   const toggleNewsLetter = () => {

@@ -44,7 +44,7 @@ export const useUpdateCartByClick = ({
         else handleErrAPI({ err });
       });
     },
-    onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),
+    onSettled: () => queryClient.removeQueries({ queryKey: ["myCart"] }),
   });
 
   const handleClickCart = (action: ActionsCLickCart) => mutate(action);

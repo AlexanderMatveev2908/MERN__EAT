@@ -30,7 +30,7 @@ export const useVerifyUser = () => {
     onSuccess: () => {
       showToastMsg("New Email successfully verified!", "SUCCESS");
 
-      queryClient.resetQueries({ queryKey: ["currUser"] });
+      queryClient.removeQueries({ queryKey: ["currUser"] });
       navigate("/", { replace: true });
     },
     onError: (err: ErrFoodApp) => {

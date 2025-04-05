@@ -38,17 +38,19 @@ const InfoPop = () => {
             />
           </div>
 
-          <div className="w-full max-w-[250px] flex justify-center">
-            <ButtonBasic
-              {...{
-                label: infoPop?.cancelActMsg,
-                styleTxt: "txt__02",
-                handleClick: () => infoPop?.cancelActCb(),
-                isDisabled: someoneIsLoading,
-                isPending: infoPop?.isPendingCancel,
-              }}
-            />
-          </div>
+          {infoPop?.cancelActMsg !== "_" && (
+            <div className="w-full max-w-[250px] flex justify-center">
+              <ButtonBasic
+                {...{
+                  label: infoPop?.cancelActMsg,
+                  styleTxt: "txt__02",
+                  handleClick: () => infoPop?.cancelActCb(),
+                  isDisabled: someoneIsLoading,
+                  isPending: infoPop?.isPendingCancel,
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

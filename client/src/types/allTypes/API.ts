@@ -30,6 +30,10 @@ export interface ErrFoodApp extends AxiosError {
   response?: AxiosResponse<{ msg: string; success: boolean }>;
 }
 
+export interface ErrFoodOrder extends AxiosError {
+  response?: AxiosResponse<{ remakeCart: boolean; resetCoupon: boolean }>;
+}
+
 export type GetElsQueriedReturnType = {
   totDocuments: number;
   nHits: number;

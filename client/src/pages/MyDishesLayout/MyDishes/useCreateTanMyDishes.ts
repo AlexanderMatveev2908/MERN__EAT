@@ -28,7 +28,7 @@ export const useCreateTanMyDishes = ({
     onSuccess: () => {
       showToastMsg("Dishes Deleted successfully", "SUCCESS");
       setSelected([]);
-      queryClient.resetQueries({ queryKey: ["myDishesSearch"] });
+      queryClient.removeQueries({ queryKey: ["myDishesSearch"] });
     },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
     onSettled: () => setPopup(null),

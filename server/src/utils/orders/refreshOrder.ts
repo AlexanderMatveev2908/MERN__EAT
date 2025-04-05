@@ -5,9 +5,11 @@ import Dish, { DishType } from "../../models/Dish.js";
 import Coupon from "../../models/Coupon.js";
 import { ImageType } from "../../models/Image.js";
 import { deleteCloud } from "../cloud.js";
-import User from "../../models/User.js";
+import User, { UserType } from "../../models/User.js";
 import { baseErrResponse } from "../baseErrResponse.js";
 import { Response } from "express";
+import Cart, { CartItem, CartType } from "../../models/Cart.js";
+import mongoose, { HydratedDocument } from "mongoose";
 
 export const checkIsOpen = (rest: RestaurantType) => {
   let isOpen = true;
@@ -49,24 +51,58 @@ export const getFreshItemsStock = async (order: OrderType) => {
     0
   );
 
-  return { oldQty, newQty };
+  return { orderItemsFresh, oldQty, newQty };
 };
 
 export const clearOrder = async (
   res: Response,
   order: OrderType,
-  restaurant?: RestaurantType
+  restaurant?: RestaurantType,
+  orderItemsFresh?: OrderItem[]
 ) => {
-  if (restaurant)
+  const user = (await User.findById(
+    order.userId
+  )) as HydratedDocument<UserType>;
+  let remakeCart: boolean = false;
+
+  if (restaurant) {
     await Restaurant.findByIdAndUpdate(restaurant._id, {
       $pull: { orders: order._id },
     });
 
-  await Order.findByIdAndDelete(order._id);
-  await User.findByIdAndUpdate(order.userId, {
-    $pull: { orders: order._id },
-  });
-  if (!order.coupon) return baseErrResponse(res, 404, "Restaurant not found");
+    if (!user?.cart && orderItemsFresh?.length) {
+      let totQty: number = 0;
+      let totPrice: number = 0;
+      const cartItems: CartItem[] = [];
+
+      let i = 0;
+      do {
+        const curr = orderItemsFresh[i];
+
+        totQty += curr.quantity;
+        totPrice += curr.quantity * curr.price;
+
+        const { images, ...rest } = curr;
+        cartItems.push(rest as CartItem);
+
+        i++;
+      } while (i < orderItemsFresh.length);
+
+      const newMongoCart = (await Cart.create({
+        restaurant: restaurant._id,
+        user: order.userId,
+        items: cartItems,
+        totQty,
+        totPrice: +totPrice.toFixed(2),
+      })) as CartType;
+
+      if (newMongoCart) {
+        remakeCart = true;
+        user.cart = newMongoCart._id as mongoose.Types.ObjectId;
+        await user.save();
+      }
+    }
+  }
 
   try {
     await Promise.all(
@@ -80,14 +116,18 @@ export const clearOrder = async (
     );
   } catch {}
 
+  await Order.findByIdAndDelete(order._id);
+  user.orders = user.orders.filter((el) => el + "" !== order._id + "");
+  await user.save();
+  if (!order.coupon) return baseErrResponse(res, 404, "Restaurant not found");
+
   const coupon = await Coupon.findById(order.coupon);
   const isStillValid = new Date(coupon?.expiryDate ?? 0).getTime() > Date.now();
   if (coupon) {
     coupon.usedBy = null;
     coupon.usedFor = null;
 
-    if (!isStillValid) coupon.isActive = false;
-    else coupon.isActive = false;
+    if (isStillValid) coupon.isActive = true;
 
     await coupon.save();
   }
@@ -96,5 +136,6 @@ export const clearOrder = async (
     msg: "Restaurant not found",
     success: false,
     resetCoupon: isStillValid,
+    remakeCart,
   });
 };

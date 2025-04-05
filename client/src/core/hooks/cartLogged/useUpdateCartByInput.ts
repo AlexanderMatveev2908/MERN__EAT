@@ -63,7 +63,7 @@ export const useUpdateCartByInput = ({ dish }: { dish: CartItem }) => {
     },
     onSettled: () => {
       isMutating.current = false;
-      queryClient.resetQueries({ queryKey: ["myCart"] });
+      queryClient.removeQueries({ queryKey: ["myCart"] });
     },
   });
 

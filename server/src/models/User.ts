@@ -48,7 +48,7 @@ export type UserType = {
     };
   };
 
-  cart: CartType;
+  cart: CartType | mongoose.Types.ObjectId;
   orders: OrderType[];
   createdAt: Date;
   updatedAt: Date;
