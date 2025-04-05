@@ -26,7 +26,9 @@ export const getOrders = async (
   const sortObj = makeSorters(req, "");
   const { limit, skip } = calcPagination(req);
 
-  const totDocuments = await Order.countDocuments();
+  const totDocuments = await Order.countDocuments({
+    userId: makeMongoId(userId ?? ""),
+  });
   const nHits = await Order.countDocuments(queryObj);
   if (!totDocuments) return handleNoHits(res, totDocuments);
 
@@ -52,10 +54,12 @@ export const getOrders = async (
   do {
     const curr = orders[i];
     curr.isAdmin = curr.userId + "" === userId;
-    curr.restaurantId = {
-      _id: (curr.restaurantId as any)._id,
-      delivery: (curr.restaurantId as any).delivery,
-    } as any;
+    curr.restaurantId = curr?.restaurantId
+      ? ({
+          _id: (curr.restaurantId as any)?._id,
+          delivery: (curr.restaurantId as any)?.delivery,
+        } as any)
+      : null;
     i--;
   } while (i >= 0);
 

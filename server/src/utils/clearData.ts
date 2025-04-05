@@ -4,6 +4,7 @@ import Restaurant, { RestaurantType } from "../models/Restaurant.js";
 import { deleteCloud } from "./cloud.js";
 import Cart, { CartItem, CartType } from "../models/Cart.js";
 import User from "../models/User.js";
+import Order from "../models/Order.js";
 
 export const clearDataDish = async (dish: DishType) => {
   if (dish.images?.length) {
@@ -57,6 +58,11 @@ export const clearData = async (rest: HydratedDocument<RestaurantType>) => {
   try {
     await Promise.all(promisesImgsImgRest);
   } catch {}
+
+  await Order.updateMany(
+    { restaurantId: { $eq: rest._id } },
+    { restaurantId: null }
+  );
 
   const carts = await Cart.find({
     restaurant: rest._id,

@@ -37,11 +37,13 @@ export const getManageOrders = async (
     req,
     orders.map((el) => ({
       ...el,
-      restaurantId: {
-        _id: el.restaurantId?._id,
-        categories: el?.restaurantId.categories,
-        delivery: el?.restaurantId.delivery,
-      },
+      restaurantId: el?.restaurantId
+        ? {
+            _id: el.restaurantId?._id,
+            categories: el?.restaurantId.categories,
+            delivery: el?.restaurantId.delivery,
+          }
+        : null,
     })) as any
   );
   const nHits = filtered.length;

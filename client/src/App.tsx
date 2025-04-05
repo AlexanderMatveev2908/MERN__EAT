@@ -40,8 +40,6 @@ import ManageSingleOrder from "./pages/ManageOrderLayout/ManageSingleOrder/Manag
 const App: FC = () => {
   useApp();
 
-  const obj = {};
-
   return (
     <Routes>
       <Route path="/" element={<MainLayoutRoute />}>

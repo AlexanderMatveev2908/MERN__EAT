@@ -22,14 +22,18 @@ export const filterManageOrders = (
     let matchTxt: boolean = true;
     if (search && searchVals) {
       if (!["id", "restaurantId"].includes(searchVals as string)) {
-        matchTxt = new RegExp(`.*${search}.*`, "i").test(
-          el[searchVals as keyof OrderType] + ""
-        );
+        if (searchVals === "restaurantName")
+          matchTxt = new RegExp(`.*${search}.*`, "i").test(
+            el["restaurantName" as keyof OrderType] + ""
+          );
+        else {
+          matchTxt = new RegExp(`.*${search}.*`, "i").test(
+            (el.restaurantId ?? {})?.[searchVals as any]
+          );
+        }
       } else {
         if (searchVals === "id") matchTxt = el._id + "" === search;
-        else
-          matchTxt =
-            (el.restaurantId as unknown as RestaurantType)._id + "" === search;
+        else matchTxt = ((el.restaurantId as any) ?? {})?._id + "" === search;
       }
     }
 
@@ -37,11 +41,7 @@ export const filterManageOrders = (
     if (categories)
       matchCat = (categories as string)
         .split(",")
-        .some((val) =>
-          (el.restaurantId as unknown as RestaurantType).categories.includes(
-            val
-          )
-        );
+        .some((val) => (el.restaurantId as any)?.categories?.includes(val));
 
     let matchStatus: boolean = true;
     if (ordersStatus)
