@@ -9,6 +9,7 @@ import { ErrFoodApp } from "../../../types/allTypes/API";
 import { Elements } from "@stripe/react-stripe-js";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
+import ListItemsOrder from "../../../UI/components/ListItemsOrder";
 
 const Checkout: FC = () => {
   useScrollTop();
@@ -45,6 +46,8 @@ const Checkout: FC = () => {
     >
       <div className="w-full grid justify-items-center place-content-center gap-6">
         <span className="txt__04">Checkout</span>
+
+        <ListItemsOrder {...{ order }} />
 
         <FormProvider {...formContext}>
           <CheckoutForm {...{ formContext, order, backPaymentInt }} />

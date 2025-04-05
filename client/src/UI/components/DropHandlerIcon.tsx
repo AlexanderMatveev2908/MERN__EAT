@@ -38,7 +38,7 @@ const DropHandlerIcon: FC<PropsType> = ({
             customIconStyle ?? "icon__base"
           } group-hover:text-orange-500 el__flow`}
         />
-        <span className="txt__01 group-hover:text-orange-500 el__flow">
+        <span className="txt__02 group-hover:text-orange-500 el__flow">
           {txt}
         </span>
       </div>
