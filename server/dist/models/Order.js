@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
-import { ImageSchema } from "./Image.js";
 import { AddressSchema } from "./User.js";
 export const ordersStatusArr = [
-    ,
     "pending",
     "confirmed",
     "processing",
@@ -28,7 +26,7 @@ const OrderItemSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    images: [ImageSchema],
+    images: { type: [mongoose.Schema.Types.Mixed], default: [] },
 });
 const OrderSchema = new mongoose.Schema({
     paymentId: {

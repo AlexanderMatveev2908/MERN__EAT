@@ -18,45 +18,37 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import Coupon from "../../../models/Coupon.js";
 import Order from "../../../models/Order.js";
 import Restaurant from "../../../models/Restaurant.js";
 import User from "../../../models/User.js";
 import { baseErrResponse } from "../../../utils/baseErrResponse.js";
-import { checkDataExistOrder, checkIsOpen, getFreshItemsStock, } from "../../../utils/orders/refreshOrder.js";
+import { checkIsOpen, clearOrder, getFreshItemsStock, } from "../../../utils/orders/refreshOrder.js";
+import { makeMongoId } from "../../../utils/dbPipeline/general.js";
 export const lastCheckOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     const { userId } = req;
-    const _b = req.body, { email, firstName, lastName } = _b, address = __rest(_b, ["email", "firstName", "lastName"]);
-    const result = yield checkDataExistOrder(req, res);
-    if (!result)
-        return;
-    const { restaurant, order } = result;
+    const { orderId } = req.query;
+    const _a = req.body, { email, firstName, lastName } = _a, address = __rest(_a, ["email", "firstName", "lastName"]);
+    const order = (yield Order.findOne({
+        _id: makeMongoId(orderId),
+        userId: makeMongoId(userId),
+    }).lean());
+    if (!order) {
+        yield User.findByIdAndUpdate(userId, {
+            $pull: { orders: makeMongoId(orderId) },
+        });
+        yield Restaurant.findOneAndUpdate({ orders: makeMongoId(orderId) }, { $pull: { orders: makeMongoId(orderId) } });
+        return baseErrResponse(res, 404, "Order not found");
+    }
+    const restaurant = (yield Restaurant.findById(order.restaurantId).lean());
+    if (!restaurant)
+        return clearOrder(res, order);
     if ((order === null || order === void 0 ? void 0 : order.status) !== "pending")
         return baseErrResponse(res, 400, "Order is not pending");
     if (!checkIsOpen(restaurant))
         return baseErrResponse(res, 400, "Restaurant closed or would not make in time order");
-    const { oldQty, newQty } = yield getFreshItemsStock(order);
-    if (oldQty !== newQty) {
-        yield User.findByIdAndUpdate(userId, {
-            $pull: { orders: order._id },
-        });
-        yield Order.findByIdAndDelete(order._id);
-        yield Restaurant.findByIdAndUpdate(restaurant._id, {
-            $pull: { orders: order._id },
-        });
-        if (order.coupon) {
-            const coupon = (yield Coupon.findById(order.coupon));
-            if (coupon) {
-                const isStillValid = new Date((_a = coupon.expiryDate) !== null && _a !== void 0 ? _a : 0).getTime() > Date.now();
-                if (!isStillValid) {
-                    coupon.isActive = false;
-                    yield coupon.save();
-                }
-            }
-        }
-        return baseErrResponse(res, 400, "Some items are not available anymore");
-    }
+    const { orderItemsFresh, oldQty, newQty } = yield getFreshItemsStock(order);
+    if (oldQty !== newQty)
+        return clearOrder(res, order, restaurant, orderItemsFresh);
     yield Order.findByIdAndUpdate(order._id, {
         $set: {
             addressUser: address,

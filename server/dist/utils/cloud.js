@@ -7,8 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import axios from "axios";
 import { v2 } from "cloudinary";
 import fs from "fs";
+import streamifier from "streamifier";
 export const uploadCloud = (files) => {
     const promises = files === null || files === void 0 ? void 0 : files.restaurantImages.map((file) => __awaiter(void 0, void 0, void 0, function* () {
         const b64 = file.buffer.toString("base64");
@@ -49,9 +51,18 @@ export const uploadUpdateDish = (files) => {
     return Promise.all(promises);
 };
 export const uploadCloudURL = (urlCloud) => __awaiter(void 0, void 0, void 0, function* () {
-    const { public_id, secure_url: url } = yield v2.uploader.upload(urlCloud, {
-        resource_type: "auto",
-        folder: "orders",
+    const res = yield axios.get(urlCloud, { responseType: "arraybuffer" });
+    const buffer = Buffer.from(res.data, "binary");
+    return new Promise((res, rej) => {
+        const uploadStream = v2.uploader.upload_stream({
+            resource_type: "auto",
+            folder: "orders",
+        }, (err, result) => {
+            if (err)
+                rej(err);
+            const { public_id, secure_url: url } = result;
+            res({ public_id, url });
+        });
+        streamifier.createReadStream(buffer).pipe(uploadStream);
     });
-    return { public_id, url };
 });

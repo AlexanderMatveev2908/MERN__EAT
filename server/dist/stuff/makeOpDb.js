@@ -43,7 +43,10 @@ export const updateCO = () => __awaiter(void 0, void 0, void 0, function* () {
             const promises = el.items
                 .map((el) => el.images.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(el.public_id); })))
                 .flat(Infinity);
-            yield Promise.all(promises);
+            try {
+                yield Promise.all(promises);
+            }
+            catch (_a) { }
             yield el.deleteOne();
         }));
         yield Promise.all(promises);
@@ -51,6 +54,6 @@ export const updateCO = () => __awaiter(void 0, void 0, void 0, function* () {
         yield Coupon.deleteMany({});
     }
     yield Coupon.deleteMany({});
-    yield User.updateMany({}, { orders: [] });
+    yield User.updateMany({}, { orders: [], cart: null });
     yield Restaurant.updateMany({}, { orders: [] });
 });

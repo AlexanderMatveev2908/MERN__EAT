@@ -1,10 +1,6 @@
 import { useContext } from "react";
 import { GlobalContext } from "../context/global/GlobalContext";
-import {
-  FormsCtxType,
-  RootValsType,
-  SideVals,
-} from "../context/root/rootTypes";
+import { RootValsType, SideVals } from "../context/root/rootTypes";
 import { ToastValsType } from "../../types/allTypes/toastTypes";
 import { UserValsType } from "../../types/allTypes/userTypes";
 import { PopupValsType } from "../../types/allTypes/popup";
@@ -12,6 +8,7 @@ import { CartVals } from "../../types/allTypes/cart";
 import { NoticeVals } from "../context/hooks/useNoticeVals";
 import { InfoPopVals } from "../context/hooks/useInfoPopVals";
 import { Stripe } from "@stripe/stripe-js";
+import { FormsCtxType } from "../context/hooks/useFormsVals";
 
 const useGlobal = (): RootValsType => {
   const context = useContext(GlobalContext);

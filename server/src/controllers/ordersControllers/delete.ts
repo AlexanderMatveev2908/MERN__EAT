@@ -24,11 +24,17 @@ export const deletePendingOrder = async (
   if (order.status !== "pending")
     return baseErrResponse(res, 400, "Order is not pending");
 
-  await Promise.all(
-    order.items.map((el: OrderItem) =>
-      el.images.map(async (el: ImageType) => await deleteCloud(el.public_id))
-    )
-  );
+  try {
+    await Promise.all(
+      order.items
+        .map((el: OrderItem) =>
+          (el.images as ImageType[]).map(
+            async (el: ImageType) => await deleteCloud(el.public_id)
+          )
+        )
+        .flat(Infinity)
+    );
+  } catch {}
 
   await User.findByIdAndUpdate(userId, {
     $pull: { orders: makeMongoId(orderId as string) },

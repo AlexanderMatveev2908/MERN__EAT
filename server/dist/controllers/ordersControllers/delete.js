@@ -24,7 +24,12 @@ export const deletePendingOrder = (req, res) => __awaiter(void 0, void 0, void 0
         return baseErrResponse(res, 404, "Order not found");
     if (order.status !== "pending")
         return baseErrResponse(res, 400, "Order is not pending");
-    yield Promise.all(order.items.map((el) => el.images.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(el.public_id); }))));
+    try {
+        yield Promise.all(order.items
+            .map((el) => el.images.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(el.public_id); })))
+            .flat(Infinity));
+    }
+    catch (_a) { }
     yield User.findByIdAndUpdate(userId, {
         $pull: { orders: makeMongoId(orderId) },
     });
