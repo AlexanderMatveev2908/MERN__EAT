@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
@@ -13,8 +13,17 @@ import { showPairsUserInfo } from "../../../core/config/fieldsArr/allFields/mana
 import DropElStatic from "../../../UI/components/DropElStatic";
 import ContentMath from "../../../UI/components/ContentMath";
 import { getTotOrder } from "../../../utils/allUtils/priceFormatter";
+import {
+  getColorTimer,
+  getPercDelTime,
+} from "../../../utils/allUtils/formatTime";
+import { OrderType } from "../../../types/types";
+import { showFieldsDelivery } from "../../../core/config/fieldsArr/allFields/myOrders/show";
+import { IDPopulatedOrder } from "../../../types/allTypes/orders";
 
 const ManageSingleOrder: FC = () => {
+  const [percDel, setPercDel] = useState(0);
+
   const orderId = useParams()?.orderId;
   const canStay = REG_MONGO.test(orderId ?? "");
 
@@ -33,37 +42,83 @@ const ManageSingleOrder: FC = () => {
 
   const { order } = data ?? {};
 
+  useEffect(() => {
+    if (!isObjOk(order)) return;
+    const interval = setInterval(() => {
+      setPercDel(getPercDelTime(order as OrderType));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [order]);
+
   return (
     <ParentContentLoading {...{ isPending, isError, error, canStay }}>
       {order && isObjOk(order) && (
-        <div className="w-full grid justify-items-center">
-          <ListItemsOrder {...{ order }} />
+        <>
+          <span className="txt__04">{order.restaurantName}</span>
 
-          <div className="w-full grid grid-rows-1 mt-6 gap-x-10 gap-y-5 items-start md:grid-cols-2">
-            {showPairsUserInfo(
-              Object.entries(order.infoUser) as string[][],
-              Object.entries(order.addressUser) as string[][]
-            ).map((el) => (
-              <DropElStatic {...{ el }}>
-                {el.pairs.map((el) => (
-                  <li
-                    key={el.id}
-                    className="w-full grid grid-cols-[75px_1fr] gap-5"
-                  >
-                    <span className="txt__01">{el.pair[0]}</span>
-                    <span className="txt__01 justify-self-end block overflow-x-scroll hide_scrollbar max-w-full">
-                      {el.pair[1]}
-                    </span>
-                  </li>
-                ))}
-              </DropElStatic>
-            ))}
-          </div>
+          <div className="w-full grid justify-items-center gap-6">
+            <ListItemsOrder {...{ order }} />
 
-          <div className="w-full mt-4">
-            <ContentMath {...{ order, totOrder: getTotOrder(order) }} />
+            <div className="w-full grid grid-rows-1 gap-x-10 gap-y-5 items-start md:grid-cols-2">
+              {showPairsUserInfo(
+                Object.entries(order.infoUser) as string[][],
+                Object.entries(order.addressUser) as string[][]
+              ).map((el) => (
+                <DropElStatic {...{ el }}>
+                  {el.pairs.map((el) => (
+                    <li
+                      key={el.id}
+                      className="w-full grid grid-cols-[75px_1fr] gap-5"
+                    >
+                      <span className="txt__01">{el.pair[0]}</span>
+                      <span className="txt__01 justify-self-end block overflow-x-scroll hide_scrollbar max-w-full">
+                        {el.pair[1]}
+                      </span>
+                    </li>
+                  ))}
+                </DropElStatic>
+              ))}
+            </div>
+
+            <div className="w-full">
+              <ContentMath {...{ order, totOrder: getTotOrder(order) }} />
+            </div>
+
+            <ul className="w-full grid items-center gap-2">
+              {showFieldsDelivery(
+                order.timeConfirmed,
+                (order.restaurantId as IDPopulatedOrder).delivery
+                  .estTimeDelivery
+              ).map((el) => (
+                <li
+                  key={el.id}
+                  className="w-full grid grid-cols-2 items-center"
+                >
+                  <span className="txt__01">{el.label}</span>
+                  <span className="txt__01 justify-self-end sm:justify-self-center">
+                    {el.val}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            {!["pending", "cancelled"].includes(order.status) && (
+              <div className="w-full relative">
+                <div className="w-full absolute h-[40px] border-2 border-orange-500  rounded-full"></div>
+                <div className="absolute rounded-full h-[40px] w-full flex justify-start items-center p-1">
+                  <span
+                    style={{ width: `${percDel}%` }}
+                    className={`h-full rounded-full ${getColorTimer(
+                      order,
+                      percDel
+                    )}`}
+                  ></span>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
+        </>
       )}
     </ParentContentLoading>
   );

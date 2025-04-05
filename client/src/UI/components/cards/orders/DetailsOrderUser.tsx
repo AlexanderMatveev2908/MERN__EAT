@@ -75,7 +75,7 @@ const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
       {!["pending", "delivered", "cancelled"].includes(order.status) && (
         <DropElAbsolute {...{ el: fieldDeliveryMyOrders }}>
           {showFieldsDelivery(
-            order.createdAt,
+            order.timeConfirmed,
             (order.restaurantId as IDPopulatedOrder).delivery.estTimeDelivery
           ).map((el) => (
             <li
