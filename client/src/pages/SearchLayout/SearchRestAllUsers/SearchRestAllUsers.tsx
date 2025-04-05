@@ -8,10 +8,7 @@ import {
 } from "../../../core/config/fieldsArr/allFields/SearchRestAllUsers/filterSorter";
 import { FormProvider } from "react-hook-form";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
-import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
-import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useFormsCustom } from "../../../core/hooks/useGlobal";
 import { RestaurantAllUsers } from "../../../types/allTypes/search";
 import SearchBar_v_2 from "../../../UI/common/SearchBar/SearchBar_v_2";
@@ -19,7 +16,7 @@ import { useCreateQueryHandlers } from "../../../core/hooks/useCreateQueryHandle
 import { getRestAllUSersAPI } from "../../../core/api/APICalls/searchAllUsers";
 import { createURLParamsMultipleSearch } from "../../../utils/allUtils/makeURLParams";
 import SearchRestItem from "./components/SearchRestItem";
-import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
+import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 
 const SearchRestAllUsers: FC = () => {
   useScrollTop();
@@ -80,21 +77,15 @@ const SearchRestAllUsers: FC = () => {
           }}
         />
       )}
-
-      {isPending ||
-      msgHelpersFrontBack.includes(error?.response?.data?.msg ?? "") ? (
-        <LoaderPageReact />
-      ) : isError ? (
-        <ErrEmoji {...{ err: error as ErrFoodApp }} />
-      ) : (
-        !!restaurants?.length && (
+      <ParentContentLoading {...{ isPending, isError, error }}>
+        {!!restaurants?.length && (
           <div className="container__cards">
             {restaurants.map((el: RestaurantAllUsers) => (
               <SearchRestItem key={el._id} {...{ rest: el }} />
             ))}
           </div>
-        )
-      )}
+        )}
+      </ParentContentLoading>
 
       <BlockPages
         {...{

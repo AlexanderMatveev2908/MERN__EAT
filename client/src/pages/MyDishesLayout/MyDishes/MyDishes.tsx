@@ -8,15 +8,12 @@ import {
   myDishesFilters,
   sortersMyDishesFields,
 } from "../../../core/config/fieldsArr/allFields/MyDishes/filterSort";
-import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import MyDishesItem from "./components/MyDishesItem";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
-import { ErrFoodApp } from "../../../types/allTypes/API";
-import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
+import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 
 const MyDishes: FC = () => {
   useScrollTop();
@@ -104,13 +101,8 @@ const MyDishes: FC = () => {
         </div>
       )}
 
-      {isPending ||
-      msgHelpersFrontBack.includes(error?.response?.data?.msg ?? "") ? (
-        <LoaderPageReact />
-      ) : isError ? (
-        <ErrEmoji {...{ err: error as ErrFoodApp }} />
-      ) : (
-        !!dishes?.length && (
+      <ParentContentLoading {...{ isPending, isError, error }}>
+        {!!dishes?.length && (
           <div className="container__cards__grid">
             {dishes.map((el) => (
               <MyDishesItem
@@ -119,8 +111,9 @@ const MyDishes: FC = () => {
               />
             ))}
           </div>
-        )
-      )}
+        )}
+      </ParentContentLoading>
+
       <BlockPages {...{ ...propsBlock, totPages: data?.totPages }} />
     </div>
   );

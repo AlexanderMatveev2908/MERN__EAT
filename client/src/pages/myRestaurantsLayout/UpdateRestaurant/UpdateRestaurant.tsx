@@ -3,13 +3,9 @@ import { FC } from "react";
 import { useUpdateRestaurant } from "./useUpdateRestaurant";
 import { FormProvider } from "react-hook-form";
 import MyRestaurantsForm from "../../../UI/forms/MyRestaurants/MyRestaurantsForm";
-import { Navigate } from "react-router-dom";
-import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
-import { ErrFoodApp } from "../../../types/allTypes/API";
-import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
+import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 
 const UpdateRestaurant: FC = () => {
   useScrollTop();
@@ -21,46 +17,46 @@ const UpdateRestaurant: FC = () => {
     handleSave,
     isPendingUpdate,
     handleClickToOpenPopup,
-    isSuccessInfo,
+    isErrorInfo,
     errorInfo,
     currFormAddress,
     setCurrFormAddress,
   } = useUpdateRestaurant();
 
-  return !canStay ? (
-    <Navigate to="/" replace />
-  ) : isPendingInfo ||
-    msgHelpersFrontBack.includes(
-      (errorInfo as ErrFoodApp)?.response?.data?.msg ?? ""
-    ) ? (
-    <LoaderPageReact />
-  ) : isSuccessInfo ? (
-    <FormProvider {...formContext}>
-      <div className="w-full grid grid-cols-1 justify-items-center gap-y-5">
-        <span className="txt__04">Update your restaurant</span>
+  return (
+    <ParentContentLoading
+      {...{
+        isPending: isPendingInfo,
+        isError: isErrorInfo,
+        error: errorInfo,
+        canStay,
+      }}
+    >
+      <FormProvider {...formContext}>
+        <div className="w-full grid grid-cols-1 justify-items-center gap-y-5">
+          <span className="txt__04">Update your restaurant</span>
 
-        <div className="w-fit justify-self-end">
-          <DeleteButton
-            {...{
-              txt: "Delete restaurant",
-              handleDelete: handleClickToOpenPopup,
-            }}
+          <div className="w-fit justify-self-end">
+            <DeleteButton
+              {...{
+                txt: "Delete restaurant",
+                handleDelete: handleClickToOpenPopup,
+              }}
+            />
+          </div>
+
+          <MyRestaurantsForm
+            {...({
+              formContext,
+              handleSave,
+              isPending: isPendingUpdate,
+              currFormAddress,
+              setCurrFormAddress,
+            } as any)}
           />
         </div>
-
-        <MyRestaurantsForm
-          {...({
-            formContext,
-            handleSave,
-            isPending: isPendingUpdate,
-            currFormAddress,
-            setCurrFormAddress,
-          } as any)}
-        />
-      </div>
-    </FormProvider>
-  ) : (
-    <ErrEmoji {...{ err: errorInfo as ErrFoodApp }} />
+      </FormProvider>
+    </ParentContentLoading>
   );
 };
 export default UpdateRestaurant;

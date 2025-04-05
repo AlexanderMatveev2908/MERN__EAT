@@ -1,5 +1,4 @@
 import { FC } from "react";
-import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import RestaurantItem from "./components/RestaurantItem";
 import SearchBar from "../../../UI/common/SearchBar/SearchBar";
 import {
@@ -11,12 +10,10 @@ import { FormProvider } from "react-hook-form";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
-import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useFormsCustom } from "../../../core/hooks/useGlobal";
 import { useCreateQueryHandlers } from "../../../core/hooks/useCreateQueryHandlers";
 import { getMyRestaurantsAPI } from "../../../core/api/api";
-import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
+import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 
 const MyRestaurants: FC = () => {
   useScrollTop();
@@ -75,20 +72,15 @@ const MyRestaurants: FC = () => {
         />
       )}
 
-      {isPending ||
-      msgHelpersFrontBack.includes(error?.response?.data?.msg ?? "") ? (
-        <LoaderPageReact />
-      ) : isError ? (
-        <ErrEmoji {...{ err: error as ErrFoodApp }} />
-      ) : (
-        !!restaurants?.length && (
+      <ParentContentLoading {...{ isPending, isError, error }}>
+        {!!restaurants?.length && (
           <div className="container__cards__grid">
             {restaurants?.map((rest) => (
               <RestaurantItem key={rest._id} {...{ rest }} />
             ))}
           </div>
-        )
-      )}
+        )}
+      </ParentContentLoading>
 
       <BlockPages {...{ ...propsBlock, totPages }} />
     </div>

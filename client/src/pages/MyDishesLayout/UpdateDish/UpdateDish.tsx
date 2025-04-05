@@ -2,14 +2,10 @@ import { FC } from "react";
 import { useUpdateDish } from "./useUpdateDish";
 import { FormProvider } from "react-hook-form";
 import MyDishesForm from "../../../UI/forms/MyDishes/MyDishesForm";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
-import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
-import { Navigate } from "react-router-dom";
+import { ReturnIdsAPI } from "../../../core/api/APICalls/myDishes";
+import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
-import { ErrFoodApp } from "../../../types/allTypes/API";
-import { ReturnIdsAPI } from "../../../core/api/APICalls/myDishes";
-import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const UpdateDish: FC = () => {
   useScrollTop();
@@ -22,8 +18,11 @@ const UpdateDish: FC = () => {
     isSuccess,
     canStay,
     handleOpenPopup,
-    isPending,
+    isPendingUpdate,
     errorInfo,
+    errorIds,
+    isErrorIds,
+    isErrorInfo,
   } = useUpdateDish();
 
   return (
@@ -38,31 +37,25 @@ const UpdateDish: FC = () => {
         </div>
       )}
 
-      {!canStay ? (
-        <Navigate to="/" replace />
-      ) : isPendingPage ||
-        msgHelpersFrontBack.includes(
-          (errorInfo as ErrFoodApp)?.response?.data?.msg ?? ""
-        ) ? (
-        <LoaderPageReact />
-      ) : isSuccess ? (
+      <ParentContentLoading
+        {...{
+          isPending: isPendingPage,
+          isError: isErrorIds || isErrorInfo,
+          error: errorIds || errorInfo,
+          canStay,
+        }}
+      >
         <FormProvider {...formContext}>
           <MyDishesForm
             {...{
               formContext,
               handleSave,
               restInfo: restInfo as ReturnIdsAPI[],
-              isPending,
+              isPending: isPendingUpdate,
             }}
           />
         </FormProvider>
-      ) : (
-        <ErrEmoji
-          {...{
-            err: errorInfo as ErrFoodApp,
-          }}
-        />
-      )}
+      </ParentContentLoading>
     </div>
   );
 };

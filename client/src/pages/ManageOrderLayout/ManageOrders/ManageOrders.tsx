@@ -12,12 +12,10 @@ import {
   searchFieldsManageOrders,
 } from "../../../core/config/fieldsArr/allFields/manageOrders/filterSort";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
-import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 import ManageOrderItem from "./ManageOrderItem";
 import { OrderType } from "../../../types/types";
-import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
+import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 
 const ManageOrders: FC = () => {
   useScrollTop();
@@ -76,20 +74,15 @@ const ManageOrders: FC = () => {
         />
       )}
 
-      {isPending ||
-      msgHelpersFrontBack.includes(error?.response?.data?.msg ?? "") ? (
-        <LoaderPageReact />
-      ) : isError ? (
-        <ErrEmoji {...{ err: error }} />
-      ) : (
-        !!orders?.length && (
+      <ParentContentLoading {...{ isPending, isError, error }}>
+        {!!orders?.length && (
           <div className="container__cards__grid mt-10">
             {orders.map((el: OrderType) => (
               <ManageOrderItem key={el._id} {...{ order: el }} />
             ))}
           </div>
-        )
-      )}
+        )}
+      </ParentContentLoading>
 
       <BlockPages {...{ ...propsBlock, totPages }} />
     </div>

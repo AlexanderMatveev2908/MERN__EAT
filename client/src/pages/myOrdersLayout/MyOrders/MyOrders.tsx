@@ -10,12 +10,10 @@ import {
 import { useCreateQueryHandlers } from "../../../core/hooks/useCreateQueryHandlers";
 import { getMyOrdersAPI } from "../../../core/api/APICalls/orders";
 import BlockPages from "../../../UI/components/BlockPages/BlockPages";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
-import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 import MyOrdersItem from "./components/MyOrdersItem";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
-import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
+import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 
 const MyOrders: FC = () => {
   useScrollTop();
@@ -73,19 +71,14 @@ const MyOrders: FC = () => {
         />
       )}
 
-      {isPending ||
-      msgHelpersFrontBack.includes(error?.response?.data?.msg ?? "") ? (
-        <LoaderPageReact />
-      ) : isError ? (
-        <ErrEmoji {...{ err: error }} />
-      ) : (
+      <ParentContentLoading {...{ isPending, isError, error }}>
         <div className="w-full grid grid-cols-1 justify-items-center gap-10 mt-10 items-start">
           {!!orders?.length &&
             orders.map((el) => (
               <MyOrdersItem key={el._id} {...{ order: el }} />
             ))}
         </div>
-      )}
+      </ParentContentLoading>
 
       <BlockPages {...{ ...propsBlock, totPages }} />
     </div>
