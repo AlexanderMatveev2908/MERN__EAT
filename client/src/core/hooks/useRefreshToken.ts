@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { refreshTokenAPI } from "../api/api";
 import { useToast, useUser } from "./useGlobal";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ export const useRefreshToken = () => {
   const { logoutUser, isLogged, setUserLogged } = useUser();
   const { showToastMsg } = useToast();
 
-  const refreshTokenAndUI = async () => {
+  const refreshTokenAndUI = useCallback(async () => {
     if (retryRef.current) return;
     retryRef.current = true;
 
@@ -21,9 +21,10 @@ export const useRefreshToken = () => {
       const { accessToken } = await refreshTokenAPI();
       setUserLogged(accessToken);
 
+      // cancel things that is running in this precise moment right now
       queryClient.cancelQueries();
+      // clear is a tougher version of remove that remove ALL
       queryClient.clear();
-      queryClient.resetQueries();
     } catch {
       if (isLogged) showToastMsg("SESSION EXPIRED", "ERROR");
       else showToastMsg("UNAUTHORIZED", "ERROR");
@@ -31,7 +32,14 @@ export const useRefreshToken = () => {
       logoutUser();
       navigate("/auth/login", { replace: true });
     }
-  };
+  }, [
+    isLogged,
+    logoutUser,
+    navigate,
+    queryClient,
+    setUserLogged,
+    showToastMsg,
+  ]);
 
   return {
     refreshTokenAndUI,

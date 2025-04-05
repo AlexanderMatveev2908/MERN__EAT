@@ -92,7 +92,7 @@ export const useCreateQueryHandlers = ({
   const handleSave = handleSubmit((formDatHook) => {
     formDatHook.page = currPage + "";
     sessionStorage.setItem(key, JSON.stringify(formDatHook));
-    queryClient.resetQueries({ queryKey: [key] });
+    queryClient.removeQueries({ queryKey: [key] });
   });
 
   const handleClear = () => {
@@ -100,7 +100,7 @@ export const useCreateQueryHandlers = ({
     reset(defaultValues);
     setCurrPageBeforeCb(1);
     trigger();
-    queryClient.resetQueries({ queryKey: [key] });
+    queryClient.removeQueries({ queryKey: [key] });
   };
 
   const formVals = formCtx.watch();

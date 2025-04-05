@@ -25,7 +25,7 @@ export const useSwitchCartLogged = ({ dish }: { dish: DishType }) => {
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
     onSettled: () => {
       setInfoPop(null);
-      queryClient.resetQueries({ queryKey: ["myCart"] });
+      queryClient.removeQueries({ queryKey: ["myCart"] });
     },
   });
 

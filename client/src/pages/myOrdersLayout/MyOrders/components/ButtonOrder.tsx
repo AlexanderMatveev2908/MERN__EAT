@@ -52,7 +52,7 @@ const ButtonOrder: FC<PropsType> = ({ order, el }) => {
       ),
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
     onSettled: () => {
-      queryClient.resetQueries({ queryKey: ["myOrdersSearch"] });
+      queryClient.removeQueries({ queryKey: ["myOrdersSearch"] });
       setPopup(null);
     },
   });

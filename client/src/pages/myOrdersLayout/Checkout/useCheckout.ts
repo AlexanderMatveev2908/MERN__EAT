@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
-import { useStripeCustom } from "../../../core/hooks/useGlobal";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useInfoPop, useStripeCustom } from "../../../core/hooks/useGlobal";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { defaultValsFormAddress } from "../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import { getInfoPendingOrderAPI } from "../../../core/api/APICalls/orders";
 import { useEffect } from "react";
 import { isObjOk } from "../../../utils/allUtils/validateData";
-import { ErrFoodApp } from "../../../types/allTypes/API";
+import { ErrFoodApp, ErrFoodOrder } from "../../../types/allTypes/API";
 
 export type AddressFormType = {
   email: string;
@@ -25,19 +25,21 @@ export type AddressFormType = {
 export const useCheckout = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const formContext = useForm<AddressFormType>({
     mode: "onChange",
     defaultValues: defaultValsFormAddress,
   });
+  const queryClient = useQueryClient();
 
   const orderId = searchParams.get("orderId");
   const { handleErrAPI } = useGetFavHooks();
   const canStay =
     REG_MONGO.test(orderId ?? "") &&
     /^\/(search)\/([a-f0-9]{24})$/.test(location?.state?.from);
-
   const stripePromise = useStripeCustom();
+  const { setInfoPop } = useInfoPop();
 
   const {
     data: dataInfo,
@@ -71,6 +73,32 @@ export const useCheckout = () => {
     }
     if (isErrorInfo) {
       handleErrAPI({ err: errorInfo as ErrFoodApp, push: true });
+
+      setTimeout(() => {
+        if ((errorInfo as ErrFoodOrder)?.response?.data?.remakeCart) {
+          queryClient.removeQueries({ queryKey: ["myCart"] });
+          setInfoPop({
+            msg: `We thought you might want to review cart up to stock to make new order ${
+              (errorInfo as ErrFoodOrder)?.response?.data?.resetCoupon
+                ? "and do not worry about coupon, we made it active again"
+                : ""
+            }`,
+            confirmActMsg: "Go to cart",
+            cancelActMsg: "Close",
+            confirmActCb: () =>
+              navigate(`/search/${dataInfo?.order?.restaurantId ?? ""}`),
+            cancelActCb: () => setInfoPop(null),
+          });
+        } else if ((errorInfo as ErrFoodOrder)?.response?.data?.resetCoupon) {
+          setInfoPop({
+            msg: `Do not worry about coupon, we made it active again so you will be able to use again`,
+            confirmActMsg: "Get it",
+            cancelActMsg: "_",
+            confirmActCb: () => setInfoPop(null),
+            cancelActCb: () => setInfoPop(null),
+          });
+        }
+      }, 100);
     }
   }, [
     dataInfo,
@@ -80,6 +108,9 @@ export const useCheckout = () => {
     errorInfo,
     formContext,
     handleErrAPI,
+    setInfoPop,
+    queryClient,
+    navigate,
   ]);
 
   return {

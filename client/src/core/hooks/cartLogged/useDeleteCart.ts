@@ -27,7 +27,7 @@ export const useDeleteCart = () => {
         showToastMsg("Cart deleted", "SUCCESS");
       else handleErrAPI({ err });
     },
-    onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),
+    onSettled: () => queryClient.removeQueries({ queryKey: ["myCart"] }),
   });
 
   const handleDeleteCart = () => (isLogged ? mutate() : null);

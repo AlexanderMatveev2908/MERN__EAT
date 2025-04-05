@@ -47,7 +47,7 @@ const SummaryCart: FC<PropsType> = ({ rest }) => {
         });
       }),
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
-    onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),
+    onSettled: () => queryClient.removeQueries({ queryKey: ["myCart"] }),
   });
 
   const handleSend = handleSubmit((formData) => {

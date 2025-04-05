@@ -58,7 +58,7 @@ export const useHandleErr = () => {
         } else {
           if (["USER DOES NOT EXIST", "USER NOT VERIFIED"].includes(msg)) {
             setUserLogged(false);
-            queryClient.resetQueries({ queryKey: ["myCart"] });
+            queryClient.removeQueries({ queryKey: ["myCart"] });
           }
 
           navigate("/", { replace: true });
@@ -69,7 +69,7 @@ export const useHandleErr = () => {
         if (toast) showToastMsg(msg, "ERROR");
       }
     },
-    [navigate, showToastMsg, setUserLogged, queryClient]
+    [navigate, showToastMsg, setUserLogged, queryClient, refreshTokenAndUI]
   );
 
   return { handleErrAPI };

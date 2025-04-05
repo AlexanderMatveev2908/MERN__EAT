@@ -20,7 +20,7 @@ export const useSaveDbStorageCart = () => {
     onSuccess: () => {
       setCartNonLogged(null);
       showToastMsg("Cart saved", "SUCCESS");
-      queryClient.resetQueries({ queryKey: ["myCart"] });
+      queryClient.removeQueries({ queryKey: ["myCart"] });
     },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
     onSettled: () => setInfoPop(null),

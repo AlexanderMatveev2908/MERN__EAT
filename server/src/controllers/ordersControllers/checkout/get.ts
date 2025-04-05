@@ -29,6 +29,10 @@ export const getOrderInfo = async (
     await User.findByIdAndUpdate(userId, {
       $pull: { orders: makeMongoId(orderId as string) },
     });
+    await Restaurant.findOneAndUpdate(
+      { orders: makeMongoId(orderId as string) },
+      { $pull: { orders: makeMongoId(orderId as string) } }
+    );
     return baseErrResponse(res, 404, "Order not found");
   }
 
@@ -47,8 +51,9 @@ export const getOrderInfo = async (
       "Restaurant closed or would not make in time order"
     );
 
-  const { oldQty, newQty } = await getFreshItemsStock(order);
-  if (newQty !== oldQty) return clearOrder(res, order, restaurant);
+  const { orderItemsFresh, oldQty, newQty } = await getFreshItemsStock(order);
+  if (newQty !== oldQty)
+    return clearOrder(res, order, restaurant, orderItemsFresh);
 
   const existingPaymentInt = await stripe.paymentIntents.retrieve(
     order.paymentId ?? ""
