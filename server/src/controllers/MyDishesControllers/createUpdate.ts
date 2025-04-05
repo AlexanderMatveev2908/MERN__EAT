@@ -98,7 +98,7 @@ export const updateDish = async (req: any, res: Response): Promise<any> => {
     const parsedSet = new Set(parsed.map((el: ImageType) => el.public_id));
 
     const imagesToDelete = dish.images.filter(
-      (el: ImageType) => !parsedSet.has(el)
+      (el: ImageType) => !parsedSet.has(el.public_id)
     );
 
     const promises = imagesToDelete.map(
