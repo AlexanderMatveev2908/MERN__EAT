@@ -3,6 +3,7 @@ import { genID } from "../../../../../utils/utils";
 import { UserAddressType } from "../../../../../types/types";
 import { FaStreetView } from "react-icons/fa";
 import { CiBoxList } from "react-icons/ci";
+import { ImProfile } from "react-icons/im";
 
 export const fieldItemsMyOrders = {
   icon: FaCartShopping,
@@ -41,3 +42,24 @@ export const fieldItemsList = {
   label: "Items list",
   id: genID(),
 };
+
+export const showPairsUserInfo = (
+  userDetails: string[][],
+  userAddress: string[][]
+) =>
+  [
+    // from arr of string arr i make obj with pair as key + an id as key
+    {
+      icon: ImProfile,
+      label: "User details",
+      pairs: userDetails.map((el) => ({ pair: el, id: genID() })),
+    },
+    {
+      icon: FaStreetView,
+      label: "User address",
+      pairs: userAddress.map((el) => ({ pair: el, id: genID() })),
+    },
+  ].map((el) => ({
+    ...el,
+    id: genID(),
+  }));
