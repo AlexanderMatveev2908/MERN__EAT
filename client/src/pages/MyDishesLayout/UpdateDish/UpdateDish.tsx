@@ -9,6 +9,7 @@ import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { ReturnIdsAPI } from "../../../core/api/APICalls/myDishes";
+import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const UpdateDish: FC = () => {
   useScrollTop();
@@ -39,7 +40,10 @@ const UpdateDish: FC = () => {
 
       {!canStay ? (
         <Navigate to="/" replace />
-      ) : isPendingPage ? (
+      ) : isPendingPage ||
+        msgHelpersFrontBack.includes(
+          (errorInfo as ErrFoodApp)?.response?.data?.msg ?? ""
+        ) ? (
         <LoaderPageReact />
       ) : isSuccess ? (
         <FormProvider {...formContext}>

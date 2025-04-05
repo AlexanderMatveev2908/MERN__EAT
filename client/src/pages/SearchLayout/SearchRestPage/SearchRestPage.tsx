@@ -7,7 +7,10 @@ import {
   getDishesRestAsUser,
   getRestaurantAsUserAPI,
 } from "../../../core/api/APICalls/searchAllUsers";
-import { useHandleErr } from "../../../core/hooks/useHandleErr";
+import {
+  msgHelpersFrontBack,
+  useHandleErr,
+} from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
@@ -97,7 +100,10 @@ const SearchRestPage: FC = () => {
 
   return !canStay ? (
     <Navigate to="/" replace />
-  ) : isPendingRest ? (
+  ) : isPendingRest ||
+    msgHelpersFrontBack.includes(
+      (errorRest as ErrFoodApp)?.response?.data?.msg ?? ""
+    ) ? (
     <LoaderPageReact />
   ) : isErrorRest ? (
     <ErrEmoji {...{ err: errorRest as ErrFoodApp }} />

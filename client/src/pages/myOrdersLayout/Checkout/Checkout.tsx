@@ -8,6 +8,7 @@ import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { Elements } from "@stripe/react-stripe-js";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
+import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const Checkout: FC = () => {
   useScrollTop();
@@ -26,7 +27,10 @@ const Checkout: FC = () => {
 
   return !canStay ? (
     <Navigate to="/" replace />
-  ) : isPendingInfo ? (
+  ) : isPendingInfo ||
+    msgHelpersFrontBack.includes(
+      (errorInfo as ErrFoodApp)?.response?.data?.msg ?? ""
+    ) ? (
     <LoaderPageReact />
   ) : isErrorInfo ? (
     <ErrEmoji {...{ err: errorInfo as ErrFoodApp }} />

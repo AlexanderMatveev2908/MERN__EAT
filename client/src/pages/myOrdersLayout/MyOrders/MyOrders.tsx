@@ -15,6 +15,7 @@ import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/Load
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 import MyOrdersItem from "./components/MyOrdersItem";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
+import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const MyOrders: FC = () => {
   useScrollTop();
@@ -72,7 +73,8 @@ const MyOrders: FC = () => {
         />
       )}
 
-      {isPending ? (
+      {isPending ||
+      msgHelpersFrontBack.includes(error?.response?.data?.msg ?? "") ? (
         <LoaderPageReact />
       ) : isError ? (
         <ErrEmoji {...{ err: error }} />
