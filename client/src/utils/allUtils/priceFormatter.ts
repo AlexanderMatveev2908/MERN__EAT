@@ -1,5 +1,5 @@
 import { CartItem } from "../../types/allTypes/cart";
-import { OrderItem } from "../../types/allTypes/orders";
+import { OrderItem, OrderType } from "../../types/allTypes/orders";
 
 export const priceFormatter = ({
   price,
@@ -23,3 +23,7 @@ export const calcTotPriceItem = (item: CartItem | OrderItem) =>
 
 export const calcTotWithDelivery = (tot: number, del: number) =>
   priceFormatter({ price: tot + del });
+
+// need to simulate price of stripe in cents
+export const getTotOrder = (order: OrderType) =>
+  +((order.totPrice + order.delivery - order.discount) * 100).toFixed(2);
