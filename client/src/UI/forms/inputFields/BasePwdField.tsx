@@ -34,7 +34,7 @@ const BasePwdField: FC<PropsType> = ({
 
   return (
     <label className="grid grid-cols-1 gap-y-3 relative">
-      <span className="txt__02">{field.label}</span>
+      <span className="txt__01">{field.label}</span>
       <div className="w-full relative">
         <input
           type={isVisible ? "text" : "password"}

@@ -13,7 +13,7 @@ type PropsType = {
 const BaseFormField: FC<PropsType> = ({ register, errors, field, custom }) => {
   return (
     <label className="grid grid-cols-1 gap-y-3">
-      <span className="txt__02">{field.label}</span>
+      <span className="txt__01">{field.label}</span>
       <div className="w-full relative">
         <input
           type={field.type}

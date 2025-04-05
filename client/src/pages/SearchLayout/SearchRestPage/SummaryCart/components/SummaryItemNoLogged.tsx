@@ -64,14 +64,14 @@ const SummaryItemNoLogged: FC<PropsType> = ({ item }) => {
         onSubmit={submitMiniForm}
         className="w-full flex gap-5 justify-between items-center"
       >
-        <span className="txt__02">{item.name}</span>
+        <span className="txt__01">{item.name}</span>
 
         <span className="txt__03 md:justify-self-start">x</span>
 
         <input
           step="any"
           type="number"
-          className="txt__02 border-orange-500 border-2 outline-none rounded-xl focus__base el__flow px-3 py-[0.1rem] max-w-[100px] md:justify-self-start input__blur"
+          className="txt__01 border-orange-500 border-2 outline-none rounded-xl focus__base el__flow px-3 py-[0.1rem] max-w-[100px] md:justify-self-start input__blur"
           {...register(fieldUpdateQty.field as any, {
             pattern: {
               value: fieldUpdateQty.reg,
@@ -97,11 +97,11 @@ const SummaryItemNoLogged: FC<PropsType> = ({ item }) => {
       </form>
 
       <div className="w-full flex gap-5 justify-between items-center">
-        <span className="txt__02 justify-self-start">
+        <span className="txt__01 justify-self-start">
           {priceFormatter({ price: item.price })}
         </span>
 
-        <span className="txt__02 justify-self-center">
+        <span className="txt__01 justify-self-center">
           {calcTotPriceItem(item)}
         </span>
 

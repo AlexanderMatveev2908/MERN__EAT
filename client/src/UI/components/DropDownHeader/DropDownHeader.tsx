@@ -72,7 +72,7 @@ const DropDownHeader: FC<PropsType> = ({ isLogged, children }) => {
               }`}
             >
               <el.svg className="svg__drop" />
-              <span className="txt__02 el__flow">{el.label}</span>
+              <span className="txt__01 el__flow">{el.label}</span>
             </button>
           ))}
 

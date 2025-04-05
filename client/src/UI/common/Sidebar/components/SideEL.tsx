@@ -24,7 +24,7 @@ const SideEL: FC<PropsType> = ({ handleSideClick, el, customStyle }) => {
     >
       <el.svg className="svg__sidebar" />
 
-      <span className="cursor-pointer txt__02 group-hover:text-orange-500 el__flow">
+      <span className="cursor-pointer txt__01 group-hover:text-orange-500 el__flow">
         {el.label}
       </span>
     </button>

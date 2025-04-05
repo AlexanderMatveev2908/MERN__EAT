@@ -33,16 +33,16 @@ const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
         {order.items.map((el: OrderItem) => (
           <li
             key={el._id}
-            className="w-full grid grid-cols-[repeat(auto-fit,minmax(75px,1fr))] justify-items-center px-3"
+            className="w-full grid grid-cols-[repeat(auto-fit,minmax(75px,1fr))] justify-items-center"
           >
-            <span className="txt__02 break-all max-w-full">{el.name}</span>
+            <span className="txt__01 max-w-full">{el.name}</span>
 
             <div className="flex items-center gap-1">
-              <span className="txt__02">x</span>
-              <span className="txt__02">{el.quantity}</span>
+              <span className="txt__01">x</span>
+              <span className="txt__01">{el.quantity}</span>
             </div>
 
-            <span className="txt__02">{calcTotPriceItem(el)}</span>
+            <span className="txt__01">{calcTotPriceItem(el)}</span>
           </li>
         ))}
       </DropElAbsolute>
@@ -58,9 +58,9 @@ const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
               key={el.id}
               className="w-full flex justify-between items-center"
             >
-              <span className="txt__02">{el.label}</span>
+              <span className="txt__01">{el.label}</span>
 
-              <span className="txt__02">
+              <span className="txt__01">
                 {priceFormatter({ price: el.val, showStr: true })}
               </span>
             </li>
@@ -78,7 +78,7 @@ const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
               key={el.id}
               className="w-full grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))]"
             >
-              <span className="txt__02">{el.label}</span>
+              <span className="txt__01">{el.label}</span>
 
               <span className="txt__01 justify-self-end">{el.val}</span>
             </li>
@@ -95,7 +95,7 @@ const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
       <div className="w-full grid grid-cols-2">
         <div className="w-fit flex gap-5 justify-start items-center">
           <GiMatterStates className="min-w-[25px] min-h-[25px]" />
-          <span className="txt__02">
+          <span className="txt__01">
             {order.status.at(0)?.toUpperCase() + order.status.slice(1)}
           </span>
         </div>

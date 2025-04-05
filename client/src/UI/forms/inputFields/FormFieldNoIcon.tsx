@@ -26,7 +26,7 @@ const FormFieldNoIcon: FC<PropsType> = ({
   return (
     <div className="max-w-full w-full grid grid-cols-1 gap-y-3 justify-items-start">
       <label className="w-full flex flex-col gap-y-2 justify-start">
-        <span className="txt__02">{field.label}</span>
+        <span className="txt__01">{field.label}</span>
 
         <input
           step={field?.type === "number" ? "any" : undefined}
@@ -36,7 +36,7 @@ const FormFieldNoIcon: FC<PropsType> = ({
             pattern: { value: field.reg, message: field.msg },
             validate: (val) => (customValidate ? customValidate(val) : true),
           })}
-          className="input__base txt__02"
+          className="input__base txt__01"
           placeholder={field?.place ?? `Your ${field.label}...`}
         />
       </label>

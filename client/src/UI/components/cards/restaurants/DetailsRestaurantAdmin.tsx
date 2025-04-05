@@ -29,14 +29,14 @@ const DetailsRestaurantAdmin: FC<PropsType> = ({ rest, customStyle }) => {
           >
             <span className="txt__01">{el.label}</span>
 
-            <span className="txt__02 justify-self-end">{el.val}</span>
+            <span className="txt__01 justify-self-end">{el.val}</span>
           </li>
         ))}
 
         <li className="w-full grid grid-cols-[1fr_50px] items-center">
           <span className="txt__01">Orders count</span>
 
-          <span className="txt__02 justify-self-end">{rest.ordersCount}</span>
+          <span className="txt__01 justify-self-end">{rest.ordersCount}</span>
         </li>
       </DropElStatic>
 
@@ -52,7 +52,7 @@ const DetailsRestaurantAdmin: FC<PropsType> = ({ rest, customStyle }) => {
               ))}
             </div>
 
-            <span className="txt__02 justify-self-end">{el.val}</span>
+            <span className="txt__01 justify-self-end">{el.val}</span>
           </li>
         ))}
 
@@ -63,7 +63,7 @@ const DetailsRestaurantAdmin: FC<PropsType> = ({ rest, customStyle }) => {
           >
             <span className="txt__01">{el.label}</span>
 
-            <span className="txt__02 justify-self-end">{el.field}</span>
+            <span className="txt__01 justify-self-end">{el.field}</span>
           </li>
         ))}
       </DropElStatic>
@@ -77,7 +77,7 @@ const DetailsRestaurantAdmin: FC<PropsType> = ({ rest, customStyle }) => {
           <li key={i} className="w-full grid grid-cols-[1fr_50px] items-center">
             <span className="txt__01">{el.label}</span>
 
-            <span className="txt__02 justify-self-end">{el.field}</span>
+            <span className="txt__01 justify-self-end">{el.field}</span>
           </li>
         ))}
       </DropElStatic>

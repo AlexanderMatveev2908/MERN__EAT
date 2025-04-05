@@ -79,7 +79,7 @@ const MyDishes: FC = () => {
       {!!selected?.length && (
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 mt-3 px-3 gap-4 justify-items-start sm:justify-items-center">
           <div className="w-full flex gap-5 border-2 border-red-600 rounded-xl py-2 px-4 pr-6 max-w-fit items-center">
-            <span className="txt__02">Items selected: {selected.length}</span>
+            <span className="txt__01">Items selected: {selected.length}</span>
           </div>
 
           <button

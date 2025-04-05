@@ -102,7 +102,7 @@ const MyDishesItem: FC<PropsType> = ({ dish, toggleSelected, selected }) => {
       <div className="w-full grid grid-cols-2 mt-5 items-center">
         <Link
           to={`/my-dishes/update/${dish._id}`}
-          className="el__flow el__after_below txt__02 justify-self-center w-fit flex gap-3 group cursor-pointer"
+          className="el__flow el__after_below justify-self-center w-fit flex gap-3 group cursor-pointer"
         >
           <RxUpdate className="icon__base el__flow group-hover:text-orange-500" />
 
