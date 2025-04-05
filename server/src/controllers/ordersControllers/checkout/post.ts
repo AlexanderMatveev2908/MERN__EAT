@@ -58,20 +58,18 @@ export const createOrder = async (
       const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
       if (!dish || !dish.quantity) return null;
 
-      const images: string[] = dish.images.map((img: ImageType) => img.url);
-
       return {
         name: dish.name,
         price: dish.price,
         dishId: dish._id,
-        images,
+        images: dish.images.map((el) => el.url),
         quantity: Math.min(el.quantity, dish.quantity),
       };
     })
   ).then((items) => items.filter((el) => !!el));
 
   const qtyUpToDate = orderItems.reduce(
-    (acc: number, curr: OrderItem) => acc + (curr?.quantity ?? 0),
+    (acc: number, curr: OrderItem) => acc + curr.quantity,
     0
   );
   const cartQty = cart.items.reduce(
@@ -112,16 +110,25 @@ export const createOrder = async (
   try {
     await Promise.all(
       orderItems.map(async (el: OrderItem) => {
-        el.images = (
-          await Promise.all(
-            (el.images as string[]).map(
-              async (url: string) => await uploadCloudURL(url)
-            )
+        el.images = (await Promise.all(
+          (el.images as string[]).map(
+            async (url: string) => await uploadCloudURL(url)
           )
-        ).flat(Infinity) as ImageType[];
+        )) as ImageType[];
       })
     );
   } catch {}
+
+  let j = orderItems.length - 1;
+  do {
+    const curr = orderItems[j];
+
+    for (let img of curr?.images as string[] | ImageType[]) {
+      if (!(img as any)?.public_id) img = null as any;
+    }
+
+    j--;
+  } while (j >= 0);
 
   let totPrice = 0;
   let i = orderItems.length - 1;

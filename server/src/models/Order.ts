@@ -4,12 +4,12 @@ import { AddressSchema, AddressType } from "./User.js";
 import { ContactRestaurantSchema } from "./Restaurant.js";
 
 export type OrderItem = {
-  dishId: string | null;
+  dishId: string | null | mongoose.Types.ObjectId;
 
   name: string;
   price: number;
   quantity: number;
-  images: ImageType[] | string[];
+  images: ImageType[] | string[] | null[];
 };
 
 export const ordersStatusArr = [
@@ -73,7 +73,7 @@ const OrderItemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  images: [ImageSchema],
+  images: { type: [mongoose.Schema.Types.Mixed], default: [] },
 });
 
 const OrderSchema = new mongoose.Schema(
