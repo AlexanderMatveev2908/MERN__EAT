@@ -1,5 +1,7 @@
+import axios from "axios";
 import { v2 } from "cloudinary";
 import fs from "fs";
+import streamifier from "streamifier";
 
 export const uploadCloud = (files: any): Promise<any> => {
   const promises = files?.restaurantImages.map(async (file: any) => {
@@ -53,10 +55,22 @@ export const uploadUpdateDish = (files: any): Promise<any> => {
 };
 
 export const uploadCloudURL = async (urlCloud: string) => {
-  const { public_id, secure_url: url } = await v2.uploader.upload(urlCloud, {
-    resource_type: "auto",
-    folder: "orders",
-  });
+  const res = await axios.get(urlCloud, { responseType: "arraybuffer" });
+  const buffer = Buffer.from(res.data, "binary");
 
-  return { public_id, url };
+  return new Promise((res, rej) => {
+    const uploadStream = v2.uploader.upload_stream(
+      {
+        resource_type: "auto",
+        folder: "orders",
+      },
+      (err, result) => {
+        if (err) rej(err);
+        const { public_id, secure_url: url } = result as any;
+        res({ public_id, url });
+      }
+    );
+
+    streamifier.createReadStream(buffer).pipe(uploadStream);
+  });
 };
