@@ -58,11 +58,11 @@ const FiltersSearchBar: FC<PropsType> = ({
           <TextFilter {...{ formContext, searchFields, closeAllDrop }} />
         )}
 
-        {REG_P_DISHES.test(location.pathname) ||
+        {(REG_P_DISHES.test(location.pathname) ||
           REG_P_DISHES_USER.test(location.pathname) ||
-          (REG_P_MANAGE_ORD.test(location.pathname) && (
-            <CardToSearchStats {...{ formContext, closeAllDrop }} />
-          ))}
+          REG_P_MANAGE_ORD.test(location.pathname)) && (
+          <CardToSearchStats {...{ formContext, closeAllDrop }} />
+        )}
 
         {!!filters?.length &&
           filters.map((el) => (

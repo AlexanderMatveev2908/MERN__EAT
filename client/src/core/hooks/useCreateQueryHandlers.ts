@@ -23,6 +23,7 @@ import {
 import { useUpdateCardsLimit } from "./UI/useUpdateCardsLimit";
 import { defaultValsSearchMyOrders } from "../config/fieldsArr/allFields/myOrders/filterSort";
 import { defaultValuesManageOrdersSearch } from "../config/fieldsArr/allFields/manageOrders/filterSort";
+import { useDebounce } from "use-debounce";
 
 type ReturnTypeCreateQueryHandler = {
   formVals: any;
@@ -106,12 +107,15 @@ export const useCreateQueryHandlers = ({
   const formVals = formCtx.watch();
   formVals.page = currPage + "";
   formVals.limit = limit + "";
+  const [debouncedFormVals] = useDebounce(formVals, 500);
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
-    queryKey: [key, formVals],
+    queryKey: [key, debouncedFormVals],
     queryFn: () =>
       cbAPI(
-        cbProcessForm ? cbProcessForm(formVals) : createURLParams(formVals)
+        cbProcessForm
+          ? cbProcessForm(debouncedFormVals)
+          : createURLParams(debouncedFormVals)
       ),
   });
 
