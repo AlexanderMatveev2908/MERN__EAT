@@ -13,14 +13,18 @@ import { makeSorters } from "../../utils/makeSorters/general.js";
 import { heapDiscountAsc, heapDiscountDesc, mergeSortPrice, quickSortDate, } from "./funnyRecursive.js";
 import { calcPagination } from "../../utils/makeQueries/calcPagination.js";
 import { handleNoHits } from "../../utils/handleNoHits.js";
+import { makeMongoId } from "../../utils/dbPipeline/general.js";
 const getCreatedAt = (el) => new Date(el.createdAt);
 const getUpdatedAt = (el) => new Date(el.updatedAt);
 export const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     const { userId } = req;
     const queryObj = makeQMyOrders(req);
     const sortObj = makeSorters(req, "");
     const { limit, skip } = calcPagination(req);
-    const totDocuments = yield Order.countDocuments();
+    const totDocuments = yield Order.countDocuments({
+        userId: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
+    });
     const nHits = yield Order.countDocuments(queryObj);
     if (!totDocuments)
         return handleNoHits(res, totDocuments);
@@ -46,10 +50,12 @@ export const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, functio
     do {
         const curr = orders[i];
         curr.isAdmin = curr.userId + "" === userId;
-        curr.restaurantId = {
-            _id: curr.restaurantId._id,
-            delivery: curr.restaurantId.delivery,
-        };
+        curr.restaurantId = (curr === null || curr === void 0 ? void 0 : curr.restaurantId)
+            ? {
+                _id: (_a = curr.restaurantId) === null || _a === void 0 ? void 0 : _a._id,
+                delivery: (_b = curr.restaurantId) === null || _b === void 0 ? void 0 : _b.delivery,
+            }
+            : null;
         i--;
     } while (i >= 0);
     const totPages = Math.ceil(nHits / limit);

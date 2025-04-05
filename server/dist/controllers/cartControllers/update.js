@@ -139,6 +139,7 @@ export const delCart = (req, res) => __awaiter(void 0, void 0, void 0, function*
     yield Cart.findOneAndDelete({
         user: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
     });
+    yield User.findByIdAndUpdate(userId, { cart: null });
     // if (!cartDeleted) return baseErrResponse(res, 404, "Cart not found");
     return res.status(200).json({ msg: "Cart deleted", success: true });
 });

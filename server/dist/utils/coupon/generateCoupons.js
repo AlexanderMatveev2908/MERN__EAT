@@ -13,10 +13,11 @@ import crypto from "crypto";
 import { genTokenSHA } from "../token.js";
 import Coupon from "../../models/Coupon.js";
 import { sendEmailCoupon } from "../mail.js";
-export const genExpiryCoupon = () => new Date(Date.now() + 1000 * 60 * 60);
-export const categoriesDiscount = ["fast-food", "indian"];
-export const discount = 20;
-export const minCartPrice = 50;
+const testExp = false;
+export const genExpiryCoupon = () => testExp ? new Date(0) : new Date(Date.now() + 1000 * 60 * 60);
+export const categoriesDiscount = ["fast-food", "mexican"];
+export const discount = 50;
+export const minCartPrice = 0;
 export const createCouponHashed = (code) => crypto
     .createHmac("sha256", process.env.COUPON_SIGN)
     .update(code)
