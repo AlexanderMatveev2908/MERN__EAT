@@ -59,6 +59,6 @@ export const updateCO = async () => {
   }
 
   await Coupon.deleteMany({});
-  await User.updateMany({}, { orders: [] });
+  await User.updateMany({}, { orders: [], cart: null });
   await Restaurant.updateMany({}, { orders: [] });
 };

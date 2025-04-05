@@ -98,7 +98,7 @@ export const useUpdateCartByInt = ({ dish }: { dish: DishType }) => {
       makeDelay(() => {
         handleErrAPI({ err });
       }),
-    onSettled: () => queryClient.removeQueries({ queryKey: ["myCart"] }),
+    onSettled: () => queryClient.resetQueries({ queryKey: ["myCart"] }),
   });
 
   const handleMouseUp = (action: ActionsCLickCart) => {
@@ -135,6 +135,7 @@ export const useUpdateCartByInt = ({ dish }: { dish: DishType }) => {
     handleMouseUp,
 
     isPending: isPending || isPendingInt,
+    setLocalQty,
     localQty,
     qtyItem,
     isAvl,

@@ -30,10 +30,12 @@ const ButtonOrder: FC<PropsType> = ({ order, el }) => {
 
   const isAboutDel = el.action === ActionsMyOrdersBtns.DELETE;
 
-  const handlerCheckout = () =>
+  const handlerCheckout = () => {
+    queryClient.removeQueries({ queryKey: ["infoOrder"] });
     navigate(`/my-orders/checkout?orderId=${order._id}`, {
       state: { from: `/search/${order._id}` },
     });
+  };
 
   const { mutate } = useMutation({
     mutationFn: () => {
