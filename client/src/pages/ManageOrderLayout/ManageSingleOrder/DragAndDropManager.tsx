@@ -39,8 +39,6 @@ const DragAndDropManager: FC<PropsType> = ({ order }) => {
   const handleDragLeave = (e: React.DragEvent) =>
     e.currentTarget.classList.remove("el__drag_over");
 
-  console.log(status);
-
   return (
     <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
       {fieldsDragDrop.map((el, i) => (
