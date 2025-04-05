@@ -96,6 +96,7 @@ const ManageSingleOrder: FC = () => {
                   className="w-full grid grid-cols-2 items-center"
                 >
                   <span className="txt__01">{el.label}</span>
+
                   <span className="txt__01 justify-self-end sm:justify-self-center">
                     {el.val}
                   </span>
@@ -104,8 +105,13 @@ const ManageSingleOrder: FC = () => {
             </ul>
 
             {!["pending", "cancelled"].includes(order.status) && (
-              <div className="w-full relative">
+              <div className="w-full relative mt-10">
                 <div className="w-full absolute h-[40px] border-2 border-orange-500  rounded-full"></div>
+
+                <div
+                  style={{ left: `calc(${percDel}% - 42.5px)` }}
+                  className="absolute border-2 h-[40px] w-[40px] rounded-full bg-[#111] z-60"
+                ></div>
                 <div className="absolute rounded-full h-[40px] w-full flex justify-start items-center p-1">
                   <span
                     style={{ width: `${percDel}%` }}
