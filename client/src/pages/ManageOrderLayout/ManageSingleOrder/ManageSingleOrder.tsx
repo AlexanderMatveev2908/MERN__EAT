@@ -11,6 +11,8 @@ import { isObjOk } from "../../../utils/allUtils/validateData";
 import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 import { showPairsUserInfo } from "../../../core/config/fieldsArr/allFields/manageOrders/show";
 import DropElStatic from "../../../UI/components/DropElStatic";
+import ContentMath from "../../../UI/components/ContentMath";
+import { getTotOrder } from "../../../utils/allUtils/priceFormatter";
 
 const ManageSingleOrder: FC = () => {
   const orderId = useParams()?.orderId;
@@ -37,7 +39,7 @@ const ManageSingleOrder: FC = () => {
         <div className="w-full grid justify-items-center">
           <ListItemsOrder {...{ order }} />
 
-          <div className="w-full grid grid-rows-1 mt-6 gap-x-10 gap-y-5 items-start">
+          <div className="w-full grid grid-rows-1 mt-6 gap-x-10 gap-y-5 items-start md:grid-cols-2">
             {showPairsUserInfo(
               Object.entries(order.infoUser) as string[][],
               Object.entries(order.addressUser) as string[][]
@@ -56,6 +58,10 @@ const ManageSingleOrder: FC = () => {
                 ))}
               </DropElStatic>
             ))}
+          </div>
+
+          <div className="w-full mt-4">
+            <ContentMath {...{ order, totOrder: getTotOrder(order) }} />
           </div>
         </div>
       )}

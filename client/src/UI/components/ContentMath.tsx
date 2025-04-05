@@ -1,14 +1,14 @@
 import { FC, ReactNode } from "react";
-import { showOrderFields } from "../../../../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
-import { priceFormatter } from "../../../../../utils/utils";
-import { OrderType } from "../../../../../types/types";
+import { showOrderFields } from "../../core/config/fieldsArr/allFields/checkout/fieldsCheckout";
+import { priceFormatter } from "../../utils/utils";
+import { OrderType } from "../../types/types";
 
 type PropsType = {
   order: OrderType;
-  totStripe: number;
+  totOrder: number;
 };
 
-const ContentMath: FC<PropsType> = ({ order, totStripe }) => {
+const ContentMath: FC<PropsType> = ({ order, totOrder }) => {
   return (
     <ul className="w-full grid gap-3 ">
       {(() => {
@@ -18,7 +18,7 @@ const ContentMath: FC<PropsType> = ({ order, totStripe }) => {
           order.totPrice,
           order.delivery,
           order.discount,
-          totStripe / 100
+          totOrder / 100
         );
 
         let i = 0;
