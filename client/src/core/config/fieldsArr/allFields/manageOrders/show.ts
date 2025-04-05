@@ -4,6 +4,7 @@ import { UserAddressType } from "../../../../../types/types";
 import { FaStreetView } from "react-icons/fa";
 import { CiBoxList } from "react-icons/ci";
 import { ImProfile } from "react-icons/im";
+import { ordersStatus } from "../MyRestaurants/filterSort";
 
 export const fieldItemsMyOrders = {
   icon: FaCartShopping,
@@ -61,5 +62,13 @@ export const showPairsUserInfo = (
     },
   ].map((el) => ({
     ...el,
+    id: genID(),
+  }));
+
+export const fieldsDragDrop = ordersStatus
+  .slice(0, ordersStatus.length - 1)
+  .map((el) => ({
+    field: el,
+    label: el.at(0)?.toUpperCase() + el.slice(1),
     id: genID(),
   }));
