@@ -32,7 +32,6 @@ const ManageSingleOrder: FC = () => {
   });
   useEffect(() => {
     if (isError) handleErrAPI({ err: error as ErrFoodApp });
-    if (isSuccess) console.log(data);
   }, [isError, error, isSuccess, data, handleErrAPI]);
 
   const { order } = data ?? {};
