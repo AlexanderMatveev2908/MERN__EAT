@@ -13,7 +13,7 @@ export const genExpiryCoupon = () =>
   testExp ? new Date(0) : new Date(Date.now() + 1000 * 60 * 60);
 export const categoriesDiscount = ["fast-food", "mexican"];
 export const discount = 50;
-export const minCartPrice = 100;
+export const minCartPrice = 0;
 
 export const createCouponHashed = (code: string) =>
   crypto
