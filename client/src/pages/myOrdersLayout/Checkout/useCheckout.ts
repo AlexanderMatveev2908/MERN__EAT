@@ -6,7 +6,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import { getInfoPendingOrderAPI } from "../../../core/api/APICalls/orders";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { isObjOk } from "../../../utils/allUtils/validateData";
 import { ErrFoodApp, ErrFoodOrder } from "../../../types/allTypes/API";
 
@@ -26,7 +26,6 @@ export const useCheckout = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const [restId, setRestId] = useState<string | null>(null);
 
   const formContext = useForm<AddressFormType>({
     mode: "onChange",
@@ -57,7 +56,6 @@ export const useCheckout = () => {
   useEffect(() => {
     if (isSuccessInfo) {
       const { order } = dataInfo ?? {};
-      setRestId((order?.restaurantId as string) ?? null);
       if (isObjOk(order)) {
         for (const key in order.infoUser) {
           formContext.setValue(
@@ -76,10 +74,10 @@ export const useCheckout = () => {
     if (isErrorInfo) {
       handleErrAPI({ err: errorInfo as ErrFoodApp, push: true });
 
-      setTimeout(() => {
-        if ((errorInfo as ErrFoodOrder)?.response?.data?.remakeCart) {
-          queryClient.removeQueries({ queryKey: ["myCart"] });
+      if ((errorInfo as ErrFoodOrder)?.response?.data?.remakeCart) {
+        queryClient.removeQueries({ queryKey: ["myCart"] });
 
+        setTimeout(() => {
           setInfoPop({
             msg: `We thought you might want to review cart up to stock to make new order ${
               (errorInfo as ErrFoodOrder)?.response?.data?.resetCoupon
@@ -89,13 +87,19 @@ export const useCheckout = () => {
             confirmActMsg: "Go to cart",
             cancelActMsg: "Close",
             confirmActCb: () => {
-              navigate(`/search/${restId ?? ""}`);
+              navigate(
+                `/search/${
+                  (errorInfo as ErrFoodOrder)?.response?.data?.restId ?? ""
+                }`
+              );
               setInfoPop(null);
             },
 
             cancelActCb: () => setInfoPop(null),
           });
-        } else if ((errorInfo as ErrFoodOrder)?.response?.data?.resetCoupon) {
+        }, 100);
+      } else if ((errorInfo as ErrFoodOrder)?.response?.data?.resetCoupon) {
+        setTimeout(() => {
           setInfoPop({
             msg: `Do not worry about coupon, we made it active again so you will be able to use again`,
             confirmActMsg: "Get it",
@@ -103,8 +107,8 @@ export const useCheckout = () => {
             confirmActCb: () => setInfoPop(null),
             cancelActCb: () => setInfoPop(null),
           });
-        }
-      }, 100);
+        }, 100);
+      }
     }
   }, [
     dataInfo,
