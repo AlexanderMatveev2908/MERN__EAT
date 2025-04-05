@@ -3,8 +3,8 @@ import { v4 } from "uuid";
 
 export const genID = () => v4();
 
-export const addKey = (arr: any[]): any[] =>
+export const addKey = (arr: any): any[] =>
   arr.map((el) => ({
-    ...el,
+    el,
     key: genID(),
   }));
