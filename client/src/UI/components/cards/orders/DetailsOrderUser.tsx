@@ -35,14 +35,18 @@ const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
             key={el._id}
             className="w-full grid grid-cols-[repeat(auto-fit,minmax(75px,1fr))] justify-items-center"
           >
-            <span className="txt__01 max-w-full">{el.name}</span>
+            <span className="txt__01 max-w-full justify-self-start">
+              {el.name}
+            </span>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 justify-self-center">
               <span className="txt__01">x</span>
               <span className="txt__01">{el.quantity}</span>
             </div>
 
-            <span className="txt__01">{calcTotPriceItem(el)}</span>
+            <span className="txt__01 justify-self-end">
+              {calcTotPriceItem(el)}
+            </span>
           </li>
         ))}
       </DropElAbsolute>
