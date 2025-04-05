@@ -17,6 +17,7 @@ import ErrEmoji from "../../../UI/components/ErrEmoji";
 import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 import ManageOrderItem from "./ManageOrderItem";
 import { OrderType } from "../../../types/types";
+import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const ManageOrders: FC = () => {
   useScrollTop();
@@ -75,7 +76,8 @@ const ManageOrders: FC = () => {
         />
       )}
 
-      {isPending ? (
+      {isPending ||
+      msgHelpersFrontBack.includes(error?.response?.data?.msg ?? "") ? (
         <LoaderPageReact />
       ) : isError ? (
         <ErrEmoji {...{ err: error }} />

@@ -9,6 +9,7 @@ import DeleteButton from "../../../UI/components/buttons/DeleteButton";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const UpdateRestaurant: FC = () => {
   useScrollTop();
@@ -28,7 +29,10 @@ const UpdateRestaurant: FC = () => {
 
   return !canStay ? (
     <Navigate to="/" replace />
-  ) : isPendingInfo ? (
+  ) : isPendingInfo ||
+    msgHelpersFrontBack.includes(
+      (errorInfo as ErrFoodApp)?.response?.data?.msg ?? ""
+    ) ? (
     <LoaderPageReact />
   ) : isSuccessInfo ? (
     <FormProvider {...formContext}>

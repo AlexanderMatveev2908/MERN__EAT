@@ -16,6 +16,7 @@ import { ErrFoodApp } from "../../../types/allTypes/API";
 import { useFormsCustom } from "../../../core/hooks/useGlobal";
 import { useCreateQueryHandlers } from "../../../core/hooks/useCreateQueryHandlers";
 import { getMyRestaurantsAPI } from "../../../core/api/api";
+import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const MyRestaurants: FC = () => {
   useScrollTop();
@@ -74,7 +75,8 @@ const MyRestaurants: FC = () => {
         />
       )}
 
-      {isPending ? (
+      {isPending ||
+      msgHelpersFrontBack.includes(error?.response?.data?.msg ?? "") ? (
         <LoaderPageReact />
       ) : isError ? (
         <ErrEmoji {...{ err: error as ErrFoodApp }} />

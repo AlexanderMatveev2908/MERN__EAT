@@ -16,6 +16,7 @@ import ShowNumberHits from "../../../UI/components/ShowNumberHits";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const MyDishes: FC = () => {
   useScrollTop();
@@ -103,7 +104,8 @@ const MyDishes: FC = () => {
         </div>
       )}
 
-      {isPending ? (
+      {isPending ||
+      msgHelpersFrontBack.includes(error?.response?.data?.msg ?? "") ? (
         <LoaderPageReact />
       ) : isError ? (
         <ErrEmoji {...{ err: error as ErrFoodApp }} />

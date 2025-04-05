@@ -6,6 +6,7 @@ import ErrEmoji from "../../../UI/components/ErrEmoji";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { ReturnIdsAPI } from "../../../core/api/APICalls/myDishes";
+import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const AddDish = () => {
   useScrollTop();
@@ -20,7 +21,10 @@ const AddDish = () => {
     errorIds,
   } = useAddDish();
 
-  return isPendingIds ? (
+  return isPendingIds ||
+    msgHelpersFrontBack.includes(
+      (errorIds as ErrFoodApp)?.response?.data?.msg ?? ""
+    ) ? (
     <LoaderPageReact />
   ) : (
     <div className="w-full grid grid-cols-1 gap-5 justify-items-center">

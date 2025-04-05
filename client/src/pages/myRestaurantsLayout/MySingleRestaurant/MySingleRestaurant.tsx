@@ -10,6 +10,7 @@ import DetailsRestaurantUser from "../../../UI/components/cards/restaurants/Deta
 import DropElStatic from "../../../UI/components/DropElStatic";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { ErrFoodApp } from "../../../types/allTypes/API";
+import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const MySingleRestaurant: FC = () => {
   useScrollTop();
@@ -25,7 +26,10 @@ const MySingleRestaurant: FC = () => {
 
   return !canStay ? (
     <Navigate to="/" replace />
-  ) : isPending ? (
+  ) : isPending ||
+    msgHelpersFrontBack.includes(
+      (error as ErrFoodApp)?.response?.data?.msg ?? ""
+    ) ? (
     <LoaderPageReact />
   ) : isSuccess ? (
     <div className="w-full grid grid-cols-1 justify-items-center gap-5">

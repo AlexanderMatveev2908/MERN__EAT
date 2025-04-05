@@ -19,6 +19,7 @@ import { useCreateQueryHandlers } from "../../../core/hooks/useCreateQueryHandle
 import { getRestAllUSersAPI } from "../../../core/api/APICalls/searchAllUsers";
 import { createURLParamsMultipleSearch } from "../../../utils/allUtils/makeURLParams";
 import SearchRestItem from "./components/SearchRestItem";
+import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 
 const SearchRestAllUsers: FC = () => {
   useScrollTop();
@@ -80,7 +81,8 @@ const SearchRestAllUsers: FC = () => {
         />
       )}
 
-      {isPending ? (
+      {isPending ||
+      msgHelpersFrontBack.includes(error?.response?.data?.msg ?? "") ? (
         <LoaderPageReact />
       ) : isError ? (
         <ErrEmoji {...{ err: error as ErrFoodApp }} />
