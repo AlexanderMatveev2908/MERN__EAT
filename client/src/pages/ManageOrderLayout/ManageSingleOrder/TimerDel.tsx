@@ -13,7 +13,7 @@ type PropsType = {
 };
 
 const TimerDel: FC<PropsType> = ({ order }) => {
-  const [percDel, setPercDel] = useState(0);
+  const [percDel, setPercDel] = useState(25);
 
   useEffect(() => {
     if (!isObjOk(order)) return;
