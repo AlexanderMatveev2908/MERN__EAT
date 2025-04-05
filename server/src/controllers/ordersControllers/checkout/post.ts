@@ -117,18 +117,27 @@ export const createOrder = async (
         )) as ImageType[];
       })
     );
-  } catch {}
+  } catch (err) {
+    console.log(err);
+  }
 
-  let j = orderItems.length - 1;
-  do {
-    const curr = orderItems[j];
+  if (
+    orderItems.some((el) =>
+      el.images.some((el) => !(el as ImageType)?.public_id)
+    )
+  )
+    return baseErrResponse(res, 422, "Error cloud");
 
-    for (let img of curr?.images as string[] | ImageType[]) {
-      if (!(img as any)?.public_id) img = null as any;
-    }
+  // let j = orderItems.length - 1;
+  // do {
+  //   const curr = orderItems[j];
 
-    j--;
-  } while (j >= 0);
+  //   for (let img of curr?.images as string[] | ImageType[]) {
+  //     if (!(img as any)?.public_id) img = null as any;
+  //   }
+
+  //   j--;
+  // } while (j >= 0);
 
   let totPrice = 0;
   let i = orderItems.length - 1;

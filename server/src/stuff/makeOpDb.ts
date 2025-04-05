@@ -46,8 +46,9 @@ export const updateCO = async () => {
           el.images.map(async (el: any) => await deleteCloud(el.public_id))
         )
         .flat(Infinity);
-
-      await Promise.all(promises);
+      try {
+        await Promise.all(promises);
+      } catch {}
 
       await el.deleteOne();
     });
