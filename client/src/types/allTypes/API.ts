@@ -31,7 +31,11 @@ export interface ErrFoodApp extends AxiosError {
 }
 
 export interface ErrFoodOrder extends AxiosError {
-  response?: AxiosResponse<{ remakeCart: boolean; resetCoupon: boolean }>;
+  response?: AxiosResponse<{
+    restId: string | undefined;
+    resetCoupon: boolean;
+    remakeCart: boolean;
+  }>;
 }
 
 export type GetElsQueriedReturnType = {

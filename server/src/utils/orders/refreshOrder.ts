@@ -69,11 +69,11 @@ export const clearOrder = async (
         }`
       : "Restaurant not found or business activity closed "
   }`;
+  let remakeCart: boolean = false;
 
   const user = (await User.findById(
     order.userId
   )) as HydratedDocument<UserType>;
-  let remakeCart: boolean = false;
 
   if (restaurant) {
     await Restaurant.findByIdAndUpdate(restaurant._id, {
@@ -133,6 +133,7 @@ export const clearOrder = async (
     return res.status(422).json({
       msg,
       success: false,
+      restId: restaurant?._id,
       remakeCart,
     });
 
@@ -151,6 +152,7 @@ export const clearOrder = async (
     msg,
     success: false,
     resetCoupon: isStillValid,
+    restId: restaurant?._id,
     remakeCart,
   });
 };

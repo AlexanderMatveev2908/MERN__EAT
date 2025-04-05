@@ -7,7 +7,7 @@ import {
   pollingOrderAPI,
 } from "../../../../core/api/APICalls/orders";
 import { useGetFavHooks } from "../../../../core/hooks/useGetFavHooks";
-import { ErrFoodApp } from "../../../../types/allTypes/API";
+import { ErrFoodApp, ErrFoodOrder } from "../../../../types/allTypes/API";
 import OrderDetails from "./components/OrderDetails";
 import { OrderType } from "../../../../types/types";
 import {
@@ -19,7 +19,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { PaymentIntent } from "@stripe/stripe-js";
 import ButtonAnimated from "../../../../UI/components/buttons/ButtonAnimated";
 import { useNavigate } from "react-router-dom";
-import { useFormsCustom } from "../../../../core/hooks/useGlobal";
+import { useFormsCustom, useInfoPop } from "../../../../core/hooks/useGlobal";
 
 type PropsType = {
   formContext: UseFormReturn<AddressFormType>;
@@ -42,6 +42,7 @@ const CheckoutForm: FC<PropsType> = ({
 
   const { handleErrAPI, showToastMsg } = useGetFavHooks();
   const { formContextSearchMyOrders } = useFormsCustom();
+  const { setInfoPop } = useInfoPop();
 
   const isDisabled = () => {
     let isDisabled = false;
@@ -109,7 +110,43 @@ const CheckoutForm: FC<PropsType> = ({
         setIsMoneyLoading(false);
       }
     },
-    onError: (err: ErrFoodApp) => handleErrAPI({ err, push: true }),
+    onError: (err: ErrFoodApp) => {
+      handleErrAPI({ err, push: true });
+
+      if ((err as ErrFoodOrder)?.response?.data?.remakeCart) {
+        queryClient.removeQueries({ queryKey: ["myCart"] });
+
+        setTimeout(() => {
+          setInfoPop({
+            msg: `We thought you might want to review cart up to stock to make new order ${
+              (err as ErrFoodOrder)?.response?.data?.resetCoupon
+                ? "and do not worry about coupon, we made it active again"
+                : ""
+            }`,
+            confirmActMsg: "Go to cart",
+            cancelActMsg: "Close",
+            confirmActCb: () => {
+              navigate(
+                `/search/${(err as ErrFoodOrder)?.response?.data?.restId ?? ""}`
+              );
+              setInfoPop(null);
+            },
+
+            cancelActCb: () => setInfoPop(null),
+          });
+        }, 100);
+      } else if ((err as ErrFoodOrder)?.response?.data?.resetCoupon) {
+        setTimeout(() => {
+          setInfoPop({
+            msg: `Do not worry about coupon, we made it active again so you will be able to use again`,
+            confirmActMsg: "Get it",
+            cancelActMsg: "_",
+            confirmActCb: () => setInfoPop(null),
+            cancelActCb: () => setInfoPop(null),
+          });
+        }, 100);
+      }
+    },
   });
   const handleOrder = (e: FormEvent) => {
     e.preventDefault();
