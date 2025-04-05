@@ -9,6 +9,7 @@ import { ImageType } from "../../models/Image.js";
 import { DishType } from "../../models/Dish.js";
 import { HydratedDocument } from "mongoose";
 import { clearData } from "../../utils/clearData.js";
+import Order from "../../models/Order.js";
 
 export const deleteAccount = async (
   req: RequestWithUserId,
@@ -49,6 +50,8 @@ export const deleteAccount = async (
     const promises = restaurants.map(async (el) => await clearData(el));
     await Promise.all(promises);
   }
+
+  await Order.updateMany({ userId: { $eq: userId } }, { userId: null });
 
   const result = await User.deleteOne({ _id: userId });
 
