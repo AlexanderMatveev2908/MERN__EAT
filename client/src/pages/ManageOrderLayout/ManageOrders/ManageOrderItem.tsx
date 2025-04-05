@@ -51,15 +51,16 @@ const ManageOrderItem: FC<PropsType> = ({ order }) => {
         </div>
       </div>
 
-      {!["pending", "cancelled"].includes(order.status) && (
-        <Link
-          to={`/manage-orders/${order._id}`}
-          className="btn__order el__after_below_dynamic el__flow justify-self-center mt-4"
-          style={{ "--col-btn": "#ea580c" } as React.CSSProperties}
-        >
-          <span className="txt__02">Update status</span>
-        </Link>
-      )}
+      {!["pending", "cancelled"].includes(order.status) &&
+        order?.restaurantId && (
+          <Link
+            to={`/manage-orders/${order._id}`}
+            className="btn__order el__after_below_dynamic el__flow justify-self-center mt-4"
+            style={{ "--col-btn": "#ea580c" } as React.CSSProperties}
+          >
+            <span className="txt__02">Update status</span>
+          </Link>
+        )}
     </div>
   );
 };

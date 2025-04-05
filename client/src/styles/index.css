@@ -292,7 +292,7 @@ IMPORTANT: for some practical reasons i chose using snake case instead of kebab 
 }
 
 .svg__sidebar {
-  @apply w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer;
+  @apply w-[30px] h-[30px] sm:w-[35px] sm:h-[35px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer;
 }
 
 .icon__base {

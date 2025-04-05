@@ -2,6 +2,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { genID } from "../../../../../utils/utils";
 import { UserAddressType } from "../../../../../types/types";
 import { FaStreetView } from "react-icons/fa";
+import { CiBoxList } from "react-icons/ci";
 
 export const fieldItemsMyOrders = {
   icon: FaCartShopping,
@@ -34,3 +35,9 @@ export const fieldUserAddressMyOrders = (address: UserAddressType) => ({
   id: genID(),
   vals: showUserAddressInOrder(address),
 });
+
+export const fieldItemsList = {
+  icon: CiBoxList,
+  label: "Items list",
+  id: genID(),
+};

@@ -30,7 +30,7 @@ const DropInsideSide: FC<PropsType> = ({ handleSideClick, el, fields }) => {
           Icon: el.icon,
           isOpen,
           setIsOpen,
-          customIconStyle: "min-w-[40px] min-h-[40px]",
+          customIconStyle: "svg__sidebar",
         }}
       />
 
