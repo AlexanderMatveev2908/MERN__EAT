@@ -1,12 +1,9 @@
 import { FormProvider } from "react-hook-form";
-import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
 import { useAddDish } from "./useAddDish";
 import MyDishesForm from "../../../UI/forms/MyDishes/MyDishesForm";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
-import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
-import { ErrFoodApp } from "../../../types/allTypes/API";
 import { ReturnIdsAPI } from "../../../core/api/APICalls/myDishes";
-import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
+import ParentContentLoading from "../../../UI/components/ParentContentLoading";
+import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 
 const AddDish = () => {
   useScrollTop();
@@ -19,31 +16,29 @@ const AddDish = () => {
     handleSave,
     isPending,
     errorIds,
+    isErrorIds,
   } = useAddDish();
 
-  return isPendingIds ||
-    msgHelpersFrontBack.includes(
-      (errorIds as ErrFoodApp)?.response?.data?.msg ?? ""
-    ) ? (
-    <LoaderPageReact />
-  ) : (
-    <div className="w-full grid grid-cols-1 gap-5 justify-items-center">
-      <span className="txt__04">Add Dish</span>
-      {isSuccessIds ? (
-        <FormProvider {...formContext}>
-          <MyDishesForm
-            {...{
-              formContext,
-              restInfo: restInfo as ReturnIdsAPI[],
-              handleSave,
-              isPending,
-            }}
-          />
-        </FormProvider>
-      ) : (
-        <ErrEmoji {...{ err: errorIds as ErrFoodApp }} />
-      )}
-    </div>
+  return (
+    <ParentContentLoading
+      {...{ isPending: isPendingIds, isError: isErrorIds, error: errorIds }}
+    >
+      <div className="w-full grid grid-cols-1 gap-5 justify-items-center">
+        <span className="txt__04">Add Dish</span>
+        {isSuccessIds && (
+          <FormProvider {...formContext}>
+            <MyDishesForm
+              {...{
+                formContext,
+                restInfo: restInfo as ReturnIdsAPI[],
+                handleSave,
+                isPending,
+              }}
+            />
+          </FormProvider>
+        )}
+      </div>
+    </ParentContentLoading>
   );
 };
 export default AddDish;

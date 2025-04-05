@@ -28,7 +28,8 @@ export const useUpdateDish = () => {
   const dishId = params?.dishId;
   const canStay = REG_MONGO.test(dishId ?? "");
 
-  const { isPendingIds, restInfo, isSuccessIds } = useGetRestaurantsIds();
+  const { isPendingIds, restInfo, isSuccessIds, isErrorIds, errorIds } =
+    useGetRestaurantsIds();
 
   const {
     data: dataInfo,
@@ -83,7 +84,7 @@ export const useUpdateDish = () => {
     reset,
   ]);
 
-  const { mutate: mutateUpdate, isPending } = useMutation({
+  const { mutate: mutateUpdate, isPending: isPendingUpdate } = useMutation({
     mutationFn: ({ formData, id }: { formData: FormData; id: string }) =>
       updateDishAPI({ formData, id }),
     onSuccess: (data) => {
@@ -159,7 +160,10 @@ export const useUpdateDish = () => {
       isSuccessIds && isSuccessInfo && Object.keys(dataInfo?.dish ?? {}).length,
     canStay,
     handleOpenPopup,
-    isPending,
+    isPendingUpdate,
     errorInfo,
+    errorIds,
+    isErrorIds,
+    isErrorInfo,
   };
 };

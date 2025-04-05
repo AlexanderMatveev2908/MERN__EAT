@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import { useQuery } from "@tanstack/react-query";
@@ -7,13 +7,8 @@ import {
   getDishesRestAsUser,
   getRestaurantAsUserAPI,
 } from "../../../core/api/APICalls/searchAllUsers";
-import {
-  msgHelpersFrontBack,
-  useHandleErr,
-} from "../../../core/hooks/useHandleErr";
+import { useHandleErr } from "../../../core/hooks/useHandleErr";
 import { ErrFoodApp } from "../../../types/allTypes/API";
-import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
 import ImgSlider from "../../../UI/components/ImgSlider/ImgSlider";
 import { MdAdminPanelSettings } from "react-icons/md";
 import DetailsRestaurantUser from "../../../UI/components/cards/restaurants/DetailsRestaurantUser";
@@ -33,6 +28,7 @@ import { createURLParamsMyDishes } from "../../../utils/allUtils/makeURLParams";
 import DishItem from "./components/DishItem";
 import ShowHitsByNumbers from "../../../UI/components/ShowHitsByNumbers";
 import SummaryCart from "./SummaryCart/SummaryCart";
+import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 
 const SearchRestPage: FC = () => {
   useScrollTop();
@@ -98,90 +94,93 @@ const SearchRestPage: FC = () => {
 
   const { dishes, totDocuments, totPages, nHits, isAdmin } = dataDishes ?? {};
 
-  return !canStay ? (
-    <Navigate to="/" replace />
-  ) : isPendingRest ||
-    msgHelpersFrontBack.includes(
-      (errorRest as ErrFoodApp)?.response?.data?.msg ?? ""
-    ) ? (
-    <LoaderPageReact />
-  ) : isErrorRest ? (
-    <ErrEmoji {...{ err: errorRest as ErrFoodApp }} />
-  ) : (
-    rest &&
-    isObjOk(rest) && (
-      <div className="w-full grid grid-cols-1 justify-items-center gap-5">
-        <span className="txt__04 truncate max-w-full">{rest.name}</span>
+  return (
+    <ParentContentLoading
+      {...{
+        isPending: isPendingRest,
+        isError: isErrorRest,
+        error: errorRest,
+        canStay,
+      }}
+    >
+      {rest && isObjOk(rest) && (
+        <>
+          <div className="w-full grid grid-cols-1 justify-items-center gap-5">
+            <span className="txt__04 truncate max-w-full">{rest.name}</span>
 
-        {rest.isAdmin && (
-          <Link
-            to={`/my-restaurants/${rest._id}`}
-            className="justify-self-end border-2 border-orange-500 py-1 sm:py-2 px-4 pr-6 rounded-xl group flex gap-4 items-center hover:scale-110 el__flow cursor-pointer"
-          >
-            <MdAdminPanelSettings className="icon__base group-hover:text-orange-500 el__flow" />
-            <span className="txt__02 group-hover:text-orange-500 el__flow">
-              Admin page
-            </span>
-          </Link>
-        )}
+            {rest.isAdmin && (
+              <Link
+                to={`/my-restaurants/${rest._id}`}
+                className="justify-self-end border-2 border-orange-500 py-1 sm:py-2 px-4 pr-6 rounded-xl group flex gap-4 items-center hover:scale-110 el__flow cursor-pointer"
+              >
+                <MdAdminPanelSettings className="icon__base group-hover:text-orange-500 el__flow" />
+                <span className="txt__02 group-hover:text-orange-500 el__flow">
+                  Admin page
+                </span>
+              </Link>
+            )}
 
-        <ImgSlider {...{ images: rest.images }} />
+            <ImgSlider {...{ images: rest.images }} />
 
-        <div className="w-full grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-3 gap-x-6 items-start">
-          <DetailsRestaurantUser {...{ rest, Container: DropElAbsolute }} />
-        </div>
-
-        {isBuyingSameRest && (
-          <div className="w-full mt-6">
-            <SummaryCart {...{ rest: dataRest?.restaurant }} />
-          </div>
-        )}
-
-        <FormProvider {...formContext}>
-          <SearchBar
-            {...{
-              formContext,
-              handleSave,
-              handleClear,
-              closeAllDrop,
-              isPending: isPendingDishes,
-              sorters: searchDishesSorters,
-              id,
-            }}
-          />
-        </FormProvider>
-
-        {isSuccessDishes && (
-          <ShowHitsByNumbers
-            {...{
-              nHits,
-              totDocuments,
-              minPrice,
-              maxPrice,
-              minQuantity,
-              maxQuantity,
-              errors,
-            }}
-          />
-        )}
-
-        {isPendingDishes ? (
-          <LoaderPageReact />
-        ) : isErrorDishes ? (
-          <ErrEmoji {...{ err: errorDishes as ErrFoodApp }} />
-        ) : (
-          !!dishes?.length && (
-            <div className="container__cards">
-              {dishes.map((el) => (
-                <DishItem key={el._id} {...{ dish: el, isAdmin }} />
-              ))}
+            <div className="w-full grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-3 gap-x-6 items-start">
+              <DetailsRestaurantUser {...{ rest, Container: DropElAbsolute }} />
             </div>
-          )
-        )}
 
-        <BlockPages {...{ ...propsBlock, totPages }} />
-      </div>
-    )
+            {isBuyingSameRest && (
+              <div className="w-full mt-6">
+                <SummaryCart {...{ rest }} />
+              </div>
+            )}
+
+            <FormProvider {...formContext}>
+              <SearchBar
+                {...{
+                  formContext,
+                  handleSave,
+                  handleClear,
+                  closeAllDrop,
+                  isPending: isPendingDishes,
+                  sorters: searchDishesSorters,
+                  id,
+                }}
+              />
+            </FormProvider>
+
+            {isSuccessDishes && (
+              <ShowHitsByNumbers
+                {...{
+                  nHits,
+                  totDocuments,
+                  minPrice,
+                  maxPrice,
+                  minQuantity,
+                  maxQuantity,
+                  errors,
+                }}
+              />
+            )}
+
+            <ParentContentLoading
+              {...{
+                isPending: isPendingDishes,
+                isError: isErrorDishes,
+                error: errorDishes,
+              }}
+            >
+              {!!dishes?.length && (
+                <div className="container__cards">
+                  {dishes.map((el) => (
+                    <DishItem key={el._id} {...{ dish: el, isAdmin }} />
+                  ))}
+                </div>
+              )}
+            </ParentContentLoading>
+
+            <BlockPages {...{ ...propsBlock, totPages }} />
+          </div>
+        </>
+      )}
+    </ParentContentLoading>
   );
 };
 export default SearchRestPage;

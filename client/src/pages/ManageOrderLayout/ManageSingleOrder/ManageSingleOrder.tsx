@@ -1,16 +1,14 @@
 import { FC, useEffect } from "react";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { useQuery } from "@tanstack/react-query";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getSingleManageOrdersAPI } from "../../../core/api/APICalls/manageOrders";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 import { ErrFoodApp } from "../../../types/allTypes/API";
-import LoaderPageReact from "../../../UI/components/loaders/LoaderPageReact/LoaderPageReact";
-import ErrEmoji from "../../../UI/components/ErrEmoji";
-import { msgHelpersFrontBack } from "../../../core/hooks/useHandleErr";
 import ListItemsOrder from "../../../UI/components/ListItemsOrder";
 import { isObjOk } from "../../../utils/allUtils/validateData";
+import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 
 const ManageSingleOrder: FC = () => {
   const orderId = useParams()?.orderId;
@@ -31,22 +29,14 @@ const ManageSingleOrder: FC = () => {
 
   const { order } = data ?? {};
 
-  return !canStay ? (
-    <Navigate to="/" replace />
-  ) : isPending ||
-    msgHelpersFrontBack.includes(
-      (error as ErrFoodApp)?.response?.data?.msg ?? ""
-    ) ? (
-    <LoaderPageReact />
-  ) : isError ? (
-    <ErrEmoji {...{ err: error as ErrFoodApp }} />
-  ) : (
-    !!order &&
-    isObjOk(order) && (
-      <div className="w-full grid justify-items-center">
-        <ListItemsOrder {...{ order }} />
-      </div>
-    )
+  return (
+    <ParentContentLoading {...{ isPending, isError, error, canStay }}>
+      {order && isObjOk(order) && (
+        <div className="w-full grid justify-items-center">
+          <ListItemsOrder {...{ order }} />
+        </div>
+      )}
+    </ParentContentLoading>
   );
 };
 export default ManageSingleOrder;
