@@ -5,6 +5,11 @@ import { FaStreetView } from "react-icons/fa";
 import { CiBoxList } from "react-icons/ci";
 import { ImProfile } from "react-icons/im";
 import { ordersStatus } from "../MyRestaurants/filterSort";
+import {
+  calcDelay,
+  formatDate,
+  formatEstDelivery,
+} from "../../../../../utils/allUtils/formatTime";
 
 export const fieldItemsMyOrders = {
   icon: FaCartShopping,
@@ -72,3 +77,27 @@ export const fieldsDragDrop = ordersStatus
     label: el.at(0)?.toUpperCase() + el.slice(1),
     id: genID(),
   }));
+
+export const showFieldManageOrderTime = (...params: (string | number)[]) =>
+  [
+    {
+      label: "Created at",
+      val: formatDate(params[0] as string),
+    },
+    {
+      label: "Delivery time",
+      val: formatEstDelivery(params[1] as number),
+    },
+    {
+      label: "Est arrive",
+      val: formatDate(
+        new Date(
+          new Date(params[0]).getTime() + (params[1] as number) * 60 * 1000
+        ).toISOString()
+      ),
+    },
+    {
+      label: "Delay",
+      val: calcDelay(params[0] as string, params[1] as number),
+    },
+  ].map((el) => ({ ...el, id: genID() }));
