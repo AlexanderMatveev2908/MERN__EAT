@@ -14,6 +14,7 @@ import { heapDiscountAsc, heapDiscountDesc, mergeSortPrice, quickSortDate, } fro
 import { calcPagination } from "../../utils/makeQueries/calcPagination.js";
 import { handleNoHits } from "../../utils/handleNoHits.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
+import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
 const getCreatedAt = (el) => new Date(el.createdAt);
 const getUpdatedAt = (el) => new Date(el.updatedAt);
 export const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -66,5 +67,22 @@ export const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, functio
         totPages,
         nHits,
         orders,
+    });
+});
+export const getOrderStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req;
+    const { orderId } = req.params;
+    const order = (yield Order.findOne({
+        userId: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
+        _id: makeMongoId(orderId),
+    }).lean());
+    if (!order)
+        return baseErrResponse(res, 404, "Order not found");
+    if (["pending", "cancelled"].includes(order.status))
+        return badRequest(res);
+    return res.status(200).json({
+        success: true,
+        message: "Order ok",
+        status: order.status,
     });
 });

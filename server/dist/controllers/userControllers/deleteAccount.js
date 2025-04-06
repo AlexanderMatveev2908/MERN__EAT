@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import User from "../../models/User.js";
-import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
+import { baseErrResponse, unauthorizedErr, userNotFound, } from "../../utils/baseErrResponse.js";
 import { checkTokenSHA } from "../../utils/token.js";
 import Restaurant from "../../models/Restaurant.js";
 import { clearData } from "../../utils/clearData.js";
@@ -35,6 +35,18 @@ export const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, fun
     const restaurants = yield Restaurant.find({
         owner: user._id,
     }).populate("dishes");
+    const ordersAsOwner = yield Order.find({
+        restaurantId: { $in: restaurants.map((el) => el._id) },
+        status: { $in: ["confirmed", "processing", "shipped"] },
+    });
+    if (ordersAsOwner === null || ordersAsOwner === void 0 ? void 0 : ordersAsOwner.length)
+        return baseErrResponse(res, 403, "You have orders to process");
+    const ordersAsUser = yield Order.find({
+        userId: user._id,
+        status: { $in: ["confirmed", "processing", "shipped"] },
+    });
+    if (ordersAsUser === null || ordersAsUser === void 0 ? void 0 : ordersAsUser.length)
+        return baseErrResponse(res, 403, "You have orders to receive");
     if (restaurants === null || restaurants === void 0 ? void 0 : restaurants.length) {
         const promises = restaurants.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield clearData(el); }));
         yield Promise.all(promises);
