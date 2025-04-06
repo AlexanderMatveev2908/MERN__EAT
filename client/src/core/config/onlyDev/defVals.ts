@@ -1,0 +1,17 @@
+export const defaultValuesMyRest = {
+  name: "Name",
+  country: "Country",
+  state: "State",
+  city: "City",
+  street: "Street",
+  zipCode: "12345",
+  email: "",
+  phone: "",
+  website: "http://example.com",
+  estTimeDelivery: "30",
+  price: "10",
+  freeDeliveryPrice: "50",
+  categories: ["italian"],
+  openTime: "8:00",
+  closeTime: "21:00",
+};
