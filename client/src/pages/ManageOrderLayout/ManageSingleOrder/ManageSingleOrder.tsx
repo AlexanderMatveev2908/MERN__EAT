@@ -20,13 +20,15 @@ import { getTotOrder } from "../../../utils/allUtils/priceFormatter";
 import { IDPopulatedOrder } from "../../../types/allTypes/orders";
 import TimerDel from "./TimerDel";
 import DragAndDropManager from "./DragAndDropManager";
-import { MdError } from "react-icons/md";
 import { calcDelay } from "../../../utils/allUtils/formatTime";
+import { MdError } from "react-icons/md";
+import SpinnerBtnReact from "../../../UI/components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const ManageSingleOrder: FC = () => {
   const [isDelivered, setIsDelivered] = useState(false);
   const orderId = useParams()?.orderId;
   const [delay, setDelay] = useState<null | number>(0);
+  const [canShow, setCanShow] = useState(false);
 
   const canStay = REG_MONGO.test(orderId ?? "");
 
@@ -66,6 +68,12 @@ const ManageSingleOrder: FC = () => {
     return () => clearInterval(interval);
   }, [order, isDelivered]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setCanShow(true);
+    }, 2000);
+  }, []);
+
   return (
     <ParentContentLoading {...{ isPending, isError, error, canStay }}>
       {order && isObjOk(order) && (
@@ -103,42 +111,41 @@ const ManageSingleOrder: FC = () => {
               order.timeConfirmed,
               (order.restaurantId as IDPopulatedOrder).delivery.estTimeDelivery,
               delay as any
-            ).map((el) =>
-              el.label === "Delay" ? (
-                el.val === null ||
-                order.status === "delivered" ||
-                isDelivered ? null : (
-                  <li
-                    key={el.id}
-                    className="w-full grid grid-cols-2 items-center"
-                  >
-                    <div className="w-full flex items-center gap-5">
-                      <MdError className="min-h-[40px] min-w-[40px] text-red-600" />
-                      <span className="txt__02 text-red-600">{el.label}</span>
-                    </div>
+            ).map((el) => (
+              <li key={el.id} className="w-full grid grid-cols-2 items-center">
+                <span className="txt__01">{el.label}</span>
 
-                    <span className="txt__01 justify-self-end sm:justify-self-center border-b-[3px] text-red-600 pb-1 border-red-600">
-                      {el.val}
-                    </span>
-                  </li>
-                )
-              ) : (
-                <li
-                  key={el.id}
-                  className="w-full grid grid-cols-2 items-center"
-                >
-                  <span className="txt__01">{el.label}</span>
+                <span className="txt__01 justify-self-end sm:justify-self-center">
+                  {el.val}
+                </span>
+              </li>
+            ))}
+            {order.status === "delivered" || isDelivered ? null : (
+              <li
+                className={`w-full grid grid-cols-2 items-center el__flow ${
+                  canShow ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <div className="w-full flex items-center gap-5">
+                  <MdError className="min-h-[40px] min-w-[40px] text-red-600" />
+                  <span className="txt__02 text-red-600">Delay</span>
+                </div>
 
-                  <span className="txt__01 justify-self-end sm:justify-self-center">
-                    {el.val}
-                  </span>
-                </li>
-              )
+                <span className="txt__01 justify-self-end sm:justify-self-center border-b-[3px] text-red-600 pb-1 border-red-600">
+                  {delay}
+                </span>
+              </li>
             )}
           </ul>
 
-          <TimerDel {...{ order, isDelivered }} />
-
+          {!canShow && <SpinnerBtnReact />}
+          <div
+            className={`w-full grid h-[50px] el__flow ${
+              canShow ? "scale-100" : "scale-0"
+            }`}
+          >
+            <TimerDel {...{ order, isDelivered }} />
+          </div>
           {!["cancelled", "delivered"].includes(order.status) && (
             <DragAndDropManager {...{ order, setIsDelivered }} />
           )}

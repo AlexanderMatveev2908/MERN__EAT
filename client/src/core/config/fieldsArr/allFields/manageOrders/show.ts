@@ -98,8 +98,4 @@ export const showFieldManageOrderTime = (
         ).toISOString()
       ),
     },
-    {
-      label: "Delay",
-      val: params[2],
-    },
   ].map((el) => ({ ...el, id: genID() }));
