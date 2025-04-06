@@ -20,6 +20,23 @@ import { get__dirname } from "./utils/calcPath.js";
 const app = express();
 const port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
 app.set("trust proxy", 1);
+// app.use(
+//   "/api/v1",
+//   createProxyMiddleware({
+//     target: "https://food-app-aqkc.onrender.com",
+//     changeOrigin: true,
+//     onProxyReq: (proxyReq: any, req: Request, res: Response) => {
+//       console.log(
+//         "Proxying request to:",
+//         proxyReq.getHeader("host") + proxyReq.path
+//       );
+//     },
+//     onError: (err: any, req: Request, res: Response) => {
+//       console.error("Proxy error:", err.message);
+//       res.status(500).json({ error: "Proxy failed" });
+//     },
+//   } as any)
+// );
 app.use("/api/v1", router);
 if (!isDev) {
     app.use(express.static(path.join(get__dirname(), "../../client/dist")));
@@ -41,7 +58,6 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
 });
+start();
 // netstat -ano | findstr :3000
 // npx kill-port 3000
-// dummy github
-start();

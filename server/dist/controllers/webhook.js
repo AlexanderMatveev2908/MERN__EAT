@@ -37,16 +37,15 @@ export const webhook = (req, res) => __awaiter(void 0, void 0, void 0, function*
         return baseErrResponse(res, 404, "Restaurant not found");
     if (paymentStatus === "succeeded" && order.status === "pending") {
         order.status = "confirmed";
+        order.timeConfirmed = new Date();
         yield order.save();
         const promises = order.items.map((el) => __awaiter(void 0, void 0, void 0, function* () {
-            const dish = (yield Dish.findById(el.dishId).lean());
+            const dish = (yield Dish.findById(el.dishId));
             //  i return just for tsc complain, i already checked in "getFreshItemsStock" that stock is ok and up to date
             if (!dish)
                 return;
             dish.quantity -= el.quantity;
-            yield Dish.findByIdAndUpdate(el.dishId, {
-                $set: { quantity: dish.quantity },
-            });
+            yield dish.save();
         }));
         yield Promise.all(promises);
         // await Restaurant.updateMany({}, [

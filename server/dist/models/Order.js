@@ -80,6 +80,10 @@ const OrderSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    timeConfirmed: {
+        type: Date,
+        default: null,
+    },
     coupon: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Coupon",
