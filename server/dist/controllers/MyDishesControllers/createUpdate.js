@@ -94,7 +94,7 @@ export const updateDish = (req, res) => __awaiter(void 0, void 0, void 0, functi
     else {
         const parsed = JSON.parse((_c = req.body.images) !== null && _c !== void 0 ? _c : "[]");
         const parsedSet = new Set(parsed.map((el) => el.public_id));
-        const imagesToDelete = dish.images.filter((el) => !parsedSet.has(el));
+        const imagesToDelete = dish.images.filter((el) => !parsedSet.has(el.public_id));
         const promises = imagesToDelete.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(el.public_id); }));
         yield Promise.all(promises);
         updatedImages = parsed;

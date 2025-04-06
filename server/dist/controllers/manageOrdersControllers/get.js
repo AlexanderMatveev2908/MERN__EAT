@@ -15,6 +15,7 @@ import { handleNoHits } from "../../utils/handleNoHits.js";
 import { filterManageOrders } from "../../utils/makeQueries/manageOrders.js";
 import { makeSorters } from "../../utils/makeSorters/general.js";
 import { sortOrders } from "./funnyRecursive.js";
+import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
 export const getManageOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
     const restaurants = yield Restaurant.find({
@@ -56,5 +57,27 @@ export const getManageOrders = (req, res) => __awaiter(void 0, void 0, void 0, f
         totPages,
         totDocuments,
         nHits,
+    });
+});
+export const getSingleManageOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req;
+    const { orderId } = req.params;
+    const restaurants = yield Restaurant.find({
+        owner: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
+    });
+    if (!restaurants)
+        return baseErrResponse(res, 404, "User does not have restaurants");
+    const order = yield Order.findOne({
+        _id: makeMongoId(orderId),
+        restaurantId: { $in: restaurants.map((el) => el._id) },
+    }).populate("restaurantId");
+    if (!order)
+        return baseErrResponse(res, 404, "Order not found");
+    if (["pending", "cancelled"].includes(order.status))
+        return badRequest(res);
+    return res.status(200).json({
+        message: "ok",
+        success: true,
+        order,
     });
 });
