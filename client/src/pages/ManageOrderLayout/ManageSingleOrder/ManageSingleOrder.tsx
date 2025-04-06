@@ -1,4 +1,5 @@
-import { FC, useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FC, useEffect, useState } from "react";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
@@ -20,9 +21,13 @@ import { IDPopulatedOrder } from "../../../types/allTypes/orders";
 import TimerDel from "./TimerDel";
 import DragAndDropManager from "./DragAndDropManager";
 import { MdError } from "react-icons/md";
+import { calcDelay } from "../../../utils/allUtils/formatTime";
 
 const ManageSingleOrder: FC = () => {
+  const [isDelivered, setIsDelivered] = useState(false);
   const orderId = useParams()?.orderId;
+  const [delay, setDelay] = useState<null | number>(0);
+
   const canStay = REG_MONGO.test(orderId ?? "");
 
   useScrollTop();
@@ -38,6 +43,28 @@ const ManageSingleOrder: FC = () => {
   }, [isError, error, isSuccess, data, handleErrAPI]);
 
   const { order } = data ?? {};
+
+  useEffect(() => {
+    let interval;
+    if (!order) {
+      return;
+    } else if (order.status === "delivered" || isDelivered) {
+      setDelay(null);
+      return;
+    } else {
+      interval = setInterval(() => {
+        setDelay(
+          calcDelay(
+            order?.timeConfirmed,
+            (order?.restaurantId as IDPopulatedOrder).delivery
+              .estTimeDelivery as unknown as number
+          ) as any
+        );
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [order, isDelivered]);
 
   return (
     <ParentContentLoading {...{ isPending, isError, error, canStay }}>
@@ -74,10 +101,13 @@ const ManageSingleOrder: FC = () => {
           <ul className="w-full grid items-center gap-2">
             {showFieldManageOrderTime(
               order.timeConfirmed,
-              (order.restaurantId as IDPopulatedOrder).delivery.estTimeDelivery
+              (order.restaurantId as IDPopulatedOrder).delivery.estTimeDelivery,
+              delay as any
             ).map((el) =>
-              el.label === "Delay" && order.status !== "delivered" ? (
-                !el.val ? null : (
+              el.label === "Delay" ? (
+                el.val === null ||
+                order.status === "delivered" ||
+                isDelivered ? null : (
                   <li
                     key={el.id}
                     className="w-full grid grid-cols-2 items-center"
@@ -107,10 +137,10 @@ const ManageSingleOrder: FC = () => {
             )}
           </ul>
 
-          <TimerDel {...{ order }} />
+          <TimerDel {...{ order, isDelivered }} />
 
           {!["cancelled", "delivered"].includes(order.status) && (
-            <DragAndDropManager {...{ order }} />
+            <DragAndDropManager {...{ order, setIsDelivered }} />
           )}
         </div>
       )}

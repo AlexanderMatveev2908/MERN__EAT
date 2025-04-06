@@ -51,7 +51,7 @@ const ManageOrderItem: FC<PropsType> = ({ order }) => {
         </div>
       </div>
 
-      {!["pending", "cancelled"].includes(order.status) &&
+      {!["pending", "cancelled", "delivered"].includes(order.status) &&
         order?.restaurantId && (
           <Link
             to={`/manage-orders/${order._id}`}

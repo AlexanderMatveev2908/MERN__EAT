@@ -1,12 +1,18 @@
-import { FC, useMemo, useState } from "react";
+import { FC, SetStateAction, useMemo, useState } from "react";
 import { fieldsDragDrop } from "../../../core/config/fieldsArr/allFields/manageOrders/show";
 import { OrderType } from "../../../types/types";
 import { Ham } from "lucide-react";
 import { OrderStatusType } from "../../../types/allTypes/orders";
 import SpinnerBtnReact from "../../../UI/components/loaders/SpinnerBtnReact/SpinnerBtnReact";
+import { useMutation } from "@tanstack/react-query";
+import { updateStatusOrderAPI } from "../../../core/api/APICalls/manageOrders";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
+import { ErrFoodApp } from "../../../types/allTypes/API";
+import { useParams } from "react-router-dom";
 
 type PropsType = {
   order: OrderType;
+  setIsDelivered: React.Dispatch<SetStateAction<boolean>>;
 };
 
 type StatusState = {
@@ -24,12 +30,36 @@ const getIndexes = (newStatus: OrderStatusType, status: StatusState) => {
   };
 };
 
-const DragAndDropManager: FC<PropsType> = ({ order }) => {
+const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
   const [status, setStatus] = useState<StatusState>({
     prev: null,
     curr: order.status,
   });
   const [isDragging, setIsDragging] = useState(false);
+  const orderId = useParams()?.orderId;
+
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
+
+  const { isPending, mutate } = useMutation({
+    mutationFn: ({
+      orderId,
+      status,
+    }: {
+      orderId: string;
+      status: OrderStatusType;
+    }) => updateStatusOrderAPI({ orderId, status }),
+    onError: (err: ErrFoodApp) => {
+      handleErrAPI({ err });
+      setStatus((prev) => ({
+        prev: null,
+        curr: prev.prev as OrderStatusType,
+      }));
+    },
+    onSuccess: () => {
+      if (status.curr === "delivered") setIsDelivered(true);
+      showToastMsg("Status updated", "SUCCESS");
+    },
+  });
 
   const iStatus = useMemo(
     () => fieldsDragDrop.findIndex((el) => el.field === status.curr),
@@ -84,11 +114,19 @@ const DragAndDropManager: FC<PropsType> = ({ order }) => {
     }
 
     setStatus({ prev: null, curr: newStatus as OrderStatusType });
+    mutate({
+      orderId: orderId as string,
+      status: newStatus as OrderStatusType,
+    });
   };
   return (
     <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
-      {fieldsDragDrop.map((el, i) =>
-        i === 0 ? (
+      {fieldsDragDrop.map((el, i) => {
+        const currI = fieldsDragDrop.findIndex(
+          (el) => el.field === status.curr
+        );
+
+        return i === currI && isPending ? (
           <SpinnerBtnReact />
         ) : (
           <div
@@ -117,8 +155,8 @@ const DragAndDropManager: FC<PropsType> = ({ order }) => {
             )}
             <span className="txt__02">{el.label}</span>
           </div>
-        )
-      )}
+        );
+      })}
     </div>
   );
 };
