@@ -6,7 +6,6 @@ import { CiBoxList } from "react-icons/ci";
 import { ImProfile } from "react-icons/im";
 import { ordersStatus } from "../MyRestaurants/filterSort";
 import {
-  calcDelay,
   formatDate,
   formatEstDelivery,
 } from "../../../../../utils/allUtils/formatTime";
@@ -78,7 +77,9 @@ export const fieldsDragDrop = ordersStatus
     id: genID(),
   }));
 
-export const showFieldManageOrderTime = (...params: (string | number)[]) =>
+export const showFieldManageOrderTime = (
+  ...params: (string | number | null)[]
+) =>
   [
     {
       label: "Created at",
@@ -92,12 +93,13 @@ export const showFieldManageOrderTime = (...params: (string | number)[]) =>
       label: "Est arrive",
       val: formatDate(
         new Date(
-          new Date(params[0]).getTime() + (params[1] as number) * 60 * 1000
+          new Date(params[0] as string).getTime() +
+            (params[1] as number) * 60 * 1000
         ).toISOString()
       ),
     },
     {
       label: "Delay",
-      val: calcDelay(params[0] as string, params[1] as number),
+      val: params[2],
     },
   ].map((el) => ({ ...el, id: genID() }));

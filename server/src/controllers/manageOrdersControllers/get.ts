@@ -83,7 +83,7 @@ export const getSingleManageOrders = async (
   }).populate("restaurantId");
   if (!order) return baseErrResponse(res, 404, "Order not found");
 
-  if (order.status === "pending") return badRequest(res);
+  if (["pending", "cancelled"].includes(order.status)) return badRequest(res);
 
   return res.status(200).json({
     message: "ok",

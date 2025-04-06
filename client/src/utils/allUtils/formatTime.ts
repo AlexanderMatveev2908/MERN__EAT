@@ -64,11 +64,14 @@ export const getPercDelTime = (order: OrderType) => {
 // tot / 100 * perc = part
 // perc = part * 100 / tot
 
-export const getColorTimer = (order: OrderType, perc: number) =>
-  ["delivered", "cancelled"].includes(order.status)
-    ? order.status === "delivered"
-      ? "bg-green-600"
-      : "bg-red-600"
+// would be better with an if else but i wanted to exercise with nested ternary
+export const getColorTimer = (
+  order: OrderType,
+  perc: number,
+  isDelivered: boolean
+) =>
+  order.status === "delivered" || isDelivered
+    ? "bg-green-600"
     : perc >= 100
     ? "bg-red-600"
     : perc >= 75
@@ -82,7 +85,22 @@ export const calcDelay = (confirmedAt: string, estDelTime: number) => {
   const expected = confirmed + estDelTime * 60 * 1000;
   const now = new Date().getTime();
 
-  const delay = (now - expected) / 1000 / 60;
+  const delay = Math.floor((now - expected) / 1000 / 60);
+  const hours = Math.floor(delay / 60);
+  const minutes = delay % 60;
+  const seconds = Math.floor((now - expected) / 1000) % 60;
 
-  return delay ? formatEstDelivery(delay) : null;
+  if (delay < 0) return null;
+  if (!hours && !minutes && !seconds) return `0 seconds`;
+
+  const formatted = `${hours ? `${hours} hour${hours > 1 ? "s" : ""}` : ``} ${
+    minutes
+      ? `${hours ? "and " : ""}${minutes} minute${minutes > 1 ? "s" : ""}`
+      : ``
+  } ${
+    seconds
+      ? `${minutes ? "and " : ""}${seconds} second${seconds > 1 ? "s" : ""}`
+      : ``
+  }`;
+  return formatted;
 };

@@ -43,14 +43,14 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
     await order.save();
 
     const promises = order.items.map(async (el: OrderItem) => {
-      const dish = (await Dish.findById(el.dishId).lean()) as DishType | null;
+      const dish = (await Dish.findById(
+        el.dishId
+      )) as HydratedDocument<DishType> | null;
       //  i return just for tsc complain, i already checked in "getFreshItemsStock" that stock is ok and up to date
       if (!dish) return;
 
       dish.quantity -= el.quantity;
-      await Dish.findByIdAndUpdate(el.dishId, {
-        $set: { quantity: dish.quantity },
-      });
+      await dish.save();
     });
 
     await Promise.all(promises);
