@@ -60,3 +60,10 @@ export const refundConfirmedAPI = (orderId: string) =>
   destructureDataAPI(() =>
     foodAppInstance.patch(`/my-orders/refund-confirmed/${orderId}`)
   );
+
+export const getFreshStatusAPI = (
+  orderId: string
+): Promise<ReturnAPIBasic & { status: string }> =>
+  destructureDataAPI(() =>
+    foodAppInstance.get(`/my-orders/fresh-status/${orderId}`)
+  );

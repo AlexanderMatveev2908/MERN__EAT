@@ -12,6 +12,7 @@ import {
 import { calcPagination } from "../../utils/makeQueries/calcPagination.js";
 import { handleNoHits } from "../../utils/handleNoHits.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
+import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
 
 const getCreatedAt = (el: OrderType) => new Date(el.createdAt);
 const getUpdatedAt = (el: OrderType) => new Date(el.updatedAt);
@@ -72,5 +73,26 @@ export const getOrders = async (
     totPages,
     nHits,
     orders,
+  });
+};
+
+export const getOrderStatus = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+  const { orderId } = req.params;
+
+  const order = (await Order.findOne({
+    userId: makeMongoId(userId ?? ""),
+    _id: makeMongoId(orderId),
+  }).lean()) as OrderType | null;
+  if (!order) return baseErrResponse(res, 404, "Order not found");
+  if (["pending", "cancelled"].includes(order.status)) return badRequest(res);
+
+  return res.status(200).json({
+    success: true,
+    message: "Order ok",
+    status: order.status,
   });
 };
