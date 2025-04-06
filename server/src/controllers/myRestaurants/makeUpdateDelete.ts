@@ -9,6 +9,7 @@ import { checkUserProperty } from "../../utils/checkers/myRestaurants.js";
 import { ImageType } from "../../models/Image.js";
 import Dish from "../../models/Dish.js";
 import { clearData } from "../../utils/clearData.js";
+import Order from "../../models/Order.js";
 
 export const createRestaurant = async (
   req: RequestWithUserId,
@@ -102,6 +103,13 @@ export const deleteRestaurant = async (
 ): Promise<any> => {
   const { user, restaurant } = await checkUserProperty(req, res);
   if ([user, restaurant].some((el) => !el)) return;
+
+  const currOrders = await Order.find({
+    restaurantId: restaurant._id,
+    status: { $in: ["confirmed", "processing", "shipped"] },
+  });
+  if (currOrders.length)
+    return baseErrResponse(res, 403, "You have orders to process");
 
   await clearData(restaurant);
 
