@@ -39,7 +39,7 @@ export const formatDate = (str: string) =>
 
 export const formatEstDelivery = (val: number) => {
   const hours = Math.floor(val / 60);
-  const minutes = val % 60;
+  const minutes = Math.floor(val % 60);
 
   return `${
     hours ? `${hours} hour${hours > 1 ? "s" : ""}${minutes ? " and " : ""}` : ``
@@ -76,3 +76,13 @@ export const getColorTimer = (order: OrderType, perc: number) =>
     : perc >= 50
     ? "bg-yellow-600"
     : "bg-blue-600";
+
+export const calcDelay = (confirmedAt: string, estDelTime: number) => {
+  const confirmed = new Date(confirmedAt).getTime();
+  const expected = confirmed + estDelTime * 60 * 1000;
+  const now = new Date().getTime();
+
+  const delay = (now - expected) / 1000 / 60;
+
+  return delay ? formatEstDelivery(delay) : null;
+};

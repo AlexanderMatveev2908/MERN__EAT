@@ -9,14 +9,17 @@ import { ErrFoodApp } from "../../../types/allTypes/API";
 import ListItemsOrder from "../../../UI/components/ListItemsOrder";
 import { isObjOk } from "../../../utils/allUtils/validateData";
 import ParentContentLoading from "../../../UI/components/ParentContentLoading";
-import { showPairsUserInfo } from "../../../core/config/fieldsArr/allFields/manageOrders/show";
+import {
+  showFieldManageOrderTime,
+  showPairsUserInfo,
+} from "../../../core/config/fieldsArr/allFields/manageOrders/show";
 import DropElStatic from "../../../UI/components/DropElStatic";
 import ContentMath from "../../../UI/components/ContentMath";
 import { getTotOrder } from "../../../utils/allUtils/priceFormatter";
-import { showFieldsDelivery } from "../../../core/config/fieldsArr/allFields/myOrders/show";
 import { IDPopulatedOrder } from "../../../types/allTypes/orders";
 import TimerDel from "./TimerDel";
 import DragAndDropManager from "./DragAndDropManager";
+import { MdError } from "react-icons/md";
 
 const ManageSingleOrder: FC = () => {
   const orderId = useParams()?.orderId;
@@ -69,23 +72,46 @@ const ManageSingleOrder: FC = () => {
           </div>
 
           <ul className="w-full grid items-center gap-2">
-            {showFieldsDelivery(
+            {showFieldManageOrderTime(
               order.timeConfirmed,
               (order.restaurantId as IDPopulatedOrder).delivery.estTimeDelivery
-            ).map((el) => (
-              <li key={el.id} className="w-full grid grid-cols-2 items-center">
-                <span className="txt__01">{el.label}</span>
+            ).map((el) =>
+              el.label === "Delay" && order.status !== "delivered" ? (
+                !el.val ? null : (
+                  <li
+                    key={el.id}
+                    className="w-full grid grid-cols-2 items-center"
+                  >
+                    <div className="w-full flex items-center gap-5">
+                      <MdError className="min-h-[40px] min-w-[40px] text-red-600" />
+                      <span className="txt__02 text-red-600">{el.label}</span>
+                    </div>
 
-                <span className="txt__01 justify-self-end sm:justify-self-center">
-                  {el.val}
-                </span>
-              </li>
-            ))}
+                    <span className="txt__01 justify-self-end sm:justify-self-center border-b-[3px] text-red-600 pb-1 border-red-600">
+                      {el.val}
+                    </span>
+                  </li>
+                )
+              ) : (
+                <li
+                  key={el.id}
+                  className="w-full grid grid-cols-2 items-center"
+                >
+                  <span className="txt__01">{el.label}</span>
+
+                  <span className="txt__01 justify-self-end sm:justify-self-center">
+                    {el.val}
+                  </span>
+                </li>
+              )
+            )}
           </ul>
 
           <TimerDel {...{ order }} />
 
-          <DragAndDropManager {...{ order }} />
+          {!["cancelled", "delivered"].includes(order.status) && (
+            <DragAndDropManager {...{ order }} />
+          )}
         </div>
       )}
     </ParentContentLoading>
