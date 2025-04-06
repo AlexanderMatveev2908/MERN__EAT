@@ -120,7 +120,9 @@ const ManageSingleOrder: FC = () => {
                 </span>
               </li>
             ))}
-            {order.status === "delivered" || isDelivered ? null : (
+            {order.status === "delivered" ||
+            isDelivered ||
+            (delay ?? -1) < 0 ? null : (
               <li
                 className={`w-full grid grid-cols-2 items-center el__flow ${
                   canShow ? "opacity-100" : "opacity-0"
