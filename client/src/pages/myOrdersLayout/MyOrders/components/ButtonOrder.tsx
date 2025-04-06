@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC } from "react";
+import { FC, SetStateAction } from "react";
 import { OrderType } from "../../../../types/types";
 import {
   ActionsMyOrdersBtns,
@@ -10,17 +10,20 @@ import { usePopup } from "../../../../core/hooks/useGlobal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   delPendingOrderAPI,
+  getFreshStatusAPI,
   refundConfirmedAPI,
 } from "../../../../core/api/APICalls/orders";
 import { useGetFavHooks } from "../../../../core/hooks/useGetFavHooks";
 import { ErrFoodApp } from "../../../../types/allTypes/API";
+import SpinnerBtnReact from "../../../../UI/components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 type PropsType = {
   order: OrderType;
   el: ButtonOMyOrdersType;
+  setFreshStatus?: React.Dispatch<SetStateAction<string>>;
 };
 
-const ButtonOrder: FC<PropsType> = ({ order, el }) => {
+const ButtonOrder: FC<PropsType> = ({ order, el, setFreshStatus }) => {
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
@@ -71,7 +74,14 @@ const ButtonOrder: FC<PropsType> = ({ order, el }) => {
       isPending: false,
     });
 
-  let color: string | null = null;
+  const { mutate: mutateFresh, isPending: isPendingFresh } = useMutation({
+    mutationFn: () => getFreshStatusAPI(order._id as string),
+    onSuccess: (data) => setFreshStatus?.(data.status),
+    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
+  });
+  const handleRefresh = () => mutateFresh();
+
+  let color: string = "#ea580c";
   let handler: (params: any) => any = () => null;
 
   if (el.action === ActionsMyOrdersBtns.CHECKOUT) {
@@ -83,11 +93,13 @@ const ButtonOrder: FC<PropsType> = ({ order, el }) => {
   ) {
     color = "#dc2626";
     handler = handleDeletePending;
-  } else {
-    color = "#ea580c";
+  } else if (el.action === ActionsMyOrdersBtns.REFRESH) {
+    handler = handleRefresh;
   }
 
-  return (
+  return el.action === ActionsMyOrdersBtns.REFRESH && isPendingFresh ? (
+    <SpinnerBtnReact />
+  ) : (
     <button
       onClick={handler}
       className="btn__order el__after_below_dynamic el__flow justify-self-center"

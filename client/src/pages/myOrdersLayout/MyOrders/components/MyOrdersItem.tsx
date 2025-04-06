@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import { OrderType } from "../../../../types/types";
 import HeaderIDItem from "../../../../UI/components/cards/HeaderIDItem";
 import HeaderImgs from "../../../../UI/components/cards/HeaderImgs";
@@ -16,6 +16,12 @@ type PropsType = {
 };
 
 const MyOrdersItem: FC<PropsType> = ({ order }) => {
+  const [freshStatus, setFreshStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    setFreshStatus(order.status);
+  }, [order.status]);
+
   return (
     <div className="card__el border-orange-500 relative">
       <HeaderIDItem {...{ id: order._id as string }} />
@@ -31,7 +37,7 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
 
         <div className="w-full grid grid-cols-1 h-full">
           <div className="pt-3 w-full el__flow grid grid-cols-1 gap-3 items-start h-full px-3 sm:pr-2 sm:pl-0">
-            <DetailsOrderUser {...{ order }}>
+            <DetailsOrderUser {...{ order, freshStatus }}>
               <ActivityClosed {...{ order }} />
             </DetailsOrderUser>
           </div>
@@ -45,8 +51,9 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
           let i = 0;
           do {
             const curr = buttonsMyOrders[i];
+
             if (
-              order.status === "pending" &&
+              freshStatus === "pending" &&
               [
                 ActionsMyOrdersBtns.CHECKOUT,
                 ActionsMyOrdersBtns.DELETE,
@@ -56,15 +63,39 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
                 <ButtonOrder key={curr.id} {...{ el: curr, order }} />
               );
             else if (
-              order.status === "confirmed" &&
+              freshStatus === "confirmed" &&
               [
                 ActionsMyOrdersBtns.REFRESH,
                 ActionsMyOrdersBtns.REFUND,
               ].includes(curr.action)
             )
               content.push(
+                <ButtonOrder
+                  key={curr.id}
+                  {...{ el: curr, order, setFreshStatus }}
+                />
+              );
+            else if (
+              ["processing", "shipped"].includes(freshStatus ?? "") &&
+              curr.action === ActionsMyOrdersBtns.REFRESH
+            )
+              content.push(
+                <ButtonOrder
+                  key={curr.id}
+                  {...{ el: curr, order, setFreshStatus }}
+                />
+              );
+            else if (
+              freshStatus === "delivered" &&
+              curr.action === ActionsMyOrdersBtns.REVIEW
+            )
+              content.push(
                 <ButtonOrder key={curr.id} {...{ el: curr, order }} />
               );
+            else {
+              i++;
+              continue;
+            }
 
             i++;
           } while (i < buttonsMyOrders.length);

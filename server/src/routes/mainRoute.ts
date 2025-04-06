@@ -43,7 +43,7 @@ router.use("/my-restaurants", verifyAccessToken, myRestaurantsRouter);
 router.use("/my-dishes", verifyAccessToken, routerMyDishes);
 router.use("/search", searchRouter);
 router.use("/my-cart", cartRouter);
-router.use("/my-orders", ordersRouter);
+router.use("/my-orders", verifyAccessToken, ordersRouter);
 router.use("/manage-orders", verifyAccessToken, routerManageOrders);
 
 if (isDev) router.use("/proxy", asyncWrapper(proxyRouter));

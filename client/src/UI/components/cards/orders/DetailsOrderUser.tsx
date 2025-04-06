@@ -21,10 +21,13 @@ import { fieldUserAddressMyOrders } from "../../../../core/config/fieldsArr/allF
 type PropsType = {
   order: OrderType;
   children?: ReactNode;
+  freshStatus?: string | null;
 };
 
-const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
+const DetailsOrderUser: FC<PropsType> = ({ order, children, freshStatus }) => {
   const path = useLocation().pathname;
+
+  const statusToShow = freshStatus ? freshStatus : order.status;
 
   return !order ? null : (
     <div className="w-full grid gap-3">
@@ -100,7 +103,7 @@ const DetailsOrderUser: FC<PropsType> = ({ order, children }) => {
         <div className="w-fit flex gap-5 justify-start items-center">
           <GiMatterStates className="min-w-[25px] min-h-[25px]" />
           <span className="txt__01">
-            {order.status.at(0)?.toUpperCase() + order.status.slice(1)}
+            {statusToShow?.at(0)?.toUpperCase() + statusToShow?.slice(1)}
           </span>
         </div>
       </div>
