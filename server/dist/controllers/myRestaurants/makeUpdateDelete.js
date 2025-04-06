@@ -14,6 +14,7 @@ import { deleteCloud, uploadCloud } from "../../utils/cloud.js";
 import { formatMyRestaurantsBody } from "../../utils/getValsMyRestaurantFromBody.js";
 import { checkUserProperty } from "../../utils/checkers/myRestaurants.js";
 import { clearData } from "../../utils/clearData.js";
+import Order from "../../models/Order.js";
 export const createRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
     const { userId } = req;
@@ -64,6 +65,12 @@ export const deleteRestaurant = (req, res) => __awaiter(void 0, void 0, void 0, 
     const { user, restaurant } = yield checkUserProperty(req, res);
     if ([user, restaurant].some((el) => !el))
         return;
+    const currOrders = yield Order.find({
+        restaurantId: restaurant._id,
+        status: { $in: ["confirmed", "processing", "shipped"] },
+    });
+    if (currOrders.length)
+        return baseErrResponse(res, 403, "You have orders to process");
     yield clearData(restaurant);
     user.restaurants = user.restaurants.filter((restId) => restId + "" !== restaurant._id + "");
     yield user.save();
