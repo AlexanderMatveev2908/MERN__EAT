@@ -1,7 +1,11 @@
 import { Response } from "express";
 import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js";
 import User from "../../models/User.js";
-import { unauthorizedErr, userNotFound } from "../../utils/baseErrResponse.js";
+import {
+  baseErrResponse,
+  unauthorizedErr,
+  userNotFound,
+} from "../../utils/baseErrResponse.js";
 import { checkTokenSHA } from "../../utils/token.js";
 import Restaurant from "../../models/Restaurant.js";
 import { deleteCloud } from "../../utils/cloud.js";
@@ -45,6 +49,19 @@ export const deleteAccount = async (
   const restaurants = await Restaurant.find({
     owner: user._id,
   }).populate("dishes");
+
+  const ordersAsOwner = await Order.find({
+    restaurantId: { $in: restaurants.map((el) => el._id) },
+    status: { $in: ["confirmed", "processing", "shipped"] },
+  });
+  if (ordersAsOwner?.length)
+    return baseErrResponse(res, 403, "You have orders to process");
+  const ordersAsUser = await Order.find({
+    userId: user._id,
+    status: { $in: ["confirmed", "processing", "shipped"] },
+  });
+  if (ordersAsUser?.length)
+    return baseErrResponse(res, 403, "You have orders to receive");
 
   if (restaurants?.length) {
     const promises = restaurants.map(async (el) => await clearData(el));
