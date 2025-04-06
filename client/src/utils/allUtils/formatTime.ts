@@ -65,12 +65,8 @@ export const getPercDelTime = (order: OrderType) => {
 // perc = part * 100 / tot
 
 // would be better with an if else but i wanted to exercise with nested ternary
-export const getColorTimer = (
-  order: OrderType,
-  perc: number,
-  isDelivered: boolean
-) =>
-  order.status === "delivered" || isDelivered
+export const getColorTimer = (isOrderOk: boolean, perc: number) =>
+  isOrderOk
     ? "bg-green-600"
     : perc >= 100
     ? "bg-red-600"

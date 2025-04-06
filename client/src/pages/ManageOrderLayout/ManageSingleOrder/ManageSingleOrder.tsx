@@ -48,9 +48,7 @@ const ManageSingleOrder: FC = () => {
 
   useEffect(() => {
     let interval;
-    if (!order) {
-      return;
-    } else if (order.status === "delivered" || isDelivered) {
+    if (!order || order?.status === "delivered" || isDelivered) {
       setDelay(null);
       return;
     } else {
@@ -73,6 +71,8 @@ const ManageSingleOrder: FC = () => {
       setCanShow(true);
     }, 2000);
   }, []);
+
+  const isOrderOk = order?.status === "delivered" || isDelivered;
 
   return (
     <ParentContentLoading {...{ isPending, isError, error, canStay }}>
@@ -101,7 +101,7 @@ const ManageSingleOrder: FC = () => {
               </DropElStatic>
             ))}
           </div>
-          {/* dddd */}
+
           <div className="w-full">
             <ContentMath {...{ order, totOrder: getTotOrder(order) }} />
           </div>
@@ -109,8 +109,7 @@ const ManageSingleOrder: FC = () => {
           <ul className="w-full grid items-center gap-2">
             {showFieldManageOrderTime(
               order.timeConfirmed,
-              (order.restaurantId as IDPopulatedOrder).delivery.estTimeDelivery,
-              delay as any
+              (order.restaurantId as IDPopulatedOrder).delivery.estTimeDelivery
             ).map((el) => (
               <li key={el.id} className="w-full grid grid-cols-2 items-center">
                 <span className="txt__01">{el.label}</span>
@@ -120,12 +119,11 @@ const ManageSingleOrder: FC = () => {
                 </span>
               </li>
             ))}
-            {order.status === "delivered" ||
-            isDelivered ||
-            (delay ?? -1) < 0 ? null : (
+
+            {isOrderOk || (delay ?? -1) < 0 ? null : (
               <li
                 className={`w-full grid grid-cols-2 items-center el__flow ${
-                  canShow ? "opacity-100" : "opacity-0"
+                  canShow ? "opacity-100 max-h-[300px]" : "opacity-0 max-h-0"
                 }`}
               >
                 <div className="w-full flex items-center gap-5">
@@ -143,10 +141,10 @@ const ManageSingleOrder: FC = () => {
           {!canShow && <SpinnerBtnReact />}
           <div
             className={`w-full grid h-[50px] el__flow ${
-              canShow ? "scale-100" : "scale-0"
+              canShow ? "scale-100 max-h-[300px]" : "scale-0 max-h-0"
             }`}
           >
-            <TimerDel {...{ order, isDelivered }} />
+            <TimerDel {...{ order, isOrderOk }} />
           </div>
           {!["cancelled", "delivered"].includes(order.status) && (
             <DragAndDropManager {...{ order, setIsDelivered }} />
