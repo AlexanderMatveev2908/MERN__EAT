@@ -111,6 +111,25 @@ const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
     });
   };
 
+  const handleClick = (e: React.MouseEvent) => {
+    const statusEl = (e.currentTarget as HTMLDivElement).dataset.status;
+
+    const { oldI, newI } = getIndexes(
+      statusEl as OrderStatusType,
+      status as StatusState
+    );
+
+    if (newI > oldI) {
+      setStatus({ prev: null, curr: statusEl as OrderStatusType });
+      mutate({
+        orderId: orderId as string,
+        status: statusEl as OrderStatusType,
+      });
+    } else {
+      setStatus((prev) => ({ prev: null, curr: prev.prev as OrderStatusType }));
+    }
+  };
+
   return (
     <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
       {fieldsDragDrop.map((el, i) => {
@@ -131,8 +150,9 @@ const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
+            onClick={(e) => (window.innerWidth < 768 ? handleClick(e) : null)}
             key={el.id}
-            className="border-2 border-[#333] rounded-xl px-6 py-2 flex justify-center items-center relative el__flow"
+            className="border-2 border-[#333] cursor-pointer md:cursor-default rounded-xl px-6 py-2 flex justify-center items-center relative el__flow"
           >
             {i === iStatus && (
               <div
