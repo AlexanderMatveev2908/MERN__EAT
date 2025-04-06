@@ -360,6 +360,10 @@ input[type="number"]::-webkit-inner-spin-button {
   @apply border-orange-500 scale-110;
 }
 
+.el__not_dragging {
+  @apply right-0 bottom-1/2 absolute opacity-100;
+}
+
 /* CARDS */
 
 .container__cards {

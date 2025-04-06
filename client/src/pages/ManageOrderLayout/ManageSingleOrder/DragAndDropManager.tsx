@@ -36,6 +36,8 @@ const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
     curr: order.status,
   });
   const [isDragging, setIsDragging] = useState(false);
+  // const [offset, setOffset] = useState({ x: 0, y: 0 });
+  // const draggableRef = useRef<HTMLDivElement | null>(null);
   const orderId = useParams()?.orderId;
 
   const { showToastMsg, handleErrAPI } = useGetFavHooks();
@@ -78,20 +80,9 @@ const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
 
     const newStatus = (e.currentTarget as HTMLDivElement).dataset.status;
 
-    const rect = e.currentTarget.getBoundingClientRect();
-    const gap = 200;
-    const startX = rect.left - gap;
-    const endX = rect.right + gap;
-    const startY = rect.top - gap;
-    const endY = rect.bottom + gap;
-
     const { oldI, newI } = getIndexes(newStatus as OrderStatusType, status);
 
     if (
-      e.clientX >= startX &&
-      e.clientX <= endX &&
-      e.clientY >= startY &&
-      e.clientY <= endY &&
       (e.currentTarget as HTMLDivElement).dataset?.status !== status.prev &&
       newI > oldI
     )
@@ -119,6 +110,7 @@ const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
       status: newStatus as OrderStatusType,
     });
   };
+
   return (
     <div className="w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-10 gap-y-5">
       {fieldsDragDrop.map((el, i) => {
@@ -131,9 +123,11 @@ const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
         ) : (
           <div
             data-status={el.field}
+            // DATA TRANSFER
             // onDragOver={allowDrop}
             // onDragLeave={handleDragLeave}
             // onDrop={(e) => handleDrop(e, el.field)}
+            // STATE MANAGEMENT
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
@@ -143,11 +137,13 @@ const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
             {i === iStatus && (
               <div
                 draggable
+                // STATE MANAGEMENT
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
+                // DATA TRANSFER
                 // onDragStart={(e) => handleDragStart(e, el.field)}
-                className={`bg-[#111] border-2 border-orange-500 text-orange-500 rounded-xl absolute right-0 bottom-1/2 p-2 el__flow hover:scale-110 cursor-pointer ${
-                  isDragging ? "opacity-50" : "opacity-gap"
+                className={`bg-[#111] border-2 border-orange-500 text-orange-500 rounded-xl p-2 el__flow hover:scale-110 cursor-pointer w-fit h-fit flex justify-center items-center right-0 bottom-1/2 absolute ${
+                  isDragging ? "opacity-50" : "opacity-100"
                 }`}
               >
                 <Ham className="min-w-[35px] min-h-[35px] " />
@@ -162,6 +158,7 @@ const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
 };
 export default DragAndDropManager;
 
+// DATA TRANSFER
 /*
   const handleDragStart = (e: React.DragEvent, field: string) =>
     e.dataTransfer.setData("status", field);
@@ -187,4 +184,59 @@ export default DragAndDropManager;
   };
   const handleDragLeave = (e: React.DragEvent) =>
     e.currentTarget.classList.remove("el__drag_over");
+  */
+
+// MOUSE EVENTS
+/*
+    const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+
+    const el = draggableRef?.current;
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    setOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+  const handleMouseUp = () => {
+    setIsDragging(false);
+
+    const el = draggableRef?.current;
+    if (!el) return;
+
+    el.style.position = "absolute";
+    el.style.right = "0";
+    el.style.bottom = "50%";
+    el.style.opacity = "1";
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const el = draggableRef?.current;
+      if (!el) return;
+
+      if (!isDragging) {
+        el.style.position = "absolute";
+        el.style.right = "0";
+        el.style.bottom = "50%";
+        return;
+      }
+
+      el.style.position = "fixed";
+      el.style.zIndex = "1000";
+      el.style.left = `${e.clientX - offset.x}px`;
+      el.style.top = `${e.clientY - offset.y}px`;
+      el.style.scale = "1.2";
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, offset]);
   */
