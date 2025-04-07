@@ -2,6 +2,8 @@
 import { FC } from "react";
 import { UseFormRegister, UseFormWatch } from "react-hook-form";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+import { REG_P_MY_REV } from "../../../../core/config/constants/regex";
 
 type PropsType = {
   register: UseFormRegister<any>;
@@ -10,6 +12,8 @@ type PropsType = {
 };
 
 const CustomInputImgs: FC<PropsType> = ({ register, watch, indexForm }) => {
+  const path = useLocation()?.pathname;
+
   const val =
     indexForm || indexForm === 0 ? `items.${indexForm}.images` : "images";
 
@@ -24,7 +28,8 @@ const CustomInputImgs: FC<PropsType> = ({ register, watch, indexForm }) => {
             validate: () => {
               const images = watch(val);
 
-              if (!images?.length) return "You should upload at least one img";
+              if (!images?.length && !REG_P_MY_REV.test(path))
+                return "You should upload at least one img";
               if (images?.length > 5) return "You can upload up to 5 images";
 
               return true;
