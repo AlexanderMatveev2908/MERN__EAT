@@ -23,6 +23,7 @@ const StarsCheck: FC<PropsType> = ({ formContext }) => {
     watch,
     setValue,
     setError,
+    clearErrors,
   } = formContext;
 
   const rating = watch("rating");
@@ -67,11 +68,11 @@ const StarsCheck: FC<PropsType> = ({ formContext }) => {
         setError("rating", {
           message: "Rating is required if you want to leave a review",
         });
-      else setError("rating", { message: "" });
+      else clearErrors("rating");
     });
 
     return () => sub.unsubscribe();
-  }, [watch, setError]);
+  }, [watch, setError, clearErrors]);
 
   return (
     <div className="w-full grid justify-items-center gap-3">
