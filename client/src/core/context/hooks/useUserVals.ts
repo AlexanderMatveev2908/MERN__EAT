@@ -41,6 +41,7 @@ export const useUserVals = (
       payload: { cart: null },
     } as Extract<RootActionTypes, { type: CartActionsLogged.SET_CART }>);
 
+    queryClient.cancelQueries();
     queryClient.clear();
   }, [dispatch, queryClient]);
 
@@ -49,12 +50,14 @@ export const useUserVals = (
       if (val) {
         sessionStorage.setItem("accessToken", val as string);
         dispatch({ type: SET_IS_LOGGED, payload: true });
+        queryClient.cancelQueries();
+        queryClient.clear();
       } else {
         logoutUser();
       }
     },
 
-    [dispatch, logoutUser]
+    [dispatch, logoutUser, queryClient]
   );
 
   const setCurrUser = useCallback(
