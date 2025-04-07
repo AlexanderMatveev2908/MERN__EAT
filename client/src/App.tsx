@@ -36,6 +36,9 @@ import MyOrders from "./pages/myOrdersLayout/MyOrders/MyOrders";
 import LayoutManageOrders from "./UI/layouts/LayoutManageOrders";
 import ManageOrders from "./pages/ManageOrderLayout/ManageOrders/ManageOrders";
 import ManageSingleOrder from "./pages/ManageOrderLayout/ManageSingleOrder/ManageSingleOrder";
+import LayoutMyReviews from "./UI/layouts/LayoutMyReviews";
+import MyReviews from "./pages/MyReviewsLayout/MyReviews/MyReviews";
+import AddReview from "./pages/MyReviewsLayout/AddReview/AddReview";
 
 const App: FC = () => {
   useApp();
@@ -59,9 +62,7 @@ const App: FC = () => {
         </Route>
 
         <Route path="verify-new-email" element={<VerifyUser />} />
-
         <Route path="notice-email" element={<NoticeEmail />} />
-
         <Route path="notice" element={<Notice />} />
 
         <Route path="newsletter" element={<LayoutNewsLetterRoute />}>
@@ -101,6 +102,11 @@ const App: FC = () => {
         <Route path="my-orders" element={<LayoutMyOrders />}>
           <Route index element={<MyOrders />} />
           <Route path="checkout" element={<Checkout />} />
+        </Route>
+
+        <Route path="my-reviews" element={<LayoutMyReviews />}>
+          <Route index element={<MyReviews />} />
+          <Route path="add/:restId" element={<AddReview />} />
         </Route>
       </Route>
 
