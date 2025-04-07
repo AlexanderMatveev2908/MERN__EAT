@@ -63,3 +63,7 @@ export const updateCO = async () => {
   await User.updateMany({}, { orders: [], cart: null });
   await Restaurant.updateMany({}, { orders: [] });
 };
+
+export const addRev = async () => {
+  await User.updateMany({}, { $set: { reviews: [] } });
+};

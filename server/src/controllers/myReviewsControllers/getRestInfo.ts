@@ -4,7 +4,12 @@ import Order from "../../models/Order.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
 import Restaurant, { RestaurantType } from "../../models/Restaurant.js";
-import { ReviewType } from "../../models/Review.js";
+import Review, { ReviewType } from "../../models/Review.js";
+import { Multer } from "multer";
+import { ImageType } from "../../models/Image.js";
+import { uploadCloudMyReviews } from "../../utils/cloud.js";
+import User, { UserType } from "../../models/User.js";
+import { HydratedDocument } from "mongoose";
 
 export const getInfoRest = async (
   req: RequestWithUserId,
@@ -31,9 +36,12 @@ export const getInfoRest = async (
   if (!restaurant)
     return baseErrResponse(res, 404, "Restaurant not found or activity closed");
 
-  const avgRating = +(restaurant.reviews as ReviewType[])
-    .reduce((acc: number, curr: ReviewType) => acc + curr.rating, 0)
-    .toFixed(2);
+  const avgRating = +(
+    (restaurant.reviews as ReviewType[]).reduce(
+      (acc: number, curr: ReviewType) => acc + curr.rating,
+      0
+    ) / restaurant.reviews.length
+  ).toFixed(2);
   restaurant.avgRating = avgRating;
 
   return res.status(200).json({
@@ -41,4 +49,37 @@ export const getInfoRest = async (
     msg: "ok",
     restaurant,
   });
+};
+
+export const createReview = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+  const { restId } = req.params;
+
+  const user = (await User.findById(
+    userId
+  )) as HydratedDocument<UserType> | null;
+  const restaurant = (await Restaurant.findById(
+    restId
+  )) as HydratedDocument<RestaurantType> | null;
+  if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
+
+  let images: ImageType[] = [];
+  if (req.files?.length as any) images = await uploadCloudMyReviews(req.files);
+
+  const newReview = await Review.create({
+    user: userId,
+    restaurant: restId,
+    ...req.body,
+    images,
+  });
+
+  restaurant.reviews.push(newReview._id);
+  user!.reviews.push(newReview._id);
+  await restaurant.save();
+  await user!.save();
+
+  return res.status(201).json({ msg: "Review created", success: true });
 };

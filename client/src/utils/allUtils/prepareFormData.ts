@@ -79,3 +79,31 @@ export const prepareFormDataMyDishUpdate = (formDataHook) => {
 
   return formData;
 };
+
+export const prepareFormDataMyReviews = (formDataHook) => {
+  const formData = new FormData();
+
+  const { images, ...primitiveVals } = formDataHook;
+
+  if (images.length)
+    [...images].forEach((img) => {
+      formData.append(`images`, img);
+    });
+
+  const arr = Object.entries(primitiveVals);
+
+  let i = 0;
+  do {
+    const pair = arr[i];
+
+    if (pair[1])
+      formData.append(
+        pair[0],
+        typeof pair[1] === "string" ? pair[1] : pair[1] + ""
+      );
+
+    i++;
+  } while (i < arr.length);
+
+  return { formData };
+};

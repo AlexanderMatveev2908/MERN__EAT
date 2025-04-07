@@ -3,7 +3,10 @@ import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
 import { Navigate, useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import { useQueryCustom } from "../../../core/hooks/useQueryCustom";
-import { getRestInfoAPI } from "../../../core/api/APICalls/myReviews";
+import {
+  createReviewAPI,
+  getRestInfoAPI,
+} from "../../../core/api/APICalls/myReviews";
 import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 import { isObjOk } from "../../../utils/allUtils/validateData";
 import AverageStars from "../../../UI/components/AverageStars";
@@ -11,12 +14,20 @@ import { FormProvider, useForm } from "react-hook-form";
 import MyReviewsForm, {
   AddPutReview,
 } from "../../../UI/forms/MyReviews/MyReviewsForm";
+import { prepareFormDataMyReviews } from "../../../utils/allUtils/prepareFormData";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
+import { ErrFoodApp } from "../../../types/allTypes/API";
+import SpinnerBtnReact from "../../../UI/components/loaders/SpinnerBtnReact/SpinnerBtnReact";
 
 const AddReview: FC = () => {
   const restId = useParams()?.restId;
   const canStay = REG_MONGO.test(restId ?? "");
 
+  const queryClient = useQueryClient();
+
   useScrollTop();
+  const { showToastMsg, handleErrAPI } = useGetFavHooks();
 
   // eslint-disable-next-line
   const cbSuccess = useCallback((_) => {}, []);
@@ -35,32 +46,56 @@ const AddReview: FC = () => {
     mode: "onChange",
   });
 
-  const handleSave = formContext.handleSubmit((formData) => {
-    console.log(formData);
+  const { mutate, isPending } = useMutation({
+    mutationFn: (formData: FormData) =>
+      createReviewAPI({ restId: restId ?? "", formData }),
+    onSuccess: () => {
+      queryClient.removeQueries({ queryKey: ["restInfoRev"] });
+      showToastMsg("Review created", "SUCCESS");
+    },
+    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });
+
+  const handleSave = formContext.handleSubmit((formDataHook) => {
+    const { formData } = prepareFormDataMyReviews(formDataHook);
+
+    // for (const pair of formData.entries()) {
+    //   console.log(pair[0], pair[1]);
+    // }
+
+    mutate(formData);
+  });
+
+  console.log(dataRest);
 
   return !canStay ? (
     <Navigate to="/" replace />
   ) : (
     <ParentContentLoading
       {...{
-        isPending: isPendingRest,
+        isPending: false,
         isError: isErrorRest,
         error: errorRest,
         canStay,
       }}
     >
       <>
-        {isObjOk(rest) && (
-          <div className="w-full grid gap-8 justify-items-center">
-            <span className="txt__04">{rest.name}</span>
-
-            <AverageStars {...{ rest }} />
+        {isPendingRest ? (
+          <div className="mt-20">
+            <SpinnerBtnReact />
           </div>
+        ) : (
+          isObjOk(rest) && (
+            <div className="w-full grid gap-8 justify-items-center">
+              <span className="txt__04">{rest.name}</span>
+
+              <AverageStars {...{ rest }} />
+            </div>
+          )
         )}
 
         <FormProvider {...formContext}>
-          <MyReviewsForm {...{ formContext, handleSave, isPending: false }} />
+          <MyReviewsForm {...{ formContext, handleSave, isPending }} />
         </FormProvider>
       </>
     </ParentContentLoading>

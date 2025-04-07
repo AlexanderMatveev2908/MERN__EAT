@@ -9,3 +9,14 @@ export const getRestInfoAPI = (
   destructureDataAPI(() =>
     foodAppInstance.get(`/my-reviews/rest-info/${restId}`)
   );
+
+export const createReviewAPI = ({
+  restId,
+  formData,
+}: {
+  restId: string;
+  formData: FormData;
+}) =>
+  destructureDataAPI(() =>
+    foodAppInstance.post(`/my-reviews/${restId}`, formData)
+  );
