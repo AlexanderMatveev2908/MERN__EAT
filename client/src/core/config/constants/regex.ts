@@ -37,3 +37,6 @@ export const REG_P_DISHES = /^\/my-dishes\/?$/;
 export const REG_P_MY_REST = /^\/my-restaurants\/?$/;
 export const REG_P_MY_ORD = /^\/my-orders\/?$/;
 export const REG_P_MANAGE_ORD = /^\/manage-orders\/?$/;
+
+export const REG_TITLE_REV = /^[\w\d\s.,'!?()"-]{3,100}$/;
+export const REG_TXT_REV = /^[\w\d\s.,'"\n\-!?()]{10,1000}$/;

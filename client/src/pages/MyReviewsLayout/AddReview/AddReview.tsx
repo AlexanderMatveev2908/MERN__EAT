@@ -8,6 +8,10 @@ import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 import { useToast } from "../../../core/hooks/useGlobal";
 import { isObjOk } from "../../../utils/allUtils/validateData";
 import AverageStars from "../../../UI/components/AverageStars";
+import { FormProvider, useForm } from "react-hook-form";
+import MyReviewsForm, {
+  AddPutReview,
+} from "../../../UI/forms/MyReviews/MyReviewsForm";
 
 const AddReview: FC = () => {
   const restId = useParams()?.restId;
@@ -34,6 +38,10 @@ const AddReview: FC = () => {
 
   const { restaurant: rest } = dataRest ?? {};
 
+  const formContext = useForm<AddPutReview>({
+    mode: "onChange",
+  });
+
   return !canStay ? (
     <Navigate to="/" replace />
   ) : (
@@ -52,6 +60,10 @@ const AddReview: FC = () => {
           <AverageStars {...{ rest }} />
         </div>
       )}
+
+      <FormProvider {...formContext}>
+        <MyReviewsForm {...{ formContext }} />
+      </FormProvider>
     </ParentContentLoading>
   );
 };

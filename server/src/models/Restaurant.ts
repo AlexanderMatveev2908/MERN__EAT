@@ -1,5 +1,6 @@
 import mongoose, { ObjectId } from "mongoose";
 import { ImageSchema } from "./Image.js";
+import { ReviewType } from "./Review.js";
 
 export type DynamicFieldRating = {
   rating: string;
@@ -51,7 +52,7 @@ export type RestaurantType = {
   ordersCount?: number;
   ordersByStatus: DynamicFieldOrder[];
 
-  reviews: string[];
+  reviews: string[] | ReviewType[];
   reviewsCount?: number;
   avgRating?: number;
   reviewsByRating: DynamicFieldRating[];

@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
-import { ImageSchema } from "./Image.js";
+import { ImageSchema, ImageType } from "./Image.js";
+
+export type ReviewType = {
+  user: mongoose.Types.ObjectId | string;
+  restaurant: mongoose.Types.ObjectId | string;
+  rating: number;
+  title: string;
+  comment: string | null;
+  images: ImageType[];
+};
 
 const ReviewSchema = new mongoose.Schema(
   {
@@ -17,11 +26,18 @@ const ReviewSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    comment: {
+    title: {
       type: String,
       required: true,
     },
-    images: [ImageSchema],
+    comment: {
+      type: String,
+      default: null,
+    },
+    images: {
+      type: [ImageSchema],
+      default: [],
+    },
   },
   { timestamps: true }
 );
