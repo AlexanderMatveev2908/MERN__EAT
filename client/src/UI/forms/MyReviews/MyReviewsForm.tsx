@@ -19,9 +19,15 @@ export type AddPutReview = {
 
 type PropsType = {
   formContext: UseFormReturn<AddPutReview>;
+  handleSave: () => void;
+  isPending: boolean;
 };
 
-const MyReviewsForm: FC<PropsType> = ({ formContext }) => {
+const MyReviewsForm: FC<PropsType> = ({
+  formContext,
+  isPending,
+  handleSave,
+}) => {
   const {
     register,
     formState: { errors },
@@ -35,7 +41,7 @@ const MyReviewsForm: FC<PropsType> = ({ formContext }) => {
       : watch("images");
 
   return (
-    <div className="w-full grid mt-10 gap-6">
+    <form onSubmit={handleSave} className="w-full grid mt-10 gap-6">
       <StarsCheck {...{ formContext }} />
 
       <div className="w-full grid gap-3 md:max-w-1/2">
@@ -68,10 +74,10 @@ const MyReviewsForm: FC<PropsType> = ({ formContext }) => {
 
       <div className="w-[250px] justify-self-center mt-10">
         <ButtonAnimated
-          {...{ label: "Leave review", isPending: false, type: "submit" }}
+          {...{ label: "Leave review", isPending, type: "submit" }}
         />
       </div>
-    </div>
+    </form>
   );
 };
 export default MyReviewsForm;
