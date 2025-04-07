@@ -67,9 +67,11 @@ const ManageSingleOrder: FC = () => {
   }, [order, isDelivered]);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setCanShow(true);
     }, 2000);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   const isOrderOk = order?.status === "delivered" || isDelivered;
