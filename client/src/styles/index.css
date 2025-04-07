@@ -315,6 +315,18 @@ input[type="number"]::-webkit-inner-spin-button {
   cursor: grab;
 }
 
+.custom_scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.custom_scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-orange-500 transition-all duration-300 rounded-xl cursor-pointer;
+}
+
+.custom_scrollbar::-webkit-scrollbar-track {
+  appearance: none;
+}
+
 /* UTILS ELEMENTS  */
 
 .el__after_below {

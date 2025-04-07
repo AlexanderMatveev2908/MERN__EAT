@@ -118,9 +118,11 @@ const StarsCheck: FC<PropsType> = ({ formContext }) => {
         ))}
       </div>
 
-      <span className="txt__01 text-red-600 justify-self-start">
-        {errors?.rating?.message ?? ""}
-      </span>
+      {errors?.rating?.message && (
+        <span className="txt__01 text-red-600 justify-self-start">
+          {errors.rating.message}
+        </span>
+      )}
     </div>
   );
 };
