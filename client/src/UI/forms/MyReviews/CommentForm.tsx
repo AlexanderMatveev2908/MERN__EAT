@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { AddPutReview } from "./MyReviewsForm";
@@ -79,7 +78,7 @@ const CommentForm: FC<PropsType> = ({ formContext }) => {
             required: false,
             pattern: {
               value: REG_TXT_REV,
-              message: "Message if sent must have at least 10 chars",
+              message: "Message must have at least 10 chars and at most 1000",
             },
           })}
           onScroll={(e) => {
