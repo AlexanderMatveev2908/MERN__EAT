@@ -52,6 +52,7 @@ export type OrderType = {
   discount: number;
   coupon: string | null;
   status: OrderStatusType;
+  hasLeftReview: boolean;
 
   isAdmin: boolean;
 

@@ -7,7 +7,7 @@ import { isDev } from "./config/currMode.js";
 import { connectCloudinary } from "./config/cloud.js";
 import router from "./routes/mainRoute.js";
 import { get__dirname } from "./utils/calcPath.js";
-import { addRev, updateCO } from "./stuff/makeOpDb.js";
+import { delRev, updateCO } from "./stuff/makeOpDb.js";
 import { generateCoupons } from "./utils/coupon/generateCoupons.js";
 import { createProxyMiddleware } from "http-proxy-middleware";
 

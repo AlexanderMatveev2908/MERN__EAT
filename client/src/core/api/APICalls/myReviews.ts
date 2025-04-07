@@ -16,7 +16,7 @@ export const createReviewAPI = ({
 }: {
   restId: string;
   formData: FormData;
-}) =>
+}): Promise<ReturnAPIBasic & { revId: string }> =>
   destructureDataAPI(() =>
     foodAppInstance.post(`/my-reviews/${restId}`, formData)
   );

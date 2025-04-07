@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { ImageSchema, ImageType } from "./Image.js";
 import { AddressSchema, AddressType } from "./User.js";
 import { ContactRestaurantSchema } from "./Restaurant.js";
+import { ReviewType } from "./Review.js";
 
 export type OrderItem = {
   dishId: string | null | mongoose.Types.ObjectId;
@@ -51,6 +52,8 @@ export type OrderType = {
   status: OrderStatus;
   createdAt: string;
   updatedAt: string;
+  hasLeftReview: boolean;
+  reviews: mongoose.Types.ObjectId[] | string[] | ReviewType[];
 
   isAdmin: boolean;
 };
