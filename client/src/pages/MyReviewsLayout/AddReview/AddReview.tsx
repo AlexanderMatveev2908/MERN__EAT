@@ -20,13 +20,8 @@ const AddReview: FC = () => {
   useScrollTop();
   const { showToastMsg } = useToast();
 
-  const cbSuccess = useCallback(
-    (data) => {
-      showToastMsg("OK", "SUCCESS");
-      console.log(data);
-    },
-    [showToastMsg]
-  );
+  // eslint-disable-next-line
+  const cbSuccess = useCallback((_) => {}, []);
 
   const { isPendingRest, isErrorRest, errorRest, dataRest } = useQueryCustom({
     cbAPI: () => getRestInfoAPI(restId ?? ""),
@@ -42,6 +37,10 @@ const AddReview: FC = () => {
     mode: "onChange",
   });
 
+  const handleSave = formContext.handleSubmit((data) => {
+    console.log(data);
+  });
+
   return !canStay ? (
     <Navigate to="/" replace />
   ) : (
@@ -53,17 +52,19 @@ const AddReview: FC = () => {
         canStay,
       }}
     >
-      {isObjOk(rest) && (
-        <div className="w-full grid gap-8 justify-items-center">
-          <span className="txt__04">{rest.name}</span>
+      <>
+        {isObjOk(rest) && (
+          <div className="w-full grid gap-8 justify-items-center">
+            <span className="txt__04">{rest.name}</span>
 
-          <AverageStars {...{ rest }} />
-        </div>
-      )}
+            <AverageStars {...{ rest }} />
+          </div>
+        )}
 
-      <FormProvider {...formContext}>
-        <MyReviewsForm {...{ formContext }} />
-      </FormProvider>
+        <FormProvider {...formContext}>
+          <MyReviewsForm {...{ formContext, handleSave }} />
+        </FormProvider>
+      </>
     </ParentContentLoading>
   );
 };
