@@ -7,4 +7,5 @@ export const fieldReviewTitle = {
   required: true,
   reg: REG_TITLE_REV,
   id: genID(),
+  msg: "Title must have at least 4 chars",
 };
