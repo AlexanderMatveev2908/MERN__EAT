@@ -12,7 +12,7 @@ import ButtonAnimated from "../../components/buttons/ButtonAnimated";
 
 export type AddPutReview = {
   title: string;
-  text: string;
+  comment: string;
   rating: number;
   images: File[] | ImageUploadedType[];
 };

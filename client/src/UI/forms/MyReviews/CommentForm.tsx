@@ -74,7 +74,7 @@ const CommentForm: FC<PropsType> = ({ formContext }) => {
           className="w-full border-2 border-orange-500 rounded-xl p-3 focus__base outline-0 hide_scrollbar pr-[20px] h-fit"
           rows={4}
           id="textAreaId"
-          {...register("text", {
+          {...register("comment", {
             required: false,
             pattern: {
               value: REG_TXT_REV,
@@ -123,8 +123,8 @@ const CommentForm: FC<PropsType> = ({ formContext }) => {
         </div>
       </div>
 
-      {errors?.text?.message && (
-        <span className="txt__01 text-red-600">{errors.text.message}</span>
+      {errors?.comment?.message && (
+        <span className="txt__01 text-red-600">{errors.comment.message}</span>
       )}
     </div>
   );
