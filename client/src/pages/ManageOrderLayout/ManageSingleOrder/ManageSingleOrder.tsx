@@ -112,15 +112,20 @@ const ManageSingleOrder: FC = () => {
             {showFieldManageOrderTime(
               order.timeConfirmed,
               (order.restaurantId as IDPopulatedOrder).delivery.estTimeDelivery
-            ).map((el) => (
-              <li key={el.id} className="w-full grid grid-cols-2 items-center">
-                <span className="txt__01">{el.label}</span>
+            ).map((el) =>
+              isOrderOk ? null : (
+                <li
+                  key={el.id}
+                  className="w-full grid grid-cols-2 items-center"
+                >
+                  <span className="txt__01">{el.label}</span>
 
-                <span className="txt__01 justify-self-end sm:justify-self-center">
-                  {el.val}
-                </span>
-              </li>
-            ))}
+                  <span className="txt__01 justify-self-end sm:justify-self-center">
+                    {el.val}
+                  </span>
+                </li>
+              )
+            )}
 
             {isOrderOk || (delay ?? -1) < 0 ? null : (
               <li
