@@ -16,6 +16,7 @@ import {
 import { useGetFavHooks } from "../../../../core/hooks/useGetFavHooks";
 import { ErrFoodApp } from "../../../../types/allTypes/API";
 import SpinnerBtnReact from "../../../../UI/components/loaders/SpinnerBtnReact/SpinnerBtnReact";
+import { IDPopulatedOrder } from "../../../../types/allTypes/orders";
 
 type PropsType = {
   order: OrderType;
@@ -81,6 +82,9 @@ const ButtonOrder: FC<PropsType> = ({ order, el, setFreshStatus }) => {
   });
   const handleRefresh = () => mutateFresh();
 
+  const handleClickLeaveRev = () =>
+    navigate(`/my-reviews/add/${(order.restaurantId as IDPopulatedOrder)._id}`);
+
   let color: string = "#ea580c";
   let handler: (params: any) => any = () => null;
 
@@ -95,6 +99,8 @@ const ButtonOrder: FC<PropsType> = ({ order, el, setFreshStatus }) => {
     handler = handleDeletePending;
   } else if (el.action === ActionsMyOrdersBtns.REFRESH) {
     handler = handleRefresh;
+  } else if (el.action === ActionsMyOrdersBtns.REVIEW) {
+    handler = handleClickLeaveRev;
   }
 
   return el.action === ActionsMyOrdersBtns.REFRESH && isPendingFresh ? (
