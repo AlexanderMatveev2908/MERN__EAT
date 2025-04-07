@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { AddPutReview } from "./MyReviewsForm";
@@ -9,7 +9,6 @@ type PropsType = {
 
 const StarsCheck: FC<PropsType> = ({ formContext }) => {
   const [isHover, setIsHover] = useState(0);
-  const clickRef = useRef<boolean>(false);
 
   const {
     formState: { errors },
@@ -49,12 +48,16 @@ const StarsCheck: FC<PropsType> = ({ formContext }) => {
   }, []);
 
   useEffect(() => {
-    if (rating === 0)
-      setError("rating", {
-        message: "Rating is required if you want to leave a review",
-      });
-    else setError("rating", { message: "" });
-  }, [rating, setError]);
+    const sub = watch((vals) => {
+      if (vals.rating === 0)
+        setError("rating", {
+          message: "Rating is required if you want to leave a review",
+        });
+      else setError("rating", { message: "" });
+    });
+
+    return () => sub.unsubscribe();
+  }, [watch, setError]);
 
   return (
     <div className="w-full grid justify-items-center gap-3">
@@ -65,12 +68,9 @@ const StarsCheck: FC<PropsType> = ({ formContext }) => {
           <label
             onMouseOver={() => setIsHover(i + 1)}
             onMouseLeave={() => {
-              clickRef.current = false;
               setIsHover(rating);
             }}
             onClick={() => {
-              if (i === rating - 1) clickRef.current = true;
-
               setValue("rating", i === rating - 1 ? i : i + 1, {
                 shouldValidate: true,
               });
@@ -78,7 +78,7 @@ const StarsCheck: FC<PropsType> = ({ formContext }) => {
             className="w-fit flex items-center justify-center cursor-pointer el__flow star__rev"
             key={i}
           >
-            {(clickRef.current ? rating : isHover) >= i + 1 ? (
+            {isHover >= i + 1 ? (
               <FaStar className="text-orange-500 min-w-[40px] min-h-[40px]" />
             ) : (
               <FaRegStar className="text-orange-500 min-w-[40px] min-h-[40px]" />
