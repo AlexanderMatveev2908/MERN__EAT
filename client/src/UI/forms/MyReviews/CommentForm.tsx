@@ -42,11 +42,11 @@ const CommentForm: FC<PropsType> = ({ formContext }) => {
       );
 
       thumb!.style.top = `${newTop}px`;
-      const scrollRation =
+      const scrollRatio =
         newTop / ((txtArea?.clientHeight ?? 0) - (thumb?.offsetHeight ?? 0));
       txtArea!.scrollTop =
         // scrollHeight is like offsetH, it represent ALL height but not of element, instead of SCROLLABLE content
-        scrollRation * (txtArea?.scrollHeight ?? 0) -
+        scrollRatio * (txtArea?.scrollHeight ?? 0) -
         (txtArea?.clientHeight ?? 0);
     };
 
@@ -92,7 +92,9 @@ const CommentForm: FC<PropsType> = ({ formContext }) => {
             // client height is visible text view
             //   result is between 0 and 1 and tell where user is
             const scrollRatio =
-              txtArea.scrollTop / (txtArea.scrollHeight - txtArea.clientHeight);
+              txtArea.scrollTop /
+              // scroll ALL HEIGHT, client ONLY VISIBLE
+              (txtArea.scrollHeight - txtArea.clientHeight);
             //   multiply ration for,
             // maxHeight of input less height of thumb so it not overflow
             const thumbTop =
