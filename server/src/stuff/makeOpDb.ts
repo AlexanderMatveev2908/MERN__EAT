@@ -93,9 +93,11 @@ export const delRev = async () => {
     );
 
     const imgPromises = curr.images.map(
-      async (el: any) => await deleteCloud(el.public_url)
+      async (el: any) => await deleteCloud(el.public_id)
     );
-    await Promise.all(imgPromises);
+    try {
+      await Promise.all(imgPromises);
+    } catch {}
 
     promises.push(curr.deleteOne());
 

@@ -39,6 +39,7 @@ import ManageSingleOrder from "./pages/ManageOrderLayout/ManageSingleOrder/Manag
 import LayoutMyReviews from "./UI/layouts/LayoutMyReviews";
 import MyReviews from "./pages/MyReviewsLayout/MyReviews/MyReviews";
 import AddReview from "./pages/MyReviewsLayout/AddReview/AddReview";
+import UpdateReview from "./pages/MyReviewsLayout/UpdateReview/UpdateReview";
 
 const App: FC = () => {
   useApp();
@@ -107,6 +108,7 @@ const App: FC = () => {
         <Route path="my-reviews" element={<LayoutMyReviews />}>
           <Route index element={<MyReviews />} />
           <Route path="add/:restId" element={<AddReview />} />
+          <Route path="put/:revId" element={<UpdateReview />} />
         </Route>
       </Route>
 

@@ -1,6 +1,6 @@
 import { FC, useCallback } from "react";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import { useQueryCustom } from "../../../core/hooks/useQueryCustom";
 import {
@@ -68,9 +68,7 @@ const AddReview: FC = () => {
     mutate(formData);
   });
 
-  return !canStay ? (
-    <Navigate to="/" replace />
-  ) : (
+  return (
     <ParentContentLoading
       {...{
         isPending: false,
