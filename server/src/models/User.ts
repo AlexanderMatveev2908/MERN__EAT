@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { OrderType } from "./Order.js";
 import { CartType } from "./Cart.js";
+import { ReviewType } from "./Review.js";
 
 export type AddressType = {
   country: string | null;
@@ -52,6 +53,7 @@ export type UserType = {
   orders: OrderType[];
   createdAt: Date;
   updatedAt: Date;
+  reviews: mongoose.Types.ObjectId[] | ReviewType[];
 };
 
 export const AddressSchema = new mongoose.Schema({
@@ -194,6 +196,12 @@ const UserSchema = new mongoose.Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "Order",
+      },
+    ],
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
       },
     ],
   },

@@ -75,3 +75,19 @@ export const uploadCloudURL = async (urlCloud: string) => {
     streamifier.createReadStream(buffer).pipe(uploadStream);
   });
 };
+
+export const uploadCloudMyReviews = async (files: any): Promise<any> => {
+  const promises = files.map(async (el: any) => {
+    const b64 = el.buffer.toString("base64");
+    const dataURI = "data:" + el.mimetype + ";base64," + b64;
+
+    const { public_id, secure_url: url } = await v2.uploader.upload(dataURI, {
+      resource_type: "auto",
+      folder: "reviews",
+    });
+
+    return { public_id, url };
+  });
+
+  return await Promise.all(promises);
+};

@@ -157,7 +157,7 @@ export const showBasicFieldsRating = (...params: number[]) =>
   [
     {
       label: "Avg rating",
-      field: params[0],
+      field: +params[0].toFixed(2),
     },
     {
       label: "Reviews count",
