@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SetStateAction, useCallback, useEffect, useState } from "react";
+import {
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, useWatch } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import { defaultValuesMyRestSearch } from "../config/fieldsArr/allFields/MyRestaurants/filterSort";
 import { defaultValuesMyDishesSearch } from "../config/fieldsArr/allFields/MyDishes/filterSort";
@@ -23,7 +29,7 @@ import {
 import { useUpdateCardsLimit } from "./UI/useUpdateCardsLimit";
 import { defaultValsSearchMyOrders } from "../config/fieldsArr/allFields/myOrders/filterSort";
 import { defaultValuesManageOrdersSearch } from "../config/fieldsArr/allFields/manageOrders/filterSort";
-import { useDebounce } from "use-debounce";
+import { debounce } from "lodash";
 
 type ReturnTypeCreateQueryHandler = {
   formVals: any;
@@ -59,6 +65,16 @@ export const useCreateQueryHandlers = ({
   const [limit, setLimit] = useState(5);
   const [closeAllDrop, setCloseAllDrop] = useState(false);
   const path = useLocation().pathname;
+  const [mounted, setMounted] = useState(false);
+  const [debounced, setDebounced] = useState<any>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const queryClient = useQueryClient();
 
@@ -101,21 +117,44 @@ export const useCreateQueryHandlers = ({
     reset(defaultValues);
     setCurrPageBeforeCb(1);
     trigger();
-    queryClient.removeQueries({ queryKey: [key] });
+    queryClient.resetQueries({ queryKey: [key] });
   };
 
-  const formVals = formCtx.watch();
-  formVals.page = currPage + "";
-  formVals.limit = limit + "";
-  const [debouncedFormVals] = useDebounce(formVals, 500);
+  const watchedFields = useWatch({ control: formCtx.control });
+
+  const formVals = useMemo(
+    () => ({
+      ...watchedFields,
+      page: currPage + "",
+      limit: limit + "",
+    }),
+    [currPage, limit, watchedFields]
+  );
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const debounceVals = debounce((vals) => {
+      setDebounced(vals);
+    }, 500);
+
+    debounceVals(formVals);
+
+    return () => debounceVals.cancel();
+  }, [mounted, formVals]);
+
+  // const [debouncedFormVals] = useDebounce(formVals, 500);
+
+  const valsToSend = useMemo(
+    () => (debounced ? debounced : formVals),
+    [debounced, formVals]
+  );
 
   const { data, isPending, isSuccess, isError, error } = useQuery({
-    queryKey: [key, debouncedFormVals],
+    queryKey: [key, valsToSend],
     queryFn: () =>
       cbAPI(
-        cbProcessForm
-          ? cbProcessForm(debouncedFormVals)
-          : createURLParams(debouncedFormVals)
+        cbProcessForm ? cbProcessForm(valsToSend) : createURLParams(valsToSend)
       ),
   });
 

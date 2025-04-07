@@ -55,6 +55,7 @@ export const uploadUpdateDish = (files: any): Promise<any> => {
 };
 
 export const uploadCloudURL = async (urlCloud: string) => {
+  // we could simply upload img by url existent, i used stream here just for study purposes
   const res = await axios.get(urlCloud, { responseType: "arraybuffer" });
   const buffer = Buffer.from(res.data, "binary");
 
