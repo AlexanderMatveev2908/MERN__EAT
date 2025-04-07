@@ -93,11 +93,12 @@ const DetailsOrderUser: FC<PropsType> = ({ order, children, freshStatus }) => {
         </DropElAbsolute>
       )}
 
-      {REG_P_MANAGE_ORD.test(path) && (
-        <DropElAbsolute
-          {...{ el: fieldUserAddressMyOrders(order.addressUser) }}
-        />
-      )}
+      {REG_P_MANAGE_ORD.test(path) &&
+        Object.values(order.addressUser).every((v) => !!v) && (
+          <DropElAbsolute
+            {...{ el: fieldUserAddressMyOrders(order.addressUser) }}
+          />
+        )}
 
       <div className="w-full grid grid-cols-2">
         <div className="w-fit flex gap-5 justify-start items-center">

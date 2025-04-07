@@ -20,8 +20,14 @@ type StatusState = {
   curr: OrderStatusType;
 };
 
-const getIndexes = (newStatus: OrderStatusType, status: StatusState) => {
-  const oldI = fieldsDragDrop.findIndex((el) => el.field === status.prev);
+const getIndexes = (
+  newStatus: OrderStatusType,
+  status: StatusState,
+  isEClick?: boolean
+) => {
+  const oldI = fieldsDragDrop.findIndex(
+    (el) => el.field === (isEClick ? status.curr : status.prev)
+  );
   const newI = fieldsDragDrop.findIndex((el) => el.field === newStatus);
 
   return {
@@ -116,7 +122,8 @@ const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
 
     const { oldI, newI } = getIndexes(
       statusEl as OrderStatusType,
-      status as StatusState
+      status as StatusState,
+      true
     );
 
     if (newI > oldI) {
@@ -125,8 +132,6 @@ const DragAndDropManager: FC<PropsType> = ({ order, setIsDelivered }) => {
         orderId: orderId as string,
         status: statusEl as OrderStatusType,
       });
-    } else {
-      setStatus((prev) => ({ prev: null, curr: prev.prev as OrderStatusType }));
     }
   };
 
