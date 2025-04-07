@@ -1,6 +1,6 @@
 import { FC, useCallback } from "react";
 import { useScrollTop } from "../../../core/hooks/UI/useScrollTop";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import { useQueryCustom } from "../../../core/hooks/useQueryCustom";
 import {
@@ -22,6 +22,7 @@ import SpinnerBtnReact from "../../../UI/components/loaders/SpinnerBtnReact/Spin
 
 const AddReview: FC = () => {
   const restId = useParams()?.restId;
+  const navigate = useNavigate();
   const canStay = REG_MONGO.test(restId ?? "");
 
   const queryClient = useQueryClient();
@@ -49,9 +50,10 @@ const AddReview: FC = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (formData: FormData) =>
       createReviewAPI({ restId: restId ?? "", formData }),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.removeQueries({ queryKey: ["restInfoRev"] });
       showToastMsg("Review created", "SUCCESS");
+      navigate(`/my-reviews/put/${data.revId}`);
     },
     onError: (err: ErrFoodApp) => handleErrAPI({ err }),
   });
@@ -65,8 +67,6 @@ const AddReview: FC = () => {
 
     mutate(formData);
   });
-
-  console.log(dataRest);
 
   return !canStay ? (
     <Navigate to="/" replace />

@@ -87,7 +87,8 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
               );
             else if (
               freshStatus === "delivered" &&
-              curr.action === ActionsMyOrdersBtns.REVIEW
+              curr.action === ActionsMyOrdersBtns.REVIEW &&
+              !order.hasLeftReview
             )
               content.push(
                 <ButtonOrder key={curr.id} {...{ el: curr, order }} />

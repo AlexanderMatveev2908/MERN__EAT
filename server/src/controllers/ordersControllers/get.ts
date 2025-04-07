@@ -13,6 +13,9 @@ import { calcPagination } from "../../utils/makeQueries/calcPagination.js";
 import { handleNoHits } from "../../utils/handleNoHits.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
+import { ObjectId } from "mongoose";
+import { ReviewType } from "../../models/Review.js";
+import { RestaurantType } from "../../models/Restaurant.js";
 
 const getCreatedAt = (el: OrderType) => new Date(el.createdAt);
 const getUpdatedAt = (el: OrderType) => new Date(el.updatedAt);
@@ -36,7 +39,12 @@ export const getOrders = async (
   let orders = (await Order.find(queryObj)
     .skip(skip)
     .limit(limit)
-    .populate("restaurantId")
+    .populate({
+      path: "restaurantId",
+      populate: {
+        path: "reviews",
+      },
+    })
     .lean()) as OrderType[] | [];
   if (!orders.length) return handleNoHits(res, totDocuments);
 
@@ -55,6 +63,11 @@ export const getOrders = async (
   do {
     const curr = orders[i];
     curr.isAdmin = curr.userId + "" === userId;
+
+    curr.hasLeftReview = (curr?.restaurantId as any)?.reviews?.some(
+      (review: ReviewType) => review.user + "" === userId
+    );
+
     curr.restaurantId = curr?.restaurantId
       ? ({
           _id: (curr.restaurantId as any)?._id,

@@ -2,6 +2,7 @@ import Cart from "../models/Cart.js";
 import Coupon from "../models/Coupon.js";
 import Order from "../models/Order.js";
 import Restaurant from "../models/Restaurant.js";
+import Review from "../models/Review.js";
 import User from "../models/User.js";
 import { deleteCloud } from "../utils/cloud.js";
 
@@ -64,6 +65,44 @@ export const updateCO = async () => {
   await Restaurant.updateMany({}, { orders: [] });
 };
 
-export const addRev = async () => {
-  await User.updateMany({}, { $set: { reviews: [] } });
+export const delRev = async () => {
+  const revs = await Review.find({});
+
+  if (!revs.length) return;
+
+  const promises: Promise<any>[] = [];
+
+  let i = revs.length - 1;
+
+  do {
+    const curr = revs[i];
+
+    promises.push(
+      Restaurant.updateMany(
+        {
+          _id: { $in: revs.map((el) => el.restaurant) },
+        },
+        { reviews: [] }
+      )
+    );
+    promises.push(
+      User.updateMany(
+        { _id: { $in: revs.map((el) => el.user) } },
+        { reviews: [] }
+      )
+    );
+
+    const imgPromises = curr.images.map(
+      async (el: any) => await deleteCloud(el.public_url)
+    );
+    await Promise.all(imgPromises);
+
+    promises.push(curr.deleteOne());
+
+    i--;
+  } while (i >= 0);
+
+  try {
+    await Promise.all(promises);
+  } catch {}
 };

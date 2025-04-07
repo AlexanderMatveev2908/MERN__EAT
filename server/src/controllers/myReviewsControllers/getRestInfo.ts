@@ -36,6 +36,9 @@ export const getInfoRest = async (
   if (!restaurant)
     return baseErrResponse(res, 404, "Restaurant not found or activity closed");
 
+  if (restaurant.reviews.some((el: any) => el.user + "" === userId))
+    return baseErrResponse(res, 400, "User already reviewed this restaurant");
+
   const avgRating = +(
     (restaurant.reviews as ReviewType[]).reduce(
       (acc: number, curr: ReviewType) => acc + curr.rating,
@@ -61,10 +64,12 @@ export const createReview = async (
   const user = (await User.findById(
     userId
   )) as HydratedDocument<UserType> | null;
-  const restaurant = (await Restaurant.findById(
-    restId
-  )) as HydratedDocument<RestaurantType> | null;
+  const restaurant = (await Restaurant.findById(restId)).populate(
+    "reviews"
+  ) as RestaurantType | null;
   if (!restaurant) return baseErrResponse(res, 404, "Restaurant not found");
+  if (restaurant.reviews?.some((el: any) => el.user + "" === userId))
+    return baseErrResponse(res, 400, "User already reviewed this restaurant");
 
   let images: ImageType[] = [];
   if (req.files?.length as any) images = await uploadCloudMyReviews(req.files);
@@ -76,10 +81,14 @@ export const createReview = async (
     images,
   });
 
-  restaurant.reviews.push(newReview._id);
   user!.reviews.push(newReview._id);
-  await restaurant.save();
   await user!.save();
+  // after populate document become js obj
+  await Restaurant.findByIdAndUpdate(restId, {
+    $push: { reviews: newReview._id },
+  });
 
-  return res.status(201).json({ msg: "Review created", success: true });
+  return res
+    .status(201)
+    .json({ msg: "Review created", success: true, revId: newReview._id });
 };
