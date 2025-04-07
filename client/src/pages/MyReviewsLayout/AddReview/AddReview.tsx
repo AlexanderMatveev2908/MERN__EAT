@@ -5,7 +5,6 @@ import { REG_MONGO } from "../../../core/config/constants/regex";
 import { useQueryCustom } from "../../../core/hooks/useQueryCustom";
 import { getRestInfoAPI } from "../../../core/api/APICalls/myReviews";
 import ParentContentLoading from "../../../UI/components/ParentContentLoading";
-import { useToast } from "../../../core/hooks/useGlobal";
 import { isObjOk } from "../../../utils/allUtils/validateData";
 import AverageStars from "../../../UI/components/AverageStars";
 import { FormProvider, useForm } from "react-hook-form";
@@ -18,7 +17,6 @@ const AddReview: FC = () => {
   const canStay = REG_MONGO.test(restId ?? "");
 
   useScrollTop();
-  const { showToastMsg } = useToast();
 
   // eslint-disable-next-line
   const cbSuccess = useCallback((_) => {}, []);
@@ -37,8 +35,8 @@ const AddReview: FC = () => {
     mode: "onChange",
   });
 
-  const handleSave = formContext.handleSubmit((data) => {
-    console.log(data);
+  const handleSave = formContext.handleSubmit((formData) => {
+    console.log(formData);
   });
 
   return !canStay ? (
@@ -62,7 +60,7 @@ const AddReview: FC = () => {
         )}
 
         <FormProvider {...formContext}>
-          <MyReviewsForm {...{ formContext, handleSave }} />
+          <MyReviewsForm {...{ formContext, handleSave, isPending: false }} />
         </FormProvider>
       </>
     </ParentContentLoading>
