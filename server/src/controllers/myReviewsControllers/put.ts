@@ -6,6 +6,8 @@ import { baseErrResponse } from "../../utils/baseErrResponse.js";
 import { HydratedDocument } from "mongoose";
 import { ImageType } from "../../models/Image.js";
 import { deleteCloud, uploadCloudMyReviews } from "../../utils/cloud.js";
+import Restaurant from "../../models/Restaurant.js";
+import User from "../../models/User.js";
 
 export const getReview = async (
   req: RequestWithUserId,
@@ -92,4 +94,52 @@ export const updateReview = async (
   await review.save();
 
   return res.status(200).json({ msg: "ok", success: true });
+};
+
+export const deleteReview = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+  const { revId } = req.params;
+
+  const review = (await Review.findOne({
+    user: makeMongoId(userId ?? ""),
+    _id: makeMongoId(revId),
+  })) as HydratedDocument<ReviewType> | null;
+  if (!review) return baseErrResponse(res, 404, "Review not found");
+
+  if (review.images.length) {
+    try {
+      await Promise.all(
+        review.images.map(
+          async (img: ImageType) => await deleteCloud(img.public_id)
+        )
+      );
+    } catch {}
+  }
+
+  await Restaurant.findByIdAndUpdate(
+    {
+      _id: review.restaurant,
+    },
+    {
+      $pull: {
+        reviews: review._id,
+      },
+    }
+  );
+  await User.findByIdAndUpdate(
+    {
+      _id: review.user,
+    },
+    {
+      $pull: {
+        reviews: review._id,
+      },
+    }
+  );
+  await review.deleteOne();
+
+  return res.status(204).end();
 };

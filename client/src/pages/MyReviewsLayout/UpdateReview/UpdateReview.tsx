@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ParentContentLoading from "../../../UI/components/ParentContentLoading";
 import { REG_MONGO } from "../../../core/config/constants/regex";
 import {
+  deleteReviewAPI,
   getReviewAPI,
   updateReview,
 } from "../../../core/api/APICalls/myReviews";
@@ -18,9 +20,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGetFavHooks } from "../../../core/hooks/useGetFavHooks";
 import { ErrFoodApp } from "../../../types/allTypes/API";
 import { prepareFormDataMyReviews } from "../../../utils/allUtils/prepareFormData";
+import DeleteButton from "../../../UI/components/buttons/DeleteButton";
+import { usePopup } from "../../../core/hooks/useGlobal";
 
 const UpdateReview: FC = () => {
   const revId = useParams()?.revId;
+  const navigate = useNavigate();
   const canStay = REG_MONGO.test(revId ?? "");
 
   const formContext = useForm<AddPutReview>({
@@ -62,6 +67,7 @@ const UpdateReview: FC = () => {
   });
 
   useScrollTop();
+  const { setPopup, popup } = usePopup();
   const { isPendingRev, isErrorRev, errorRev, dataRev } = useQueryCustom({
     cbAPI: () => getReviewAPI(revId ?? ""),
     enabled: canStay,
@@ -71,6 +77,33 @@ const UpdateReview: FC = () => {
   });
 
   const { review } = dataRev ?? {};
+
+  const { mutate: mutateDel } = useMutation({
+    mutationFn: () => {
+      setPopup({
+        ...popup,
+        isPending: true,
+      } as any);
+
+      return deleteReviewAPI(revId ?? "");
+    },
+    onSuccess: () => {
+      showToastMsg("Review deleted", "SUCCESS");
+      navigate("/", { replace: true });
+    },
+    onError: (err: ErrFoodApp) => handleErrAPI({ err }),
+    onSettled: () => setPopup(null),
+  });
+
+  const handleOpenPopup = () => {
+    setPopup({
+      txt: "Delete this review",
+      greenLabel: "I change idea",
+      redLabel: "Delete reviews",
+      confirmAction: () => mutateDel(),
+      isPending: false,
+    });
+  };
 
   return (
     <ParentContentLoading
@@ -86,6 +119,16 @@ const UpdateReview: FC = () => {
           <span className="txt__04">{review.restaurant.name}</span>
 
           <AverageStars {...{ rest: review.restaurant }} />
+
+          <div className="w-[200px] justify-self-end">
+            <DeleteButton
+              {...{
+                txt: "Delete",
+                handleDelete: handleOpenPopup,
+                isPending: false,
+              }}
+            />
+          </div>
 
           <FormProvider {...formContext}>
             <MyReviewsForm {...{ formContext, handleSave, isPending }} />
