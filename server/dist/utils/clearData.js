@@ -13,6 +13,7 @@ import { deleteCloud } from "./cloud.js";
 import Cart from "../models/Cart.js";
 import User from "../models/User.js";
 import Order from "../models/Order.js";
+import Review from "../models/Review.js";
 export const clearDataDish = (dish) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
     if ((_a = dish.images) === null || _a === void 0 ? void 0 : _a.length) {
@@ -71,6 +72,7 @@ export const clearData = (rest) => __awaiter(void 0, void 0, void 0, function* (
             .flat(Infinity);
         yield Promise.all(promisesDishes);
     }
+    yield Review.deleteMany({ restaurant: { $eq: rest._id } });
     yield Restaurant.findByIdAndDelete(rest._id);
 });
 /*    // const cartIds = carts.map((el) => el._id);
