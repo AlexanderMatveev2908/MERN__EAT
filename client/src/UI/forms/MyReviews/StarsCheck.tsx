@@ -110,7 +110,8 @@ const StarsCheck: FC<PropsType> = ({ formContext }) => {
             className="w-fit flex items-center justify-center cursor-pointer el__flow star__rev"
             key={i}
           >
-            {(clickRef.current ? rating : isHover) >= i + 1 ? (
+            {(clickRef.current ? rating : Math.max(isHover, rating)) >=
+            i + 1 ? (
               <FaStar className="text-orange-500 min-w-[40px] min-h-[40px]" />
             ) : (
               <FaRegStar className="text-orange-500 min-w-[40px] min-h-[40px]" />

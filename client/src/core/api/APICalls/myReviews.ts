@@ -25,3 +25,14 @@ export const getReviewAPI = (
   revId: string
 ): Promise<ReturnAPIBasic & { review: ReviewType }> =>
   destructureDataAPI(() => foodAppInstance.get(`/my-reviews/${revId}`));
+
+export const updateReview = ({
+  revId,
+  formData,
+}: {
+  revId: string;
+  formData: FormData;
+}): Promise<ReturnAPIBasic> =>
+  destructureDataAPI(() =>
+    foodAppInstance.put(`/my-reviews/${revId}`, formData)
+  );

@@ -9,6 +9,7 @@ import CommentForm from "./CommentForm";
 import CustomInputImgs from "../inputFields/UploadImg/CustomInputImgs";
 import ShowImgToUpload from "../inputFields/UploadImg/ShowImgToUpload/ShowImgToUpload";
 import ButtonAnimated from "../../components/buttons/ButtonAnimated";
+import { useLocation } from "react-router-dom";
 
 export type AddPutReview = {
   title: string;
@@ -28,6 +29,8 @@ const MyReviewsForm: FC<PropsType> = ({
   isPending,
   handleSave,
 }) => {
+  const path = useLocation().pathname;
+
   const {
     register,
     formState: { errors },
@@ -74,7 +77,11 @@ const MyReviewsForm: FC<PropsType> = ({
 
       <div className="w-[250px] justify-self-center mt-10">
         <ButtonAnimated
-          {...{ label: "Leave review", isPending, type: "submit" }}
+          {...{
+            label: `${path.includes("put") ? "Update" : "Leave"} review`,
+            isPending,
+            type: "submit",
+          }}
         />
       </div>
     </form>

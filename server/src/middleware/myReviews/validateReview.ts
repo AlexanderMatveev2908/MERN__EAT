@@ -3,6 +3,10 @@ import { REG_TITLE_REV, REG_TXT_REV } from "../../config/constants/regex.js";
 import { handleValidator } from "../../utils/handleValidator.js";
 
 export const validateReview = [
+  check().custom((_, { req }) => {
+    return true;
+  }),
+
   check("title").matches(REG_TITLE_REV).withMessage("Invalid title"),
   check("rating")
     .toInt()
@@ -15,7 +19,7 @@ export const validateReview = [
     if (req.files?.length && req.files?.length > 5)
       throw new Error("Too many images");
 
-    if (req.body.images?.split("")?.length > 5)
+    if (JSON.parse(req.body.images ?? "[]").length > 5)
       throw new Error("Too many images");
     return true;
   }),
