@@ -22,12 +22,14 @@ type PropsType = {
   formContext: UseFormReturn<AddPutReview>;
   handleSave: () => void;
   isPending: boolean;
+  ratingProp?: number;
 };
 
 const MyReviewsForm: FC<PropsType> = ({
   formContext,
   isPending,
   handleSave,
+  ratingProp,
 }) => {
   const path = useLocation().pathname;
 
@@ -45,7 +47,7 @@ const MyReviewsForm: FC<PropsType> = ({
 
   return (
     <form onSubmit={handleSave} className="w-full grid mt-10 gap-6">
-      <StarsCheck {...{ formContext }} />
+      <StarsCheck {...{ formContext, ratingProp }} />
 
       <div className="w-full grid gap-3 md:max-w-1/2">
         <span className="txt__03">Title of review</span>

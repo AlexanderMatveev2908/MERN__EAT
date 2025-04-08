@@ -131,7 +131,14 @@ const UpdateReview: FC = () => {
           </div>
 
           <FormProvider {...formContext}>
-            <MyReviewsForm {...{ formContext, handleSave, isPending }} />
+            <MyReviewsForm
+              {...{
+                formContext,
+                handleSave,
+                isPending,
+                ratingProp: review.rating,
+              }}
+            />
           </FormProvider>
         </div>
       )}

@@ -86,7 +86,7 @@ export const prepareFormDataMyReviews = (formDataHook) => {
   const { images, ...primitiveVals } = formDataHook;
 
   if (images.length)
-    if (images[0] instanceof File)
+    if ([...images].every((el) => el instanceof File))
       [...images].forEach((img) => {
         formData.append(`images`, img);
       });
