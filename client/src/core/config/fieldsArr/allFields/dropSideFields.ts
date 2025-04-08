@@ -13,7 +13,6 @@ import { SideDropFieldType } from "../typesFields";
 import { IoCreate, IoRestaurantSharp } from "react-icons/io5";
 import { FaDatabase } from "react-icons/fa";
 import { HiBuildingStorefront } from "react-icons/hi2";
-import { GoCodeReview } from "react-icons/go";
 import { RiAccountCircleLine } from "react-icons/ri";
 
 // i want home to be always up above all
@@ -84,11 +83,11 @@ export const fieldsAdmin: SideDropFieldType[] = [
     label: "Manage orders",
     svg: FaDatabase,
   },
-  {
-    path: "/users-reviews",
-    label: "Users reviews",
-    svg: GoCodeReview,
-  },
+  // {
+  //   path: "/users-reviews",
+  //   label: "Users reviews",
+  //   svg: GoCodeReview,
+  // },
 ].map((el) => ({
   ...el,
   id: genID(),

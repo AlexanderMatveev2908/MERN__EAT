@@ -46,7 +46,7 @@ if (!isDev) {
 
 app.use(errMiddleware);
 // updateCO();
-delRev();
+// delRev();
 // generateCoupons();
 const start = async () => {
   try {

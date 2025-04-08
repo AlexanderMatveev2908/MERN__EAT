@@ -3,6 +3,9 @@ import { RequestWithUserId } from "../../middleware/general/verifyAccessToken.js
 import Review, { ReviewType } from "../../models/Review.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
+import { HydratedDocument } from "mongoose";
+import { ImageType } from "../../models/Image.js";
+import { deleteCloud, uploadCloudMyReviews } from "../../utils/cloud.js";
 
 export const getReview = async (
   req: RequestWithUserId,
@@ -33,4 +36,60 @@ export const getReview = async (
   };
 
   return res.status(200).json({ msg: "ok", success: true, review });
+};
+
+export const updateReview = async (
+  req: RequestWithUserId,
+  res: Response
+): Promise<any> => {
+  const { userId } = req;
+  const { revId } = req.params;
+
+  let updatedImages: any[] = [];
+
+  const review = (await Review.findById(
+    revId
+  )) as HydratedDocument<ReviewType> | null;
+  if (!review) return baseErrResponse(res, 404, "Review not found");
+
+  const existingImages = JSON.parse(req.body.images ?? "[]");
+  const newFiles = req.files as Express.Multer.File[];
+  if (existingImages.length) {
+    const idsDelete = review.images
+      .filter(
+        (img: ImageType) =>
+          !new Set(existingImages.map((el: ImageType) => el.public_id)).has(
+            img.public_id
+          )
+      )
+      .map((img: ImageType) => img.public_id);
+
+    if (idsDelete.length) {
+      try {
+        await Promise.all(idsDelete.map(async (id) => await deleteCloud(id)));
+      } catch {}
+    }
+
+    updatedImages = existingImages;
+  } else if (newFiles.length) {
+    if (review.images.length) {
+      try {
+        await Promise.all(
+          review.images.map(
+            async (img: ImageType) => await deleteCloud(img.public_id)
+          )
+        );
+      } catch {}
+    }
+
+    updatedImages = await uploadCloudMyReviews(req.files);
+  }
+
+  review.title = req.body.title;
+  review.rating = +req.body.rating;
+  review.comment = req.body.comment || null;
+  review.images = updatedImages;
+  await review.save();
+
+  return res.status(200).json({ msg: "ok", success: true });
 };
