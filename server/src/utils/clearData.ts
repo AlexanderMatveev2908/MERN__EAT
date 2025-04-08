@@ -5,6 +5,7 @@ import { deleteCloud } from "./cloud.js";
 import Cart, { CartItem, CartType } from "../models/Cart.js";
 import User from "../models/User.js";
 import Order from "../models/Order.js";
+import Review from "../models/Review.js";
 
 export const clearDataDish = async (dish: DishType) => {
   if (dish.images?.length) {
@@ -80,6 +81,7 @@ export const clearData = async (rest: HydratedDocument<RestaurantType>) => {
     await Promise.all(promisesDishes);
   }
 
+  await Review.deleteMany({ restaurant: { $eq: rest._id } });
   await Restaurant.findByIdAndDelete(rest._id);
 };
 
