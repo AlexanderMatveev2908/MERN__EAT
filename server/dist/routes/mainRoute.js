@@ -20,6 +20,7 @@ import cartRouter from "./allRoutes/cart.js";
 import ordersRouter from "./allRoutes/orders.js";
 import { webhook } from "../controllers/webhook.js";
 import routerManageOrders from "./allRoutes/manageOrders.js";
+import myRevRouter from "./allRoutes/myReviews.js";
 const router = express.Router();
 router.use(helmetMid);
 router.use(corsMiddleware);
@@ -39,6 +40,7 @@ router.use("/search", searchRouter);
 router.use("/my-cart", cartRouter);
 router.use("/my-orders", verifyAccessToken, ordersRouter);
 router.use("/manage-orders", verifyAccessToken, routerManageOrders);
+router.use("/my-reviews", verifyAccessToken, myRevRouter);
 if (isDev)
     router.use("/proxy", asyncWrapper(proxyRouter));
 export default router;

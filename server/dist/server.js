@@ -44,6 +44,7 @@ if (!isDev) {
 }
 app.use(errMiddleware);
 // updateCO();
+// delRev();
 // generateCoupons();
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {

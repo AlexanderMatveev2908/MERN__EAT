@@ -139,6 +139,12 @@ const UserSchema = new mongoose.Schema({
             ref: "Order",
         },
     ],
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Review",
+        },
+    ],
 }, { timestamps: true });
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 export default User;
