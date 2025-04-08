@@ -14,8 +14,8 @@ import mongoose, { HydratedDocument } from "mongoose";
 export const checkIsOpen = (rest: RestaurantType) => {
   let isOpen = true;
 
-  const open = rest.openHours.openTime;
-  const close = rest.openHours.closeTime;
+  const open = new Date(rest.openHours.openTime).getTime();
+  const close = new Date(rest.openHours.closeTime).getTime();
   const now =
     new Date().getHours() * 60 +
     new Date().getMinutes() +
