@@ -14,6 +14,8 @@ import { DishType } from "../../models/Dish.js";
 import { HydratedDocument } from "mongoose";
 import { clearData } from "../../utils/clearData.js";
 import Order from "../../models/Order.js";
+import Review from "../../models/Review.js";
+import { makeMongoId } from "../../utils/dbPipeline/general.js";
 
 export const deleteAccount = async (
   req: RequestWithUserId,
@@ -68,9 +70,13 @@ export const deleteAccount = async (
     await Promise.all(promises);
   }
 
-  await Order.updateMany({ userId: { $eq: userId } }, { userId: null });
+  await Order.updateMany(
+    { userId: { $eq: makeMongoId(userId ?? "") } },
+    { userId: null }
+  );
+  await Review.deleteMany({ user: { $eq: makeMongoId(userId ?? "") } });
 
-  const result = await User.deleteOne({ _id: userId });
+  const result = await User.deleteOne({ _id: makeMongoId(userId ?? "") });
 
   if (result?.deletedCount !== 1) {
     return userNotFound(res);
