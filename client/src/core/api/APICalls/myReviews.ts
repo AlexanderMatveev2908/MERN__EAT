@@ -36,3 +36,6 @@ export const updateReview = ({
   destructureDataAPI(() =>
     foodAppInstance.put(`/my-reviews/${revId}`, formData)
   );
+
+export const deleteReviewAPI = (revId: string): Promise<void> =>
+  destructureDataAPI(() => foodAppInstance.delete(`/my-reviews/${revId}`));

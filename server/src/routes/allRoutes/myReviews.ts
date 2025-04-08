@@ -9,6 +9,7 @@ import { validateReview } from "../../middleware/myReviews/validateReview.js";
 import { uploadImgMyReviews } from "../../middleware/myReviews/multer.js";
 import { validateReviewId } from "../../middleware/myReviews/validateReviewId.js";
 import {
+  deleteReview,
   getReview,
   updateReview,
 } from "../../controllers/myReviewsControllers/put.js";
@@ -33,6 +34,7 @@ router
     validateReviewId,
     validateReview,
     asyncWrapper(updateReview)
-  );
+  )
+  .delete(validateReviewId, asyncWrapper(deleteReview));
 
 export default router;
