@@ -20,6 +20,8 @@ const CustomInputImgs: FC<PropsType> = ({ register, watch, indexForm }) => {
   const val =
     indexForm || indexForm === 0 ? `items.${indexForm}.images` : "images";
 
+  console.log(watch("images"));
+
   return (
     <div className="w-full grid ">
       <label className="w-fit grid relative">

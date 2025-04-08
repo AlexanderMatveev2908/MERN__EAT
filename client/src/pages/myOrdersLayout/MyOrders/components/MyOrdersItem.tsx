@@ -10,6 +10,10 @@ import {
 } from "../../../../core/config/fieldsArr/allFields/myOrders/show";
 import ButtonOrder from "./ButtonOrder";
 import ActivityClosed from "../../../../UI/components/cards/ActivityClosed";
+import { useQuery } from "@tanstack/react-query";
+import { getFreshStatusAPI } from "../../../../core/api/APICalls/orders";
+import { useHandleErr } from "../../../../core/hooks/useHandleErr";
+import { ErrFoodApp } from "../../../../types/allTypes/API";
 
 type PropsType = {
   order: OrderType;
@@ -21,6 +25,20 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
   useEffect(() => {
     setFreshStatus(order.status);
   }, [order.status]);
+
+  const { handleErrAPI } = useHandleErr();
+
+  const { data, isSuccess, isError, error } = useQuery({
+    queryKey: ["freshStatus", order._id],
+    queryFn: () => getFreshStatusAPI(order._id as string),
+    enabled: ["confirmed", "processing", "shipped"].includes(freshStatus ?? ""),
+    refetchInterval: 1000,
+  });
+
+  useEffect(() => {
+    if (isSuccess) setFreshStatus(data?.status);
+    else if (isError) handleErrAPI({ err: error as ErrFoodApp });
+  }, [isSuccess, data, isError, error, handleErrAPI]);
 
   return (
     <div className="card__el border-orange-500 relative">
@@ -65,7 +83,7 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
             else if (
               freshStatus === "confirmed" &&
               [
-                ActionsMyOrdersBtns.REFRESH,
+                // ActionsMyOrdersBtns.REFRESH,
                 ActionsMyOrdersBtns.REFUND,
               ].includes(curr.action)
             )
@@ -75,16 +93,16 @@ const MyOrdersItem: FC<PropsType> = ({ order }) => {
                   {...{ el: curr, order, setFreshStatus }}
                 />
               );
-            else if (
-              ["processing", "shipped"].includes(freshStatus ?? "") &&
-              curr.action === ActionsMyOrdersBtns.REFRESH
-            )
-              content.push(
-                <ButtonOrder
-                  key={curr.id}
-                  {...{ el: curr, order, setFreshStatus }}
-                />
-              );
+            // else if (
+            //   ["processing", "shipped"].includes(freshStatus ?? "") &&
+            //   curr.action === ActionsMyOrdersBtns.REFRESH
+            // )
+            //   content.push(
+            //     <ButtonOrder
+            //       key={curr.id}
+            //       {...{ el: curr, order, setFreshStatus }}
+            //     />
+            //   );
             else if (
               freshStatus === "delivered" &&
               curr.action === ActionsMyOrdersBtns.REVIEW &&

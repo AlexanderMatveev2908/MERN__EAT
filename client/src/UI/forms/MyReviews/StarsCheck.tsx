@@ -5,9 +5,10 @@ import { AddPutReview } from "./MyReviewsForm";
 
 type PropsType = {
   formContext: UseFormReturn<AddPutReview>;
+  ratingProp?: number;
 };
 
-const StarsCheck: FC<PropsType> = ({ formContext }) => {
+const StarsCheck: FC<PropsType> = ({ formContext, ratingProp }) => {
   const [isHover, setIsHover] = useState(0);
   const clickRef = useRef<boolean>(false);
   //   const [refsRat, setRefsRat] = useState<{
@@ -74,6 +75,11 @@ const StarsCheck: FC<PropsType> = ({ formContext }) => {
     return () => sub.unsubscribe();
   }, [watch, setError, clearErrors]);
 
+  useEffect(() => {
+    if (ratingProp) setIsHover(ratingProp);
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div className="w-full grid justify-items-center gap-3">
       <span className="txt__03 justify-self-start">Rating</span>
@@ -110,10 +116,7 @@ const StarsCheck: FC<PropsType> = ({ formContext }) => {
             className="w-fit flex items-center justify-center cursor-pointer el__flow star__rev"
             key={i}
           >
-            {(clickRef.current
-              ? Math.min(rating, isHover)
-              : Math.max(isHover, rating)) >=
-            i + 1 ? (
+            {(clickRef.current ? rating : isHover) >= i + 1 ? (
               <FaStar className="text-orange-500 min-w-[40px] min-h-[40px]" />
             ) : (
               <FaRegStar className="text-orange-500 min-w-[40px] min-h-[40px]" />
