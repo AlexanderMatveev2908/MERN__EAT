@@ -13,6 +13,8 @@ import { checkTokenSHA } from "../../utils/token.js";
 import Restaurant from "../../models/Restaurant.js";
 import { clearData } from "../../utils/clearData.js";
 import Order from "../../models/Order.js";
+import Review from "../../models/Review.js";
+import { makeMongoId } from "../../utils/dbPipeline/general.js";
 export const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
     const { userId } = req;
@@ -51,8 +53,9 @@ export const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, fun
         const promises = restaurants.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield clearData(el); }));
         yield Promise.all(promises);
     }
-    yield Order.updateMany({ userId: { $eq: userId } }, { userId: null });
-    const result = yield User.deleteOne({ _id: userId });
+    yield Order.updateMany({ userId: { $eq: makeMongoId(userId !== null && userId !== void 0 ? userId : "") } }, { userId: null });
+    yield Review.deleteMany({ user: { $eq: makeMongoId(userId !== null && userId !== void 0 ? userId : "") } });
+    const result = yield User.deleteOne({ _id: makeMongoId(userId !== null && userId !== void 0 ? userId : "") });
     if ((result === null || result === void 0 ? void 0 : result.deletedCount) !== 1) {
         return userNotFound(res);
     }

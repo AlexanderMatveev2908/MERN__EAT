@@ -11,6 +11,8 @@ import Review from "../../models/Review.js";
 import { makeMongoId } from "../../utils/dbPipeline/general.js";
 import { baseErrResponse } from "../../utils/baseErrResponse.js";
 import { deleteCloud, uploadCloudMyReviews } from "../../utils/cloud.js";
+import Restaurant from "../../models/Restaurant.js";
+import User from "../../models/User.js";
 export const getReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req;
     const { revId } = req.params;
@@ -65,4 +67,36 @@ export const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, func
     review.images = updatedImages;
     yield review.save();
     return res.status(200).json({ msg: "ok", success: true });
+});
+export const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req;
+    const { revId } = req.params;
+    const review = (yield Review.findOne({
+        user: makeMongoId(userId !== null && userId !== void 0 ? userId : ""),
+        _id: makeMongoId(revId),
+    }));
+    if (!review)
+        return baseErrResponse(res, 404, "Review not found");
+    if (review.images.length) {
+        try {
+            yield Promise.all(review.images.map((img) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(img.public_id); })));
+        }
+        catch (_a) { }
+    }
+    yield Restaurant.findByIdAndUpdate({
+        _id: review.restaurant,
+    }, {
+        $pull: {
+            reviews: review._id,
+        },
+    });
+    yield User.findByIdAndUpdate({
+        _id: review.user,
+    }, {
+        $pull: {
+            reviews: review._id,
+        },
+    });
+    yield review.deleteOne();
+    return res.status(204).end();
 });

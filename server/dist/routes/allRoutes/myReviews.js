@@ -5,7 +5,7 @@ import { createReview, getInfoRest, } from "../../controllers/myReviewsControlle
 import { validateReview } from "../../middleware/myReviews/validateReview.js";
 import { uploadImgMyReviews } from "../../middleware/myReviews/multer.js";
 import { validateReviewId } from "../../middleware/myReviews/validateReviewId.js";
-import { getReview, updateReview, } from "../../controllers/myReviewsControllers/put.js";
+import { deleteReview, getReview, updateReview, } from "../../controllers/myReviewsControllers/put.js";
 const router = express.Router();
 router.get("/rest-info/:restId", checkRestId, asyncWrapper(getInfoRest));
 router
@@ -14,5 +14,6 @@ router
 router
     .route("/:revId")
     .get(validateReviewId, asyncWrapper(getReview))
-    .put(uploadImgMyReviews, validateReviewId, validateReview, asyncWrapper(updateReview));
+    .put(uploadImgMyReviews, validateReviewId, validateReview, asyncWrapper(updateReview))
+    .delete(validateReviewId, asyncWrapper(deleteReview));
 export default router;
