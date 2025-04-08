@@ -11,6 +11,7 @@ import Cart from "../models/Cart.js";
 import Coupon from "../models/Coupon.js";
 import Order from "../models/Order.js";
 import Restaurant from "../models/Restaurant.js";
+import Review from "../models/Review.js";
 import User from "../models/User.js";
 import { deleteCloud } from "../utils/cloud.js";
 export const updateRest = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -56,4 +57,29 @@ export const updateCO = () => __awaiter(void 0, void 0, void 0, function* () {
     yield Coupon.deleteMany({});
     yield User.updateMany({}, { orders: [], cart: null });
     yield Restaurant.updateMany({}, { orders: [] });
+});
+export const delRev = () => __awaiter(void 0, void 0, void 0, function* () {
+    const revs = yield Review.find({});
+    if (!revs.length)
+        return;
+    const promises = [];
+    let i = revs.length - 1;
+    do {
+        const curr = revs[i];
+        promises.push(Restaurant.updateMany({
+            _id: { $in: revs.map((el) => el.restaurant) },
+        }, { reviews: [] }));
+        promises.push(User.updateMany({ _id: { $in: revs.map((el) => el.user) } }, { reviews: [] }));
+        const imgPromises = curr.images.map((el) => __awaiter(void 0, void 0, void 0, function* () { return yield deleteCloud(el.public_id); }));
+        try {
+            yield Promise.all(imgPromises);
+        }
+        catch (_a) { }
+        promises.push(curr.deleteOne());
+        i--;
+    } while (i >= 0);
+    try {
+        yield Promise.all(promises);
+    }
+    catch (_b) { }
 });

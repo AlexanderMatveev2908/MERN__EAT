@@ -51,6 +51,7 @@ export const uploadUpdateDish = (files) => {
     return Promise.all(promises);
 };
 export const uploadCloudURL = (urlCloud) => __awaiter(void 0, void 0, void 0, function* () {
+    // we could simply upload img by url existent, i used stream here just for study purposes
     const res = yield axios.get(urlCloud, { responseType: "arraybuffer" });
     const buffer = Buffer.from(res.data, "binary");
     return new Promise((res, rej) => {
@@ -65,4 +66,16 @@ export const uploadCloudURL = (urlCloud) => __awaiter(void 0, void 0, void 0, fu
         });
         streamifier.createReadStream(buffer).pipe(uploadStream);
     });
+});
+export const uploadCloudMyReviews = (files) => __awaiter(void 0, void 0, void 0, function* () {
+    const promises = files.map((el) => __awaiter(void 0, void 0, void 0, function* () {
+        const b64 = el.buffer.toString("base64");
+        const dataURI = "data:" + el.mimetype + ";base64," + b64;
+        const { public_id, secure_url: url } = yield v2.uploader.upload(dataURI, {
+            resource_type: "auto",
+            folder: "reviews",
+        });
+        return { public_id, url };
+    }));
+    return yield Promise.all(promises);
 });

@@ -18,7 +18,7 @@ import { badRequest, baseErrResponse } from "../../utils/baseErrResponse.js";
 const getCreatedAt = (el) => new Date(el.createdAt);
 const getUpdatedAt = (el) => new Date(el.updatedAt);
 export const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a, _b, _c, _d;
     const { userId } = req;
     const queryObj = makeQMyOrders(req);
     const sortObj = makeSorters(req, "");
@@ -32,7 +32,12 @@ export const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, functio
     let orders = (yield Order.find(queryObj)
         .skip(skip)
         .limit(limit)
-        .populate("restaurantId")
+        .populate({
+        path: "restaurantId",
+        populate: {
+            path: "reviews",
+        },
+    })
         .lean());
     if (!orders.length)
         return handleNoHits(res, totDocuments);
@@ -51,10 +56,11 @@ export const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, functio
     do {
         const curr = orders[i];
         curr.isAdmin = curr.userId + "" === userId;
+        curr.hasLeftReview = (_b = (_a = curr === null || curr === void 0 ? void 0 : curr.restaurantId) === null || _a === void 0 ? void 0 : _a.reviews) === null || _b === void 0 ? void 0 : _b.some((review) => review.user + "" === userId);
         curr.restaurantId = (curr === null || curr === void 0 ? void 0 : curr.restaurantId)
             ? {
-                _id: (_a = curr.restaurantId) === null || _a === void 0 ? void 0 : _a._id,
-                delivery: (_b = curr.restaurantId) === null || _b === void 0 ? void 0 : _b.delivery,
+                _id: (_c = curr.restaurantId) === null || _c === void 0 ? void 0 : _c._id,
+                delivery: (_d = curr.restaurantId) === null || _d === void 0 ? void 0 : _d.delivery,
             }
             : null;
         i--;

@@ -15,11 +15,18 @@ const ReviewSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    comment: {
+    title: {
         type: String,
         required: true,
     },
-    images: [ImageSchema],
+    comment: {
+        type: String,
+        default: null,
+    },
+    images: {
+        type: [ImageSchema],
+        default: [],
+    },
 }, { timestamps: true });
 const Review = mongoose.models.Review || mongoose.model("Review", ReviewSchema);
 export default Review;
