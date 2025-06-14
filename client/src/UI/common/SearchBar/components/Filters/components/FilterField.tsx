@@ -1,0 +1,52 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FC, useState } from "react";
+import { UseFormReturn } from "react-hook-form";
+import CheckBox from "../../../../../forms/inputFields/CheckBox";
+import { SearchFilterType } from "../../../../../../core/config/fieldsArr/typesFields";
+import DropHandlerIcon from "../../../../../components/DropHandlerIcon";
+
+type PropsType = {
+  field: SearchFilterType;
+  formContext: UseFormReturn<any>;
+  closeAllDrop?: boolean;
+};
+
+const FilterField: FC<PropsType> = ({ formContext, field, closeAllDrop }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { register, watch } = formContext;
+
+  return (
+    <div className="w-full grid grid-cols-1">
+      <DropHandlerIcon
+        {...{
+          isOpen,
+          setIsOpen,
+          txt: field.label,
+          Icon: field.icon,
+          closeAllDrop,
+        }}
+      />
+
+      <div
+        className={`w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))]  gap-5 transition-all duration-300 ${
+          isOpen
+            ? "max-h-[700px] opacity-100 pointer-events-auto py-3"
+            : "opacity-0 max-h-0 pointer-events-none"
+        }`}
+      >
+        {field.subFields.map((el) => (
+          <CheckBox
+            key={el.id}
+            {...{
+              register,
+              field: el,
+              valsChosen: watch(field.field),
+              currCategory: field.field,
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+export default FilterField;

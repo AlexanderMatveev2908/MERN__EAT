@@ -1,0 +1,679 @@
+@import url("https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "tailwindcss";
+
+* {
+  font-family: "Sour Gummy";
+}
+
+body {
+  @apply bg-[#111] text-[whitesmoke];
+}
+
+/* 
+IMPORTANT: for some practical reasons i chose using snake case instead of kebab case in css naming, but only because i am working just myself on this project, if i would have been in a team i would been followed conventions of css or those one established by team   
+*/
+
+/* ANIMATIONS */
+
+.toast__active_in {
+  animation: toast_in 0.4s ease-out;
+}
+
+.toast__active_out {
+  animation: toast_out 0.3s ease-in forwards;
+}
+
+.toast__no {
+  @apply translate-x-[120%] opacity-0;
+}
+
+@keyframes toast_in {
+  0% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-30%);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(30%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast_out {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  20% {
+    transform: translateX(-40%);
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+.toast__container_after::after {
+  animation: toast_progress 5s linear forwards;
+}
+
+@keyframes toast_progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.spinner__el::after {
+  animation: spinner 2s linear infinite;
+  animation-delay: calc((2s / var(--numEls)) * var(--i));
+}
+
+@keyframes spinner {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.spinner_tbn__el {
+  animation: 1s spinner_btn ease-in-out infinite;
+  animation-delay: calc(0.25s * var(--i));
+}
+
+@keyframes spinner_btn {
+  0% {
+    transform: scale(1) translateY(0%);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5) translateY(-60%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0.5s) translateY(0%);
+    opacity: 1;
+  }
+}
+
+/* .skeleton__el {
+    background-color: #333;
+    transform-origin: center;
+    animation: scale_bounce 1.5s infinite ease-in-out;
+  }
+  
+  @keyframes scale_bounce {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+  } */
+
+.skeleton__el {
+  background: linear-gradient(90deg, #222 25%, #333 50%, #222 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.generate_password__tooltip {
+  animation: explode_btn 0.6s ease;
+}
+
+@keyframes explode_btn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.register__checkbox {
+  animation: checky 0.5s ease;
+}
+
+@keyframes checky {
+  0% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.5, 0.75);
+  }
+  60% {
+    transform: scale(0.75, 1.5);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* 
+  .skeleton__el {
+    background-color: #333;
+    animation: pulse 1.5s infinite ease-in-out;
+  } */
+
+/* @keyframes pulse {
+    0% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.6;
+    }
+  } */
+
+.mini_spinner {
+  animation: mini_spin 1s linear infinite;
+}
+
+@keyframes mini_spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* padding page */
+.pad__page {
+  @apply px-[5%] sm:px-10;
+}
+
+.notice {
+  @apply w-[200px] sm:w-[300px] h-[200px] sm:h-[300px];
+}
+
+/* INDEXES */
+
+.hero__i_arrow {
+  z-index: 10;
+}
+
+.my_restaurant_drop__i {
+  z-index: 200;
+}
+
+.sidebar__i_bg {
+  z-index: 500;
+}
+
+.sidebar__i_content {
+  z-index: 1000;
+}
+
+.header__i {
+  z-index: 1500;
+}
+
+.popup__i {
+  z-index: 2000;
+}
+
+.toast__i {
+  z-index: 2500;
+}
+
+/* txt */
+.txt__00 {
+  @apply text-sm sm:text-base lg:text-lg;
+}
+
+.txt__01 {
+  @apply sm:text-lg lg:text-xl font-semibold;
+}
+
+.txt__02 {
+  @apply text-lg sm:text-xl lg:text-2xl font-semibold;
+}
+
+.txt__03 {
+  @apply text-xl sm:text-2xl lg:text-3xl font-bold;
+}
+
+.txt__04 {
+  @apply text-2xl sm:text-3xl lg:text-4xl font-bold;
+}
+
+.txt__05 {
+  @apply text-3xl sm:text-4xl lg:text-5xl font-bold;
+}
+
+/* svg */
+
+.svg__header {
+  @apply w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] transition-all duration-300 group-hover:text-orange-500 group-hover:scale-120 cursor-pointer disabled:opacity-50 disabled:cursor-wait;
+}
+
+.svg__drop {
+  @apply w-[30px] h-[30px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer;
+}
+
+.svg__auth_field {
+  @apply w-[25px] h-[25px] transition-all duration-300 hover:text-orange-500 hover:scale-120 cursor-pointer absolute top-[25%] right-5;
+}
+
+.svg__switch_form {
+  @apply w-[25px] h-[25px] transition-all duration-300 group-hover:text-orange-500;
+}
+
+.svg__sidebar {
+  @apply w-[30px] h-[30px] sm:w-[35px] sm:h-[35px] transition-all duration-300 group-hover:text-orange-500 cursor-pointer;
+}
+
+.icon__base {
+  @apply min-w-[30px] min-h-[30px];
+}
+
+/* GENERAL */
+
+.hide_scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+[draggable="true"]:active {
+  cursor: grab;
+}
+
+.custom_scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.custom_scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-orange-500 transition-all duration-300 rounded-xl cursor-pointer;
+}
+
+.custom_scrollbar::-webkit-scrollbar-track {
+  appearance: none;
+}
+
+/* UTILS ELEMENTS  */
+
+.el__after_below {
+  @apply relative max-w-fit;
+}
+
+.el__after_below::after {
+  @apply absolute content-[""] -bottom-2 left-1/2 w-0 h-[3px] bg-orange-500 transition-all duration-300 -translate-x-1/2;
+}
+
+.el__after_below:hover::after {
+  @apply w-full;
+}
+/* ------------------------------------- */
+.el__after_below_dynamic {
+  @apply relative max-w-fit;
+}
+
+.el__after_below_dynamic::after {
+  @apply absolute content-[""] -bottom-2 left-1/2 w-0 h-[3px] transition-all duration-300 -translate-x-1/2;
+  background: var(--col-btn);
+}
+
+.el__after_below_dynamic:hover::after {
+  @apply w-full;
+}
+
+.focus__base:focus,
+.focus__base:active {
+  @apply ring-2 ring-orange-400;
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
+}
+
+.el__sub_title_my_restaurants_form {
+  @apply w-full flex items-center gap-5 text-orange-500;
+}
+
+.el__flow {
+  @apply transition-all duration-300;
+}
+
+.el__drag_over {
+  @apply border-orange-500 scale-110;
+}
+
+.el__not_dragging {
+  @apply right-0 bottom-1/2 absolute opacity-100;
+}
+
+/* CARDS */
+
+.container__cards {
+  @apply w-full grid grid-cols-1 justify-items-center gap-10 mt-5 items-start;
+}
+
+.container__cards__grid {
+  @apply w-full grid grid-cols-1 justify-items-center gap-10 items-start sm:grid-cols-[repeat(auto-fit,minmax(350px,1fr))];
+}
+
+.card__el {
+  @apply border-[3px] rounded-xl py-1 pb-5 w-full;
+}
+
+.card__el_grid {
+  @apply border-[3px] rounded-xl py-1 pb-5 w-full max-w-[350px];
+}
+
+/* input */
+
+.input__base {
+  @apply w-full border-2 border-orange-500 rounded-full outline-none px-5 py-1 text-white transition-all duration-300;
+}
+.input__base:focus,
+.input__auth_field:focus {
+  @apply ring-2 ring-orange-400;
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316;
+}
+
+.input__auth_field {
+  @apply w-full border-2 border-orange-500 rounded-full outline-none px-5 pr-14 py-2 text-white transition-all duration-300;
+}
+
+/* TOAST */
+
+.toast__container_after {
+  @apply relative overflow-hidden;
+}
+
+.toast__container_after::after {
+  @apply absolute h-[7px] w-full bottom-0 left-0 content-[""];
+  background: var(--toast-color);
+}
+
+/* SIDEBAR */
+
+.sidebar__content {
+  @apply fixed top-[75px] right-0 h-[calc(100vh-75px)] w-3/4 sm:w-1/2 border-l-2 border-orange-500 flex flex-col items-center bg-[#111]  transition-all duration-500;
+}
+
+.sideLink.active {
+  @apply text-orange-500;
+}
+
+/* SPINNER */
+
+.spinner__el::after {
+  @apply content-[""] absolute top-0 left-0 w-[20px] h-[20px] bg-[#f97316] rounded-full;
+  box-shadow: 0 0 10px #f97316, 0 0 20px #f97316, 0 0 40px #f97316,
+    0 0 60px #f97316, 0 0 80px #f97316, 0 0 100px #f97316;
+}
+
+/* SPINNER BTN */
+
+.spinner_tbn__el {
+  @apply h-[20px] sm:h-[25px] w-[25px] sm:w-[30px] lg:w-[35px] lg:h-[35px] rounded-full bg-[#f97316];
+  box-shadow: 0 0 10px #f97316, 0 0 15px #f97316;
+}
+
+/* CHECK_SWAP */
+
+.check_swap__label {
+  box-shadow: inset 2.5px 5px 10px rgba(0, 0, 0, 0.5),
+    inset 5px 10px 20px rgba(0, 0, 0, 0.5),
+    inset 10px 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.check_swap__swap {
+  box-shadow: 2.5px 5px 10px rgba(0, 0, 0, 0.5),
+    inset 1.25px 2.5px 5px rgba(255, 255, 255, 0.5);
+}
+
+.check_swap__swap::after {
+  @apply content-[""] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[5px] h-[5px] rounded-full;
+
+  background-color: var(--color-swap);
+  box-shadow: 0 0 5px 5px var(--color-swap), 0 0 10px 10px var(--color-swap);
+}
+
+/* RANGE */
+
+.range__tooltip::after {
+  @apply absolute content-[''] -z-10 w-full h-full bg-[#111] rotate-45 border-orange-500 border-2 rounded-tl-4xl rounded-tr-4xl rounded-bl-4xl;
+}
+
+.range__thumb,
+.range__track,
+.track__progress {
+  @apply pointer-events-none;
+}
+
+input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 40px;
+  cursor: pointer;
+  position: relative;
+  z-index: 100;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+}
+
+/* btn */
+.btn__pseudo {
+  @apply transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-wait;
+}
+.btn__brand {
+  @apply transition-all duration-300 cursor-pointer disabled:opacity-50;
+}
+.btn__brand:not(:disabled):hover {
+  @apply hover:scale-120 hover:text-orange-500;
+}
+.btn__brand:not(:disabled):active {
+  @apply active:scale-120 active:text-orange-500;
+}
+
+.btn__order {
+  @apply w-fit flex items-end justify-center gap-5 cursor-pointer;
+}
+.btn__order:hover {
+  color: var(--col-btn);
+}
+
+.btn__icon {
+  @apply w-fit p-2 border-2 rounded-xl enabled:hover:scale-120 flex items-center justify-center enabled:cursor-pointer disabled:opacity-50;
+}
+
+.btn__icon:disabled .btn__icon_icon {
+  @apply text-white;
+}
+
+.btn__icon_icon {
+  @apply min-w-[20px] min-h-[20px];
+}
+
+/* BASIC BTN */
+.btn__with_shadow_container,
+.btn__with_shadow_container__shadow {
+  @apply transition-all duration-300;
+}
+.btn__with_shadow_container:not(:disabled) {
+  cursor: pointer;
+}
+.btn__with_shadow_container {
+  @apply relative min-w-full w-fit h-fit disabled:opacity-50;
+}
+
+.btn__with_shadow_container__content,
+.btn__with_shadow_container__shadow {
+  @apply min-w-full min-h-full border-2 rounded-xl transition-all duration-300;
+}
+.btn__with_shadow_container__content {
+  @apply z-10 flex justify-center items-center bg-[#111]  px-5 sm:px-5 py-1 sm:py-2 transition-all duration-300;
+}
+.btn__with_shadow_container__shadow {
+  @apply -z-10 bg-[#111] absolute top-0 left-0;
+}
+
+.btn__with_shadow_container:not(:disabled):hover {
+  @apply -rotate-[5deg] scale-110;
+}
+.btn__with_shadow_container:not(:disabled):hover
+  .btn__with_shadow_container__shadow {
+  @apply -translate-x-[3.5%] translate-y-[16.5%];
+}
+
+/* ANIMATED BTN */
+
+.btn_container {
+  @apply w-full max-h-fit transition-all duration-500 relative enabled:cursor-pointer disabled:opacity-50;
+}
+
+.btn_container__content {
+  @apply relative w-full max-h-fit overflow-hidden rounded-full;
+}
+
+.content__btn,
+.btn_container__shadow {
+  @apply py-2 rounded-full transition-all duration-300 
+  bg-neutral-950 relative overflow-hidden;
+}
+.content__btn::after {
+  @apply absolute content-[''] inset-0 w-full h-full rounded-full bg-transparent border-3 border-[whitesmoke] z-40;
+}
+.btn_container__shadow::after {
+  @apply absolute content-[''] inset-0 w-full h-full rounded-full bg-transparent border-3 border-[whitesmoke] z-40;
+}
+
+.btn__txt {
+  @apply sm:text-lg lg:text-xl font-bold text-[whitesmoke];
+}
+
+.btn__ref_1,
+.btn__ref_2 {
+  @apply min-h-[500%] absolute rotate-[30deg] 
+  -top-1/2 transition-all duration-300 bg-white;
+}
+.btn__ref_1 {
+  @apply -left-full w-[10%];
+}
+.btn__ref_2 {
+  @apply -left-1/2 w-[10%];
+}
+
+.btn__ref_1::after,
+.btn__ref_2::after {
+  @apply content-[""] absolute h-full -top-1/2;
+}
+.btn__ref_1::after {
+  @apply w-[200%] bg-neutral-800  -left-2 opacity-90;
+}
+.btn__ref_2::after {
+  @apply w-[200%] bg-neutral-800  -left-2 opacity-90;
+}
+
+.btn_container__shadow {
+  @apply absolute min-w-full min-h-full top-0 left-0 -z-10 transition-all duration-300;
+}
+
+/* svg */
+.btn_container__svg_1,
+.btn_container__svg_2,
+.btn_container__svg_3,
+.btn_container__svg_4,
+.btn_container__svg_5,
+.btn_container__svg_6 {
+  @apply absolute pointer-events-none transition-all duration-300 text-orange-500 z-50 scale-0 opacity-50;
+}
+.btn_container__svg_1 {
+  @apply w-[20px] h-[20px] -top-[50%] -left-[10%];
+}
+.btn_container__svg_2 {
+  @apply w-[40px] h-[40px] -top-[50%] -right-[10%];
+}
+.btn_container__svg_3 {
+  @apply w-[20px] h-[20px] -bottom-[150%] left-0;
+}
+.btn_container__svg_4 {
+  @apply w-[30px] h-[30px] -top-[35%] left-[25%];
+}
+.btn_container__svg_5 {
+  @apply w-[25px] h-[25px] -bottom-[100%] right-[10%];
+}
+.btn_container__svg_6 {
+  @apply w-[35px] h-[35px] -bottom-[50%] right-[50%];
+}
+
+/* hover  */
+.btn_container:not(:disabled):hover .btn_container__shadow {
+  @apply -translate-x-[3%] translate-y-[15%];
+}
+.btn_container:not(:disabled):hover .btn__ref_1 {
+  @apply translate-x-[1000%];
+}
+.btn_container:not(:disabled):hover .btn__ref_2 {
+  @apply translate-x-[2000%];
+}
+.btn_container:not(:disabled):hover {
+  @apply -rotate-[5deg] scale-110;
+}
+.btn_container:not(:disabled):hover .btn_container__svg_1,
+.btn_container:not(:disabled):hover .btn_container__svg_2,
+.btn_container:not(:disabled):hover .btn_container__svg_3,
+.btn_container:not(:disabled):hover .btn_container__svg_4,
+.btn_container:not(:disabled):hover .btn_container__svg_5,
+.btn_container:not(:disabled):hover .btn_container__svg_6 {
+  @apply opacity-100;
+}
+.btn_container:not(:disabled):hover .btn_container__svg_1 {
+  @apply scale-110 delay-100;
+}
+.btn_container:not(:disabled):hover .btn_container__svg_2 {
+  @apply scale-110;
+}
+.btn_container:not(:disabled):hover .btn_container__svg_3 {
+  @apply scale-110 -translate-y-[200%] delay-100;
+}
+.btn_container:not(:disabled):hover .btn_container__svg_4 {
+  @apply scale-110 -translate-y-[30%] -rotate-45;
+}
+.btn_container:not(:disabled):hover .btn_container__svg_5 {
+  @apply scale-110  delay-100 -translate-y-[100%];
+}
+.btn_container:not(:disabled):hover .btn_container__svg_6 {
+  @apply scale-110  delay-100 -rotate-45;
+}
